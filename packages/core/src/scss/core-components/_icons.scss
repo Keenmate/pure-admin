@@ -146,6 +146,38 @@
 .pa-icon--bell { --pa-icon-src: var(--pa-icon-bell); }
 .pa-icon--user { --pa-icon-src: var(--pa-icon-user); }
 .pa-icon--favorites { --pa-icon-src: var(--pa-icon-favorites); }
+
+// ── Hover-to-fill infrastructure ──────────────────────────────────────────────
+// A glyph opts in by declaring a filled variant on --pa-icon-src-hover; on hover
+// of an ENABLED button or tab, the icon swaps its mask to that filled source.
+// The swap falls back to --pa-icon-src, so it's a NO-OP for any glyph that
+// didn't declare a filled variant — safe to leave global.
+//
+// NOTE: the default icon set (Lucide) is OUTLINE-ONLY — it ships no filled
+// glyphs, so nothing fills out of the box; the mechanism is dormant until a
+// filled source is supplied. To activate it, point --pa-icon-src-hover at a
+// filled glyph from a set that has one (Tabler, Fluent, Material, …), e.g.:
+//
+//   .pa-icon--star {
+//     --pa-icon-src:       var(--pa-icon-star);          // outline (resting)
+//     --pa-icon-src-hover: url("…filled star…");         // filled (hover)
+//   }
+//
+// Disabled controls are excluded (:disabled + class / aria opt-outs) so only
+// actionable controls react. No transition — mask-image can't tween, so the
+// fill is an instant swap.
+//
+// We set mask-image DIRECTLY (not --pa-icon-src) on purpose: falling back to
+// var(--pa-icon-src) while ALSO setting --pa-icon-src would make the property
+// reference itself — a custom-property cycle that computes to invalid, wiping
+// the mask and leaving a solid currentColor box. Setting the real mask-image
+// longhand keeps the var(--pa-icon-src) fallback non-cyclic, so a glyph without
+// a filled variant just re-paints its resting mask (a true no-op).
+.pa-btn:not(:disabled):not(.pa-btn--disabled):not([aria-disabled="true"]):hover .pa-icon,
+.pa-tabs__item:not(:disabled):not(.is-disabled):not([aria-disabled="true"]):hover .pa-icon {
+  -webkit-mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+          mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+}
 .pa-icon--info { --pa-icon-src: var(--pa-icon-info); }
 .pa-icon--success { --pa-icon-src: var(--pa-icon-success); }
 .pa-icon--warning { --pa-icon-src: var(--pa-icon-warning); }

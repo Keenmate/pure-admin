@@ -1,0 +1,281 @@
+<style>
+    /* Reference grid for the icon family */
+    .icon-ref-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+    /* .icon-ref also carries .pa-tooltip (which sets display:inline-block); the
+       compound selector guarantees the flex row wins regardless of source order. */
+    .icon-ref,
+    .icon-ref.pa-tooltip {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid var(--pc-border-color);
+        border-radius: var(--pc-border-radius);
+        background: var(--pc-card-bg);
+    }
+    .icon-ref .pa-icon {
+        --pa-icon-size: 2rem;
+        color: var(--pc-text-color-1);
+    }
+    .icon-ref code {
+        font-size: 1.15rem;
+        color: var(--pc-text-color-2);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* Severity chips shown in their semantic colour */
+    .icon-ref--info .pa-icon    { color: var(--pc-info); }
+    .icon-ref--success .pa-icon { color: var(--pc-success); }
+    .icon-ref--warning .pa-icon { color: var(--pc-warning); }
+    .icon-ref--danger .pa-icon  { color: var(--pc-danger); }
+
+    /* ── Hover-to-fill live demo ────────────────────────────────────────────
+       Lucide (our default set) is outline-only, so the framework's hover-to-fill
+       is dormant with it. This demo supplies a Tabler regular/filled star pair
+       (Tabler is a Lucide look-alike that ships filled variants) so the swap is
+       actually visible. The core rule in _icons.scss does the rest on hover of
+       an enabled .pa-btn / .pa-tabs__item. */
+    .demo-fill-star {
+        --pa-icon-src: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873l-6.158 -3.245%22/%3E%3C/svg%3E");
+        --pa-icon-src-hover: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z%22/%3E%3C/svg%3E");
+    }
+</style>
+
+<p>The framework's structural icons are drawn with a single masked primitive,
+    <code>.pa-icon</code>, so every glyph inherits the current text colour, scales
+    with font size, and is themeable from one place. This page lists the icons
+    that ship as variables and explains the hover-to-fill affordance.</p>
+
+<!-- ============================================================ -->
+<!-- The masked primitive -->
+<!-- ============================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">The masked icon primitive</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <p>Each icon is a <code>&lt;span class="pa-icon pa-icon--<em>name</em>"&gt;</code>.
+            The glyph is an SVG <code>mask</code>; the box is painted in
+            <code>currentColor</code> and shows through it. That means an icon
+            automatically matches its surrounding text colour and scales with
+            <code>font-size</code> (default <code>1em</code>, override with
+            <code>--pa-icon-size</code>).</p>
+        <div class="component-showcase" style="align-items: center; gap: 1.5rem;">
+            <span class="pa-icon pa-icon--search" style="--pa-icon-size: 1.2rem;"></span>
+            <span class="pa-icon pa-icon--search" style="--pa-icon-size: 1.6rem;"></span>
+            <span class="pa-icon pa-icon--search" style="--pa-icon-size: 2.4rem;"></span>
+            <span class="pa-icon pa-icon--search" style="--pa-icon-size: 3.2rem;"></span>
+            <span class="pa-icon pa-icon--search" style="--pa-icon-size: 2.4rem; color: var(--pc-accent);"></span>
+            <span class="pa-icon pa-icon--search" style="--pa-icon-size: 2.4rem; color: var(--pc-danger);"></span>
+        </div>
+        <p class="pa-text pa-text--secondary" style="margin-top: 1rem;">Same class,
+            sized with <code>--pa-icon-size</code> and coloured with
+            <code>color</code> / <code>currentColor</code>.</p>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- C1: the icon variables -->
+<!-- ============================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Icon variables</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <p>These structural affordances ship as icon variables. Add the modifier
+            class to a <code>.pa-icon</code> span; each modifier points
+            <code>--pa-icon-src</code> at the matching <code>--pa-icon-<em>name</em></code>
+            token.</p>
+
+        <h4>Close / clear / remove</h4>
+        <div class="icon-ref-grid">
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--x"><span class="pa-icon pa-icon--x"></span><code>--x</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--clear"><span class="pa-icon pa-icon--clear"></span><code>--clear</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--remove"><span class="pa-icon pa-icon--remove"></span><code>--remove</code></div>
+        </div>
+
+        <h4 style="margin-top: 1.5rem;">Disclosure &amp; direction</h4>
+        <p class="pa-text pa-text--secondary">The four chevron directions are one
+            glyph rotated with a transform, so overriding the chevron re-skins all
+            four at once. Same for the ellipsis (horizontal / vertical).</p>
+        <div class="icon-ref-grid">
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--chevron"><span class="pa-icon pa-icon--chevron"></span><code>--chevron</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--chevron-up"><span class="pa-icon pa-icon--chevron-up"></span><code>--chevron-up</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--chevron-right"><span class="pa-icon pa-icon--chevron-right"></span><code>--chevron-right</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--chevron-down"><span class="pa-icon pa-icon--chevron-down"></span><code>--chevron-down</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--chevron-left"><span class="pa-icon pa-icon--chevron-left"></span><code>--chevron-left</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--caret-up"><span class="pa-icon pa-icon--caret-up"></span><code>--caret-up</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--caret-down"><span class="pa-icon pa-icon--caret-down"></span><code>--caret-down</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--expand"><span class="pa-icon pa-icon--expand"></span><code>--expand</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--collapse"><span class="pa-icon pa-icon--collapse"></span><code>--collapse</code></div>
+        </div>
+
+        <h4 style="margin-top: 1.5rem;">Actions</h4>
+        <div class="icon-ref-grid">
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--add"><span class="pa-icon pa-icon--add"></span><code>--add</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--edit"><span class="pa-icon pa-icon--edit"></span><code>--edit</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--delete"><span class="pa-icon pa-icon--delete"></span><code>--delete</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--save"><span class="pa-icon pa-icon--save"></span><code>--save</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--copy"><span class="pa-icon pa-icon--copy"></span><code>--copy</code></div>
+        </div>
+
+        <h4 style="margin-top: 1.5rem;">Utility</h4>
+        <div class="icon-ref-grid">
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--search"><span class="pa-icon pa-icon--search"></span><code>--search</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--refresh"><span class="pa-icon pa-icon--refresh"></span><code>--refresh</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--filter"><span class="pa-icon pa-icon--filter"></span><code>--filter</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--check"><span class="pa-icon pa-icon--check"></span><code>--check</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--ellipsis"><span class="pa-icon pa-icon--ellipsis"></span><code>--ellipsis</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--ellipsis-vertical"><span class="pa-icon pa-icon--ellipsis-vertical"></span><code>--ellipsis-vertical</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--settings"><span class="pa-icon pa-icon--settings"></span><code>--settings</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--bell"><span class="pa-icon pa-icon--bell"></span><code>--bell</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--user"><span class="pa-icon pa-icon--user"></span><code>--user</code></div>
+            <div class="icon-ref pa-tooltip" data-tooltip=".pa-icon--favorites"><span class="pa-icon pa-icon--favorites"></span><code>--favorites</code></div>
+        </div>
+
+        <h4 style="margin-top: 1.5rem;">Severity</h4>
+        <p class="pa-text pa-text--secondary">One shared family used by toasts,
+            alerts, callouts, notifications and popconfirm, so every severity
+            surface shows the same mark. Shown here in their semantic colours.</p>
+        <div class="icon-ref-grid">
+            <div class="icon-ref icon-ref--info pa-tooltip" data-tooltip=".pa-icon--info"><span class="pa-icon pa-icon--info"></span><code>--info</code></div>
+            <div class="icon-ref icon-ref--success pa-tooltip" data-tooltip=".pa-icon--success"><span class="pa-icon pa-icon--success"></span><code>--success</code></div>
+            <div class="icon-ref icon-ref--warning pa-tooltip" data-tooltip=".pa-icon--warning"><span class="pa-icon pa-icon--warning"></span><code>--warning</code></div>
+            <div class="icon-ref icon-ref--danger pa-tooltip" data-tooltip=".pa-icon--danger"><span class="pa-icon pa-icon--danger"></span><code>--danger</code></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Token chain -->
+<!-- ============================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">How the tokens re-skin</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <p>Most icons trace through a shared, cross-ecosystem contract, so a single
+            override re-skins Pure Admin, the pure-css shell and the KeenMate web
+            components together:</p>
+        <pre class="pa-code">.pa-icon--search  →  var(--pa-icon-src)
+                  →  var(--pa-icon-search)
+                  →  var(--base-icon-search, <em>inline Lucide fallback</em>)</pre>
+        <ul>
+            <li><strong><code>--base-icon-*</code></strong> — the shared contract
+                (published in <code>@keenmate/base-css-variables</code> and
+                mirrored by <code>@keenmate/pure-css</code>). Override once to
+                re-skin everything.</li>
+            <li><strong><code>--pa-icon-*</code></strong> — Pure Admin's family;
+                falls back to an inline Lucide glyph so icons always render even
+                without the contract loaded.</li>
+            <li><strong>pa-only glyphs</strong> — a few (e.g.
+                <code>--pa-icon-favorites</code>) are Pure Admin-only and are
+                <em>not</em> part of the <code>--base-*</code> contract, so they're
+                defined directly with no <code>--base-icon-*</code> route.</li>
+        </ul>
+        <p>To retarget a single glyph, set its <code>--pa-icon-<em>name</em></code>
+            (or the shared <code>--base-icon-<em>name</em></code>) at
+            <code>:root</code> or on any subtree.</p>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- C2: hover-to-fill -->
+<!-- ============================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Hover-to-fill (enabled buttons &amp; tabs)</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <p>An icon can swap to a <strong>filled</strong> variant when its enabled
+            button or tab is hovered. It's opt-in on two axes:</p>
+        <ul>
+            <li><strong>Per glyph</strong> — an icon opts in by declaring a filled
+                source on <code>--pa-icon-src-hover</code>. Icons without one are
+                left untouched.</li>
+            <li><strong>Per context</strong> — the swap only fires inside an
+                <em>enabled</em> <code>.pa-btn</code> or <code>.pa-tabs__item</code>
+                on <code>:hover</code>. Disabled controls never react.</li>
+        </ul>
+
+        <div class="pa-callout pa-callout--warning">
+            <div class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></div>
+            <div class="pa-callout__content">
+                <p class="pa-callout__title">The default Lucide set is outline-only</p>
+                <p>Lucide ships no filled glyphs, so hover-to-fill is
+                    <strong>dormant out of the box</strong> — the mechanism is
+                    present but there's nothing to fill to. To activate it, point
+                    <code>--pa-icon-src-hover</code> at a filled glyph from a set
+                    that has one — <strong>Tabler</strong> (a Lucide look-alike),
+                    Fluent, or Material. The live demo below uses a Tabler
+                    regular/filled star pair.</p>
+            </div>
+        </div>
+
+        <h4 style="margin-top: 1.5rem;">Live demo</h4>
+        <p class="pa-text pa-text--secondary">Hover each control. The first uses a
+            Tabler outline→filled star and morphs; the second is a Lucide star and
+            stays outline (nothing to fill to); the third is the <em>same</em>
+            Tabler star but disabled, so it never reacts despite being fillable
+            (proving the disabled gate). No transition —
+            <code>mask-image</code> can't tween, so the fill is an instant swap.</p>
+        <div class="component-showcase" style="gap: 1rem; align-items: center;">
+            <button class="pa-btn pa-btn--primary">
+                <span class="pa-icon demo-fill-star" aria-hidden="true"></span> Favorite (Tabler)
+            </button>
+            <button class="pa-btn pa-btn--secondary">
+                <span class="pa-icon pa-icon--favorites" aria-hidden="true"></span> Favorite (Lucide)
+            </button>
+            <button class="pa-btn pa-btn--primary" disabled>
+                <span class="pa-icon demo-fill-star" aria-hidden="true"></span> Disabled (Tabler)
+            </button>
+        </div>
+
+        <div class="pa-tabs pa-tabs--full" style="margin-top: 1.5rem; max-width: 32rem;">
+            <button class="pa-tabs__item pa-tabs__item--active">
+                <span class="pa-icon demo-fill-star" aria-hidden="true"></span>
+                <span>Starred</span>
+            </button>
+            <button class="pa-tabs__item">
+                <span class="pa-icon pa-icon--user" aria-hidden="true"></span>
+                <span>Profile</span>
+            </button>
+        </div>
+
+        <h4 style="margin-top: 1.5rem;">How to enable it</h4>
+        <p>Define a modifier that declares both a resting (outline) and a hover
+            (filled) source. The framework's global rule swaps them on hover:</p>
+        <pre class="pa-code">/* your glyph — resting outline + filled-on-hover source */
+.pa-icon--star {
+  --pa-icon-src:       var(--pa-icon-star);        /* Lucide outline */
+  --pa-icon-src-hover: url("…tabler filled star…"); /* filled variant */
+}
+
+/* framework rule (ships in core) — no-op unless a glyph declared a hover src.
+   Sets mask-image directly (not --pa-icon-src) so the var(--pa-icon-src)
+   fallback isn't self-referential — a custom-property cycle would blank the
+   mask and leave a solid box. */
+.pa-btn:not(:disabled):hover .pa-icon,
+.pa-tabs__item:not(:disabled):hover .pa-icon {
+  mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+}</pre>
+        <p class="pa-text pa-text--secondary">The fallback to
+            <code>--pa-icon-src</code> is what makes the rule safe to ship
+            globally: any icon that didn't declare a filled source simply keeps its
+            resting glyph.</p>
+    </div>
+</div>

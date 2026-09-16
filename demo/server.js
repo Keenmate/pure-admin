@@ -311,6 +311,10 @@ app.get('/design/colors', (req, res) => {
     renderWithLayout(res, 'colors', { pageTitle: 'Colors', currentPage: 'colors', isColors: true });
 });
 
+app.get('/design/icons', (req, res) => {
+    renderWithLayout(res, 'icons', { pageTitle: 'Icons', currentPage: 'icons', isIcons: true });
+});
+
 app.get('/design/helpers', (req, res) => {
     renderWithLayout(res, 'helpers', { pageTitle: 'Helpers', currentPage: 'helpers', isHelpers: true });
 });
