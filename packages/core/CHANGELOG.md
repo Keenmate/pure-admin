@@ -5,10 +5,22 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.0] - 2026-09-16 [PUBLISHED]
 
 ### Added
 
+- **Hover-to-fill icon infrastructure for enabled buttons and tabs.** An icon can
+  swap its mask to a filled variant on hover of an enabled `.pa-btn` /
+  `.pa-tabs__item`. Opt-in on two axes: per glyph (declare a filled source on
+  `--pa-icon-src-hover`) and per context (only fires inside an enabled control on
+  `:hover`; `:disabled` / `.pa-btn--disabled` / `.is-disabled` /
+  `[aria-disabled]` are excluded). The swap falls back to `--pa-icon-src`, so it's
+  a no-op — safe to ship globally — for any glyph that didn't declare a filled
+  variant. No transition (mask-image can't tween, so the fill is an instant swap).
+  NOTE: the default **Lucide** set is outline-only and ships no filled glyphs, so
+  the mechanism is **dormant** out of the box — point `--pa-icon-src-hover` at a
+  filled glyph from a set that has one (Tabler / Fluent / Material) to activate
+  it. Documented with a live demo on the new `/design/icons` page.
 - **New `--pa-icon-settings` (cog / gear), `--pa-icon-bell` (notification bell),
   and `--pa-icon-user` (person) masked glyphs + matching `.pa-icon--settings` /
   `.pa-icon--bell` / `.pa-icon--user` modifiers.** The settings-panel toggle
@@ -30,6 +42,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   isn't part of the cross-ecosystem `--base-icon-*` contract, so it's defined
   directly in `_icons.scss` (no `var(--base-icon-*, …)` route) and NOT mirrored
   into pure-css / base-css-variables.
+
+- **Status/severity masked-icon tokens + modifiers:** `--pa-icon-info`,
+  `--pa-icon-success`, `--pa-icon-warning`, `--pa-icon-danger` (routing through
+  `--base-icon-*`) and `.pa-icon--info` / `--success` / `--warning` / `--danger`.
+- **Component-scoped severity-icon override hooks** so a theme can re-skin ONE
+  surface's status glyph without moving the shared family:
+  `--pa-{toast,alert,callout,notifications}-icon-{info,success,warning,danger}`.
+  Each defaults to the matching global `--pa-icon-<sev>` (which defaults to
+  `--base-icon-<sev>`), and a variant-scoped rule re-points the icon's
+  `--pa-icon-src` through it — e.g. set `--pa-notifications-icon-warning` to
+  give notifications a distinct warning mark while alerts/toasts/callouts keep
+  the default. No markup change; the hook wins on specificity over the global
+  `.pa-icon--<sev>` modifier.
+- **Every structural affordance icon now draws a masked `--pa-icon-*` glyph
+  instead of a Font Awesome `<i>`.** Following the chevron/caret change above,
+  the whole affordance set was migrated across the snippets, demo, and core JS
+  (`overflow.js`): refresh, filter, search, check, copy, ellipsis (+ vertical),
+  close, field-clear, item-remove, edit, delete, add, and save. Each traces
+  `var(--base-icon-<name>, <fallback>)`, so a theme re-skins pure-admin, the
+  pure-css shell, and the web components from one `--base-icon-*` override.
+  Icons whose `--base-icon-*` isn't in the pure-css contract yet (`copy`,
+  `ellipsis`, `save`) still route through it and auto-upgrade the moment it
+  lands — no pure-admin change needed. Purely decorative demo glyphs
+  (card title-icons, illustrative content) intentionally stay on Font Awesome.
+- **Directional chevron modifiers + `pa-chevron()` mixin.**
+  `.pa-icon--chevron-down` / `--chevron-up` / `--chevron-left` / `--chevron-right`
+  (and a `pa-chevron($dir)` Sass mixin for component pseudo-elements) render the
+  one base `--pa-icon-chevron` glyph rotated into place — so overriding
+  `--base-icon-chevron` re-skins every direction at once. Consumed by the tab
+  scroll arrows and the filter-card / table-filters "more" toggles.
+- **New masked-icon tokens + modifiers** completing the affordance set:
+  `--pa-icon-refresh`, `--pa-icon-filter`, `--pa-icon-check` (mirroring the
+  existing `--base-icon-*`), plus `--pa-icon-copy`, `--pa-icon-ellipsis`, and
+  `--pa-icon-save` (forward-compat — route through `--base-icon-copy` /
+  `-ellipsis` / `-save`, which pure-css doesn't emit yet). Matching modifier
+  classes `.pa-icon--refresh` / `--filter` / `--check` / `--copy` / `--ellipsis`
+  / `--ellipsis-vertical` (same glyph, `rotate(90deg)`) / `--save`. Search /
+  close / clear / remove / edit / delete / add reused their existing tokens.
 
 ### Changed
 
@@ -80,49 +130,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   content/label always starts at the same x. Different glyphs have different
   intrinsic widths, which made the bold labels zig-zag; the column is pinned to
   `$font-size-lg` with the glyph centred.
-
-### Added
-
-- **Status/severity masked-icon tokens + modifiers:** `--pa-icon-info`,
-  `--pa-icon-success`, `--pa-icon-warning`, `--pa-icon-danger` (routing through
-  `--base-icon-*`) and `.pa-icon--info` / `--success` / `--warning` / `--danger`.
-- **Component-scoped severity-icon override hooks** so a theme can re-skin ONE
-  surface's status glyph without moving the shared family:
-  `--pa-{toast,alert,callout,notifications}-icon-{info,success,warning,danger}`.
-  Each defaults to the matching global `--pa-icon-<sev>` (which defaults to
-  `--base-icon-<sev>`), and a variant-scoped rule re-points the icon's
-  `--pa-icon-src` through it — e.g. set `--pa-notifications-icon-warning` to
-  give notifications a distinct warning mark while alerts/toasts/callouts keep
-  the default. No markup change; the hook wins on specificity over the global
-  `.pa-icon--<sev>` modifier.
-- **Every structural affordance icon now draws a masked `--pa-icon-*` glyph
-  instead of a Font Awesome `<i>`.** Following the chevron/caret change above,
-  the whole affordance set was migrated across the snippets, demo, and core JS
-  (`overflow.js`): refresh, filter, search, check, copy, ellipsis (+ vertical),
-  close, field-clear, item-remove, edit, delete, add, and save. Each traces
-  `var(--base-icon-<name>, <fallback>)`, so a theme re-skins pure-admin, the
-  pure-css shell, and the web components from one `--base-icon-*` override.
-  Icons whose `--base-icon-*` isn't in the pure-css contract yet (`copy`,
-  `ellipsis`, `save`) still route through it and auto-upgrade the moment it
-  lands — no pure-admin change needed. Purely decorative demo glyphs
-  (card title-icons, illustrative content) intentionally stay on Font Awesome.
-
-### Added
-
-- **Directional chevron modifiers + `pa-chevron()` mixin.**
-  `.pa-icon--chevron-down` / `--chevron-up` / `--chevron-left` / `--chevron-right`
-  (and a `pa-chevron($dir)` Sass mixin for component pseudo-elements) render the
-  one base `--pa-icon-chevron` glyph rotated into place — so overriding
-  `--base-icon-chevron` re-skins every direction at once. Consumed by the tab
-  scroll arrows and the filter-card / table-filters "more" toggles.
-- **New masked-icon tokens + modifiers** completing the affordance set:
-  `--pa-icon-refresh`, `--pa-icon-filter`, `--pa-icon-check` (mirroring the
-  existing `--base-icon-*`), plus `--pa-icon-copy`, `--pa-icon-ellipsis`, and
-  `--pa-icon-save` (forward-compat — route through `--base-icon-copy` /
-  `-ellipsis` / `-save`, which pure-css doesn't emit yet). Matching modifier
-  classes `.pa-icon--refresh` / `--filter` / `--check` / `--copy` / `--ellipsis`
-  / `--ellipsis-vertical` (same glyph, `rotate(90deg)`) / `--save`. Search /
-  close / clear / remove / edit / delete / add reused their existing tokens.
 
 ## [3.0.0] - 2026-09-13 [PUBLISHED]
 
