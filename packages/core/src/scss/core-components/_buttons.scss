@@ -3,6 +3,7 @@
    Buttons, button groups, sizes, colors, states, and icon buttons
    ======================================== */
 @use '../variables' as *;
+@use 'icons' as *;
 
 // Buttons
 .pa-btn {
@@ -513,13 +514,27 @@
     &.pa-btn--xl { width: $btn-height-xl; min-width: $btn-height-xl; }
   }
 
-  // Chevron icon - opt-in rotation on open
+  // Chevron — the shared masked base-icon glyph (--pa-icon-chevron, wired to
+  // --base-icon-chevron), NOT a Font Awesome <i>. The base glyph points RIGHT;
+  // we rotate it to point down when closed and up when open (a 180° sweep),
+  // matching the web-multiselect toggle contract so a single --base-icon-chevron
+  // override re-skins the split button, the range group, and the web components
+  // together. Both rotations are themeable via --pa-btn-split-chevron-rotate-*:
+  // a theme shipping a PRE-ORIENTED (already-down) glyph sets closed→0deg,
+  // open→180deg to opt out of the orientation.
+  //
+  // Markup: <span class="pa-btn-split__chevron" aria-hidden="true"></span>.
+  // For a STATIC, non-rotating toggle (e.g. a ⋮ ellipsis "more" affordance),
+  // omit this class and place any icon element inside the toggle instead.
   &__chevron {
+    @include pa-icon-mask(var(--pa-icon-chevron));
+    --pa-icon-size: 1.2rem;
+    transform: rotate(var(--pa-btn-split-chevron-rotate-closed, 90deg));
     transition: transform $transition-fast $easing-snappy;
   }
 
   &--open &__chevron {
-    transform: rotate(180deg);
+    transform: rotate(var(--pa-btn-split-chevron-rotate-open, -90deg));
   }
 
   // Dropdown menu (moved to body and positioned by Floating UI)

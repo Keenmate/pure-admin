@@ -554,6 +554,16 @@
   &__icon {
     flex-shrink: 0;
     opacity: $opacity-muted;
+    // Masked magnifier in currentColor — was a 🔍 text emoji, inconsistent
+    // across platforms/fonts. Reads --pa-icon-search (→ --base-icon-search), so
+    // it matches .pa-icon--search and the sidebar search. font-size:0 collapses
+    // any legacy 🔍 still in consumer markup so it never double-renders.
+    inline-size: $font-size-lg;
+    block-size: $font-size-lg;
+    font-size: 0;
+    background-color: currentColor;
+    -webkit-mask: var(--pa-icon-search) center / contain no-repeat;
+            mask: var(--pa-icon-search) center / contain no-repeat;
   }
 
   // Borderless <input> filling the pill — shared by the live (--field) and
@@ -625,13 +635,11 @@
   width: 100%;
   max-width: $command-palette-width;
 
-  // Fixed icon box so the typed text starts at a predictable x — glyphs like 🔍 vs
-  // 💻 render at different widths, so without this the field text and the result
-  // titles below wouldn't share a left edge.
+  // Fixed icon box so the typed text starts at a predictable x, keeping the
+  // field text and the result titles below on a shared left edge. (The base
+  // &__icon is already a fixed masked box; this just pins it in the field.)
   .pc-navbar-search__icon {
     width: $font-size-lg;
-    display: inline-flex;
-    justify-content: center;
     flex-shrink: 0;
   }
 

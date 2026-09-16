@@ -5,6 +5,125 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **New `--pa-icon-settings` (cog / gear), `--pa-icon-bell` (notification bell),
+  and `--pa-icon-user` (person) masked glyphs + matching `.pa-icon--settings` /
+  `.pa-icon--bell` / `.pa-icon--user` modifiers.** The settings-panel toggle
+  (`.pa-settings-panel__toggle`, `⚙`), the navbar notification bell
+  (`.pa-notifications__icon`, `🔔`), and the navbar profile trigger
+  (`.pc-navbar__profile-btn .pa-btn__icon`, `👤`) now paint masked glyphs in
+  `currentColor` instead of text emoji, so they render consistently across
+  platforms and re-skin from the shared `--base-icon-settings` / `--base-icon-bell`
+  / `--base-icon-user` knobs (forward-compat: route through the `--base-icon-*`
+  even before pure-css emits them, auto-upgrading on publish). Structural
+  affordances only — demo/example "Settings"/bell/profile menu items,
+  profile-panel nav + avatar icons, badges, list avatars, and prose keep their
+  emoji.
+- **New `--pa-icon-favorites` masked glyph (star) + `.pa-icon--favorites`
+  modifier.** The profile-panel favorites tab (`.pa-profile-panel__tabs`) and the
+  profile tab now paint masked `.pa-icon--favorites` / `.pa-icon--user` glyphs
+  instead of Font Awesome `<i class="fa-solid fa-star">` / `fa-user`. Unlike the
+  other affordance glyphs, `--pa-icon-favorites` is **pure-admin-only** — the star
+  isn't part of the cross-ecosystem `--base-icon-*` contract, so it's defined
+  directly in `_icons.scss` (no `var(--base-icon-*, …)` route) and NOT mirrored
+  into pure-css / base-css-variables.
+
+### Changed
+
+- **Popconfirm severity icons now draw the shared masked `--pa-icon` family
+  instead of emoji.** `.pa-popconfirm__icon` painted `⚠️` / `🗑️` / `ℹ️` via
+  `::before content`; it now masks a glyph in `currentColor` — base + `--warning`
+  = triangle-alert (`--pa-icon-warning`), `--info` = circle-i (`--pa-icon-info`),
+  `--danger` = the delete/trash bin (`--pa-icon-delete`, preserving the
+  delete-confirm semantic). Matches the toast/alert/callout/notification severity
+  set. Each variant routes through a component-scoped override hook first
+  (`--pa-popconfirm-icon-{warning,info,danger}`) so a theme can re-skin just the
+  popconfirm glyph — e.g. set `--pa-popconfirm-icon-danger: var(--pa-icon-danger)`
+  for the severity circle-x instead of the trash bin. Markup is unchanged (the
+  modifier class on `.pa-popconfirm__icon` still drives the glyph). The popconfirm
+  demo's icon-only compact delete button also moved off the `🗑️` emoji to a masked
+  `.pa-icon--delete` span.
+- **All chevron/caret affordances now draw the masked `--base-icon-chevron`
+  glyph instead of a Font Awesome `<i>`.** The split-button toggle
+  (`.pa-btn-split__chevron`), range-group caret (`.pa-range-group__caret`), and
+  tab scroll arrows previously embedded `<i class="fas fa-chevron-*">`; they now
+  paint the shared masked chevron in `currentColor`, so a single
+  `--base-icon-chevron` override re-skins pure-admin, the pure-css shell, and the
+  web components together. The split-button / range-group chevron points down
+  when closed and rotates to up on `--open` (a 180° sweep), themeable per
+  affordance via `--pa-btn-split-chevron-rotate-closed/-open` and
+  `--pa-range-group-caret-rotate-closed/-open` (a theme shipping a pre-oriented
+  glyph sets these to `0deg` / `180deg`). Canonical markup is now
+  `<span class="pa-btn-split__chevron" aria-hidden="true"></span>`; for a static
+  toggle (e.g. a ⋮ ellipsis) omit the class and drop any icon element into the
+  toggle instead. Older `<i class="fas fa-chevron-*">` markup is no longer the
+  documented shape.
+- **The navbar search icon (`.pc-navbar-search__icon`) is now a masked
+  `--pa-icon-search` glyph instead of a `🔍` text emoji.** Painted in
+  `currentColor` via `mask`, so it renders consistently across platforms and
+  re-skins from `--base-icon-search` like the sidebar search and
+  `.pa-icon--search`. `font-size: 0` collapses any legacy emoji in consumer
+  markup; the icon span can be left empty (`<span class="pc-navbar-search__icon">`).
+- **Status/severity icons are now one shared masked family across toasts,
+  alerts, callouts, notifications, and inline form-validation indicators** (was
+  per-component emoji / text glyphs: `ℹ ✓ ⚠ ✕ ! ⓘ`).
+  Every severity surface now draws `.pa-icon--info` / `--success` / `--warning` /
+  `--danger` (info = circle-i, success = circle-check, warning = triangle-alert,
+  danger = circle-x), so a `--base-icon-*` override re-skins them all at once and
+  the mark is consistent everywhere. The toast service derives the icon from the
+  variant; `config.severity.<variant>.icon` is no longer an emoji default but
+  remains an optional per-variant HTML override (titles unchanged).
+- **Alert icons now sit in a fixed, centred column (`.pa-alert__icon`)** so the
+  content/label always starts at the same x. Different glyphs have different
+  intrinsic widths, which made the bold labels zig-zag; the column is pinned to
+  `$font-size-lg` with the glyph centred.
+
+### Added
+
+- **Status/severity masked-icon tokens + modifiers:** `--pa-icon-info`,
+  `--pa-icon-success`, `--pa-icon-warning`, `--pa-icon-danger` (routing through
+  `--base-icon-*`) and `.pa-icon--info` / `--success` / `--warning` / `--danger`.
+- **Component-scoped severity-icon override hooks** so a theme can re-skin ONE
+  surface's status glyph without moving the shared family:
+  `--pa-{toast,alert,callout,notifications}-icon-{info,success,warning,danger}`.
+  Each defaults to the matching global `--pa-icon-<sev>` (which defaults to
+  `--base-icon-<sev>`), and a variant-scoped rule re-points the icon's
+  `--pa-icon-src` through it — e.g. set `--pa-notifications-icon-warning` to
+  give notifications a distinct warning mark while alerts/toasts/callouts keep
+  the default. No markup change; the hook wins on specificity over the global
+  `.pa-icon--<sev>` modifier.
+- **Every structural affordance icon now draws a masked `--pa-icon-*` glyph
+  instead of a Font Awesome `<i>`.** Following the chevron/caret change above,
+  the whole affordance set was migrated across the snippets, demo, and core JS
+  (`overflow.js`): refresh, filter, search, check, copy, ellipsis (+ vertical),
+  close, field-clear, item-remove, edit, delete, add, and save. Each traces
+  `var(--base-icon-<name>, <fallback>)`, so a theme re-skins pure-admin, the
+  pure-css shell, and the web components from one `--base-icon-*` override.
+  Icons whose `--base-icon-*` isn't in the pure-css contract yet (`copy`,
+  `ellipsis`, `save`) still route through it and auto-upgrade the moment it
+  lands — no pure-admin change needed. Purely decorative demo glyphs
+  (card title-icons, illustrative content) intentionally stay on Font Awesome.
+
+### Added
+
+- **Directional chevron modifiers + `pa-chevron()` mixin.**
+  `.pa-icon--chevron-down` / `--chevron-up` / `--chevron-left` / `--chevron-right`
+  (and a `pa-chevron($dir)` Sass mixin for component pseudo-elements) render the
+  one base `--pa-icon-chevron` glyph rotated into place — so overriding
+  `--base-icon-chevron` re-skins every direction at once. Consumed by the tab
+  scroll arrows and the filter-card / table-filters "more" toggles.
+- **New masked-icon tokens + modifiers** completing the affordance set:
+  `--pa-icon-refresh`, `--pa-icon-filter`, `--pa-icon-check` (mirroring the
+  existing `--base-icon-*`), plus `--pa-icon-copy`, `--pa-icon-ellipsis`, and
+  `--pa-icon-save` (forward-compat — route through `--base-icon-copy` /
+  `-ellipsis` / `-save`, which pure-css doesn't emit yet). Matching modifier
+  classes `.pa-icon--refresh` / `--filter` / `--check` / `--copy` / `--ellipsis`
+  / `--ellipsis-vertical` (same glyph, `rotate(90deg)`) / `--save`. Search /
+  close / clear / remove / edit / delete / add reused their existing tokens.
+
 ## [3.0.0] - 2026-09-13 [PUBLISHED]
 
 Stable cut of the `2.9.0-rc` foundation series (2.8.0 → 3.0.0). Bumped to **major**

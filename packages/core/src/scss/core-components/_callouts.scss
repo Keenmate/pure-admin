@@ -150,3 +150,14 @@
     margin-top: 0;
   }
 }
+
+// Per-severity status-icon override hook. The masked .pa-icon draws the shared
+// --pa-icon-<sev> family by default, but routes through a component-scoped token
+// first — so a theme can re-skin the callout's warning glyph (etc.) via
+// `--pa-callout-icon-warning` without moving the global `--pa-icon-warning`
+// shared by every severity surface.
+@each $sev in (info, success, warning, danger) {
+  .pa-callout--#{$sev} .pa-callout__icon .pa-icon {
+    --pa-icon-src: var(--pa-callout-icon-#{$sev}, var(--pa-icon-#{$sev}));
+  }
+}

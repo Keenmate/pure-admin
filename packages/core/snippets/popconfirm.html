@@ -24,10 +24,10 @@ POSITION CLASSES (logical — mirror in RTL):
 SIZE VARIANTS:
 - pa-popconfirm--compact: Smaller padding and dimensions
 
-ICON VARIANTS (for message):
-- pa-popconfirm__icon--danger: Shows delete icon (🗑️)
-- pa-popconfirm__icon--warning: Shows warning icon (⚠️)
-- pa-popconfirm__icon--info: Shows info icon (ℹ️)
+ICON VARIANTS (for message) — masked --pa-icon glyphs in currentColor:
+- pa-popconfirm__icon--danger: delete/trash bin (--pa-icon-delete)
+- pa-popconfirm__icon--warning: triangle-alert (--pa-icon-warning)
+- pa-popconfirm__icon--info: circle-i (--pa-icon-info)
 
 JAVASCRIPT REQUIRED:
 - Floating UI library for positioning (loaded globally)
@@ -393,15 +393,20 @@ physical placements internally, so the snippet translates `start`/`end`
 SIZE:
 - .pa-popconfirm--compact — tighter padding; min-width drops from 25.6rem to 19.2rem
 
-ICON (optional, applied on the __message element):
-- .pa-popconfirm__icon            — base icon styling (prepends ⚠️ via ::before)
-- .pa-popconfirm__icon--danger    — swaps the emoji to 🗑️
-- .pa-popconfirm__icon--warning   — explicit warning (same ⚠️ as base)
-- .pa-popconfirm__icon--info      — swaps to ℹ️
+ICON (optional, applied on the __message element) — a masked --pa-icon
+glyph drawn in currentColor via ::before (no emoji), shared with the
+toast/alert/callout severity family:
+- .pa-popconfirm__icon            — base icon styling (triangle-alert via ::before)
+- .pa-popconfirm__icon--danger    — delete/trash bin (--pa-icon-delete)
+- .pa-popconfirm__icon--warning   — explicit warning (same triangle as base)
+- .pa-popconfirm__icon--info      — circle-i (--pa-icon-info)
 
-(The base .pa-popconfirm__icon class alone already shows ⚠️ — the
---warning modifier just makes the intent explicit. Use --danger for
-destructive actions; the emoji change is the differentiator.)
+(The base .pa-popconfirm__icon class alone already shows the warning
+triangle — the --warning modifier just makes the intent explicit. Use
+--danger for destructive actions; it shows the trash bin. Theme a single
+surface via --pa-popconfirm-icon-{warning,info,danger}, e.g. set
+--pa-popconfirm-icon-danger: var(--pa-icon-danger) for the severity
+circle-x instead of the trash bin.)
 
 DIMENSIONS:
 - min-width: 25.6rem / max-width: 32rem (default)

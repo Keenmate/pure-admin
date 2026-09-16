@@ -154,7 +154,7 @@
         trigger.setAttribute('aria-label', 'More actions');
         trigger.setAttribute('aria-haspopup', 'menu');
         trigger.setAttribute('aria-expanded', 'false');
-        trigger.innerHTML = '<i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>';
+        trigger.innerHTML = '<span class="pa-icon pa-icon--ellipsis-vertical" aria-hidden="true"></span>';
         trigger.style.display = 'none';
         root.appendChild(trigger);
 

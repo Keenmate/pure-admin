@@ -43,7 +43,7 @@
 
 <!-- Info with Icon -->
 <div class="pa-callout pa-callout--info">
-  <span class="pa-callout__icon">💡</span>
+  <span class="pa-callout__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></span>
   <div class="pa-callout__content">
     <h4 class="pa-callout__heading">Did you know?</h4>
     <p>You can hover over any element to see its tooltip. Tooltips provide additional context without cluttering the interface.</p>
@@ -52,7 +52,7 @@
 
 <!-- Warning with Icon -->
 <div class="pa-callout pa-callout--warning">
-  <span class="pa-callout__icon">⚠️</span>
+  <span class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
   <div class="pa-callout__content">
     <h4 class="pa-callout__heading">Breaking Change</h4>
     <p>The <code>getData()</code> method now returns a Promise. Update your code to use <code>await</code> or <code>.then()</code>.</p>
@@ -61,7 +61,7 @@
 
 <!-- Danger with Icon -->
 <div class="pa-callout pa-callout--danger">
-  <span class="pa-callout__icon">🚨</span>
+  <span class="pa-callout__icon"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span></span>
   <div class="pa-callout__content">
     <h4 class="pa-callout__heading">Security Notice</h4>
     <p>Never commit API keys or secrets to version control. Use environment variables instead.</p>
@@ -70,7 +70,7 @@
 
 <!-- Success with Icon -->
 <div class="pa-callout pa-callout--success">
-  <span class="pa-callout__icon">✅</span>
+  <span class="pa-callout__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></span>
   <div class="pa-callout__content">
     <h4 class="pa-callout__heading">Best Practice</h4>
     <p>Always validate user input on both client and server side for maximum security.</p>
@@ -197,7 +197,7 @@ Callout with heading and paragraphs:
 
 Callout with floated icon (wrap the rest in __content for the clearfix):
 <div class="pa-callout pa-callout--success">
-  <span class="pa-callout__icon">✅</span>
+  <span class="pa-callout__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></span>
   <div class="pa-callout__content">
     <h4 class="pa-callout__heading">Title</h4>
     <p>Body text that wraps around the icon.</p>

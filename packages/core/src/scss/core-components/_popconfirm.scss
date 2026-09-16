@@ -60,22 +60,40 @@
   align-items: flex-start;
   gap: $spacing-sm;
 
+  // Masked severity glyph in currentColor — replaces the per-variant emoji
+  // (⚠️ / 🗑️ / ℹ️) with the shared masked icon family, so popconfirm matches
+  // toasts/alerts/callouts/notifications. Each variant routes through a
+  // component-scoped override hook first (--pa-popconfirm-icon-<sev>) so a theme
+  // can re-skin just the popconfirm glyph without moving the shared
+  // --pa-icon-<name>. Default (no modifier) + --warning = triangle-alert;
+  // --info = circle-i; --danger keeps the delete/trash bin (a delete-confirm is
+  // the dominant popconfirm) — set --pa-popconfirm-icon-danger to
+  // var(--pa-icon-danger) for the severity circle-x instead.
   &::before {
-    content: '⚠️';
+    content: '';
+    display: inline-block;
+    inline-size: var(--pa-icon-size, 1em);
+    block-size: var(--pa-icon-size, 1em);
     font-size: $font-size-lg;
     flex-shrink: 0;
-  }
-
-  &--danger::before {
-    content: '🗑️';
+    background-color: currentColor;
+    -webkit-mask: var(--pa-popconfirm-icon-warning, var(--pa-icon-warning)) no-repeat center / contain;
+            mask: var(--pa-popconfirm-icon-warning, var(--pa-icon-warning)) no-repeat center / contain;
   }
 
   &--warning::before {
-    content: '⚠️';
+    -webkit-mask-image: var(--pa-popconfirm-icon-warning, var(--pa-icon-warning));
+            mask-image: var(--pa-popconfirm-icon-warning, var(--pa-icon-warning));
   }
 
   &--info::before {
-    content: 'ℹ️';
+    -webkit-mask-image: var(--pa-popconfirm-icon-info, var(--pa-icon-info));
+            mask-image: var(--pa-popconfirm-icon-info, var(--pa-icon-info));
+  }
+
+  &--danger::before {
+    -webkit-mask-image: var(--pa-popconfirm-icon-danger, var(--pa-icon-delete));
+            mask-image: var(--pa-popconfirm-icon-danger, var(--pa-icon-delete));
   }
 
   p {

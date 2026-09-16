@@ -334,14 +334,18 @@
       closeOnBackdrop: false
     });
 
-    // severity.* — per-level presentation (icon + title). Core ships EMOJI icons.
+    // severity.* — per-level presentation (title + optional icon override). The
+    // icon now comes from the standard masked --pa-icon-* system, derived from
+    // the variant by the toast service (.pa-icon--success / -danger / -warning /
+    // -info), so every severity surface shows the SAME mark. Set severity.<v>.icon
+    // to a custom HTML string to override the default masked glyph.
     cfg.severity = cfg.severity || {};
     fillDefaults(cfg.severity, {
-      primary: { icon: 'ℹ️', title: 'Primary' },
-      success: { icon: '✓', title: 'Success' },
-      danger: { icon: '✕', title: 'Error' },
-      warning: { icon: '⚠', title: 'Warning' },
-      info: { icon: 'ℹ', title: 'Information' }
+      primary: { title: 'Primary' },
+      success: { title: 'Success' },
+      danger: { title: 'Error' },
+      warning: { title: 'Warning' },
+      info: { title: 'Information' }
     });
   })(pa.config);
 })();

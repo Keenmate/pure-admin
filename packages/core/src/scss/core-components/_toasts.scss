@@ -159,6 +159,20 @@
   border-radius: var(--pc-border-radius);
 }
 
+// Per-severity status-icon override hook. The masked .pa-icon draws the shared
+// --pa-icon-<sev> family by default, but routes through a component-scoped token
+// first — so a theme can re-skin the toast's warning glyph (etc.) via
+// `--pa-toast-icon-warning` without moving the global `--pa-icon-warning` shared
+// by every severity surface. `primary` has no status glyph, so it borrows info.
+@each $sev in (info, success, warning, danger) {
+  .pa-toast--#{$sev} .pa-toast__icon .pa-icon {
+    --pa-icon-src: var(--pa-toast-icon-#{$sev}, var(--pa-icon-#{$sev}));
+  }
+}
+.pa-toast--primary .pa-toast__icon .pa-icon {
+  --pa-icon-src: var(--pa-toast-icon-primary, var(--pa-icon-info));
+}
+
 // Toast content
 .pa-toast__content {
   flex: 1;

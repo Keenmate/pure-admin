@@ -41,10 +41,19 @@
     };
   }
 
+  // Map a severity variant to its standard masked --pa-icon modifier. `primary`
+  // has no status glyph of its own, so it borrows the info mark.
+  function severityIconClass(variant) {
+    const map = { success: 'success', danger: 'danger', warning: 'warning', info: 'info', primary: 'info' };
+    return 'pa-icon--' + (map[variant] || 'info');
+  }
+
   function severityFor(variant) {
     const s = (paConfig().severity || {})[variant] || {};
     return {
-      icon: s.icon != null ? s.icon : 'ℹ',
+      icon: s.icon != null
+        ? s.icon
+        : `<span class="pa-icon ${severityIconClass(variant)}" aria-hidden="true"></span>`,
       title: s.title != null ? s.title : 'Notification'
     };
   }

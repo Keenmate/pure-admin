@@ -561,7 +561,7 @@
                         <span class="pa-field__value">
                             <span data-copy-value>elena.petrova@example.com</span>
                             <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -570,7 +570,7 @@
                         <span class="pa-field__value">
                             <span data-copy-value><code>sk_live_abc123xyz789</code></span>
                             <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -599,7 +599,7 @@
                         <span class="pa-field__value">
                             <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
                             <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -608,7 +608,7 @@
                         <span class="pa-field__value">
                             <span data-copy-value>GIBACZPX</span>
                             <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -627,7 +627,7 @@ function copyValue(btn) {
     navigator.clipboard.writeText(text).then(() => {
         // Visual feedback
         const originalIcon = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.innerHTML = '<span class="pa-icon pa-icon--check" aria-hidden="true"></span>';
         btn.style.color = 'var(--pc-color-4, #28a745)';
 
         setTimeout(() => {
@@ -959,13 +959,13 @@ function copyClickValue(el) {
                     <!-- No header - close button floats in body -->
                     <div class="pa-detail-panel__body" id="dataDisplayBody" style="position: relative; padding-top: 1.2rem;">
                         <button class="pa-detail-panel__close" onclick="closeDataDisplayPanel()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
-                            <i class="fas fa-times"></i>
+                            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
                         </button>
                         <p class="text-secondary">Click a table row to view order details here.</p>
                     </div>
                     <div class="pa-detail-panel__footer">
                         <button class="pa-btn pa-btn--primary pa-btn--sm">
-                            <i class="fas fa-edit"></i> Edit
+                            <span class="pa-icon pa-icon--edit" aria-hidden="true"></span> Edit
                         </button>
                         <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeDataDisplayPanel()">
                             Close
@@ -1036,7 +1036,7 @@ function showDataDisplayDetail(orderId) {
     // Update body with pa-fields (includes floating close button)
     document.getElementById('dataDisplayBody').innerHTML = `
         <button class="pa-detail-panel__close" onclick="closeDataDisplayPanel()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
-            <i class="fas fa-times"></i>
+            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
         </button>
         <div class="pa-field-group">
             <div class="pa-field-group__title">Order Info</div>
@@ -1167,16 +1167,16 @@ function closeDataDisplayPanel() {
         <!-- Headerless: close button in body -->
         <div class="pa-detail-panel__body" id="productOverlayBody" style="position: relative;">
             <button class="pa-detail-panel__close" onclick="closeProductOverlay()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
-                <i class="fas fa-times"></i>
+                <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
             </button>
             <p class="text-secondary">Click a table row to view product details.</p>
         </div>
         <div class="pa-detail-panel__footer">
             <button class="pa-btn pa-btn--primary pa-btn--sm">
-                <i class="fas fa-edit"></i> Edit Product
+                <span class="pa-icon pa-icon--edit" aria-hidden="true"></span> Edit Product
             </button>
             <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
-                <i class="fas fa-trash"></i> Delete
+                <span class="pa-icon pa-icon--delete" aria-hidden="true"></span> Delete
             </button>
             <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeProductOverlay()">
                 Close
@@ -1251,7 +1251,7 @@ function showProductOverlay(productId) {
 
     document.getElementById('productOverlayBody').innerHTML = `
         <button class="pa-detail-panel__close" onclick="closeProductOverlay()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
-            <i class="fas fa-times"></i>
+            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
         </button>
 
         <div class="pa-field-group">

@@ -1083,7 +1083,7 @@
                         <span class="pa-banded__value">
                             <span data-copy-value>10.0.12.45</span>
                             <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1092,7 +1092,7 @@
                         <span class="pa-banded__value">
                             <span data-copy-value>sha256:e3b0c44298fc1c</span>
                             <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1121,7 +1121,7 @@
                         <span class="pa-banded__value">
                             <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
                             <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1130,7 +1130,7 @@
                         <span class="pa-banded__value">
                             <span data-copy-value>GIBACZPX</span>
                             <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1149,7 +1149,7 @@
                         <span class="pa-prop-card__value">
                             <span data-copy-value>#ORD-2026-00847</span>
                             <button class="pa-prop-card__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1162,7 +1162,7 @@
                         <span class="pa-prop-card__value">
                             <span data-copy-value>Visa *4242</span>
                             <button class="pa-prop-card__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1181,28 +1181,28 @@
                         <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                             <span data-copy-value>CZ48207497</span>
                             <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                         <span class="pa-desc-table__label">VAT ID</span>
                         <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                             <span data-copy-value>CZ48207497</span>
                             <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                         <span class="pa-desc-table__label">Email</span>
                         <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                             <span data-copy-value>jan.novak@novakpartners.cz</span>
                             <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                         <span class="pa-desc-table__label">Phone</span>
                         <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                             <span data-copy-value>+420 234 111 222</span>
                             <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
+                                <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                             </button>
                         </span>
                     </div>
@@ -1218,7 +1218,7 @@
                 <div class="pa-accent-grid__value">
                     <span data-copy-value>#ORD-2026-00847</span>
                     <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                        <i class="fas fa-copy"></i>
+                        <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -1231,7 +1231,7 @@
                 <div class="pa-accent-grid__value">
                     <span data-copy-value>Visa *4242</span>
                     <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                        <i class="fas fa-copy"></i>
+                        <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -1240,7 +1240,7 @@
                 <div class="pa-accent-grid__value">
                     <span data-copy-value>Elena Petrova</span>
                     <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                        <i class="fas fa-copy"></i>
+                        <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -1249,7 +1249,7 @@
                 <div class="pa-accent-grid__value">
                     <span data-copy-value>1 Jan 2027</span>
                     <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                        <i class="fas fa-copy"></i>
+                        <span class="pa-icon pa-icon--copy" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -1268,7 +1268,7 @@ function copyValue(btn) {
 
     navigator.clipboard.writeText(text).then(() => {
         const originalIcon = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.innerHTML = '<span class="pa-icon pa-icon--check" aria-hidden="true"></span>';
         btn.style.color = 'var(--pc-color-4, #28a745)';
 
         setTimeout(() => {

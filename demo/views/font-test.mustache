@@ -88,7 +88,7 @@
             <div class="pa-btn-split">
                 <button class="pa-btn pa-btn--primary pa-btn--sm" id="savePresetBtn">Save Preset</button>
                 <button class="pa-btn pa-btn--primary pa-btn--sm pa-btn-split__toggle" id="presetToggleBtn" onclick="toggleSplitMenu(event)">
-                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                 </button>
                 <div class="pa-btn-split__menu" id="presetMenu">
                     <div class="pa-btn-split__item" style="color: var(--pc-text-color-2); cursor: default; font-style: italic;">No saved presets</div>
@@ -535,7 +535,7 @@
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only';
             deleteBtn.style.cssText = 'flex-shrink: 0;';
-            deleteBtn.innerHTML = '<i class="fas fa-trash-can"></i>';
+            deleteBtn.innerHTML = '<span class="pa-icon pa-icon--delete" aria-hidden="true"></span>';
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 presets.splice(i, 1);
@@ -689,7 +689,7 @@
             // Toggle button
             const toggleBtn = document.createElement('button');
             toggleBtn.className = `pa-btn ${isActive ? 'pa-btn--primary' : 'pa-btn--secondary'} pa-btn-split__toggle`;
-            toggleBtn.innerHTML = '<i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>';
+            toggleBtn.innerHTML = '<span class="pa-btn-split__chevron" aria-hidden="true"></span>';
             toggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 toggleSplitMenu(e);
@@ -701,7 +701,7 @@
 
             const removeItem = document.createElement('button');
             removeItem.className = 'pa-btn-split__item pa-btn-split__item--danger';
-            removeItem.innerHTML = '<span class="pa-btn-split__item-icon"><i class="fas fa-trash"></i></span> Remove font';
+            removeItem.innerHTML = '<span class="pa-btn-split__item-icon"><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></span> Remove font';
             removeItem.addEventListener('click', () => {
                 removeFont(font.id);
             });

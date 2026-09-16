@@ -17,7 +17,7 @@
      ================================ -->
 
 <button class="pc-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
-    <span class="pa-btn__icon">👤</span>
+    <span class="pa-btn__icon"><span class="pa-icon pa-icon--user" aria-hidden="true"></span></span>
     <span class="pc-navbar__profile-name">John Doe</span>
 </button>
 
@@ -216,11 +216,11 @@ to save horizontal space in the navbar.
         <div class="pa-profile-panel__tabs">
             <div class="pa-tabs pa-tabs--full">
                 <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
-                    <i class="fa-solid fa-user"></i>
+                    <span class="pa-icon pa-icon--user" aria-hidden="true"></span>
                     <span class="pa-profile-panel__tab-text">Profile</span>
                 </button>
                 <button class="pa-tabs__item" data-profile-tab="favorites">
-                    <i class="fa-solid fa-star"></i>
+                    <span class="pa-icon pa-icon--favorites" aria-hidden="true"></span>
                     <span class="pa-profile-panel__tab-text">Favorites</span>
                 </button>
             </div>
@@ -284,11 +284,11 @@ to save horizontal space in the navbar.
 <div class="pa-profile-panel__tabs pa-profile-panel__tabs--icon-only">
     <div class="pa-tabs pa-tabs--full">
         <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile" title="Profile">
-            <i class="fa-solid fa-user"></i>
+            <span class="pa-icon pa-icon--user" aria-hidden="true"></span>
             <span class="pa-profile-panel__tab-text">Profile</span>
         </button>
         <button class="pa-tabs__item" data-profile-tab="favorites" title="Favorites">
-            <i class="fa-solid fa-star"></i>
+            <span class="pa-icon pa-icon--favorites" aria-hidden="true"></span>
             <span class="pa-profile-panel__tab-text">Favorites</span>
         </button>
     </div>

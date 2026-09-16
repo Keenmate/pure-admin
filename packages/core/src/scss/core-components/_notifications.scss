@@ -190,6 +190,18 @@
     border-color: var(--pc-text-color-2);
     color: var(--pc-text-color-2);
   }
+
+  // Per-severity status-icon override hook. The masked .pa-icon draws the shared
+  // --pa-icon-<sev> family by default, but routes through a component-scoped
+  // token first — so a theme can re-skin the notification's warning glyph (etc.)
+  // via `--pa-notifications-icon-warning` without moving the global
+  // `--pa-icon-warning` shared by every severity surface. primary + secondary
+  // badges borrow the info glyph.
+  &--success .pa-icon { --pa-icon-src: var(--pa-notifications-icon-success, var(--pa-icon-success)); }
+  &--warning .pa-icon { --pa-icon-src: var(--pa-notifications-icon-warning, var(--pa-icon-warning)); }
+  &--danger .pa-icon  { --pa-icon-src: var(--pa-notifications-icon-danger, var(--pa-icon-danger)); }
+  &--primary .pa-icon,
+  &--secondary .pa-icon { --pa-icon-src: var(--pa-notifications-icon-info, var(--pa-icon-info)); }
 }
 
 // Notification content

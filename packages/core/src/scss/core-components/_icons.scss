@@ -50,6 +50,51 @@
 
   // Utility: magnifying glass (search inputs, filters, command palette).
   --pa-icon-search: var(--base-icon-search, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22/%3E%3Cpath d=%22m21 21-4.3-4.3%22/%3E%3C/svg%3E"));
+  // Utility: two curved arrows (reload/re-fetch — spin it while a refresh is in
+  // flight). Its own knob, distinct from search/filter.
+  --pa-icon-refresh: var(--base-icon-refresh, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8%22/%3E%3Cpath d=%22M21 3v5h-5%22/%3E%3Cpath d=%22M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16%22/%3E%3Cpath d=%22M3 21v-5h5%22/%3E%3C/svg%3E"));
+  // Utility: funnel (refine/narrow a list — its own affordance, distinct from
+  // the search magnifier).
+  --pa-icon-filter: var(--base-icon-filter, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpolygon points=%2222 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3%22/%3E%3C/svg%3E"));
+  // Selection / confirmation ✓ (selected item, copy-success, feature-available).
+  // Shares --base-icon-check with checkboxes / web-multiselect / web-treeview.
+  --pa-icon-check: var(--base-icon-check, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 6 9 17l-5-5%22/%3E%3C/svg%3E"));
+  // Copy-to-clipboard (two overlapping sheets). --base-icon-copy isn't in the
+  // pure-css contract yet, but we still route through it so the glyph
+  // auto-upgrades the moment pure-css adds it — no pure-admin change needed.
+  --pa-icon-copy: var(--base-icon-copy, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2214%22 height=%2214%22 x=%228%22 y=%228%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2%22/%3E%3C/svg%3E"));
+  // "More / overflow" affordance — three dots (horizontal base). The vertical
+  // variant is the SAME glyph rotated 90° (.pa-icon--ellipsis-vertical), same
+  // single-source pattern as the chevron. Routes through --base-icon-ellipsis
+  // (not in the pure-css contract yet) for auto-upgrade.
+  --pa-icon-ellipsis: var(--base-icon-ellipsis, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%221%22/%3E%3Ccircle cx=%2219%22 cy=%2212%22 r=%221%22/%3E%3Ccircle cx=%225%22 cy=%2212%22 r=%221%22/%3E%3C/svg%3E"));
+  // Save (floppy disk). Routes through --base-icon-save (not in the pure-css
+  // contract yet) for auto-upgrade, like --pa-icon-copy / -ellipsis.
+  --pa-icon-save: var(--base-icon-save, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z%22/%3E%3Cpath d=%22M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7%22/%3E%3Cpath d=%22M7 3v4a1 1 0 0 0 1 1h7%22/%3E%3C/svg%3E"));
+  // Settings cog (gear + hub). Routes through --base-icon-settings (not in the
+  // pure-css contract yet) for auto-upgrade, like --pa-icon-copy / -ellipsis.
+  --pa-icon-settings: var(--base-icon-settings, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915%22/%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%223%22/%3E%3C/svg%3E"));
+  // Notification bell (the navbar bell button). Routes through --base-icon-bell
+  // (not in the pure-css contract yet) for auto-upgrade, like --pa-icon-settings.
+  --pa-icon-bell: var(--base-icon-bell, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M10.268 21a2 2 0 0 0 3.464 0%22/%3E%3Cpath d=%22M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326%22/%3E%3C/svg%3E"));
+  // User / person (profile trigger button, avatar placeholder). Routes through
+  // --base-icon-user (not in the pure-css contract yet) for auto-upgrade.
+  --pa-icon-user: var(--base-icon-user, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E"));
+  // Favorites star (profile-panel favorites tab). pa-admin-only affordance — the
+  // star isn't part of the cross-ecosystem --base-icon-* contract, so it's
+  // defined directly here (no var(--base-icon-*, …) route) rather than mirrored
+  // into pure-css / base-css-variables.
+  --pa-icon-favorites: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z%22/%3E%3C/svg%3E");
+
+  // === Status / severity icons — the shared toast/alert/callout/notification set ===
+  // info = circle-i, success = circle-check, warning = triangle-alert,
+  // danger = circle-x. One family drawn in currentColor so every severity surface
+  // shows the SAME mark (was per-component emoji: ℹ ✓ ⚠ ✕). Route through
+  // --base-icon-* (not in the pure-css contract yet) for auto-upgrade.
+  --pa-icon-info: var(--base-icon-info, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%2210%22/%3E%3Cpath d=%22M12 16v-4%22/%3E%3Cpath d=%22M12 8h.01%22/%3E%3C/svg%3E"));
+  --pa-icon-success: var(--base-icon-success, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%2210%22/%3E%3Cpath d=%22m16 9-5.5 5.5L8 12%22/%3E%3C/svg%3E"));
+  --pa-icon-warning: var(--base-icon-warning, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3%22/%3E%3Cpath d=%22M12 9v4%22/%3E%3Cpath d=%22M12 17h.01%22/%3E%3C/svg%3E"));
+  --pa-icon-danger: var(--base-icon-danger, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%2210%22/%3E%3Cpath d=%22m15 9-6 6%22/%3E%3Cpath d=%22m9 9 6 6%22/%3E%3C/svg%3E"));
 }
 
 .pa-icon {
@@ -66,6 +111,19 @@
 // Per-glyph modifiers just point --pa-icon-src at the chosen glyph var.
 .pa-icon--x { --pa-icon-src: var(--pa-icon-x); }
 .pa-icon--chevron { --pa-icon-src: var(--pa-icon-chevron); }
+// Directional chevrons. A url() custom property can't carry a rotation, so the
+// four directions are the ONE base glyph (--pa-icon-chevron, points RIGHT) spun
+// into place with a transform — overriding --base-icon-chevron therefore
+// re-skins every direction at once (the same single-source contract the
+// web-multiselect toggle uses). `.pa-icon--chevron` stays the bare right glyph;
+// `--chevron-right` is its explicit alias. For an affordance that ANIMATES
+// between two directions (a disclosure opening/closing) don't stack these
+// classes — drive a single `transform: rotate(var(--…-rotate-closed/open))`
+// instead (see .pa-btn-split__chevron / .pa-range-group__caret).
+.pa-icon--chevron-right { --pa-icon-src: var(--pa-icon-chevron); }
+.pa-icon--chevron-down  { --pa-icon-src: var(--pa-icon-chevron); transform: rotate(90deg); }
+.pa-icon--chevron-left  { --pa-icon-src: var(--pa-icon-chevron); transform: rotate(180deg); }
+.pa-icon--chevron-up    { --pa-icon-src: var(--pa-icon-chevron); transform: rotate(-90deg); }
 .pa-icon--caret,
 .pa-icon--caret-down { --pa-icon-src: var(--pa-icon-caret-down); }
 .pa-icon--caret-up { --pa-icon-src: var(--pa-icon-caret-up); }
@@ -77,6 +135,21 @@
 .pa-icon--edit { --pa-icon-src: var(--pa-icon-edit); }
 .pa-icon--delete { --pa-icon-src: var(--pa-icon-delete); }
 .pa-icon--search { --pa-icon-src: var(--pa-icon-search); }
+.pa-icon--refresh { --pa-icon-src: var(--pa-icon-refresh); }
+.pa-icon--filter { --pa-icon-src: var(--pa-icon-filter); }
+.pa-icon--check { --pa-icon-src: var(--pa-icon-check); }
+.pa-icon--copy { --pa-icon-src: var(--pa-icon-copy); }
+.pa-icon--ellipsis { --pa-icon-src: var(--pa-icon-ellipsis); }
+.pa-icon--ellipsis-vertical { --pa-icon-src: var(--pa-icon-ellipsis); transform: rotate(90deg); }
+.pa-icon--save { --pa-icon-src: var(--pa-icon-save); }
+.pa-icon--settings { --pa-icon-src: var(--pa-icon-settings); }
+.pa-icon--bell { --pa-icon-src: var(--pa-icon-bell); }
+.pa-icon--user { --pa-icon-src: var(--pa-icon-user); }
+.pa-icon--favorites { --pa-icon-src: var(--pa-icon-favorites); }
+.pa-icon--info { --pa-icon-src: var(--pa-icon-info); }
+.pa-icon--success { --pa-icon-src: var(--pa-icon-success); }
+.pa-icon--warning { --pa-icon-src: var(--pa-icon-warning); }
+.pa-icon--danger { --pa-icon-src: var(--pa-icon-danger); }
 
 // Pseudo-element variant of the masked icon. Use inside a `::before`/`::after`
 // where markup can't carry a `.pa-icon` span (JS-generated glyphs, pure-CSS
@@ -91,4 +164,19 @@
   background-color: currentColor;
   -webkit-mask: #{$src} no-repeat center / contain;
           mask: #{$src} no-repeat center / contain;
+}
+
+// Draw a directional chevron on a component's own element or pseudo-element:
+// masks the shared right-pointing --pa-icon-chevron and rotates it into $dir.
+// Use for a STATIC affordance (e.g. tab prev/next arrows). A disclosure that
+// animates open should instead drive a single transform via rotation variables
+// so the sweep tweens — see .pa-btn-split__chevron.
+//   &--start::before { @include pa-chevron(left); }
+@mixin pa-chevron($dir: down, $src: var(--pa-icon-chevron)) {
+  @include pa-icon-mask($src);
+  @if $dir == right      { /* base orientation — no rotation */ }
+  @else if $dir == down  { transform: rotate(90deg); }
+  @else if $dir == left  { transform: rotate(180deg); }
+  @else if $dir == up    { transform: rotate(-90deg); }
+  @else { @error "pa-chevron: unknown direction '#{$dir}' (right|down|left|up)"; }
 }

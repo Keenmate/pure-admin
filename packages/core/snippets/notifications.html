@@ -27,7 +27,7 @@
 <div class="pa-notifications">
 
   <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
-    <span class="pa-notifications__icon">🔔</span>
+    <span class="pa-notifications__icon"><span class="pa-icon pa-icon--bell" aria-hidden="true"></span></span>
     <span class="pa-notifications__badge">3</span>
   </button>
 
@@ -50,7 +50,7 @@
       </li>
 
       <li class="pa-notifications__item pa-notifications__item--unread">
-        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success">✓</div>
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></div>
         <div class="pa-notifications__content">
           <h4>Build completed</h4>
           <p>Production deployment finished successfully</p>
@@ -59,7 +59,7 @@
       </li>
 
       <li class="pa-notifications__item pa-notifications__item--unread">
-        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">⚠️</div>
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></div>
         <div class="pa-notifications__content">
           <h4>Server maintenance</h4>
           <p>Scheduled downtime tonight at 11 PM</p>
@@ -157,7 +157,7 @@ document.addEventListener('click', (e) => {
           <span class="pa-notifications__time">2 minutes ago</span>
         </div>
         <div class="pa-notifications__actions">
-          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">✓</button>
+          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></button>
           <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
       </li>
@@ -167,14 +167,14 @@ document.addEventListener('click', (e) => {
           <input type="checkbox">
           <span class="pa-checkbox__box"></span>
         </label>
-        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">⚠️</div>
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></div>
         <div class="pa-notifications__content">
           <h4>High CPU usage</h4>
           <p>Server CPU usage has exceeded 85%. Consider scaling resources.</p>
           <span class="pa-notifications__time">15 minutes ago</span>
         </div>
         <div class="pa-notifications__actions">
-          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">✓</button>
+          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></button>
           <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
       </li>
@@ -258,7 +258,7 @@ STRUCTURE PATTERNS:
   Bell + dropdown (the navbar pattern):
     <div class="pa-notifications">
       <button class="pa-notifications__btn">
-        <span class="pa-notifications__icon">🔔</span>
+        <span class="pa-notifications__icon"><span class="pa-icon pa-icon--bell" aria-hidden="true"></span></span>
         <span class="pa-notifications__badge">3</span>
       </button>
       <div class="pa-notifications__panel">

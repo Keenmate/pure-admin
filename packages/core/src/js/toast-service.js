@@ -37,11 +37,22 @@
     };
   }
 
-  // Per-variant icon + title from config.severity, with generic fallbacks.
+  // Map a severity variant to its standard masked --pa-icon modifier. `primary`
+  // has no status glyph of its own, so it borrows the info mark.
+  function severityIconClass(variant) {
+    const map = { success: 'success', danger: 'danger', warning: 'warning', info: 'info', primary: 'info' };
+    return 'pa-icon--' + (map[variant] || 'info');
+  }
+
+  // Per-variant icon + title from config.severity. The icon defaults to the
+  // standard masked --pa-icon glyph for the severity; a consumer can still set
+  // config.severity.<variant>.icon to a custom HTML string to override it.
   function severityFor(variant) {
     const s = (paConfig().severity || {})[variant] || {};
     return {
-      icon: s.icon != null ? s.icon : 'ℹ',
+      icon: s.icon != null
+        ? s.icon
+        : `<span class="pa-icon ${severityIconClass(variant)}" aria-hidden="true"></span>`,
       title: s.title != null ? s.title : 'Notification'
     };
   }

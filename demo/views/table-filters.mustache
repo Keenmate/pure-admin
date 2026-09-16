@@ -96,9 +96,9 @@
             </div>
 
             <!-- Action buttons -->
-            <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all filters"><i class="fas fa-times"></i></button>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh"><i class="fas fa-sync-alt"></i></button>
-            <button id="toggle-filters-btn" class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters" onclick="toggleFilters()"><i class="fas fa-caret-down"></i></button>
+            <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all filters"><span class="pa-icon pa-icon--clear" aria-hidden="true"></span></button>
+            <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh"><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></button>
+            <button id="toggle-filters-btn" class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters" onclick="toggleFilters()"><span class="pa-icon pa-icon--chevron-down" aria-hidden="true"></span></button>
         </div>
 
         <!-- Advanced Filters (Hidden by default) -->
@@ -353,7 +353,7 @@
             <h3 class="pa-card__title-text">Active Filter Tags</h3>
         </div>
         <div class="pa-card__actions">
-            <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only" title="Refresh"><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></button>
             <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only" title="Download"><i class="fas fa-download"></i></button>
         </div>
     </div>
@@ -424,11 +424,11 @@
 function toggleFilters() {
     const filters = document.getElementById('advanced-filters');
     const toggleBtn = document.getElementById('toggle-filters-btn');
-    const icon = toggleBtn.querySelector('i');
+    const icon = toggleBtn.querySelector('.pa-icon');
     const isHidden = filters.style.display === 'none';
 
     filters.style.display = isHidden ? 'block' : 'none';
-    icon.className = isHidden ? 'fas fa-caret-up' : 'fas fa-caret-down';
+    icon.className = isHidden ? 'pa-icon pa-icon--chevron-up' : 'pa-icon pa-icon--chevron-down';
     toggleBtn.title = isHidden ? 'Hide filters' : 'More filters';
 }
 </script>

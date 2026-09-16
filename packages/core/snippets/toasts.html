@@ -27,7 +27,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Primary Toast -->
 <div class="pa-toast pa-toast--primary pa-toast--show">
-  <div class="pa-toast__icon">ℹ️</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Primary</div>
     <div class="pa-toast__message">This is a primary toast notification.</div>
@@ -37,7 +37,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Success Toast -->
 <div class="pa-toast pa-toast--success pa-toast--show">
-  <div class="pa-toast__icon">✓</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Success</div>
     <div class="pa-toast__message">Your action was completed successfully.</div>
@@ -47,7 +47,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Danger Toast -->
 <div class="pa-toast pa-toast--danger pa-toast--show">
-  <div class="pa-toast__icon">✕</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Error</div>
     <div class="pa-toast__message">An error occurred. Please try again.</div>
@@ -57,7 +57,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Warning Toast -->
 <div class="pa-toast pa-toast--warning pa-toast--show">
-  <div class="pa-toast__icon">⚠</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Warning</div>
     <div class="pa-toast__message">Please review this warning message.</div>
@@ -67,7 +67,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Info Toast -->
 <div class="pa-toast pa-toast--info pa-toast--show">
-  <div class="pa-toast__icon">ℹ</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Information</div>
     <div class="pa-toast__message">Here is some useful information for you.</div>
@@ -84,7 +84,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Filled Primary -->
 <div class="pa-toast pa-toast--filled-primary pa-toast--show">
-  <div class="pa-toast__icon">ℹ️</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Heads up</div>
     <div class="pa-toast__message">This is a filled primary toast.</div>
@@ -94,7 +94,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Filled Success -->
 <div class="pa-toast pa-toast--filled-success pa-toast--show">
-  <div class="pa-toast__icon">✓</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Saved</div>
     <div class="pa-toast__message">Changes stored successfully.</div>
@@ -104,7 +104,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Filled Danger -->
 <div class="pa-toast pa-toast--filled-danger pa-toast--show">
-  <div class="pa-toast__icon">✕</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Delete failed</div>
     <div class="pa-toast__message">The record could not be removed.</div>
@@ -114,7 +114,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Filled Warning -->
 <div class="pa-toast pa-toast--filled-warning pa-toast--show">
-  <div class="pa-toast__icon">⚠️</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Check your input</div>
     <div class="pa-toast__message">Some fields need your attention.</div>
@@ -124,7 +124,7 @@ most common "toast in the upper-right" slot in LTR.
 
 <!-- Filled Info -->
 <div class="pa-toast pa-toast--filled-info pa-toast--show">
-  <div class="pa-toast__icon">ℹ️</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">FYI</div>
     <div class="pa-toast__message">A new version is available.</div>
@@ -142,7 +142,7 @@ most common "toast in the upper-right" slot in LTR.
      ================================ -->
 
 <div class="pa-toast pa-toast--info pa-toast--show">
-  <div class="pa-toast__icon">🗑️</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Entry removed</div>
     <div class="pa-toast__message">The record was deleted from the list.</div>
@@ -161,7 +161,7 @@ most common "toast in the upper-right" slot in LTR.
      ================================ -->
 
 <div class="pa-toast pa-toast--primary pa-toast--show">
-  <div class="pa-toast__icon">ℹ</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Processing</div>
     <div class="pa-toast__message">Your request is being processed...</div>
@@ -208,16 +208,17 @@ function createToast(position, variant, title, message, duration = 5000, showPro
   toast.className = `pa-toast pa-toast--${variant}`;
   toast.id = toastId;
 
+  // Severity → standard masked --pa-icon glyph (info / success / danger / warning).
   const icons = {
-    primary: 'ℹ️',
-    success: '✓',
-    danger: '✕',
-    warning: '⚠',
-    info: 'ℹ'
+    primary: 'pa-icon--info',
+    success: 'pa-icon--success',
+    danger: 'pa-icon--danger',
+    warning: 'pa-icon--warning',
+    info: 'pa-icon--info'
   };
 
   toast.innerHTML = `
-    <div class="pa-toast__icon">${icons[variant] || 'ℹ'}</div>
+    <div class="pa-toast__icon"><span class="pa-icon ${icons[variant] || 'pa-icon--info'}" aria-hidden="true"></span></div>
     <div class="pa-toast__content">
       <div class="pa-toast__title">${title}</div>
       <div class="pa-toast__message">${message}</div>
@@ -305,7 +306,7 @@ PATTERNS:
 
 Bordered toast:
 <div class="pa-toast pa-toast--success pa-toast--show">
-  <div class="pa-toast__icon">✓</div>
+  <div class="pa-toast__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></div>
   <div class="pa-toast__content">
     <div class="pa-toast__title">Saved</div>
     <div class="pa-toast__message">Entry stored.</div>

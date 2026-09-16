@@ -173,7 +173,7 @@
                     <label>Toggle Mode Button (Filter / Search) + Go</label>
                     <div class="pa-input-group">
                         <button class="pa-input-group__button pa-btn pa-btn--primary" id="mode-toggle-btn" title="Filter mode — click to switch to Search" onclick="toggleInputMode()">
-                            <i class="fa-solid fa-filter" id="mode-toggle-icon"></i>
+                            <span class="pa-icon pa-icon--filter" id="mode-toggle-icon" aria-hidden="true"></span>
                         </button>
                         <input type="text" class="pa-input" placeholder="Filter..." id="mode-toggle-input">
                         <button class="pa-input-group__button pa-btn pa-btn--primary">Go</button>
@@ -187,16 +187,16 @@
                     var btn = document.getElementById('mode-toggle-btn');
                     var icon = document.getElementById('mode-toggle-icon');
                     var input = document.getElementById('mode-toggle-input');
-                    var isFilter = icon.classList.contains('fa-filter');
+                    var isFilter = icon.classList.contains('pa-icon--filter');
 
                     if (isFilter) {
-                        icon.classList.remove('fa-filter');
-                        icon.classList.add('fa-magnifying-glass');
+                        icon.classList.remove('pa-icon--filter');
+                        icon.classList.add('pa-icon--search');
                         input.placeholder = 'Search...';
                         btn.title = 'Search mode — click to switch to Filter';
                     } else {
-                        icon.classList.remove('fa-magnifying-glass');
-                        icon.classList.add('fa-filter');
+                        icon.classList.remove('pa-icon--search');
+                        icon.classList.add('pa-icon--filter');
                         input.placeholder = 'Filter...';
                         btn.title = 'Filter mode — click to switch to Search';
                     }

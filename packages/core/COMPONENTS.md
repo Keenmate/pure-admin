@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **2.9.0-rc18** · **58** components · **149** blocks · **602** class selectors.
+Framework version **3.0.0** · **58** components · **149** blocks · **636** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -320,7 +320,7 @@ Card of filter controls with advanced/collapsed rows and loading/disabled states
 Buttons (icon/label/spinner, xs–xl, ripple), button groups, split buttons with menus, and the priority-overflow trigger.
 
 - **Blocks:** `pa-btn`, `pa-btn-group`, `pa-btn-split`, `pa-overflow`
-- **Elements:** `pa-btn-split__group-label`, `pa-btn-split__item`, `pa-btn-split__menu`, `pa-btn-split__menu-inner`, `pa-btn-split__toggle`, `pa-btn__icon`, `pa-btn__label`, `pa-btn__spinner`, `pa-overflow__trigger`
+- **Elements:** `pa-btn-split__chevron`, `pa-btn-split__group-label`, `pa-btn-split__item`, `pa-btn-split__menu`, `pa-btn-split__menu-inner`, `pa-btn-split__toggle`, `pa-btn__icon`, `pa-btn__label`, `pa-btn__spinner`, `pa-overflow__trigger`
 - **Modifiers / states:** `pa-btn--lg`, `pa-btn--ripple-active`, `pa-btn--sm`, `pa-btn--xl`, `pa-btn--xs`, `pa-btn-split--in-overflow`
 - **SCSS:** `core-components/_buttons.scss`, `core-components/_cards.scss`, `core-components/_overflow.scss`, `core-components/_popconfirm.scss`, `core-components/_tables.scss`
 - **Snippet:** `buttons.html`
@@ -515,7 +515,7 @@ Minimal editorial KPI grid, sizeable to N columns.
 Inline severity alert with optional multiline content.
 
 - **Blocks:** `pa-alert`
-- **Elements:** `pa-alert__content`
+- **Elements:** `pa-alert__content`, `pa-alert__icon`
 - **Modifiers / states:** `pa-alert--multiline`
 - **SCSS:** `core-components/_alerts.scss`
 - **Snippet:** `alerts.html`
@@ -526,6 +526,7 @@ Inline severity alert with optional multiline content.
 Bordered callout box for asides / notes.
 
 - **Blocks:** `pa-callout`
+- **Elements:** `pa-callout__icon`
 - **SCSS:** `core-components/_callouts.scss`
 - **Snippet:** `callouts.html`
 - **Demo:** `callouts.mustache`
@@ -671,7 +672,7 @@ File dropzone + file list/items with icons, previews, popover and per-file progr
 Mask-based icon element (pa-icon--x etc.).
 
 - **Blocks:** `pa-icon`
-- **Modifiers / states:** `pa-icon--x`
+- **Modifiers / states:** `pa-icon--add`, `pa-icon--bell`, `pa-icon--caret`, `pa-icon--caret-down`, `pa-icon--caret-up`, `pa-icon--check`, `pa-icon--chevron`, `pa-icon--chevron-down`, `pa-icon--chevron-left`, `pa-icon--chevron-right`, `pa-icon--chevron-up`, `pa-icon--clear`, `pa-icon--collapse`, `pa-icon--copy`, `pa-icon--danger`, `pa-icon--delete`, `pa-icon--edit`, `pa-icon--ellipsis`, `pa-icon--ellipsis-vertical`, `pa-icon--expand`, `pa-icon--favorites`, `pa-icon--filter`, `pa-icon--info`, `pa-icon--refresh`, `pa-icon--remove`, `pa-icon--save`, `pa-icon--search`, `pa-icon--settings`, `pa-icon--success`, `pa-icon--user`, `pa-icon--warning`, `pa-icon--x`
 - **SCSS:** `core-components/_icons.scss`
 - **Snippet:** `icon.html`
 - **Demo:** ✗ none

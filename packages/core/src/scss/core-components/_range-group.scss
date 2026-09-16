@@ -22,6 +22,7 @@
    ======================================== */
 
 @use '../variables' as *;
+@use 'icons' as *;
 
 /* ----------------------------------------
    Slider primitive — pa-range
@@ -403,15 +404,20 @@ $range-group-panel-row-gap:    $spacing-lg;
   margin-inline: 0.4rem;
 }
 
+// Caret — the shared masked base-icon chevron (--pa-icon-chevron), points down
+// when closed and up when open (180° sweep), same contract as the split-button
+// toggle. Markup: <span class="pa-range-group__caret" aria-hidden="true"></span>.
 .pa-range-group__caret {
+  @include pa-icon-mask(var(--pa-icon-chevron));
+  --pa-icon-size: #{$font-size-xs};
   flex-shrink: 0;
-  font-size: $font-size-xs;
   color: var(--pc-text-secondary);
+  transform: rotate(var(--pa-range-group-caret-rotate-closed, 90deg));
   transition: transform 0.2s ease;
 }
 
 .pa-range-group--open .pa-range-group__caret {
-  transform: rotate(180deg);
+  transform: rotate(var(--pa-range-group-caret-rotate-open, -90deg));
 }
 
 /* ---- Floating panel ---- */

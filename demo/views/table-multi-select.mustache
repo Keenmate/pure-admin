@@ -63,7 +63,7 @@
     <div class="d-flex align-items-center gap-10" style="flex: 1;">
         <strong><span id="selection-count">0</span> items selected</strong>
         <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="toggleSelectionDetails()">
-            <span class="pa-btn__icon"><i class="fas fa-chevron-down" id="toggle-icon"></i></span>
+            <span class="pa-btn__icon"><span class="pa-icon pa-icon--chevron-down" id="toggle-icon" aria-hidden="true"></span></span>
             <span id="toggle-text">Show Details</span>
         </button>
     </div>
@@ -73,14 +73,14 @@
             Export
         </button>
         <button class="pa-btn pa-btn--sm pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-            <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+            <span class="pa-btn-split__chevron" aria-hidden="true"></span>
         </button>
         <div class="pa-btn-split__menu">
             <button class="pa-btn-split__item pa-btn-split__item--danger" onclick="deleteSelected();">
-                <i class="fas fa-trash" style="margin-inline-end: 0.5rem;"></i>Delete Selected
+                <span class="pa-icon pa-icon--delete" style="margin-inline-end: 0.5rem;" aria-hidden="true"></span>Delete Selected
             </button>
             <button class="pa-btn-split__item" onclick="clearSelection();">
-                <i class="fas fa-times" style="margin-inline-end: 0.5rem;"></i>Clear All
+                <span class="pa-icon pa-icon--clear" style="margin-inline-end: 0.5rem;" aria-hidden="true"></span>Clear All
             </button>
         </div>
     </div>
@@ -302,7 +302,7 @@ function renderTable(filter) {
                             <span class="pa-btn__icon"><i class="fas fa-eye"></i></span>
                         </button>
                         <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">
-                            <span class="pa-btn__icon"><i class="fas fa-edit"></i></span>
+                            <span class="pa-btn__icon"><span class="pa-icon pa-icon--edit" aria-hidden="true"></span></span>
                         </button>
                     </div>
                 </td>
@@ -431,7 +431,7 @@ function renderSelectionSummary() {
                     <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger"
                             onclick="removeFromSelection('${id}')"
                             title="Remove from selection">
-                        <span class="pa-btn__icon"><i class="fas fa-times"></i></span>
+                        <span class="pa-btn__icon"><span class="pa-icon pa-icon--remove" aria-hidden="true"></span></span>
                     </button>
                 </td>
                 <td>${item.name}</td>
@@ -458,11 +458,11 @@ function toggleSelectionDetails() {
 
     if (details.style.display === 'none') {
         details.style.display = 'block';
-        icon.className = 'fas fa-chevron-up';
+        icon.className = 'pa-icon pa-icon--chevron-up';
         text.textContent = 'Hide Details';
     } else {
         details.style.display = 'none';
-        icon.className = 'fas fa-chevron-down';
+        icon.className = 'pa-icon pa-icon--chevron-down';
         text.textContent = 'Show Details';
     }
 }

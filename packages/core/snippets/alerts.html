@@ -50,7 +50,7 @@
 
 <!-- Success Alert with Icon -->
 <div class="pa-alert pa-alert--success" role="alert">
-  <span class="pa-alert__icon">✓</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <strong>Success!</strong> Your changes have been saved successfully.
   </div>
@@ -58,7 +58,7 @@
 
 <!-- Danger Alert with Icon -->
 <div class="pa-alert pa-alert--danger" role="alert">
-  <span class="pa-alert__icon">⚠</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <strong>Error!</strong> Unable to process your request. Please try again.
   </div>
@@ -66,7 +66,7 @@
 
 <!-- Warning Alert with Icon -->
 <div class="pa-alert pa-alert--warning" role="alert">
-  <span class="pa-alert__icon">!</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <strong>Warning!</strong> Your session will expire in 5 minutes.
   </div>
@@ -74,7 +74,7 @@
 
 <!-- Info Alert with Icon -->
 <div class="pa-alert pa-alert--info" role="alert">
-  <span class="pa-alert__icon">ⓘ</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <strong>Information!</strong> New features are now available in your account.
   </div>
@@ -217,17 +217,17 @@ above body content.
 
 <!-- Small Alert -->
 <div class="pa-alert pa-alert--success pa-alert--sm" role="alert">
-  <span class="pa-alert__icon">✓</span> Saved
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></span> Saved
 </div>
 
 <!-- Default Alert -->
 <div class="pa-alert pa-alert--info" role="alert">
-  <span class="pa-alert__icon">ⓘ</span> Default size alert with standard padding
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></span> Default size alert with standard padding
 </div>
 
 <!-- Large Alert -->
 <div class="pa-alert pa-alert--warning pa-alert--lg" role="alert">
-  <span class="pa-alert__icon">!</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <strong>Large Alert!</strong> This is a large alert with increased font size for better prominence.
   </div>
@@ -355,7 +355,7 @@ The alert has two valid shapes depending on whether you have an icon:
   become its own flex item and the layout breaks.
 
     <div class="pa-alert pa-alert--info">
-      <span class="pa-alert__icon">ⓘ</span>
+      <span class="pa-alert__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></span>
       <div class="pa-alert__content">
         <strong>Title</strong> Body text…
       </div>
@@ -429,7 +429,7 @@ Multi-line alert with --lg heading (deliberate read):
 
 Alert with icon — single-line content (icon + __content centred):
 <div class="pa-alert pa-alert--success" role="alert">
-  <span class="pa-alert__icon">✓</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--success" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <strong>Success!</strong> Message here.
   </div>
@@ -439,7 +439,7 @@ Alert with icon — multi-line content (use --multiline so the icon
 sticks to the top with the heading instead of centring against
 the whole stack):
 <div class="pa-alert pa-alert--info pa-alert--multiline" role="alert">
-  <span class="pa-alert__icon">ⓘ</span>
+  <span class="pa-alert__icon"><span class="pa-icon pa-icon--info" aria-hidden="true"></span></span>
   <div class="pa-alert__content">
     <h4 class="pa-alert__heading pa-alert__heading--lg">Heads up</h4>
     <p class="mb-0">Long body text spans multiple lines…</p>

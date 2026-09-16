@@ -234,10 +234,10 @@
                     <td>
                         <div class="pa-btn-group">
                             <button type="button" class="pa-btn pa-btn--danger pa-btn--xs" data-delete="${e.id}" title="Delete entry" aria-label="Delete entry">
-                                <i class="fa-solid fa-xmark"></i>
+                                <span class="pa-icon pa-icon--remove" aria-hidden="true"></span>
                             </button>
                             <button type="button" class="pa-btn pa-btn--secondary pa-btn--xs" data-edit="${e.id}" title="Edit entry" aria-label="Edit entry">
-                                <i class="fa-solid fa-pencil"></i>
+                                <span class="pa-icon pa-icon--edit" aria-hidden="true"></span>
                             </button>
                         </div>
                     </td>

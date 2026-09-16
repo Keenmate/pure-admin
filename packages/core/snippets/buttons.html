@@ -215,7 +215,7 @@
 <div class="pa-btn-split">
   <button class="pa-btn pa-btn--primary">Save</button>
   <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
   </button>
   <div class="pa-btn-split__menu">
     <div class="pa-btn-split__menu-inner">
@@ -229,7 +229,7 @@
 <div class="pa-btn-split">
   <button class="pa-btn pa-btn--primary">Export</button>
   <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
   </button>
   <div class="pa-btn-split__menu">
     <div class="pa-btn-split__menu-inner">
@@ -244,7 +244,7 @@
 <div class="pa-btn-split" data-placement="top-end">
   <button class="pa-btn pa-btn--primary">Upload</button>
   <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-    <i class="fas fa-chevron-up text-2xs pa-btn-split__chevron"></i>
+    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
   </button>
   <div class="pa-btn-split__menu">
     <div class="pa-btn-split__menu-inner">
@@ -258,7 +258,7 @@
 <div class="pa-btn-split">
   <button class="pa-btn pa-btn--secondary">Share</button>
   <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-    <i class="fas fa-ellipsis-vertical"></i>
+    <span class="pa-icon pa-icon--ellipsis-vertical" aria-hidden="true"></span>
   </button>
   <div class="pa-btn-split__menu">
     <div class="pa-btn-split__menu-inner">
@@ -268,11 +268,11 @@
   </div>
 </div>
 
-<!-- Split Button - Caret Icon (rotates) -->
+<!-- Split Button - Danger -->
 <div class="pa-btn-split">
   <button class="pa-btn pa-btn--danger">Delete</button>
   <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-    <i class="fas fa-caret-down pa-btn-split__chevron"></i>
+    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
   </button>
   <div class="pa-btn-split__menu">
     <div class="pa-btn-split__menu-inner">
@@ -300,7 +300,7 @@
   <div class="pa-btn-split" data-pa-actions-priority="20">
     <button class="pa-btn pa-btn--primary">Run</button>
     <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-      <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+      <span class="pa-btn-split__chevron" aria-hidden="true"></span>
     </button>
     <div class="pa-btn-split__menu">
       <div class="pa-btn-split__menu-inner">
@@ -358,7 +358,7 @@
       <div class="pa-btn-split" data-pa-actions-priority="20">
         <button class="pa-btn pa-btn--primary">Add user</button>
         <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-          <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+          <span class="pa-btn-split__chevron" aria-hidden="true"></span>
         </button>
         <div class="pa-btn-split__menu">
           <div class="pa-btn-split__menu-inner">
@@ -382,7 +382,7 @@
 
 <!-- Button with Icon (Font Awesome) -->
 <button class="pa-btn pa-btn--primary">
-  <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+  <span class="pa-btn__icon"><span class="pa-icon pa-icon--save" aria-hidden="true"></span></span>
   Save
 </button>
 
@@ -391,7 +391,7 @@
 
 <!-- Icon Only - Default Size -->
 <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save">
-  <i class="fa-solid fa-floppy-disk"></i>
+  <span class="pa-icon pa-icon--save" aria-hidden="true"></span>
 </button>
 
 <!-- Icon Only - XS (for tables) -->
@@ -401,12 +401,12 @@
 
 <!-- Icon Only - SM -->
 <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" title="Edit">
-  <i class="fa-solid fa-pen"></i>
+  <span class="pa-icon pa-icon--edit" aria-hidden="true"></span>
 </button>
 
 <!-- Icon Only - LG -->
 <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--lg" title="Delete">
-  <i class="fa-solid fa-trash"></i>
+  <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
 </button>
 
 <!-- Icon Only - XL -->
@@ -583,7 +583,10 @@ SPLIT BUTTON (.pa-btn-split):
     .pa-btn-split
       .pa-btn                (primary action)
       .pa-btn.pa-btn-split__toggle
-        .pa-btn-split__chevron    (optional — rotates on --open)
+        span.pa-btn-split__chevron   (masked --pa-icon-chevron; points down,
+                                      rotates to up on --open. Omit + drop in
+                                      any icon element for a static toggle,
+                                      e.g. <span class="pa-icon pa-icon--ellipsis-vertical">.)
       .pa-btn-split__menu
         .pa-btn-split__menu-inner
           .pa-btn-split__item
@@ -633,13 +636,13 @@ STRUCTURE PATTERNS:
 
 Icon-then-text button (most common):
 <button class="pa-btn pa-btn--primary">
-  <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+  <span class="pa-btn__icon"><span class="pa-icon pa-icon--save" aria-hidden="true"></span></span>
   Save
 </button>
 
 Icon-only at XS for tables:
 <button class="pa-btn pa-btn--danger pa-btn--icon-only pa-btn--xs" title="Delete">
-  <i class="fa-solid fa-trash"></i>
+  <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
 </button>
 
 Loading button (preserves width):

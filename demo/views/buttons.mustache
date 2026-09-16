@@ -350,7 +350,7 @@
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--primary" onclick="alert('Save clicked')">Save</button>
                             <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -363,7 +363,7 @@
                                     Save &amp; Close
                                 </button>
                                 <button class="pa-btn-split__item">
-                                    <span class="pa-btn-split__item-icon"><i class="fas fa-plus"></i></span>
+                                    <span class="pa-btn-split__item-icon"><span class="pa-icon pa-icon--add" aria-hidden="true"></span></span>
                                     Save &amp; New
                                 </button>
                                 </div>
@@ -374,7 +374,7 @@
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--danger" onclick="alert('Delete clicked')">Delete</button>
                             <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -391,7 +391,7 @@
                                 Export
                             </button>
                             <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -418,7 +418,7 @@
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--xs pa-btn--primary">XS Action</button>
                             <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -432,7 +432,7 @@
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--sm pa-btn--primary">SM Action</button>
                             <button class="pa-btn pa-btn--sm pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -446,7 +446,7 @@
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--primary">Default</button>
                             <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -460,7 +460,7 @@
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--lg pa-btn--primary">LG Action</button>
                             <button class="pa-btn pa-btn--lg pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -477,7 +477,7 @@
                         <div class="pa-btn-split" data-placement="top-end">
                             <button class="pa-btn pa-btn--primary">Upload</button>
                             <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-up text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -490,11 +490,11 @@
 
                         <div class="pa-btn-split" data-placement="top-end">
                             <button class="pa-btn pa-btn--secondary">
-                                <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
+                                <span class="pa-btn__icon"><span class="pa-icon pa-icon--add" aria-hidden="true"></span></span>
                                 New
                             </button>
                             <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-up text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -507,7 +507,7 @@
                     </div>
 
                     <h4 class="mt-4">Custom Icons (no rotation)</h4>
-                    <p class="text-muted mb-1">Omit <code>pa-btn-split__chevron</code> from the icon for static icons that don't rotate on open.</p>
+                    <p class="text-muted mb-1">The <code>pa-btn-split__chevron</code> span draws the masked <code>--pa-icon-chevron</code> (points down, rotates up on open). For a static toggle, omit it and drop any icon element into the toggle instead.</p>
                     <div class="pa-btn-group gap-lg">
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--primary">
@@ -515,7 +515,7 @@
                                 Share
                             </button>
                             <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-ellipsis-vertical"></i>
+                                <span class="pa-icon pa-icon--ellipsis-vertical" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -545,11 +545,11 @@
 
                         <div class="pa-btn-split">
                             <button class="pa-btn pa-btn--danger">
-                                <span class="pa-btn__icon"><i class="fas fa-trash"></i></span>
+                                <span class="pa-btn__icon"><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></span>
                                 Delete
                             </button>
                             <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-caret-down pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -569,7 +569,7 @@
                                 Bookmarks
                             </button>
                             <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -579,7 +579,7 @@
                                         Dashboard
                                     </button>
                                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('div').remove()">
-                                        <i class="fas fa-trash-can"></i>
+                                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 <div class="pa-btn-split__item-row">
@@ -588,7 +588,7 @@
                                         Analytics
                                     </button>
                                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('div').remove()">
-                                        <i class="fas fa-trash-can"></i>
+                                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 <div class="pa-btn-split__item-row">
@@ -597,7 +597,7 @@
                                         Team Members
                                     </button>
                                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('div').remove()">
-                                        <i class="fas fa-trash-can"></i>
+                                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 </div>
@@ -610,7 +610,7 @@
                                 Recent
                             </button>
                             <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -620,7 +620,7 @@
                                         Report Q4.pdf
                                     </button>
                                     <button class="pa-btn pa-btn--secondary pa-btn--xs pa-btn--icon-only">
-                                        <i class="fas fa-xmark"></i>
+                                        <span class="pa-icon pa-icon--remove" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 <div class="pa-btn-split__item-row">
@@ -629,7 +629,7 @@
                                         schema.sql
                                     </button>
                                     <button class="pa-btn pa-btn--secondary pa-btn--xs pa-btn--icon-only">
-                                        <i class="fas fa-xmark"></i>
+                                        <span class="pa-icon pa-icon--remove" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 </div>
@@ -642,7 +642,7 @@
                                 Members
                             </button>
                             <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                             </button>
                             <div class="pa-btn-split__menu">
                                 <div class="pa-btn-split__menu-inner">
@@ -653,7 +653,7 @@
                                     </button>
                                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only"
                                         onclick="togglePopconfirm(event, 'pc-member-1')">
-                                        <i class="fas fa-trash-can"></i>
+                                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 <div class="pa-btn-split__item-row">
@@ -663,7 +663,7 @@
                                     </button>
                                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only"
                                         onclick="togglePopconfirm(event, 'pc-member-2')">
-                                        <i class="fas fa-trash-can"></i>
+                                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 <div class="pa-btn-split__item-row">
@@ -673,7 +673,7 @@
                                     </button>
                                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only"
                                         onclick="togglePopconfirm(event, 'pc-member-3')">
-                                        <i class="fas fa-trash-can"></i>
+                                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 </div>
@@ -774,7 +774,7 @@
                     <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pc-border-color); border-radius: var(--pc-border-radius);">
                         <div class="pa-overflow">
                             <button class="pa-btn pa-btn--secondary" onclick="alert('Save clicked')">
-                                <span class="pa-btn__icon"><i class="fas fa-floppy-disk"></i></span>
+                                <span class="pa-btn__icon"><span class="pa-icon pa-icon--save" aria-hidden="true"></span></span>
                                 Save
                             </button>
                             <button class="pa-btn pa-btn--info" onclick="alert('Format clicked')">
@@ -782,7 +782,7 @@
                                 Format
                             </button>
                             <button class="pa-btn pa-btn--ghost" onclick="alert('Refresh clicked')">
-                                <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
+                                <span class="pa-btn__icon"><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></span>
                                 Refresh
                             </button>
                             <button class="pa-btn pa-btn--success" data-pa-actions-priority="10" onclick="alert('Publish clicked')">
@@ -795,7 +795,7 @@
                                     Run
                                 </button>
                                 <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                                 </button>
                                 <div class="pa-btn-split__menu">
                                     <div class="pa-btn-split__menu-inner">
@@ -816,7 +816,7 @@
                                     Members
                                 </button>
                                 <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                                 </button>
                                 <div class="pa-btn-split__menu">
                                     <div class="pa-btn-split__menu-inner">
@@ -826,7 +826,7 @@
                                             Alice Cooper
                                         </button>
                                         <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('.pa-btn-split__item-row').remove()">
-                                            <i class="fas fa-trash-can"></i>
+                                            <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                     <div class="pa-btn-split__item-row">
@@ -835,7 +835,7 @@
                                             Bob Dylan
                                         </button>
                                         <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('.pa-btn-split__item-row').remove()">
-                                            <i class="fas fa-trash-can"></i>
+                                            <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                     <div class="pa-btn-split__item-row">
@@ -844,7 +844,7 @@
                                             Charlie Parker
                                         </button>
                                         <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('.pa-btn-split__item-row').remove()">
-                                            <i class="fas fa-trash-can"></i>
+                                            <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                     </div>
@@ -858,7 +858,7 @@
                     <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 200px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pc-border-color); border-radius: var(--pc-border-radius);">
                         <div class="pa-overflow" data-pa-actions-overflow-from="start">
                             <button class="pa-btn pa-btn--outline-info">
-                                <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                <span class="pa-btn__icon"><span class="pa-icon pa-icon--filter" aria-hidden="true"></span></span>
                                 Filter
                             </button>
                             <button class="pa-btn pa-btn--outline-secondary">
@@ -879,7 +879,7 @@
                                     Export
                                 </button>
                                 <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                    <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                                 </button>
                                 <div class="pa-btn-split__menu">
                                     <div class="pa-btn-split__menu-inner">
@@ -913,11 +913,11 @@
                             </div>
                             <div class="pa-card__actions pa-card__actions--overflow">
                                 <button class="pa-btn pa-btn--xs pa-btn--ghost" title="Refresh">
-                                    <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></span>
                                     Refresh
                                 </button>
                                 <button class="pa-btn pa-btn--xs pa-btn--outline-info">
-                                    <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--filter" aria-hidden="true"></span></span>
                                     Filter
                                 </button>
                                 <button class="pa-btn pa-btn--xs pa-btn--outline-secondary">
@@ -930,11 +930,11 @@
                                 </button>
                                 <div class="pa-btn-split" data-pa-actions-priority="20">
                                     <button class="pa-btn pa-btn--xs pa-btn--primary">
-                                        <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
+                                        <span class="pa-btn__icon"><span class="pa-icon pa-icon--add" aria-hidden="true"></span></span>
                                         Add widget
                                     </button>
                                     <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                        <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                                     </button>
                                     <div class="pa-btn-split__menu">
                                         <div class="pa-btn-split__menu-inner">
@@ -982,7 +982,7 @@
                                         Deploy
                                     </button>
                                     <button class="pa-btn pa-btn--xs pa-btn--success pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                        <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                                     </button>
                                     <div class="pa-btn-split__menu">
                                         <div class="pa-btn-split__menu-inner">
@@ -1017,7 +1017,7 @@
                             </div>
                             <div class="pa-card__actions pa-card__actions--overflow">
                                 <button class="pa-btn pa-btn--xs pa-btn--ghost">
-                                    <span class="pa-btn__icon"><i class="fas fa-magnifying-glass"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--search" aria-hidden="true"></span></span>
                                     Search
                                 </button>
                                 <button class="pa-btn pa-btn--xs pa-btn--outline-secondary">
@@ -1025,7 +1025,7 @@
                                     Sort
                                 </button>
                                 <button class="pa-btn pa-btn--xs pa-btn--outline-info">
-                                    <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--filter" aria-hidden="true"></span></span>
                                     Filter
                                 </button>
                                 <button class="pa-btn pa-btn--xs pa-btn--secondary">
@@ -1042,7 +1042,7 @@
                                         Add user
                                     </button>
                                     <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-                                        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                        <span class="pa-btn-split__chevron" aria-hidden="true"></span>
                                     </button>
                                     <div class="pa-btn-split__menu">
                                         <div class="pa-btn-split__menu-inner">
@@ -1166,11 +1166,11 @@
                             <div class="pc-row mb-2">
                                 <div class="pc-col-100">
                                     <div class="pa-btn-group">
-                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save"><i class="fa-solid fa-floppy-disk"></i></button>
-                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Check"><i class="fa-solid fa-check"></i></button>
+                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save"><span class="pa-icon pa-icon--save" aria-hidden="true"></span></button>
+                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Search"><span class="pa-icon pa-icon--search" aria-hidden="true"></span></button>
+                                        <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Check"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></button>
                                         <button class="pa-btn pa-btn--warning pa-btn--icon-only" title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></button>
-                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Trash"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Trash"><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></button>
                                         <button class="pa-btn pa-btn--info pa-btn--icon-only" title="Info"><i class="fa-solid fa-circle-info"></i></button>
                                     </div>
                                 </div>
@@ -1182,7 +1182,7 @@
                                         <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--xs" title="View">👁️</button>
                                         <button class="pa-btn pa-btn--secondary pa-btn--icon-only pa-btn--xs" title="Edit">✏️</button>
                                         <button class="pa-btn pa-btn--danger pa-btn--icon-only pa-btn--xs" title="Delete">🗑️</button>
-                                        <button class="pa-btn pa-btn--success pa-btn--icon-only pa-btn--xs" title="Check"><i class="fa-solid fa-check"></i></button>
+                                        <button class="pa-btn pa-btn--success pa-btn--icon-only pa-btn--xs" title="Check"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></button>
                                         <button class="pa-btn pa-btn--warning pa-btn--icon-only pa-btn--xs" title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></button>
                                         <button class="pa-btn pa-btn--info pa-btn--icon-only pa-btn--xs" title="Download"><i class="fa-solid fa-download"></i></button>
                                     </div>
@@ -1192,10 +1192,10 @@
                             <div class="pc-row">
                                 <div class="pc-col-100">
                                     <div class="pa-btn-group">
-                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save" data-ripple data-loading-demo><i class="fa-solid fa-floppy-disk"></i></button>
-                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Refresh" data-ripple data-loading-demo><i class="fa-solid fa-rotate-right"></i></button>
+                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save" data-ripple data-loading-demo><span class="pa-icon pa-icon--save" aria-hidden="true"></span></button>
+                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Refresh" data-ripple data-loading-demo><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></button>
                                         <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Upload" data-ripple data-loading-demo><i class="fa-solid fa-upload"></i></button>
-                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Delete" data-ripple data-loading-demo><i class="fa-solid fa-trash"></i></button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Delete" data-ripple data-loading-demo><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></button>
                                     </div>
                                 </div>
                             </div>
@@ -1330,15 +1330,15 @@
                             <h4>Inline Start Aligned</h4>
                             <div class="pa-btn-group pa-btn-group--vertical">
                                 <button class="pa-btn pa-btn--primary wr-20 pa-btn--align-start">
-                                    <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--save" aria-hidden="true"></span></span>
                                     Save
                                 </button>
                                 <button class="pa-btn pa-btn--success wr-20 pa-btn--align-start">
-                                    <span class="pa-btn__icon"><i class="fa-solid fa-check"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></span>
                                     Approve Request
                                 </button>
                                 <button class="pa-btn pa-btn--danger wr-20 pa-btn--align-start">
-                                    <span class="pa-btn__icon"><i class="fa-solid fa-trash"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></span>
                                     Delete Selected Items
                                 </button>
                             </div>
@@ -1347,7 +1347,7 @@
                             <div class="pa-btn-group pa-btn-group--vertical">
                                 <button class="pa-btn pa-btn--primary wr-20 pa-btn--align-end">
                                     Save
-                                    <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--save" aria-hidden="true"></span></span>
                                 </button>
                                 <button class="pa-btn pa-btn--success wr-20 pa-btn--align-end">
                                     Approve Request
@@ -1366,11 +1366,11 @@
                                     <span class="pa-btn__label">Upload</span>
                                 </button>
                                 <button class="pa-btn pa-btn--success wr-20 pa-btn--align-center">
-                                    <span class="pa-btn__icon"><i class="fa-solid fa-plus"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--add" aria-hidden="true"></span></span>
                                     <span class="pa-btn__label">Add New Item</span>
                                 </button>
                                 <button class="pa-btn pa-btn--info wr-20 pa-btn--align-center">
-                                    <span class="pa-btn__icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    <span class="pa-btn__icon"><span class="pa-icon pa-icon--search" aria-hidden="true"></span></span>
                                     <span class="pa-btn__label">Search Entire Database</span>
                                 </button>
                             </div>
@@ -1574,7 +1574,7 @@
                     </button>
                     <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only"
                         onclick="togglePopconfirm(event, '${pcId}')">
-                        <i class="fas fa-trash-can"></i>
+                        <span class="pa-icon pa-icon--delete" aria-hidden="true"></span>
                     </button>`;
 
                 // Create popconfirm
@@ -1744,7 +1744,7 @@
                     <ul class="pa-list-basic pa-list-basic--compact">
                         <li><code>pa-btn-split</code> - Container for split button</li>
                         <li><code>pa-btn-split__toggle</code> - Toggle button (fixed square width)</li>
-                        <li><code>pa-btn-split__chevron</code> - On the icon to opt-in to 180deg rotation on open (omit for static icons)</li>
+                        <li><code>pa-btn-split__chevron</code> - Masked <code>--pa-icon-chevron</code> span (points down, rotates to up on open); omit + drop in any icon for a static toggle</li>
                         <li><code>pa-btn-split__menu</code> - Dropdown menu panel (outer, overflow hidden)</li>
                         <li><code>pa-btn-split__menu-inner</code> - Inner wrapper for menu items (padding, flex layout)</li>
                         <li><code>pa-btn-split__menu--open</code> - Show dropdown menu</li>

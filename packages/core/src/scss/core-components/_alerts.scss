@@ -157,8 +157,28 @@
   // Alert components
   &__icon {
     flex-shrink: 0;
+    // Fixed, centred icon column so the __content (and its bold label) always
+    // starts at the same x — different glyphs have different intrinsic widths
+    // (✓ vs ! vs ⓘ), which made the labels zig-zag. A masked .pa-icon is already
+    // 1em, but pinning the column keeps any text/emoji fallback aligned too.
+    inline-size: $font-size-lg;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-size: $font-size-base;
     line-height: 1;
+  }
+
+  // Per-severity status-icon override hook. The masked .pa-icon in the icon slot
+  // draws the shared --pa-icon-<sev> family by default, but routes through a
+  // component-scoped token first — so a theme can re-skin the alert's warning
+  // glyph (etc.) via `--pa-alert-icon-warning` WITHOUT moving the global
+  // `--pa-icon-warning` (which every other severity surface shares). Higher
+  // specificity than the `.pa-icon--<sev>` modifier, so it wins the cascade.
+  @each $sev in (info, success, warning, danger) {
+    &--#{$sev} .pa-alert__icon .pa-icon {
+      --pa-icon-src: var(--pa-alert-icon-#{$sev}, var(--pa-icon-#{$sev}));
+    }
   }
 
   &__content {
