@@ -63,6 +63,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **`CSS-VARIABLES.md` documented ~160 component tokens under the wrong prefix.**
+  The `--pa-`→`--pc-` foundation de-brand only renamed the base tokens, but the
+  reference doc had been blanket find/replaced, so component rows named
+  nonexistent vars (`--pc-btn-primary-bg`, `--pc-modal-overlay-bg`, …) — copying
+  them was a silent no-op. Corrected all component rows back to `--pa-*` (verified
+  against the emitted CSS: every documented token now resolves), dropped the
+  removed `--pc-multiselect-*` section, and fixed the stale `--pc-badge-*` rows
+  (badges consume the shared `--pa-<role>-bg` contextual tokens, no dedicated
+  vars). The two prefixes coexist by ownership: `--pc-*` = pure-css foundation,
+  `--pa-*` = pure-admin components.
 - **Modal scroll-lock no longer shifts page content sideways.** The modal JS
   computed the scrollbar width and added `body { padding-right }` to compensate —
   but the foundation already reserves the gutter via `scrollbar-gutter: stable` on
