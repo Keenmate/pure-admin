@@ -374,12 +374,12 @@
 </div>
 
 <!-- Success Modal -->
-<div id="modal-success" class="pa-modal">
+<div id="modal-success" class="pa-modal pa-modal--success">
     <div class="pa-modal__backdrop" onclick="closeModal('modal-success')"></div>
     <div class="pa-modal__container">
-        <div class="pa-modal__header pa-modal__header--success">
-            <h3 class="pa-modal__title">✓ Success!</h3>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-success')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+        <div class="pa-modal__header">
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--success" aria-hidden="true"></span> Success!</h3>
+            <button class="pa-btn pa-btn--light pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-success')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
             <p>Your action has been completed successfully!</p>
@@ -398,7 +398,7 @@
     <div class="pa-modal__backdrop" onclick="closeModal('modal-banded-success')"></div>
     <div class="pa-modal__container">
         <div class="pa-modal__header">
-            <h3 class="pa-modal__title">✓ Success (banded)</h3>
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--success" aria-hidden="true"></span> Success (banded)</h3>
             <button class="pa-btn pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-banded-success')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
@@ -414,7 +414,7 @@
     <div class="pa-modal__backdrop" onclick="closeModal('modal-banded-warning')"></div>
     <div class="pa-modal__container">
         <div class="pa-modal__header">
-            <h3 class="pa-modal__title">⚠ Warning (banded)</h3>
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span> Warning (banded)</h3>
             <button class="pa-btn pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-banded-warning')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
@@ -430,7 +430,7 @@
     <div class="pa-modal__backdrop" onclick="closeModal('modal-banded-danger')"></div>
     <div class="pa-modal__container">
         <div class="pa-modal__header">
-            <h3 class="pa-modal__title">✗ Danger (banded)</h3>
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span> Danger (banded)</h3>
             <button class="pa-btn pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-banded-danger')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
@@ -446,7 +446,7 @@
     <div class="pa-modal__backdrop" onclick="closeModal('modal-banded-info')"></div>
     <div class="pa-modal__container">
         <div class="pa-modal__header">
-            <h3 class="pa-modal__title">ℹ Info (banded)</h3>
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--info" aria-hidden="true"></span> Info (banded)</h3>
             <button class="pa-btn pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-banded-info')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
@@ -459,12 +459,12 @@
 </div>
 
 <!-- Warning Modal -->
-<div id="modal-warning" class="pa-modal">
+<div id="modal-warning" class="pa-modal pa-modal--warning">
     <div class="pa-modal__backdrop" onclick="closeModal('modal-warning')"></div>
     <div class="pa-modal__container">
-        <div class="pa-modal__header pa-modal__header--warning">
-            <h3 class="pa-modal__title">⚠ Warning</h3>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-warning')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+        <div class="pa-modal__header">
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span> Warning</h3>
+            <button class="pa-btn pa-btn--light pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-warning')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
             <p>Please review your action before proceeding.</p>
@@ -480,12 +480,12 @@
 </div>
 
 <!-- Danger Modal -->
-<div id="modal-danger" class="pa-modal">
+<div id="modal-danger" class="pa-modal pa-modal--danger">
     <div class="pa-modal__backdrop" onclick="closeModal('modal-danger')"></div>
     <div class="pa-modal__container">
-        <div class="pa-modal__header pa-modal__header--danger">
-            <h3 class="pa-modal__title">🔥 Danger Zone</h3>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-danger')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+        <div class="pa-modal__header">
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span> Danger Zone</h3>
+            <button class="pa-btn pa-btn--light pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-danger')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
             <p>This action is potentially destructive.</p>
@@ -640,12 +640,12 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="modal-confirm-delete" class="pa-modal">
+<div id="modal-confirm-delete" class="pa-modal pa-modal--danger">
     <div class="pa-modal__backdrop" onclick="closeModal('modal-confirm-delete')"></div>
     <div class="pa-modal__container pa-modal__container--sm">
-        <div class="pa-modal__header pa-modal__header--danger">
-            <h3 class="pa-modal__title">Confirm Delete</h3>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-confirm-delete')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+        <div class="pa-modal__header">
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--delete" aria-hidden="true"></span> Confirm Delete</h3>
+            <button class="pa-btn pa-btn--light pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-confirm-delete')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
             <p>Are you sure you want to delete this item?</p>
@@ -680,12 +680,12 @@
 </div>
 
 <!-- Information Dialog -->
-<div id="modal-info" class="pa-modal">
+<div id="modal-info" class="pa-modal pa-modal--info pa-modal--banded">
     <div class="pa-modal__backdrop" onclick="closeModal('modal-info')"></div>
     <div class="pa-modal__container">
-        <div class="pa-modal__header pa-modal__header--info">
-            <h3 class="pa-modal__title">Information</h3>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-info')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+        <div class="pa-modal__header">
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--info" aria-hidden="true"></span> Information</h3>
+            <button class="pa-btn pa-btn--icon-only pa-btn--sm" onclick="closeModal('modal-info')"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-modal__body">
             <p>Here's some important information you should know:</p>
@@ -750,11 +750,11 @@
 </div>
 
 <!-- Static Modal (no ESC, no backdrop click) -->
-<div id="modal-static" class="pa-modal pa-modal--static">
+<div id="modal-static" class="pa-modal pa-modal--static pa-modal--warning">
     <div class="pa-modal__backdrop"></div>
     <div class="pa-modal__container pa-modal__container--sm">
-        <div class="pa-modal__header pa-modal__header--warning">
-            <h3 class="pa-modal__title">Static Modal</h3>
+        <div class="pa-modal__header">
+            <h3 class="pa-modal__title"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span> Static Modal</h3>
         </div>
         <div class="pa-modal__body">
             <p>This modal <strong>cannot</strong> be closed by:</p>

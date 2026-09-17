@@ -90,7 +90,7 @@ if (name !== null) {
             </div>
           </div>
 
-          <div id="confirm-result" class="pa-alert pa-alert--primary mt-4" style="display: none;">
+          <div id="confirm-result" class="pa-alert pa-alert--secondary mt-4 d-none">
             <strong>Result:</strong> <span id="confirm-result-text"></span>
           </div>
         </div>
@@ -214,7 +214,7 @@ await pureAdmin.prompt({
             </div>
           </div>
 
-          <div id="prompt-result" class="pa-alert pa-alert--success mt-4" style="display: none;">
+          <div id="prompt-result" class="pa-alert pa-alert--secondary mt-4 d-none">
             <strong>You entered:</strong> <span id="prompt-result-text"></span>
           </div>
         </div>
@@ -321,6 +321,12 @@ await pureAdmin.prompt({
                 <td>Header theme: primary, success, warning, danger</td>
               </tr>
               <tr>
+                <td><code>icon</code></td>
+                <td>string | false</td>
+                <td>(variant glyph)</td>
+                <td>Leading title icon. Status variants (success/warning/danger) show their severity glyph by default; primary shows none. Pass a <code>pa-icon--*</code> name to override, or <code>false</code> to hide.</td>
+              </tr>
+              <tr>
                 <td><code>confirmVariant</code></td>
                 <td>string</td>
                 <td>(same as variant)</td>
@@ -382,6 +388,12 @@ await pureAdmin.prompt({
                 <td>string</td>
                 <td>'primary'</td>
                 <td>Header and button theme</td>
+              </tr>
+              <tr>
+                <td><code>icon</code></td>
+                <td>string | false</td>
+                <td>(variant glyph)</td>
+                <td>Leading title icon. Status variants (success/warning/danger) show their severity glyph by default; primary shows none. Pass a <code>pa-icon--*</code> name to override, or <code>false</code> to hide.</td>
               </tr>
               <tr>
                 <td><code>size</code></td>
@@ -457,6 +469,12 @@ await pureAdmin.prompt({
                 <td>string</td>
                 <td>'primary'</td>
                 <td>Header theme</td>
+              </tr>
+              <tr>
+                <td><code>icon</code></td>
+                <td>string | false</td>
+                <td>(variant glyph)</td>
+                <td>Leading title icon. Status variants (success/warning/danger) show their severity glyph by default; primary shows none. Pass a <code>pa-icon--*</code> name to override, or <code>false</code> to hide.</td>
               </tr>
               <tr>
                 <td><code>size</code></td>
@@ -594,8 +612,9 @@ function showConfirmResult(result) {
   const resultDiv = document.getElementById('confirm-result');
   const resultText = document.getElementById('confirm-result-text');
   resultText.textContent = result ? 'User clicked OK (true)' : 'User clicked Cancel (false)';
-  resultDiv.className = result ? 'pa-alert pa-alert--success' : 'pa-alert pa-alert--secondary';
-  resultDiv.style.display = 'block';
+  resultDiv.classList.toggle('pa-alert--success', result);
+  resultDiv.classList.toggle('pa-alert--secondary', !result);
+  resultDiv.classList.remove('d-none');
 }
 
 // Alert examples
@@ -674,15 +693,11 @@ function showPromptResult(result) {
   const resultDiv = document.getElementById('prompt-result');
   const resultText = document.getElementById('prompt-result-text');
 
-  if (result !== null) {
-    resultText.textContent = result || '(empty string)';
-    resultDiv.className = 'pa-alert pa-alert--success';
-  } else {
-    resultText.textContent = 'User cancelled (returned null)';
-    resultDiv.className = 'pa-alert pa-alert--secondary';
-  }
-
-  resultDiv.style.display = 'block';
+  const cancelled = result === null;
+  resultText.textContent = cancelled ? 'User cancelled (returned null)' : (result || '(empty string)');
+  resultDiv.classList.toggle('pa-alert--success', !cancelled);
+  resultDiv.classList.toggle('pa-alert--secondary', cancelled);
+  resultDiv.classList.remove('d-none');
 }
 
 // Sequential dialogs example

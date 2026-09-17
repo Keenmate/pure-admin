@@ -89,6 +89,17 @@
   font-size: $modal-title-font-size;
   font-weight: $font-weight-semibold;
   color: var(--pc-text-color-1);
+
+  // Optional leading masked icon — a severity mark on a coloured/banded header,
+  // like the alert icon slot. Kept as INLINE flow (not a flex title) so titles
+  // that contain inline markup don't get stray gaps around every text run — the
+  // reason the card title needs wrapper elements. The icon inherits the title
+  // colour via currentColor and gets a small optical baseline nudge (a 1em box
+  // otherwise sits too high against the text).
+  .pa-icon {
+    vertical-align: -0.125em;
+    margin-inline-end: $spacing-sm;
+  }
 }
 
 // Close button uses standard .pa-btn classes

@@ -80,6 +80,16 @@
   // User / person (profile trigger button, avatar placeholder). Routes through
   // --base-icon-user (not in the pure-css contract yet) for auto-upgrade.
   --pa-icon-user: var(--base-icon-user, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E"));
+  // Download (tray + down arrow — save-to-disk / export affordance). Routes
+  // through --base-icon-download (not in the pure-css contract yet) for
+  // auto-upgrade, like --pa-icon-save / -settings.
+  --pa-icon-download: var(--base-icon-download, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M12 15V3%22/%3E%3Cpath d=%22M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4%22/%3E%3Cpath d=%22m7 10 5 5 5-5%22/%3E%3C/svg%3E"));
+  // Link (chain — hyperlink / attach-URL affordance). --external-link is the
+  // diagonal arrow-out-of-box companion (opens in a new tab / leaves the app).
+  // Both route through --base-icon-* (not in the pure-css contract yet) for
+  // auto-upgrade, like --pa-icon-copy / -download.
+  --pa-icon-link: var(--base-icon-link, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71%22/%3E%3Cpath d=%22M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71%22/%3E%3C/svg%3E"));
+  --pa-icon-external-link: var(--base-icon-external-link, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M15 3h6v6%22/%3E%3Cpath d=%22M10 14 21 3%22/%3E%3Cpath d=%22M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6%22/%3E%3C/svg%3E"));
   // Favorites star (profile-panel favorites tab). pa-admin-only affordance — the
   // star isn't part of the cross-ecosystem --base-icon-* contract, so it's
   // defined directly here (no var(--base-icon-*, …) route) rather than mirrored
@@ -145,6 +155,9 @@
 .pa-icon--settings { --pa-icon-src: var(--pa-icon-settings); }
 .pa-icon--bell { --pa-icon-src: var(--pa-icon-bell); }
 .pa-icon--user { --pa-icon-src: var(--pa-icon-user); }
+.pa-icon--download { --pa-icon-src: var(--pa-icon-download); }
+.pa-icon--link { --pa-icon-src: var(--pa-icon-link); }
+.pa-icon--external-link { --pa-icon-src: var(--pa-icon-external-link); }
 .pa-icon--favorites { --pa-icon-src: var(--pa-icon-favorites); }
 
 // ── Hover-to-fill infrastructure ──────────────────────────────────────────────

@@ -20,6 +20,38 @@
   // Modal counter for unique IDs
   let modalCounter = 0;
 
+  // Status variants carry the shared severity glyph in the title — the same
+  // masked --pa-icon-* family the static severity modals and alerts use. Only
+  // the status roles have a glyph; `primary` is a brand colour (not a status)
+  // and has no `.pa-icon--primary`, so it stays icon-less.
+  const STATUS_TITLE_ICONS = {
+    success: 'success',
+    warning: 'warning',
+    danger: 'danger',
+    info: 'info'
+  };
+
+  /**
+   * Resolve the optional leading title icon for a dialog.
+   * - icon === false        → no icon
+   * - typeof icon === string → `.pa-icon--<icon>` (explicit override)
+   * - otherwise             → the status glyph for a known variant, else none
+   * Returns ready-to-inject markup (with a trailing space) or ''.
+   */
+  function titleIconMarkup(variant, icon) {
+    let name = null;
+    if (icon === false) {
+      name = null;
+    } else if (typeof icon === 'string') {
+      name = icon;
+    } else if (variant && STATUS_TITLE_ICONS[variant]) {
+      name = STATUS_TITLE_ICONS[variant];
+    }
+    return name
+      ? `<span class="pa-icon pa-icon--${name}" aria-hidden="true"></span> `
+      : '';
+  }
+
   /**
    * Create modal element with given structure
    */
@@ -53,11 +85,14 @@
     // Header class - variant is on modal wrapper, not here
     const headerClass = 'pa-modal__header';
 
+    // Optional leading severity icon (status variants), like the static modals.
+    const titleIcon = titleIconMarkup(variant, options.icon);
+
     modal.innerHTML = `
       <div class="pa-modal__backdrop"></div>
       <div class="${containerClass}">
         <div class="${headerClass}">
-          <h3 class="pa-modal__title" id="${id}-title">${escapeHtml(title)}</h3>
+          <h3 class="pa-modal__title" id="${id}-title">${titleIcon}${escapeHtml(title)}</h3>
         </div>
         <div class="pa-modal__body">
           <p>${escapeHtml(message)}</p>
@@ -405,6 +440,7 @@
       variant = null,
       position = 'center',
       closeOnBackdrop = true,
+      icon,
       render
     } = options;
 
@@ -444,7 +480,7 @@
     // Create header
     const headerDiv = document.createElement('div');
     headerDiv.className = headerClass;
-    headerDiv.innerHTML = `<h3 class="pa-modal__title">${escapeHtml(title)}</h3>`;
+    headerDiv.innerHTML = `<h3 class="pa-modal__title">${titleIconMarkup(variant, icon)}${escapeHtml(title)}</h3>`;
     container.appendChild(headerDiv);
 
     modal.appendChild(container);

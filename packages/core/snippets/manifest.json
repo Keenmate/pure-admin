@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16T21:11:12.047Z",
+  "generated": "2026-09-17T18:43:49.287Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -108,9 +108,9 @@
       "modified": "2026-09-10T19:55:53.526Z"
     },
     "modals.html": {
-      "hash": "fb685baee754c5dc9fcf281b16ea158b875c2f28895be5b7d25492e7f9c5e101",
-      "size": 18142,
-      "modified": "2026-09-10T19:55:53.559Z"
+      "hash": "3245e64c205fc723d0949d13af462a2bcf455704a18ede5f65737ce383b7f397",
+      "size": 18788,
+      "modified": "2026-09-17T18:39:54.108Z"
     },
     "notifications.html": {
       "hash": "e01536970f58884cc9f7f3eb9b57e331bd03929d28ed26147f87f7d094d64b80",
@@ -395,9 +395,9 @@
       "modified": "2026-09-12T15:25:37.477Z"
     },
     "core-components/_icons.scss": {
-      "hash": "135bf842cc2979d44b8942c9cf052aca01a0367b3fb44d0eb36f26bcf8a83a85",
-      "size": 20949,
-      "modified": "2026-09-16T20:43:38.843Z"
+      "hash": "6ef20ec57a83de09617200b188300fa66267071f7a387629c45f7eab4d89c857",
+      "size": 22865,
+      "modified": "2026-09-17T17:34:53.346Z"
     },
     "core-components/_kpi-base.scss": {
       "hash": "1ef302f71c5f8e8dd7017424985299b8f4a05b9d3316476e51554e15fa960bb8",
@@ -460,9 +460,9 @@
       "modified": "2026-09-12T15:32:01.235Z"
     },
     "core-components/_modals.scss": {
-      "hash": "414f565f976dabe032bc032dca28d47213082f995e1433ee764e74e1e1e8450f",
-      "size": 7176,
-      "modified": "2026-09-12T15:25:37.544Z"
+      "hash": "9639ccc77b9b5306174e6652b7e135a838ed106bdab5b260faf96805c89f0671",
+      "size": 7713,
+      "modified": "2026-09-17T18:42:21.177Z"
     },
     "core-components/_notifications.scss": {
       "hash": "af9af579562fed9570e931fd288f3fd234cdc43ff45a54c3e974d5f89ec14ae9",
@@ -485,9 +485,9 @@
       "modified": "2026-09-16T16:04:15.118Z"
     },
     "core-components/_profile.scss": {
-      "hash": "b6a9a6ae42961f72fd0b342339f2c1cc0848a11f76fe80ceb79411a499151abd",
-      "size": 11872,
-      "modified": "2026-09-12T15:25:37.570Z"
+      "hash": "abedb024c5df15b88e554e47d4a92728160942498c19ea13de11786c5762628e",
+      "size": 12306,
+      "modified": "2026-09-17T09:06:27.037Z"
     },
     "core-components/_range-group.scss": {
       "hash": "454fbc6e44e9749376451314e0bf3b9f6146de3fb6f4d36e772d9df0731126fd",

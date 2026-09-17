@@ -163,7 +163,7 @@ only carries a band colour, so use it with --banded, see below.)
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
-      <h3 class="pa-modal__title">Success Modal</h3>
+      <h3 class="pa-modal__title"><span class="pa-icon pa-icon--success" aria-hidden="true"></span> Success Modal</h3>
       <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     </div>
     <div class="pa-modal__body">Body content.</div>
@@ -174,7 +174,7 @@ only carries a band colour, so use it with --banded, see below.)
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
-      <h3 class="pa-modal__title">Warning Modal</h3>
+      <h3 class="pa-modal__title"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span> Warning Modal</h3>
       <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     </div>
     <div class="pa-modal__body">Body content.</div>
@@ -185,7 +185,7 @@ only carries a band colour, so use it with --banded, see below.)
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
-      <h3 class="pa-modal__title">Danger Modal</h3>
+      <h3 class="pa-modal__title"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span> Danger Modal</h3>
       <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     </div>
     <div class="pa-modal__body">Body content.</div>
@@ -208,7 +208,7 @@ Valid band roles: success, warning, danger, info.
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
-      <h3 class="pa-modal__title">Info (banded)</h3>
+      <h3 class="pa-modal__title"><span class="pa-icon pa-icon--info" aria-hidden="true"></span> Info (banded)</h3>
       <button class="pa-btn pa-btn--sm pa-btn--icon-only" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     </div>
     <div class="pa-modal__body">Body stays neutral; header + footer wear the info band.</div>
@@ -223,7 +223,7 @@ Valid band roles: success, warning, danger, info.
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
-      <h3 class="pa-modal__title">Delete (banded danger)</h3>
+      <h3 class="pa-modal__title"><span class="pa-icon pa-icon--danger" aria-hidden="true"></span> Delete (banded danger)</h3>
       <button class="pa-btn pa-btn--sm pa-btn--icon-only" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     </div>
     <div class="pa-modal__body">Both bands carry the danger alert colour.</div>
@@ -383,7 +383,11 @@ STRUCTURE:
 - .pa-modal__backdrop        Full-viewport overlay behind the dialog.
 - .pa-modal__container       The dialog card itself.
 - .pa-modal__header          Flex row: __title (start) + close button (end).
-- .pa-modal__title           <h3>-weight title text.
+- .pa-modal__title           <h3>-weight title text. Flex row — an optional
+                             leading masked icon (<span class="pa-icon
+                             pa-icon--{severity}">) sits centred before the
+                             text and inherits the header's colour, e.g. the
+                             severity mark on a coloured/banded header.
 - .pa-modal__body            Scrollable content region (flex: 1;
                              overflow-y: auto — default scrolls when
                              content exceeds container max-height).

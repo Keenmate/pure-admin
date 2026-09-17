@@ -5,6 +5,47 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-09-17
+
+### Added
+
+- **New `--pa-icon-download` glyph + `.pa-icon--download` modifier** (Lucide
+  tray-and-down-arrow). Rounds out the action-icon family alongside `--save` /
+  `--copy`, replacing the raw Font Awesome `fa-download` glyphs that still lived
+  in the demo (export / download buttons across buttons, tables, tooltips, RTL).
+  Routed through `var(--base-icon-download, …)` for auto-upgrade the moment the
+  pure-css contract adds it, matching `--save` / `--settings`. Shown on the
+  `/design/icons` reference grid.
+- **New `--pa-icon-link` (chain) and `--pa-icon-external-link` (diagonal
+  arrow-out-of-box) glyphs + `.pa-icon--link` / `.pa-icon--external-link`
+  modifiers** (Lucide). `link` is the hyperlink / attach-URL affordance;
+  `external-link` its companion for links that open in a new tab / leave the app.
+  Both routed through `var(--base-icon-*, …)` for auto-upgrade, matching the rest
+  of the family. Shown on the `/design/icons` reference grid.
+- **`.pa-modal__title` now supports an optional leading masked icon.** A severity
+  mark (`<span class="pa-icon pa-icon--warning">`) can sit before the title text
+  and inherit the header's colour via `currentColor` — the same idea as the alert
+  icon slot. Styled as inline flow (icon gets a baseline nudge +
+  `margin-inline-end`, not a flex title) so titles containing inline markup keep
+  normal spacing. Replaces the raw emoji marks (`✓ ⚠ ℹ ✗ 🔥`) the modal demo used
+  for severity headers; the snippet now shows the masked-icon shape as canonical.
+- **Programmatic dialogs (`pureAdmin.confirm` / `alert` / `prompt` / `custom`)
+  now show the severity icon in the title.** The `modal-dialogs.js` generator
+  maps a status `variant` (success / warning / danger / info) to the matching
+  masked `.pa-icon--<sev>` in the generated `.pa-modal__title` — so the JS dialogs
+  match the static severity modals. `primary` stays icon-less (brand colour, not a
+  status). New `icon` option: pass a `pa-icon--*` name to override, or `false` to
+  hide.
+
+### Changed
+
+- **`download` / `link` / `external-link` are now backed by the `--base-icon-*`
+  contract.** Added to `@keenmate/base-css-variables` 1.0.4 and mirrored in
+  `@keenmate/pure-css` 1.0.4 (parity green), so the three new glyphs are
+  theme-overridable from the shared knob like the rest of the family instead of
+  resolving to the inline Lucide fallback. Bumped the `@keenmate/pure-css`
+  dependency to `^1.0.4`.
+
 ## [3.1.1] - 2026-09-17 [PUBLISHED]
 
 ### Fixed
