@@ -63,6 +63,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Settings-panel selects rendered thin/short in Safari.**
+  `.pa-settings-panel__select` sized itself with `padding` only (no `height`),
+  unlike the framework `.pa-select`. Safari's native `<select>` ignores vertical
+  padding and sizes from font metrics, so the control rendered visibly shorter
+  there than in Chrome/Firefox. Gave it the same explicit
+  `height: $base-input-size-md-height` + `$select-padding-*` + `line-height: normal`
+  recipe as `.pa-select`, so it's a consistent height across browsers.
 - **`CSS-VARIABLES.md` documented ~160 component tokens under the wrong prefix.**
   The `--pa-`→`--pc-` foundation de-brand only renamed the base tokens, but the
   reference doc had been blanket find/replaced, so component rows named
