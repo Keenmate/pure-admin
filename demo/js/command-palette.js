@@ -173,7 +173,7 @@
       {
         shortcut: '/deploy',
         aliases: ['/d'],
-        hotkey: 'Alt+D',
+        hotkey: 'g d',
         name: 'Deploy to Environment',
         description: 'Deploy a branch to an environment',
         icon: '🚀',
@@ -214,7 +214,7 @@
       {
         shortcut: '/assign',
         aliases: ['/a'],
-        hotkey: 'Alt+A',
+        hotkey: 'g a',
         name: 'Assign to User',
         description: 'Assign an item to a team member',
         icon: '👤',
@@ -251,7 +251,7 @@
       {
         shortcut: '/go',
         aliases: ['/g', '/nav'],
-        hotkey: 'Alt+G',
+        hotkey: 'g g',
         name: 'Go to Page',
         description: 'Navigate to a page',
         icon: '🧭',
@@ -271,7 +271,7 @@
       {
         shortcut: '/theme',
         aliases: ['/t'],
-        hotkey: 'Alt+T',
+        hotkey: 'g t',
         name: 'Switch Theme',
         description: 'Change the visual theme',
         icon: '🎨',
@@ -505,9 +505,10 @@
         html += `<div class="pa-command-palette__item-meta">${escapeHtml(cmd.description)}</div>`;
         html += `</div>`;
         if (cmd.hotkey) {
-          const keys = cmd.hotkey.split('+');
+          // Sequence ("g d") or chord ("Ctrl+K") — one keycap per token.
+          const keys = cmd.hotkey.split(/[+\s]+/);
           html += `<div class="pa-command-palette__shortcut">`;
-          keys.forEach((k, i) => { html += `<span class="pa-command-palette__key">${k}</span>`; if (i < keys.length - 1) html += ' '; });
+          keys.forEach((k, i) => { html += `<span class="pa-command-palette__key">${escapeHtml(k)}</span>`; if (i < keys.length - 1) html += ' '; });
           html += `</div>`;
         } else {
           html += `<span class="pa-command-palette__key">${escapeHtml(cmd.shortcut)}</span>`;
@@ -1043,31 +1044,54 @@
       }
     }
 
+    // Leading-key command sequences ("g" then a letter) — the idiomatic,
+    // glyph-free, cross-platform pattern (Gmail / Linear / GitHub). Chosen over
+    // Alt+letter, which on macOS is a text-composition modifier (Option+G types
+    // "©", Option+T "†", …) — non-idiomatic there and it inserts glyphs in fields.
+    // A command's `hotkey` holds its full sequence, e.g. "g d"; the last token is
+    // the second key. Modifier-free and only active when NOT typing in a field,
+    // so it never fights text entry. ⌘K / Ctrl+K still opens the full palette.
+    let seqActive = false;
+    let seqTimer = null;
+    function endSequence() { seqActive = false; clearTimeout(seqTimer); }
+    function isTypingTarget(t) {
+      return !!t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+    }
+
     // ── Event listeners ──
     document.addEventListener('keydown', (e) => {
-      // Ctrl+K — toggle palette
+      // Ctrl+K / ⌘K — toggle palette
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         isOpen ? close() : open();
         return;
       }
 
-      // Global hotkeys — Alt+key opens palette with command
-      if (e.altKey && !e.ctrlKey && !e.metaKey && e.key !== 'Alt') {
-        const cmd = commands.find((c) => {
-          if (!c.hotkey) return false;
-          const parts = c.hotkey.toLowerCase().split('+');
-          const key = parts[parts.length - 1];
-          return e.key.toLowerCase() === key;
-        });
-        if (cmd) {
-          e.preventDefault();
-          if (isOpen) { reset(); }
-          if (!isOpen) { open(); }
-          input.value = cmd.shortcut + ' ';
-          enterCommandMode(cmd, '');
-          return;
+      // Sequences are modifier-free and inert while typing or with the palette open.
+      if (e.ctrlKey || e.metaKey || e.altKey || isTypingTarget(e.target) || isOpen) {
+        endSequence();
+        return;
+      }
+
+      if (!seqActive) {
+        // Arm on the leader key ("g"); wait a short window for the second key.
+        if (e.key.toLowerCase() === 'g') {
+          seqActive = true;
+          clearTimeout(seqTimer);
+          seqTimer = setTimeout(endSequence, 1200);
         }
+        return;
+      }
+
+      // Second key — resolve against each command's sequence (last token).
+      endSequence();
+      const letter = e.key.toLowerCase();
+      const cmd = commands.find((c) => c.hotkey && c.hotkey.toLowerCase().split(/\s+/).pop() === letter);
+      if (cmd) {
+        e.preventDefault();
+        open();
+        input.value = cmd.shortcut + ' ';
+        enterCommandMode(cmd, '');
       }
     });
 
@@ -1098,22 +1122,6 @@
     input.addEventListener('input', processInput);
 
     input.addEventListener('keydown', (e) => {
-      // Alt+key hotkeys work inside the palette too
-      if (e.altKey && !e.ctrlKey && !e.metaKey && e.key !== 'Alt') {
-        const cmd = commands.find((c) => {
-          if (!c.hotkey) return false;
-          const parts = c.hotkey.toLowerCase().split('+');
-          return e.key.toLowerCase() === parts[parts.length - 1];
-        });
-        if (cmd) {
-          e.preventDefault();
-          reset();
-          input.value = cmd.shortcut + ' ';
-          enterCommandMode(cmd, '');
-          return;
-        }
-      }
-
       switch (e.key) {
         case 'Escape':
           e.preventDefault();

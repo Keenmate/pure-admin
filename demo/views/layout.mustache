@@ -296,6 +296,44 @@
                 })();
             </script>
 
+            <!-- Remember the sidebar's own scroll position across page reloads.
+                 Only meaningful in "Fixed Position" (pc-layout--sticky) mode, where
+                 the sidebar is its own scroll container (overflow-y:auto). In the
+                 default mode the sidebar scrolls with the page, so the browser
+                 restores it natively. Persisted per-tab in sessionStorage (scroll
+                 position is ephemeral, not a saved preference). Restored before
+                 paint — immediately AND on the next frame, since setting scrollTop
+                 only sticks once the element has been laid out. -->
+            <script>
+                (function() {
+                    if (!document.body.classList.contains('pc-layout--sticky')) return;
+                    const sidebar = document.querySelector('.pc-layout__sidebar');
+                    if (!sidebar) return;
+                    const KEY = 'sidebar-scroll';
+
+                    function restore() {
+                        const saved = parseInt(sessionStorage.getItem(KEY), 10);
+                        if (!isNaN(saved) && saved > 0) sidebar.scrollTop = saved;
+                    }
+                    restore();                       // attempt now (may pre-date layout)
+                    requestAnimationFrame(restore);  // guaranteed after layout, before paint
+
+                    // Save on scroll (throttled to one write per frame) + a pagehide
+                    // safety net for navigations that don't fire a final scroll event.
+                    let raf = null;
+                    sidebar.addEventListener('scroll', function() {
+                        if (raf) return;
+                        raf = requestAnimationFrame(function() {
+                            raf = null;
+                            sessionStorage.setItem(KEY, String(sidebar.scrollTop));
+                        });
+                    }, { passive: true });
+                    window.addEventListener('pagehide', function() {
+                        sessionStorage.setItem(KEY, String(sidebar.scrollTop));
+                    });
+                })();
+            </script>
+
             <!-- Layout Content: Main only -->
             <div class="pc-layout__content">
                 <!-- Main Content -->
