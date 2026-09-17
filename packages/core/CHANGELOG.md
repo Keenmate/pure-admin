@@ -5,6 +5,22 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2026-09-17 [PUBLISHED]
+
+### Fixed
+
+- **Navbar profile (user) icon rendered smaller than the notification bell.**
+  Both navbar icons paint via `mask … / contain` in a `1em` box but inherited
+  different sizes from their containers: the bell sits in `.pa-notifications__icon`
+  (`font-size: $font-size-lg`, 18px) while the profile icon inherited
+  `.pc-navbar__profile-btn`'s `$font-size-sm` (14px — kept small so the "John Doe"
+  name stays compact), so the person rendered at ~78% of the bell, and the
+  narrower Lucide `user` glyph made it look smaller still. Worst on mobile, where
+  the profile name is hidden (`display: none`) and only the shrunken icon remains.
+  Pinned `--pa-icon-size: $font-size-lg` on `.pc-navbar__profile-btn` so the icon
+  matches the bell while the name text keeps `$font-size-sm` (only `.pa-icon` reads
+  `--pa-icon-size`, so the label is untouched).
+
 ## [3.1.0] - 2026-09-16 [PUBLISHED]
 
 ### Added

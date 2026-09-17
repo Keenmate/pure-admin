@@ -34,6 +34,13 @@
   font-size: $font-size-sm; // Apply to whole button (text and icon)
   transition: background-color $transition-fast $easing-snappy;
 
+  // Size the user icon independently of the small button text. Left at 1em it
+  // renders at $font-size-sm (14px) — visibly smaller than the navbar bell
+  // ($font-size-lg, 18px), and worse on mobile where the profile name is hidden
+  // and only the icon shows. Pin it to the bell's size so the two navbar icons
+  // match; only .pa-icon reads --pa-icon-size, so the name text is untouched.
+  --pa-icon-size: #{$font-size-lg};
+
   &:hover {
     background-color: var(--pc-accent-light);
   }
