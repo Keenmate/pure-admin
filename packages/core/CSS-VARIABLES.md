@@ -238,6 +238,7 @@ on `.pc-mode-*`, or on any card ancestor to retune without a recompile.
 |----------|---------|
 | `--pc-modal-overlay-bg` | Modal overlay |
 | `--pc-modal-content-bg` | Modal content background |
+| `--pa-modal-backdrop-filter` | Backdrop filter (default `blur(4px)`) — set to `none` to disable the blur at runtime |
 
 ### Alerts
 
@@ -293,6 +294,7 @@ on `.pc-mode-*`, or on any card ancestor to retune without a recompile.
 | Variable | Purpose |
 |----------|---------|
 | `--pc-command-palette-backdrop-bg` | Backdrop |
+| `--pa-command-palette-backdrop-filter` | Backdrop filter (default `blur(4px)`) — set to `none` to disable the blur at runtime |
 | `--pc-command-palette-item-hover-bg` | Item hover |
 | `--pc-command-palette-item-active-bg` | Item active |
 | `--pc-command-palette-highlight-bg` | Search highlight background |

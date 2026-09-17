@@ -32,7 +32,8 @@
     position: absolute;
     inset: 0; // RTL: full screen works in both directions
     background-color: var(--pa-command-palette-backdrop-bg);
-    backdrop-filter: blur($command-palette-backdrop-blur);
+    // Runtime-toggleable: set --pa-command-palette-backdrop-filter: none to disable.
+    backdrop-filter: var(--pa-command-palette-backdrop-filter, blur(#{$command-palette-backdrop-blur}));
     animation: fadeIn $transition-normal $easing-smooth;
   }
 

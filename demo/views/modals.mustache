@@ -823,15 +823,20 @@
 
 <script>
 // Modal functionality
+// Scroll-lock via the shared refcounted helper — sets body{overflow:hidden}
+// only and relies on `scrollbar-gutter: stable` (<html>) to hold the gutter, so
+// content doesn't jump. No manual paddingRight (that double-compensates against
+// the stable gutter). Keyed by modal id so nested/sequential opens release cleanly.
+const _modalScrollReleases = {};
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        // Calculate scrollbar width to prevent layout shift
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
         modal.classList.add('pa-modal--show');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
+        if (window.pureAdmin && window.pureAdmin.overlay) {
+            _modalScrollReleases[modalId] = window.pureAdmin.overlay.lockBodyScroll();
+        } else {
+            document.body.style.overflow = 'hidden';
+        }
     }
 }
 
@@ -839,8 +844,12 @@ function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.remove('pa-modal--show');
-        document.body.style.overflow = ''; // Restore scrolling
-        document.body.style.paddingRight = ''; // Remove compensation
+        if (_modalScrollReleases[modalId]) {
+            _modalScrollReleases[modalId]();
+            delete _modalScrollReleases[modalId];
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 }
 

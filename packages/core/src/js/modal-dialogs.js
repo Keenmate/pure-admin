@@ -112,13 +112,24 @@
    */
   function showModal(modal, options = {}) {
     return new Promise((resolve) => {
-      // Calculate scrollbar width to prevent layout shift
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
       // Add to DOM
       document.body.appendChild(modal);
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
-      document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
+
+      // Lock background scroll via the shared, refcounted helper. It sets only
+      // body{overflow:hidden} and trusts `scrollbar-gutter: stable` on <html>
+      // (set in core's base reset) to keep the scrollbar gutter reserved — so
+      // the page doesn't jump sideways. The old code added its own paddingRight
+      // to compensate, which now DOUBLE-compensates against the stable gutter and
+      // shifts content the other way. Refcounting also keeps nested overlays
+      // (modal opened over the command palette, etc.) from clobbering each other.
+      if (window.pureAdmin && window.pureAdmin.overlay) {
+        modal._scrollLockRelease = window.pureAdmin.overlay.lockBodyScroll();
+      } else {
+        // Defensive fallback if the runtime facade isn't loaded. No paddingRight —
+        // the CSS gutter handles the reservation.
+        modal._stashedOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
 
       // Focus first input if exists, otherwise first button
       setTimeout(() => {
@@ -162,29 +173,32 @@
   function closeModal(modal, value) {
     if (!modal._resolve) return;
 
-    // Remove show class (triggers fade out)
+    // Hide it. The entrance animation is enter-only (same as the command
+    // palette), so closing snaps — no exit-transition delay to wait on.
     modal.classList.remove('pa-modal--show');
 
-    // Wait for animation, then remove from DOM
-    setTimeout(() => {
-      // Clean up event listeners
-      if (modal._escHandler) {
-        document.removeEventListener('keydown', modal._escHandler);
-      }
+    // Clean up event listeners
+    if (modal._escHandler) {
+      document.removeEventListener('keydown', modal._escHandler);
+    }
 
-      // Restore body overflow and padding
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+    // Release the scroll lock (refcounted release fn, or the fallback stash).
+    if (modal._scrollLockRelease) {
+      modal._scrollLockRelease();
+      modal._scrollLockRelease = null;
+    } else if (typeof modal._stashedOverflow === 'string') {
+      document.body.style.overflow = modal._stashedOverflow;
+      modal._stashedOverflow = null;
+    }
 
-      // Resolve promise
-      modal._resolve(value);
-      modal._resolve = null;
+    // Resolve promise
+    modal._resolve(value);
+    modal._resolve = null;
 
-      // Remove from DOM
-      if (modal.parentNode) {
-        modal.parentNode.removeChild(modal);
-      }
-    }, 300); // Match modal transition time
+    // Remove from DOM
+    if (modal.parentNode) {
+      modal.parentNode.removeChild(modal);
+    }
   }
 
   /**

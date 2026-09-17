@@ -27,11 +27,19 @@
 }
 
 // Modal backdrop (the dark overlay)
+// Entrance mirrors the command palette (the framework's blessed overlay feel):
+// the scrim blurs the page behind and fades in, while the container slides down.
+// Keyframes are modal-owned (pa-modal-* prefix) so the component doesn't depend
+// on the palette partial being compiled. Animations only play on enter — closing
+// snaps, same as the palette (a keyframe can't animate an element to display:none).
 .pa-modal__backdrop {
   position: fixed;
   inset: 0; // RTL: full screen works in both directions
   background-color: var(--pa-modal-overlay-bg);
+  // Runtime-toggleable: set --pa-modal-backdrop-filter: none to disable the blur.
+  backdrop-filter: var(--pa-modal-backdrop-filter, blur(#{$modal-backdrop-blur}));
   z-index: $z-index-modal-backdrop;
+  animation: pa-modal-backdrop-in $transition-normal $easing-smooth;
 }
 
 // Modal container (the actual dialog)
@@ -47,6 +55,7 @@
   z-index: $z-index-modal;
   display: flex;
   flex-direction: column;
+  animation: pa-modal-in $transition-normal $easing-smooth;
 
   // Size variations
   &--sm {
@@ -122,6 +131,24 @@
   justify-content: flex-end;
   gap: $spacing-md;
   flex-shrink: 0;
+}
+
+// Entrance animations — mirror the command palette (fadeIn + slideDown), but
+// namespaced to the modal so the two components stay decoupled.
+@keyframes pa-modal-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pa-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // Modal color variations

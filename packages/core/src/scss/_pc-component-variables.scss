@@ -93,6 +93,10 @@
   // Modal
   --pa-modal-overlay-bg: var(--base-overlay-bg, #{$modal-overlay-bg});
   --pa-modal-content-bg: var(--base-main-bg, #{$modal-content-bg});
+  // Whole backdrop filter (not just the radius) so it can be turned off entirely
+  // at runtime: set `--pa-modal-backdrop-filter: none` to disable the blur (e.g.
+  // for prefers-reduced-transparency or weak-GPU perf) without a recompile.
+  --pa-modal-backdrop-filter: blur(#{$modal-backdrop-blur});
 
   // Tooltip / popover
   --pa-tooltip-bg: var(--base-tooltip-bg, #{$tooltip-bg});
@@ -303,6 +307,8 @@
   // COMMAND PALETTE COLORS
   // =========================================================================
   --pa-command-palette-backdrop-bg: #{$command-palette-backdrop-bg};
+  // Whole backdrop filter — set to `none` to disable the palette blur at runtime.
+  --pa-command-palette-backdrop-filter: blur(#{$command-palette-backdrop-blur});
   --pa-command-palette-item-hover-bg: #{$command-palette-item-hover-bg};
   --pa-command-palette-item-active-bg: #{$command-palette-item-active-bg};
   --pa-command-palette-highlight-bg: #{$command-palette-highlight-bg};

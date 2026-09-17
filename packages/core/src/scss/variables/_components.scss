@@ -190,6 +190,7 @@ $btn-icon-only-size-xl: $btn-height-xl !default;
 // MODAL SYSTEM
 // ============================================================================
 $modal-overlay-bg: rgba(0, 0, 0, 0.5) !default;
+$modal-backdrop-blur: 4px !default;        // Matches $command-palette-backdrop-blur — modal entrance mirrors the palette
 $modal-content-bg: #ffffff !default;
 $modal-header-padding-v: 1.2rem !default;  // 12px (was 0.75rem)
 $modal-header-padding-h: 1.6rem !default;  // 16px (was 1rem)

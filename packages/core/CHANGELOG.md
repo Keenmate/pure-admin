@@ -37,6 +37,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   status). New `icon` option: pass a `pa-icon--*` name to override, or `false` to
   hide.
 
+- **Modal entrance now mirrors the command palette.** The `.pa-modal__backdrop`
+  blurs the page behind it and fades in while `.pa-modal__container` slides down —
+  the same blessed overlay feel as `Ctrl/Cmd+K`. Animations are enter-only (a
+  keyframe can't animate to `display:none`), so closing snaps, exactly like the
+  palette. Keyframes are modal-owned (`pa-modal-*` prefix) so the component doesn't
+  depend on the palette partial. Applies to both the static `.pa-modal` markup and
+  the programmatic dialogs.
+- **Backdrop blur is now runtime-toggleable.** New `--pa-modal-backdrop-filter`
+  and `--pa-command-palette-backdrop-filter` CSS variables (default `blur(4px)`)
+  expose the *whole* filter, so it can be disabled with
+  `--pa-<comp>-backdrop-filter: none` — e.g. under
+  `@media (prefers-reduced-transparency: reduce)` or for weak-GPU perf — without a
+  recompile. The compile-time `$modal-backdrop-blur` / `$command-palette-backdrop-blur`
+  values remain as inline fallbacks. Documented in `CSS-VARIABLES.md`.
+
 ### Changed
 
 - **`download` / `link` / `external-link` are now backed by the `--base-icon-*`
@@ -45,6 +60,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   theme-overridable from the shared knob like the rest of the family instead of
   resolving to the inline Lucide fallback. Bumped the `@keenmate/pure-css`
   dependency to `^1.0.4`.
+
+### Fixed
+
+- **Modal scroll-lock no longer shifts page content sideways.** The modal JS
+  computed the scrollbar width and added `body { padding-right }` to compensate —
+  but the foundation already reserves the gutter via `scrollbar-gutter: stable` on
+  `<html>`, so that padding *double-compensated* and pushed content the other way.
+  Both the programmatic dialogs (`modal-dialogs.js`) and the demo's static-modal
+  toggle now use the shared refcounted `pureAdmin.overlay.lockBodyScroll()` (sets
+  only `overflow: hidden`, trusts the CSS gutter), matching the command palette.
+  Refcounting also stops nested overlays from clobbering each other's lock.
 
 ## [3.1.1] - 2026-09-17 [PUBLISHED]
 
