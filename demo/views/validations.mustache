@@ -60,9 +60,9 @@
         <p class="mb-3">All errors collected in a single alert at the top. Good for accessibility and giving users a quick overview of all issues.</p>
 
         <form class="pa-form">
-            <div class="pa-alert pa-alert--danger mb-4">
-                <strong>Please fix the following errors:</strong>
-                <ul class="mt-0 mb-0">
+            <div class="pa-alert pa-alert--danger mb-4" role="alert">
+                <strong class="pa-alert__heading">Please fix the following errors:</strong>
+                <ul class="pa-alert__list">
                     <li>First name is required</li>
                     <li>Email address is not valid</li>
                     <li>Password must contain at least one uppercase letter</li>
@@ -124,9 +124,9 @@
         <p class="mb-3">The best of both worlds. Summary for overview, inline for specific guidance. Most accessible approach.</p>
 
         <form class="pa-form">
-            <div class="pa-alert pa-alert--danger mb-4">
-                <strong>2 errors found:</strong>
-                <ul class="mt-0 mb-0">
+            <div class="pa-alert pa-alert--danger mb-4" role="alert">
+                <strong class="pa-alert__heading">2 errors found:</strong>
+                <ul class="pa-alert__list">
                     <li><a href="#card-number">Card number</a> - Invalid card number format</li>
                     <li><a href="#cvv">CVV</a> - Must be 3 or 4 digits</li>
                 </ul>

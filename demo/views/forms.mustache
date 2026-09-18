@@ -709,7 +709,7 @@
                             <ul>
                                 <li><strong>Simple fields</strong> (input / select / textarea) → the group's <code>&lt;label&gt;</code>, via <code>.pa-form-group:has(:required) &gt; label</code>.</li>
                                 <li><strong>Grouped choices</strong> (radios/checkboxes inside a <code>.pa-radio-group</code> / <code>.pa-checkbox-group</code>) → the requirement belongs to the group, so the <strong>*</strong> sits once on the group <strong>heading</strong> and the per-option markers are suppressed. See <em>Priority</em> below.</li>
-                                <li><strong>Standalone choice</strong> (a lone <code>.pa-checkbox</code> / <code>.pa-radio</code>, e.g. a consent box with no <code>*-group</code> wrapper) → the <strong>*</strong> sits on its <strong>own</strong> option label. See <em>I accept the terms</em> below.</li>
+                                <li><strong>Standalone choice</strong> (a lone <code>.pa-checkbox</code> / <code>.pa-radio</code>, e.g. a consent box with no <code>*-group</code> wrapper) → the <strong>*</strong> sits on its <strong>own</strong> option label. Use native <code>required</code>, or — when the checked state is JS-driven and never carries the attribute — declare it on the group with <code>.pa-form-group--required</code>. Both land the <strong>*</strong> on the option label. See <em>I accept the terms</em> below.</li>
                                 <li><strong>Complex widgets</strong> with no native control (image browser, dropzone, web component) → add <code>.pa-form-group--required</code> to the group as the explicit trigger.</li>
                             </ul>
                             <p class="mb-0">The first “Horizontal orientation” group has no <code>required</code>, so it shows no marker.</p>
@@ -748,6 +748,18 @@
                                 <input type="checkbox" required>
                                 <span class="pa-checkbox__box"></span>
                                 <span class="pa-checkbox__label">I accept the terms</span>
+                            </label>
+                        </div>
+
+                        <!-- Same standalone consent, but the requirement is declared on the GROUP
+                             (.pa-form-group--required) rather than a native attribute — the escape
+                             hatch when the checked state is JS-driven and never carries `required`.
+                             The asterisk still lands on the option label. -->
+                        <div class="pa-form-group pa-form-group--required">
+                            <label class="pa-checkbox">
+                                <input type="checkbox">
+                                <span class="pa-checkbox__box"></span>
+                                <span class="pa-checkbox__label">I accept the terms (required via group modifier)</span>
                             </label>
                         </div>
                     </form>
