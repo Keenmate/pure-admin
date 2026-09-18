@@ -8,18 +8,34 @@
 .pa-list-basic {
   margin: 0;
   padding-inline-start: $spacing-lg; // RTL: flips to right
+  // Marker style is controlled by the foundation --pc-list-bullet-type knob on
+  // the base ul/ol reboot (pure-css) — no component override needed here.
 
+  // The inter-item gap is a single custom property so it drives BOTH the space
+  // between items and the space above a nested sublist — and because it's a CSS
+  // variable it inherits, so --compact / --spacious on a parent list cascade to
+  // its subnodes too (a nested plain list adopts the parent's density). A nested
+  // list with its own --compact/--spacious overrides for its subtree.
   li {
-    margin-bottom: $spacing-sm;
+    margin-bottom: var(--pa-list-item-gap, #{$spacing-sm});
     line-height: 1.6;
   }
 
-  &--spacious li {
-    margin-bottom: $spacing-base;
+  // Nested sublists (subnodes): the reboot/`.pa-list-basic` zero the list's own
+  // margin, so a sublist tucked inside an <li> would sit tighter to its parent
+  // than sibling items are spaced (its first item hugs the parent line). Give the
+  // sublist the same top gap as the inter-item rhythm so nesting reads evenly.
+  ul,
+  ol {
+    margin-top: var(--pa-list-item-gap, #{$spacing-sm});
   }
 
-  &--compact li {
-    margin-bottom: $spacing-xs;
+  &--spacious {
+    --pa-list-item-gap: #{$spacing-base};
+  }
+
+  &--compact {
+    --pa-list-item-gap: #{$spacing-xs};
   }
 
   &--unstyled {

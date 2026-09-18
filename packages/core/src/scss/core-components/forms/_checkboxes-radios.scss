@@ -326,3 +326,20 @@
 .pa-radio-group .pa-radio:has(input:required) .pa-radio__label::after {
   content: none;
 }
+
+// Modifier path for a STANDALONE choice — mirror the native :required marker
+// when the requirement is declared on the group via `.pa-form-group--required`
+// instead of a native attribute (e.g. the checkbox state is JS-driven and never
+// carries `required`). The form-group rule in _form-layout.scss can't place the
+// marker here because it excludes .pa-checkbox / .pa-radio labels (the label
+// wraps the control), so hang it on the option's own label — same as the native
+// path. The `>` combinator keeps this to standalone options (a direct child of
+// the group); grouped options nested in a .pa-*-group aren't matched, so the
+// heading keeps carrying the single group marker.
+.pa-form-group--required > .pa-checkbox .pa-checkbox__label::after,
+.pa-form-group--required > .pa-radio .pa-radio__label::after {
+  content: '*';
+  margin-inline-start: 0.5rem;
+  color: var(--pc-danger);
+  font-weight: $font-weight-medium;
+}

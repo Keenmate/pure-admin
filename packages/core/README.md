@@ -6,6 +6,20 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.2.0
+
+3.2.0 brings the **command-palette overlay feel to modals**, three new action
+icons, and a **runtime list-marker knob** — plus a batch of correctness fixes to
+scroll-lock, Safari selects, and required-field markers.
+
+- **Modals now enter like the command palette.** The backdrop blurs the page and fades in while the dialog slides down — the same blessed `Ctrl/Cmd+K` feel, on both static `.pa-modal` markup and the programmatic `pureAdmin.confirm/alert/prompt` dialogs. Closing snaps (enter-only animation), exactly like the palette.
+- **Backdrop blur is runtime-toggleable.** New `--pa-modal-backdrop-filter` / `--pa-command-palette-backdrop-filter` variables (default `blur(4px)`) expose the whole filter, so you can disable it with `: none` — e.g. under `prefers-reduced-transparency` or for weak GPUs — with no recompile.
+- **Modal titles take a leading severity icon.** A masked `.pa-icon--warning/--success/…` can sit before the title and inherit the header colour, replacing the raw emoji marks; the programmatic dialogs map their `variant` to the matching icon automatically (new `icon` option to override or hide).
+- **Three new action glyphs** — `download`, `link` (chain), and `external-link` (arrow-out-of-box) — as `.pa-icon--*` modifiers backed by the shared `--base-icon-*` contract, so they re-skin from one knob like the rest of the family. On the `/design/icons` grid.
+- **Runtime list-marker knob.** Switch any list's marker (`disc`/`circle`/`square`/`none`/`decimal`/…) without a recompile via `--pc-list-bullet-type` (per-instance/runtime) over a themeable `--base-list-bullet-type` default. Landed on the pure-css `ul, ol` reboot, so it covers `.pa-list-basic`, `.pa-alert__list`, and bare content lists alike.
+- **Modal scroll-lock no longer shifts content sideways.** The dialogs now use the shared refcounted `pureAdmin.overlay.lockBodyScroll()` and trust the CSS scrollbar gutter, instead of double-compensating with `body padding-right`.
+- **Required-field marker fixes.** The `*` now appears on a standalone checkbox/radio when the requirement is declared via `.pa-form-group--required` (the escape hatch for JS-driven state), and Safari settings-panel selects render at the correct height.
+
 ## What's New in 3.1.0
 
 3.1.0 finishes migrating Pure Admin's **structural icons** onto one masked
@@ -20,23 +34,6 @@ override across Pure Admin, the pure-css shell, and the web components.
 - **Hover-to-fill for enabled buttons & tabs.** An icon can swap to a filled variant on hover (opt-in per glyph via `--pa-icon-src-hover`, enabled controls only). Dormant with the outline-only Lucide default; activate by supplying a filled glyph (Tabler/Fluent/Material).
 - **Directional chevrons from one glyph.** `.pa-icon--chevron-{up,down,left,right}` (plus a `pa-chevron()` Sass mixin) rotate a single base glyph, so overriding `--base-icon-chevron` re-skins every direction at once.
 - **Alert icons sit in a fixed, centred column** so the bold status labels no longer zig-zag.
-
-## What's New in 3.0.0
-
-3.0.0 is a **foundation release** (the stable cut of the `2.9.0-rc` series): the
-shared layer under Pure Admin was extracted into `@keenmate/pure-css`, and the
-token/class vocabulary was split so names say what owns them. It carries
-**breaking renames** with no back-compat aliases — hence the major bump — so read
-the token/class note before upgrading from 2.8.0.
-
-- **Built on the `@keenmate/pure-css` `1.0.0` foundation.** The `--base-*` theming contract, the grid/utilities, and the whole app shell (navbar, sidebar, layout, footer + their `fit` / dropdown / sidebar-resize / container-breakpoint JS engines and runtime) now live in pure-css — so Pure Admin, the Svelte/Phoenix wrappers, and the KeenMate web components share one theming and shell layer.
-- **Token & class prefixes now match ownership (breaking).** Foundation = `--pc-*` / `.pc-*`; pure-admin components = `--pa-*` / `.pa-*`. ~190 component custom properties were renamed `--pc-*` → `--pa-*`, and the shell markup moved to `.pc-navbar` / `.pc-sidebar` / `.pc-layout` / `.pc-footer`. **Every resolved value is identical — only names change** — but there are no back-compat aliases, so token overrides and hand-authored shell markup must switch.
-- **A shared, themeable icon contract.** 13 mask-based `--base-icon-*` glyphs drive core's `--pa-icon-*` set (`chevron`, `caret`, `clear`, `remove`, `expand`/`collapse`, `add`/`edit`/`delete`, `search`, …) and the web components alike — one `--base-icon-*` override re-skins everything. The custom checkbox's check/indeterminate marks now render from these tokens instead of a CSS border trick.
-- **One degradation engine + container breakpoints.** The `fit` engine is now the single priority-driven collapse mechanism (navbar collapse folded in via `data-pc-fit-nav`), and a new container-breakpoint engine maps an element's width to a named mode for element-query-style layouts.
-- **Sizing utilities consolidated into pure-css.** The `h-Nx` / `min-h-Nx` / `max-h-Nx` scale is retired in favour of pure-css `hr-N` / `minhr-N` / `maxhr-N` (rem-based); the viewport (`h-full` / `h-screen`) and flex shorthands (`flex-1`, …) moved down to the foundation too.
-- **Theme & dark-mode colour correctness.** Badges, cards, the logic tree, code syntax, and accent-drift spots (command palette, query editor, notifications, loaders, splitter, timeline, tabs) now read the runtime token cascade; hover/active states split off the recessed surface (`--pa-hover-bg`); and input-group addons + outline-button labels are legible across all 16 themes via `color-mix`.
-- **Legible, consistent form fields.** Input text now tracks the input surface (`--pa-input-text`) rather than the page text colour, native date/time picker icons follow `color-scheme` (no more black-on-dark glyphs), and the sidebar type-and-go search no longer renders invisible.
-- **Generated component catalog + shared UI config.** A machine-readable `components.json` / `COMPONENTS.md` catalog (67 components) ships in the package for the wrappers to validate their DOM against, alongside a shared `pureAdmin.config` baseline (mobile breakpoint, debounce, toast, severity).
 
 ## Installation
 

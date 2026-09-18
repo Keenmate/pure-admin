@@ -5,7 +5,7 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] - 2026-09-17
+## [3.2.0] - 2026-09-18 [PUBLISHED]
 
 ### Added
 
@@ -51,6 +51,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `@media (prefers-reduced-transparency: reduce)` or for weak-GPU perf — without a
   recompile. The compile-time `$modal-backdrop-blur` / `$command-palette-backdrop-blur`
   values remain as inline fallbacks. Documented in `CSS-VARIABLES.md`.
+- **Runtime list-marker knob (via pure-css 1.0.5).** Switch a list's marker
+  (`disc` / `circle` / `square` / `none` / `decimal` / …) without a recompile.
+  Landed on the foundation `ul, ol` reboot in `@keenmate/pure-css`, so it applies
+  to *every* list — `.pa-list-basic`, `.pa-alert__list`, and bare content lists
+  alike. Two layers: `--pc-list-bullet-type` is the per-instance / runtime override
+  (`style="--pc-list-bullet-type: square"` or at `:root`), and
+  `--base-list-bullet-type` is the themeable default (emitted at `:root`, `disc`) —
+  resolves as `var(--pc-list-bullet-type, var(--base-list-bullet-type, disc))`.
+  Lists that reset the marker (`list-style: none` on nav/sidebar menus,
+  `--unstyled` / `--bordered` / …) still win. Documented in `CSS-VARIABLES.md`.
 
 ### Changed
 
@@ -59,10 +69,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `@keenmate/pure-css` 1.0.4 (parity green), so the three new glyphs are
   theme-overridable from the shared knob like the rest of the family instead of
   resolving to the inline Lucide fallback. Bumped the `@keenmate/pure-css`
-  dependency to `^1.0.4`.
+  dependency to `^1.0.5` (1.0.4 = icons + the list-marker knob; 1.0.5 fixes an
+  `<ol>`-renders-bullets regression from that knob).
 
 ### Fixed
 
+- **Nested `.pa-list-basic` lists (subnodes) had an uneven, non-cascading rhythm.**
+  A sublist tucked inside an `<li>` sat tighter to its parent than sibling items
+  were spaced (the reboot/`.pa-list-basic` zero the list's own margin, so the first
+  subnode hugged the parent line), and the `--compact` / `--spacious` density
+  reached nested *items* but not the nested sublist's top gap. The inter-item gap
+  is now a single `--pa-list-item-gap` custom property driving both the space
+  between items and the space above a sublist; because it's a CSS variable it
+  inherits, so a parent list's `--compact` / `--spacious` cascades to its subnodes
+  (a nested list can still override with its own modifier).
 - **Settings-panel selects rendered thin/short in Safari.**
   `.pa-settings-panel__select` sized itself with `padding` only (no `height`),
   unlike the framework `.pa-select`. Safari's native `<select>` ignores vertical
@@ -88,6 +108,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   toggle now use the shared refcounted `pureAdmin.overlay.lockBodyScroll()` (sets
   only `overflow: hidden`, trusts the CSS gutter), matching the command palette.
   Refcounting also stops nested overlays from clobbering each other's lock.
+- **Required asterisk was missing on a standalone checkbox/radio when the
+  requirement was declared via `.pa-form-group--required`.** The marker had two
+  documented triggers — native `:required` and the `.pa-form-group--required`
+  modifier — but for a lone `.pa-checkbox` / `.pa-radio` (e.g. a consent box) only
+  the native path was wired: the form-group modifier rule excludes checkbox/radio
+  labels (an appended `*` would land after the whole option), and the standalone
+  marker keyed strictly off `input:required`. So setting the requirement on the
+  group instead of the input — the escape hatch for JS-driven state that never
+  carries the attribute — produced no marker anywhere. Added a modifier path that
+  mirrors the native standalone marker (`*` on the option's own label), scoped
+  with `>` to direct-child options so grouped choices still let their heading
+  carry the single group marker.
 
 ## [3.1.1] - 2026-09-17 [PUBLISHED]
 

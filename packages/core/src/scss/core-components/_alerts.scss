@@ -214,6 +214,8 @@
   &__list {
     margin: 0; // alert flex-gap supplies the spacing
     padding-inline-start: $alert-list-padding-left; // RTL: flips to padding-right
+    // Marker style comes from the foundation --pc-list-bullet-type knob (pure-css
+    // ul/ol reboot); nothing to set here.
   }
 
   &__actions {

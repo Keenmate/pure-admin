@@ -349,6 +349,25 @@ without a recompile:
 (The command palette's own result highlight is separate — see
 `--pa-command-palette-highlight-bg/-text` above.)
 
+### Lists
+
+A **foundation** knob (owned by `@keenmate/pure-css`, set on the base `ul, ol`
+reboot), so it applies to *every* list — bare content lists, `.pa-list-basic`,
+`.pa-alert__list`, etc. Two layers: `--pc-list-bullet-type` is the per-instance /
+runtime override (set at `:root`, on an ancestor, or `style="…"`), and
+`--base-list-bullet-type` is the themeable default emitted at `:root` by
+`output-base-css-variables`. Resolution is
+`var(--pc-list-bullet-type, var(--base-list-bullet-type, disc))` — the `--pc-`
+override wins when set, else the `--base-` default, else the inline `disc`. The
+`--pc-` knob is **not** emitted (set it only where you want a per-instance marker).
+Lists that reset the marker (`list-style: none` on nav/sidebar menus, `.unstyled`,
+the `--unstyled` / `--bordered` / … list modifiers) still win.
+
+| Variable | Purpose | Layer |
+|----------|---------|-------|
+| `--pc-list-bullet-type` | Per-instance / runtime marker override (`disc` \| `circle` \| `square` \| `none` \| `decimal` \| …) | not emitted — set where needed |
+| `--base-list-bullet-type` | Themeable default marker (emitted at `:root`, default `disc`) | base contract |
+
 ### Range Group
 
 Consumed with an inline fallback (`var(--pa-range-x, <default>)`), so these are
