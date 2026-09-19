@@ -396,6 +396,10 @@ app.get('/components/lists', (req, res) => {
     renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists', isLists: true });
 });
 
+app.get('/components/document', (req, res) => {
+    renderWithLayout(res, 'document', { pageTitle: 'Document', currentPage: 'document', isDocument: true });
+});
+
 app.get('/components/code', (req, res) => {
     renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
 });
