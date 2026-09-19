@@ -1,0 +1,325 @@
+<!-- ================================
+     SHEET COMPONENT
+     Pure Admin Visual Framework
+
+     A printable "paper" document shell for invoices, orders, quotes,
+     receipts, delivery notes and payment reminders — grid-structured
+     A4 pages, not app screens. .pa-sheet is the white, centred,
+     A4-width page with a screen-only drop shadow and a built-in
+     @media print layer (strips shadow + margins, adds @page A4).
+
+     Compose, don't reinvent: line items use the normal .pa-table;
+     label/value metadata can use .pa-fields / .pa-desc-table. The
+     sheet only adds the page frame + print layer + the invoice-shaped
+     regions those blocks don't cover.
+     ================================ -->
+
+
+<!-- ================================
+     FULL INVOICE — the canonical composition
+     masthead → parties → meta → line items (pa-table) → totals →
+     notes → footer (signatures + legal)
+     ================================ -->
+<div class="pa-sheet">
+
+  <!-- Masthead: brand on the start, document title on the end.
+       Add --ruled for a rule beneath it. -->
+  <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
+    <div class="pa-sheet__brand">
+      <img class="pa-sheet__logo" src="/assets/logo.svg" alt="Twin Peaks Ltd.">
+      Twin Peaks Ltd.
+    </div>
+    <div>
+      <h1 class="pa-sheet__doctitle">INVOICE No. 2026-0142</h1>
+      <div class="pa-sheet__docmeta">Tax invoice</div>
+    </div>
+  </header>
+
+  <!-- Parties: supplier + customer. --boxed = grey fill, --strong =
+       hard border. Drop a .pa-fields inside __party-body for reg/VAT IDs. -->
+  <section class="pa-sheet__parties">
+    <div class="pa-sheet__party">
+      <span class="pa-sheet__party-label">Supplier</span>
+      <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+      <div class="pa-sheet__party-body">
+        251 Fir Avenue<br>
+        Twin Peaks, 98065
+        <div class="pa-fields pa-fields--horizontal pa-fields--compact pa-fields--no-border">
+          <div class="pa-field"><span class="pa-field__label">Reg. No.</span><span class="pa-field__value">12345678</span></div>
+          <div class="pa-field"><span class="pa-field__label">VAT No.</span><span class="pa-field__value">GB12345678</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="pa-sheet__party pa-sheet__party--strong">
+      <span class="pa-sheet__party-label">Bill to</span>
+      <span class="pa-sheet__party-name">Great Northern Hotel Ltd.</span>
+      <div class="pa-sheet__party-body">
+        1 Riverside Drive<br>
+        Snoqualmie, 98065
+      </div>
+    </div>
+  </section>
+
+  <!-- Meta: right-aligned label/value grid (reference, dates…). -->
+  <section class="pa-sheet__meta">
+    <span class="pa-sheet__meta-label">Reference No.</span>
+    <span class="pa-sheet__meta-value">2071845390</span>
+    <span class="pa-sheet__meta-label">Issue date</span>
+    <span class="pa-sheet__meta-value">Sep 9, 2026</span>
+    <span class="pa-sheet__meta-label">Due date</span>
+    <span class="pa-sheet__meta-value">Sep 23, 2026</span>
+    <span class="pa-sheet__meta-label">Payment method</span>
+    <span class="pa-sheet__meta-value">Bank transfer</span>
+  </section>
+
+  <!-- Line items: the ordinary .pa-table — every table modifier applies. -->
+  <table class="pa-table pa-table--bordered">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th class="text-end">Qty</th>
+        <th class="text-end">Unit price</th>
+        <th class="text-end">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Application support — 08/2026</td>
+        <td class="text-end">5 days</td>
+        <td class="text-end">8,000.00</td>
+        <td class="text-end">40,000.00</td>
+      </tr>
+      <tr>
+        <td>Application support — 09/2026</td>
+        <td class="text-end">5 days</td>
+        <td class="text-end">8,000.00</td>
+        <td class="text-end">40,000.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Totals: end-aligned summary column. --grand = the ruled bottom line. -->
+  <section class="pa-sheet__totals">
+    <div class="pa-sheet__total-row">
+      <span class="pa-sheet__total-label">Subtotal</span>
+      <span class="pa-sheet__total-value">80,000.00</span>
+    </div>
+    <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+      <span class="pa-sheet__total-label">Total due</span>
+      <span class="pa-sheet__total-value">€80,000.00</span>
+    </div>
+  </section>
+
+  <!-- Notes: prose block (terms, thank-you, reminder copy). -->
+  <section class="pa-sheet__notes">
+    <p>Please note that if the due date is not met, we will charge interest
+       on late payment at the statutory rate.</p>
+  </section>
+
+  <!-- Footer: signature slots + small-print legal imprint. -->
+  <footer class="pa-sheet__footer">
+    <div class="pa-sheet__signatures">
+      <div class="pa-sheet__sign"><span>Issued by</span></div>
+      <div class="pa-sheet__sign"><span>Received by</span></div>
+      <div class="pa-sheet__sign"><span>Stamp</span></div>
+    </div>
+    <div class="pa-sheet__legal">
+      Registered in the Commercial Register, Section C, File 12345 · Generated by an accounting &amp; invoicing system.
+    </div>
+  </footer>
+</div>
+
+
+<!-- ================================
+     THREE-PARTY HEADER (e.g. payment reminder)
+     --cols-3 splits the parties row into three blocks.
+     ================================ -->
+<div class="pa-sheet">
+  <header class="pa-sheet__masthead">
+    <div class="pa-sheet__brand">
+      <img class="pa-sheet__logo" src="/assets/logo.svg" alt="Blue Rose Telecom a.s.">
+    </div>
+    <h1 class="pa-sheet__doctitle">Payment Reminder</h1>
+  </header>
+
+  <section class="pa-sheet__parties pa-sheet__parties--cols-3">
+    <div class="pa-sheet__party">
+      <span class="pa-sheet__party-label">Customer service</span>
+      <span class="pa-sheet__party-name">Blue Rose Telecom Ltd.</span>
+      <div class="pa-sheet__party-body">100 Bureau Plaza<br>Philadelphia, 19106</div>
+    </div>
+    <div class="pa-sheet__party">
+      <span class="pa-sheet__party-label">Customer</span>
+      <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+      <div class="pa-sheet__party-body">251 Fir Avenue<br>Twin Peaks, 98065</div>
+    </div>
+    <div class="pa-sheet__party">
+      <span class="pa-sheet__party-label">Contact address</span>
+      <span class="pa-sheet__party-name">Dale Cooper</span>
+      <div class="pa-sheet__party-body">251 Fir Avenue<br>Twin Peaks, 98065</div>
+    </div>
+  </section>
+
+  <section class="pa-sheet__notes">
+    <p>Dear Sir or Madam, unfortunately we have not yet received your payment
+       for services. We kindly ask you to settle it at your earliest convenience.</p>
+  </section>
+</div>
+
+
+<!-- ================================
+     MODIFIERS
+     ================================ -->
+
+<!-- Framed: hairline outer border -->
+<div class="pa-sheet pa-sheet--framed">…</div>
+
+<!-- Compact / Spacious: tighter / looser page margins + region rhythm -->
+<div class="pa-sheet pa-sheet--compact">…</div>
+<div class="pa-sheet pa-sheet--spacious">…</div>
+
+<!-- Fluid: fill the container instead of clamping to A4 width -->
+<div class="pa-sheet pa-sheet--fluid">…</div>
+
+<!-- Landscape: A4 landscape (297×210mm) for wide, many-column tables.
+     Only sheets with this class rotate in print (named @page). -->
+<div class="pa-sheet pa-sheet--landscape">…wide table…</div>
+
+<!-- Fill: full A4-height page; the last region (footer) sinks to the page
+     bottom even when content is short. Prints on exactly one page. -->
+<div class="pa-sheet pa-sheet--fill">
+  <header class="pa-sheet__masthead">…</header>
+  …short content…
+  <footer class="pa-sheet__footer">…pinned to the page bottom…</footer>
+</div>
+
+<!-- Totals on the start (left) rather than end-aligned -->
+<section class="pa-sheet__totals pa-sheet__totals--start">…</section>
+
+
+<!-- ================================
+     BARCODE / QR CODES
+     The framework provides the placement slots; inject the code itself as
+     inline SVG (e.g. JsBarcode for barcodes, a QR lib, or a server-rendered
+     image). Use SVG (or an <img> data-URL) — NOT <canvas>: a canvas prints
+     blank via the single-element print helper and blurs at print DPI.
+     ================================ -->
+
+<!-- Barcode (e.g. document id in the masthead for quick scanning). The
+     <svg> is filled in by your barcode library. -->
+<div class="pa-sheet__barcode"><svg id="doc-barcode"></svg></div>
+
+<!-- QR code (e.g. "scan to pay" in the body). The SVG is the FIRST child so
+     `.pa-sheet__qr > svg` matches; the label sits below it. -->
+<div class="pa-sheet__qr" id="pay-qr">
+  <!-- <svg> injected here as the first child -->
+  <span class="pa-sheet__qr-label">Scan to pay</span>
+</div>
+
+<!-- Example wiring (SVG output keeps codes crisp + printable):
+  <script>
+    JsBarcode('#doc-barcode', 'INV-2026-0184', { format: 'CODE128' });
+    var q = qrcode(0, 'M'); q.addData('https://pay.example/inv/0184'); q.make();
+    document.getElementById('pay-qr')
+      .insertAdjacentHTML('afterbegin', q.createSvgTag({ scalable: true, margin: 1 }));
+  </script>
+-->
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+BLOCK:
+  .pa-sheet                 A4-width white page, centred, screen shadow,
+                             built-in @media print layer (+ @page A4).
+
+MODIFIERS ON .pa-sheet:
+  --framed                  hairline outer border
+  --compact / --spacious    tighter / looser padding + region gap
+  --fluid                   fill container (drop the A4 max-width clamp)
+  --fill                    full A4-height page; last region (footer) sinks
+                             to the page bottom even when content is short
+                             (screen: flex+margin-auto; print: the footer is
+                             pinned with position:fixed). For SHORT, single-
+                             page documents only.
+  --landscape               A4 landscape (297×210mm) for wide tables. Only
+                             this sheet rotates in print (named @page); a page
+                             can mix portrait + landscape sheets.
+
+REGIONS (elements):
+  __masthead (+ --ruled)    top band: brand on start, title on end
+    __brand                 brand cluster (logo + company name)
+    __logo                  logo image (max-height 4.8rem)
+    __doctitle              document title (INVOICE …), end-aligned
+    __docmeta               sub-title / tagline / doc note under title
+  __parties (+ --cols-3)    grid of party blocks (2 cols default)
+    __party (+ --boxed      grey-filled block
+             / --strong)    hard-bordered block
+      __party-label         uppercase role (Supplier / Bill to)
+      __party-name          bold company/person name
+      __party-body          address / registration lines; a .pa-fields
+                             can nest here for reg. no / VAT pairs
+  __meta (+ --boxed)        right-aligned label/value grid (ref, dates)
+    __meta-label / __meta-value
+  __title                   generic titled-section heading
+  __totals (+ --start)      end-aligned summary column
+    __total-row (+ --grand) one summary line; --grand = ruled bottom line
+      __total-label / __total-value
+  __notes                   prose block (terms, reminder copy)
+  __barcode                 barcode slot (inject inline SVG — e.g. Code128)
+  __qr                      QR slot; __qr-label caption sits below the code
+  __footer                  bottom band
+    __signatures            responsive grid of signature slots
+      __sign                one slot: label on top, rule to sign above
+    __legal                 small-print legal imprint
+    __pageno                page number, end-aligned
+
+COMPOSE WITH EXISTING BLOCKS:
+  Line items                .pa-table (any modifier: --striped,
+                             --bordered, --compact …)
+  Metadata / party pairs    .pa-fields, .pa-desc-table
+  Tax-breakdown box         .pa-table or .pa-desc-table
+  Chapter-style terms       .pa-document (numbered clauses)
+
+PRINTING:
+  .pa-sheet ships its own @media print rules (no shadow/margins, avoids
+  breaking rows/parties across pages) and a default @page { size: A4 }.
+  The page MARGIN is intentionally not set — the browser's own margin (the
+  "Margins" setting the user picks in the print dialog) governs it. To pin a
+  fixed margin, declare @page { margin: 15mm } after the framework.
+
+  Whole page  — window.print(). Hide your app chrome in your own print
+                stylesheet: @media print { .app-navbar { display: none } }.
+  ONE sheet   — the browser has no native single-element print, so use the
+                helper in src/js/sheet-print.js (attaches to window.pureAdmin):
+
+                  pureAdmin.printElement('#my-invoice', { title: 'INV-0184' });
+
+                It clones just that element into a hidden iframe with the
+                page's stylesheets + current theme mode, and prints only it —
+                no page-level print CSS needed, the visible page is untouched.
+                From a button INSIDE the sheet use pureAdmin.printSheet(this)
+                (climbs to the enclosing .pa-sheet). Mark the button (or any
+                node) [data-print-omit] / .pa-print-hide to keep it out of the
+                printout:
+
+                  <div data-print-omit style="text-align:end">
+                    <button onclick="pureAdmin.printSheet(this, {title:'INV-0184'})">
+                      Print
+                    </button>
+                  </div>
+
+  Override the page box by declaring your own @page after the framework.
+
+RUNTIME TOKENS (--pa-*, inline fallbacks — no :root needed):
+  --pa-sheet-width          page width (default 210mm)
+  --pa-sheet-height         page height for --fill on screen (default 297mm)
+  --pa-sheet-padding        inner page margin on screen
+  --pa-sheet-gap            vertical rhythm between regions
+  --pa-sheet-rule-color     masthead/total rule colour
+  --pa-sheet-totals-width   width of the totals column (default 42rem)
+  --pa-sheet-sign-height    blank height of a signature slot (default 6rem)
+  --pa-sheet-qr-size        QR code square size (default 12rem)
+-->

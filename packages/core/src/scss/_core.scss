@@ -42,6 +42,9 @@
 // Document (hierarchical numbered sections)
 @use 'core-components/document' as *;
 
+// Sheet (printable A4 invoice/order/receipt document)
+@use 'core-components/sheet' as *;
+
 // Badge components (standard and composite)
 @use 'core-components/badges' as *;
 

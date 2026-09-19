@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-19T14:03:44.433Z",
+  "generated": "2026-09-19T20:16:14.118Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -141,6 +141,11 @@
       "hash": "2bdf5a1475c56a93d50fd8b915fad48155c106424b21ab2918d42b1bdf568b13",
       "size": 9129,
       "modified": "2026-09-10T19:55:53.691Z"
+    },
+    "sheet.html": {
+      "hash": "bba2040ff520ad1a894bbf3838cd3c113423210982f1dd27fbe22d0b7cb657c3",
+      "size": 14279,
+      "modified": "2026-09-19T20:15:37.373Z"
     },
     "splitter.html": {
       "hash": "19206e582a57f29c6334e3f82e779c15be8db18921180743a24352946b616ae3",
@@ -524,6 +529,11 @@
       "size": 4540,
       "modified": "2026-09-17T20:35:07.872Z"
     },
+    "core-components/_sheet.scss": {
+      "hash": "6cde446f5bbad293037175e4f984efa723ac29bd1cc356de4b38eb887449f0c1",
+      "size": 13157,
+      "modified": "2026-09-19T20:13:28.173Z"
+    },
     "core-components/_splitter.scss": {
       "hash": "c2181bdb24ee7d73ed017c6d765ce660b76d9ae7f5d2a1097f3ac65490c29d7e",
       "size": 6930,
@@ -595,9 +605,9 @@
       "modified": "2026-09-10T19:55:52.866Z"
     },
     "_core.scss": {
-      "hash": "918d0d25c8f77ea2665be27f1178266bea4aab8f47dca4ababeda3868ac30ada",
-      "size": 4155,
-      "modified": "2026-09-19T13:59:36.581Z"
+      "hash": "d31549c1d4ba48ca9c2e9bfa527bbdb9c646eff0a55dcfb5433fcb1458f57e5e",
+      "size": 4246,
+      "modified": "2026-09-19T17:14:22.049Z"
     },
     "_pc-component-variables.scss": {
       "hash": "49912f0dd139767789338125ea9c1e6438885e1082fbf1d826dfa5eff64c704b",

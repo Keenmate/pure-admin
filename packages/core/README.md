@@ -114,6 +114,7 @@ Pull in only the files for the components you use:
 | Fit-to-box stat | `pa-stat-fit.js` |
 | Modal dialogs | `modal-dialogs.js` |
 | Range group (`.pa-range-group` / `.pa-range`) | `range-group.js` |
+| Sheet single-element printing (`pureAdmin.printElement` / `printSheet`) | `sheet-print.js` |
 
 **Positioning dependency:** `split-button.js`, `tooltips-popovers.js`, and
 `range-group.js` use

@@ -400,6 +400,10 @@ app.get('/components/document', (req, res) => {
     renderWithLayout(res, 'document', { pageTitle: 'Document', currentPage: 'document', isDocument: true });
 });
 
+app.get('/components/sheet', (req, res) => {
+    renderWithLayout(res, 'sheet', { pageTitle: 'Sheet (Invoice)', currentPage: 'sheet', isSheet: true });
+});
+
 app.get('/components/code', (req, res) => {
     renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
 });

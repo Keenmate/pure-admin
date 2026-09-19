@@ -1,0 +1,711 @@
+<p>Printable <strong>paper documents</strong> — invoices, orders, quotes, receipts and payment reminders — built from a set of blocks instead of hand-rolled HTML. <code>pa-sheet</code> is the white, centred, A4-width page with a screen-only drop shadow and a built-in <code>@media&nbsp;print</code> layer. Line items reuse the ordinary <code>pa-table</code>; label/value metadata reuse <code>pa-fields</code> / <code>pa-desc-table</code>. The examples below use fictional data (Twin Peaks Ltd. &amp; friends).</p>
+
+<div class="mb-8">
+    <button type="button" class="pa-btn pa-btn--primary" onclick="window.print()">
+        <span aria-hidden="true">🖨️</span> Print whole page
+    </button>
+    <span class="pa-text pa-text--secondary ms-2"><code>window.print()</code> prints the entire document. Each sheet below also has its own button that prints <strong>just that one sheet</strong> in isolation via <code>pureAdmin.printElement()</code> — no page-level print CSS needed.</span>
+</div>
+
+<!-- Hide the demo chrome when printing so only the sheets land on paper. -->
+<style>
+@media print {
+    .pc-sidebar, .pc-navbar, .pc-app-header, .pc-page-header, .pc-footer,
+    .sheet-demo-controls, .sheet-demo-intro { display: none !important; }
+    .pc-main, .pc-content, .pc-layout__main { margin: 0 !important; padding: 0 !important; }
+}
+</style>
+
+
+<!-- ============================================================
+     EXAMPLE 1 — Standard tax invoice (gridded / boxed style)
+     ============================================================ -->
+<div id="sheet-invoice" class="pa-sheet pa-sheet--framed mb-8">
+    <!-- In-sheet print button: printSheet(this) climbs to the enclosing
+         .pa-sheet; data-print-omit keeps the button itself out of the printout. -->
+    <div data-print-omit style="text-align: end;">
+        <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printSheet(this, { title: 'Invoice 2026-0184' })">
+            <span aria-hidden="true">🖨️</span> Print this invoice
+        </button>
+    </div>
+    <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
+        <div class="pa-sheet__brand">Twin Peaks Ltd.</div>
+        <div style="text-align: end;">
+            <!-- Barcode on the same row as the number to save vertical space. -->
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem;">
+                <div class="pa-sheet__barcode"><svg id="bc-invoice"></svg></div>
+                <h1 class="pa-sheet__doctitle" style="color: var(--pc-accent);">INVOICE No. 2026-0184</h1>
+            </div>
+            <div class="pa-sheet__docmeta">Tax invoice</div>
+        </div>
+    </header>
+
+    <section class="pa-sheet__parties">
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Supplier</span>
+            <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+            <div class="pa-sheet__party-body">
+                251 Fir Avenue<br>
+                Twin Peaks, 98065
+                <div class="pa-fields pa-fields--horizontal pa-fields--compact pa-fields--no-border mt-2">
+                    <div class="pa-field"><span class="pa-field__label">Reg. No.</span><span class="pa-field__value">12345678</span></div>
+                    <div class="pa-field"><span class="pa-field__label">VAT No.</span><span class="pa-field__value">GB12345678</span></div>
+                    <div class="pa-field"><span class="pa-field__label">Email</span><span class="pa-field__value">billing@twinpeaks.example</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="pa-sheet__party pa-sheet__party--strong">
+            <span class="pa-sheet__party-label">Bill to</span>
+            <span class="pa-sheet__party-name">Great Northern Hotel Ltd.</span>
+            <div class="pa-sheet__party-body">
+                1 Riverside Drive<br>
+                Snoqualmie, 98065
+                <div class="pa-fields pa-fields--horizontal pa-fields--compact pa-fields--no-border mt-2">
+                    <div class="pa-field"><span class="pa-field__label">Reg. No.</span><span class="pa-field__value">23456789</span></div>
+                    <div class="pa-field"><span class="pa-field__label">VAT No.</span><span class="pa-field__value">GB23456789</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="pc-row">
+        <div class="pc-col-100 pc-col-md-50">
+            <section class="pa-sheet__meta">
+                <span class="pa-sheet__meta-label">Reference No.</span>
+                <span class="pa-sheet__meta-value">3048117265</span>
+                <span class="pa-sheet__meta-label">Payment code</span>
+                <span class="pa-sheet__meta-value">0558</span>
+                <span class="pa-sheet__meta-label">Order No.</span>
+                <span class="pa-sheet__meta-value">1000883204</span>
+            </section>
+        </div>
+        <div class="pc-col-100 pc-col-md-50">
+            <section class="pa-sheet__meta pa-sheet__meta--boxed">
+                <span class="pa-sheet__meta-label">Issue date</span>
+                <span class="pa-sheet__meta-value">Sep 9, 2026</span>
+                <span class="pa-sheet__meta-label">Due date</span>
+                <span class="pa-sheet__meta-value">Sep 23, 2026</span>
+                <span class="pa-sheet__meta-label">Payment method</span>
+                <span class="pa-sheet__meta-value">Bank transfer</span>
+                <span class="pa-sheet__meta-label">IBAN</span>
+                <span class="pa-sheet__meta-value">GB29 8210 4467 0093 1875 22</span>
+            </section>
+        </div>
+    </div>
+
+    <table class="pa-table pa-table--bordered">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th class="text-end">Qty</th>
+                <th class="text-end">Unit price</th>
+                <th class="text-end">Discount</th>
+                <th class="text-end">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Application support for the business portal — 08/2026</td>
+                <td class="text-end">7 days</td>
+                <td class="text-end">7,500.00</td>
+                <td class="text-end">—</td>
+                <td class="text-end">52,500.00</td>
+            </tr>
+            <tr>
+                <td>Application support for the business portal — 09/2026</td>
+                <td class="text-end">9 days</td>
+                <td class="text-end">7,500.00</td>
+                <td class="text-end">—</td>
+                <td class="text-end">67,500.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Payment QR on the start, totals on the end (totals keeps its
+         margin-inline-start:auto, so it stays pushed to the page edge). -->
+    <div style="display: flex; align-items: flex-end; gap: 2rem;">
+        <div class="pa-sheet__qr" id="qr-invoice">
+            <span class="pa-sheet__qr-label">Scan to pay</span>
+        </div>
+        <section class="pa-sheet__totals">
+            <div class="pa-sheet__total-row">
+                <span class="pa-sheet__total-label">Subtotal</span>
+                <span class="pa-sheet__total-value">120,000.00</span>
+            </div>
+            <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+                <span class="pa-sheet__total-label">Total due</span>
+                <span class="pa-sheet__total-value">€120,000.00</span>
+            </div>
+        </section>
+    </div>
+
+    <section class="pa-sheet__notes">
+        <p>Twin Peaks Ltd. is not a registered VAT payer.</p>
+        <p>Please note that if the due date shown on this invoice is not met, we will charge interest on late payment at the agreed or statutory rate, along with any contractual penalty where one has been agreed.</p>
+    </section>
+
+    <footer class="pa-sheet__footer">
+        <div class="pa-sheet__signatures">
+            <div class="pa-sheet__sign"><span>Issued by</span></div>
+            <div class="pa-sheet__sign"><span>Received by</span></div>
+            <div class="pa-sheet__sign"><span>Stamp</span></div>
+        </div>
+        <div class="pa-sheet__legal">
+            Registered in the Commercial Register, Section C, File 12345 · Generated by an accounting &amp; invoicing system.
+        </div>
+    </footer>
+</div>
+
+
+<!-- ============================================================
+     EXAMPLE 2 — Tax document with boxed parties + tax summary
+     (grey boxed-parties tax-invoice style)
+     ============================================================ -->
+<div class="mb-2">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-taxdoc', { title: 'Invoice 2026318' })">
+        <span aria-hidden="true">🖨️</span> Print this invoice
+    </button>
+</div>
+<div id="sheet-taxdoc" class="pa-sheet pa-sheet--framed mb-8">
+    <div class="pc-row">
+        <div class="pc-col-100 pc-col-md-60">
+            <section class="pa-sheet__parties">
+                <div class="pa-sheet__party pa-sheet__party--boxed">
+                    <span class="pa-sheet__party-label">Supplier</span>
+                    <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+                    <div class="pa-sheet__party-body">
+                        251 Fir Avenue<br>
+                        Twin Peaks, 98065<br>
+                        Reg. No. 12345678 · VAT No. GB12345678
+                    </div>
+                </div>
+                <div class="pa-sheet__party pa-sheet__party--boxed">
+                    <span class="pa-sheet__party-label">Bill to</span>
+                    <span class="pa-sheet__party-name">Double R Diner Ltd.</span>
+                    <div class="pa-sheet__party-body">
+                        55 Main Street<br>
+                        Twin Peaks, 98065<br>
+                        Reg. No. 34567890 · VAT No. GB34567890
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="pc-col-100 pc-col-md-40">
+            <h1 class="pa-sheet__doctitle" style="text-align: start;">TAX INVOICE</h1>
+            <div class="pa-sheet__docmeta" style="text-align: start;">Invoice No. 2026318</div>
+            <section class="pa-sheet__meta mt-4">
+                <span class="pa-sheet__meta-label">Issue date</span>
+                <span class="pa-sheet__meta-value">Sep 10, 2026</span>
+                <span class="pa-sheet__meta-label">Tax point date</span>
+                <span class="pa-sheet__meta-value">Aug 12, 2026</span>
+                <span class="pa-sheet__meta-label">Due date</span>
+                <span class="pa-sheet__meta-value">Oct 10, 2026</span>
+                <span class="pa-sheet__meta-label">Reference No.</span>
+                <span class="pa-sheet__meta-value">2026318</span>
+            </section>
+        </div>
+    </div>
+
+    <table class="pa-table pa-table--striped pa-table--bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th class="text-end">Qty</th>
+                <th>Unit</th>
+                <th class="text-end">Unit price (excl. VAT)</th>
+                <th class="text-end">Line total</th>
+                <th class="text-end">VAT rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>Crema pomodoro</td><td class="text-end">4.000</td><td>pcs</td><td class="text-end">58.40</td><td class="text-end">233.60</td><td class="text-end">12.00%</td></tr>
+            <tr><td>2</td><td>Fusilli carbonara</td><td class="text-end">3.000</td><td>pcs</td><td class="text-end">129.90</td><td class="text-end">389.70</td><td class="text-end">12.00%</td></tr>
+            <tr><td>3</td><td>Fusilli pollo spinaci</td><td class="text-end">6.000</td><td>pcs</td><td class="text-end">121.50</td><td class="text-end">729.00</td><td class="text-end">12.00%</td></tr>
+            <tr><td>4</td><td>Gnocchi pollo gorgonzola</td><td class="text-end">9.000</td><td>pcs</td><td class="text-end">112.30</td><td class="text-end">1,010.70</td><td class="text-end">12.00%</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Tax-breakdown grid: an ordinary bordered table, end-aligned -->
+    <section class="pa-sheet__totals" style="--pa-sheet-totals-width: 48rem;">
+        <table class="pa-table pa-table--bordered pa-table--compact">
+            <tbody>
+                <tr><td>Taxable base (12%)</td><td class="text-end">2,363.00</td><td>VAT (12%)</td><td class="text-end">283.56</td></tr>
+                <tr><td>Total excl. VAT</td><td class="text-end">2,363.00</td><td>Total VAT</td><td class="text-end">283.56</td></tr>
+            </tbody>
+        </table>
+        <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+            <span class="pa-sheet__total-label">Total due</span>
+            <span class="pa-sheet__total-value">€2,646.56</span>
+        </div>
+    </section>
+</div>
+
+
+<!-- ============================================================
+     EXAMPLE 3 — Payment reminder (three-party, prose-led)
+     (telecom reminder style)
+     ============================================================ -->
+<div class="mb-2">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-reminder', { title: 'Payment reminder' })">
+        <span aria-hidden="true">🖨️</span> Print this reminder
+    </button>
+</div>
+<div id="sheet-reminder" class="pa-sheet pa-sheet--fill mb-8">
+    <header class="pa-sheet__masthead">
+        <div class="pa-sheet__brand" style="color: var(--pc-danger-text);">Blue Rose Telecom Ltd.</div>
+        <h1 class="pa-sheet__doctitle">Payment Reminder</h1>
+    </header>
+
+    <section class="pa-sheet__parties pa-sheet__parties--cols-3">
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Customer service</span>
+            <span class="pa-sheet__party-name">Blue Rose Telecom Ltd.</span>
+            <div class="pa-sheet__party-body">100 Bureau Plaza<br>Philadelphia, 19106<br>Tel: 800 000 000</div>
+        </div>
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Customer</span>
+            <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+            <div class="pa-sheet__party-body">251 Fir Avenue<br>Twin Peaks, 98065<br>Reg. No. 12345678</div>
+        </div>
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Contact address</span>
+            <span class="pa-sheet__party-name">Dale Cooper</span>
+            <div class="pa-sheet__party-body">251 Fir Avenue<br>Twin Peaks, 98065</div>
+        </div>
+    </section>
+
+    <section class="pa-sheet__notes">
+        <p>Philadelphia, Sep 11, 2026</p>
+        <p>Dear Sir or Madam, unfortunately we have not yet received your payment for services in the amount of <strong>€4,187.60</strong> for billing group No.&nbsp;38716204. We kindly ask you to settle it by Sep 18, 2026. Your payment reference is <strong>9438716204</strong>.</p>
+    </section>
+
+    <section class="pa-sheet__title">Summary of your outstanding invoices</section>
+    <table class="pa-table">
+        <thead>
+            <tr>
+                <th>Invoice No.</th>
+                <th>Due date</th>
+                <th class="text-end">Outstanding</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>3184029557</td>
+                <td>Sep 3, 2026</td>
+                <td class="text-end">4,187.60</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <section class="pa-sheet__totals">
+        <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+            <span class="pa-sheet__total-label">Total due</span>
+            <span class="pa-sheet__total-value">€4,187.60</span>
+        </div>
+    </section>
+
+    <section class="pa-sheet__notes">
+        <p>If the amount reaches us by the stated date, we will not need to restrict your services. If you have already sent the payment, thank you.</p>
+    </section>
+
+    <footer class="pa-sheet__footer">
+        <div class="pa-sheet__legal">Customer Payments &amp; Receivables Department</div>
+    </footer>
+</div>
+
+
+<!-- ============================================================
+     EXAMPLE 4 — Minimal service invoice with legal imprint
+     (minimal service invoice: plain parties, tagline, small totals, footer)
+     pa-sheet--fill: short content, so the footer (imprint + "1 / 1") sinks
+     all the way to the page bottom — the clearest demo of the modifier.
+     ============================================================ -->
+<div class="mb-2">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-service', { title: 'Invoice — service' })">
+        <span aria-hidden="true">🖨️</span> Print this invoice
+    </button>
+</div>
+<div id="sheet-service" class="pa-sheet pa-sheet--framed pa-sheet--fill mb-8">
+    <header class="pa-sheet__masthead">
+        <div class="pa-sheet__brand">Black Lodge Leasing Ltd.</div>
+        <div>
+            <div class="pa-sheet__docmeta" style="font-style: italic;">The owls are not what they seem</div>
+            <h1 class="pa-sheet__doctitle mt-2">INVOICE — Tax document</h1>
+        </div>
+    </header>
+
+    <section class="pa-sheet__parties">
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Bill to</span>
+            <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+            <div class="pa-sheet__party-body">
+                251 Fir Avenue<br>
+                Twin Peaks, 98065<br>
+                VAT No. GB12345678 · Reg. No. 12345678
+            </div>
+        </div>
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Supplier</span>
+            <span class="pa-sheet__party-name">Black Lodge Leasing Ltd.</span>
+            <div class="pa-sheet__party-body">
+                5 Sycamore Circle<br>
+                Glastonbury, 06033<br>
+                VAT No. GB45678901 · Reg. No. 45678901
+            </div>
+        </div>
+    </section>
+
+    <section class="pa-sheet__meta">
+        <span class="pa-sheet__meta-label">Reference</span>
+        <span class="pa-sheet__meta-value">account management</span>
+        <span class="pa-sheet__meta-label">Issue date</span>
+        <span class="pa-sheet__meta-value">Sep 15, 2026</span>
+        <span class="pa-sheet__meta-label">Tax point date</span>
+        <span class="pa-sheet__meta-value">Sep 15, 2026</span>
+    </section>
+
+    <section class="pa-sheet__title">Services invoiced</section>
+    <section class="pa-sheet__totals">
+        <div class="pa-sheet__total-row">
+            <span class="pa-sheet__total-label">Total excl. VAT</span>
+            <span class="pa-sheet__total-value">12,480.00</span>
+        </div>
+        <div class="pa-sheet__total-row">
+            <span class="pa-sheet__total-label">VAT (21%) on rental</span>
+            <span class="pa-sheet__total-value">2,620.80</span>
+        </div>
+        <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+            <span class="pa-sheet__total-label">Total incl. VAT</span>
+            <span class="pa-sheet__total-value">€15,100.80</span>
+        </div>
+    </section>
+
+    <footer class="pa-sheet__footer">
+        <section class="pa-sheet__meta" style="max-width: 32rem;">
+            <span class="pa-sheet__meta-label">Payment method</span>
+            <span class="pa-sheet__meta-value">Direct debit</span>
+            <span class="pa-sheet__meta-label">Due date</span>
+            <span class="pa-sheet__meta-value">Sep 30, 2026</span>
+        </section>
+        <div class="pa-sheet__legal">
+            Black Lodge Leasing Ltd. – 5 Sycamore Circle – Glastonbury, 06033 – tel: +1 200 000 000 – blacklodge.example.
+            Registered in the Commercial Register held by the City Court, Section C, File 12345.
+            <div class="pa-sheet__pageno mt-2">1 / 1</div>
+        </div>
+    </footer>
+</div>
+
+
+<!-- ============================================================
+     EXAMPLE 5 — Purchase order (portrait A4)
+     A different document type (an order, not an invoice) built from the
+     same regions: three-party header (vendor / bill-to / ship-to), an
+     item table with SKU codes, and an approval footer.
+     ============================================================ -->
+<div class="mb-2">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-order', { title: 'Purchase order PO-2026-0453' })">
+        <span aria-hidden="true">🖨️</span> Print this order
+    </button>
+</div>
+<div id="sheet-order" class="pa-sheet pa-sheet--framed mb-8">
+    <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
+        <div class="pa-sheet__brand">Twin Peaks Ltd.</div>
+        <div style="text-align: end;">
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem;">
+                <div class="pa-sheet__barcode"><svg id="bc-order"></svg></div>
+                <h1 class="pa-sheet__doctitle">PURCHASE ORDER</h1>
+            </div>
+            <div class="pa-sheet__docmeta">No. PO-2026-0453</div>
+        </div>
+    </header>
+
+    <section class="pa-sheet__parties pa-sheet__parties--cols-3">
+        <div class="pa-sheet__party pa-sheet__party--boxed">
+            <span class="pa-sheet__party-label">Order from</span>
+            <span class="pa-sheet__party-name">Horne's Department Store Ltd.</span>
+            <div class="pa-sheet__party-body">
+                1 Great Northern Way<br>
+                Snoqualmie, 98065<br>
+                Reg. No. 56789012
+            </div>
+        </div>
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Bill to</span>
+            <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+            <div class="pa-sheet__party-body">
+                251 Fir Avenue<br>
+                Twin Peaks, 98065<br>
+                Reg. No. 12345678
+            </div>
+        </div>
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Ship to</span>
+            <span class="pa-sheet__party-name">Twin Peaks Ltd. — Warehouse B</span>
+            <div class="pa-sheet__party-body">
+                12 Sparkwood Avenue<br>
+                Twin Peaks, 98065<br>
+                Attn: Goods inwards
+            </div>
+        </div>
+    </section>
+
+    <section class="pa-sheet__meta">
+        <span class="pa-sheet__meta-label">Order date</span>
+        <span class="pa-sheet__meta-value">Sep 12, 2026</span>
+        <span class="pa-sheet__meta-label">Requested delivery</span>
+        <span class="pa-sheet__meta-value">Sep 26, 2026</span>
+        <span class="pa-sheet__meta-label">Payment terms</span>
+        <span class="pa-sheet__meta-value">Net 30</span>
+        <span class="pa-sheet__meta-label">Buyer</span>
+        <span class="pa-sheet__meta-value">Dale Cooper</span>
+    </section>
+
+    <table class="pa-table pa-table--striped pa-table--bordered">
+        <thead>
+            <tr>
+                <th>Item code</th>
+                <th>Description</th>
+                <th class="text-end">Qty</th>
+                <th>Unit</th>
+                <th class="text-end">Unit price</th>
+                <th class="text-end">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>TP-COF-001</td><td>Damn fine coffee (1&nbsp;kg)</td><td class="text-end">40</td><td>bag</td><td class="text-end">18.00</td><td class="text-end">720.00</td></tr>
+            <tr><td>TP-PIE-002</td><td>Cherry pie (whole)</td><td class="text-end">25</td><td>ea</td><td class="text-end">12.50</td><td class="text-end">312.50</td></tr>
+            <tr><td>TP-DON-003</td><td>Assorted donuts (dozen)</td><td class="text-end">30</td><td>box</td><td class="text-end">9.00</td><td class="text-end">270.00</td></tr>
+            <tr><td>TP-LOG-004</td><td>Douglas fir log (decorative)</td><td class="text-end">5</td><td>ea</td><td class="text-end">45.00</td><td class="text-end">225.00</td></tr>
+        </tbody>
+    </table>
+
+    <section class="pa-sheet__totals">
+        <div class="pa-sheet__total-row">
+            <span class="pa-sheet__total-label">Subtotal</span>
+            <span class="pa-sheet__total-value">1,527.50</span>
+        </div>
+        <div class="pa-sheet__total-row">
+            <span class="pa-sheet__total-label">Shipping</span>
+            <span class="pa-sheet__total-value">40.00</span>
+        </div>
+        <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+            <span class="pa-sheet__total-label">Order total</span>
+            <span class="pa-sheet__total-value">€1,567.50</span>
+        </div>
+    </section>
+
+    <section class="pa-sheet__notes">
+        <p>Please confirm receipt of this order and the expected dispatch date. Deliver during business hours (8:00–16:00). Quote the order number on all documents and packages.</p>
+    </section>
+
+    <footer class="pa-sheet__footer">
+        <div class="pa-sheet__signatures">
+            <div class="pa-sheet__sign"><span>Ordered by</span></div>
+            <div class="pa-sheet__sign"><span>Authorized by</span></div>
+        </div>
+        <div class="pa-sheet__legal">
+            This purchase order is subject to Twin Peaks Ltd. standard terms and conditions of purchase.
+        </div>
+    </footer>
+</div>
+
+
+<!-- ============================================================
+     EXAMPLE 6 — Delivery note (LANDSCAPE A4)
+     pa-sheet--landscape: a wide, many-column table that needs the extra
+     width. On screen the sheet is 297mm wide; in print it rotates to A4
+     landscape via the named @page (only this sheet rotates).
+     ============================================================ -->
+<div class="mb-2">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-delivery', { title: 'Delivery note DN-2026-0088' })">
+        <span aria-hidden="true">🖨️</span> Print this delivery note
+    </button>
+</div>
+<div id="sheet-delivery" class="pa-sheet pa-sheet--framed pa-sheet--landscape mb-8">
+    <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
+        <div class="pa-sheet__brand">Twin Peaks Ltd.</div>
+        <div style="text-align: end;">
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem;">
+                <div class="pa-sheet__barcode"><svg id="bc-delivery"></svg></div>
+                <h1 class="pa-sheet__doctitle">DELIVERY NOTE</h1>
+            </div>
+            <div class="pa-sheet__docmeta">No. DN-2026-0088</div>
+        </div>
+    </header>
+
+    <section class="pa-sheet__parties pa-sheet__parties--cols-3">
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">From</span>
+            <span class="pa-sheet__party-name">Twin Peaks Ltd.</span>
+            <div class="pa-sheet__party-body">251 Fir Avenue<br>Twin Peaks, 98065</div>
+        </div>
+        <div class="pa-sheet__party pa-sheet__party--boxed">
+            <span class="pa-sheet__party-label">Deliver to</span>
+            <span class="pa-sheet__party-name">Great Northern Hotel Ltd.</span>
+            <div class="pa-sheet__party-body">1 Riverside Drive<br>Snoqualmie, 98065<br>Attn: Goods inwards</div>
+        </div>
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">Invoice to</span>
+            <span class="pa-sheet__party-name">Great Northern Hotel Ltd.</span>
+            <div class="pa-sheet__party-body">1 Riverside Drive<br>Snoqualmie, 98065</div>
+        </div>
+    </section>
+
+    <section class="pa-sheet__meta">
+        <span class="pa-sheet__meta-label">Order ref.</span>
+        <span class="pa-sheet__meta-value">PO-2026-0453</span>
+        <span class="pa-sheet__meta-label">Dispatch date</span>
+        <span class="pa-sheet__meta-value">Sep 14, 2026</span>
+        <span class="pa-sheet__meta-label">Carrier</span>
+        <span class="pa-sheet__meta-value">Blue Pine Logistics</span>
+        <span class="pa-sheet__meta-label">Tracking</span>
+        <span class="pa-sheet__meta-value">BPL-7742-0091-CZ</span>
+    </section>
+
+    <!-- Wide table — the reason for landscape. -->
+    <table class="pa-table pa-table--striped pa-table--bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item code</th>
+                <th>Description</th>
+                <th class="text-end">Ordered</th>
+                <th class="text-end">Delivered</th>
+                <th class="text-end">Back-order</th>
+                <th>Unit</th>
+                <th class="text-end">Unit price</th>
+                <th class="text-end">Discount</th>
+                <th class="text-end">Line total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TP-COF-001</td><td>Damn fine coffee (1&nbsp;kg)</td><td class="text-end">40</td><td class="text-end">40</td><td class="text-end">0</td><td>bag</td><td class="text-end">18.00</td><td class="text-end">—</td><td class="text-end">720.00</td></tr>
+            <tr><td>2</td><td>TP-PIE-002</td><td>Cherry pie (whole)</td><td class="text-end">25</td><td class="text-end">25</td><td class="text-end">0</td><td>ea</td><td class="text-end">12.50</td><td class="text-end">—</td><td class="text-end">312.50</td></tr>
+            <tr><td>3</td><td>TP-DON-003</td><td>Assorted donuts (dozen)</td><td class="text-end">30</td><td class="text-end">24</td><td class="text-end">6</td><td>box</td><td class="text-end">9.00</td><td class="text-end">—</td><td class="text-end">216.00</td></tr>
+            <tr><td>4</td><td>TP-LOG-004</td><td>Douglas fir log (decorative)</td><td class="text-end">5</td><td class="text-end">5</td><td class="text-end">0</td><td>ea</td><td class="text-end">45.00</td><td class="text-end">—</td><td class="text-end">225.00</td></tr>
+            <tr><td>5</td><td>TP-TEA-005</td><td>Fine herbal tea (100 bags)</td><td class="text-end">12</td><td class="text-end">12</td><td class="text-end">0</td><td>box</td><td class="text-end">22.00</td><td class="text-end">—</td><td class="text-end">264.00</td></tr>
+        </tbody>
+    </table>
+
+    <section class="pa-sheet__totals">
+        <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+            <span class="pa-sheet__total-label">Total delivered value</span>
+            <span class="pa-sheet__total-value">€1,737.50</span>
+        </div>
+    </section>
+
+    <section class="pa-sheet__notes">
+        <p>Item 3 is partially delivered — 6 units on back-order, expected within 5 business days. Please check goods on receipt and report discrepancies within 48 hours.</p>
+    </section>
+
+    <footer class="pa-sheet__footer">
+        <div class="pa-sheet__signatures">
+            <div class="pa-sheet__sign"><span>Dispatched by</span></div>
+            <div class="pa-sheet__sign"><span>Received by (name &amp; signature)</span></div>
+        </div>
+    </footer>
+</div>
+
+
+<!-- ============================================================
+     Modifiers + CSS reference
+     ============================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">CSS Classes Reference</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <h5 class="mt-4">Block &amp; modifiers</h5>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-sheet</code> - A4-width white page, centred, screen shadow, built-in print layer</li>
+            <li><code>pa-sheet--framed</code> - Hairline outer border</li>
+            <li><code>pa-sheet--compact</code> / <code>--spacious</code> - Tighter / looser padding + region rhythm</li>
+            <li><code>pa-sheet--fluid</code> - Fill the container instead of clamping to A4 width</li>
+            <li><code>pa-sheet--fill</code> - Full A4-height page; the last region (footer) sinks to the page bottom even when content is short. Prints on exactly one page.</li>
+            <li><code>pa-sheet--landscape</code> - A4 landscape (297×210mm) for wide, many-column tables. Only landscape sheets rotate in print (named <code>@page</code>) — a page can mix orientations.</li>
+        </ul>
+
+        <h5 class="mt-4">Regions</h5>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-sheet__masthead</code> (<code>--ruled</code>) - Top band; <code>__brand</code>, <code>__logo</code>, <code>__doctitle</code>, <code>__docmeta</code></li>
+            <li><code>pa-sheet__parties</code> (<code>--cols-3</code>) - Party grid; <code>__party</code> (<code>--boxed</code> / <code>--strong</code>), <code>__party-label</code>, <code>__party-name</code>, <code>__party-body</code></li>
+            <li><code>pa-sheet__meta</code> (<code>--boxed</code>) - Right-aligned label/value grid; <code>__meta-label</code>, <code>__meta-value</code></li>
+            <li><code>pa-sheet__title</code> - Generic titled-section heading</li>
+            <li><code>pa-sheet__totals</code> (<code>--start</code>) - End-aligned summary column; <code>__total-row</code> (<code>--grand</code>), <code>__total-label</code>, <code>__total-value</code></li>
+            <li><code>pa-sheet__notes</code> - Prose block (terms, reminder copy)</li>
+            <li><code>pa-sheet__barcode</code> - Barcode slot (inject inline SVG, e.g. Code128 via JsBarcode)</li>
+            <li><code>pa-sheet__qr</code> / <code>__qr-label</code> - QR slot with a caption below the code</li>
+            <li><code>pa-sheet__footer</code> - <code>__signatures</code> → <code>__sign</code>; <code>__legal</code>; <code>__pageno</code></li>
+        </ul>
+
+        <h5 class="mt-4">Compose with existing blocks</h5>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li>Line items → <code>pa-table</code> (any modifier)</li>
+            <li>Metadata / party pairs → <code>pa-fields</code>, <code>pa-desc-table</code></li>
+            <li>Tax-breakdown box → <code>pa-table</code> or <code>pa-desc-table</code></li>
+            <li>Chapter-style terms → <code>pa-document</code> (numbered clauses)</li>
+        </ul>
+
+        <h5 class="mt-4">Runtime tokens (CSS variables)</h5>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--pa-sheet-width</code> - Page width (default 210mm)</li>
+            <li><code>--pa-sheet-height</code> - Page height for <code>--fill</code> on screen (default 297mm)</li>
+            <li><code>--pa-sheet-padding</code> - Inner page margin on screen</li>
+            <li><code>--pa-sheet-gap</code> - Vertical rhythm between regions</li>
+            <li><code>--pa-sheet-rule-color</code> - Masthead/total rule colour</li>
+            <li><code>--pa-sheet-totals-width</code> - Width of the totals column (default 42rem)</li>
+            <li><code>--pa-sheet-sign-height</code> - Blank height of a signature slot (default 6rem)</li>
+            <li><code>--pa-sheet-qr-size</code> - QR code square size (default 12rem)</li>
+        </ul>
+
+        <p class="pa-text pa-text--secondary mt-4"><strong>Barcodes &amp; QR codes:</strong> the framework ships only the placement slots (<code>pa-sheet__barcode</code> / <code>pa-sheet__qr</code>) — generate the code itself as <strong>inline SVG</strong> (JsBarcode, a QR library, or a server-rendered image). Use SVG, not <code>&lt;canvas&gt;</code>: a canvas prints blank via <code>printElement()</code> and blurs at print DPI. This demo uses JsBarcode + qrcode-generator (both SVG).</p>
+
+        <h5 class="mt-4">Printing (JavaScript)</h5>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>window.print()</code> - Prints the whole document (use with your own <code>@media print</code> to hide app chrome)</li>
+            <li><code>pureAdmin.printElement(target, { title })</code> - Prints a <strong>single element</strong> in isolation. <code>target</code> = element, CSS selector, or event. Clones it into a hidden iframe with the page's styles + theme mode.</li>
+            <li><code>pureAdmin.printSheet(this, { title })</code> - From a button inside a sheet; climbs to the enclosing <code>.pa-sheet</code></li>
+            <li><code>data-print-omit</code> / <code>.pa-print-hide</code> - Mark elements (e.g. the print button itself) to strip from the printout</li>
+        </ul>
+
+        <p class="pa-text pa-text--secondary mt-4">The sheet ships its own <code>@media print</code> rules and a default <code>@page { size: A4 }</code>. The page <strong>margin is intentionally not set</strong> — the browser's own margin (the <em>Margins</em> setting the user picks in the print dialog) governs it; to pin a fixed margin, declare <code>@page { margin: 15mm }</code> after the framework. <code>pureAdmin.printElement()</code> (in <code>src/js/sheet-print.js</code>) is the reliable way to print one sheet without a page-level print stylesheet — the browser has no native single-element print.</p>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     Barcode + QR generation (demo only)
+     The framework ships the placement slots (pa-sheet__barcode /
+     pa-sheet__qr); the codes themselves are generated here with two
+     tiny libraries, both emitting SVG so they stay crisp in print and
+     survive the single-element print clone (a <canvas> would print blank).
+     ============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script>
+(function () {
+    function barcode(id, value) {
+        var el = document.getElementById(id);
+        if (el && window.JsBarcode) {
+            JsBarcode(el, value, { format: 'CODE128', height: 26, width: 1, fontSize: 10, margin: 0, displayValue: true });
+        }
+    }
+    function qr(id, value) {
+        var el = document.getElementById(id);
+        if (el && window.qrcode) {
+            var q = qrcode(0, 'M');
+            q.addData(value);
+            q.make();
+            // Insert the SVG as the FIRST child so pa-sheet__qr > svg matches (label stays below).
+            el.insertAdjacentHTML('afterbegin', q.createSvgTag({ scalable: true, margin: 1 }));
+        }
+    }
+    barcode('bc-invoice', '2026-0184');
+    barcode('bc-order', 'PO-2026-0453');
+    barcode('bc-delivery', 'DN-2026-0088');
+    qr('qr-invoice', 'https://pay.twinpeaks.example/inv/2026-0184?amount=120000.00&cur=EUR');
+})();
+</script>

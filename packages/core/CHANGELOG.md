@@ -29,6 +29,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   embedded inside a chapter) showing that non-section content mid-chapter
   does not disturb the surrounding clause numbering.
 
+- **New `pa-sheet` component — printable A4 "paper" document shell** for
+  invoices, orders, quotes, receipts, delivery notes and payment reminders
+  (grid-structured pages, not app screens). `.pa-sheet` is a centred,
+  A4-width (`210mm`) white page with a screen-only drop shadow and a
+  built-in `@media print` layer that strips the shadow/margins, keeps table
+  rows / party cards / total lines from breaking across pages, and emits a
+  default `@page { size: A4 }` (page margin intentionally left to the
+  browser / user's print-dialog Margins setting). Ships the invoice-shaped
+  regions the existing blocks don't cover — `__masthead` (`--ruled`) with
+  `__brand` / `__logo` / `__doctitle` / `__docmeta`; `__parties`
+  (`--cols-3`) with `__party` (`--boxed` grey panel / `--strong` hard
+  border), `__party-label` / `__party-name` / `__party-body`; `__meta`
+  (`--boxed`) right-aligned label/value grid; `__title`; `__totals`
+  (`--start`) with `__total-row` (`--grand` ruled bottom line); `__notes`
+  prose; and `__footer` with `__signatures` → `__sign`, `__legal`,
+  `__pageno`. Deliberately composes existing blocks rather than reinventing
+  them: line items use `.pa-table` (any modifier), and label/value metadata
+  can use `.pa-fields` / `.pa-desc-table`. Placement slots for
+  machine-readable codes — `.pa-sheet__barcode` and `.pa-sheet__qr`
+  (`+ __qr-label`) — let a barcode (quick-scan document id) or a QR code
+  (e.g. "scan to pay") be dropped into the header/body; the framework
+  provides the layout, the code itself is injected as inline SVG (the demo
+  uses JsBarcode + qrcode-generator — SVG, not `<canvas>`, so it survives the
+  print clone and stays crisp). Modifiers `--framed`,
+  `--compact` / `--spacious`, `--fluid`, and `--fill` (full A4-height page for
+  short single-page documents — the footer sinks to the page bottom even when
+  content is short; on screen via flex + `margin: auto`, in print via a
+  `position: fixed` footer since `vh` units are unreliable in paged media),
+  and `--landscape` (A4 landscape 297×210mm for wide many-column tables —
+  only opted-in sheets rotate in print, via a named `@page`, so a page can
+  mix portrait and landscape); seven runtime tokens (`--pa-sheet-width`,
+  `--pa-sheet-height`,
+  `--pa-sheet-padding`, `--pa-sheet-gap`, `--pa-sheet-rule-color`,
+  `--pa-sheet-totals-width`, `--pa-sheet-sign-height`). Snippet (`snippets/sheet.html`) + demo
+  (`/components/sheet`) with six realistic (fully anonymised, English)
+  document layouts: a gridded tax invoice, a boxed-parties tax document
+  with a tax-rate breakdown, a three-party payment reminder, a minimal
+  service invoice with a legal imprint, a three-party purchase order, and a
+  landscape delivery note with a wide 10-column table.
+
+- **New `sheet-print.js` helper — print a single element in isolation.** The
+  browser has no native "print just this node" API (`window.print()` prints
+  the whole document), so `pureAdmin.printElement(target, { title })` clones
+  one element into a hidden `<iframe>` carrying the page's stylesheets and the
+  current theme-mode / `dir` / `lang`, then prints only that iframe — the
+  visible page is untouched and no page-level `@media print` chrome-hiding is
+  needed. `target` may be an element, a CSS selector, or an event;
+  `pureAdmin.printSheet(this)` climbs from an in-sheet button to its enclosing
+  `.pa-sheet`; and `[data-print-omit]` / `.pa-print-hide` nodes (e.g. the print
+  button itself) are stripped from the printout. Shipped in `src/js/` and
+  exposed via the existing `"./js/*"` export.
+
 ## [3.2.0] - 2026-09-18 [PUBLISHED]
 
 ### Added

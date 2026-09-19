@@ -1,0 +1,433 @@
+/* ========================================
+   Sheet Component
+   A printable "paper" document shell for invoices, orders, quotes,
+   receipts, delivery notes, payment reminders — anything that is really
+   a grid-structured A4 page rather than an app screen.
+
+   The shell (.pa-sheet) is the white, centred, A4-width page with a
+   screen-only drop shadow and a built-in `@media print` layer that
+   strips the shadow/margins so it prints edge-to-edge. Inside it sit a
+   set of invoice-shaped REGIONS — masthead, parties, meta, totals,
+   notes, footer/signatures, legal — each with ONE canonical shape.
+
+   Deliberately NOT reinvented: line-item tables use the existing
+   `.pa-table` (all its modifiers apply), and label/value metadata can
+   use `.pa-fields` / `.pa-desc-table`. The sheet only adds the page
+   frame, the print layer, and the regions those blocks don't cover.
+   See snippets/sheet.html for the composed shapes.
+   ======================================== */
+@use '../variables' as *;
+
+.pa-sheet {
+  // Runtime knobs (component --pa-* tokens; inline fallbacks, matching
+  // _lists.scss / _document.scss — no :root emit needed):
+  //   --pa-sheet-width        page width (default A4 210mm)
+  //   --pa-sheet-height       page height for --fill on screen (default 297mm)
+  //   --pa-sheet-padding      inner page margin on screen
+  //   --pa-sheet-gap          vertical rhythm between direct regions
+  //   --pa-sheet-rule-color   colour of masthead/section rules
+  //   --pa-sheet-totals-width width of the end-aligned totals column
+  //   --pa-sheet-sign-height  blank height of a signature slot
+  //   --pa-sheet-qr-size      QR code square size (default 12rem)
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--pa-sheet-width, 210mm);
+  margin-inline: auto;
+  padding: var(--pa-sheet-padding, #{$spacing-xl});
+  background: var(--pc-main-bg);
+  color: var(--pc-text-color-2);
+  font-size: $font-size-sm;
+  line-height: $line-height-base;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 8px 24px rgb(0 0 0 / 8%);
+
+  // Space direct-child regions apart with a consistent rhythm.
+  > * + * {
+    margin-block-start: var(--pa-sheet-gap, #{$spacing-lg});
+  }
+
+  // Thin outer frame (some invoices print inside a hairline border).
+  &--framed {
+    border: 1px solid var(--pc-border-color);
+  }
+
+  // Density.
+  &--compact {
+    --pa-sheet-gap: #{$spacing-md};
+    --pa-sheet-padding: #{$spacing-lg};
+  }
+
+  &--spacious {
+    --pa-sheet-gap: #{$spacing-2xl};
+    --pa-sheet-padding: #{$spacing-2xl};
+  }
+
+  // Fill the container instead of clamping to paper width (embedded preview).
+  &--fluid {
+    max-width: none;
+  }
+
+  // Full-page sheet: make the page a fixed A4 height and let the last region
+  // (typically __footer) sink to the bottom — so a short invoice still has its
+  // footer pinned to the foot of the page instead of floating under the last
+  // line. On screen the height is --pa-sheet-height (A4 by default) and the
+  // footer is pushed down with flex + margin-auto. In PRINT that can't work
+  // (vh is unreliable), so the @media print block below pins the footer with
+  // position:fixed instead. --fill is for short, single-page documents.
+  &--fill {
+    display: flex;
+    flex-direction: column;
+    min-height: var(--pa-sheet-height, 297mm);
+
+    // Push the last region to the page bottom (auto beats the --gap rhythm).
+    > *:last-child {
+      margin-block-start: auto;
+    }
+  }
+
+  // Landscape A4 (297 × 210mm). On screen it just swaps the width/height
+  // tokens; in print it maps to the named `@page pa-sheet-landscape` (defined
+  // below) via the `page` property, so ONLY landscape sheets rotate — a page
+  // can mix portrait and landscape sheets. Named pages + the `page` property
+  // are supported in modern Chromium / Firefox.
+  &--landscape {
+    --pa-sheet-width: 297mm;
+    --pa-sheet-height: 210mm;
+    page: pa-sheet-landscape;
+  }
+
+  // ---- Masthead: logo/brand on the start, doc title on the end ----------
+  &__masthead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+
+    // Rule under the masthead (opt-in — not every invoice has one).
+    &--ruled {
+      padding-block-end: var(--pa-sheet-gap, #{$spacing-lg});
+      border-block-end: 2px solid var(--pa-sheet-rule-color, var(--pc-text-color-1));
+    }
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--pc-text-color-1);
+  }
+
+  &__logo {
+    display: block;
+    max-height: 4.8rem;
+    width: auto;
+  }
+
+  &__doctitle {
+    margin: 0;
+    text-align: end;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-tight;
+    color: var(--pc-text-color-1);
+  }
+
+  // Sits under (or beside) the title — invoice number, tagline, small note.
+  &__docmeta {
+    margin-block-start: $spacing-xs;
+    text-align: end;
+    font-size: $font-size-sm;
+    color: var(--pc-text-color-2);
+  }
+
+  // ---- Parties: supplier / customer / (optional) third block -----------
+  &__parties {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+
+    &--cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__party {
+    // Grey-filled block (Rohlík style). Mix into the page bg (not
+    // transparent) so it reads as an opaque light panel on white.
+    &--boxed {
+      padding: $spacing-md;
+      border-radius: var(--pc-border-radius);
+      background: color-mix(in srgb, var(--pc-text-color-1) 7%, var(--pc-main-bg));
+    }
+
+    // Hard-bordered block (ISDOC/POHODA style, e.g. the customer box).
+    &--strong {
+      padding: $spacing-md;
+      border: 2px solid var(--pc-text-color-1);
+    }
+  }
+
+  &__party-label {
+    display: block;
+    margin-block-end: $spacing-xs;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--pc-text-color-3);
+  }
+
+  &__party-name {
+    display: block;
+    margin-block-end: $spacing-sm;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-tight;
+    color: var(--pc-text-color-1);
+  }
+
+  // Free-form address / registration lines. Each line a block; the author
+  // can also drop a .pa-fields inside for IČ/DIČ key-values.
+  &__party-body {
+    color: var(--pc-text-color-2);
+    line-height: $line-height-base;
+  }
+
+  // ---- Meta: right-aligned label/value grid (VS, dates, order no.) ------
+  // Distinct from .pa-desc-table (which tints label cells): invoice meta is
+  // a plain two-column grid with the value flushed to the page edge.
+  &__meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: $spacing-xs $spacing-md;
+    align-items: baseline;
+
+    &--boxed {
+      padding: $spacing-md;
+      border: 1px solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius);
+    }
+  }
+
+  &__meta-label {
+    color: var(--pc-text-color-2);
+  }
+
+  &__meta-value {
+    text-align: end;
+    font-weight: $font-weight-medium;
+    font-variant-numeric: tabular-nums;
+    color: var(--pc-text-color-1);
+  }
+
+  // ---- Generic titled section (e.g. "Fakturujeme vám služby") -----------
+  &__title {
+    margin: 0 0 $spacing-sm;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--pc-text-color-1);
+  }
+
+  // ---- Totals: end-aligned summary column next to the line items -------
+  &__totals {
+    margin-inline-start: auto;
+    width: var(--pa-sheet-totals-width, 42rem);
+    max-width: 100%;
+
+    // Left-align variant (some layouts run totals full width / on the start).
+    &--start {
+      margin-inline-start: 0;
+    }
+  }
+
+  &__total-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: $spacing-lg;
+    padding-block: $spacing-xs;
+
+    // The bottom-line "CELKEM K ÚHRADĚ": ruled off, heavier, larger.
+    &--grand {
+      margin-block-start: $spacing-xs;
+      padding-block-start: $spacing-sm;
+      border-block-start: 2px solid var(--pa-sheet-rule-color, var(--pc-text-color-1));
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: var(--pc-text-color-1);
+    }
+  }
+
+  &__total-label {
+    color: inherit;
+  }
+
+  &__total-value {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    font-weight: $font-weight-semibold;
+    color: var(--pc-text-color-1);
+  }
+
+  // ---- Notes: prose block (reminders, terms, thank-you copy) -----------
+  &__notes {
+    color: var(--pc-text-color-2);
+    line-height: $line-height-relaxed;
+
+    p {
+      margin: 0 0 $spacing-sm;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // ---- Footer: signatures, page number, registration line --------------
+  &__footer {
+    margin-block-start: var(--pa-sheet-gap, #{$spacing-lg});
+  }
+
+  &__signatures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: $spacing-xl;
+  }
+
+  // A slot with the label on top and a rule at the bottom to sign above.
+  &__sign {
+    display: flex;
+    flex-direction: column;
+    min-height: var(--pa-sheet-sign-height, 6rem);
+    padding-block-end: $spacing-xs;
+    border-block-end: 1px solid var(--pc-text-color-1);
+    font-size: $font-size-sm;
+    color: var(--pc-text-color-2);
+  }
+
+  // Small-print legal footer (registration court, letterspaced imprint).
+  &__legal {
+    margin-block-start: var(--pa-sheet-gap, #{$spacing-lg});
+    padding-block-start: $spacing-sm;
+    border-block-start: 1px solid var(--pc-border-color);
+    font-size: $font-size-xs;
+    line-height: $line-height-base;
+    color: var(--pc-text-color-3);
+  }
+
+  &__pageno {
+    text-align: end;
+    font-size: $font-size-xs;
+    color: var(--pc-text-color-3);
+  }
+
+  // ---- Machine-readable codes (barcode / QR) ---------------------------
+  // The framework provides the placement + caption; you inject the code
+  // itself as inline SVG (JsBarcode, a QR lib, or a server-rendered image).
+  // IMPORTANT: use SVG (or an <img> data-URL), NOT <canvas> — a canvas is a
+  // bitmap that isn't captured by outerHTML, so it prints blank via the
+  // single-element print helper, and SVG stays sharp at any print DPI.
+  &__barcode {
+    display: inline-block;
+    text-align: center;
+
+    > svg,
+    > img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__qr {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    color: var(--pc-text-color-2);
+    text-align: center;
+
+    > svg,
+    > img {
+      display: block;
+      width: var(--pa-sheet-qr-size, 12rem);
+      height: var(--pa-sheet-qr-size, 12rem);
+    }
+  }
+
+  &__qr-label {
+    font-weight: $font-weight-semibold;
+    color: var(--pc-text-color-1);
+  }
+}
+
+/* ----------------------------------------------------------------------
+   Print layer
+   The single hardest-to-reinvent part of a printable document: drop the
+   on-screen chrome so the sheet lands cleanly on paper. Scoped to
+   .pa-sheet except the page box.
+   ---------------------------------------------------------------------- */
+@media print {
+  .pa-sheet {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  // Full-page sheet: pin the footer (last region) to the bottom of the
+  // printed page. `vh` units are unreliable in print (Chromium resolves
+  // 100vh to 0 in the print/iframe context), so the on-screen flex+min-height
+  // approach can't carry over — use fixed positioning instead, which IS the
+  // standard print-footer technique. Reset the flex layout first.
+  //
+  // Caveat: a fixed footer repeats on every page and reserves no space, so
+  // --fill is for SHORT, single-page documents. Don't use it where content
+  // overflows onto a second page.
+  .pa-sheet--fill {
+    display: block;
+    min-height: 0;
+  }
+
+  .pa-sheet--fill > :last-child {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    margin: 0;
+  }
+
+  // Don't split a party card, a totals line or a table row across pages.
+  .pa-sheet__party,
+  .pa-sheet__total-row,
+  .pa-sheet__sign,
+  .pa-sheet tr {
+    break-inside: avoid;
+  }
+
+  .pa-sheet__masthead {
+    break-after: avoid;
+  }
+}
+
+// A4 page box. A component partial emitting a bare @page is a deliberate,
+// low-risk global default (it only applies when printing, and admin apps
+// rarely print at all). Consumers can override with their own @page rule.
+//
+// NOTE: margin is intentionally NOT set here. Omitting it lets the browser's
+// own page margin — the "Margins" setting the user picks in the print dialog
+// (Default / None / Custom) — govern the printed margin, rather than us
+// forcing a value. To pin a margin instead, declare `@page { margin: 15mm }`
+// after the framework.
+@page {
+  size: A4;
+}
+
+// Landscape pages for .pa-sheet--landscape (mapped via `page:` above). Only
+// sheets that opt in rotate; the default page box above stays portrait.
+@page pa-sheet-landscape {
+  size: A4 landscape;
+}

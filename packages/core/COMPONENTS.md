@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.2.0** · **59** components · **150** blocks · **646** class selectors.
+Framework version **3.2.0** · **60** components · **151** blocks · **653** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -42,6 +42,7 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 | Comparison table | `pa-comparison-table` | Data display | ✓ | ✓ |
 | List | `pa-list` | Data display | ✓ | ✓ |
 | Document | `pa-document` | Data display | ✓ | ✓ |
+| Sheet (printable document) | `pa-sheet` | Data display | ✓ | ✓ |
 | Code block | `pa-code` | Data display | ✓ | ✓ |
 | Data display (field lists) | `pa-accent-grid` | Data display | ✓ | ✓ |
 | Statistics / stat cards | `pa-kpi-grid` | Data display | ✓ | ✓ |
@@ -390,6 +391,17 @@ Word-style hierarchical, auto-numbered sections (1, 1.1, 1.1.1 …): a heading p
 - **SCSS:** `core-components/_document.scss`
 - **Snippet:** `document.html`
 - **Demo:** `document.mustache`
+
+### Sheet (printable document) — `pa-sheet`
+
+Printable A4 "paper" shell for invoices, orders, quotes, receipts and payment reminders. A centred white page with a screen-only shadow and a built-in @media print layer (+ @page A4), plus invoice-shaped regions — masthead, parties, meta, totals, notes, footer/signatures, legal. Line items reuse pa-table; label/value metadata reuse pa-fields / pa-desc-table.
+
+- **Blocks:** `pa-sheet`
+- **Elements:** `pa-sheet__masthead`, `pa-sheet__party`, `pa-sheet__sign`, `pa-sheet__total-row`
+- **Modifiers / states:** `pa-sheet--fill`, `pa-sheet--landscape`
+- **SCSS:** `core-components/_sheet.scss`
+- **Snippet:** `sheet.html`
+- **Demo:** `sheet.mustache`
 
 ### Code block — `pa-code`
 
