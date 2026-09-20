@@ -235,8 +235,12 @@
   // border/bg tokens, and the input-group prepend/append TEXT live in
   // output-pc-component-mode-variables. Only the mode-invariant bits remain.
   // =========================================================================
-  // Checkbox (checkmark colour + focus shadow stay compile-time)
-  --pa-checkbox-checkmark-color: #{$checkbox-checkmark-color};
+  // Checkbox (focus shadow stays compile-time). The checkmark colour follows the
+  // theme's on-accent token so the tick contrasts with the accent-filled box
+  // (e.g. cobalt2's yellow box gets a dark tick). Mirrors web-multiselect's
+  // --ms-checkbox-checkmark-color → --base-text-color-on-accent chain. The white
+  // $-default is the compile-time fallback for themes with no on-accent set.
+  --pa-checkbox-checkmark-color: var(--base-text-color-on-accent, #{$checkbox-checkmark-color});
   --pa-checkbox-focus-shadow: #{$checkbox-focus-shadow};
 
   // Input group (prepend/append bg are the secondary grey — compile-time)

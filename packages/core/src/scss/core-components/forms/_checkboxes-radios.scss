@@ -117,8 +117,8 @@
       // (without it a missing mask would let the background flood the box).
       inset: 0;
       background-color: var(--pa-checkbox-checkmark-color);
-      -webkit-mask: var(--base-icon-check, #{$base-icon-check}) center / 68% no-repeat;
-              mask: var(--base-icon-check, #{$base-icon-check}) center / 68% no-repeat;
+      -webkit-mask: var(--base-icon-check, #{$base-icon-check}) center / var(--base-icon-check-size, 68%) no-repeat;
+              mask: var(--base-icon-check, #{$base-icon-check}) center / var(--base-icon-check-size, 68%) no-repeat;
     }
   }
 
@@ -132,8 +132,8 @@
       display: block;
       inset: 0;
       background-color: var(--pa-checkbox-checkmark-color);
-      -webkit-mask: var(--base-icon-indeterminate, #{$base-icon-indeterminate}) center / 68% no-repeat;
-              mask: var(--base-icon-indeterminate, #{$base-icon-indeterminate}) center / 68% no-repeat;
+      -webkit-mask: var(--base-icon-indeterminate, #{$base-icon-indeterminate}) center / var(--base-icon-check-size, 68%) no-repeat;
+              mask: var(--base-icon-indeterminate, #{$base-icon-indeterminate}) center / var(--base-icon-check-size, 68%) no-repeat;
     }
   }
 
