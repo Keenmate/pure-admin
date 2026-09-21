@@ -6,6 +6,16 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc02
+
+A follow-up to the 3.3.0 document components: a two-line table cell, plus a
+batch of `pa-sheet` print-fidelity fixes so invoices land correctly on paper.
+
+- **Two-line table cell** — `pa-table__item-title` + `pa-table__item-desc` stack a primary name over a smaller, muted description inside one `<td>` (a line-item name + spec, or a name + email) — no rowspan or extra column.
+- **Sheets print clean ink-on-paper by default** — a `pa-sheet` no longer inherits a dark/tinted theme when printing (which came out washed-out grey); the print layer now remaps to neutral black-on-white automatically. Opt into `pa-sheet--print-color` for faithful theme colours, or `pa-sheet--print-grayscale` for letterhead greys.
+- **Invoices fit one page again** — the parties (Supplier / Bill to) now stay side-by-side on paper instead of wrongly stacking, and print uses a denser region rhythm, so a content-full invoice no longer spills onto a second page.
+- **Wide line-item tables stay inside the page** — tables in a sheet or document are wrapped in `.pa-table-container`, so a many-column table scrolls on a narrow screen instead of stretching the whole page sideways (and prints without clipping).
+
 ## What's New in 3.3.0-rc01
 
 3.3.0 adds two document-focused components: **`pa-document`** (Word-style
@@ -18,20 +28,6 @@ single-element print helper.
 - **Single-element printing** — `pureAdmin.printElement()` / `printSheet()` print one sheet in isolation (cloned into a hidden iframe with your stylesheets + current theme), so you don't need any page-level print CSS — the browser has no native single-element print.
 - **Print behaviour done right** — the page margin is left to the browser/user's print-dialog setting; `pa-sheet--fill` pins a footer to the bottom of short single-page documents; `pa-sheet--landscape` rotates only opted-in sheets (via a named `@page`) for wide tables.
 - **Barcode & QR slots** — `pa-sheet__barcode` and `pa-sheet__qr` placement slots for a scannable document id or a "scan to pay" code (inject inline SVG).
-
-## What's New in 3.2.0
-
-3.2.0 brings the **command-palette overlay feel to modals**, three new action
-icons, and a **runtime list-marker knob** — plus a batch of correctness fixes to
-scroll-lock, Safari selects, and required-field markers.
-
-- **Modals now enter like the command palette.** The backdrop blurs the page and fades in while the dialog slides down — the same blessed `Ctrl/Cmd+K` feel, on both static `.pa-modal` markup and the programmatic `pureAdmin.confirm/alert/prompt` dialogs. Closing snaps (enter-only animation), exactly like the palette.
-- **Backdrop blur is runtime-toggleable.** New `--pa-modal-backdrop-filter` / `--pa-command-palette-backdrop-filter` variables (default `blur(4px)`) expose the whole filter, so you can disable it with `: none` — e.g. under `prefers-reduced-transparency` or for weak GPUs — with no recompile.
-- **Modal titles take a leading severity icon.** A masked `.pa-icon--warning/--success/…` can sit before the title and inherit the header colour, replacing the raw emoji marks; the programmatic dialogs map their `variant` to the matching icon automatically (new `icon` option to override or hide).
-- **Three new action glyphs** — `download`, `link` (chain), and `external-link` (arrow-out-of-box) — as `.pa-icon--*` modifiers backed by the shared `--base-icon-*` contract, so they re-skin from one knob like the rest of the family. On the `/design/icons` grid.
-- **Runtime list-marker knob.** Switch any list's marker (`disc`/`circle`/`square`/`none`/`decimal`/…) without a recompile via `--pc-list-bullet-type` (per-instance/runtime) over a themeable `--base-list-bullet-type` default. Landed on the pure-css `ul, ol` reboot, so it covers `.pa-list-basic`, `.pa-alert__list`, and bare content lists alike.
-- **Modal scroll-lock no longer shifts content sideways.** The dialogs now use the shared refcounted `pureAdmin.overlay.lockBodyScroll()` and trust the CSS scrollbar gutter, instead of double-compensating with `body padding-right`.
-- **Required-field marker fixes.** The `*` now appears on a standalone checkbox/radio when the requirement is declared via `.pa-form-group--required` (the escape hatch for JS-driven state), and Safari settings-panel selects render at the correct height.
 
 ## Installation
 

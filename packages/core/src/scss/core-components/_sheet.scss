@@ -381,7 +381,12 @@
   // ---- Mobile: collapse the multi-column party grid to a single column --
   // On a phone two/three side-by-side party cards are too narrow and long
   // unbreakable tokens (IBANs, emails) would push the grid past the paper.
-  @media (max-width: #{$mobile-breakpoint}) {
+  // SCREEN ONLY: a printed A4 page evaluates @media width against the page
+  // box minus margins (~718px < $mobile-breakpoint), so a bare max-width
+  // query wrongly fires in print and stacks the parties — which both looks
+  // wrong on paper and adds enough height to spill onto a second page. The
+  // paper always has room for the columns, so scope the collapse to `screen`.
+  @media screen and (max-width: #{$mobile-breakpoint}) {
     &__parties {
       grid-template-columns: 1fr;
     }
@@ -401,6 +406,56 @@
     padding: 0;
     border: 0;
     box-shadow: none;
+
+    // Denser vertical rhythm on paper than on screen. A content-full invoice
+    // (masthead + parties + meta + line items + totals + notes + signatures +
+    // legal) sits right at the A4 limit; the screen's roomy $spacing-lg gap
+    // tips it onto a second page once the browser's own print margin is added.
+    // $spacing-md matches the --compact density and reclaims ~a line per region
+    // so a full sheet lands on one page at normal margins. Instances can still
+    // override --pa-sheet-gap.
+    --pa-sheet-gap: #{$spacing-md};
+  }
+
+  // ---- Print colour policy ---------------------------------------------
+  // A printable document must not inherit the on-screen theme. On a dark or
+  // strongly tinted theme (Cobalt2, Dracula, …) the sheet paints itself in
+  // the theme palette, but at print time the browser DROPS backgrounds by
+  // default while keeping the theme's (light) text — so the page lands on
+  // paper as washed-out grey ink on white.
+  //
+  // DEFAULT: neutral ink-on-paper, theme-independent. The whole sheet is
+  // built from a handful of --pc-* foundation tokens, so remapping just
+  // those makes every var(--pc-*) inside resolve to black/grey on white
+  // without touching a single component rule. Scoped away from the two
+  // opt-in modifiers so THEY keep inheriting the theme's own tokens (a
+  // custom property can't be re-inherited from :root once set on the
+  // element, so exclusion is cleaner than trying to restore it).
+  .pa-sheet:not(.pa-sheet--print-color):not(.pa-sheet--print-grayscale) {
+    --pc-main-bg: #fff;
+    --pc-text-color-1: #000;
+    --pc-text-color-2: #1a1a1a;
+    --pc-text-color-3: #555;
+    --pc-border-color: #999;
+  }
+
+  // Print IN COLOUR: keep the theme's own palette and force the browser to
+  // paint backgrounds/fills (normally dropped) so a branded, coloured or
+  // dark invoice prints as it looks on screen.
+  .pa-sheet--print-color {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  // Print in GREYSCALE: keep the theme's fills (forced on) but desaturate
+  // the whole sheet to deliberate greys (letterhead look) instead of the
+  // washed-out accident of the default. NOTE: this desaturates the theme
+  // AS-IS, so on a dark theme it yields a heavy dark-grey page — pair it
+  // with a light theme, or use the default for clean ink-on-paper.
+  .pa-sheet--print-grayscale {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    filter: grayscale(1);
   }
 
   // Full-page sheet: pin the footer (last region) to the bottom of the

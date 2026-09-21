@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-20T18:58:30.238Z",
+  "generated": "2026-09-21T21:22:47.615Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -143,9 +143,9 @@
       "modified": "2026-09-10T19:55:53.691Z"
     },
     "sheet.html": {
-      "hash": "acda1686ad16de67536c7c4bc14a0bc02e95a38998c6477507398a266cfe93f1",
-      "size": 15211,
-      "modified": "2026-09-20T18:56:56.419Z"
+      "hash": "f693906b8456b9cc6a67daa2c15354cec977daf840d619672310a70d63933fcf",
+      "size": 16622,
+      "modified": "2026-09-21T21:00:48.803Z"
     },
     "splitter.html": {
       "hash": "19206e582a57f29c6334e3f82e779c15be8db18921180743a24352946b616ae3",
@@ -240,9 +240,9 @@
       "modified": "2026-09-12T15:25:37.337Z"
     },
     "core-components/forms/_checkboxes-radios.scss": {
-      "hash": "24cdaaab673970b6a774cd4c71b21268eb61f3436d91b7ad88446aa087276eee",
-      "size": 12318,
-      "modified": "2026-09-18T20:54:56.783Z"
+      "hash": "efc0aa767bc0d57aacaa8fb7c0c28323b072fdc86b09e38a7406ec96bfcc48d8",
+      "size": 12434,
+      "modified": "2026-09-20T20:09:46.003Z"
     },
     "core-components/forms/_form-inputs.scss": {
       "hash": "0b82b23d9da3f8a5307378e563b0f8695ddbd4d7d90d147f7f1b31b0eb5383af",
@@ -530,9 +530,9 @@
       "modified": "2026-09-17T20:35:07.872Z"
     },
     "core-components/_sheet.scss": {
-      "hash": "e4ec6efe45256073eacf540700e48efac8d03f18cebfdcc09e13a95849be92d8",
-      "size": 14473,
-      "modified": "2026-09-20T18:21:58.265Z"
+      "hash": "bf1aa6f61f4354c9e4e806ed9355b9735a62a64dc36bee1e558be5bcbc1ac17e",
+      "size": 17364,
+      "modified": "2026-09-21T20:57:16.227Z"
     },
     "core-components/_splitter.scss": {
       "hash": "c2181bdb24ee7d73ed017c6d765ce660b76d9ae7f5d2a1097f3ac65490c29d7e",
@@ -610,9 +610,9 @@
       "modified": "2026-09-19T17:14:22.049Z"
     },
     "_pc-component-variables.scss": {
-      "hash": "49912f0dd139767789338125ea9c1e6438885e1082fbf1d826dfa5eff64c704b",
-      "size": 23079,
-      "modified": "2026-09-17T19:42:11.421Z"
+      "hash": "200b96b9babea59ef2fd49c9de6b76559aff277a890313a201f01b4296741205",
+      "size": 23446,
+      "modified": "2026-09-20T21:28:10.297Z"
     },
     "_rtl-helpers.scss": {
       "hash": "1b35098638142c4af9a81d97633c7fbb738be3f2e50e90f8b64fb8373417a1f5",

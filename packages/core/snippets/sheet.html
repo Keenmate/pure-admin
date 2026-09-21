@@ -208,6 +208,16 @@
 <!-- Totals on the start (left) rather than end-aligned -->
 <section class="pa-sheet__totals pa-sheet__totals--start">…</section>
 
+<!-- Print colour policy. A sheet is built from --pc-* theme tokens, so on a
+     dark/tinted theme it would print washed-out grey (browsers drop backgrounds
+     but keep the light theme text). By DEFAULT the print layer remaps those
+     tokens to neutral black/grey-on-white, so any theme prints as clean
+     ink-on-paper with NO class needed. Opt out with one of: -->
+<div class="pa-sheet">…</div>                        <!-- default: ink on paper -->
+<div class="pa-sheet pa-sheet--print-color">…</div>  <!-- faithful theme colours -->
+<div class="pa-sheet pa-sheet--print-grayscale">…</div> <!-- theme desaturated -->
+
+
 
 <!-- ================================
      BARCODE / QR CODES
@@ -259,6 +269,12 @@ MODIFIERS ON .pa-sheet:
   --landscape               A4 landscape (297×210mm) for wide tables. Only
                              this sheet rotates in print (named @page); a page
                              can mix portrait + landscape sheets.
+  --print-color             print the theme's own colours + force backgrounds
+                             (print-color-adjust: exact). Default is neutral
+                             ink-on-paper regardless of theme; this opts back
+                             into a branded/coloured printout.
+  --print-grayscale         print the theme desaturated (filter: grayscale) —
+                             letterhead greys; pair with a light theme.
 
 REGIONS (elements):
   __masthead (+ --ruled)    top band: brand on start, title on end
@@ -304,6 +320,12 @@ PRINTING:
   The page MARGIN is intentionally not set — the browser's own margin (the
   "Margins" setting the user picks in the print dialog) governs it. To pin a
   fixed margin, declare @page { margin: 15mm } after the framework.
+
+  COLOUR — by default a sheet prints as neutral ink-on-paper (black/grey on
+  white) no matter the on-screen theme, so a dark theme (Cobalt2, Dracula …)
+  never prints washed-out grey. Opt into the theme's own colours with
+  .pa-sheet--print-color, or a desaturated version with
+  .pa-sheet--print-grayscale (see MODIFIERS).
 
   Whole page  — window.print(). Hide your app chrome in your own print
                 stylesheet: @media print { .app-navbar { display: none } }.

@@ -5,7 +5,7 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.3.0-rc02] - 2026-09-20
+## [3.3.0-rc02] - 2026-09-21 [PUBLISHED]
 
 ### Added
 
@@ -18,7 +18,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Shown in `snippets/tables.html`, the tables demo, and the invoice line items
   in `snippets/sheet.html` + the sheet demo.
 
+- **`pa-sheet` — print colour policy: default ink-on-paper + `--print-color` /
+  `--print-grayscale`.** The sheet is built entirely from `--pc-*` foundation
+  tokens, so on a dark or tinted theme it printed in the theme palette — but
+  browsers drop backgrounds at print time while keeping the (light) theme text,
+  landing on paper as washed-out grey. The `@media print` layer now remaps the
+  handful of `--pc-*` tokens the sheet consumes to a neutral black/grey-on-white
+  palette **by default**, so any theme prints as clean ink-on-paper with no
+  markup change. Two opt-in modifiers override this: `.pa-sheet--print-color`
+  keeps the theme's own colours and forces the browser to paint backgrounds
+  (`print-color-adjust: exact`) for a branded/coloured invoice, and
+  `.pa-sheet--print-grayscale` desaturates the theme's fills to deliberate greys
+  (letterhead look — pair with a light theme).
+
 ### Fixed
+
+- **`checkbox` — checkmark colour follows the theme's on-accent token.** The
+  tick / indeterminate-dash colour now resolves to `--base-text-color-on-accent`
+  (white `$`-default kept as fallback) instead of a hardcoded white, so
+  light-accent themes (cobalt2 et al.) get a dark, high-contrast tick on the
+  accent-filled box instead of a near-invisible white one; white-on-accent
+  themes are unchanged. The glyph size also reads a shared `--base-icon-check-size`
+  knob (default 68%, no visual change today) so a theme can rescale the mark for
+  pure-admin and the web components at once.
 
 - **`pa-sheet` / `pa-document` — line-item tables now stay inside the page on
   mobile.** A wide table (e.g. a delivery note's ten columns) authored bare
@@ -32,10 +54,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `overflow: visible` so nothing clips on paper. Canonical shape is now
   `.pa-table-container > .pa-table` (snippet + demos updated).
 
-- **`pa-sheet` — party grid collapses to a single column on mobile.** Two/three
-  side-by-side `__party` cards were too narrow on a phone and long unbreakable
-  tokens (IBANs, emails) could push the grid past the paper edge; `__parties`
-  (including `--cols-3`) now stacks to one column at the mobile breakpoint.
+- **`pa-sheet` — party grid collapses to a single column on mobile (screen
+  only).** Two/three side-by-side `__party` cards were too narrow on a phone and
+  long unbreakable tokens (IBANs, emails) could push the grid past the paper
+  edge; `__parties` (including `--cols-3`) now stacks to one column at the mobile
+  breakpoint. The collapse is scoped to `@media screen` — a printed A4 page
+  evaluates `@media (max-width)` against the page box *minus margins*
+  (~718px < the 768px mobile breakpoint), so a bare query wrongly fired in
+  print and stacked the parties on paper, which both looked wrong and added
+  enough height (~190px) to spill a content-full invoice onto a second page.
+
+- **`pa-sheet` — denser vertical rhythm in print so a full invoice fits one
+  page.** The screen's roomy `--pa-sheet-gap` (`$spacing-lg`) between regions
+  left a content-full invoice (masthead + parties + meta + line items + totals +
+  notes + signatures + legal) sitting right at the A4 limit, tipping onto a
+  second page once the browser's own print margin was added. The `@media print`
+  layer now drops the gap to `$spacing-md` (matching `--compact`), reclaiming a
+  line per region; instances can still override `--pa-sheet-gap`.
 
 ### Internal
 
