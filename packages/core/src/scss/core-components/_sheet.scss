@@ -362,6 +362,30 @@
     font-weight: $font-weight-semibold;
     color: var(--pc-text-color-1);
   }
+
+  // ---- Embedded line-item tables ---------------------------------------
+  // Line items reuse the ordinary `.pa-table`, wrapped in the framework's
+  // `.pa-table-container` scroll wrapper so a wide table gets its OWN
+  // horizontal scroll on a narrow screen instead of spilling out of the
+  // paper and stretching the whole page sideways. Here we strip the
+  // container's frame (border/radius/background) so it stays invisible on
+  // the sheet — the table keeps `display:table` + `width:100%`, so it still
+  // fills the paper when it fits and only scrolls when it can't.
+  // Canonical shape: `.pa-table-container > .pa-table`. See snippets/sheet.html.
+  .pa-table-container {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  // ---- Mobile: collapse the multi-column party grid to a single column --
+  // On a phone two/three side-by-side party cards are too narrow and long
+  // unbreakable tokens (IBANs, emails) would push the grid past the paper.
+  @media (max-width: #{$mobile-breakpoint}) {
+    &__parties {
+      grid-template-columns: 1fr;
+    }
+  }
 }
 
 /* ----------------------------------------------------------------------
@@ -398,6 +422,12 @@
     inset-inline: 0;
     bottom: 0;
     margin: 0;
+  }
+
+  // The embedded-table scroll wrapper must not clip on paper — the printed
+  // page has room for the full table (or paginates it), so drop the overflow.
+  .pa-sheet .pa-table-container {
+    overflow: visible;
   }
 
   // Don't split a party card, a totals line or a table row across pages.

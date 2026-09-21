@@ -72,31 +72,43 @@
     <span class="pa-sheet__meta-value">Bank transfer</span>
   </section>
 
-  <!-- Line items: the ordinary .pa-table — every table modifier applies. -->
-  <table class="pa-table pa-table--bordered">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th class="text-end">Qty</th>
-        <th class="text-end">Unit price</th>
-        <th class="text-end">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Application support — 08/2026</td>
-        <td class="text-end">5 days</td>
-        <td class="text-end">8,000.00</td>
-        <td class="text-end">40,000.00</td>
-      </tr>
-      <tr>
-        <td>Application support — 09/2026</td>
-        <td class="text-end">5 days</td>
-        <td class="text-end">8,000.00</td>
-        <td class="text-end">40,000.00</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Line items: the ordinary .pa-table (every table modifier applies),
+       wrapped in .pa-table-container so a wide table scrolls horizontally on
+       a narrow screen instead of stretching the sheet. The sheet strips the
+       wrapper's frame, so it stays invisible on paper. -->
+  <div class="pa-table-container">
+    <table class="pa-table pa-table--bordered">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="text-end">Qty</th>
+          <th class="text-end">Unit price</th>
+          <th class="text-end">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- Two-line cell: item name + description stacked in one <td>. -->
+          <td>
+            <span class="pa-table__item-title">Application support</span>
+            <span class="pa-table__item-desc">Business portal — August 2026</span>
+          </td>
+          <td class="text-end">5 days</td>
+          <td class="text-end">8,000.00</td>
+          <td class="text-end">40,000.00</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="pa-table__item-title">Application support</span>
+            <span class="pa-table__item-desc">Business portal — September 2026</span>
+          </td>
+          <td class="text-end">5 days</td>
+          <td class="text-end">8,000.00</td>
+          <td class="text-end">40,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Totals: end-aligned summary column. --grand = the ruled bottom line. -->
   <section class="pa-sheet__totals">
@@ -277,8 +289,11 @@ REGIONS (elements):
     __pageno                page number, end-aligned
 
 COMPOSE WITH EXISTING BLOCKS:
-  Line items                .pa-table (any modifier: --striped,
-                             --bordered, --compact …)
+  Line items                .pa-table-container > .pa-table (any modifier:
+                             --striped, --bordered, --compact …). The wrapper
+                             gives the table its own horizontal scroll on a
+                             narrow screen instead of stretching the sheet; the
+                             sheet strips its frame so it's invisible on paper.
   Metadata / party pairs    .pa-fields, .pa-desc-table
   Tax-breakdown box         .pa-table or .pa-desc-table
   Chapter-style terms       .pa-document (numbered clauses)

@@ -135,6 +135,43 @@
 </table>
 
 
+<!-- TWO-LINE CELL (pa-table__item-title + pa-table__item-desc)
+     A primary item name with a secondary description stacked in one <td> —
+     line-item name + spec on an invoice, or a name + email in an app table.
+     A <td> is ordinary flow content, so both are just block spans; no
+     rowspan or extra column needed. -->
+<table class="pa-table pa-table--bordered">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th class="text-end">Amount</th>
+      <th class="text-end">Unit price</th>
+      <th class="text-end">Total price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <span class="pa-table__item-title">Small sewing machine</span>
+        <span class="pa-table__item-desc">For home owners, hobbyists, light clothing</span>
+      </td>
+      <td class="text-end">1</td>
+      <td class="text-end">180.00</td>
+      <td class="text-end">180.00</td>
+    </tr>
+    <tr>
+      <td>
+        <span class="pa-table__item-title">Big sewing machine</span>
+        <span class="pa-table__item-desc">For hard work, leather, vinyl upholstery</span>
+      </td>
+      <td class="text-end">1</td>
+      <td class="text-end">640.00</td>
+      <td class="text-end">640.00</td>
+    </tr>
+  </tbody>
+</table>
+
+
 <!-- ================================
      SELECTABLE ROWS (pa-table__checkbox-col + pa-table__row--selected)
      Checkbox-driven row selection. The first column is a checkbox cell

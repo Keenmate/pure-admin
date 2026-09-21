@@ -162,4 +162,17 @@ $document-heading-sizes: (
   &--flush {
     --pa-document-indent: 0;
   }
+
+  // ---- Embedded tables ---------------------------------------------------
+  // Tables inside a clause/section reuse `.pa-table`, wrapped in the
+  // framework's `.pa-table-container` scroll wrapper so a wide table scrolls
+  // horizontally on a narrow screen instead of stretching the document (and
+  // the page) sideways. Strip the wrapper's own frame so the table's styling
+  // (e.g. `--bordered`) provides the border rather than doubling it.
+  // Canonical shape: `.pa-table-container > .pa-table`.
+  .pa-table-container {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
 }

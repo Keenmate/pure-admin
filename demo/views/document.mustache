@@ -176,47 +176,52 @@
                 <h2 class="pa-document__heading">Discount tiers</h2>
                 <p class="pa-document__text">Tiers are determined by trailing-twelve-month spend. The discount is applied to the net order subtotal before tax and shipping.</p>
 
-                <table class="pa-table pa-table--striped pa-table--bordered mb-4">
-                    <thead>
-                        <tr>
-                            <th>Tier</th>
-                            <th>Annual spend (trailing 12&nbsp;mo)</th>
-                            <th>Standard discount</th>
-                            <th>Free shipping</th>
-                            <th>Dedicated support</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="pa-badge">Bronze</span></td>
-                            <td>&euro;0 – &euro;4,999</td>
-                            <td>3%</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><span class="pa-badge pa-badge--secondary">Silver</span></td>
-                            <td>&euro;5,000 – &euro;19,999</td>
-                            <td>7%</td>
-                            <td>✓</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><span class="pa-badge pa-badge--warning">Gold</span></td>
-                            <td>&euro;20,000 – &euro;49,999</td>
-                            <td>12%</td>
-                            <td>✓</td>
-                            <td>Business hours</td>
-                        </tr>
-                        <tr>
-                            <td><span class="pa-badge pa-badge--primary">Platinum</span></td>
-                            <td>&euro;50,000+</td>
-                            <td>18%</td>
-                            <td>✓</td>
-                            <td>24/7</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- Wrapped in .pa-table-container so the table scrolls
+                     horizontally on a narrow screen instead of stretching the
+                     document; the document strips the wrapper's frame. -->
+                <div class="pa-table-container mb-4">
+                    <table class="pa-table pa-table--striped pa-table--bordered">
+                        <thead>
+                            <tr>
+                                <th>Tier</th>
+                                <th>Annual spend (trailing 12&nbsp;mo)</th>
+                                <th>Standard discount</th>
+                                <th>Free shipping</th>
+                                <th>Dedicated support</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="pa-badge">Bronze</span></td>
+                                <td>&euro;0 – &euro;4,999</td>
+                                <td>3%</td>
+                                <td>—</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td><span class="pa-badge pa-badge--secondary">Silver</span></td>
+                                <td>&euro;5,000 – &euro;19,999</td>
+                                <td>7%</td>
+                                <td>✓</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td><span class="pa-badge pa-badge--warning">Gold</span></td>
+                                <td>&euro;20,000 – &euro;49,999</td>
+                                <td>12%</td>
+                                <td>✓</td>
+                                <td>Business hours</td>
+                            </tr>
+                            <tr>
+                                <td><span class="pa-badge pa-badge--primary">Platinum</span></td>
+                                <td>&euro;50,000+</td>
+                                <td>18%</td>
+                                <td>✓</td>
+                                <td>24/7</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <section class="pa-document__section">
                     <h3 class="pa-document__heading">Tier assignment</h3>

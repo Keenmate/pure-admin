@@ -93,33 +93,45 @@
         </div>
     </div>
 
-    <table class="pa-table pa-table--bordered">
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th class="text-end">Qty</th>
-                <th class="text-end">Unit price</th>
-                <th class="text-end">Discount</th>
-                <th class="text-end">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Application support for the business portal — 08/2026</td>
-                <td class="text-end">7 days</td>
-                <td class="text-end">7,500.00</td>
-                <td class="text-end">—</td>
-                <td class="text-end">52,500.00</td>
-            </tr>
-            <tr>
-                <td>Application support for the business portal — 09/2026</td>
-                <td class="text-end">9 days</td>
-                <td class="text-end">7,500.00</td>
-                <td class="text-end">—</td>
-                <td class="text-end">67,500.00</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Line items wrapped in .pa-table-container: scrolls horizontally on a
+         narrow screen instead of stretching the sheet (the sheet strips the
+         wrapper's frame so it stays invisible on paper). -->
+    <div class="pa-table-container">
+        <table class="pa-table pa-table--bordered">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="text-end">Qty</th>
+                    <th class="text-end">Unit price</th>
+                    <th class="text-end">Discount</th>
+                    <th class="text-end">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- Two-line cell: item name + description stacked in one <td>. -->
+                    <td>
+                        <span class="pa-table__item-title">Application support</span>
+                        <span class="pa-table__item-desc">Business portal maintenance &amp; incident handling — August 2026</span>
+                    </td>
+                    <td class="text-end">7 days</td>
+                    <td class="text-end">7,500.00</td>
+                    <td class="text-end">—</td>
+                    <td class="text-end">52,500.00</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="pa-table__item-title">Application support</span>
+                        <span class="pa-table__item-desc">Business portal maintenance &amp; incident handling — September 2026</span>
+                    </td>
+                    <td class="text-end">9 days</td>
+                    <td class="text-end">7,500.00</td>
+                    <td class="text-end">—</td>
+                    <td class="text-end">67,500.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <!-- Payment QR on the start, totals on the end (totals keeps its
          margin-inline-start:auto, so it stays pushed to the page edge). -->
@@ -206,34 +218,38 @@
         </div>
     </div>
 
-    <table class="pa-table pa-table--striped pa-table--bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Item</th>
-                <th class="text-end">Qty</th>
-                <th>Unit</th>
-                <th class="text-end">Unit price (excl. VAT)</th>
-                <th class="text-end">Line total</th>
-                <th class="text-end">VAT rate</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td>Crema pomodoro</td><td class="text-end">4.000</td><td>pcs</td><td class="text-end">58.40</td><td class="text-end">233.60</td><td class="text-end">12.00%</td></tr>
-            <tr><td>2</td><td>Fusilli carbonara</td><td class="text-end">3.000</td><td>pcs</td><td class="text-end">129.90</td><td class="text-end">389.70</td><td class="text-end">12.00%</td></tr>
-            <tr><td>3</td><td>Fusilli pollo spinaci</td><td class="text-end">6.000</td><td>pcs</td><td class="text-end">121.50</td><td class="text-end">729.00</td><td class="text-end">12.00%</td></tr>
-            <tr><td>4</td><td>Gnocchi pollo gorgonzola</td><td class="text-end">9.000</td><td>pcs</td><td class="text-end">112.30</td><td class="text-end">1,010.70</td><td class="text-end">12.00%</td></tr>
-        </tbody>
-    </table>
+    <div class="pa-table-container">
+        <table class="pa-table pa-table--striped pa-table--bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th class="text-end">Qty</th>
+                    <th>Unit</th>
+                    <th class="text-end">Unit price (excl. VAT)</th>
+                    <th class="text-end">Line total</th>
+                    <th class="text-end">VAT rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Crema pomodoro</td><td class="text-end">4.000</td><td>pcs</td><td class="text-end">58.40</td><td class="text-end">233.60</td><td class="text-end">12.00%</td></tr>
+                <tr><td>2</td><td>Fusilli carbonara</td><td class="text-end">3.000</td><td>pcs</td><td class="text-end">129.90</td><td class="text-end">389.70</td><td class="text-end">12.00%</td></tr>
+                <tr><td>3</td><td>Fusilli pollo spinaci</td><td class="text-end">6.000</td><td>pcs</td><td class="text-end">121.50</td><td class="text-end">729.00</td><td class="text-end">12.00%</td></tr>
+                <tr><td>4</td><td>Gnocchi pollo gorgonzola</td><td class="text-end">9.000</td><td>pcs</td><td class="text-end">112.30</td><td class="text-end">1,010.70</td><td class="text-end">12.00%</td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <!-- Tax-breakdown grid: an ordinary bordered table, end-aligned -->
     <section class="pa-sheet__totals" style="--pa-sheet-totals-width: 48rem;">
-        <table class="pa-table pa-table--bordered pa-table--compact">
-            <tbody>
-                <tr><td>Taxable base (12%)</td><td class="text-end">2,363.00</td><td>VAT (12%)</td><td class="text-end">283.56</td></tr>
-                <tr><td>Total excl. VAT</td><td class="text-end">2,363.00</td><td>Total VAT</td><td class="text-end">283.56</td></tr>
-            </tbody>
-        </table>
+        <div class="pa-table-container">
+            <table class="pa-table pa-table--bordered pa-table--compact">
+                <tbody>
+                    <tr><td>Taxable base (12%)</td><td class="text-end">2,363.00</td><td>VAT (12%)</td><td class="text-end">283.56</td></tr>
+                    <tr><td>Total excl. VAT</td><td class="text-end">2,363.00</td><td>Total VAT</td><td class="text-end">283.56</td></tr>
+                </tbody>
+            </table>
+        </div>
         <div class="pa-sheet__total-row pa-sheet__total-row--grand">
             <span class="pa-sheet__total-label">Total due</span>
             <span class="pa-sheet__total-value">€2,646.56</span>
@@ -281,22 +297,24 @@
     </section>
 
     <section class="pa-sheet__title">Summary of your outstanding invoices</section>
-    <table class="pa-table">
-        <thead>
-            <tr>
-                <th>Invoice No.</th>
-                <th>Due date</th>
-                <th class="text-end">Outstanding</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>3184029557</td>
-                <td>Sep 3, 2026</td>
-                <td class="text-end">4,187.60</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="pa-table-container">
+        <table class="pa-table">
+            <thead>
+                <tr>
+                    <th>Invoice No.</th>
+                    <th>Due date</th>
+                    <th class="text-end">Outstanding</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3184029557</td>
+                    <td>Sep 3, 2026</td>
+                    <td class="text-end">4,187.60</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <section class="pa-sheet__totals">
         <div class="pa-sheet__total-row pa-sheet__total-row--grand">
@@ -461,24 +479,26 @@
         <span class="pa-sheet__meta-value">Dale Cooper</span>
     </section>
 
-    <table class="pa-table pa-table--striped pa-table--bordered">
-        <thead>
-            <tr>
-                <th>Item code</th>
-                <th>Description</th>
-                <th class="text-end">Qty</th>
-                <th>Unit</th>
-                <th class="text-end">Unit price</th>
-                <th class="text-end">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>TP-COF-001</td><td>Damn fine coffee (1&nbsp;kg)</td><td class="text-end">40</td><td>bag</td><td class="text-end">18.00</td><td class="text-end">720.00</td></tr>
-            <tr><td>TP-PIE-002</td><td>Cherry pie (whole)</td><td class="text-end">25</td><td>ea</td><td class="text-end">12.50</td><td class="text-end">312.50</td></tr>
-            <tr><td>TP-DON-003</td><td>Assorted donuts (dozen)</td><td class="text-end">30</td><td>box</td><td class="text-end">9.00</td><td class="text-end">270.00</td></tr>
-            <tr><td>TP-LOG-004</td><td>Douglas fir log (decorative)</td><td class="text-end">5</td><td>ea</td><td class="text-end">45.00</td><td class="text-end">225.00</td></tr>
-        </tbody>
-    </table>
+    <div class="pa-table-container">
+        <table class="pa-table pa-table--striped pa-table--bordered">
+            <thead>
+                <tr>
+                    <th>Item code</th>
+                    <th>Description</th>
+                    <th class="text-end">Qty</th>
+                    <th>Unit</th>
+                    <th class="text-end">Unit price</th>
+                    <th class="text-end">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>TP-COF-001</td><td>Damn fine coffee (1&nbsp;kg)</td><td class="text-end">40</td><td>bag</td><td class="text-end">18.00</td><td class="text-end">720.00</td></tr>
+                <tr><td>TP-PIE-002</td><td>Cherry pie (whole)</td><td class="text-end">25</td><td>ea</td><td class="text-end">12.50</td><td class="text-end">312.50</td></tr>
+                <tr><td>TP-DON-003</td><td>Assorted donuts (dozen)</td><td class="text-end">30</td><td>box</td><td class="text-end">9.00</td><td class="text-end">270.00</td></tr>
+                <tr><td>TP-LOG-004</td><td>Douglas fir log (decorative)</td><td class="text-end">5</td><td>ea</td><td class="text-end">45.00</td><td class="text-end">225.00</td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <section class="pa-sheet__totals">
         <div class="pa-sheet__total-row">
@@ -563,30 +583,33 @@
         <span class="pa-sheet__meta-value">BPL-7742-0091-CZ</span>
     </section>
 
-    <!-- Wide table — the reason for landscape. -->
-    <table class="pa-table pa-table--striped pa-table--bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Item code</th>
-                <th>Description</th>
-                <th class="text-end">Ordered</th>
-                <th class="text-end">Delivered</th>
-                <th class="text-end">Back-order</th>
-                <th>Unit</th>
-                <th class="text-end">Unit price</th>
-                <th class="text-end">Discount</th>
-                <th class="text-end">Line total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td>TP-COF-001</td><td>Damn fine coffee (1&nbsp;kg)</td><td class="text-end">40</td><td class="text-end">40</td><td class="text-end">0</td><td>bag</td><td class="text-end">18.00</td><td class="text-end">—</td><td class="text-end">720.00</td></tr>
-            <tr><td>2</td><td>TP-PIE-002</td><td>Cherry pie (whole)</td><td class="text-end">25</td><td class="text-end">25</td><td class="text-end">0</td><td>ea</td><td class="text-end">12.50</td><td class="text-end">—</td><td class="text-end">312.50</td></tr>
-            <tr><td>3</td><td>TP-DON-003</td><td>Assorted donuts (dozen)</td><td class="text-end">30</td><td class="text-end">24</td><td class="text-end">6</td><td>box</td><td class="text-end">9.00</td><td class="text-end">—</td><td class="text-end">216.00</td></tr>
-            <tr><td>4</td><td>TP-LOG-004</td><td>Douglas fir log (decorative)</td><td class="text-end">5</td><td class="text-end">5</td><td class="text-end">0</td><td>ea</td><td class="text-end">45.00</td><td class="text-end">—</td><td class="text-end">225.00</td></tr>
-            <tr><td>5</td><td>TP-TEA-005</td><td>Fine herbal tea (100 bags)</td><td class="text-end">12</td><td class="text-end">12</td><td class="text-end">0</td><td>box</td><td class="text-end">22.00</td><td class="text-end">—</td><td class="text-end">264.00</td></tr>
-        </tbody>
-    </table>
+    <!-- Wide table — the reason for landscape. On a narrow screen it scrolls
+         inside the .pa-table-container rather than stretching the sheet. -->
+    <div class="pa-table-container">
+        <table class="pa-table pa-table--striped pa-table--bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item code</th>
+                    <th>Description</th>
+                    <th class="text-end">Ordered</th>
+                    <th class="text-end">Delivered</th>
+                    <th class="text-end">Back-order</th>
+                    <th>Unit</th>
+                    <th class="text-end">Unit price</th>
+                    <th class="text-end">Discount</th>
+                    <th class="text-end">Line total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>TP-COF-001</td><td>Damn fine coffee (1&nbsp;kg)</td><td class="text-end">40</td><td class="text-end">40</td><td class="text-end">0</td><td>bag</td><td class="text-end">18.00</td><td class="text-end">—</td><td class="text-end">720.00</td></tr>
+                <tr><td>2</td><td>TP-PIE-002</td><td>Cherry pie (whole)</td><td class="text-end">25</td><td class="text-end">25</td><td class="text-end">0</td><td>ea</td><td class="text-end">12.50</td><td class="text-end">—</td><td class="text-end">312.50</td></tr>
+                <tr><td>3</td><td>TP-DON-003</td><td>Assorted donuts (dozen)</td><td class="text-end">30</td><td class="text-end">24</td><td class="text-end">6</td><td>box</td><td class="text-end">9.00</td><td class="text-end">—</td><td class="text-end">216.00</td></tr>
+                <tr><td>4</td><td>TP-LOG-004</td><td>Douglas fir log (decorative)</td><td class="text-end">5</td><td class="text-end">5</td><td class="text-end">0</td><td>ea</td><td class="text-end">45.00</td><td class="text-end">—</td><td class="text-end">225.00</td></tr>
+                <tr><td>5</td><td>TP-TEA-005</td><td>Fine herbal tea (100 bags)</td><td class="text-end">12</td><td class="text-end">12</td><td class="text-end">0</td><td>box</td><td class="text-end">22.00</td><td class="text-end">—</td><td class="text-end">264.00</td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <section class="pa-sheet__totals">
         <div class="pa-sheet__total-row pa-sheet__total-row--grand">
@@ -643,7 +666,8 @@
 
         <h5 class="mt-4">Compose with existing blocks</h5>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li>Line items → <code>pa-table</code> (any modifier)</li>
+            <li>Line items → <code>pa-table-container</code> &gt; <code>pa-table</code> (any modifier) — the wrapper scrolls a wide table on mobile; the sheet strips its frame</li>
+            <li>Two-line item cell → <code>pa-table__item-title</code> + <code>pa-table__item-desc</code> inside a <code>&lt;td&gt;</code> (name + italic spec/description)</li>
             <li>Metadata / party pairs → <code>pa-fields</code>, <code>pa-desc-table</code></li>
             <li>Tax-breakdown box → <code>pa-table</code> or <code>pa-desc-table</code></li>
             <li>Chapter-style terms → <code>pa-document</code> (numbered clauses)</li>

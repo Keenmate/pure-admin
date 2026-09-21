@@ -506,6 +506,30 @@
     width: 1%;
     white-space: nowrap;
   }
+
+  // Two-line cell: a primary item name with a secondary description stacked
+  // beneath it, inside a single <td> (line-item name + spec on an invoice,
+  // user name + email in an app table, etc.). Both are plain block spans — a
+  // <td> is ordinary flow content, so no rowspan/extra-column trickery needed.
+  //   <td>
+  //     <span class="pa-table__item-title">Small sewing machine</span>
+  //     <span class="pa-table__item-desc">For home owners, light clothing</span>
+  //   </td>
+  &__item-title {
+    display: block;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+    color: var(--pc-text-color-1);
+  }
+
+  &__item-desc {
+    display: block;
+    margin-block-start: $spacing-xs;
+    font-size: $font-size-xs;
+    font-style: italic;
+    line-height: $line-height-tight;
+    color: var(--pc-text-color-3);
+  }
 }
 
 // .pa-pager and .pa-load-more live in _pagers.scss — this file used to

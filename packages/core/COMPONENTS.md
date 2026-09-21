@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.2.0** · **60** components · **151** blocks · **653** class selectors.
+Framework version **3.3.0-rc02** · **60** components · **151** blocks · **653** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -358,7 +358,7 @@ Data tables: striped, responsive (stacked + grid), row selection, checkbox colum
 - **Blocks:** `pa-table`, `pa-table-container`, `pa-virtual-table`
 - **Elements:** `pa-table__checkbox-col`, `pa-virtual-table__body`, `pa-virtual-table__cell`, `pa-virtual-table__header`, `pa-virtual-table__header-cell`, `pa-virtual-table__row`
 - **Modifiers / states:** `pa-table--responsive`, `pa-table--responsive-grid`, `pa-table--striped`, `pa-table-container--panel`, `pa-table__row--selected`
-- **SCSS:** `core-components/_checkbox-lists.scss`, `core-components/_detail-panel.scss`, `core-components/_tables.scss`, `core-components/_utilities.scss`
+- **SCSS:** `core-components/_checkbox-lists.scss`, `core-components/_detail-panel.scss`, `core-components/_document.scss`, `core-components/_sheet.scss`, `core-components/_tables.scss`, `core-components/_utilities.scss`
 - **Snippet:** `tables.html`, `virtual-scroll.html`
 - **Demo:** `table-filters.mustache`, `table-multi-select.mustache`, `tables.mustache`
 

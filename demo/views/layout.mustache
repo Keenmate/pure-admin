@@ -295,6 +295,24 @@
                             }
                         }
                     });
+
+                    // Auto-expand the path to the current page: walk up from the
+                    // active link and open every ancestor submenu so the active
+                    // item is visible even in a fresh session (no saved state).
+                    // Runs before paint to avoid a collapsed-then-expand flash.
+                    const active = document.querySelector('.pc-sidebar__link--active');
+                    if (active) {
+                        let submenu = active.closest('.pc-sidebar__submenu');
+                        while (submenu) {
+                            const parentItem = submenu.closest('.pc-sidebar__item');
+                            submenu.classList.add('pc-sidebar__submenu--open');
+                            if (parentItem) parentItem.classList.add('pc-sidebar__item--open');
+                            // Continue up to the next enclosing submenu (multi-level).
+                            submenu = parentItem
+                                ? parentItem.parentElement.closest('.pc-sidebar__submenu')
+                                : null;
+                        }
+                    }
                 })();
             </script>
 

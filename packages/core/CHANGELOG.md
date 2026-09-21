@@ -5,6 +5,53 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc02] - 2026-09-20
+
+### Added
+
+- **`pa-table` two-line cell — `pa-table__item-title` + `pa-table__item-desc`.**
+  A blessed shape for a primary item name with a secondary description stacked
+  in a single `<td>` (line-item name + spec on an invoice, or a name + email in
+  an app table). A `<td>` is ordinary flow content, so both are plain block
+  spans — no rowspan or extra column needed; `__item-desc` renders smaller,
+  italic and muted (`--pc-text-color-3`) beneath the semibold `__item-title`.
+  Shown in `snippets/tables.html`, the tables demo, and the invoice line items
+  in `snippets/sheet.html` + the sheet demo.
+
+### Fixed
+
+- **`pa-sheet` / `pa-document` — line-item tables now stay inside the page on
+  mobile.** A wide table (e.g. a delivery note's ten columns) authored bare
+  inside a sheet or document had no scroll container, so on a narrow screen it
+  spilled out of the paper and stretched the whole page sideways. Line-item
+  tables are now wrapped in the framework's `.pa-table-container`, which gives
+  each table its OWN horizontal scroll instead of forcing the page wider. Both
+  `.pa-sheet` and `.pa-document` strip the wrapper's frame (border / radius /
+  background) so it stays invisible — the table keeps `width: 100%` and only
+  scrolls when it can't fit, and the `@media print` layer resets the wrapper to
+  `overflow: visible` so nothing clips on paper. Canonical shape is now
+  `.pa-table-container > .pa-table` (snippet + demos updated).
+
+- **`pa-sheet` — party grid collapses to a single column on mobile.** Two/three
+  side-by-side `__party` cards were too narrow on a phone and long unbreakable
+  tokens (IBANs, emails) could push the grid past the paper edge; `__parties`
+  (including `--cols-3`) now stacks to one column at the mobile breakpoint.
+
+### Internal
+
+- **Demo sidebar reorganised + Lucide icons (demo-only).** The demo nav's
+  ~40-item "Components" group was split into catalog-aligned top-level groups
+  (Forms & inputs, Surfaces, Buttons & actions, Data display, Data
+  visualization, Feedback, Interactive & misc), folding the former
+  Tables/Timeline/KPI groups into their real categories and moving the
+  icon-presence / multi-level test fixtures into a dedicated "Sandbox" group.
+  The active page's ancestor groups now auto-expand on load (walks up from
+  `.pc-sidebar__link--active` before paint, so a deep page opens straight to its
+  item). Emoji glyphs were replaced with inline Lucide SVGs
+  (`stroke="currentColor"`, so icons follow the link's active/hover colour;
+  sized via a single `.pc-sidebar__icon svg` rule). No package markup or CSS
+  change.
+
 ## [3.3.0-rc01] - 2026-09-19 [PUBLISHED]
 
 ### Added
