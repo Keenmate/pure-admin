@@ -6,6 +6,17 @@
     <title>{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Dashboard{{/pageTitle}} - Pure Admin Visual</title>
     <!-- Critical CSS: Loader (inline to prevent FOUC) -->
     <style>
+        /* Inline Lucide icons (emoji replacement) sit inline next to text in
+           buttons, input-group addons, and card titles — nudge them onto the
+           text baseline. Size is set inline per-svg (width/height: 1em) so it
+           inherits each icon slot's font-size exactly like the emoji it replaced. */
+        .pa-btn svg,
+        .pa-input-group__prepend svg,
+        .pa-input-group__append svg,
+        .pa-card__title-text svg {
+            vertical-align: -0.125em;
+        }
+
         /* Kill all transitions while a mode/variant swap is in flight so tokens
            don't animate through intermediate colours (see withTransitionsSuppressed
            in settings-panel.js). !important beats the themes' `transition: all`. */
@@ -433,7 +444,7 @@
         <div class="pa-profile-panel__content">
             <div class="pa-profile-panel__header" id="profilePanelHeader">
                 <div class="pa-profile-panel__avatar">
-                    <span class="pa-profile-panel__avatar-icon">👤</span>
+                    <span class="pa-profile-panel__avatar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></span>
                 </div>
                 <div class="pa-profile-panel__info">
                     <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>

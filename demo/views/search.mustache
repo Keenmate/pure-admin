@@ -9,7 +9,7 @@ query — this demo just echoes it.</p>
     <div class="pa-card__body">
         <form class="pc-navbar-search pc-navbar-search--input" action="/search" method="get" role="search"
               style="max-width: 48rem;">
-            <span class="pc-navbar-search__icon" aria-hidden="true">🔍</span>
+            <span class="pc-navbar-search__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
             <input type="search" name="q" class="pc-navbar-search__field" value="{{q}}"
                    placeholder="Search everything…" autocomplete="off" aria-label="Search" autofocus>
         </form>
@@ -32,28 +32,28 @@ these are placeholder rows echoing your query, rendered in each of the four
     <div class="pa-card__body">
         <div class="pa-search-results pa-search-results--compact">
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">Getting started with “{{q}}”</div>
                 </div>
                 <span class="pa-search-results__type">Page</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">“{{q}}” Pro subscription</div>
                 </div>
                 <span class="pa-search-results__type">Product</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">{{q}} Nováková</div>
                 </div>
                 <span class="pa-search-results__type">User</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📊</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">Q3 report — {{q}} breakdown</div>
                 </div>
@@ -95,7 +95,7 @@ these are placeholder rows echoing your query, rendered in each of the four
         re-skinned off the browser yellow onto a themed accent tint.</p>
         <div class="pa-search-results pa-search-results--detailed">
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">Getting started with “<mark class="pa-search-results__mark">{{q}}</mark>”</div>
                     <p class="pa-search-results__snippet">A step-by-step guide covering everything you need to know about <mark class="pa-search-results__mark">{{q}}</mark>, from first setup through to advanced <mark class="pa-search-results__mark">{{q}}</mark> configuration and troubleshooting.</p>
@@ -107,7 +107,7 @@ these are placeholder rows echoing your query, rendered in each of the four
                 <span class="pa-search-results__type">Page</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">“<mark class="pa-search-results__mark">{{q}}</mark>” Pro subscription</div>
                     <p class="pa-search-results__snippet">The full-featured plan with priority support, unlimited seats, and advanced analytics for teams that live in <mark class="pa-search-results__mark">{{q}}</mark>.</p>
@@ -120,7 +120,7 @@ these are placeholder rows echoing your query, rendered in each of the four
                 <span class="pa-search-results__type">Product</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title"><mark class="pa-search-results__mark">{{q}}</mark> Nováková</div>
                     <p class="pa-search-results__snippet">Product designer on the Platform team. Owns the design system and the <mark class="pa-search-results__mark">{{q}}</mark> onboarding flow.</p>
@@ -165,7 +165,7 @@ these are placeholder rows echoing your query, rendered in each of the four
             <div class="pa-search-results__group">
                 <div class="pa-search-results__group-title">Pages</div>
                 <a class="pa-search-results__item" href="#">
-                    <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                    <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
                     <div class="pa-search-results__content">
                         <div class="pa-search-results__title">Getting started with “{{q}}”</div>
                         <div class="pa-search-results__meta">
@@ -175,7 +175,7 @@ these are placeholder rows echoing your query, rendered in each of the four
                     <span class="pa-search-results__type">Page</span>
                 </a>
                 <a class="pa-search-results__item" href="#">
-                    <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                    <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
                     <div class="pa-search-results__content">
                         <div class="pa-search-results__title">{{q}} changelog</div>
                         <div class="pa-search-results__meta">
@@ -188,7 +188,7 @@ these are placeholder rows echoing your query, rendered in each of the four
             <div class="pa-search-results__group">
                 <div class="pa-search-results__group-title">Products</div>
                 <a class="pa-search-results__item" href="#">
-                    <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                    <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg></span>
                     <div class="pa-search-results__content">
                         <div class="pa-search-results__title">“{{q}}” Pro subscription</div>
                         <div class="pa-search-results__meta">
@@ -201,7 +201,7 @@ these are placeholder rows echoing your query, rendered in each of the four
             <div class="pa-search-results__group">
                 <div class="pa-search-results__group-title">People</div>
                 <a class="pa-search-results__item" href="#">
-                    <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                    <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                     <div class="pa-search-results__content">
                         <div class="pa-search-results__title">{{q}} Nováková</div>
                         <div class="pa-search-results__meta">
@@ -226,7 +226,7 @@ these are placeholder rows echoing your query, rendered in each of the four
     <div class="pa-card__body">
         <div class="pa-search-results pa-search-results--cards" id="searchCardsResults">
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">Getting started with “{{q}}”</div>
                     <p class="pa-search-results__snippet">A step-by-step guide covering everything you need to know about {{q}}.</p>
@@ -234,7 +234,7 @@ these are placeholder rows echoing your query, rendered in each of the four
                 <span class="pa-search-results__type">Page</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">“{{q}}” Pro subscription</div>
                     <p class="pa-search-results__snippet">Priority support, unlimited seats, and advanced analytics.</p>
@@ -242,7 +242,7 @@ these are placeholder rows echoing your query, rendered in each of the four
                 <span class="pa-search-results__type">Product</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">{{q}} Nováková</div>
                     <p class="pa-search-results__snippet">Product designer on the Platform team.</p>
@@ -250,7 +250,7 @@ these are placeholder rows echoing your query, rendered in each of the four
                 <span class="pa-search-results__type">User</span>
             </a>
             <a class="pa-search-results__item" href="#">
-                <span class="pa-search-results__icon" aria-hidden="true">📊</span>
+                <span class="pa-search-results__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>
                 <div class="pa-search-results__content">
                     <div class="pa-search-results__title">Q3 report — {{q}} breakdown</div>
                     <p class="pa-search-results__snippet">Quarterly performance with the {{q}} segment split out.</p>

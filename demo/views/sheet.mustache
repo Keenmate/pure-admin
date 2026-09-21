@@ -2,7 +2,7 @@
 
 <div class="mb-8">
     <button type="button" class="pa-btn pa-btn--primary" onclick="window.print()">
-        <span aria-hidden="true">🖨️</span> Print whole page
+        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print whole page
     </button>
     <span class="pa-text pa-text--secondary ms-2"><code>window.print()</code> prints the entire document. Each sheet below also has its own button that prints <strong>just that one sheet</strong> in isolation via <code>pureAdmin.printElement()</code> — no page-level print CSS needed.</span>
 </div>
@@ -25,7 +25,7 @@
          .pa-sheet; data-print-omit keeps the button itself out of the printout. -->
     <div data-print-omit style="text-align: end;">
         <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printSheet(this, { title: 'Invoice 2026-0184' })">
-            <span aria-hidden="true">🖨️</span> Print this invoice
+            <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this invoice
         </button>
     </div>
     <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
@@ -175,7 +175,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-taxdoc', { title: 'Invoice 2026318' })">
-        <span aria-hidden="true">🖨️</span> Print this invoice
+        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this invoice
     </button>
 </div>
 <div id="sheet-taxdoc" class="pa-sheet pa-sheet--framed mb-8">
@@ -264,7 +264,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-reminder', { title: 'Payment reminder' })">
-        <span aria-hidden="true">🖨️</span> Print this reminder
+        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this reminder
     </button>
 </div>
 <div id="sheet-reminder" class="pa-sheet pa-sheet--fill mb-8">
@@ -341,7 +341,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-service', { title: 'Invoice — service' })">
-        <span aria-hidden="true">🖨️</span> Print this invoice
+        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this invoice
     </button>
 </div>
 <div id="sheet-service" class="pa-sheet pa-sheet--framed pa-sheet--fill mb-8">
@@ -423,7 +423,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-order', { title: 'Purchase order PO-2026-0453' })">
-        <span aria-hidden="true">🖨️</span> Print this order
+        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this order
     </button>
 </div>
 <div id="sheet-order" class="pa-sheet pa-sheet--framed mb-8">
@@ -539,7 +539,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-delivery', { title: 'Delivery note DN-2026-0088' })">
-        <span aria-hidden="true">🖨️</span> Print this delivery note
+        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this delivery note
     </button>
 </div>
 <div id="sheet-delivery" class="pa-sheet pa-sheet--framed pa-sheet--landscape mb-8">

@@ -69,7 +69,7 @@
                 <ul class="pa-timeline pa-timeline--feed" id="timeline-feed-load-more">
                     <!-- Date Header: January 21, 2021 -->
                     <li class="pa-timeline__item pa-timeline__item--date-header">
-                        <div class="pa-timeline__date-icon">📅</div>
+                        <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                         <div class="pa-timeline__date-label">January 21, 2021</div>
                     </li>
 
@@ -85,7 +85,7 @@
 
                     <!-- Date Header: January 20, 2021 -->
                     <li class="pa-timeline__item pa-timeline__item--date-header">
-                        <div class="pa-timeline__date-icon">📅</div>
+                        <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                         <div class="pa-timeline__date-label">January 20, 2021</div>
                     </li>
 
@@ -114,7 +114,7 @@
                 </ul>
                 <div class="pa-timeline__load-more-wrapper">
                     <button class="pa-btn pa-btn--primary" onclick="loadMoreFeedItems()">
-                        <span class="pa-btn__icon">↓</span>
+                        <span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></span>
                         Load More
                     </button>
                 </div>
@@ -135,7 +135,7 @@
                     <ul class="pa-timeline pa-timeline--feed" id="timeline-feed-virtual-scroll">
                         <!-- Date Header: January 22, 2021 -->
                         <li class="pa-timeline__item pa-timeline__item--date-header">
-                            <div class="pa-timeline__date-icon">📅</div>
+                            <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                             <div class="pa-timeline__date-label">January 22, 2021</div>
                         </li>
 
@@ -161,7 +161,7 @@
 
                         <!-- Date Header: January 21, 2021 -->
                         <li class="pa-timeline__item pa-timeline__item--date-header">
-                            <div class="pa-timeline__date-icon">📅</div>
+                            <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                             <div class="pa-timeline__date-label">January 21, 2021</div>
                         </li>
 
@@ -187,7 +187,7 @@
 
                         <!-- Date Header: January 20, 2021 -->
                         <li class="pa-timeline__item pa-timeline__item--date-header">
-                            <div class="pa-timeline__date-icon">📅</div>
+                            <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                             <div class="pa-timeline__date-label">January 20, 2021</div>
                         </li>
 
@@ -269,7 +269,7 @@ function loadMoreFeedItems() {
         if (item.type === 'date') {
             li.className = 'pa-timeline__item pa-timeline__item--date-header';
             li.innerHTML = `
-                <div class="pa-timeline__date-icon">📅</div>
+                <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                 <div class="pa-timeline__date-label">${item.date}</div>
             `;
         } else {
@@ -361,7 +361,7 @@ function loadVirtualScrollFeedItems() {
             if (item.type === 'date') {
                 li.className = 'pa-timeline__item pa-timeline__item--date-header';
                 li.innerHTML = `
-                    <div class="pa-timeline__date-icon">📅</div>
+                    <div class="pa-timeline__date-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
                     <div class="pa-timeline__date-label">${item.date}</div>
                 `;
             } else {

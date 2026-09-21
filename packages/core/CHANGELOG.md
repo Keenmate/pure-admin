@@ -52,6 +52,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   sized via a single `.pc-sidebar__icon svg` rule). No package markup or CSS
   change.
 
+- **Demo emoji icons swept to inline Lucide SVGs, demo-wide (demo-only).**
+  Following the sidebar, every emoji that acted as a *UI icon* across ~30 demo
+  pages was replaced with an inline single-line Lucide SVG — icon slots
+  (`pa-btn__icon`, `pa-stat__icon`, `pa-timeline__icon`, `pa-card__title-icon`,
+  `pa-badge__icon`, `pa-composite-badge__icon`/`__button`, `pa-search-results__icon`,
+  `pa-list__icon`/`__avatar`, `pa-callout__icon`, `pa-alert__icon`,
+  `pa-input-group__prepend`/`__append`), icon-only buttons, print buttons, the
+  profile-panel avatar, and the sidebar Sandbox fixtures. SVGs use
+  `stroke="currentColor"` and `width/height: 1em`, so each icon inherits its
+  slot's colour and font-size exactly like the emoji it replaced (plus one small
+  `vertical-align` rule in `layout.mustache` for icons sitting inline with text).
+  Genuine sample *data* was deliberately left as emoji — star ratings, fruit
+  checkbox labels, the splitter file-tree, `<td>✓</td>` cells, component icon
+  props in `<script>`/attributes (`icon="…"`, `data-pc-nav-icon`), and prose
+  mentions. No package markup or CSS change.
+
 ## [3.3.0-rc01] - 2026-09-19 [PUBLISHED]
 
 ### Added
