@@ -152,3 +152,6 @@
 
 // Utility classes and helpers
 @use 'core-components/utilities' as *;
+
+// Cross-component print rules (transient overlays hidden on paper)
+@use 'core-components/print' as *;

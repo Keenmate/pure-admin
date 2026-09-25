@@ -58,6 +58,7 @@
 
 // Profile panel
 .pa-profile-panel {
+  // Hidden in print via the shared transient-overlay rule in _print.scss.
   position: fixed;
   top: 0;
   inset-inline-end: 0; // RTL: flips to left

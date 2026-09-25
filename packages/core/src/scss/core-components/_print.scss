@@ -1,0 +1,17 @@
+// ============================================================================
+// PRINT — cross-component print rules
+// ============================================================================
+// One home for "what disappears when the page is printed". These are all
+// transient, fixed-position app overlays (settings/profile panels, the toast
+// stack, the command palette). On a whole-page window.print() they otherwise
+// paint over the document and — being fixed — repeat on every page. Grouping
+// them here keeps the answer to "what's hidden in print?" in a single place
+// rather than scattered as a one-liner inside each component partial.
+@media print {
+  .pa-settings-panel,
+  .pa-profile-panel,
+  .pa-toast-container,
+  .pa-command-palette {
+    display: none !important;
+  }
+}

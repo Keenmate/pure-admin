@@ -8,6 +8,7 @@
 
 // Fixed container for toast notifications
 .pa-toast-container {
+  // Hidden in print via the shared transient-overlay rule in _print.scss.
   position: fixed;
   z-index: $z-index-toast;
   pointer-events: none;

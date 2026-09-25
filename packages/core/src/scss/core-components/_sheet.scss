@@ -400,6 +400,22 @@
    .pa-sheet except the page box.
    ---------------------------------------------------------------------- */
 @media print {
+  // ---- Print colour policy ---------------------------------------------
+  // A printable document must not inherit the on-screen theme. On a dark or
+  // tinted theme the sheet paints itself in the theme palette, and at print
+  // time the browser DROPS backgrounds while keeping the (light) theme text —
+  // so the page lands on paper as washed-out grey.
+  //
+  // So ALL three modes print on WHITE paper with dark ink body text, and NONE
+  // force `print-color-adjust: exact` — backgrounds stay dropped, so a sheet
+  // never floods the page with a full-bleed fill (that both misreads on paper
+  // and burns toner). The sheet is built from a handful of --pc-* foundation
+  // tokens, so remapping those on the .pa-sheet does the whole job with no
+  // per-component rules. The modes differ ONLY in what happens to the ACCENT /
+  // SEMANTIC colours (title, brand, status text):
+  //   default            — neutralised to ink (pure black & white)
+  //   --print-color      — kept in the theme's colour (coloured title on white)
+  //   --print-grayscale  — kept, then desaturated to grey
   .pa-sheet {
     max-width: none;
     margin: 0;
@@ -415,23 +431,8 @@
     // so a full sheet lands on one page at normal margins. Instances can still
     // override --pa-sheet-gap.
     --pa-sheet-gap: #{$spacing-md};
-  }
 
-  // ---- Print colour policy ---------------------------------------------
-  // A printable document must not inherit the on-screen theme. On a dark or
-  // strongly tinted theme (Cobalt2, Dracula, …) the sheet paints itself in
-  // the theme palette, but at print time the browser DROPS backgrounds by
-  // default while keeping the theme's (light) text — so the page lands on
-  // paper as washed-out grey ink on white.
-  //
-  // DEFAULT: neutral ink-on-paper, theme-independent. The whole sheet is
-  // built from a handful of --pc-* foundation tokens, so remapping just
-  // those makes every var(--pc-*) inside resolve to black/grey on white
-  // without touching a single component rule. Scoped away from the two
-  // opt-in modifiers so THEY keep inheriting the theme's own tokens (a
-  // custom property can't be re-inherited from :root once set on the
-  // element, so exclusion is cleaner than trying to restore it).
-  .pa-sheet:not(.pa-sheet--print-color):not(.pa-sheet--print-grayscale) {
+    // White paper + ink body text, every theme (see policy note above).
     --pc-main-bg: #fff;
     --pc-text-color-1: #000;
     --pc-text-color-2: #1a1a1a;
@@ -439,22 +440,24 @@
     --pc-border-color: #999;
   }
 
-  // Print IN COLOUR: keep the theme's own palette and force the browser to
-  // paint backgrounds/fills (normally dropped) so a branded, coloured or
-  // dark invoice prints as it looks on screen.
-  .pa-sheet--print-color {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+  // DEFAULT (no modifier): pure ink — also neutralise the accent + semantic
+  // text colours so a themed title/brand (e.g. cobalt2's yellow doctitle, a
+  // red payment-reminder header) prints black instead of a low-contrast tint.
+  // --print-color / --print-grayscale are excluded, so they KEEP these theme
+  // colours (grayscale then desaturates them via the filter below).
+  .pa-sheet:not(.pa-sheet--print-color):not(.pa-sheet--print-grayscale) {
+    --pc-accent: #000;
+    --pc-accent-hover: #000;
+    --pc-danger-text: #000;
+    --pc-success-text: #000;
+    --pc-warning-text: #000;
+    --pc-info-text: #000;
   }
 
-  // Print in GREYSCALE: keep the theme's fills (forced on) but desaturate
-  // the whole sheet to deliberate greys (letterhead look) instead of the
-  // washed-out accident of the default. NOTE: this desaturates the theme
-  // AS-IS, so on a dark theme it yields a heavy dark-grey page — pair it
-  // with a light theme, or use the default for clean ink-on-paper.
+  // Print in GREYSCALE: the coloured invoice (accent/brand kept from the theme),
+  // desaturated to greys — a letterhead look on white paper. No forced
+  // backgrounds, so it stays toner-light like the other two modes.
   .pa-sheet--print-grayscale {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
     filter: grayscale(1);
   }
 

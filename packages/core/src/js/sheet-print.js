@@ -78,6 +78,15 @@
             return;
         }
 
+        // A landscape sheet must print on a landscape page. The named @page
+        // (page: pa-sheet-landscape) that rotates it in a whole-page print is
+        // honoured unevenly by browsers, so for this ISOLATED document we make
+        // the DEFAULT page landscape and size the layout iframe to match — so
+        // the sheet expands to the full landscape width instead of being clamped
+        // to portrait. Detect the sheet itself OR a landscape sheet inside it.
+        var isLandscape = (el.classList && el.classList.contains('pa-sheet--landscape')) ||
+            (el.querySelector && !!el.querySelector('.pa-sheet--landscape'));
+
         // Clone so we can drop no-print descendants without touching the DOM.
         var clone = el.cloneNode(true);
         var omit = clone.querySelectorAll('[data-print-omit], .pa-print-hide');
@@ -101,6 +110,7 @@
             (lang ? ' lang="' + escapeAttr(lang) + '"' : '') +
             '><head><meta charset="utf-8"><title>' + escapeText(title) + '</title>' +
             collectStyles() +
+            (isLandscape ? '<style>@page { size: A4 landscape; }</style>' : '') +
             (options.css ? '<style>' + options.css + '</style>' : '') +
             '</head><body>' + clone.outerHTML + '</body></html>';
 
@@ -109,7 +119,8 @@
         // Off-screen but with a REAL size — a 0×0 / display:none iframe has no
         // layout and prints blank. Positioned off-canvas so it's invisible.
         iframe.style.cssText =
-            'position:fixed;left:-9999px;top:0;width:210mm;height:297mm;border:0;';
+            'position:fixed;left:-9999px;top:0;width:' + (isLandscape ? '297mm' : '210mm') +
+            ';height:' + (isLandscape ? '210mm' : '297mm') + ';border:0;';
 
         var cleaned = false;
         function cleanup() {

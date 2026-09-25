@@ -5,6 +5,7 @@
 @use '../variables' as *;
 
 .pa-settings-panel {
+  // Hidden in print via the shared transient-overlay rule in _print.scss.
   position: fixed;
   inset-inline-end: -$profile-panel-width-fixed; // RTL: flips to left, panel hidden by default
   top: $settings-panel-top; // Position higher up for larger panel

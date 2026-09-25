@@ -5,6 +5,7 @@
 @use '../variables' as *;
 
 .pa-command-palette {
+  // Hidden in print via the shared transient-overlay rule in _print.scss.
   position: fixed;
   inset: 0; // RTL: full screen works in both directions
   z-index: $z-index-command-palette;
