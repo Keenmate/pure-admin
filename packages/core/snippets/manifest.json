@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-24T19:16:35.066Z",
+  "generated": "2026-09-25T16:08:58.809Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -595,9 +595,9 @@
       "modified": "2026-09-10T19:55:52.850Z"
     },
     "variables/_components.scss": {
-      "hash": "c9669dbf3d9f8beba84c6ae57784705e306102db0924950f29cf3e32216e9474",
-      "size": 46731,
-      "modified": "2026-09-17T19:26:49.586Z"
+      "hash": "9730fd41d4c3789743539f2ef27b292374851088c0ea61627bd2a6e2f28d96ff",
+      "size": 47101,
+      "modified": "2026-09-24T20:15:44.340Z"
     },
     "variables/_index.scss": {
       "hash": "571ac8b22945e0bc1918638ad5df011b894167d944636d84fd38c7a1689520e1",
