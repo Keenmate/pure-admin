@@ -1,18 +1,59 @@
-<p>Printable <strong>paper documents</strong> — invoices, orders, quotes, receipts and payment reminders — built from a set of blocks instead of hand-rolled HTML. <code>pa-sheet</code> is the white, centred, A4-width page with a screen-only drop shadow and a built-in <code>@media&nbsp;print</code> layer. Line items reuse the ordinary <code>pa-table</code>; label/value metadata reuse <code>pa-fields</code> / <code>pa-desc-table</code>. The examples below use fictional data (Twin Peaks Ltd. &amp; friends).</p>
+<div class="pa-callout pa-callout--warning mb-4 sheet-demo-notice">
+    <span class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
+    <div class="pa-callout__content">
+        <h4 class="pa-callout__heading">Semi-experimental</h4>
+        <p><code>pa-sheet</code> and the form primitives shown here (<code>pc-grid</code>, <code>pa-table--plain</code>, the print colour modes, and the rotation / vertical-text utilities) are still stabilising. <strong>Class names, modifiers and markup shape may change</strong> in upcoming releases — pin an exact version if you build on them, and check the CHANGELOG before upgrading.</p>
+    </div>
+</div>
 
-<div class="mb-8">
+<p class="sheet-demo-intro">Printable <strong>paper documents</strong> — invoices, orders, quotes, receipts and payment reminders — built from a set of blocks instead of hand-rolled HTML. <code>pa-sheet</code> is the white, centred, A4-width page with a screen-only drop shadow and a built-in <code>@media&nbsp;print</code> layer. Line items reuse the ordinary <code>pa-table</code>; label/value metadata reuse <code>pa-fields</code> / <code>pa-desc-table</code>. The examples below use fictional data (Twin Peaks Ltd. &amp; friends).</p>
+
+<div class="mb-8 sheet-demo-controls">
     <button type="button" class="pa-btn pa-btn--primary" onclick="window.print()">
-        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print whole page
+        {{> partials/printer-icon}} Print whole page
     </button>
     <span class="pa-text pa-text--secondary ms-2"><code>window.print()</code> prints the entire document. Each sheet below also has its own button that prints <strong>just that one sheet</strong> in isolation via <code>pureAdmin.printElement()</code> — no page-level print CSS needed.</span>
+
+    <!-- Print colour policy — three direct-print buttons. The policy lives
+         inside @media print (invisible on screen), so each button prints the
+         invoice above in one mode straight into the print preview. It briefly
+         adds the modifier class to #sheet-invoice; printElement() clones the
+         element synchronously, so the class is captured and removed again with
+         no on-screen flicker. Most visible on a dark theme (e.g. Cobalt2). -->
+    <div class="mt-3" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <span class="pa-text pa-text--secondary"><strong>Test print colour modes</strong> — opens a print preview of the invoice below:</span>
+        <div role="group" aria-label="Print colour modes" style="display: inline-flex; gap: 0.5rem;">
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" onclick="printInvoiceMode('', 'Invoice — ink on paper')">Ink on paper (default)</button>
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--secondary" onclick="printInvoiceMode('pa-sheet--print-color', 'Invoice — theme colours')">Theme colours</button>
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--secondary" onclick="printInvoiceMode('pa-sheet--print-grayscale', 'Invoice — greyscale')">Greyscale</button>
+        </div>
+    </div>
+    <div class="mt-1">
+        <span class="pa-text pa-text--secondary">All three print on white paper (never a toner-heavy background). Switch to a dark theme (e.g. Cobalt2) to feel the difference: <strong>Ink on paper</strong> is pure black-and-white; <strong>Theme colours</strong> keeps the accent/brand colours (coloured title, logo) on white; <strong>Greyscale</strong> desaturates those to grey.</span>
+    </div>
 </div>
 
 <!-- Hide the demo chrome when printing so only the sheets land on paper. -->
 <style>
 @media print {
+    /* Hide app chrome + demo-only scaffolding so only the sheets print.
+       (Transient overlays — settings panel, profile panel, toasts, command
+       palette — are hidden by core's own @media print rules as of 3.3.0-rc03.) */
     .pc-sidebar, .pc-navbar, .pc-app-header, .pc-page-header, .pc-footer,
-    .sheet-demo-controls, .sheet-demo-intro { display: none !important; }
+    .sheet-demo-controls, .sheet-demo-intro, .sheet-demo-reference, .sheet-demo-notice { display: none !important; }
     .pc-main, .pc-content, .pc-layout__main { margin: 0 !important; padding: 0 !important; }
+
+    /* The app's main scroll region keeps a themed (accent-coloured) scrollbar
+       when it overflows; drop the scroll so no scrollbar paints on paper. */
+    .pc-layout__content { overflow: visible !important; }
+
+    /* pa-sheet--fill pins its footer position:fixed so it sits at the bottom of
+       a SINGLE isolated sheet. On a whole-page print (several sheets + this
+       page's own content) a fixed footer would repeat on every page and overlay
+       everything after it. Un-pin it — but ONLY for the live page, NOT the
+       printElement() iframe, whose <html data-pa-print> must keep the intended
+       single-sheet pinned-footer behaviour. */
+    html:not([data-pa-print]) .pa-sheet--fill > :last-child { position: static !important; }
 }
 </style>
 
@@ -25,7 +66,7 @@
          .pa-sheet; data-print-omit keeps the button itself out of the printout. -->
     <div data-print-omit style="text-align: end;">
         <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printSheet(this, { title: 'Invoice 2026-0184' })">
-            <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this invoice
+            {{> partials/printer-icon}} Print this invoice
         </button>
     </div>
     <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
@@ -175,7 +216,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-taxdoc', { title: 'Invoice 2026318' })">
-        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this invoice
+        {{> partials/printer-icon}} Print this invoice
     </button>
 </div>
 <div id="sheet-taxdoc" class="pa-sheet pa-sheet--framed mb-8">
@@ -243,7 +284,7 @@
     <!-- Tax-breakdown grid: an ordinary bordered table, end-aligned -->
     <section class="pa-sheet__totals" style="--pa-sheet-totals-width: 48rem;">
         <div class="pa-table-container">
-            <table class="pa-table pa-table--bordered pa-table--compact">
+            <table class="pa-table pa-table--bordered pa-table--sm">
                 <tbody>
                     <tr><td>Taxable base (12%)</td><td class="text-end">2,363.00</td><td>VAT (12%)</td><td class="text-end">283.56</td></tr>
                     <tr><td>Total excl. VAT</td><td class="text-end">2,363.00</td><td>Total VAT</td><td class="text-end">283.56</td></tr>
@@ -264,7 +305,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-reminder', { title: 'Payment reminder' })">
-        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this reminder
+        {{> partials/printer-icon}} Print this reminder
     </button>
 </div>
 <div id="sheet-reminder" class="pa-sheet pa-sheet--fill mb-8">
@@ -341,7 +382,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-service', { title: 'Invoice — service' })">
-        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this invoice
+        {{> partials/printer-icon}} Print this invoice
     </button>
 </div>
 <div id="sheet-service" class="pa-sheet pa-sheet--framed pa-sheet--fill mb-8">
@@ -423,7 +464,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-order', { title: 'Purchase order PO-2026-0453' })">
-        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this order
+        {{> partials/printer-icon}} Print this order
     </button>
 </div>
 <div id="sheet-order" class="pa-sheet pa-sheet--framed mb-8">
@@ -539,7 +580,7 @@
      ============================================================ -->
 <div class="mb-2">
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-delivery', { title: 'Delivery note DN-2026-0088' })">
-        <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span> Print this delivery note
+        {{> partials/printer-icon}} Print this delivery note
     </button>
 </div>
 <div id="sheet-delivery" class="pa-sheet pa-sheet--framed pa-sheet--landscape mb-8">
@@ -632,9 +673,285 @@
 
 
 <!-- ============================================================
+     EXAMPLE 7 — Dense boxed form (CN 23 customs declaration)
+     A stress test of the GENERIC building blocks: no form-specific classes,
+     just pc-grid (--cols-N / --flush / --ruled) + pc-col-span-* / pc-row-span-*
+     for the 2-D ruled box-matrix, pa-table--plain for the neutral items grid,
+     pa-checkbox, pa-field__label, font-weight-*/font-style-* + text-* utilities.
+     ============================================================ -->
+<div class="mb-2 d-flex align-items-center gap-4 flex-wrap">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-cn23', { title: 'CN 23 customs declaration' })">
+        {{> partials/printer-icon}} Print this form
+    </button>
+    <label class="d-flex align-items-center gap-2 pa-text pa-text--secondary">
+        Item rows
+        <span class="pa-input-group pa-input-group--sm" style="width: 12rem;">
+            <button type="button" class="pa-input-group__button pa-btn pa-btn--secondary" onclick="cn23Rows(-1)">−</button>
+            <input type="number" id="cn23-rowcount" class="pa-input text-center" value="3" min="1" max="30" onchange="cn23Rows(0)">
+            <button type="button" class="pa-input-group__button pa-btn pa-btn--secondary" onclick="cn23Rows(1)">+</button>
+        </span>
+    </label>
+    <span class="pa-text pa-text--secondary">Built entirely from generic <code>pc-grid</code> + <code>pa-table--plain</code> + utilities — no CN23-specific classes.</span>
+</div>
+<div id="sheet-cn23" class="pa-sheet pa-sheet--framed mb-8" style="--pa-sheet-padding: 0; --pa-sheet-gap: 0;">
+    <div class="pc-grid pc-grid--cols-2 pc-grid--flush">
+        <!-- From + To -->
+        <div class="pc-grid pc-grid--cols-12 pc-grid--ruled">
+            <div class="pc-col-span-1 pc-row-span-5 d-flex align-items-center justify-content-center"><span class="font-style-italic text-vertical-up">From De</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Name</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Business</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Street</span></div>
+            <div class="pc-col-span-6"><span class="pa-field__label">Postcode</span></div>
+            <div class="pc-col-span-5"><span class="pa-field__label">City</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Country</span></div>
+            <div class="pc-col-span-1 pc-row-span-5 d-flex align-items-center justify-content-center"><span class="font-style-italic text-vertical-up">To A</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Name</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Business</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Street</span></div>
+            <div class="pc-col-span-6"><span class="pa-field__label">Postcode</span></div>
+            <div class="pc-col-span-5"><span class="pa-field__label">City</span></div>
+            <div class="pc-col-span-11"><span class="pa-field__label">Country</span></div>
+        </div>
+        <!-- Title + importer refs -->
+        <div class="pc-grid pc-grid--cols-1 pc-grid--ruled">
+            <div class="pc-grid pc-grid--cols-3 pc-grid--flush p-4">
+                <div class="pc-col-span-2">
+                    <div class="text-2xl font-weight-bold">CUSTOMS DECLARATION</div>
+                    <div class="pa-text pa-text--secondary text-xs">No. of item (barcode, if any)</div>
+                    <div class="font-weight-bold font-style-italic">May be opened officially</div>
+                    <div class="text-xl font-weight-bold">DÉCLARATION EN DOUANE</div>
+                    <div class="pa-text pa-text--secondary text-xs font-style-italic">Peut être ouvert d'office</div>
+                </div>
+                <div class="pc-col-span-1 text-end">
+                    <div class="text-xl font-weight-bold font-style-italic">CN 23</div>
+                    <div class="font-weight-bold">Important!</div>
+                    <div class="pa-text pa-text--secondary font-style-italic">See instructions on the back</div>
+                </div>
+            </div>
+            <div><span class="pa-field__label">Sender's Customs reference (if any)</span></div>
+            <div><span class="pa-field__label">Importer's reference (tax code/VAT No.) (optional)</span></div>
+            <div><span class="pa-field__label">Importer's telephone/fax/e-mail (if known)</span></div>
+        </div>
+    </div>
+
+    <table class="pa-table pa-table--bordered pa-table--plain pa-table--sm">
+        <thead>
+            <tr>
+                <th rowspan="2" class="text-start" style="width: 34%;">Detailed Description of Contents (1)<br><span class="pa-text pa-text--secondary font-style-italic">Description détaillée du contenu</span></th>
+                <th rowspan="2" class="text-start">Quantity (2)</th>
+                <th rowspan="2" class="text-start">Net Weight (3)</th>
+                <th rowspan="2" class="text-start">Value (5)</th>
+                <th colspan="2" class="text-center">For commercial items only<br><span class="pa-text pa-text--secondary font-style-italic">Pour les envois commerciaux seulement</span></th>
+            </tr>
+            <tr>
+                <th class="text-start">HS Tariff Number (7)</th>
+                <th class="text-start">Country of Origin of Goods (8)</th>
+            </tr>
+        </thead>
+        <tbody id="cn23-rows">
+            <tr data-cn23-item><td class="hr-6"></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr data-cn23-item><td class="hr-6"></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr data-cn23-item><td class="hr-6"></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr data-cn23-totals>
+                <td></td><td></td>
+                <td>Total Gross Weight (4)</td>
+                <td>Total Value (6)</td>
+                <td colspan="2">Postal Charges/Fees (9)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pc-grid pc-grid--cols-2 pc-grid--ruled">
+        <div>
+            <div class="font-weight-bold">Category of Item (10) <span class="pa-text pa-text--secondary font-style-italic">Catégorie de l'envoi</span></div>
+            <div class="pc-row">
+                <div class="pc-col-1-2">
+                    <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Gift</span></label>
+                    <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Documents</span></label>
+                    <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Commercial Sample</span></label>
+                </div>
+                <div class="pc-col-1-2">
+                    <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Returned Goods</span></label>
+                    <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Other</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="minhr-15">
+            <div class="font-weight-bold">Office of Origin and Date of Posting</div>
+            <span class="pa-text pa-text--secondary font-style-italic">Bureau d'origine Date de dépôt</span>
+        </div>
+    </div>
+
+    <div class="pc-grid pc-grid--cols-2 pc-grid--ruled">
+        <section class="pa-sheet__notes minhr-15">
+            <span class="font-weight-bold">Comments (11):</span> (e.g.: goods subject to quarantine, sanitary/phytosanitary inspection or other restrictions)
+        </section>
+        <section class="pa-sheet__notes">
+            I certify that the particulars given in this customs declaration are correct and that this item does not contain any dangerous article or articles prohibited by legislation or by postal or customs regulations
+        </section>
+    </div>
+
+    <div class="pc-grid pc-grid--cols-12 pc-grid--ruled">
+        <div class="pc-col-span-3 minhr-10">
+            <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Licence (12)</span></label>
+            <div class="pa-text pa-text--secondary">No(s). of licence(s)</div>
+        </div>
+        <div class="pc-col-span-3 minhr-10">
+            <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Certificate (13)</span></label>
+            <div class="pa-text pa-text--secondary">No(s). of certificate(s)</div>
+        </div>
+        <div class="pc-col-span-2 minhr-10">
+            <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Invoice (14)</span></label>
+            <div class="pa-text pa-text--secondary">No. of invoice</div>
+        </div>
+        <div class="pc-col-span-4">
+            <div class="pa-sheet__sign minhr-10"><span>Date and Sender's Signature (15)</span></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     EXAMPLE 8 — RTL document (ZATCA simplified tax invoice, Arabic)
+     Same pa-sheet regions as the LTR invoice above, only dir="rtl" added.
+     Nothing else changes: the masthead, parties, meta, table, totals and
+     signatures all mirror automatically because the framework is built on
+     CSS logical properties (margin-inline, text-align:start/end, etc.).
+     A real, standardised RTL form — Saudi ZATCA فاتورة ضريبية مبسطة.
+     ============================================================ -->
+<div class="mb-2">
+    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-zatca', { title: 'فاتورة ضريبية مبسطة' })">
+        {{> partials/printer-icon}} Print this invoice
+    </button>
+    <span class="pa-text pa-text--secondary ms-2">Same <code>pa-sheet</code> regions as the LTR invoice — only <code>dir="rtl"</code> added; everything mirrors via logical properties.</span>
+</div>
+<div id="sheet-zatca" class="pa-sheet pa-sheet--framed mb-8" dir="rtl" lang="ar">
+    <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
+        <div class="pa-sheet__brand">متجر الأصالة</div>
+        <div class="text-end">
+            <h1 class="pa-sheet__doctitle">فاتورة ضريبية مبسطة</h1>
+            <div class="pa-sheet__docmeta">Simplified Tax Invoice · رقم الفاتورة INV-2026-0453</div>
+        </div>
+    </header>
+
+    <section class="pa-sheet__parties">
+        <div class="pa-sheet__party">
+            <span class="pa-sheet__party-label">البائع · Seller</span>
+            <span class="pa-sheet__party-name">مؤسسة متجر الأصالة للتجارة</span>
+            <div class="pa-sheet__party-body">
+                طريق الملك فهد، حي العليا<br>
+                الرياض ١٢٢١١، المملكة العربية السعودية
+                <div class="pa-fields pa-fields--horizontal pa-fields--compact pa-fields--no-border mt-2">
+                    <div class="pa-field"><span class="pa-field__label">الرقم الضريبي</span><span class="pa-field__value">300123456700003</span></div>
+                    <div class="pa-field"><span class="pa-field__label">السجل التجاري</span><span class="pa-field__value">1010112233</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="pa-sheet__party pa-sheet__party--strong">
+            <span class="pa-sheet__party-label">العميل · Customer</span>
+            <span class="pa-sheet__party-name">شركة الشمال الكبرى</span>
+            <div class="pa-sheet__party-body">
+                شارع النيل، حي الشاطئ<br>
+                جدة ٢٣٤٤٢
+                <div class="pa-fields pa-fields--horizontal pa-fields--compact pa-fields--no-border mt-2">
+                    <div class="pa-field"><span class="pa-field__label">الرقم الضريبي</span><span class="pa-field__value">311223344500002</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pa-sheet__meta pa-sheet__meta--boxed">
+        <span class="pa-sheet__meta-label">تاريخ الإصدار</span>
+        <span class="pa-sheet__meta-value">٢٤ سبتمبر ٢٠٢٦ · 14:32</span>
+        <span class="pa-sheet__meta-label">تاريخ التوريد</span>
+        <span class="pa-sheet__meta-value">٢٤ سبتمبر ٢٠٢٦</span>
+        <span class="pa-sheet__meta-label">طريقة الدفع</span>
+        <span class="pa-sheet__meta-value">مدى · بطاقة</span>
+    </section>
+
+    <div class="pa-table-container">
+        <table class="pa-table pa-table--bordered">
+            <thead>
+                <tr>
+                    <th>الوصف · Description</th>
+                    <th class="text-end">الكمية</th>
+                    <th class="text-end">سعر الوحدة</th>
+                    <th class="text-end">المبلغ (ر.س)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="pa-table__item-title">تمر العجوة الفاخر</span>
+                        <span class="pa-table__item-desc">Premium Ajwa dates — علبة ١ كجم</span>
+                    </td>
+                    <td class="text-end">٢</td>
+                    <td class="text-end">85.00</td>
+                    <td class="text-end">170.00</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="pa-table__item-title">قهوة عربية مطحونة</span>
+                        <span class="pa-table__item-desc">Ground Arabic coffee — كيس ٥٠٠ جم</span>
+                    </td>
+                    <td class="text-end">٣</td>
+                    <td class="text-end">45.00</td>
+                    <td class="text-end">135.00</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="pa-table__item-title">زعفران فاخر</span>
+                        <span class="pa-table__item-desc">Premium saffron — علبة ٥ جم</span>
+                    </td>
+                    <td class="text-end">١</td>
+                    <td class="text-end">120.00</td>
+                    <td class="text-end">120.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex align-items-end gap-8">
+        <div class="pa-sheet__qr" id="qr-zatca">
+            <span class="pa-sheet__qr-label">امسح للتحقق · Scan to verify</span>
+        </div>
+        <section class="pa-sheet__totals">
+            <div class="pa-sheet__total-row">
+                <span class="pa-sheet__total-label">المجموع الفرعي</span>
+                <span class="pa-sheet__total-value">425.00</span>
+            </div>
+            <div class="pa-sheet__total-row">
+                <span class="pa-sheet__total-label">ضريبة القيمة المضافة (١٥٪)</span>
+                <span class="pa-sheet__total-value">63.75</span>
+            </div>
+            <div class="pa-sheet__total-row pa-sheet__total-row--grand">
+                <span class="pa-sheet__total-label">الإجمالي المستحق</span>
+                <span class="pa-sheet__total-value">488.75 ر.س</span>
+            </div>
+        </section>
+    </div>
+
+    <section class="pa-sheet__notes">
+        <p>جميع المبالغ بالريال السعودي وشاملة ضريبة القيمة المضافة بنسبة ١٥٪.</p>
+        <p>شكراً لتسوقكم لدى متجر الأصالة — Thank you for shopping with us.</p>
+    </section>
+
+    <footer class="pa-sheet__footer">
+        <div class="pa-sheet__signatures">
+            <div class="pa-sheet__sign"><span>البائع</span></div>
+            <div class="pa-sheet__sign"><span>المستلم</span></div>
+        </div>
+        <div class="pa-sheet__legal">
+            هذه فاتورة ضريبية مبسطة صادرة إلكترونياً وفق متطلبات هيئة الزكاة والضريبة والجمارك (ZATCA).
+        </div>
+    </footer>
+</div>
+
+
+<!-- ============================================================
      Modifiers + CSS reference
      ============================================================ -->
-<div class="pa-card">
+<div class="pa-card sheet-demo-reference">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">CSS Classes Reference</h3>
@@ -648,7 +965,9 @@
             <li><code>pa-sheet--compact</code> / <code>--spacious</code> - Tighter / looser padding + region rhythm</li>
             <li><code>pa-sheet--fluid</code> - Fill the container instead of clamping to A4 width</li>
             <li><code>pa-sheet--fill</code> - Full A4-height page; the last region (footer) sinks to the page bottom even when content is short. Prints on exactly one page.</li>
-            <li><code>pa-sheet--landscape</code> - A4 landscape (297×210mm) for wide, many-column tables. Only landscape sheets rotate in print (named <code>@page</code>) — a page can mix orientations.</li>
+            <li><code>pa-sheet--landscape</code> - A4 landscape (297×210mm) for wide, many-column tables. Best printed on its own via <code>pureAdmin.printElement()</code>, which gives it a landscape page automatically; a whole-page <code>window.print()</code> keeps one orientation, so it stays portrait there.</li>
+            <li><code>pa-sheet--print-color</code> - Print the accent/brand colours (title, logo, status) on white paper. Default is pure ink-on-paper.</li>
+            <li><code>pa-sheet--print-grayscale</code> - Like <code>--print-color</code>, desaturated to grey. No mode floods the background.</li>
         </ul>
 
         <h5 class="mt-4">Regions</h5>
@@ -731,5 +1050,46 @@
     barcode('bc-order', 'PO-2026-0453');
     barcode('bc-delivery', 'DN-2026-0088');
     qr('qr-invoice', 'https://pay.twinpeaks.example/inv/2026-0184?amount=120000.00&cur=EUR');
+    // ZATCA simplified-invoice QR carries seller/VAT/timestamp/total/VAT (TLV in
+    // production); a plain payload is fine for the demo's visual.
+    qr('qr-zatca', 'ZATCA|Seller=متجر الأصالة|VAT=300123456700003|Time=2026-09-24T14:32:00|Total=488.75|VATAmount=63.75');
+
+    // Print the first invoice in a chosen colour mode. printElement() clones
+    // the element synchronously, so we add the modifier, print, then remove it
+    // in the same tick — the clone keeps the class and the live page doesn't
+    // change (the policy is print-only anyway). mode === '' → default.
+    window.printInvoiceMode = function (mode, title) {
+        var el = document.getElementById('sheet-invoice');
+        if (!el || !window.pureAdmin) return;
+        var MODES = ['pa-sheet--print-color', 'pa-sheet--print-grayscale'];
+        MODES.forEach(function (m) { el.classList.remove(m); });
+        if (mode) el.classList.add(mode);
+        pureAdmin.printElement(el, { title: title });
+        MODES.forEach(function (m) { el.classList.remove(m); });
+    };
+
+    // CN23 item-row stepper. delta -1/+1 nudges the count; 0 = read the input
+    // directly (typed value). Adds/removes blank <tr data-cn23-item> rows before
+    // the totals row so you can print the form at any item count.
+    window.cn23Rows = function (delta) {
+        var body = document.getElementById('cn23-rows');
+        var input = document.getElementById('cn23-rowcount');
+        if (!body || !input) return;
+        var min = 1, max = 30;
+        var want = (parseInt(input.value, 10) || min) + delta;
+        want = Math.max(min, Math.min(max, want));
+        input.value = want;
+        var rows = body.querySelectorAll('[data-cn23-item]');
+        var totals = body.querySelector('[data-cn23-totals]');
+        // Remove extras.
+        for (var i = rows.length - 1; i >= want; i--) rows[i].remove();
+        // Add missing.
+        for (var j = rows.length; j < want; j++) {
+            var tr = document.createElement('tr');
+            tr.setAttribute('data-cn23-item', '');
+            tr.innerHTML = '<td class="hr-6"></td><td></td><td></td><td></td><td></td><td></td>';
+            body.insertBefore(tr, totals);
+        }
+    };
 })();
 </script>

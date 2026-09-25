@@ -187,26 +187,20 @@ $_font-base-sizes: (9, 10, 11, 12);
   }
 }
 
-// Gap utilities (10px rem base)
-// Semantic gap classes using spacing variables
+// Gap utilities.
+// NOTE: the NUMERIC scale — .gap-N / .gap-x-N / .gap-y-N on the shared spacing
+// scale — is owned by @keenmate/pure-css (emitted with !important). Core does
+// NOT re-declare it: an earlier core `.gap-1…gap-20` pixel scale was silently
+// shadowed by pure-css's !important numeric gaps, so its classes rendered a
+// different value than their names claimed. Use pure-css's numeric gaps
+// (gap-4 = 1rem, etc.) or the SEMANTIC names below.
+// Core keeps only the semantic-name gaps + their row/column axis variants,
+// which pure-css doesn't provide (it ships gap-x-/gap-y- numeric instead).
 @each $name, $value in $semantic-spacers {
   .gap-#{$name} { gap: #{$value}; }
   .row-gap-#{$name} { row-gap: #{$value}; }
   .column-gap-#{$name} { column-gap: #{$value}; }
 }
-
-// Numeric gap classes (in 10px rem units) - kept for backwards compatibility
-.gap-1 { gap: 0.1rem; }  // 1px
-.gap-2 { gap: 0.2rem; }  // 2px
-.gap-3 { gap: 0.3rem; }  // 3px
-.gap-4 { gap: 0.4rem; }  // 4px
-.gap-5 { gap: 0.5rem; }  // 5px
-.gap-6 { gap: 0.6rem; }  // 6px
-.gap-8 { gap: 0.8rem; }  // 8px
-.gap-10 { gap: 1rem; }   // 10px
-.gap-12 { gap: 1.2rem; } // 12px
-.gap-15 { gap: 1.5rem; } // 15px
-.gap-20 { gap: 2rem; }   // 20px
 
 // Align-self utilities (for flex/grid children)
 .self-start { align-self: flex-start; }
@@ -227,6 +221,18 @@ $_font-base-sizes: (9, 10, 11, 12);
 .text-2xl { font-size: $font-size-2xl; }   // 2.4rem = 24px
 .text-3xl { font-size: $font-size-3xl; }   // 2.8rem = 28px
 .text-4xl { font-size: $font-size-4xl; }   // 3.2rem = 32px
+
+// Font-weight utilities. Named verbosely as font-weight-* to match the
+// font-family-* utilities (NOT Bootstrap's fw-*), and kept distinct from the
+// text-* cluster which owns font-SIZE and alignment.
+.font-weight-normal   { font-weight: $font-weight-normal; }   // 400
+.font-weight-medium   { font-weight: $font-weight-medium; }   // 500
+.font-weight-semibold { font-weight: $font-weight-semibold; } // 600
+.font-weight-bold     { font-weight: $font-weight-bold; }     // 700
+
+// Font-style utilities (paired with font-weight-*, mirrors font-family-*).
+.font-style-italic { font-style: italic; }
+.font-style-normal { font-style: normal; }
 
 // Text truncation with ellipsis
 .text-truncate {
@@ -329,5 +335,21 @@ $_font-base-sizes: (9, 10, 11, 12);
 .text-start { text-align: start; } // RTL: flips to right
 .text-center { text-align: center; }
 .text-end { text-align: end; } // RTL: flips to left
+
+// Rotation utilities — transform-based. Rotate any element (icon, badge, label)
+// in place. The element keeps its ORIGINAL layout box (rotation is visual only),
+// so it won't shrink a wide box into a narrow column — for vertical TEXT that
+// should also reflow into a narrow cell, use the writing-mode utilities below.
+.rotate-90  { transform: rotate(90deg); }
+.rotate-180 { transform: rotate(180deg); }
+.rotate-270 { transform: rotate(270deg); }
+
+// Vertical text utilities — writing-mode based, so the text's BOX becomes
+// vertical and a narrow column fits it (unlike .rotate-*, which keeps a
+// horizontal box). `.text-vertical` reads top→bottom; `.text-vertical-up`
+// reads bottom→top — the classic left-edge spine label (e.g. a customs form's
+// "From / De" or "To / A" column). Oriented for LTR flow.
+.text-vertical    { writing-mode: vertical-rl; text-orientation: mixed; }
+.text-vertical-up { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
 
 

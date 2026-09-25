@@ -57,6 +57,20 @@ localStorage.setItem('font-size', 'large');
 
 
 <!-- ================================
+     FONT WEIGHT & STYLE
+     Named font-weight-* / font-style-* to match font-family-* (not fw-/fst-),
+     and kept distinct from the text-* cluster (which owns font-SIZE + align).
+     ================================ -->
+
+<div class="font-weight-normal">Normal (400)</div>
+<div class="font-weight-medium">Medium (500)</div>
+<div class="font-weight-semibold">Semibold (600)</div>
+<div class="font-weight-bold">Bold (700)</div>
+<div class="font-style-italic">Italic</div>
+<div class="font-style-normal">Normal (un-italic)</div>
+
+
+<!-- ================================
      TEXT SIZE
      Direct font-size classes — each reads off a $font-size-* variable
      and resolves against the 10px rem base, so classes are consistent
@@ -103,6 +117,21 @@ localStorage.setItem('font-size', 'large');
 <div class="text-end">End-aligned    (right in LTR, left in RTL — logical)</div>
 <div class="text-nowrap">Won't wrap, even in narrow containers.</div>
 <div class="text-truncate" style="width: 200px;">A long line that will be clipped with an ellipsis…</div>
+
+
+<!-- ================================
+     ROTATION / VERTICAL TEXT
+     rotate-* rotates any element in place (visual only — keeps its box).
+     text-vertical* use writing-mode so the text's BOX turns vertical and fits
+     a narrow column — the spine-label pattern on dense paper forms.
+     ================================ -->
+
+<span class="rotate-90">↻ rotated 90°</span>
+<span class="rotate-180">rotated 180°</span>
+<span class="rotate-270">rotated 270°</span>
+
+<div class="text-vertical">Top → bottom</div>
+<div class="text-vertical-up">Bottom → top (left-edge spine label, e.g. "From / De")</div>
 
 
 <!-- ================================
@@ -572,6 +601,11 @@ TEXT ALIGNMENT / WRAP:
 - text-start / -center / -end    (logical — RTL-aware)
 - text-nowrap
 - text-truncate                  (ellipsis; wraps overflow: hidden + text-overflow + white-space)
+
+ROTATION / VERTICAL TEXT:
+- rotate-90 / -180 / -270        (transform; visual only, keeps layout box)
+- text-vertical                  (writing-mode; reads top→bottom)
+- text-vertical-up               (writing-mode; reads bottom→top — spine label)
 
 SPACING — numeric scale 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20
 (rem values: 0, .25, .5, .75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5):

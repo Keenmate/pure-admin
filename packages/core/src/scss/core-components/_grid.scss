@@ -9,4 +9,64 @@
 // `--load-path=node_modules` passed to sass.
 // ============================================================================
 
+@use '../variables' as *;
+
 @forward '@keenmate/pure-css/src/scss/pa-grid';
+
+// ============================================================================
+// pc-grid — CSS-Grid layout (PROTOTYPE — candidate to graduate to pure-css)
+// ============================================================================
+// pc-row / pc-col is a FLEX grid: ideal for responsive column layouts, but it
+// can't co-align cells in two dimensions or draw a ruled box-matrix. Dense
+// paper forms (customs declarations, tax / shipping forms) need exactly that.
+// pc-grid is a thin CSS-Grid container that fills the gap, complementing —
+// not replacing — the flex grid. Lives here as a prototype; when blessed it
+// moves down into @keenmate/pure-css next to pc-row/pc-col.
+//
+//   <div class="pc-grid pc-grid--cols-2 pc-grid--flush pc-grid--ruled">
+//     <div>…</div>                       <!-- one cell -->
+//     <div class="pc-col-span-2">…</div> <!-- spans both columns -->
+//   </div>
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--pc-grid-cols, 12), minmax(0, 1fr));
+  gap: var(--pc-grid-gap, #{$spacing-base});
+  align-items: stretch;
+}
+
+// Column-count presets (also settable via --pc-grid-cols inline / per-instance).
+@for $i from 1 through 12 {
+  .pc-grid--cols-#{$i} { --pc-grid-cols: #{$i}; }
+}
+
+// Gutterless — boxes sit flush against each other (forms, ruled matrices).
+.pc-grid--flush { --pc-grid-gap: 0; }
+
+// Ruled — hairlines between EVERY cell + an outer frame, with no doubled
+// borders. Uses REAL borders (not a background trick): the container draws the
+// top + start frame edges, and every cell draws its own end + bottom edge, so
+// each interior line is painted exactly once. Real borders are essential for
+// print — browsers drop background colours by default, which would erase a
+// background-based hairline on paper; borders always print. Cells get
+// comfortable padding; a full-bleed cell (e.g. one holding a table) can opt out
+// with the `p-0` utility.
+.pc-grid--ruled {
+  --pc-grid-gap: 0; // ruled implies flush — .pc-grid reads this var for `gap`
+  border-block-start: 1px solid var(--pc-border-color);
+  border-inline-start: 1px solid var(--pc-border-color);
+
+  > * {
+    border-block-end: 1px solid var(--pc-border-color);
+    border-inline-end: 1px solid var(--pc-border-color);
+    padding: var(--pc-grid-cell-padding, #{$spacing-sm} #{$spacing-md});
+  }
+}
+
+// Span utilities for pc-grid children (CSS-Grid column / row spanning). These
+// mirror the flex grid's pc-col-* sizing but for the 2-D grid.
+@for $i from 1 through 12 {
+  .pc-col-span-#{$i} { grid-column: span #{$i}; }
+}
+@for $i from 1 through 6 {
+  .pc-row-span-#{$i} { grid-row: span #{$i}; }
+}

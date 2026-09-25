@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc02** · **60** components · **151** blocks · **653** class selectors.
+Framework version **3.3.0-rc03** · **60** components · **151** blocks · **655** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -398,7 +398,7 @@ Printable A4 "paper" shell for invoices, orders, quotes, receipts and payment re
 
 - **Blocks:** `pa-sheet`
 - **Elements:** `pa-sheet__masthead`, `pa-sheet__party`, `pa-sheet__sign`, `pa-sheet__total-row`
-- **Modifiers / states:** `pa-sheet--fill`, `pa-sheet--landscape`
+- **Modifiers / states:** `pa-sheet--fill`, `pa-sheet--landscape`, `pa-sheet--print-color`, `pa-sheet--print-grayscale`
 - **SCSS:** `core-components/_sheet.scss`
 - **Snippet:** `sheet.html`
 - **Demo:** `sheet.mustache`

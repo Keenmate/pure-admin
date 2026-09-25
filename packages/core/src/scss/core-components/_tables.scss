@@ -415,6 +415,28 @@
     }
   }
 
+  // Plain variant - strip the themed header fill / body + stripe backgrounds so
+  // the table reads as a NEUTRAL ruled grid (paper forms, printouts, embedded
+  // sheet grids) rather than an app data table. Backgrounds go transparent so
+  // the table inherits whatever surface it sits on (a white sheet, a card).
+  // Combine with --bordered for the cell rules; header text stays emphasised.
+  &--plain {
+    background: transparent;
+
+    thead th {
+      background: transparent;
+      color: var(--pc-text-color-1);
+    }
+
+    tbody td {
+      background: transparent;
+    }
+
+    &.pa-table--striped tbody tr:nth-child(even) td {
+      background: transparent;
+    }
+  }
+
   // Bordered variant - full cell borders
   &--bordered {
     border: $border-width-base solid var(--pc-border-color);

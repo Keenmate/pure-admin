@@ -5,6 +5,120 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc03] - 2026-09-22
+
+### Added
+
+- **`pc-grid` — CSS-Grid layout primitive for dense, ruled forms.** The existing
+  `pc-row`/`pc-col` grid is flexbox: great for responsive columns, but it can't
+  co-align cells in two dimensions or draw a ruled box-matrix. `pc-grid` fills
+  that gap: `pc-grid--cols-1…12` (or `--pc-grid-cols`), `pc-grid--flush`
+  (gutterless), and `pc-grid--ruled` (hairlines between every cell + outer frame,
+  no doubling — real borders, so the matrix prints reliably; a background-based
+  hairline would vanish on paper since browsers drop backgrounds by default).
+  Children span with the new
+  `pc-col-span-1…12` / `pc-row-span-1…6` utilities. Rebuilding a full customs
+  declaration (CN 23) with it dropped the layout inline-CSS from ~20 hacks to
+  zero. (Prototyped in core alongside `font-size` utilities; candidate to
+  graduate into `@keenmate/pure-css` next to `pc-row`/`pc-col`.)
+
+- **`pa-table--plain` — neutral ruled table.** Strips the themed header fill and
+  body/stripe backgrounds so a `pa-table` reads as a plain ruled grid (paper
+  forms, printouts, embedded sheet grids) instead of an app data table.
+  Backgrounds go transparent so the table inherits whatever surface it sits on;
+  combine with `--bordered` for the cell rules.
+
+- **`font-weight-*` / `font-style-*` text utilities.** `font-weight-normal`
+  /`-medium`/`-semibold`/`-bold` and `font-style-italic`/`-normal`, named to
+  match the existing `font-family-*` utilities (not Bootstrap's `fw-`/`fst-`),
+  and distinct from the `text-*` cluster that owns font-size + alignment.
+
+- **Rotation + vertical-text utilities.** `rotate-90`/`-180`/`-270` rotate any
+  element (icon, badge, label) in place, keeping its original layout box (visual
+  rotation only). `text-vertical` (reads top→bottom) and `text-vertical-up`
+  (reads bottom→top) use `writing-mode` so the text's *box* becomes vertical and
+  fits a narrow column — the spine-label pattern on dense paper forms (e.g. a
+  customs form's "From / De" / "To / A" edge column).
+
+- **Transient overlays never print.** `.pa-settings-panel`, `.pa-profile-panel`,
+  `.pa-toast-container` and `.pa-command-palette` are now hidden in print via a
+  single grouped rule in a new `core-components/_print.scss` (one home for
+  "what disappears on paper", rather than a one-liner scattered in each
+  partial). They are fixed-position app chrome, so on a whole-page
+  `window.print()` they otherwise painted over the document and (being fixed)
+  repeated on every page — e.g. the settings panel and toast stacks landing on
+  top of a printed invoice.
+
+- **`pureAdmin.printElement()` / `printSheet()` are orientation-aware.** When the
+  print target is (or contains) a `.pa-sheet--landscape`, the helper sizes its
+  isolated iframe to landscape (297×210mm) and injects `@page { size: A4
+  landscape }`, so a landscape sheet prints expanded to full landscape width
+  instead of being clamped to portrait. Named `@page` orientation switches are
+  honoured unevenly across browsers, so a whole-page `window.print()` still
+  keeps a single orientation — print landscape sheets individually.
+
+### Changed
+
+- **`pa-sheet` print colour policy reworked (refines rc02).** All three modes now
+  print on WHITE paper with dark ink body text, and NONE force
+  `print-color-adjust: exact` — so no mode floods the page with a full-bleed
+  background fill (a dark theme no longer burns toner reproducing its page
+  background). The modes now differ only in the ACCENT / brand / status colours:
+  the default neutralises them to ink too (so a themed title such as cobalt2's
+  yellow `INVOICE No.` prints black instead of a low-contrast tint),
+  `.pa-sheet--print-color` keeps them in the theme's colour on white, and
+  `.pa-sheet--print-grayscale` keeps them then desaturates to grey. Previously
+  `--print-color` / `--print-grayscale` reproduced the theme's fills via forced
+  backgrounds, which both misread on paper and were impractically toner-heavy.
+
+### Fixed
+
+- **Table row heights were emitting invalid CSS (all sizes).** `$btn-height-*`
+  were built via string interpolation (`#{$base-input-size-md-height}rem`),
+  producing the *string* `"3.5rem"` rather than a Sass length. The table
+  cell-height tokens are defined as `$btn-height-* + $table-cell-height-buffer-*`
+  (a table row is sized to comfortably hold an inline button), so adding a length
+  to that string concatenated into `height: 3.5rem0.8rem` — invalid, silently
+  dropped by every browser. So `.pa-table td` (and `--xs/--sm/--lg/--xl`) never
+  actually applied their intended button-synced row height; rows fell back to
+  content height and the size variants differed only by padding. `$btn-height-*`
+  are now real lengths (`$base-input-size-*-height * 1rem`), so the arithmetic
+  resolves (`3.5rem + 0.8rem = 4.3rem`) and tables get their intended, uniform,
+  button-aligned row heights. **Visible change:** table rows are now a consistent
+  minimum height across the framework (default 4.3rem), where before they were
+  content-sized. Standalone `$btn-height-*` consumers (buttons, inputs,
+  icon-only buttons) are unaffected — a bare `"3.5rem"` string already rendered
+  correctly and still does as a length.
+
+- **Removed a shadowed, misleading numeric `gap-*` scale.** Core used to emit a
+  pixel-based `.gap-1…gap-20` (0.1–2rem, no `!important`) that was silently
+  overridden by `@keenmate/pure-css`'s `!important` spacing-scale gaps of the
+  same names — so e.g. `gap-6` rendered 1.5rem despite its "6px" label. Core no
+  longer re-declares the numeric scale; the pure-css numeric gaps
+  (`gap-N` / `gap-x-N` / `gap-y-N`, same scale as `m-*`/`p-*`) are canonical.
+  Core keeps only the semantic-name gaps (`gap-sm`…`gap-2xl`) plus their
+  `row-gap-*` / `column-gap-*` axis variants, which pure-css doesn't provide.
+  No runtime change (the pixel scale was already fully shadowed).
+
+### Internal
+
+- **Demo sheet page — print-mode buttons + hardened whole-page print (demo-only).**
+  The sheet demo now has three direct print-colour buttons (ink / theme colours /
+  greyscale) that print the invoice straight into the preview, replacing the
+  set-a-class-then-print toggle. Its inline `@media print` also forces
+  `.pc-layout__content { overflow: visible }` (so the app's accent scrollbar
+  doesn't paint on paper), hides the intro + CSS-reference card, and un-pins
+  `--fill` footers for the whole-page print only (`html:not([data-pa-print])`,
+  so isolated `printElement()` still pins them). No package markup or CSS change.
+
+- **Demo sheet page — generality stress tests (demo-only).** Two new examples
+  exercise the generic building blocks without any form-specific CSS: a CN 23
+  customs declaration built from `pc-grid` + `pa-table--plain` + utilities (with
+  a `hr-6` row-height stepper), and an RTL Saudi ZATCA simplified tax invoice
+  (`فاتورة ضريبية مبسطة`) that reuses the LTR invoice's `pa-sheet` regions with
+  only `dir="rtl"` added — proving the sheet, tables, fields and totals mirror
+  for free via logical properties. No package markup or CSS change.
+
 ## [3.3.0-rc02] - 2026-09-21 [PUBLISHED]
 
 ### Added

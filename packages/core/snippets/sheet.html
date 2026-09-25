@@ -210,12 +210,13 @@
 
 <!-- Print colour policy. A sheet is built from --pc-* theme tokens, so on a
      dark/tinted theme it would print washed-out grey (browsers drop backgrounds
-     but keep the light theme text). By DEFAULT the print layer remaps those
-     tokens to neutral black/grey-on-white, so any theme prints as clean
-     ink-on-paper with NO class needed. Opt out with one of: -->
-<div class="pa-sheet">…</div>                        <!-- default: ink on paper -->
-<div class="pa-sheet pa-sheet--print-color">…</div>  <!-- faithful theme colours -->
-<div class="pa-sheet pa-sheet--print-grayscale">…</div> <!-- theme desaturated -->
+     but keep the light theme text). ALL three modes print on WHITE paper with
+     dark ink body text and never force backgrounds on (so no toner-heavy fills);
+     they differ only in the accent/brand colours (title, logo, status). Default
+     needs NO class. -->
+<div class="pa-sheet">…</div>                        <!-- default: pure ink (accent → black) -->
+<div class="pa-sheet pa-sheet--print-color">…</div>  <!-- coloured accents on white -->
+<div class="pa-sheet pa-sheet--print-grayscale">…</div> <!-- accents desaturated to grey -->
 
 
 
@@ -266,15 +267,17 @@ MODIFIERS ON .pa-sheet:
                              (screen: flex+margin-auto; print: the footer is
                              pinned with position:fixed). For SHORT, single-
                              page documents only.
-  --landscape               A4 landscape (297×210mm) for wide tables. Only
-                             this sheet rotates in print (named @page); a page
-                             can mix portrait + landscape sheets.
-  --print-color             print the theme's own colours + force backgrounds
-                             (print-color-adjust: exact). Default is neutral
-                             ink-on-paper regardless of theme; this opts back
-                             into a branded/coloured printout.
-  --print-grayscale         print the theme desaturated (filter: grayscale) —
-                             letterhead greys; pair with a light theme.
+  --landscape               A4 landscape (297×210mm) for wide tables. Best
+                             printed on its OWN — pureAdmin.printElement() gives
+                             it a landscape page automatically. In a whole-page
+                             window.print() the browser keeps one orientation, so
+                             a landscape sheet stays portrait + clamped.
+  --print-color             keep the theme's accent/brand colours (coloured
+                             title, logo, status) on WHITE paper with ink body
+                             text. Default is pure ink-on-paper; this opts into a
+                             coloured printout. No background flood either way.
+  --print-grayscale         like --print-color, then desaturated to grey
+                             (filter: grayscale) — a letterhead look.
 
 REGIONS (elements):
   __masthead (+ --ruled)    top band: brand on start, title on end
@@ -321,11 +324,19 @@ PRINTING:
   "Margins" setting the user picks in the print dialog) governs it. To pin a
   fixed margin, declare @page { margin: 15mm } after the framework.
 
-  COLOUR — by default a sheet prints as neutral ink-on-paper (black/grey on
-  white) no matter the on-screen theme, so a dark theme (Cobalt2, Dracula …)
-  never prints washed-out grey. Opt into the theme's own colours with
-  .pa-sheet--print-color, or a desaturated version with
-  .pa-sheet--print-grayscale (see MODIFIERS).
+  COLOUR — a sheet always prints on WHITE paper with dark ink body text, no
+  matter the on-screen theme, so a dark theme (Cobalt2, Dracula …) never prints
+  washed-out grey — and no mode forces backgrounds on, so the page is never
+  flooded with a full-bleed fill. By default the accent/brand colours are
+  neutralised to ink too (pure black & white). Keep the accent/brand in colour
+  with .pa-sheet--print-color, or desaturated with .pa-sheet--print-grayscale
+  (see MODIFIERS).
+
+  LANDSCAPE — print a --landscape sheet on its OWN via pureAdmin.printElement()
+  / printSheet(); the helper detects it and gives the isolated document a
+  landscape @page + iframe, so it expands to full landscape width. A whole-page
+  window.print() keeps a single orientation, so a landscape sheet in it stays
+  portrait and clamped.
 
   Whole page  — window.print(). Hide your app chrome in your own print
                 stylesheet: @media print { .app-navbar { display: none } }.

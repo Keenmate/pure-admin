@@ -154,6 +154,20 @@ const loadPartial = (name) => {
     return fs.readFileSync(path.join(__dirname, 'views', 'partials', `${name}.mustache`), 'utf-8');
 };
 
+// Build the partials map so PAGE templates can use {{> partials/<name>}} (e.g.
+// a shared printer icon reused across print buttons). Keyed as "partials/<name>"
+// to match the {{> partials/x}} reference form. Re-read each request for dev.
+const buildPagePartials = () => {
+    const dir = path.join(__dirname, 'views', 'partials');
+    const map = {};
+    for (const file of fs.readdirSync(dir)) {
+        if (file.endsWith('.mustache')) {
+            map[`partials/${file.replace(/\.mustache$/, '')}`] = fs.readFileSync(path.join(dir, file), 'utf-8');
+        }
+    }
+    return map;
+};
+
 // Block path traversal and dangerous characters
 const BLOCKED_PATTERNS = ['..', '\\', '%2e', '%2E', '%5c', '%5C', '%00'];
 app.use((req, res, next) => {
@@ -235,7 +249,7 @@ const renderWithLayout = (res, viewName, data) => {
 
     // Read and render the page template
     const pageTemplate = fs.readFileSync(path.join(__dirname, 'views', `${viewName}.mustache`), 'utf-8');
-    const pageHtml = Mustache.render(pageTemplate, viewData);
+    const pageHtml = Mustache.render(pageTemplate, viewData, buildPagePartials());
 
     // Read and render partials WITH data
     const navbarTemplate = loadPartial('navbar');

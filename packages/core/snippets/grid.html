@@ -338,6 +338,39 @@ layout (.pc-layout__main); elsewhere wrap in .pc-cq.
 
 
 <!-- ================================
+     pc-grid — CSS-GRID LAYOUT (2-D, ruled forms)
+     pc-row/pc-col is FLEX (responsive columns). pc-grid is CSS Grid: it
+     co-aligns cells in two dimensions and can draw a ruled box-matrix —
+     for dense paper forms (customs/tax/shipping declarations) that pc-row
+     can't express. Children span with pc-col-span-* / pc-row-span-*.
+     ================================ -->
+
+<!-- Basic: N equal columns -->
+<div class="pc-grid pc-grid--cols-3">
+  <div>Cell</div>
+  <div>Cell</div>
+  <div class="pc-col-span-2">Spans 2 of 3 columns</div>
+</div>
+
+<!-- Ruled, gutterless box-matrix (the form pattern). --ruled draws single
+     hairlines between every cell + an outer frame (no doubling), using REAL
+     borders so the matrix prints. --ruled already implies flush (gap:0), so no
+     separate --flush is needed. A full-bleed cell (e.g. one holding a table)
+     opts out of the cell padding with the p-0 utility. -->
+<div class="pc-grid pc-grid--cols-12 pc-grid--ruled">
+  <div class="pc-col-span-1 pc-row-span-3 d-flex align-items-center justify-content-center">From</div>
+  <div class="pc-col-span-11"><span class="pa-field__label">Name</span></div>
+  <div class="pc-col-span-11"><span class="pa-field__label">Street</span></div>
+  <div class="pc-col-span-6"><span class="pa-field__label">Postcode</span></div>
+  <div class="pc-col-span-5"><span class="pa-field__label">City</span></div>
+</div>
+
+<!-- Column count can also be set inline/per-instance via --pc-grid-cols,
+     and cell padding via --pc-grid-cell-padding. -->
+<div class="pc-grid pc-grid--ruled" style="--pc-grid-cols: 4;">…</div>
+
+
+<!-- ================================
      COMPONENT REFERENCE
      ================================ -->
 

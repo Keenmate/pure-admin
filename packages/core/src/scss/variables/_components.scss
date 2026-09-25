@@ -172,12 +172,17 @@ $btn-disabled-opacity: $opacity-disabled !default;
 $btn-focus-ring-opacity: 0.25 !default;
 
 // Button heights - aligned with input heights (source of truth from _base.scss)
-// These are used for icon-only buttons and table cell heights
-$btn-height-xs: #{$base-input-size-xs-height}rem !default;   // 31px
-$btn-height-sm: #{$base-input-size-sm-height}rem !default;   // 33px
-$btn-height-base: #{$base-input-size-md-height}rem !default; // 35px
-$btn-height-lg: #{$base-input-size-lg-height}rem !default;   // 38px
-$btn-height-xl: #{$base-input-size-xl-height}rem !default;   // 41px
+// These are used for icon-only buttons and table cell heights.
+// NOTE: multiply the unitless base tokens by 1rem to produce a real Sass LENGTH,
+// not a string. `#{$x}rem` interpolation yields the string "3.5rem", which
+// breaks any arithmetic downstream — e.g. $table-cell-height = $btn-height-base
+// + buffer would concatenate into the invalid "3.5rem0.8rem". A real length adds
+// correctly (3.5rem + 0.8rem = 4.3rem).
+$btn-height-xs: $base-input-size-xs-height * 1rem !default;   // 31px
+$btn-height-sm: $base-input-size-sm-height * 1rem !default;   // 33px
+$btn-height-base: $base-input-size-md-height * 1rem !default; // 35px
+$btn-height-lg: $base-input-size-lg-height * 1rem !default;   // 38px
+$btn-height-xl: $base-input-size-xl-height * 1rem !default;   // 41px
 
 // Icon-only button sizes - match button heights (aligned with inputs)
 $btn-icon-only-size-xs: $btn-height-xs !default;
