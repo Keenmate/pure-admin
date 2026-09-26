@@ -5,6 +5,51 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc04] - 2026-09-26 [PUBLISHED]
+
+### Added
+
+- **Icon hover-fill / highlight on buttons and tabs (and, via the foundation,
+  sidebar links / submenu toggles).** Inside an enabled `.pa-btn` / `.pa-tabs__item`
+  on hover, icons now react through marker classes — no JS, no SVG computation:
+  a masked `.pa-icon` that declared `--pa-icon-src-hover` swaps to its filled glyph
+  (dormant for outline-only sets like Lucide); a Font Awesome `<i>` marked
+  `.pc-icon-hover-fill` flips regular → solid via `font-weight`; and an outline icon
+  marked `.pc-icon-hover-highlight` recolours to `--pc-icon-hover-color`
+  (default `--pc-accent`) — the hover cue for icon sets that ship no filled variant.
+  Core applies the shared `pc-icon-hover-effects` mixin from `@keenmate/pure-css`;
+  the foundation itself wires the sidebar link / submenu toggle and a generic
+  `.pc-icon-hover` opt-in wrapper. Replaces core's former masked-fill-only hover
+  rule (masked-fill behaviour preserved — no regression).
+
+### Changed
+
+- **Depends on `@keenmate/pure-css` `^1.1.1`** (was `^1.0.5`). Required bump — it
+  brings the foundation `_icon-hover.scss` (the mixin + markers above), the snappier
+  sidebar hover (the `transition: all` colour fade on sidebar links / toggles was
+  removed, so hover colours now snap; motion-only transitions — chevron rotate,
+  icon-collapse label — are kept), the `--base-icon-*` glyphs added since 1.0.5
+  (settings / bell / user / download / link / external-link + the check-size knob),
+  and the runtime `--pc-list-bullet-type` list-marker knob.
+
+### Fixed
+
+- **Build no longer breaks against pure-css ≥ 1.1.1.** pure-css 1.1.1 switched its
+  `_base-css-variables.scss` to `@import 'variables/index'` (so downstream themes can
+  override `$base-*` via `!default`), which flattens `$base-*` into the shared Sass
+  scope. Core's `_pc-component-variables.scss` then failed with *"This module and the
+  new module both define a variable named $base-accent-color"* on its
+  `@use 'variables/index' as *`. Switched that to `@import 'variables/index'` to share
+  the one scope — behaviour-preserving (verified: every emitted
+  `--base-*` / `--pa-*` / `--pc-*` token byte-identical to rc03 aside from the
+  additive `--base-icon-check-size` the pure-css bump brings).
+
+### Internal
+
+- Consolidated the icon-hover wiring into a single
+  `@use '@keenmate/pure-css/src/scss/icon-hover'` in `_icons.scss` (emits the
+  foundation rules once and provides the mixin); removed the interim shim partial.
+
 ## [3.3.0-rc03] - 2026-09-25 [PUBLISHED]
 
 ### Added

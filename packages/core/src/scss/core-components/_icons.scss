@@ -15,6 +15,12 @@
    Size with --pa-icon-size (default 1em). Colour follows currentColor.
    ======================================== */
 
+// Icon hover-fill / highlight is a shared foundation primitive in @keenmate/pure-css.
+// @use it here for BOTH its emitted rules (sidebar links/toggles + the generic
+// `.pc-icon-hover` wrapper) AND the `pc-icon-hover-effects` mixin, which we apply
+// to enabled buttons/tabs below.
+@use '@keenmate/pure-css/src/scss/icon-hover' as ih;
+
 :root {
   // The shared glyphs now trace to pure-css's --base-icon-* contract so a theme
   // re-skins pure-admin, the pure-css shell, and the web components in one place.
@@ -186,10 +192,12 @@
 // the mask and leaving a solid currentColor box. Setting the real mask-image
 // longhand keeps the var(--pa-icon-src) fallback non-cyclic, so a glyph without
 // a filled variant just re-paints its resting mask (a true no-op).
-.pa-btn:not(:disabled):not(.pa-btn--disabled):not([aria-disabled="true"]):hover .pa-icon,
-.pa-tabs__item:not(:disabled):not(.is-disabled):not([aria-disabled="true"]):hover .pa-icon {
-  -webkit-mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
-          mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+// Delegates to the shared pure-css foundation mixin, so enabled buttons/tabs get
+// the same reactions as the sidebar: masked-fill (--pa-icon-src-hover), the FA
+// weight-flip (.pc-icon-hover-fill), and the outline recolour (.pc-icon-hover-highlight).
+.pa-btn:not(:disabled):not(.pa-btn--disabled):not([aria-disabled="true"]):hover,
+.pa-tabs__item:not(:disabled):not(.is-disabled):not([aria-disabled="true"]):hover {
+  @include ih.pc-icon-hover-effects;
 }
 .pa-icon--info { --pa-icon-src: var(--pa-icon-info); }
 .pa-icon--success { --pa-icon-src: var(--pa-icon-success); }

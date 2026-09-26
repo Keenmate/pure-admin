@@ -6,6 +6,14 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc04
+
+Icons that react on hover, a snappier sidebar, and the pure-css 1.1.1 foundation.
+
+- **Icons fill / highlight on hover** — inside an enabled button, tab, or sidebar link, an icon now reacts on hover with zero JS: Font Awesome glyphs flip regular → solid (`.pc-icon-hover-fill`), outline sets like Lucide recolour to the accent (`.pc-icon-hover-highlight`), and masked `.pa-icon` glyphs swap to a filled source when one is declared. Opt in per icon.
+- **Snappier sidebar hover** — the sidebar link / submenu-toggle hover no longer fades its colour in; it snaps (colour transitions are motion-only now). Real motion — the chevron rotate and the icon-collapse label — is kept.
+- **pure-css `^1.1.1`** — brings the shared icon-hover foundation, the expanded `--base-icon-*` glyph set (settings / bell / user / download / link / external-link), and the runtime list-marker knob.
+
 ## What's New in 3.3.0-rc03
 
 A round of form-building primitives, print-layer polish, and two real bug fixes
@@ -18,16 +26,6 @@ surfaced while stress-testing `pa-sheet` on dense paper forms.
 - **Landscape sheets print landscape** — `pureAdmin.printElement()` / `printSheet()` detect a `pa-sheet--landscape` target and print it expanded on a landscape page instead of clamped to portrait.
 - **Print colour modes refined** — all three modes (default ink, `--print-color`, `--print-grayscale`) print on white paper with no toner-heavy background flood; only the accent/brand colours differ.
 - **Fixed: table row heights** — the `--xs`/`--sm`/`--lg`/`--xl` size variants emitted invalid CSS and silently fell back to content height; they now apply their intended, uniform, button-aligned row heights (default 4.3rem), consistent across the framework.
-
-## What's New in 3.3.0-rc02
-
-A follow-up to the 3.3.0 document components: a two-line table cell, plus a
-batch of `pa-sheet` print-fidelity fixes so invoices land correctly on paper.
-
-- **Two-line table cell** — `pa-table__item-title` + `pa-table__item-desc` stack a primary name over a smaller, muted description inside one `<td>` (a line-item name + spec, or a name + email) — no rowspan or extra column.
-- **Sheets print clean ink-on-paper by default** — a `pa-sheet` no longer inherits a dark/tinted theme when printing (which came out washed-out grey); the print layer now remaps to neutral black-on-white automatically. Opt into `pa-sheet--print-color` for faithful theme colours, or `pa-sheet--print-grayscale` for letterhead greys.
-- **Invoices fit one page again** — the parties (Supplier / Bill to) now stay side-by-side on paper instead of wrongly stacking, and print uses a denser region rhythm, so a content-full invoice no longer spills onto a second page.
-- **Wide line-item tables stay inside the page** — tables in a sheet or document are wrapped in `.pa-table-container`, so a many-column table scrolls on a narrow screen instead of stretching the whole page sideways (and prints without clipping).
 
 ## Installation
 

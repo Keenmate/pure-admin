@@ -15,7 +15,8 @@
 // Base styles and resets
 @use 'core-components/base' as *;
 
-// Masked icon primitive (.pa-icon / .pa-icon--x) — provider-agnostic icons
+// Masked icon primitive (.pa-icon / .pa-icon--x) — provider-agnostic icons.
+// (Also emits the pure-css icon hover-fill/highlight rules, which _icons.scss @uses.)
 @use 'core-components/icons' as *;
 
 // Scrollbar styling (global)

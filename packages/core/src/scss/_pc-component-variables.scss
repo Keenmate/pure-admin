@@ -9,11 +9,15 @@
 //
 // They read the component `$`-vocabulary (core's variables/_components.scss)
 // which derives from the $base-* source of truth single-sourced in pure-css.
-// `@use 'variables/index' as *` pulls BOTH into scope: a Sass mixin resolves
+// `@import 'variables/index'` pulls BOTH into scope: a Sass mixin resolves
 // its globals from its definition site, and the @import-flattened index places
 // pure-css's foundation + core's component vars into that scope, with theme
 // overrides already applied (themes set $base-*/component vars before importing,
-// and the !default flags skip them).
+// and the !default flags skip them). MUST be `@import`, not `@use ... as *`:
+// pure-css 1.1.1 switched its own base-css-variables to `@import 'variables/index'`
+// (so themes can override $base-* via !default), which flattens $base-* into this
+// shim's shared global scope BEFORE this line runs — a `@use ... as *` here then
+// fails with "both define $base-accent-color". `@import` shares that one scope.
 //
 // Emitted by pure-admin's main.scss + every theme (alongside the base pair
 // output-base-css-variables + output-pc-css-variables, which come from
@@ -23,7 +27,7 @@
 // through var(--base-*); emit it at `:root, .pc-mode-light, .pc-mode-dark` so
 // each mode re-resolves against its own --base-*. The rest are mode-invariant.
 // ============================================================================
-@use 'variables/index' as *;
+@import 'variables/index';
 
 @mixin output-pc-component-mode-variables {
   // Buttons — primary (accent), per-role hover/text, and the light button
