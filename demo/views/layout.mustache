@@ -439,6 +439,16 @@
     {{{partials.settingsPanel}}}
 
     <!-- User Profile Panel -->
+    <style>
+        /* Lucide icons in the profile-panel nav + favorites: inherit the row
+           colour (stroke=currentColor), sized to match the sidebar's 1.7rem
+           glyphs. The avatar SVG is sized separately via font-size (see SCSS). */
+        .pa-profile-panel__nav-icon svg,
+        .pa-profile-panel__favorite-icon svg {
+            width: 1.7rem;
+            height: 1.7rem;
+        }
+    </style>
     <div class="pa-profile-panel" id="profilePanel">
         <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
         <div class="pa-profile-panel__content">
@@ -476,23 +486,23 @@
                     <nav class="pa-profile-panel__nav">
                         <ul>
                             <li><a href="#" class="pa-profile-panel__nav-item">
-                                <span class="pa-profile-panel__nav-icon">👤</span>
+                                <span class="pa-profile-panel__nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></span>
                                 Profile Settings
                             </a></li>
                             <li><a href="#" class="pa-profile-panel__nav-item">
-                                <span class="pa-profile-panel__nav-icon">🔒</span>
+                                <span class="pa-profile-panel__nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></span>
                                 Security
                             </a></li>
                             <li><a href="#" class="pa-profile-panel__nav-item">
-                                <span class="pa-profile-panel__nav-icon">🔔</span>
+                                <span class="pa-profile-panel__nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></span>
                                 Notifications
                             </a></li>
                             <li><a href="#" class="pa-profile-panel__nav-item">
-                                <span class="pa-profile-panel__nav-icon">⚙️</span>
+                                <span class="pa-profile-panel__nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg></span>
                                 Preferences
                             </a></li>
                             <li><a href="#" class="pa-profile-panel__nav-item">
-                                <span class="pa-profile-panel__nav-icon">❓</span>
+                                <span class="pa-profile-panel__nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg></span>
                                 Help & Support
                             </a></li>
                         </ul>
@@ -506,28 +516,28 @@
                         <ul>
                             <li>
                                 <div class="pa-profile-panel__favorite-item" data-href="/">
-                                    <span class="pa-profile-panel__favorite-icon">📊</span>
+                                    <span class="pa-profile-panel__favorite-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>
                                     <span class="pa-profile-panel__favorite-label">Dashboard</span>
                                     <button class="pa-profile-panel__favorite-remove" title="Remove from favorites" aria-label="Remove from favorites"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
                                 </div>
                             </li>
                             <li>
                                 <div class="pa-profile-panel__favorite-item" data-href="/forms">
-                                    <span class="pa-profile-panel__favorite-icon">📝</span>
+                                    <span class="pa-profile-panel__favorite-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg></span>
                                     <span class="pa-profile-panel__favorite-label">Forms</span>
                                     <button class="pa-profile-panel__favorite-remove" title="Remove from favorites" aria-label="Remove from favorites"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
                                 </div>
                             </li>
                             <li>
                                 <div class="pa-profile-panel__favorite-item" data-href="/tables/standard">
-                                    <span class="pa-profile-panel__favorite-icon">📋</span>
+                                    <span class="pa-profile-panel__favorite-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18" /><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /></svg></span>
                                     <span class="pa-profile-panel__favorite-label">Tables</span>
                                     <button class="pa-profile-panel__favorite-remove" title="Remove from favorites" aria-label="Remove from favorites"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
                                 </div>
                             </li>
                             <li>
                                 <div class="pa-profile-panel__favorite-item" data-href="/components/data-grid">
-                                    <span class="pa-profile-panel__favorite-icon">📊</span>
+                                    <span class="pa-profile-panel__favorite-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg></span>
                                     <span class="pa-profile-panel__favorite-label">Data Grid</span>
                                     <button class="pa-profile-panel__favorite-remove" title="Remove from favorites" aria-label="Remove from favorites"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
                                 </div>

@@ -86,6 +86,15 @@
   // User / person (profile trigger button, avatar placeholder). Routes through
   // --base-icon-user (not in the pure-css contract yet) for auto-upgrade.
   --pa-icon-user: var(--base-icon-user, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E"));
+  // Lock (padlock — security / privacy nav item). Routes through
+  // --base-icon-lock (not in the pure-css contract yet) for auto-upgrade.
+  --pa-icon-lock: var(--base-icon-lock, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2218%22 height=%2211%22 x=%223%22 y=%2211%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22/%3E%3C/svg%3E"));
+  // Help (circle-question — help / support nav item). Routes through
+  // --base-icon-help (not in the pure-css contract yet) for auto-upgrade.
+  --pa-icon-help: var(--base-icon-help, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%2210%22/%3E%3Cpath d=%22M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3%22/%3E%3Cpath d=%22M12 17h.01%22/%3E%3C/svg%3E"));
+  // Log out (door + arrow — sign-out affordance). Routes through
+  // --base-icon-logout (not in the pure-css contract yet) for auto-upgrade.
+  --pa-icon-logout: var(--base-icon-logout, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4%22/%3E%3Cpolyline points=%2216 17 21 12 16 7%22/%3E%3Cline x1=%2221%22 x2=%229%22 y1=%2212%22 y2=%2212%22/%3E%3C/svg%3E"));
   // Download (tray + down arrow — save-to-disk / export affordance). Routes
   // through --base-icon-download (not in the pure-css contract yet) for
   // auto-upgrade, like --pa-icon-save / -settings.
@@ -161,6 +170,9 @@
 .pa-icon--settings { --pa-icon-src: var(--pa-icon-settings); }
 .pa-icon--bell { --pa-icon-src: var(--pa-icon-bell); }
 .pa-icon--user { --pa-icon-src: var(--pa-icon-user); }
+.pa-icon--lock { --pa-icon-src: var(--pa-icon-lock); }
+.pa-icon--help { --pa-icon-src: var(--pa-icon-help); }
+.pa-icon--logout { --pa-icon-src: var(--pa-icon-logout); }
 .pa-icon--download { --pa-icon-src: var(--pa-icon-download); }
 .pa-icon--link { --pa-icon-src: var(--pa-icon-link); }
 .pa-icon--external-link { --pa-icon-src: var(--pa-icon-external-link); }

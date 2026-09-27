@@ -248,7 +248,7 @@ preset (they fall back to the SCSS defaults, so no recompile needed):
      ================================ -->
 
 <button class="pc-navbar-search" onclick="openCommandPalette()">
-    <span class="pc-navbar-search__icon">🔍</span>
+    <span class="pc-navbar-search__icon" aria-hidden="true"></span>
     <span class="pc-navbar-search__placeholder">Search or jump to…</span>
     <span class="pc-navbar-search__shortcut">
         <kbd>Ctrl</kbd>
@@ -513,7 +513,7 @@ STRUCTURE PATTERNS:
 Navbar trigger + full palette together:
 <!-- In header -->
 <button class="pc-navbar-search" onclick="openCommandPalette()">
-  <span class="pc-navbar-search__icon">🔍</span>
+  <span class="pc-navbar-search__icon" aria-hidden="true"></span>
   <span class="pc-navbar-search__placeholder">Search…</span>
   <span class="pc-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
 </button>

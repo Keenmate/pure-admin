@@ -250,7 +250,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      Shows a Cmd/Ctrl+K hint. Size variants match the input/button sizes. Below
      $mobile-breakpoint the __placeholder + __shortcut hide (collapses to icon). -->
 <button class="pc-navbar-search" onclick="openCommandPalette()">
-    <span class="pc-navbar-search__icon">🔍</span>
+    <span class="pc-navbar-search__icon" aria-hidden="true"></span>
     <span class="pc-navbar-search__placeholder">Search or jump to…</span>
     <span class="pc-navbar-search__shortcut">
         <kbd>Ctrl</kbd>
@@ -269,7 +269,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      below). Independent of the palette; wire your own results into
      .pa-search-autocomplete (toggle its [hidden] from JS). -->
 <div class="pc-navbar-search pc-navbar-search--field">
-    <span class="pc-navbar-search__icon">🔍</span>
+    <span class="pc-navbar-search__icon" aria-hidden="true"></span>
     <input type="text" class="pc-navbar-search__field" placeholder="Search…" aria-label="Search">
     <div class="pa-search-autocomplete" hidden>
         <div class="pa-search-autocomplete__item">
@@ -285,7 +285,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      to your route; name the input so it becomes the query param (?q=…). -->
 <form class="pc-navbar-search pc-navbar-search--input"
       action="/search" method="get" role="search">
-    <span class="pc-navbar-search__icon" aria-hidden="true">🔍</span>
+    <span class="pc-navbar-search__icon" aria-hidden="true"></span>
     <input type="search" name="q" class="pc-navbar-search__field"
            placeholder="Search…" autocomplete="off" aria-label="Search">
 </form>
@@ -384,19 +384,19 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
         <ul>
             <li class="pc-sidebar__item">
                 <a href="/" class="pc-sidebar__link pc-sidebar__link--active">
-                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>
                     <span class="pc-sidebar__label">Dashboard</span>
                 </a>
             </li>
             <li class="pc-sidebar__item">
                 <a href="/components" class="pc-sidebar__link">
-                    <span class="pc-sidebar__icon">🧩</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z" /><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z" /><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z" /><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z" /></svg></span>
                     <span class="pc-sidebar__label">Components</span>
                 </a>
             </li>
             <li class="pc-sidebar__item">
                 <a href="/forms" class="pc-sidebar__link">
-                    <span class="pc-sidebar__icon">📝</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg></span>
                     <span class="pc-sidebar__label">Forms</span>
                 </a>
             </li>
@@ -418,7 +418,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 <!-- Trigger — collapses to just its icon in an icon-collapse sidebar. -->
 <li class="pc-sidebar__item">
     <button type="button" class="pc-sidebar__search" onclick="openCommandPalette()">
-        <span class="pc-sidebar__icon" aria-hidden="true">🔍</span>
+        <span class="pc-sidebar__icon pc-icon-hover-highlight" aria-hidden="true"><span class="pa-icon pa-icon--search"></span></span>
         <span class="pc-sidebar__label">Search…</span>
     </button>
 </li>
@@ -427,7 +427,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 <li class="pc-sidebar__item">
     <form class="pc-sidebar__search pc-sidebar__search--input"
           action="/search" method="get" role="search">
-        <button type="submit" class="pc-sidebar__search-icon" aria-label="Search">🔍</button>
+        <button type="submit" class="pc-sidebar__search-icon" aria-label="Search"></button>
         <input type="search" name="q" class="pc-sidebar__search-field"
                placeholder="Search…" autocomplete="off" aria-label="Search">
     </form>
@@ -449,7 +449,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
             <li class="pc-sidebar__section">Project</li>
             <li class="pc-sidebar__item">
                 <a href="/" class="pc-sidebar__link pc-sidebar__link--active">
-                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>
                     <span class="pc-sidebar__label">Dashboard</span>
                 </a>
             </li>
@@ -457,13 +457,13 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
             <li class="pc-sidebar__section">Guides</li>
             <li class="pc-sidebar__item">
                 <a href="/getting-started" class="pc-sidebar__link">
-                    <span class="pc-sidebar__icon">🚀</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg></span>
                     <span class="pc-sidebar__label">Getting Started</span>
                 </a>
             </li>
             <li class="pc-sidebar__item">
                 <a href="/forms" class="pc-sidebar__link">
-                    <span class="pc-sidebar__icon">📝</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg></span>
                     <span class="pc-sidebar__label">Forms</span>
                 </a>
             </li>
@@ -484,7 +484,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
         <ul>
             <li class="pc-sidebar__item">
                 <a href="/" class="pc-sidebar__link">
-                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></svg></span>
                     <span class="pc-sidebar__label">Dashboard</span>
                 </a>
             </li>
@@ -492,20 +492,20 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
             <!-- Collapsible (parent is a button, not a link) -->
             <li class="pc-sidebar__item">
                 <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pc-sidebar__icon">📋</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18" /><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /></svg></span>
                     <span class="pc-sidebar__label">Tables</span>
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
                     <li class="pc-sidebar__item">
                         <a href="/tables" class="pc-sidebar__link">
-                            <span class="pc-sidebar__icon">•</span>
+                            <span class="pc-sidebar__icon pc-icon-hover-highlight">•</span>
                             <span class="pc-sidebar__label">Standard</span>
                         </a>
                     </li>
                     <li class="pc-sidebar__item">
                         <a href="/tables-lazy" class="pc-sidebar__link">
-                            <span class="pc-sidebar__icon">•</span>
+                            <span class="pc-sidebar__icon pc-icon-hover-highlight">•</span>
                             <span class="pc-sidebar__label">Lazy Loading</span>
                         </a>
                     </li>
@@ -529,7 +529,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
             <!-- Level 1 -->
             <li class="pc-sidebar__item">
                 <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pc-sidebar__icon">⚙️</span>
+                    <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg></span>
                     <span class="pc-sidebar__label">Settings</span>
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
@@ -537,7 +537,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
                     <!-- Level 2 -->
                     <li class="pc-sidebar__item">
                         <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
-                            <span class="pc-sidebar__icon">🔧</span>
+                            <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg></span>
                             <span class="pc-sidebar__label">Advanced</span>
                             <span class="pc-sidebar__chevron">›</span>
                         </button>
@@ -545,7 +545,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
                             <!-- Level 3 -->
                             <li class="pc-sidebar__item">
                                 <a href="/settings/advanced/security" class="pc-sidebar__link">
-                                    <span class="pc-sidebar__icon">•</span>
+                                    <span class="pc-sidebar__icon pc-icon-hover-highlight">•</span>
                                     <span class="pc-sidebar__label">Security</span>
                                 </a>
                             </li>

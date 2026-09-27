@@ -5,6 +5,31 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc05] - 2026-09-27
+
+### Added
+
+- **Three new masked icon primitives — `.pa-icon--lock`, `.pa-icon--help`,
+  `.pa-icon--logout`.** Complete the profile-panel nav glyph set alongside the
+  existing `--user` / `--bell` / `--settings`, so security / help / sign-out rows
+  draw the shared Lucide shape in `currentColor` instead of emoji. Each routes
+  through `var(--base-icon-lock|help|logout, …)` for the same theme re-skin /
+  auto-upgrade path as the other icons.
+
+### Changed
+
+- **Profile-panel snippet migrated off emoji.** `snippets/profile.html` now shows
+  the blessed masked `.pa-icon--*` primitive in the avatar and nav slots
+  (user / lock / bell / settings / help / logout); the arbitrary favorites rows
+  use an inline Lucide `<svg>` (provider-agnostic content slot). The
+  `__avatar-icon` reference note documents the masked primitive as the blessed
+  shape. Matches the icon-slot guidance already used across the framework.
+- **Sidebar snippet (`snippets/layout.html`) brought to the blessed shape.** Its
+  nav icons were still emoji (📊🧩📝🚀📋⚙️🔧) with no hover marker, lagging the demo
+  and the wrappers. They're now inline Lucide `<svg>` glyphs on
+  `.pc-sidebar__icon pc-icon-hover-highlight` (matching `demo/views/partials/sidebar.mustache`),
+  so the reference wrappers copy teaches the current icon + hover-highlight contract.
+
 ## [3.3.0-rc04] - 2026-09-26 [PUBLISHED]
 
 ### Added
