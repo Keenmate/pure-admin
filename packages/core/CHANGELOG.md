@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Two new theme-colour utilities — `.pa-text-on-color-N` and
+  `.pa-text-bg-color-N` (N = 1–9).** Complete the colour-slot utility set:
+  `.pa-bg-color-N` / `.pa-text-color-N` / `.pa-border-color-N` already mapped a
+  slot to the base token `--pc-color-N`, but nothing exposed its
+  guaranteed-contrasting partner `--pc-color-N-text` as a utility — only the
+  component `--color-N` variants (badge / alert / card) consumed it. So a
+  coloured surface built from the raw `.pa-bg-color-N` utility left its text at
+  the inherited colour, forcing consumers to hardcode `color: white` (unreadable
+  on the light slots). `.pa-text-on-color-N` applies the contrast text alone
+  (pair it with `.pa-bg-color-N`); `.pa-text-bg-color-N` sets slot background +
+  contrast text in one class (Bootstrap `text-bg-*` shape). `.pa-bg-color-N`
+  stays background-only for the composable case.
 - **Three new masked icon primitives — `.pa-icon--lock`, `.pa-icon--help`,
   `.pa-icon--logout`.** Complete the profile-panel nav glyph set alongside the
   existing `--user` / `--bell` / `--settings`, so security / help / sign-out rows

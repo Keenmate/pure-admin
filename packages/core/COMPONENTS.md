@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc03** · **60** components · **151** blocks · **655** class selectors.
+Framework version **3.3.0-rc05** · **60** components · **153** blocks · **660** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -156,7 +156,7 @@ User profile slide-over with avatar, tabs, and overlay.
 
 - **Blocks:** `pa-profile-panel`
 - **Elements:** `pa-profile-panel__avatar`, `pa-profile-panel__content`, `pa-profile-panel__overlay`, `pa-profile-panel__tab-text`
-- **SCSS:** `core-components/_profile.scss`
+- **SCSS:** `core-components/_print.scss`, `core-components/_profile.scss`
 - **Snippet:** `profile.html`
 - **Demo:** ✗ none
 
@@ -166,7 +166,7 @@ Settings drawer with a toggle trigger.
 
 - **Blocks:** `pa-settings-panel`
 - **Elements:** `pa-settings-panel__toggle`
-- **SCSS:** `core-components/_settings-panel.scss`
+- **SCSS:** `core-components/_print.scss`, `core-components/_settings-panel.scss`
 - **Snippet:** ✗ none
 - **Demo:** ✗ none
 
@@ -562,7 +562,7 @@ Transient toast notifications with severity + filled variants, progress bar, and
 - **Blocks:** `pa-toast`, `pa-toast-container`
 - **Elements:** `pa-toast__actions`, `pa-toast__close`, `pa-toast__content`, `pa-toast__icon`, `pa-toast__message`, `pa-toast__progress`, `pa-toast__title`
 - **Modifiers / states:** `pa-toast--color`, `pa-toast--danger`, `pa-toast--filled-color`, `pa-toast--filled-danger`, `pa-toast--filled-info`, `pa-toast--filled-primary`, `pa-toast--filled-success`, `pa-toast--filled-warning`, `pa-toast--hide`, `pa-toast--info`, `pa-toast--primary`, `pa-toast--show`, `pa-toast--success`, `pa-toast--warning`, `pa-toast-container--bottom-center`, `pa-toast-container--bottom-end`, `pa-toast-container--bottom-start`, `pa-toast-container--top-center`, `pa-toast-container--top-end`, `pa-toast-container--top-start`
-- **SCSS:** `core-components/_toasts.scss`
+- **SCSS:** `core-components/_print.scss`, `core-components/_toasts.scss`
 - **Snippet:** `toasts.html`
 - **Demo:** `toasts.mustache`
 
@@ -656,7 +656,7 @@ Cmd-K command palette with search, results, footer, fullscreen mobile mode, auto
 - **Blocks:** `pa-command-palette`, `pa-search-autocomplete`, `pa-shortcut-help`
 - **Elements:** `pa-command-palette__backdrop`, `pa-command-palette__container`, `pa-command-palette__footer`, `pa-command-palette__fullscreen-bar`, `pa-command-palette__results`, `pa-command-palette__search`, `pa-shortcut-help__category`, `pa-shortcut-help__category-title`, `pa-shortcut-help__description`, `pa-shortcut-help__empty`, `pa-shortcut-help__item`, `pa-shortcut-help__key`, `pa-shortcut-help__keys`, `pa-shortcut-help__list`, `pa-shortcut-help__separator`
 - **Modifiers / states:** `pa-command-palette--fullscreen`
-- **SCSS:** `core-components/_command-palette.scss`, `core-components/forms/_query-editor.scss`
+- **SCSS:** `core-components/_command-palette.scss`, `core-components/_print.scss`, `core-components/forms/_query-editor.scss`
 - **Snippet:** `command-palette.html`
 - **Demo:** `command-palette.mustache`, `search.mustache`
 
@@ -696,7 +696,7 @@ File dropzone + file list/items with icons, previews, popover and per-file progr
 Mask-based icon element (pa-icon--x etc.).
 
 - **Blocks:** `pa-icon`
-- **Modifiers / states:** `pa-icon--add`, `pa-icon--bell`, `pa-icon--caret`, `pa-icon--caret-down`, `pa-icon--caret-up`, `pa-icon--check`, `pa-icon--chevron`, `pa-icon--chevron-down`, `pa-icon--chevron-left`, `pa-icon--chevron-right`, `pa-icon--chevron-up`, `pa-icon--clear`, `pa-icon--collapse`, `pa-icon--copy`, `pa-icon--danger`, `pa-icon--delete`, `pa-icon--download`, `pa-icon--edit`, `pa-icon--ellipsis`, `pa-icon--ellipsis-vertical`, `pa-icon--expand`, `pa-icon--external-link`, `pa-icon--favorites`, `pa-icon--filter`, `pa-icon--info`, `pa-icon--link`, `pa-icon--refresh`, `pa-icon--remove`, `pa-icon--save`, `pa-icon--search`, `pa-icon--settings`, `pa-icon--star`, `pa-icon--success`, `pa-icon--user`, `pa-icon--warning`, `pa-icon--x`
+- **Modifiers / states:** `pa-icon--add`, `pa-icon--bell`, `pa-icon--caret`, `pa-icon--caret-down`, `pa-icon--caret-up`, `pa-icon--check`, `pa-icon--chevron`, `pa-icon--chevron-down`, `pa-icon--chevron-left`, `pa-icon--chevron-right`, `pa-icon--chevron-up`, `pa-icon--clear`, `pa-icon--collapse`, `pa-icon--copy`, `pa-icon--danger`, `pa-icon--delete`, `pa-icon--download`, `pa-icon--edit`, `pa-icon--ellipsis`, `pa-icon--ellipsis-vertical`, `pa-icon--expand`, `pa-icon--external-link`, `pa-icon--favorites`, `pa-icon--filter`, `pa-icon--help`, `pa-icon--info`, `pa-icon--link`, `pa-icon--lock`, `pa-icon--logout`, `pa-icon--refresh`, `pa-icon--remove`, `pa-icon--save`, `pa-icon--search`, `pa-icon--settings`, `pa-icon--star`, `pa-icon--success`, `pa-icon--user`, `pa-icon--warning`, `pa-icon--x`
 - **SCSS:** `core-components/_icons.scss`, `core-components/_modals.scss`
 - **Snippet:** `icon.html`
 - **Demo:** `icons.mustache`
@@ -707,7 +707,7 @@ Mask-based icon element (pa-icon--x etc.).
 
 Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).
 
-- **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text`, `pa-text-color`
+- **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text`, `pa-text-bg-color`, `pa-text-color`, `pa-text-on-color`
 - **SCSS:** `core-components/_utilities.scss`
 - **Snippet:** `utilities.html`
 - **Demo:** ✗ none

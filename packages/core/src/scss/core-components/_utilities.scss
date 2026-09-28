@@ -296,11 +296,25 @@ $_font-base-sizes: (9, 10, 11, 12);
 }
 
 // Theme color utilities (color-1 through color-9)
-// Use these to apply theme colors to any element
+// Use these to apply theme colors to any element.
+//
+// Two token layers per slot:
+//   --pc-color-N       the slot colour itself
+//   --pc-color-N-text  its guaranteed-contrasting text colour
+//
+// bg/text/border-color map to the slot colour; text-on / text-bg map to the
+// contrast token so a coloured surface never lands unreadable (white-on-light):
+//   .pa-text-on-color-N  contrast text only (pair with .pa-bg-color-N yourself)
+//   .pa-text-bg-color-N  slot background + contrast text in one class
 @for $i from 1 through 9 {
   .pa-bg-color-#{$i} { background-color: var(--pc-color-#{$i}); }
   .pa-text-color-#{$i} { color: var(--pc-color-#{$i}); }
   .pa-border-color-#{$i} { border-color: var(--pc-color-#{$i}); }
+  .pa-text-on-color-#{$i} { color: var(--pc-color-#{$i}-text); }
+  .pa-text-bg-color-#{$i} {
+    background-color: var(--pc-color-#{$i});
+    color: var(--pc-color-#{$i}-text);
+  }
 }
 
 // ========================================
