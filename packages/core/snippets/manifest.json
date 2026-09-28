@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T19:54:12.619Z",
+  "generated": "2026-09-28T21:04:56.492Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -575,9 +575,9 @@
       "modified": "2026-09-12T17:59:49.265Z"
     },
     "core-components/_utilities.scss": {
-      "hash": "4e0b279ced4b9365b30a95fed81c6b2b8018feb5a6fefd0f0ce965bd695704de",
-      "size": 10873,
-      "modified": "2026-09-24T19:09:19.653Z"
+      "hash": "724d59dccbb2ae260a2db857a80b9adc0877d900010644d35d1d5ece751868dd",
+      "size": 11511,
+      "modified": "2026-09-28T20:38:19.647Z"
     },
     "core-components/_web-components-theme.scss": {
       "hash": "853ccea1b554b186a5b19993ca7b989c3efce28078b5f88b43f08e9d455b2eef",

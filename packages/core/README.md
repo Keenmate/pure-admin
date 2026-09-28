@@ -6,6 +6,14 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc05
+
+Readable colour utilities and the last of the emoji swept out of the snippets.
+
+- **Contrast-text colour utilities** — `.pa-text-bg-color-N` sets a theme colour slot's background *and* its guaranteed-contrasting text in one class (Bootstrap `text-bg-*` shape), and `.pa-text-on-color-N` applies just the contrast text. Completes the `bg`/`text`/`border-color` set, so a coloured chip or surface no longer needs a hardcoded `color: white` that goes unreadable on the light slots.
+- **Three new masked icon primitives** — `.pa-icon--lock`, `.pa-icon--help`, and `.pa-icon--logout` finish the profile-panel nav glyph set (alongside `--user` / `--bell` / `--settings`), drawing the shared Lucide shape in `currentColor` with the same theme re-skin path as the rest.
+- **Snippets off emoji** — the profile-panel and sidebar reference snippets now show the blessed masked `.pa-icon--*` / inline-SVG icon shapes with the hover-highlight contract, so wrappers copying them get the current markup instead of raw emoji.
+
 ## What's New in 3.3.0-rc04
 
 Icons that react on hover, a snappier sidebar, and the pure-css 1.1.1 foundation.
@@ -13,19 +21,6 @@ Icons that react on hover, a snappier sidebar, and the pure-css 1.1.1 foundation
 - **Icons fill / highlight on hover** — inside an enabled button, tab, or sidebar link, an icon now reacts on hover with zero JS: Font Awesome glyphs flip regular → solid (`.pc-icon-hover-fill`), outline sets like Lucide recolour to the accent (`.pc-icon-hover-highlight`), and masked `.pa-icon` glyphs swap to a filled source when one is declared. Opt in per icon.
 - **Snappier sidebar hover** — the sidebar link / submenu-toggle hover no longer fades its colour in; it snaps (colour transitions are motion-only now). Real motion — the chevron rotate and the icon-collapse label — is kept.
 - **pure-css `^1.1.1`** — brings the shared icon-hover foundation, the expanded `--base-icon-*` glyph set (settings / bell / user / download / link / external-link), and the runtime list-marker knob.
-
-## What's New in 3.3.0-rc03
-
-A round of form-building primitives, print-layer polish, and two real bug fixes
-surfaced while stress-testing `pa-sheet` on dense paper forms.
-
-- **New `pc-grid` layout primitive** — a CSS-Grid companion to the flexbox `pc-row`/`pc-col` for the 2-D ruled box-matrices dense paper forms need. `pc-grid--cols-1…12`, `pc-grid--ruled` (single hairlines drawn with real borders, so they print), plus `pc-col-span-*` / `pc-row-span-*`.
-- **`pa-table--plain`** — strips the themed header/stripe fills so a `pa-table` reads as a neutral ruled grid (paper forms, printouts, embedded sheet tables) instead of an app data table.
-- **New text utilities** — `font-weight-*` / `font-style-*` (named to match `font-family-*`), plus `rotate-90`/`-180`/`-270` and `text-vertical` / `text-vertical-up` for rotated icons and vertical spine labels.
-- **App chrome stays off the printed page** — settings/profile panels, toasts and the command palette are now hidden automatically when printing, so a whole-page `window.print()` no longer paints them over your document.
-- **Landscape sheets print landscape** — `pureAdmin.printElement()` / `printSheet()` detect a `pa-sheet--landscape` target and print it expanded on a landscape page instead of clamped to portrait.
-- **Print colour modes refined** — all three modes (default ink, `--print-color`, `--print-grayscale`) print on white paper with no toner-heavy background flood; only the accent/brand colours differ.
-- **Fixed: table row heights** — the `--xs`/`--sm`/`--lg`/`--xl` size variants emitted invalid CSS and silently fell back to content height; they now apply their intended, uniform, button-aligned row heights (default 4.3rem), consistent across the framework.
 
 ## Installation
 
