@@ -483,12 +483,15 @@
 </button>
 
 <!--
-data-ripple / data-loading-demo are DEMO-wiring attributes picked up by
-external JS in the demo app — they aren't framework class hooks. The
-framework's only ripple contract is pa-btn--ripple (the CSS animation)
-plus pa-btn--ripple-active (set by your own JS during the click). The
-data-* attributes just tell the demo's script to call `.classList.add`
-with that class at the right time.
+pa-btn--ripple enables the CSS ripple base styles; pa-btn--ripple-active is
+the class that triggers the expansion, added/removed at click time by JS.
+data-ripple is the runtime HOOK attribute that JS keys off to know which
+buttons should ripple — a functional attribute (only its presence matters,
+not its value), NOT a class hook. Core ships no ripple JS itself, so on a
+core-only page it's your own script (or a wrapper library's ripple hook)
+that reads data-ripple and toggles pa-btn--ripple-active; the demo uses
+demo/js for this. data-loading-demo, by contrast, IS demo-only wiring — the
+demo's fake-loading toggle — and is not part of any framework contract.
 -->
 
 
