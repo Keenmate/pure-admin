@@ -1,0 +1,459 @@
+{
+  "//": "Markup-fidelity fixture for the button component. NEUTRAL scenarios (framework-agnostic prop bags) + the GOLDEN markup core blesses for each. Wrapper dumpers (svelte-pure-admin, keen-pure-admin) map `props` to their own API, render, and the core comparator diffs their output against `golden` after normalization. See ../README.md.",
+  "component": "button",
+  "block": "pa-btn",
+  "propsVocabulary": {
+    "variant": "colour variant (primary|secondary|success|warning|danger|info|light|dark)",
+    "size": "xs|sm|lg|xl",
+    "outline": "boolean — outline style (guards to solid fill for variants core has no outline for)",
+    "block": "boolean — full-width",
+    "loading": "boolean — spinner + disabled",
+    "iconOnly": "boolean — square icon button; label renders as bare content",
+    "align": "start|end|center|justify",
+    "themeColor": "1..9 theme colour slot (overrides variant)",
+    "disabled": "boolean",
+    "label": "inner text content",
+    "icon": "glyph/text rendered inside pa-btn__icon (ignored for iconOnly, where label is the glyph)",
+    "iconPosition": "start|end",
+    "href": "renders as <a> instead of <button>",
+    "target": "anchor target",
+    "truncate": "boolean — wrap label in .text-truncate",
+    "inputGroupButton": "boolean — add pa-input-group__button",
+    "title": "title attribute",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape PLUS the two conventions both wrappers legitimately add over the static snippet: (1) <button> carries type=\"button\" (sensible default preventing implicit form submit; <a> carries none); (2) loading buttons are disabled. Everything else must match snippets/buttons.html + _buttons.scss exactly. Attribute order and class-token order are normalized away by the comparator, so goldens are written for readability, not byte-equality.",
+  "features": {
+    "//": "The oracle's feature→class contract, authored from dist/css/main.css (NOT components.json — its static extraction misses every SCSS-loop-generated variant). `produces` is a class template with {value}/{variant} placeholders; capability.mjs expands it and cross-checks against main.css AND against each wrapper's map + the scenario set. `produces: null` = the feature is structural/native (no pa-btn modifier).",
+    "variant": {
+      "kind": "enum",
+      "options": [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "light",
+        "dark",
+        "ghost"
+      ],
+      "produces": "pa-btn--{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "lg",
+        "xl"
+      ],
+      "produces": "pa-btn--{value}"
+    },
+    "outline": {
+      "kind": "bool",
+      "produces": "pa-btn--outline-{variant}",
+      "appliesToVariants": [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info"
+      ]
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "produces": "pa-btn--color-{value}",
+      "outlineProduces": "pa-btn--outline-color-{value}"
+    },
+    "block": {
+      "kind": "bool",
+      "produces": "pa-btn--block"
+    },
+    "loading": {
+      "kind": "bool",
+      "produces": "pa-btn--loading"
+    },
+    "iconOnly": {
+      "kind": "bool",
+      "produces": "pa-btn--icon-only"
+    },
+    "ripple": {
+      "kind": "bool",
+      "produces": "pa-btn--ripple"
+    },
+    "align": {
+      "kind": "enum",
+      "options": [
+        "start",
+        "end",
+        "center",
+        "justify"
+      ],
+      "produces": "pa-btn--align-{value}"
+    },
+    "iconPosition": {
+      "kind": "enum",
+      "options": [
+        "start",
+        "end"
+      ],
+      "produces": null,
+      "note": "structural — reorders pa-btn__icon vs label, no class"
+    },
+    "label": {
+      "kind": "slot",
+      "produces": null
+    },
+    "icon": {
+      "kind": "slot",
+      "produces": "pa-btn__icon"
+    },
+    "truncate": {
+      "kind": "bool",
+      "produces": "text-truncate",
+      "note": "shared utility class, not a pa-btn modifier"
+    },
+    "inputGroupButton": {
+      "kind": "bool",
+      "produces": "pa-input-group__button",
+      "note": "cross-component (input-group) addon flattening"
+    },
+    "disabled": {
+      "kind": "bool",
+      "produces": null,
+      "note": "native attribute on the control; the class form pa-btn--disabled exists only for non-button elements"
+    },
+    "href": {
+      "kind": "string",
+      "produces": null,
+      "note": "renders <a> instead of <button>"
+    },
+    "target": {
+      "kind": "string",
+      "produces": null
+    },
+    "title": {
+      "kind": "string",
+      "produces": null
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-btn--* classes that exist in main.css but are NOT feature-driven props — applied by JS at runtime or only for non-<button> elements. capability.mjs treats these as legitimately unclaimed so they don't read as 'core added a feature nobody mapped'.",
+    "pa-btn--ripple-active": "added/removed by JS during a click",
+    "pa-btn--disabled": "class form for disabling non-button elements; <button>/<a> use the native disabled/aria instead"
+  },
+  "scenarios": [
+    {
+      "name": "primary",
+      "props": {
+        "variant": "primary",
+        "label": "Primary"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary\">Primary</button>"
+    },
+    {
+      "name": "secondary",
+      "props": {
+        "variant": "secondary",
+        "label": "Secondary"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--secondary\">Secondary</button>"
+    },
+    {
+      "name": "success",
+      "props": {
+        "variant": "success",
+        "label": "Success"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--success\">Success</button>"
+    },
+    {
+      "name": "primary-lg",
+      "props": {
+        "variant": "primary",
+        "size": "lg",
+        "label": "Large"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--lg\">Large</button>"
+    },
+    {
+      "name": "primary-xs",
+      "props": {
+        "variant": "primary",
+        "size": "xs",
+        "label": "XS"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--xs\">XS</button>"
+    },
+    {
+      "name": "outline-info",
+      "props": {
+        "variant": "info",
+        "outline": true,
+        "label": "Info"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-info\">Info</button>"
+    },
+    {
+      "name": "outline-fallback-light",
+      "props": {
+        "variant": "light",
+        "outline": true,
+        "label": "Light"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--light\">Light</button>",
+      "note": "Guard family: core defines no pa-btn--outline-light — must fall back to the solid fill, never emit a phantom outline class."
+    },
+    {
+      "name": "block",
+      "props": {
+        "variant": "primary",
+        "block": true,
+        "label": "Block"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--block\">Block</button>"
+    },
+    {
+      "name": "loading",
+      "props": {
+        "variant": "primary",
+        "loading": true,
+        "label": "Saving…"
+      },
+      "golden": "<button type=\"button\" disabled class=\"pa-btn pa-btn--primary pa-btn--loading\"><span class=\"pa-btn__spinner\"></span>Saving…</button>"
+    },
+    {
+      "name": "icon-only",
+      "props": {
+        "variant": "primary",
+        "iconOnly": true,
+        "label": "★",
+        "title": "Star"
+      },
+      "golden": "<button type=\"button\" title=\"Star\" class=\"pa-btn pa-btn--primary pa-btn--icon-only\">★</button>"
+    },
+    {
+      "name": "icon-start",
+      "props": {
+        "variant": "primary",
+        "icon": "→",
+        "label": "Next"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary\"><span class=\"pa-btn__icon\">→</span>Next</button>"
+    },
+    {
+      "name": "icon-end",
+      "props": {
+        "variant": "primary",
+        "icon": "→",
+        "label": "Next",
+        "iconPosition": "end"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary\">Next<span class=\"pa-btn__icon\">→</span></button>"
+    },
+    {
+      "name": "align-center",
+      "props": {
+        "variant": "primary",
+        "align": "center",
+        "icon": "✓",
+        "label": "Save"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-center\"><span class=\"pa-btn__icon\">✓</span><span class=\"pa-btn__label\">Save</span></button>"
+    },
+    {
+      "name": "theme-color-3",
+      "props": {
+        "themeColor": "3",
+        "label": "Slot 3"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--color-3\">Slot 3</button>"
+    },
+    {
+      "name": "disabled",
+      "props": {
+        "variant": "primary",
+        "disabled": true,
+        "label": "Disabled"
+      },
+      "golden": "<button type=\"button\" disabled class=\"pa-btn pa-btn--primary\">Disabled</button>"
+    },
+    {
+      "name": "link",
+      "props": {
+        "variant": "secondary",
+        "href": "/settings",
+        "label": "Settings"
+      },
+      "golden": "<a href=\"/settings\" class=\"pa-btn pa-btn--secondary\">Settings</a>"
+    },
+    {
+      "name": "truncate",
+      "props": {
+        "variant": "secondary",
+        "truncate": true,
+        "extraClass": "maxwr-10",
+        "icon": "×",
+        "label": "Cancel and Go Back"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--secondary maxwr-10\"><span class=\"pa-btn__icon\">×</span><span class=\"text-truncate\">Cancel and Go Back</span></button>"
+    },
+    {
+      "name": "ghost",
+      "props": {
+        "variant": "ghost",
+        "label": "Ghost"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--ghost\">Ghost</button>",
+      "note": "ghost is a real SOLID variant (pa-btn--ghost exists) but has NO outline form — the guard excludes it (see outline-fallback-* )."
+    },
+    {
+      "name": "dark",
+      "props": {
+        "variant": "dark",
+        "label": "Dark"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--dark\">Dark</button>"
+    },
+    {
+      "name": "size-sm",
+      "props": {
+        "variant": "primary",
+        "size": "sm",
+        "label": "Small"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--sm\">Small</button>"
+    },
+    {
+      "name": "size-xl",
+      "props": {
+        "variant": "primary",
+        "size": "xl",
+        "label": "XL"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--xl\">XL</button>"
+    },
+    {
+      "name": "outline-primary",
+      "props": {
+        "variant": "primary",
+        "outline": true,
+        "label": "Primary"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-primary\">Primary</button>"
+    },
+    {
+      "name": "outline-secondary",
+      "props": {
+        "variant": "secondary",
+        "outline": true,
+        "label": "Secondary"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-secondary\">Secondary</button>"
+    },
+    {
+      "name": "outline-success",
+      "props": {
+        "variant": "success",
+        "outline": true,
+        "label": "Success"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-success\">Success</button>"
+    },
+    {
+      "name": "outline-warning",
+      "props": {
+        "variant": "warning",
+        "outline": true,
+        "label": "Warning"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-warning\">Warning</button>"
+    },
+    {
+      "name": "outline-danger",
+      "props": {
+        "variant": "danger",
+        "outline": true,
+        "label": "Danger"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-danger\">Danger</button>"
+    },
+    {
+      "name": "outline-color-5",
+      "props": {
+        "themeColor": "5",
+        "outline": true,
+        "label": "Slot 5"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--outline-color-5\">Slot 5</button>",
+      "note": "themeColor + outline exercises the outlineProduces path (pa-btn--outline-color-{n})."
+    },
+    {
+      "name": "align-start",
+      "props": {
+        "variant": "primary",
+        "align": "start",
+        "icon": "✓",
+        "label": "Save"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-start\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
+    },
+    {
+      "name": "align-end",
+      "props": {
+        "variant": "primary",
+        "align": "end",
+        "icon": "✓",
+        "label": "Save"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-end\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
+    },
+    {
+      "name": "align-justify",
+      "props": {
+        "variant": "primary",
+        "align": "justify",
+        "icon": "✓",
+        "label": "Save"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-justify\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
+    },
+    {
+      "name": "ripple",
+      "props": {
+        "variant": "primary",
+        "ripple": true,
+        "label": "Ripple"
+      },
+      "golden": "<button type=\"button\" data-ripple class=\"pa-btn pa-btn--primary pa-btn--ripple\">Ripple</button>",
+      "note": "pa-btn--ripple is the CSS base; data-ripple is the runtime hook the ripple JS keys off to add pa-btn--ripple-active on click. It's a PRESENCE flag — value is irrelevant — so the normalizer treats data-ripple as boolean (svelte emits =\"true\", keen emits =\"\"; both ≡ bare)."
+    },
+    {
+      "name": "input-group-button",
+      "props": {
+        "variant": "primary",
+        "inputGroupButton": true,
+        "label": "Go"
+      },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-input-group__button\">Go</button>"
+    }
+  ]
+}

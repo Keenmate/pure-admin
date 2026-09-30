@@ -1,0 +1,147 @@
+{
+  "//": "Markup-fidelity fixture for the card component. See ../README.md and button.json for the model. Goldens are the canonical rc05 card shape: header only when a header-ish prop is present, body always, footer only when footer/footerActions present. Title is ALWAYS .pa-card__title > .pa-card__title-text (icon optional), never a bare <h3>.",
+  "component": "card",
+  "block": "pa-card",
+  "propsVocabulary": {
+    "variant": "whole-card colour (primary|success|warning|danger|color-1..9) — NO info/secondary",
+    "stat": "boolean — stat-card style (pa-card--stat)",
+    "ghost": "boolean — no bg/border/shadow",
+    "liveState": "up|down|neutral — persistent tinted background",
+    "noPadding": "boolean — remove body padding",
+    "title": "header title text",
+    "titleIcon": "glyph rendered in pa-card__title-icon before the title",
+    "description": "inline header description (pa-card__description)",
+    "subtitle": "muted header byline (pa-card__meta)",
+    "headerUnderlined": "boolean — accent border under header",
+    "headerUnderlineColor": "success|warning|danger|info — underline colour (needs headerUnderlined)",
+    "headerUnderlineThemeColor": "1..9 theme-slot underline colour (needs headerUnderlined)",
+    "headerWrap": "boolean — allow header description to wrap",
+    "body": "main body content",
+    "footer": "footer content",
+    "footerActions": "footer actions (wrapped in pa-card__actions)",
+    "tools": "header actions/tools (wrapped in pa-card__actions)"
+  },
+  "goldenConventions": "Structural only — cards add no attribute conventions like button's type. Slot content is a plain text token (Body/Tools/etc.) so the diff checks the wrapper's structural nesting, not rich content. Attribute + class-token order are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. capability.mjs axis-1 reverse-check is scoped to block modifiers (pa-card--*); element modifiers (pa-card__header--*, __body--*) are verified forward (feature produces → exists in CSS).",
+    "variant":                   { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-card--{value}" },
+    "stat":                      { "kind": "bool", "produces": "pa-card--stat" },
+    "ghost":                     { "kind": "bool", "produces": "pa-card--ghost" },
+    "liveState":                 { "kind": "enum", "options": ["up", "down", "neutral"], "produces": "pa-card--live-{value}" },
+    "noPadding":                 { "kind": "bool", "produces": "pa-card__body--no-padding" },
+    "headerUnderlined":          { "kind": "bool", "produces": "pa-card__header--underlined" },
+    "headerUnderlineColor":      { "kind": "enum", "options": ["success", "warning", "danger", "info"], "produces": "pa-card__header--underline-{value}" },
+    "headerUnderlineThemeColor": { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": "pa-card__header--underline-color-{value}" },
+    "headerWrap":                { "kind": "bool", "produces": "pa-card__header--wrap" },
+    "title":                     { "kind": "string", "produces": null, "note": "structural — pa-card__title > pa-card__title-text" },
+    "titleIcon":                 { "kind": "slot", "produces": "pa-card__title-icon" },
+    "description":               { "kind": "string", "produces": "pa-card__description" },
+    "subtitle":                  { "kind": "string", "produces": "pa-card__meta" },
+    "body":                      { "kind": "slot", "produces": "pa-card__body" },
+    "footer":                    { "kind": "slot", "produces": "pa-card__footer" },
+    "footerActions":             { "kind": "slot", "produces": "pa-card__actions", "note": "in footer" },
+    "tools":                     { "kind": "slot", "produces": "pa-card__actions", "note": "in header" }
+  },
+  "cssStateClasses": {
+    "//": "pa-card modifiers not modeled as features in this slice (specialized sub-components / JS-driven). Out of scope for now; the axis-1 reverse check is block-modifier-scoped so these don't trip it.",
+    "pa-card__tab--active": "tabs sub-feature (card_tab)",
+    "pa-card__tabs--inline": "tabs sub-feature",
+    "pa-card__tab-content--active": "tabs sub-feature",
+    "pa-card__actions--overflow": "JS progressive-collapse toolbar",
+    "pa-card__actions--responsive": "container-query collapse (needs -full/-collapsed subtrees)"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "variant-primary",
+      "props": { "variant": "primary", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-card--primary\"><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "variant-color-3",
+      "props": { "variant": "color-3", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-card--color-3\"><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "stat",
+      "props": { "stat": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-card--stat\"><div class=\"pa-card__body\">Body</div></div>",
+      "note": "svelte models this as isStat (bool); keen as variant=\"stat\". The maps absorb the API-spelling difference; both must emit pa-card--stat."
+    },
+    {
+      "name": "ghost",
+      "props": { "ghost": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-card--ghost\"><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "live-up",
+      "props": { "liveState": "up", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-card--live-up\"><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "no-padding",
+      "props": { "noPadding": true, "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__body pa-card__body--no-padding\">Body</div></div>"
+    },
+    {
+      "name": "title",
+      "props": { "title": "Title", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "title-icon",
+      "props": { "title": "Title", "titleIcon": "★", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><span class=\"pa-card__title-icon\">★</span><h3 class=\"pa-card__title-text\">Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "description",
+      "props": { "title": "Title", "description": "Last 30 days", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description\">Last 30 days</p></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "subtitle",
+      "props": { "title": "Title", "subtitle": "Subtitle", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><span class=\"pa-card__meta\">Subtitle</span></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "header-underlined",
+      "props": { "title": "Title", "headerUnderlined": true, "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header pa-card__header--underlined\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "header-underline-danger",
+      "props": { "title": "Title", "headerUnderlined": true, "headerUnderlineColor": "danger", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header pa-card__header--underlined pa-card__header--underline-danger\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "header-underline-theme-3",
+      "props": { "title": "Title", "headerUnderlined": true, "headerUnderlineThemeColor": "3", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header pa-card__header--underlined pa-card__header--underline-color-3\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>",
+      "note": "svelte supports this via headerUnderlineThemeColor; keen has NO equivalent attr (only header_underline_color success/warning/danger/info) — expected to FAIL keen + flag in capability axis-2 until keen adds it."
+    },
+    {
+      "name": "header-wrap",
+      "props": { "title": "Title", "description": "A longer description", "headerWrap": true, "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header pa-card__header--wrap\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description\">A longer description</p></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "tools",
+      "props": { "title": "Title", "tools": "Tools", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><div class=\"pa-card__actions\">Tools</div></div><div class=\"pa-card__body\">Body</div></div>"
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footer": "Footer" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__body\">Body</div><div class=\"pa-card__footer\">Footer</div></div>"
+    },
+    {
+      "name": "footer-actions",
+      "props": { "body": "Body", "footerActions": "Actions" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__body\">Body</div><div class=\"pa-card__footer\"><div class=\"pa-card__actions\">Actions</div></div></div>"
+    }
+  ]
+}
