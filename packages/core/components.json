@@ -4,7 +4,8 @@
   "totals": {
     "components": 60,
     "blocks": 153,
-    "selectors": 660
+    "selectors": 660,
+    "experimental": 1
   },
   "categories": [
     "Layout & shell",
@@ -17,11 +18,15 @@
     "Interactive & misc",
     "Utilities & state hooks"
   ],
+  "experimental": [
+    "sheet"
+  ],
   "components": {
     "scroll-lock": {
       "name": "Scroll lock",
       "category": "Layout & shell",
       "description": "Body hook (utility) that locks background scroll while a drawer/overlay is open.",
+      "status": "stable",
       "block": "pa-scroll-lock",
       "blocks": [
         "pa-scroll-lock"
@@ -39,6 +44,7 @@
       "name": "Card",
       "category": "Surfaces",
       "description": "Primary content surface. Canonical header = pa-card__title (icon optional) + pa-card__description; pa-card__actions is the one actions slot in header and footer.",
+      "status": "stable",
       "block": "pa-card",
       "blocks": [
         "pa-card"
@@ -80,6 +86,7 @@
       "name": "Section",
       "category": "Surfaces",
       "description": "Lightweight titled content grouping used inside cards/panels.",
+      "status": "stable",
       "block": "pa-section",
       "blocks": [
         "pa-section",
@@ -100,6 +107,7 @@
       "name": "Splitter",
       "category": "Surfaces",
       "description": "Resizable two-pane split with a draggable gutter and minimize-to-rail behaviour.",
+      "status": "stable",
       "block": "pa-splitter",
       "blocks": [
         "pa-splitter"
@@ -128,6 +136,7 @@
       "name": "Modal",
       "category": "Surfaces",
       "description": "Dialog with backdrop, header/body/footer, size + severity + banded variants, scrollable body.",
+      "status": "stable",
       "block": "pa-modal",
       "blocks": [
         "pa-modal"
@@ -168,6 +177,7 @@
       "name": "Tabs",
       "category": "Surfaces",
       "description": "Tabbed panels with vertical, scrollable and overflow-menu overflow handling, plus opt-in multi-line wrap-labels.",
+      "status": "stable",
       "block": "pa-tabs",
       "blocks": [
         "pa-tabs"
@@ -201,6 +211,7 @@
       "name": "Detail panel",
       "category": "Surfaces",
       "description": "Slide-in / docked detail panel (with mobile overlay + drag-resize) and its detail-view master/panel layout.",
+      "status": "stable",
       "block": "pa-detail-panel-resize",
       "blocks": [
         "pa-detail-panel-resize",
@@ -242,6 +253,7 @@
       "name": "Profile panel",
       "category": "Surfaces",
       "description": "User profile slide-over with avatar, tabs, and overlay.",
+      "status": "stable",
       "block": "pa-profile-panel",
       "blocks": [
         "pa-profile-panel"
@@ -267,6 +279,7 @@
       "name": "Settings panel",
       "category": "Surfaces",
       "description": "Settings drawer with a toggle trigger.",
+      "status": "stable",
       "block": "pa-settings-panel",
       "blocks": [
         "pa-settings-panel"
@@ -287,6 +300,7 @@
       "name": "Table card",
       "category": "Surfaces",
       "description": "Card wrapper specialised for tables: header/actions/body/footer chrome around a data table.",
+      "status": "stable",
       "block": "pa-table-card",
       "blocks": [
         "pa-table-card"
@@ -311,6 +325,7 @@
       "name": "Form layout",
       "category": "Forms",
       "description": "Form grouping/layout: groups, horizontal layout, validation state, help text, actions row.",
+      "status": "stable",
       "block": "pa-form",
       "blocks": [
         "pa-form",
@@ -345,6 +360,7 @@
       "name": "Text input",
       "category": "Forms",
       "description": "Single-line text input with size (xs–xl) and validation-colour variants.",
+      "status": "stable",
       "block": "pa-input",
       "blocks": [
         "pa-input"
@@ -378,6 +394,7 @@
       "name": "Textarea",
       "category": "Forms",
       "description": "Multi-line text input with size variants.",
+      "status": "stable",
       "block": "pa-textarea",
       "blocks": [
         "pa-textarea"
@@ -403,6 +420,7 @@
       "name": "Select",
       "category": "Forms",
       "description": "Native select styled with size + validation-colour variants.",
+      "status": "stable",
       "block": "pa-select",
       "blocks": [
         "pa-select"
@@ -433,6 +451,7 @@
       "name": "Input group",
       "category": "Forms",
       "description": "Input with prepend/append addons.",
+      "status": "stable",
       "block": "pa-input-group",
       "blocks": [
         "pa-input-group"
@@ -455,6 +474,7 @@
       "name": "Input wrapper / token field",
       "category": "Forms",
       "description": "Wrapper enabling token/tag inputs and virtual-scroll textboxes (search token chips + remove).",
+      "status": "stable",
       "block": "pa-input-wrapper",
       "blocks": [
         "pa-input-wrapper",
@@ -481,6 +501,7 @@
       "name": "Checkbox",
       "category": "Forms",
       "description": "Custom-styled checkbox (box + label) and checkbox group.",
+      "status": "stable",
       "block": "pa-checkbox",
       "blocks": [
         "pa-checkbox",
@@ -507,6 +528,7 @@
       "name": "Radio",
       "category": "Forms",
       "description": "Custom-styled radio and radio group.",
+      "status": "stable",
       "block": "pa-radio",
       "blocks": [
         "pa-radio",
@@ -529,6 +551,7 @@
       "name": "Checkbox list",
       "category": "Forms",
       "description": "Selectable list of checkbox items with grid/columns/compact/striped/bordered layouts and per-item disabled/locked/selected states.",
+      "status": "stable",
       "block": "pa-checkbox-list",
       "blocks": [
         "pa-checkbox-list"
@@ -567,6 +590,7 @@
       "name": "Range slider",
       "category": "Forms",
       "description": "Single/dual-thumb range slider with configurable handle styles, ticks and labels.",
+      "status": "stable",
       "block": "pa-range",
       "blocks": [
         "pa-range"
@@ -608,6 +632,7 @@
       "name": "Range group",
       "category": "Forms",
       "description": "Popover panel grouping multiple range sliders with a summary row.",
+      "status": "stable",
       "block": "pa-range-group",
       "blocks": [
         "pa-range-group"
@@ -647,6 +672,7 @@
       "name": "Inline query editor",
       "category": "Forms",
       "description": "Tokenised inline query/filter editor with autocomplete and match highlighting.",
+      "status": "stable",
       "block": "pa-inline-query-autocomplete",
       "blocks": [
         "pa-inline-query-autocomplete",
@@ -673,6 +699,7 @@
       "name": "Filter card",
       "category": "Forms",
       "description": "Card of filter controls with advanced/collapsed rows and loading/disabled states.",
+      "status": "stable",
       "block": "pa-filter-card",
       "blocks": [],
       "elements": [
@@ -699,6 +726,7 @@
       "name": "Button",
       "category": "Buttons & actions",
       "description": "Buttons (icon/label/spinner, xs–xl, ripple), button groups, split buttons with menus, and the priority-overflow trigger.",
+      "status": "stable",
       "block": "pa-btn",
       "blocks": [
         "pa-btn",
@@ -748,6 +776,7 @@
       "name": "Pager",
       "category": "Buttons & actions",
       "description": "Pagination controls and a load-more button with spinner.",
+      "status": "stable",
       "block": "pa-load-more",
       "blocks": [
         "pa-load-more",
@@ -772,6 +801,7 @@
       "name": "Popconfirm",
       "category": "Buttons & actions",
       "description": "Inline confirmation popover anchored to an action, with placement + compact variants.",
+      "status": "stable",
       "block": "pa-popconfirm",
       "blocks": [
         "pa-popconfirm"
@@ -805,6 +835,7 @@
       "name": "Table",
       "category": "Data display",
       "description": "Data tables: striped, responsive (stacked + grid), row selection, checkbox column, container/panel chrome, and virtual-scroll table.",
+      "status": "stable",
       "block": "pa-table",
       "blocks": [
         "pa-table",
@@ -849,6 +880,7 @@
       "name": "Comparison table",
       "category": "Data display",
       "description": "Side-by-side feature/plan comparison table.",
+      "status": "stable",
       "block": "pa-comparison-table",
       "blocks": [
         "pa-comparison-table"
@@ -870,6 +902,7 @@
       "name": "List",
       "category": "Data display",
       "description": "Styled basic / ordered / definition lists with severity variants.",
+      "status": "stable",
       "block": "pa-list",
       "blocks": [
         "pa-list",
@@ -898,6 +931,7 @@
       "name": "Document",
       "category": "Data display",
       "description": "Word-style hierarchical, auto-numbered sections (1, 1.1, 1.1.1 …): a heading plus body text, sections nested directly to build the outline. Numbers are generated by per-depth CSS counters; a --manual modifier switches to author-written numbers.",
+      "status": "stable",
       "block": "pa-document",
       "blocks": [
         "pa-document"
@@ -925,6 +959,8 @@
       "name": "Sheet (printable document)",
       "category": "Data display",
       "description": "Printable A4 \"paper\" shell for invoices, orders, quotes, receipts and payment reminders. A centred white page with a screen-only shadow and a built-in @media print layer (+ @page A4), plus invoice-shaped regions — masthead, parties, meta, totals, notes, footer/signatures, legal. Line items reuse pa-table; label/value metadata reuse pa-fields / pa-desc-table.",
+      "status": "experimental",
+      "statusNote": "Class names, modifiers and markup shape are still stabilising and may change in upcoming releases — pin an exact version if you build on it. Covers pa-sheet and the form primitives shown with it (pc-grid, pa-table--plain, print colour modes, rotation / vertical-text utilities).",
       "block": "pa-sheet",
       "blocks": [
         "pa-sheet"
@@ -956,6 +992,7 @@
       "name": "Code block",
       "category": "Data display",
       "description": "Inline + block code with syntax-token classes (keyword/string/number/function/property/comment).",
+      "status": "stable",
       "block": "pa-code",
       "blocks": [
         "pa-code",
@@ -984,6 +1021,7 @@
       "name": "Data display (field lists)",
       "category": "Data display",
       "description": "Label/value field lists, description tables, dot-leader rows, property cards, accent grids and banded containers.",
+      "status": "stable",
       "block": "pa-accent-grid",
       "blocks": [
         "pa-accent-grid",
@@ -1030,6 +1068,7 @@
       "name": "Statistics / stat cards",
       "category": "Data display",
       "description": "Stat blocks (value/label/change/context, severity variants, fit sizing) and the KPI grid layout.",
+      "status": "stable",
       "block": "pa-kpi-grid",
       "blocks": [
         "pa-kpi-grid",
@@ -1071,6 +1110,7 @@
       "name": "Data-viz primitives",
       "category": "Data visualization",
       "description": "Inline chart primitives: bar list, data bar, gauge, heatmap, progress (bar/group/ring), sparkline, stacked bar.",
+      "status": "stable",
       "block": "pa-bar-list",
       "blocks": [
         "pa-bar-list",
@@ -1109,6 +1149,7 @@
       "name": "KPI showcase — shared base",
       "category": "Data visualization",
       "description": "Shared KPI chrome (header/footer/detail/live/section head) used across the seven KPI showcase designs.",
+      "status": "stable",
       "block": "pa-kpi-detail",
       "blocks": [
         "pa-kpi-detail",
@@ -1134,6 +1175,7 @@
       "name": "KPI showcase — terminal",
       "category": "Data visualization",
       "description": "Terminal-style KPI grid with tiles.",
+      "status": "stable",
       "block": "pa-kpi-tile",
       "blocks": [
         "pa-kpi-tile"
@@ -1175,6 +1217,7 @@
       "name": "KPI showcase — sparkline list",
       "category": "Data visualization",
       "description": "KPI rows each with a sparkline, delta and value.",
+      "status": "stable",
       "block": "pa-kpi-spark-dot",
       "blocks": [
         "pa-kpi-spark-dot",
@@ -1211,6 +1254,7 @@
       "name": "KPI showcase — comparison gauges",
       "category": "Data visualization",
       "description": "KPI gauges laid out for comparison.",
+      "status": "stable",
       "block": "pa-kpi-gauge",
       "blocks": [
         "pa-kpi-gauge"
@@ -1250,6 +1294,7 @@
       "name": "KPI showcase — hero + supporting",
       "category": "Data visualization",
       "description": "One hero KPI with a supporting rail of secondary KPIs.",
+      "status": "stable",
       "block": "pa-kpi-hero-list",
       "blocks": [
         "pa-kpi-hero-list",
@@ -1295,6 +1340,7 @@
       "name": "KPI showcase — bento",
       "category": "Data visualization",
       "description": "Bento-grid arrangement of KPI tiles with a hero tile.",
+      "status": "stable",
       "block": "pa-kpi-bento",
       "blocks": [
         "pa-kpi-bento",
@@ -1331,6 +1377,7 @@
       "name": "KPI showcase — numeric strip",
       "category": "Data visualization",
       "description": "Dense horizontal strip of numeric KPIs with prev/target/delta.",
+      "status": "stable",
       "block": "pa-kpi-strip",
       "blocks": [],
       "elements": [
@@ -1372,6 +1419,7 @@
       "name": "KPI showcase — editorial minimal",
       "category": "Data visualization",
       "description": "Minimal editorial KPI grid, sizeable to N columns.",
+      "status": "stable",
       "block": "pa-kpi-edit",
       "blocks": [],
       "elements": [
@@ -1409,6 +1457,7 @@
       "name": "Alert",
       "category": "Feedback",
       "description": "Inline severity alert with optional multiline content.",
+      "status": "stable",
       "block": "pa-alert",
       "blocks": [
         "pa-alert"
@@ -1435,6 +1484,7 @@
       "name": "Callout",
       "category": "Feedback",
       "description": "Bordered callout box for asides / notes.",
+      "status": "stable",
       "block": "pa-callout",
       "blocks": [
         "pa-callout"
@@ -1458,6 +1508,7 @@
       "name": "Toast",
       "category": "Feedback",
       "description": "Transient toast notifications with severity + filled variants, progress bar, and logical-position container.",
+      "status": "stable",
       "block": "pa-toast",
       "blocks": [
         "pa-toast",
@@ -1510,6 +1561,7 @@
       "name": "Notifications",
       "category": "Feedback",
       "description": "Notification centre: bell badge, dropdown panel and full-page list of notification items.",
+      "status": "stable",
       "block": "pa-notifications",
       "blocks": [
         "pa-notifications"
@@ -1547,6 +1599,7 @@
       "name": "Tooltip",
       "category": "Feedback",
       "description": "CSS + floating tooltips with placement, severity and multiline variants.",
+      "status": "stable",
       "block": "pa-tooltip",
       "blocks": [
         "pa-tooltip",
@@ -1579,6 +1632,7 @@
       "name": "Popover",
       "category": "Feedback",
       "description": "Generic anchored popover surface.",
+      "status": "stable",
       "block": "pa-popover",
       "blocks": [
         "pa-popover"
@@ -1602,6 +1656,7 @@
       "name": "Loaders / spinners",
       "category": "Feedback",
       "description": "Loading indicators: ring, dots, bars, pulse, wave, centered + overlay wrappers, and a generic spinner.",
+      "status": "stable",
       "block": "pa-loader-bars",
       "blocks": [
         "pa-loader-bars",
@@ -1631,6 +1686,7 @@
       "name": "Timeline",
       "category": "Feedback",
       "description": "Vertical/columned activity timeline with dated items, severity dots, avatars and comments.",
+      "status": "stable",
       "block": "pa-timeline",
       "blocks": [
         "pa-timeline"
@@ -1676,6 +1732,7 @@
       "name": "Badge",
       "category": "Interactive & misc",
       "description": "Status/count badges and badge groups.",
+      "status": "stable",
       "block": "pa-badge",
       "blocks": [
         "pa-badge",
@@ -1702,6 +1759,7 @@
       "name": "Label",
       "category": "Interactive & misc",
       "description": "Text labels/tags with an outline variant.",
+      "status": "stable",
       "block": "pa-label",
       "blocks": [
         "pa-label"
@@ -1723,6 +1781,7 @@
       "name": "Composite badge",
       "category": "Interactive & misc",
       "description": "Two-part badge (icon segment + label segment), optionally a button.",
+      "status": "stable",
       "block": "pa-composite-badge",
       "blocks": [
         "pa-composite-badge"
@@ -1747,6 +1806,7 @@
       "name": "Command palette",
       "category": "Interactive & misc",
       "description": "Cmd-K command palette with search, results, footer, fullscreen mobile mode, autocomplete and a keyboard-shortcut help list.",
+      "status": "stable",
       "block": "pa-command-palette",
       "blocks": [
         "pa-command-palette",
@@ -1791,6 +1851,7 @@
       "name": "Search results",
       "category": "Interactive & misc",
       "description": "Search results list with compact/detailed/cards/grouped layouts.",
+      "status": "stable",
       "block": "pa-search-results",
       "blocks": [
         "pa-search-results"
@@ -1826,6 +1887,7 @@
       "name": "Logic tree",
       "category": "Interactive & misc",
       "description": "Nested boolean logic tree (AND/OR blocks, nodes, logical tokens).",
+      "status": "stable",
       "block": "pa-logic-tree",
       "blocks": [
         "pa-logic-tree"
@@ -1848,6 +1910,7 @@
       "name": "File selector",
       "category": "Interactive & misc",
       "description": "File dropzone + file list/items with icons, previews, popover and per-file progress.",
+      "status": "stable",
       "block": "pa-file-dropzone",
       "blocks": [
         "pa-file-dropzone",
@@ -1876,6 +1939,7 @@
       "name": "Icon",
       "category": "Interactive & misc",
       "description": "Mask-based icon element (pa-icon--x etc.).",
+      "status": "stable",
       "block": "pa-icon",
       "blocks": [
         "pa-icon"
@@ -1938,6 +2002,7 @@
       "name": "Utilities & state hooks",
       "category": "Utilities & state hooks",
       "description": "Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).",
+      "status": "stable",
       "block": "pa-bg-color",
       "blocks": [
         "pa-bg-color",

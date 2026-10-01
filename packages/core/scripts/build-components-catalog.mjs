@@ -234,6 +234,8 @@ const TAXONOMY = [
     blocks: ['pa-document'] },
   { key: 'sheet', name: 'Sheet (printable document)', category: 'Data display',
     desc: 'Printable A4 "paper" shell for invoices, orders, quotes, receipts and payment reminders. A centred white page with a screen-only shadow and a built-in @media print layer (+ @page A4), plus invoice-shaped regions — masthead, parties, meta, totals, notes, footer/signatures, legal. Line items reuse pa-table; label/value metadata reuse pa-fields / pa-desc-table.',
+    status: 'experimental',
+    statusNote: 'Class names, modifiers and markup shape are still stabilising and may change in upcoming releases — pin an exact version if you build on it. Covers pa-sheet and the form primitives shown with it (pc-grid, pa-table--plain, print colour modes, rotation / vertical-text utilities).',
     blocks: ['pa-sheet'] },
   { key: 'code', name: 'Code block', category: 'Data display',
     desc: 'Inline + block code with syntax-token classes (keyword/string/number/function/property/comment).',
@@ -434,6 +436,11 @@ for (const c of TAXONOMY) {
     name: c.name,
     category: c.category,
     description: c.desc,
+    // 'stable' (default) | 'experimental' — experimental components have an
+    // unstable class/markup contract and are NOT yet ready for wrapper-fidelity
+    // work or production use; see statusNote. Authored in the TAXONOMY above.
+    status: c.status || 'stable',
+    ...(c.statusNote ? { statusNote: c.statusNote } : {}),
     block: blocks[0] || c.blocks[0],
     blocks,
     elements,
@@ -452,8 +459,12 @@ const manifest = {
     components: TAXONOMY.length,
     blocks: allBlocks.length,
     selectors: allSelectors.length,
+    experimental: TAXONOMY.filter((c) => c.status === 'experimental').length,
   },
   categories: [...new Set(TAXONOMY.map((c) => c.category))],
+  // Keys of components whose contract is not yet stable — downstream tooling
+  // (wrapper-fidelity harness, snippet sweeps) can skip or warn on these.
+  experimental: TAXONOMY.filter((c) => c.status === 'experimental').map((c) => c.key),
   components,
 };
 
@@ -473,11 +484,17 @@ md.push('This catalog is the checklist for validating generated markup in the ' 
 
 // coverage summary table
 md.push('## Coverage summary\n');
-md.push('| Component | Block | Category | Snippet | Demo |');
-md.push('|---|---|---|:--:|:--:|');
+if (manifest.totals.experimental) {
+  md.push(`> ⚠ **${manifest.totals.experimental} experimental component(s)** — ` +
+    'contract not yet stable, marked ⚠ below. Not ready for wrapper-fidelity work or ' +
+    'production use; pin an exact version if you build on them.\n');
+}
+md.push('| Component | Block | Category | Status | Snippet | Demo |');
+md.push('|---|---|---|:--:|:--:|:--:|');
 for (const c of TAXONOMY) {
   const e = components[c.key];
-  md.push(`| ${e.name} | \`${e.block}\` | ${e.category} | ${e.hasSnippet ? '✓' : '✗'} | ${e.demos.length ? '✓' : '✗'} |`);
+  const status = e.status === 'experimental' ? '⚠ exp' : '✓';
+  md.push(`| ${e.name} | \`${e.block}\` | ${e.category} | ${status} | ${e.hasSnippet ? '✓' : '✗'} | ${e.demos.length ? '✓' : '✗'} |`);
 }
 md.push('');
 
@@ -488,6 +505,9 @@ for (const cat of cats) {
   for (const c of TAXONOMY.filter((x) => x.category === cat)) {
     const e = components[c.key];
     md.push(`### ${e.name} — \`${e.block}\`\n`);
+    if (e.status === 'experimental') {
+      md.push(`> ⚠ **Experimental.** ${e.statusNote || 'Contract not yet stable; may change in upcoming releases.'}\n`);
+    }
     md.push(e.description + '\n');
     const rows = [];
     rows.push(`- **Blocks:** ${e.blocks.map((x) => `\`${x}\``).join(', ') || '—'}`);

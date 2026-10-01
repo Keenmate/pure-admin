@@ -10,68 +10,70 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 
 ## Coverage summary
 
-| Component | Block | Category | Snippet | Demo |
-|---|---|---|:--:|:--:|
-| Scroll lock | `pa-scroll-lock` | Layout & shell | ✗ | ✗ |
-| Card | `pa-card` | Surfaces | ✓ | ✓ |
-| Section | `pa-section` | Surfaces | ✓ | ✗ |
-| Splitter | `pa-splitter` | Surfaces | ✓ | ✓ |
-| Modal | `pa-modal` | Surfaces | ✓ | ✓ |
-| Tabs | `pa-tabs` | Surfaces | ✓ | ✓ |
-| Detail panel | `pa-detail-panel-resize` | Surfaces | ✓ | ✓ |
-| Profile panel | `pa-profile-panel` | Surfaces | ✓ | ✗ |
-| Settings panel | `pa-settings-panel` | Surfaces | ✗ | ✗ |
-| Table card | `pa-table-card` | Surfaces | ✓ | ✗ |
-| Form layout | `pa-form` | Forms | ✓ | ✓ |
-| Text input | `pa-input` | Forms | ✓ | ✓ |
-| Textarea | `pa-textarea` | Forms | ✓ | ✗ |
-| Select | `pa-select` | Forms | ✓ | ✗ |
-| Input group | `pa-input-group` | Forms | ✓ | ✗ |
-| Input wrapper / token field | `pa-input-wrapper` | Forms | ✓ | ✓ |
-| Checkbox | `pa-checkbox` | Forms | ✓ | ✓ |
-| Radio | `pa-radio` | Forms | ✓ | ✗ |
-| Checkbox list | `pa-checkbox-list` | Forms | ✓ | ✓ |
-| Range slider | `pa-range` | Forms | ✓ | ✓ |
-| Range group | `pa-range-group` | Forms | ✓ | ✓ |
-| Inline query editor | `pa-inline-query-autocomplete` | Forms | ✓ | ✓ |
-| Filter card | `pa-filter-card` | Forms | ✓ | ✗ |
-| Button | `pa-btn` | Buttons & actions | ✓ | ✓ |
-| Pager | `pa-load-more` | Buttons & actions | ✓ | ✓ |
-| Popconfirm | `pa-popconfirm` | Buttons & actions | ✓ | ✓ |
-| Table | `pa-table` | Data display | ✓ | ✓ |
-| Comparison table | `pa-comparison-table` | Data display | ✓ | ✓ |
-| List | `pa-list` | Data display | ✓ | ✓ |
-| Document | `pa-document` | Data display | ✓ | ✓ |
-| Sheet (printable document) | `pa-sheet` | Data display | ✓ | ✓ |
-| Code block | `pa-code` | Data display | ✓ | ✓ |
-| Data display (field lists) | `pa-accent-grid` | Data display | ✓ | ✓ |
-| Statistics / stat cards | `pa-kpi-grid` | Data display | ✓ | ✓ |
-| Data-viz primitives | `pa-bar-list` | Data visualization | ✗ | ✓ |
-| KPI showcase — shared base | `pa-kpi-detail` | Data visualization | ✓ | ✓ |
-| KPI showcase — terminal | `pa-kpi-tile` | Data visualization | ✓ | ✓ |
-| KPI showcase — sparkline list | `pa-kpi-spark-dot` | Data visualization | ✓ | ✓ |
-| KPI showcase — comparison gauges | `pa-kpi-gauge` | Data visualization | ✓ | ✓ |
-| KPI showcase — hero + supporting | `pa-kpi-hero-list` | Data visualization | ✓ | ✓ |
-| KPI showcase — bento | `pa-kpi-bento` | Data visualization | ✓ | ✓ |
-| KPI showcase — numeric strip | `pa-kpi-strip` | Data visualization | ✓ | ✓ |
-| KPI showcase — editorial minimal | `pa-kpi-edit` | Data visualization | ✓ | ✓ |
-| Alert | `pa-alert` | Feedback | ✓ | ✓ |
-| Callout | `pa-callout` | Feedback | ✓ | ✓ |
-| Toast | `pa-toast` | Feedback | ✓ | ✓ |
-| Notifications | `pa-notifications` | Feedback | ✓ | ✓ |
-| Tooltip | `pa-tooltip` | Feedback | ✓ | ✓ |
-| Popover | `pa-popover` | Feedback | ✓ | ✗ |
-| Loaders / spinners | `pa-loader-bars` | Feedback | ✓ | ✓ |
-| Timeline | `pa-timeline` | Feedback | ✓ | ✓ |
-| Badge | `pa-badge` | Interactive & misc | ✓ | ✓ |
-| Label | `pa-label` | Interactive & misc | ✓ | ✗ |
-| Composite badge | `pa-composite-badge` | Interactive & misc | ✓ | ✗ |
-| Command palette | `pa-command-palette` | Interactive & misc | ✓ | ✓ |
-| Search results | `pa-search-results` | Interactive & misc | ✓ | ✓ |
-| Logic tree | `pa-logic-tree` | Interactive & misc | ✗ | ✗ |
-| File selector | `pa-file-dropzone` | Interactive & misc | ✗ | ✓ |
-| Icon | `pa-icon` | Interactive & misc | ✓ | ✓ |
-| Utilities & state hooks | `pa-bg-color` | Utilities & state hooks | ✓ | ✗ |
+> ⚠ **1 experimental component(s)** — contract not yet stable, marked ⚠ below. Not ready for wrapper-fidelity work or production use; pin an exact version if you build on them.
+
+| Component | Block | Category | Status | Snippet | Demo |
+|---|---|---|:--:|:--:|:--:|
+| Scroll lock | `pa-scroll-lock` | Layout & shell | ✓ | ✗ | ✗ |
+| Card | `pa-card` | Surfaces | ✓ | ✓ | ✓ |
+| Section | `pa-section` | Surfaces | ✓ | ✓ | ✗ |
+| Splitter | `pa-splitter` | Surfaces | ✓ | ✓ | ✓ |
+| Modal | `pa-modal` | Surfaces | ✓ | ✓ | ✓ |
+| Tabs | `pa-tabs` | Surfaces | ✓ | ✓ | ✓ |
+| Detail panel | `pa-detail-panel-resize` | Surfaces | ✓ | ✓ | ✓ |
+| Profile panel | `pa-profile-panel` | Surfaces | ✓ | ✓ | ✗ |
+| Settings panel | `pa-settings-panel` | Surfaces | ✓ | ✗ | ✗ |
+| Table card | `pa-table-card` | Surfaces | ✓ | ✓ | ✗ |
+| Form layout | `pa-form` | Forms | ✓ | ✓ | ✓ |
+| Text input | `pa-input` | Forms | ✓ | ✓ | ✓ |
+| Textarea | `pa-textarea` | Forms | ✓ | ✓ | ✗ |
+| Select | `pa-select` | Forms | ✓ | ✓ | ✗ |
+| Input group | `pa-input-group` | Forms | ✓ | ✓ | ✗ |
+| Input wrapper / token field | `pa-input-wrapper` | Forms | ✓ | ✓ | ✓ |
+| Checkbox | `pa-checkbox` | Forms | ✓ | ✓ | ✓ |
+| Radio | `pa-radio` | Forms | ✓ | ✓ | ✗ |
+| Checkbox list | `pa-checkbox-list` | Forms | ✓ | ✓ | ✓ |
+| Range slider | `pa-range` | Forms | ✓ | ✓ | ✓ |
+| Range group | `pa-range-group` | Forms | ✓ | ✓ | ✓ |
+| Inline query editor | `pa-inline-query-autocomplete` | Forms | ✓ | ✓ | ✓ |
+| Filter card | `pa-filter-card` | Forms | ✓ | ✓ | ✗ |
+| Button | `pa-btn` | Buttons & actions | ✓ | ✓ | ✓ |
+| Pager | `pa-load-more` | Buttons & actions | ✓ | ✓ | ✓ |
+| Popconfirm | `pa-popconfirm` | Buttons & actions | ✓ | ✓ | ✓ |
+| Table | `pa-table` | Data display | ✓ | ✓ | ✓ |
+| Comparison table | `pa-comparison-table` | Data display | ✓ | ✓ | ✓ |
+| List | `pa-list` | Data display | ✓ | ✓ | ✓ |
+| Document | `pa-document` | Data display | ✓ | ✓ | ✓ |
+| Sheet (printable document) | `pa-sheet` | Data display | ⚠ exp | ✓ | ✓ |
+| Code block | `pa-code` | Data display | ✓ | ✓ | ✓ |
+| Data display (field lists) | `pa-accent-grid` | Data display | ✓ | ✓ | ✓ |
+| Statistics / stat cards | `pa-kpi-grid` | Data display | ✓ | ✓ | ✓ |
+| Data-viz primitives | `pa-bar-list` | Data visualization | ✓ | ✗ | ✓ |
+| KPI showcase — shared base | `pa-kpi-detail` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — terminal | `pa-kpi-tile` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — sparkline list | `pa-kpi-spark-dot` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — comparison gauges | `pa-kpi-gauge` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — hero + supporting | `pa-kpi-hero-list` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — bento | `pa-kpi-bento` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — numeric strip | `pa-kpi-strip` | Data visualization | ✓ | ✓ | ✓ |
+| KPI showcase — editorial minimal | `pa-kpi-edit` | Data visualization | ✓ | ✓ | ✓ |
+| Alert | `pa-alert` | Feedback | ✓ | ✓ | ✓ |
+| Callout | `pa-callout` | Feedback | ✓ | ✓ | ✓ |
+| Toast | `pa-toast` | Feedback | ✓ | ✓ | ✓ |
+| Notifications | `pa-notifications` | Feedback | ✓ | ✓ | ✓ |
+| Tooltip | `pa-tooltip` | Feedback | ✓ | ✓ | ✓ |
+| Popover | `pa-popover` | Feedback | ✓ | ✓ | ✗ |
+| Loaders / spinners | `pa-loader-bars` | Feedback | ✓ | ✓ | ✓ |
+| Timeline | `pa-timeline` | Feedback | ✓ | ✓ | ✓ |
+| Badge | `pa-badge` | Interactive & misc | ✓ | ✓ | ✓ |
+| Label | `pa-label` | Interactive & misc | ✓ | ✓ | ✗ |
+| Composite badge | `pa-composite-badge` | Interactive & misc | ✓ | ✓ | ✗ |
+| Command palette | `pa-command-palette` | Interactive & misc | ✓ | ✓ | ✓ |
+| Search results | `pa-search-results` | Interactive & misc | ✓ | ✓ | ✓ |
+| Logic tree | `pa-logic-tree` | Interactive & misc | ✓ | ✗ | ✗ |
+| File selector | `pa-file-dropzone` | Interactive & misc | ✓ | ✗ | ✓ |
+| Icon | `pa-icon` | Interactive & misc | ✓ | ✓ | ✓ |
+| Utilities & state hooks | `pa-bg-color` | Utilities & state hooks | ✓ | ✓ | ✗ |
 
 ## Layout & shell
 
@@ -393,6 +395,8 @@ Word-style hierarchical, auto-numbered sections (1, 1.1, 1.1.1 …): a heading p
 - **Demo:** `document.mustache`
 
 ### Sheet (printable document) — `pa-sheet`
+
+> ⚠ **Experimental.** Class names, modifiers and markup shape are still stabilising and may change in upcoming releases — pin an exact version if you build on it. Covers pa-sheet and the form primitives shown with it (pc-grid, pa-table--plain, print colour modes, rotation / vertical-text utilities).
 
 Printable A4 "paper" shell for invoices, orders, quotes, receipts and payment reminders. A centred white page with a screen-only shadow and a built-in @media print layer (+ @page A4), plus invoice-shaped regions — masthead, parties, meta, totals, notes, footer/signatures, legal. Line items reuse pa-table; label/value metadata reuse pa-fields / pa-desc-table.
 
