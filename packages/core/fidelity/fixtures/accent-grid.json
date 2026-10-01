@@ -1,0 +1,50 @@
+{
+  "//": "Markup-fidelity fixture for the ACCENT-GRID CONTAINER — the `.pa-accent-grid` block (keen `PureAdmin.Components.DataDisplay.accent_grid/1`, svelte `display/AccentGrid.svelte`). SCOPE = CONTAINER ONLY. The harness renders one component whose default slot receives plain TEXT (both dumpers HTML-escape slot content), so item markup can't flow through the slot; the body area is a bare text token. Per-ITEM structure (pa-accent-grid__item / __label / __value / __copy + the four item variant modifiers + the copy state modifiers) lives in a SEPARATE sub-component (svelte AccentGridItem.svelte, keen accent_grid_item/1) fed via the default slot — no dumper wiring exists for that fragment, so it is DEFERRED as acknowledged PROSE (a fixture-ref would DEFER?-fail: there is no accent-grid-item fragment fixture/dumper clause). This fixture proves ONLY what the container itself emits: its <div>, its pa-accent-grid class, and the class passthrough. The `.pa-accent-grid` BLOCK has ZERO block-level modifiers (grep '\\.pa-accent-grid--' on main.css is empty — every --success/--warning/--danger/--info and every --copy-* modifier is an ELEMENT modifier on __item), so the container contract is minimal: the base class, a body slot, and a class passthrough. See prop-card.json / banded.json for the same container-only model.",
+  "component": "accent-grid",
+  "block": "pa-accent-grid",
+  "propsVocabulary": {
+    "body": "the grid's item area — filled with plain slot text in this container-only slice (real pa-accent-grid__item children are the deferred sub-component). keen's inner_block is required:true so every scenario supplies it",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the accent-grid container adds no attribute conventions (unlike button's type) and no block-level modifiers. The accent-grid is a plain <div>; the body slot is a plain text token (Body) so the diff checks the container's tag + class + that the body lands inside, not rich item content. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. The .pa-accent-grid BLOCK has ZERO block-level modifiers (no pa-accent-grid--* exists — grep '\\.pa-accent-grid--' on main.css is empty; the --success/--warning/--danger/--info variants and the --copy-* / --copied states are ELEMENT modifiers on __item, part of the deferred item sub-component). So the container contract is minimal: the base class, a body slot, and a class passthrough. capability.mjs axis-1 block-modifier reverse-check is therefore vacuous for this block; the per-item __element + __item-modifier classes are deferred as prose.",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; item structure is the deferred sub-component" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ITEM element + state classes of the pa-accent-grid block — NOT container markup. They are emitted by the SEPARATE accent_grid_item sub-component (svelte AccentGridItem.svelte, keen accent_grid_item/1) fed through the default slot, which the generic dumper passes as plain escaped TEXT, so they cannot materialize here and there is NO accent-grid-item fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. __copy + __item--copy-* are the shared copy-to-clipboard affordance: copy-btn/-hover/-click are prop-driven item modifiers on the sub-component; --copied is TOGGLED at runtime by the copy JS and never SSR-authored.",
+    "pa-accent-grid__item":             "accent_grid_item sub-component (svelte AccentGridItem.svelte / keen accent_grid_item/1) — not container markup; slot-fed, no fragment fixture/dumper wiring",
+    "pa-accent-grid__label":            "accent_grid_item sub-component — the uppercase label cell",
+    "pa-accent-grid__value":            "accent_grid_item sub-component — the value cell",
+    "pa-accent-grid__copy":             "accent_grid_item sub-component — copy-to-clipboard button (shared copy affordance)",
+    "pa-accent-grid__item--success":    "item semantic accent variant (keen variant='success') — flips the inline-start border to --pc-success; item sub-component modifier, out of container scope",
+    "pa-accent-grid__item--warning":    "item semantic accent variant (keen variant='warning') — out of container scope",
+    "pa-accent-grid__item--danger":     "item semantic accent variant (keen variant='danger') — out of container scope",
+    "pa-accent-grid__item--info":       "item semantic accent variant (keen variant='info') — out of container scope",
+    "pa-accent-grid__item--copy-btn":   "item copyMode='btn' — copy button always visible; item-level prop modifier",
+    "pa-accent-grid__item--copy-hover": "item copyMode='hover' — copy button revealed on item hover",
+    "pa-accent-grid__item--copy-click": "item copyMode='click' — value itself clickable to copy",
+    "pa-accent-grid__item--copied":     "runtime-toggled by copy JS for the 'Copied!' feedback — never SSR-authored"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-accent-grid\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-accent-grid\">. Item structure is the deferred sub-component."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-accent-grid mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-accent-grid; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-accent-grid\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

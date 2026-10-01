@@ -1,0 +1,62 @@
+{
+  "//": "Markup-fidelity fixture for popover. CAPABILITY-ONLY (zero scenarios → no render comparison), by the command-palette / split-button precedent: the pre-JS SSR shells of the two wrappers are NOT reconcilable into a single golden, so axis-1 (features↔CSS) + axis-2 (features↔maps) completeness is enforced while the render diff is intentionally skipped. See irreconcilableReason. Feature contract authored from dist/css/main.css (pa-popover block) + snippets/tooltips.html.",
+  "component": "popover",
+  "block": "pa-popover",
+  "irreconcilableReason": "The two wrappers render fundamentally different pre-JS SSR shells: (1) keen's popover/1 renders the FULL overlay inline — <div class=\"pa-popover [--size] [--alignment]\" data-placement=X> → <button class=\"pa-popover__trigger\"> + <div class=\"pa-popover__content\"> → __header (h4 + __close) → __body — because LiveView emits the content server-side and CSS/JS toggles visibility; (2) svelte's Popover renders a TRIGGER-ONLY shell — <div class=\"pa-popover [--size]\" data-placement=X><button class=\"pa-popover__trigger\">…</button></div> — and portals the header/body/close to a global <PopoverContainer> on open (so none of __content/__header/__body/__close exist in its SSR), AND it applies --alignment only in the portal (not on the root element). So keen's SSR has the whole content subtree and both modifiers on the root; svelte's has neither the content nor --alignment on the root. Neither can be made to match the other without breaking its runtime model. The open state + the portaled content are JS-runtime regardless (cssStateElements). The TRIGGER shells DO align on the parts both emit (pa-popover root + data-placement + pa-popover__trigger), but a capability-only fixture is the honest call since a shared render golden can't capture the content divergence.",
+  "propsVocabulary": {
+    "placement": "top|end|bottom|start — data-placement positioning hint (top default)",
+    "size": "sm|lg — popover width (default = medium, no class)",
+    "alignment": "center|end — text-align of the body (RTL-aware; default = start, no class)",
+    "triggerText": "default trigger button text (? by default)",
+    "title": "header title text (rendered in the __header h4)",
+    "content": "popover body content (slot / inner_block)"
+  },
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `produces` with {value}; capability.mjs expands + cross-checks against main.css AND each wrapper's map. `produces: null` = structural/native (data-placement attr, trigger/title/content).",
+    "placement": {
+      "kind": "enum",
+      "options": ["top", "end", "bottom", "start"],
+      "produces": null,
+      "note": "structural — rendered into the data-placement attribute, no class"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["sm", "lg"],
+      "produces": "pa-popover--{value}",
+      "note": "medium is the default and emits no class — excluded from options"
+    },
+    "alignment": {
+      "kind": "enum",
+      "options": ["center", "end"],
+      "produces": "pa-popover--{value}",
+      "note": "start is the default and emits no class — excluded from options"
+    },
+    "triggerText": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — trigger button text"
+    },
+    "title": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — header title text"
+    },
+    "content": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — popover body content"
+    }
+  },
+  "cssStateClasses": {
+    "//": "No JS-applied pa-popover--* modifier beyond the feature-driven size/alignment; this bucket is empty. Kept for the axis-1 reverse-check contract shape."
+  },
+  "cssStateElements": {
+    "//": "pa-popover__* elements. __trigger is in BOTH SSR shells (aligned). __content/__header/__body/__close are inline in keen's SSR but PORTALED to a global container by svelte on open — so they are not a shared SSR surface; listed here as runtime/overlay elements rather than a strict-compare surface.",
+    "pa-popover__trigger": "the click target button — present in both SSR shells (aligned)",
+    "pa-popover__content": "the overlay content box — inline in keen's SSR, portaled by svelte (JS-runtime)",
+    "pa-popover__header": "content header row (title + close) — same",
+    "pa-popover__body": "content body — same",
+    "pa-popover__close": "the X close button in the header — same"
+  },
+  "scenarios": []
+}

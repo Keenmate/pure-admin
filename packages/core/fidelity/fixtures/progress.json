@@ -1,0 +1,123 @@
+{
+  "//": "Markup-fidelity fixture for the progress BAR component (pa-progress). See ../README.md and button.json/card.json for the model. Scope is the bare bar block: <div class=\"pa-progress ...\" role=\"progressbar\" aria-valuenow aria-valuemin aria-valuemax><div class=\"pa-progress__fill\" style=\"--value: N%\"></div></div>. The pa-progress-group / pa-progress__label wrapper (composed label+bar) and pa-progress-ring are SEPARATE blocks, out of this slice — svelte folds the group into the same <Progress> via labelText/valueText, keen splits it into a distinct progress_group/1 not wired into the dumper, so a shared bar-scoped golden can't cover it.",
+  "component": "progress",
+  "block": "pa-progress",
+  "propsVocabulary": {
+    "value": "progress percentage 0-100 — sets inline style --value: N% on the fill, plus aria-valuenow on the bar",
+    "variant": "colour variant (success|warning|danger|info) — primary is the BASE fill (var(--pc-accent)), emits NO modifier class",
+    "size": "xs|sm|lg bar height",
+    "rounded": "boolean — pill shape (pa-progress--rounded)",
+    "striped": "boolean — diagonal stripe fill (pa-progress--striped)",
+    "animated": "boolean — moving stripes (pa-progress--animated)",
+    "extraClass": "extra classes appended verbatim"
+  },
+  "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache) PLUS the accessibility convention both wrappers carry on the SSR bar: role=\"progressbar\" + aria-valuenow=\"{value}\" + aria-valuemin=\"0\" + aria-valuemax=\"100\". The fill's percentage is a data-driven inline style (style=\"--value: {value}%\") — treated as a scenario-provided value so both wrappers receive the same input; the width is static SSR markup, not the JS-animated fill (out of scope). primary is the DEFAULT variant and emits NO pa-progress--primary class (the base fill IS the accent colour; no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-progress(--|__)'). `produces: null` = structural/native (no pa-progress modifier). variant excludes 'primary' — the base fill is the accent, there is no pa-progress--primary in the CSS.",
+    "variant": {
+      "kind": "enum",
+      "options": ["success", "warning", "danger", "info"],
+      "produces": "pa-progress--{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg"],
+      "produces": "pa-progress--{value}"
+    },
+    "rounded": {
+      "kind": "bool",
+      "produces": "pa-progress--rounded"
+    },
+    "striped": {
+      "kind": "bool",
+      "produces": "pa-progress--striped"
+    },
+    "animated": {
+      "kind": "bool",
+      "produces": "pa-progress--animated"
+    },
+    "value": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — inline style --value: N% on the fill + aria-valuenow on the bar; no class"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "deferred": {
+    "//": "pa-progress__* element classes in main.css that belong to the COMPOSED label+bar shape (pa-progress-group / pa-progress__label row above the bar, _data-viz.scss), not the bare bar this slice scopes. Deferred to a future group slice — acknowledged out-of-scope (prose, not a fixture ref). A shared golden can't cover them today: svelte folds the label into <Progress> via labelText/valueText, keen splits it into a distinct progress_group/1 not wired into the dumper, so the two wrappers emit genuinely different label markup.",
+    "pa-progress__label": "Label row above the bar (display:flex, justify-content:space-between) in the composed pa-progress-group shape — out of this bare-bar slice.",
+    "pa-progress__label-value": "Right-hand value span inside pa-progress__label (the percentage/caption) — same composed-shape deferral."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "value": 40 },
+      "golden": "<div class=\"pa-progress\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 40%\"></div></div>"
+    },
+    {
+      "name": "variant-success",
+      "props": { "value": 89, "variant": "success" },
+      "golden": "<div class=\"pa-progress pa-progress--success\" role=\"progressbar\" aria-valuenow=\"89\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 89%\"></div></div>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "value": 45, "variant": "warning" },
+      "golden": "<div class=\"pa-progress pa-progress--warning\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 45%\"></div></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "value": 30, "variant": "danger" },
+      "golden": "<div class=\"pa-progress pa-progress--danger\" role=\"progressbar\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 30%\"></div></div>"
+    },
+    {
+      "name": "variant-info",
+      "props": { "value": 82, "variant": "info" },
+      "golden": "<div class=\"pa-progress pa-progress--info\" role=\"progressbar\" aria-valuenow=\"82\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 82%\"></div></div>"
+    },
+    {
+      "name": "primary-default-no-class",
+      "props": { "value": 70, "variant": "primary" },
+      "golden": "<div class=\"pa-progress\" role=\"progressbar\" aria-valuenow=\"70\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 70%\"></div></div>",
+      "note": "Guard: primary is the base fill; there is NO pa-progress--primary in main.css. Must NOT emit a phantom modifier."
+    },
+    {
+      "name": "size-xs",
+      "props": { "value": 60, "size": "xs" },
+      "golden": "<div class=\"pa-progress pa-progress--xs\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "value": 60, "size": "sm" },
+      "golden": "<div class=\"pa-progress pa-progress--sm\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "value": 60, "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "rounded",
+      "props": { "value": 75, "rounded": true, "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--rounded\" role=\"progressbar\" aria-valuenow=\"75\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 75%\"></div></div>"
+    },
+    {
+      "name": "striped",
+      "props": { "value": 72, "striped": true, "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped\" role=\"progressbar\" aria-valuenow=\"72\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 72%\"></div></div>"
+    },
+    {
+      "name": "striped-animated",
+      "props": { "value": 58, "striped": true, "animated": true, "variant": "success", "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--success\" role=\"progressbar\" aria-valuenow=\"58\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 58%\"></div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "value": 50, "rounded": true, "size": "lg", "striped": true, "animated": true, "variant": "info", "extraClass": "mt-sm" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--info pa-progress--rounded mt-sm\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 50%\"></div></div>"
+    }
+  ]
+}

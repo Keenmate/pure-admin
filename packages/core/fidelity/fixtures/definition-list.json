@@ -1,0 +1,49 @@
+{
+  "//": "Markup-fidelity fixture for the DEFINITION-LIST CONTAINER — the `.pa-list-definition` block, applied to a <dl> (keen `PureAdmin.Components.List.definition_list/1`, svelte `display/DefinitionList.svelte`). SCOPE = CONTAINER ONLY. The harness renders one component whose slot receives plain TEXT (the dumper HTML-escapes it), so the dt/dd term/description pairs can't flow through the slot; the body area is a bare text token. The dt/dd pairs are NATIVE HTML elements the consumer writes by hand inside the slot (snippets/lists.html L134-155) — pure-admin styles them via element selectors (`.pa-list-definition dt` / ` dd`), NOT via any __element classes, so there are literally no pa-list-definition__* classes to cover (grep '\\.pa-list-definition__' on main.css is empty). This fixture proves ONLY what the container itself emits: its <dl> tag, its pa-list-definition class, the single --inline modifier, and the class passthrough.",
+  "component": "definition-list",
+  "block": "pa-list-definition",
+  "propsVocabulary": {
+    "inline": "boolean — inline (horizontal) key-value layout (pa-list-definition--inline): dt/dd on one line, dt gets a ': ' suffix via ::after, each dd ends in a block-level line break so pairs stack. svelte: isInline (bool); keen: is_inline (bool)",
+    "body": "the dt/dd pair area — filled with plain slot text in this container-only slice (real <dt>/<dd> children are native elements written inside the slot by the consumer, not a sub-component)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the definition-list container adds no attribute conventions (unlike button's type). The body slot is a plain text token (Body) so the diff checks the container's tag (<dl>) + class + the single --inline modifier, not rich dt/dd content. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. axis-1 reverse-check is scoped to the pa-list-definition--* BLOCK modifiers; the ONLY one that exists is --inline (produced by the feature below). There are NO pa-list-definition__* element classes — the dt/dd pairs are styled via native element selectors (`.pa-list-definition dt` / ` dd`), authored by hand inside the slot, so nothing is deferred here (unlike list/banded, which have real __element sub-components). body + extraClass are structural/passthrough.",
+    "inline":     { "kind": "bool",   "produces": "pa-list-definition--inline", "note": "svelte isInline (bool); keen is_inline (bool)" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; dt/dd pairs are native elements written inside the slot by the consumer" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<dl class=\"pa-list-definition\">Body</dl>",
+      "note": "The blessed default container: a <dl class=\"pa-list-definition\">. dt/dd pairs are native children written inside the slot (snippets/lists.html L134-143)."
+    },
+    {
+      "name": "inline",
+      "props": { "body": "Body", "inline": true },
+      "golden": "<dl class=\"pa-list-definition pa-list-definition--inline\">Body</dl>",
+      "note": "Inline (horizontal) key-value layout (snippets/lists.html L146)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<dl class=\"pa-list-definition mb-4\">Body</dl>",
+      "note": "Class passthrough — the extra class is appended after pa-list-definition; token order is normalized away."
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Body", "inline": true, "extraClass": "mb-4" },
+      "golden": "<dl class=\"pa-list-definition pa-list-definition--inline mb-4\">Body</dl>",
+      "note": "Modifier + class passthrough together. Class-token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<dl class=\"pa-list-definition\"></dl>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

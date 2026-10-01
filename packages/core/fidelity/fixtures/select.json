@@ -1,0 +1,170 @@
+{
+  "//": "Markup-fidelity fixture for the SELECT component — the dropdown form field `.pa-select` (keen `PureAdmin.Components.Form.select/1`, svelte `forms/Select.svelte`). SCOPE = the `<select class=\"pa-select ...\">` CONTAINER + its class/native-attr contract. Like pa-input, pa-select owns the full validation set: size (xs/sm/lg/xl), state (success/warning/error), themeColor (color-1..9) — all confirmed in dist/css/main.css. OPTIONS ARE OUT OF SCOPE: the two wrappers build option children through DIFFERENT, non-slot APIs — keen from an `options` list (default []) + an optional `prompt` via `Phoenix.HTML.Form.options_for_select`, svelte from a `children` snippet of raw <option> markup. There is no shared neutral representation for option rows, so every scenario renders the EMPTY select (no options, no prompt) and the fixture proves only the <select> tag + its pa-select class (+ size/state/color modifiers) + native attrs. disabled/required/multiple are NATIVE attrs, not classes (no pa-select--disabled). `value` selects an option and is meaningless with zero options, so it is not modeled. svelte additionally has `multiple` (a static-attribute branch) — exercised as a native boolean here. keen select/1 appends a conditional `<.form_help variant=\"error\">` only when :field errors are present; no scenario feeds a field, so both wrappers emit a bare <select>. Sibling pa-input/pa-textarea + the field-wrapper chrome are separate components, prose-deferred. See input.json for the bare-control model.",
+  "component": "select",
+  "block": "pa-select",
+  "propsVocabulary": {
+    "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md select). Shared scale with pa-input/pa-textarea; emits pa-select--{size}.",
+    "state": "success|warning|error — validation border (pa-select--{state}). Core defines all three for pa-select (same set as pa-input).",
+    "themeColor": "1..9 theme colour slot — pa-select--color-N (paints the border with --pc-color-N). Orthogonal to state/size.",
+    "name": "native name attribute",
+    "id": "native id attribute (hand-set — the normalizer keeps real ids)",
+    "disabled": "native boolean attribute (there is NO pa-select--disabled class)",
+    "required": "native boolean attribute",
+    "multiple": "native boolean attribute — renders a multi-select list (svelte branches on it; keen passes it via @rest)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Goldens encode the EMPTY `<select class=\"pa-select ...\"></select>` — no option children (options are the out-of-scope, API-divergent sub-slice; see top note). A state modifier is present when a state is set, a size modifier when a size is set, pa-select--color-N when themeColor is set. Native boolean attrs (disabled/required/multiple) are canonicalized to bare presence by the normalizer. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (the `.pa-select--*` set is exactly: xs/sm/lg/xl, success/warning/error, color-1..9 — no pa-select__* elements exist). `produces: null` = a native HTML attr (name/id) or native boolean attr (disabled/required/multiple), NOT a pa-select modifier.",
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-select--{value}"
+    },
+    "state": {
+      "kind": "enum",
+      "options": ["success", "warning", "error"],
+      "produces": "pa-select--{value}"
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-select--color-{value}"
+    },
+    "name": { "kind": "string", "produces": null, "note": "native name attribute" },
+    "id": { "kind": "string", "produces": null, "note": "native id attribute (hand-set)" },
+    "disabled": { "kind": "bool", "produces": null, "note": "native boolean attribute — there is NO pa-select--disabled class" },
+    "required": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "multiple": { "kind": "bool", "produces": null, "note": "native boolean attribute — multi-select list" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "No `pa-select__*` element classes exist in main.css. The <option> rows are a sub-slice intentionally left out (the two wrappers build them via different non-slot APIs — keen `options` list + `prompt`, svelte `children` snippet of raw <option>s — so there is no shared neutral representation). They carry no pa-select class and don't affect the axis-1 element sweep; recorded for reviewer orientation.",
+    "note-options": "Option children — keen: `options` list ({value,label} tuples/strings) + optional `prompt` via options_for_select; svelte: `children` snippet of raw <option> markup. API-divergent, no shared golden; the empty select is modeled instead.",
+    "note-form-group": "pa-form-group / --success|warning|error|horizontal|required — the field WRAPPER (form-layout component). Modeled by the form-group slice.",
+    "note-form-help": "pa-form-help / --error|success|warning|color-N — help/validation caption. Modeled by the form-help slice."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": {},
+      "golden": "<select class=\"pa-select\"></select>",
+      "note": "The blessed default container: an empty <select class=\"pa-select\">. Both wrappers emit a bare <select> with no options."
+    },
+    {
+      "name": "size-xs",
+      "props": { "size": "xs" },
+      "golden": "<select class=\"pa-select pa-select--xs\"></select>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "size": "sm" },
+      "golden": "<select class=\"pa-select pa-select--sm\"></select>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "size": "lg" },
+      "golden": "<select class=\"pa-select pa-select--lg\"></select>"
+    },
+    {
+      "name": "size-xl",
+      "props": { "size": "xl" },
+      "golden": "<select class=\"pa-select pa-select--xl\"></select>"
+    },
+    {
+      "name": "state-success",
+      "props": { "state": "success" },
+      "golden": "<select class=\"pa-select pa-select--success\"></select>"
+    },
+    {
+      "name": "state-warning",
+      "props": { "state": "warning" },
+      "golden": "<select class=\"pa-select pa-select--warning\"></select>"
+    },
+    {
+      "name": "state-error",
+      "props": { "state": "error" },
+      "golden": "<select class=\"pa-select pa-select--error\"></select>"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "themeColor": "1" },
+      "golden": "<select class=\"pa-select pa-select--color-1\"></select>"
+    },
+    {
+      "name": "theme-color-2",
+      "props": { "themeColor": "2" },
+      "golden": "<select class=\"pa-select pa-select--color-2\"></select>"
+    },
+    {
+      "name": "theme-color-3",
+      "props": { "themeColor": "3" },
+      "golden": "<select class=\"pa-select pa-select--color-3\"></select>"
+    },
+    {
+      "name": "theme-color-4",
+      "props": { "themeColor": "4" },
+      "golden": "<select class=\"pa-select pa-select--color-4\"></select>"
+    },
+    {
+      "name": "theme-color-5",
+      "props": { "themeColor": "5" },
+      "golden": "<select class=\"pa-select pa-select--color-5\"></select>"
+    },
+    {
+      "name": "theme-color-6",
+      "props": { "themeColor": "6" },
+      "golden": "<select class=\"pa-select pa-select--color-6\"></select>"
+    },
+    {
+      "name": "theme-color-7",
+      "props": { "themeColor": "7" },
+      "golden": "<select class=\"pa-select pa-select--color-7\"></select>"
+    },
+    {
+      "name": "theme-color-8",
+      "props": { "themeColor": "8" },
+      "golden": "<select class=\"pa-select pa-select--color-8\"></select>"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "themeColor": "9" },
+      "golden": "<select class=\"pa-select pa-select--color-9\"></select>"
+    },
+    {
+      "name": "disabled",
+      "props": { "disabled": true },
+      "golden": "<select disabled class=\"pa-select\"></select>",
+      "note": "native disabled attr — no pa-select--disabled class. Normalizer canonicalizes to bare presence."
+    },
+    {
+      "name": "required",
+      "props": { "required": true },
+      "golden": "<select required class=\"pa-select\"></select>"
+    },
+    {
+      "name": "multiple",
+      "props": { "multiple": true },
+      "golden": "<select multiple class=\"pa-select\"></select>",
+      "note": "native multiple attr — svelte branches on it (static attr alongside bind:value), keen passes it via @rest."
+    },
+    {
+      "name": "name-id",
+      "props": { "name": "country", "id": "country" },
+      "golden": "<select name=\"country\" id=\"country\" class=\"pa-select\"></select>",
+      "note": "name + id are hand-set; the normalizer keeps real (non-generated) ids."
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "mb-4" },
+      "golden": "<select class=\"pa-select mb-4\"></select>",
+      "note": "Class passthrough — the extra class is appended after pa-select."
+    },
+    {
+      "name": "combined",
+      "props": { "size": "sm", "state": "error", "themeColor": "3", "name": "role", "id": "role", "required": true },
+      "golden": "<select name=\"role\" id=\"role\" required class=\"pa-select pa-select--sm pa-select--error pa-select--color-3\"></select>",
+      "note": "Stacks size + state + themeColor + native attrs to exercise class ordering + attribute passthrough together."
+    }
+  ]
+}

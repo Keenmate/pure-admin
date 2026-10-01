@@ -1,0 +1,103 @@
+{
+  "//": "Markup-fidelity fixture for the PAGER component — the .pa-pager block (keen `PureAdmin.Components.Pager.pager/1`, svelte `display/Pager.svelte`). Scoped to pa-pager ONLY: the sibling pa-load-more block (keen `load_more/1`, its own svelte component) is grouped with pager in the catalog but is a SEPARATE component and OUT OF SCOPE here. The pager has NO __item/__link/--active/--disabled vocabulary — the navigation controls are plain `pa-btn pa-btn--sm pa-btn--secondary` buttons (foreign block, not pager's), wrapped in pa-pager__controls. The pager's own surface is: alignment modifiers (--start/--center/--end), a flex __container, a __controls group, an __info group with a numeric __input and __text labels. Wrapper dumpers map neutral `props` to their own API, render SSR, and the core comparator diffs against `golden` after normalization. See ../README.md and badge.json/list.json for the model.",
+  "component": "pager",
+  "block": "pa-pager",
+  "propsVocabulary": {
+    "align": "start|center|end — justify-content modifier. center is the SCSS default; the canonical snippet omits the class for centered. Both wrappers emit no class for their default-centered form (svelte align defaults to 'center' → no class; keen align defaults to nil → no class), and emit pa-pager--center only when align is set to 'center' explicitly. Scenarios exercise start/end (both wrappers agree); center the modifier is claimed by the feature's produces (axis-2) and left to the default no-class form in goldens.",
+    "showFirst": "whether the First-page button renders. svelte: presence of the `onfirst` callback; keen: presence of the `on_first` event-name string. A truthy event name enables the button.",
+    "showLast": "whether the Last-page button renders. svelte: `onlast` callback; keen: `on_last` event-name string.",
+    "firstLabel": "First button text content. svelte `firstText`; keen `icon_first` (plain text, HTML-escaped). Fed identical text so button content matches.",
+    "previousLabel": "Previous button text content. svelte `previousText`; keen `icon_previous`.",
+    "nextLabel": "Next button text content. svelte `nextText`; keen `icon_next`.",
+    "lastLabel": "Last button text content. svelte `lastText`; keen `icon_last`.",
+    "showInfo": "boolean — whether the __info section renders (svelte `showInfo`, keen `show_info`).",
+    "showPageInput": "boolean — whether the numeric page __input renders inside __info (svelte `showPageInput`, keen `show_page_input`).",
+    "page": "current page value bound to the numeric __input (svelte `currentPage`, keen `page`).",
+    "totalPages": "total page count — the input's max and the 'of N' label (svelte `totalPages`, keen `total_pages`).",
+    "extraClass": "extra classes appended verbatim to the root (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "The pager root is a <div class=\"pa-pager\">; an alignment modifier is present only for start/end. Navigation controls are plain pa-btn buttons (foreign block) inside pa-pager__controls — button text is fed identically to both wrappers via the *Label features so content matches. Scenarios pick a MIDDLE page (page between 1 and totalPages) so neither wrapper's disabled logic fires — keen derives disabled from page<=1 / page>=total_pages, svelte from disablePrevious/disableNext (left false), so a middle page yields NO disabled attr in either and a single golden fits. The __info section uses the canonical snippet shape (snippets/tables.html:388-392): a leading 'Page' __text, the numeric __input, then an 'of N' __text. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. Pager block modifiers: --start/--center/--end (alignment). Pager elements: __container/__controls/__info/__input/__text. The nav buttons carry pa-btn* classes (a FOREIGN block) not pager classes, so they're structural children with produces:null. `produces: null` = structural/native (no pa-pager class).",
+    "align": {
+      "kind": "enum",
+      "options": ["start", "center", "end"],
+      "produces": "pa-pager--{value}",
+      "note": "center is claimed here (axis-2) but rendered as the default no-class form; only start/end are exercised by goldens since both wrappers agree on those and omit the class for centered."
+    },
+    "showFirst": { "kind": "string", "produces": null, "note": "structural — toggles the First button (a pa-btn child), no pager class" },
+    "showLast": { "kind": "string", "produces": null, "note": "structural — toggles the Last button" },
+    "firstLabel": { "kind": "string", "produces": null, "note": "First button text content" },
+    "previousLabel": { "kind": "string", "produces": null, "note": "Previous button text content" },
+    "nextLabel": { "kind": "string", "produces": null, "note": "Next button text content" },
+    "lastLabel": { "kind": "string", "produces": null, "note": "Last button text content" },
+    "showInfo": { "kind": "bool", "produces": null, "note": "structural — toggles the pa-pager__info section" },
+    "showPageInput": { "kind": "bool", "produces": null, "note": "structural — toggles the pa-pager__input inside __info" },
+    "page": { "kind": "string", "produces": null, "note": "current page — input value" },
+    "totalPages": { "kind": "string", "produces": null, "note": "total pages — input max + 'of N' label" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim" }
+  },
+  "deferred": {
+    "//": "The __info section elements are pager's OWN markup and blessed by the snippet (snippets/tables.html:388-392), but the two wrappers diverge on functional/i18n attrs that a single shared golden can't reconcile, so they're acknowledged out-of-scope for strict compare (prose, not a fixture ref). Svelte matches the snippet shape EXACTLY ('Page' __text → numeric __input → 'of N' __text) — verified by hand against svelte-pager.dump.json with showInfo+showPageInput on. Keen diverges on two unavoidable points: (1) its __input carries name=\"page\", functionally REQUIRED for the LiveView phx-change form param (the static snippet has no name because it is not interactive); and (2) its labels come from keen's own i18n (t(\"pureAdmin.pagination.pages\") = '/ N pages') rather than the snippet's literal 'Page'/'of N'. Both are legitimate per-wrapper concerns the harness's name-agnostic render diff isn't meant to force-converge. The controls surface (the strict-compared part) IS covered by the four scenarios below.",
+    "pa-pager__info":  "Info group — wrappers diverge on LiveView-required name attr + i18n label text; svelte matches the snippet, keen is functionally-divergent. Acknowledged out-of-scope.",
+    "pa-pager__input": "Numeric page input inside __info — keen adds name=\"page\" (LiveView phx-change param), the static snippet has none. Acknowledged out-of-scope.",
+    "pa-pager__text":  "Info text labels ('Page'/'of N') — keen renders its own i18n string. Acknowledged out-of-scope."
+  },
+  "scenarios": [
+    {
+      "name": "prev-next-centered",
+      "props": {
+        "previousLabel": "‹ Previous",
+        "nextLabel": "Next ›",
+        "showInfo": false,
+        "page": 5,
+        "totalPages": 10
+      },
+      "golden": "<div class=\"pa-pager\"><div class=\"pa-pager__container\"><div class=\"pa-pager__controls\"><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">‹ Previous</button><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">Next ›</button></div></div></div>",
+      "note": "Canonical centered pager with prev/next (snippets/tables.html:382-394). Centered → no modifier class. page=5 (middle) so neither wrapper disables prev/next → no disabled attr; a single golden fits both. Exercises __container + __controls. Info section (__info/__input/__text) is deferred — see `deferred`."
+    },
+    {
+      "name": "align-start-first-last",
+      "props": {
+        "align": "start",
+        "showFirst": "first",
+        "showLast": "last",
+        "firstLabel": "« First",
+        "previousLabel": "‹ Previous",
+        "nextLabel": "Next ›",
+        "lastLabel": "Last »",
+        "showInfo": false,
+        "page": 5,
+        "totalPages": 10
+      },
+      "golden": "<div class=\"pa-pager pa-pager--start\"><div class=\"pa-pager__container\"><div class=\"pa-pager__controls\"><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">« First</button><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">‹ Previous</button><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">Next ›</button><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">Last »</button></div></div></div>",
+      "note": "Start-aligned, all four nav buttons in ONE pa-pager__controls group, info suppressed. page=5 (middle) so neither wrapper disables any button → no disabled attr. Exercises pa-pager--start + the First/Last buttons."
+    },
+    {
+      "name": "align-end",
+      "props": {
+        "align": "end",
+        "previousLabel": "‹ Previous",
+        "nextLabel": "Next ›",
+        "showInfo": false,
+        "page": 5,
+        "totalPages": 10
+      },
+      "golden": "<div class=\"pa-pager pa-pager--end\"><div class=\"pa-pager__container\"><div class=\"pa-pager__controls\"><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">‹ Previous</button><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">Next ›</button></div></div></div>",
+      "note": "End-aligned, prev/next only, no info. Exercises pa-pager--end."
+    },
+    {
+      "name": "extra-class",
+      "props": {
+        "previousLabel": "‹ Previous",
+        "nextLabel": "Next ›",
+        "showInfo": false,
+        "page": 5,
+        "totalPages": 10,
+        "extraClass": "mb-4"
+      },
+      "golden": "<div class=\"pa-pager mb-4\"><div class=\"pa-pager__container\"><div class=\"pa-pager__controls\"><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">‹ Previous</button><button class=\"pa-btn pa-btn--sm pa-btn--secondary\">Next ›</button></div></div></div>",
+      "note": "Class passthrough — extra class appended after pa-pager; token order normalized away."
+    }
+  ]
+}

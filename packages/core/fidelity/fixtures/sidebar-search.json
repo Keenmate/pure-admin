@@ -1,0 +1,41 @@
+{
+  "//": "Markup-fidelity fixture for the SIDEBAR SEARCH — `.pc-sidebar__search` (keen `PureAdmin.Components.Layout.sidebar_search/1`, svelte `layout/SidebarSearch.svelte`). A SHELL element migrated DOWN into @keenmate/pure-css, so the class is `pc-sidebar__search` (NOT `pa-*`); confirmed in dist/css/main.css (`.pc-sidebar__search`, the modifier `--input`, and the hyphenated siblings `-icon` / `-field`). SCOPE = the `<li class=\"pc-sidebar__item\">` wrapper + its two modes. Canonical shape from snippets/layout.html (SIDEBAR SEARCH ROW): TWO modes share the shell: (1) TRIGGER (default) — `<li class=\"pc-sidebar__item\"><button type=\"button\" class=\"pc-sidebar__search\"><span class=\"pc-sidebar__icon pc-icon-hover-highlight\" aria-hidden=\"true\"><span class=\"pa-icon pa-icon--search\"></span></span><span class=\"pc-sidebar__label\">Search…</span></button></li>` (NO aria-label — the visible label is the accessible name); (2) TYPE-AND-GO (when `action` is set) — `<li class=\"pc-sidebar__item\"><form class=\"pc-sidebar__search pc-sidebar__search--input\" action method=\"get\" role=\"search\"><button type=\"submit\" class=\"pc-sidebar__search-icon\" aria-label=\"Search\"></button><input type=\"search\" name=\"q\" class=\"pc-sidebar__search-field\" placeholder=\"Search…\" autocomplete=\"off\" aria-label=\"Search\"></form></li>`. Both wrappers reconcile on BOTH modes after the svelte fixes in this slice (svelte had aria-label=\"Open search (Ctrl+K)\" on the trigger button + both form controls, and a stray value=\"\" on the input; aligned to the oracle: NO trigger aria-label, aria-label=\"Search\" on the form controls, no empty value). Canonical shape: packages/core/snippets/layout.html.",
+  "component": "sidebar-search",
+  "block": "pc-sidebar__search",
+  "propsVocabulary": {
+    "label": "trigger-mode label text, in the `.pc-sidebar__label` span. svelte `labelText`, keen `label`. Default \"Search…\".",
+    "action": "set it to switch to TYPE-AND-GO form mode (`.pc-sidebar__search--input`) — a <form> whose native GET submit navigates to a results page on Enter. svelte `action`, keen `action`. Absent → the trigger button.",
+    "extraClass": "extra classes appended verbatim to the mode root (the trigger <button> or the <form>) after `pc-sidebar__search` (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Goldens encode BOTH shared modes and the a11y conventions the oracle snippet blesses: the TRIGGER button carries NO aria-label (the visible `.pc-sidebar__label` is the name); the TYPE-AND-GO form's submit magnifier + input both carry aria-label=\"Search\"; the input emits no `value` attribute when empty. method defaults to \"get\", name to \"q\", placeholder to \"Search…\" — all matching both wrappers. The custom `icon` slot is defaulted (trigger uses the masked `.pa-icon.pa-icon--search`; the form magnifier is empty, core masks it). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-sidebar__search'). Classes: the base `.pc-sidebar__search`, the mode modifier `.pc-sidebar__search--input` (the ONLY ^pc-sidebar__search-- block modifier, produced by setting `action`), and the hyphenated siblings `.pc-sidebar__search-icon` / `.pc-sidebar__search-field` (NOT `__`-nested, so not matched by the ^pc-sidebar__search__ element reverse check — exercised directly by the type-and-go golden). `label` → the `.pc-sidebar__label` text (a shared sidebar element, not a pc-sidebar__search sub-class). So the contract is: base class + the `action`→--input mode modifier + the label text + a class passthrough.",
+    "label":      { "kind": "string", "produces": null, "note": "trigger label text → `.pc-sidebar__label` span (exercised by the trigger golden). svelte `labelText`, keen `label`." },
+    "action":     { "kind": "string", "produces": "pc-sidebar__search--input", "note": "when set, switches to the type-and-go <form> mode, producing the --input modifier (+ the -icon submit magnifier and -field input, exercised by the golden). svelte `action`, keen `action`." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim after pc-sidebar__search on the mode root; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "No ^pc-sidebar__search__ element class exists (the sub-parts are hyphenated siblings -icon / -field, exercised by the type-and-go golden; the --input modifier is claimed by the `action` feature). The custom `icon` slot (svelte `icon` snippet / keen `:icon` slot) overriding the default masked magnifier is a shared slot, defaulted in these goldens; acknowledged as PROSE.",
+    "pc-sidebar__search-icon-slot": "the custom icon slot overriding the default masked magnifier (trigger `.pa-icon.pa-icon--search`; form empty `.pc-sidebar__search-icon`). svelte `icon` snippet, keen `:icon` slot. Defaulted in these goldens."
+  },
+  "scenarios": [
+    {
+      "name": "trigger",
+      "props": { "label": "Search…" },
+      "golden": "<li class=\"pc-sidebar__item\"><button type=\"button\" class=\"pc-sidebar__search\"><span class=\"pc-sidebar__icon pc-icon-hover-highlight\" aria-hidden=\"true\"><span class=\"pa-icon pa-icon--search\"></span></span><span class=\"pc-sidebar__label\">Search…</span></button></li>",
+      "note": "The blessed trigger shape: a full-width button with the masked magnifier + label, NO aria-label (the visible label is the name)."
+    },
+    {
+      "name": "type-and-go",
+      "props": { "action": "/search" },
+      "golden": "<li class=\"pc-sidebar__item\"><form class=\"pc-sidebar__search pc-sidebar__search--input\" action=\"/search\" method=\"get\" role=\"search\"><button type=\"submit\" class=\"pc-sidebar__search-icon\" aria-label=\"Search\"></button><input type=\"search\" name=\"q\" class=\"pc-sidebar__search-field\" placeholder=\"Search…\" autocomplete=\"off\" aria-label=\"Search\"></form></li>",
+      "note": "The type-and-go form: --input modifier, a type=submit magnifier (aria-label=\"Search\"), and the search input (name=q, aria-label=\"Search\", no empty value)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "label": "Search…", "extraClass": "mb-2" },
+      "golden": "<li class=\"pc-sidebar__item\"><button type=\"button\" class=\"pc-sidebar__search mb-2\"><span class=\"pc-sidebar__icon pc-icon-hover-highlight\" aria-hidden=\"true\"><span class=\"pa-icon pa-icon--search\"></span></span><span class=\"pc-sidebar__label\">Search…</span></button></li>",
+      "note": "Class passthrough — the extra class is appended after pc-sidebar__search on the trigger button; token order is normalized away."
+    }
+  ]
+}

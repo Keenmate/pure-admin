@@ -1,0 +1,23 @@
+{
+  "//": "FRAGMENT fixture for a Card sub-component — the tab panel (pa-card__tab-content). SVELTE-ONLY: svelte has CardTabContent.svelte, but keen has NO card_tab_content function (keen authors tab panels inline inside the card body), so there is no keen map/dump — capability runs with --map svelte only. This is the fragment↔component-asymmetry case. Authored from snippets/cards.html (lines 495-497) + _cards.scss.",
+  "component": "card-tab-content",
+  "block": "pa-card__tab-content",
+  "propsVocabulary": {
+    "active": "marks the visible panel — emits pa-card__tab-content--active",
+    "content": "panel content (slot/children)",
+    "extraClass": "extra classes appended verbatim (passthrough)"
+  },
+  "features": {
+    "active":     { "kind": "bool", "produces": "pa-card__tab-content--active" },
+    "content":    { "kind": "slot", "produces": null },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough, not a core feature" }
+  },
+  "scenarios": [
+    { "name": "default", "props": { "content": "Panel 1" },
+      "golden": "<div class=\"pa-card__tab-content\">Panel 1</div>" },
+    { "name": "active", "props": { "active": true, "content": "Panel 1" },
+      "golden": "<div class=\"pa-card__tab-content pa-card__tab-content--active\">Panel 1</div>" },
+    { "name": "extra-class", "props": { "content": "Panel 1", "extraClass": "custom" },
+      "golden": "<div class=\"pa-card__tab-content custom\">Panel 1</div>" }
+  ]
+}

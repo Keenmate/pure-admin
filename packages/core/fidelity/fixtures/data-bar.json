@@ -1,0 +1,93 @@
+{
+  "//": "Markup-fidelity fixture for the data-bar component (pa-data-bar) — a labelled value bar for table cells. See ../README.md and progress.json for the CLOSEST model (data-driven inline --value style on a fill, a primary-default-no-class guard). Shape: <div class=\"pa-data-bar [pa-data-bar--{variant}]\">[<div class=\"pa-data-bar__value\">TEXT</div>]<div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: N%\"></div></div></div>. The value label is optional (the __value div is omitted when no text). The fill width is a data-driven inline style --value: N% on __fill.",
+  "component": "data-bar",
+  "block": "pa-data-bar",
+  "propsVocabulary": {
+    "value": "bar percentage 0-100 — sets inline style --value: N% on the __fill (data-driven). Structural, no class.",
+    "valueText": "optional text label rendered above the bar in pa-data-bar__value (a <div>); omitted entirely when falsy",
+    "variant": "colour variant (success|warning|danger|info|negative) — primary is the BASE fill (var(--pc-accent)) and emits NO modifier class",
+    "extraClass": "extra classes appended verbatim"
+  },
+  "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache). pa-data-bar is display:flex column: an optional pa-data-bar__value label stacked ABOVE a pa-data-bar__track that wraps a pa-data-bar__fill. The fill's percentage is a data-driven inline style (style=\"--value: {value}%\") treated as a scenario-provided value so both wrappers receive the same input. The value label is a block-level <div class=\"pa-data-bar__value\"> (column flow); it is omitted when valueText is falsy. primary is the DEFAULT variant and emits NO pa-data-bar--primary class (the base fill IS the accent; no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-data-bar(--|__)'). `produces: null` = structural/native (no pa-data-bar modifier). variant EXCLUDES 'primary' — the base fill is the accent, there is no pa-data-bar--primary in the CSS. negative IS a CSS-backed variant (pa-data-bar--negative) but svelte exposes it as a separate bool (isNegative) while keen folds it into the variant enum — so it is modeled here as its own bool feature so both maps can bind it.",
+    "variant": {
+      "kind": "enum",
+      "options": ["success", "warning", "danger", "info"],
+      "produces": "pa-data-bar--{value}"
+    },
+    "negative": {
+      "kind": "bool",
+      "produces": "pa-data-bar--negative"
+    },
+    "valueText": {
+      "kind": "string",
+      "produces": "pa-data-bar__value",
+      "note": "optional label above the bar; a <div class=\"pa-data-bar__value\">. Omitted when falsy."
+    },
+    "value": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — inline style --value: N% on the __fill; no class"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "value": 85 },
+      "golden": "<div class=\"pa-data-bar\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 85%\"></div></div></div>"
+    },
+    {
+      "name": "variant-success",
+      "props": { "value": 95, "variant": "success" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--success\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 95%\"></div></div></div>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "value": 66, "variant": "warning" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--warning\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 66%\"></div></div></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "value": 51, "variant": "danger" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--danger\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 51%\"></div></div></div>"
+    },
+    {
+      "name": "variant-info",
+      "props": { "value": 75, "variant": "info" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--info\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 75%\"></div></div></div>"
+    },
+    {
+      "name": "variant-negative",
+      "props": { "value": 40, "negative": true },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--negative\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 40%\"></div></div></div>"
+    },
+    {
+      "name": "primary-default-no-class",
+      "props": { "value": 70, "variant": "primary" },
+      "golden": "<div class=\"pa-data-bar\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 70%\"></div></div></div>",
+      "note": "Guard: primary is the base fill; there is NO pa-data-bar--primary in main.css. Must NOT emit a phantom modifier."
+    },
+    {
+      "name": "with-value-label",
+      "props": { "value": 95, "variant": "success", "valueText": "95%" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--success\"><div class=\"pa-data-bar__value\">95%</div><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 95%\"></div></div></div>"
+    },
+    {
+      "name": "without-label",
+      "props": { "value": 60, "variant": "info" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--info\"><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 60%\"></div></div></div>",
+      "note": "Guard: no valueText → the pa-data-bar__value div is omitted entirely."
+    },
+    {
+      "name": "combined",
+      "props": { "value": 48, "variant": "warning", "valueText": "48 / 100", "extraClass": "mt-sm" },
+      "golden": "<div class=\"pa-data-bar pa-data-bar--warning mt-sm\"><div class=\"pa-data-bar__value\">48 / 100</div><div class=\"pa-data-bar__track\"><div class=\"pa-data-bar__fill\" style=\"--value: 48%\"></div></div></div>"
+    }
+  ]
+}

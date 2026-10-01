@@ -1,0 +1,40 @@
+{
+  "//": "Markup-fidelity fixture for the SECTION container — the lightweight `.pa-section` block (keen `PureAdmin.Components.Layout.section/1`, svelte `layout/Section.svelte`). SCOPE = INLINE CONTAINER. Canonical shape from snippets/cards.html (lines 561-571) + _cards.scss (.pa-section): a <div class=\"pa-section\"> wrapping an OPTIONAL bare <h3> title (styled by the CHILD selector `.pa-section > h3` — there is NO `pa-section__title` element class) followed by arbitrary content (the slot). The block has ZERO modifiers (no `.pa-section--*` in main.css) and ZERO element classes (the h3 is a bare child, not `.pa-section__*`). NOTE the SIBLING `.pa-section-title` is a DIFFERENT, standalone component (svelte `layout/SectionTitle.svelte`; keen has no dedicated fn) for a heading placed OUTSIDE a section — OUT OF SCOPE here. The title inside a section must be a bare <h3>.",
+  "component": "section",
+  "block": "pa-section",
+  "propsVocabulary": {
+    "title": "optional section heading — rendered as a BARE <h3> (styled via `.pa-section > h3`), NOT a `.pa-section-title` and NOT a `.pa-section__title`. Omit → no <h3> at all.",
+    "body": "the section's content area — filled with plain slot text in this slice (real children would be cards/grids). Always present after the optional title.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the section adds no attribute conventions like button's type. The title is a BARE <h3> (child-selector styling, no class). The body slot is a plain text token (Body) so the diff checks the container's tag + class + the optional bare h3 + nesting, not rich content. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-section BLOCK has ZERO modifiers (grep '\\.pa-section--' on main.css is empty) and ZERO element classes (the only styled descendant is `.pa-section > h3`, a BARE child — no `pa-section__*` exists). So the container contract is minimal: the base class + an optional bare-<h3> title + a body slot + a class passthrough. `produces: null` everywhere — the title is structural (a bare h3, no class), not a class-producing feature. capability.mjs axis-1 reverse-check is block-modifier-scoped (pa-section--*), of which there are none.",
+    "title":      { "kind": "string", "produces": null, "note": "structural — rendered as a BARE <h3>, styled by the child selector `.pa-section > h3`; no element class" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "The sibling `.pa-section-title` is a SEPARATE standalone component (svelte SectionTitle.svelte), not an element of this block — it does not match `pa-section--*` or `pa-section__*`, so capability.mjs never sees it as part of this fixture's surface. Nothing to defer: the .pa-section block has no sub-element or modifier classes of its own."
+  },
+  "scenarios": [
+    {
+      "name": "title-and-body",
+      "props": { "title": "Section Title", "body": "Body" },
+      "golden": "<div class=\"pa-section\"><h3>Section Title</h3>Body</div>",
+      "note": "The blessed shape: a bare <h3> heading (styled via `.pa-section > h3`) above the content."
+    },
+    {
+      "name": "body-only",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-section\">Body</div>",
+      "note": "No title → NO <h3> at all; the container never emits an empty heading."
+    },
+    {
+      "name": "extra-class",
+      "props": { "title": "Section Title", "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-section mb-4\"><h3>Section Title</h3>Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-section; token order is normalized away."
+    }
+  ]
+}

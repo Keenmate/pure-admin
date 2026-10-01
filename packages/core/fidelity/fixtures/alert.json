@@ -1,0 +1,233 @@
+{
+  "//": "Markup-fidelity fixture for the alert component. See ../README.md and button.json/card.json for the model. Goldens are the canonical snippets/alerts.html + _alerts.scss shape. The alert has TWO blessed markup shapes (snippet 'WITH vs WITHOUT icon'): WITH an icon the non-icon content is wrapped in .pa-alert__content (icon + content are the two flex children); WITHOUT an icon the structural children (__heading / __list / __actions / <p>) go DIRECT into .pa-alert (each gets flex-basis:100%). Both wrappers implement both shapes keyed on the icon slot.",
+  "component": "alert",
+  "block": "pa-alert",
+  "propsVocabulary": {
+    "variant": "colour variant (primary|secondary|success|warning|danger|info|light|dark)",
+    "size": "sm|lg (no xs/xl)",
+    "outline": "boolean — border-only, transparent bg (guards to solid fill for variants core has no outline for: secondary/light/dark)",
+    "themeColor": "1..9 theme colour slot (overrides named variant; combines with outline → outline-color-N)",
+    "dismissible": "boolean — padding-inline-end for the close button + renders .pa-alert__close",
+    "multiline": "boolean — opt out of align-items:center so an icon top-aligns with a multi-line __content stack",
+    "heading": "heading text rendered as <h4 class=pa-alert__heading>",
+    "headingLarge": "boolean — bump heading to pa-alert__heading--lg (deliberate-read presentation)",
+    "body": "main content — bare children (WITHOUT icon: direct child of pa-alert; WITH icon: inside pa-alert__content)",
+    "icon": "leading icon rendered inside pa-alert__icon; its presence wraps the rest in pa-alert__content",
+    "list": "list items wrapped in <ul class=pa-alert__list>",
+    "actions": "action-button row wrapped in <div class=pa-alert__actions>",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape PLUS the conventions both wrappers legitimately add over the static snippet: (1) every alert carries role=\"alert\" (the snippet blesses it for dynamic/dismissible alerts and both wrappers emit it unconditionally); (2) the .pa-alert__close is a <button type=\"button\"> (sensible default preventing implicit form submit inside a form). Slot content is a plain text token so the diff checks structural nesting, not rich content — the icon slot is text (real usage is a <span class=pa-icon>). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json — misses SCSS-@for/@each variants). `produces` is a class template; capability.mjs expands it and cross-checks against main.css AND each wrapper map + scenarios. `produces: null` = structural/native (no pa-alert modifier). Axis-1 reverse-check is block-modifier-scoped (pa-alert--*); element modifiers (pa-alert__heading--lg) are verified forward.",
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-alert--{value}"
+    },
+    "outline": {
+      "kind": "bool",
+      "produces": "pa-alert--outline-{variant}",
+      "appliesToVariants": ["primary", "success", "danger", "warning", "info"]
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-alert--color-{value}",
+      "outlineProduces": "pa-alert--outline-color-{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["sm", "lg"],
+      "produces": "pa-alert--{value}"
+    },
+    "dismissible": {
+      "kind": "bool",
+      "produces": "pa-alert--dismissible"
+    },
+    "multiline": {
+      "kind": "bool",
+      "produces": "pa-alert--multiline"
+    },
+    "heading": {
+      "kind": "string",
+      "produces": "pa-alert__heading"
+    },
+    "headingLarge": {
+      "kind": "bool",
+      "produces": "pa-alert__heading--lg",
+      "note": "element modifier on the heading; only meaningful together with `heading`. Verified forward against CSS."
+    },
+    "icon": {
+      "kind": "slot",
+      "produces": "pa-alert__icon",
+      "note": "presence also wraps the rest of the content in pa-alert__content"
+    },
+    "body": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — bare content; wrapped in pa-alert__content only when an icon is present"
+    },
+    "list": {
+      "kind": "slot",
+      "produces": "pa-alert__list"
+    },
+    "actions": {
+      "kind": "slot",
+      "produces": "pa-alert__actions"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-alert element/content classes emitted structurally (not as block-modifier props), plus the close button. The axis-1 reverse check is block-modifier-scoped (pa-alert--*), so these __-element classes don't trip it — listed here for documentation only.",
+    "pa-alert__icon": "leading icon column (feature: icon)",
+    "pa-alert__content": "content wrapper emitted when an icon is present (feature: icon)",
+    "pa-alert__close": "dismiss button (feature: dismissible)"
+  },
+  "scenarios": [
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "body": "Primary alert" },
+      "golden": "<div class=\"pa-alert pa-alert--primary\" role=\"alert\">Primary alert</div>"
+    },
+    {
+      "name": "secondary",
+      "props": { "variant": "secondary", "body": "Secondary alert" },
+      "golden": "<div class=\"pa-alert pa-alert--secondary\" role=\"alert\">Secondary alert</div>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "body": "Success alert" },
+      "golden": "<div class=\"pa-alert pa-alert--success\" role=\"alert\">Success alert</div>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "body": "Danger alert" },
+      "golden": "<div class=\"pa-alert pa-alert--danger\" role=\"alert\">Danger alert</div>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "body": "Warning alert" },
+      "golden": "<div class=\"pa-alert pa-alert--warning\" role=\"alert\">Warning alert</div>"
+    },
+    {
+      "name": "info",
+      "props": { "variant": "info", "body": "Info alert" },
+      "golden": "<div class=\"pa-alert pa-alert--info\" role=\"alert\">Info alert</div>"
+    },
+    {
+      "name": "light",
+      "props": { "variant": "light", "body": "Light alert" },
+      "golden": "<div class=\"pa-alert pa-alert--light\" role=\"alert\">Light alert</div>"
+    },
+    {
+      "name": "dark",
+      "props": { "variant": "dark", "body": "Dark alert" },
+      "golden": "<div class=\"pa-alert pa-alert--dark\" role=\"alert\">Dark alert</div>"
+    },
+    {
+      "name": "outline-primary",
+      "props": { "variant": "primary", "outline": true, "body": "Primary outline" },
+      "golden": "<div class=\"pa-alert pa-alert--outline-primary\" role=\"alert\">Primary outline</div>"
+    },
+    {
+      "name": "outline-success",
+      "props": { "variant": "success", "outline": true, "body": "Success outline" },
+      "golden": "<div class=\"pa-alert pa-alert--outline-success\" role=\"alert\">Success outline</div>"
+    },
+    {
+      "name": "outline-danger",
+      "props": { "variant": "danger", "outline": true, "body": "Danger outline" },
+      "golden": "<div class=\"pa-alert pa-alert--outline-danger\" role=\"alert\">Danger outline</div>"
+    },
+    {
+      "name": "outline-warning",
+      "props": { "variant": "warning", "outline": true, "body": "Warning outline" },
+      "golden": "<div class=\"pa-alert pa-alert--outline-warning\" role=\"alert\">Warning outline</div>"
+    },
+    {
+      "name": "outline-info",
+      "props": { "variant": "info", "outline": true, "body": "Info outline" },
+      "golden": "<div class=\"pa-alert pa-alert--outline-info\" role=\"alert\">Info outline</div>"
+    },
+    {
+      "name": "outline-fallback-secondary",
+      "props": { "variant": "secondary", "outline": true, "body": "Secondary" },
+      "golden": "<div class=\"pa-alert pa-alert--secondary\" role=\"alert\">Secondary</div>",
+      "note": "Guard family: core defines no pa-alert--outline-secondary/-light/-dark — must fall back to the solid fill, never emit a phantom outline class."
+    },
+    {
+      "name": "theme-color-3",
+      "props": { "themeColor": "3", "body": "Slot 3" },
+      "golden": "<div class=\"pa-alert pa-alert--color-3\" role=\"alert\">Slot 3</div>"
+    },
+    {
+      "name": "outline-color-5",
+      "props": { "themeColor": "5", "outline": true, "body": "Slot 5" },
+      "golden": "<div class=\"pa-alert pa-alert--outline-color-5\" role=\"alert\">Slot 5</div>",
+      "note": "themeColor + outline exercises the outlineProduces path (pa-alert--outline-color-{n})."
+    },
+    {
+      "name": "size-sm",
+      "props": { "variant": "success", "size": "sm", "body": "Saved" },
+      "golden": "<div class=\"pa-alert pa-alert--success pa-alert--sm\" role=\"alert\">Saved</div>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "variant": "warning", "size": "lg", "body": "Large alert" },
+      "golden": "<div class=\"pa-alert pa-alert--warning pa-alert--lg\" role=\"alert\">Large alert</div>"
+    },
+    {
+      "name": "dismissible",
+      "props": { "variant": "danger", "dismissible": true, "body": "Something went wrong" },
+      "golden": "<div class=\"pa-alert pa-alert--danger pa-alert--dismissible\" role=\"alert\">Something went wrong<button type=\"button\" class=\"pa-alert__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "heading",
+      "props": { "variant": "danger", "heading": "Validation failed", "body": "Please fix the errors below." },
+      "golden": "<div class=\"pa-alert pa-alert--danger\" role=\"alert\"><h4 class=\"pa-alert__heading\">Validation failed</h4>Please fix the errors below.</div>"
+    },
+    {
+      "name": "heading-large",
+      "props": { "variant": "success", "heading": "Success!", "headingLarge": true, "body": "You read this message." },
+      "golden": "<div class=\"pa-alert pa-alert--success\" role=\"alert\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">Success!</h4>You read this message.</div>"
+    },
+    {
+      "name": "icon",
+      "props": { "variant": "success", "icon": "✓", "body": "Your changes have been saved." },
+      "golden": "<div class=\"pa-alert pa-alert--success\" role=\"alert\"><span class=\"pa-alert__icon\">✓</span><div class=\"pa-alert__content\">Your changes have been saved.</div></div>",
+      "note": "WITH-icon shape: the non-icon content is wrapped in pa-alert__content. Icon content is a plain text token here; real usage is <span class=pa-icon>."
+    },
+    {
+      "name": "icon-multiline",
+      "props": { "variant": "info", "multiline": true, "icon": "ⓘ", "heading": "Heads up", "headingLarge": true, "body": "Long body text." },
+      "golden": "<div class=\"pa-alert pa-alert--info pa-alert--multiline\" role=\"alert\"><span class=\"pa-alert__icon\">ⓘ</span><div class=\"pa-alert__content\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">Heads up</h4>Long body text.</div></div>"
+    },
+    {
+      "name": "list",
+      "props": { "variant": "info", "heading": "System Update", "headingLarge": true, "body": "This update includes:", "list": "Performance improvements" },
+      "golden": "<div class=\"pa-alert pa-alert--info\" role=\"alert\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">System Update</h4>This update includes:<ul class=\"pa-alert__list\">Performance improvements</ul></div>",
+      "note": "list slot content is a plain text token; real usage is <li> children."
+    },
+    {
+      "name": "actions",
+      "props": { "variant": "info", "heading": "System Update", "body": "A new version is available.", "actions": "Update Now" },
+      "golden": "<div class=\"pa-alert pa-alert--info\" role=\"alert\"><h4 class=\"pa-alert__heading\">System Update</h4>A new version is available.<div class=\"pa-alert__actions\">Update Now</div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "variant": "info", "dismissible": true, "multiline": true, "icon": "ⓘ", "heading": "System Update", "headingLarge": true, "body": "A new version is available.", "list": "Bug fixes", "actions": "Update Now" },
+      "golden": "<div class=\"pa-alert pa-alert--info pa-alert--multiline pa-alert--dismissible\" role=\"alert\"><span class=\"pa-alert__icon\">ⓘ</span><div class=\"pa-alert__content\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">System Update</h4>A new version is available.<ul class=\"pa-alert__list\">Bug fixes</ul><div class=\"pa-alert__actions\">Update Now</div></div><button type=\"button\" class=\"pa-alert__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
+      "note": "Everything at once: icon (→ __content wrap) + multiline + heading--lg + body + list + actions + dismissible close button."
+    },
+    {
+      "name": "extra-class",
+      "props": { "variant": "primary", "extraClass": "mb-0", "body": "Custom class" },
+      "golden": "<div class=\"pa-alert pa-alert--primary mb-0\" role=\"alert\">Custom class</div>"
+    }
+  ]
+}

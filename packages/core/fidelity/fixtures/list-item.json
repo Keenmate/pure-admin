@@ -1,0 +1,28 @@
+{
+  "//": "FRAGMENT fixture for a List sub-component — the item (pa-list__item). See ../README.md + list.json. Tested in isolation (svelte ListItem, keen list_item/1); the parent list fixture `deferred`s these classes pointing here. GENERALITY NOTE: the item's parts are FLAT SIBLINGS under pa-list__ (pa-list__content/__title/…), NOT pa-list__item__…, so they aren't block-modifiers/sub-elements of pa-list__item. They're claimed via each feature's `produces` (forward-verified against main.css) and exercised by the goldens; capability's reverse checks (scoped to pa-list__item--/__) are correctly empty, and the base class pa-list__item exists so no vacuous note. Authored from snippets/lists.html + _lists.scss.",
+  "component": "list-item",
+  "block": "pa-list__item",
+  "goldenConventions": "Default item element is <div> (both wrappers default to it; keen also offers as=\"li\", svelte is div-only — absorbed, not a shared feature). __meta nests INSIDE __content (snippet + both wrappers). Avatar (when present) precedes __content.",
+  "propsVocabulary": {
+    "avatar": "avatar slot — wrapped in pa-list__avatar, precedes the content",
+    "title": "pa-list__title text (inside pa-list__content)",
+    "subtitle": "pa-list__subtitle text",
+    "meta": "pa-list__meta text (inside pa-list__content, under title/subtitle)",
+    "extraClass": "extra classes appended verbatim (passthrough)"
+  },
+  "features": {
+    "avatar":     { "kind": "slot",   "produces": "pa-list__avatar" },
+    "title":      { "kind": "string", "produces": "pa-list__title" },
+    "subtitle":   { "kind": "string", "produces": "pa-list__subtitle" },
+    "meta":       { "kind": "string", "produces": "pa-list__meta" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough, not a core feature" }
+  },
+  "scenarios": [
+    { "name": "full", "props": { "avatar": "A", "title": "Sarah", "subtitle": "PM", "meta": "2h ago" },
+      "golden": "<div class=\"pa-list__item\"><div class=\"pa-list__avatar\">A</div><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div><div class=\"pa-list__subtitle\">PM</div><div class=\"pa-list__meta\">2h ago</div></div></div>" },
+    { "name": "title-only", "props": { "title": "Sarah" },
+      "golden": "<div class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" },
+    { "name": "extra-class", "props": { "title": "Sarah", "extraClass": "custom" },
+      "golden": "<div class=\"pa-list__item custom\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" }
+  ]
+}

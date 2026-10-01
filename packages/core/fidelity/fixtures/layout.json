@@ -1,0 +1,43 @@
+{
+  "//": "Markup-fidelity fixture for the LAYOUT wrapper — `.pc-layout` (keen `PureAdmin.Components.Layout.layout/1`, svelte `layout/Layout.svelte`). A SHELL component migrated DOWN into @keenmate/pure-css, so the block class is `pc-layout` (NOT `pa-layout`); confirmed in dist/css/main.css. SCOPE = CONTAINER-ONLY. Canonical shape from snippets/layout.html: `<div class=\"pc-layout\"> <div class=\"pc-layout__inner\"> …sidebar + content… </div> <footer class=\"pc-layout__footer\">…</footer> </div>` — the layout wrapper sits below the navbar and hosts the inner (sidebar+content) row plus the footer. Both wrappers render a bare `<div class=\"pc-layout\">{children}</div>` — the INNER/CONTENT/SIDEBAR/MAIN/FOOTER structure is supplied by SEPARATE sub-components fed through the slot (keen layout_inner/layout_content/sidebar/main/footer; svelte LayoutInner/LayoutContent/Sidebar/Main/Footer), out of scope here (container-only). So the reconcilable shape is slot-content-supplied: `<div class=\"pc-layout\">{slot}</div>`. The block modifier `pc-layout--sticky` is a BODY-LEVEL flag (applied to <body>, toggled by JS/localStorage — see the snippet), NOT emitted by this component by either wrapper, so it is claimed via cssStateClasses. All `pc-layout__*` element classes come from the slot-fed sub-components → deferred as prose. Canonical shape: packages/core/snippets/layout.html.",
+  "component": "layout",
+  "block": "pc-layout",
+  "propsVocabulary": {
+    "body": "the layout's contents — in a real app the pc-layout__inner (sidebar + content) + pc-layout__footer sub-components; here a plain slot token (container-only scope). svelte `children`, keen `inner_block`.",
+    "extraClass": "extra classes appended verbatim to the root <div class=\"pc-layout ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Container-only — `<div class=\"pc-layout\">{body}</div>`. The body slot is a plain text token so the diff checks the container tag + class + nesting, not the slot-fed sub-component structure. The body-level `pc-layout--sticky` flag is not exercised (not emitted by this component). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-layout(--|__)'). The `.pc-layout` BLOCK has ONE modifier, `pc-layout--sticky`, but it is a BODY-LEVEL flag (on <body>, JS/localStorage-toggled) NOT emitted by this component → claimed via cssStateClasses so axis-1's reverse block-modifier check stays clean. Its element classes (__inner/__content/__footer/__main/__sidebar/__sidebar--icon-collapse/__sidebar__nav) are all emitted by SEPARATE slot-fed sub-components → deferred. So the container contract is: the base class + a body slot + a class passthrough. `produces: null` everywhere.",
+    "body":       { "kind": "slot",   "produces": null, "note": "the layout contents (slot-fed sub-components in a real app); svelte `children`, keen `inner_block`. Structural — produces no class." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-layout div; svelte `class`, keen `class`." }
+  },
+  "cssStateClasses": {
+    "//": "The pc-layout--sticky block modifier is a BODY-LEVEL layout-mode flag applied to <body> (see snippets/layout.html: `<body class=\"pc-layout--sticky\">`) and toggled by the sidebar JS / localStorage — NEVER emitted on the .pc-layout element by either wrapper. Claimed here so axis-1's reverse block-modifier check counts it, without inventing a layout/1 feature that produces it.",
+    "pc-layout--sticky": "fixed-viewport mode: body overflow:hidden, .pc-layout is 100vh, the content wrapper scrolls internally. A <body> class toggled by JS/localStorage (sidebar-mode=sticky), not a layout/1 prop. Not part of the blessed SSR markup of this component."
+  },
+  "deferred": {
+    "//": "Every `pc-layout__*` element class belongs to a SEPARATE slot-fed sub-component (layout_inner/layout_content/sidebar/main/footer), not the pc-layout container shell — the container only emits the base `<div class=\"pc-layout\">`. Acknowledged as PROSE (their own slices: main.json covers pc-layout__main; footer.json covers pc-layout__footer; sidebar.json covers pc-layout__sidebar + --icon-collapse + __nav).",
+    "pc-layout__inner": "the flex-row wrapper hosting sidebar + content; emitted by the layout_inner/LayoutInner sub-component fed into the slot — its own future slice.",
+    "pc-layout__content": "the <main>-wrapping scroll container; emitted by the layout_content/LayoutContent sub-component — its own future slice.",
+    "pc-layout__main": "the <main> content region; emitted by main/1 / Main — covered by main.json.",
+    "pc-layout__footer": "the page footer; emitted by footer/1 / Footer — covered by footer.json.",
+    "pc-layout__sidebar": "the sidebar column; emitted by sidebar/1 / Sidebar — covered by sidebar.json.",
+    "pc-layout__sidebar--icon-collapse": "icon-rail sidebar modifier; emitted by sidebar/1 / Sidebar — covered by sidebar.json.",
+    "pc-layout__sidebar__nav": "the <nav> wrapper the sidebar emits around its <ul>; emitted by sidebar/1 / Sidebar — covered by sidebar.json."
+  },
+  "scenarios": [
+    {
+      "name": "body",
+      "props": { "body": "Layout contents" },
+      "golden": "<div class=\"pc-layout\">Layout contents</div>",
+      "note": "Container-only: the bare pc-layout wrapper around its slot (real children are the inner row + footer sub-components)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Layout contents", "extraClass": "pc-container-lg" },
+      "golden": "<div class=\"pc-layout pc-container-lg\">Layout contents</div>",
+      "note": "Class passthrough — the extra class is appended after pc-layout; token order is normalized away."
+    }
+  ]
+}

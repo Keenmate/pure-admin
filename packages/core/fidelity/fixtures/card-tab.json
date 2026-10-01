@@ -1,0 +1,23 @@
+{
+  "//": "FRAGMENT fixture for a Card sub-component — the tab button (pa-card__tab). See ../README.md + card.json. A 'fragment' fixture is a normal fixture for a real sub-component (svelte CardTab, keen card_tab/1), tested in isolation; the parent card fixture `deferred`s these classes pointing here. Authored from snippets/cards.html (lines 488-490) + _cards.scss. The tab button carries NO type attribute and NO onclick in the oracle (onclick in the snippet is demo JS); both wrappers agree.",
+  "component": "card-tab",
+  "block": "pa-card__tab",
+  "propsVocabulary": {
+    "active": "marks the selected tab — emits pa-card__tab--active",
+    "label": "tab button content (slot/children)",
+    "extraClass": "extra classes appended verbatim (passthrough)"
+  },
+  "features": {
+    "active": { "kind": "bool", "produces": "pa-card__tab--active" },
+    "label": { "kind": "slot", "produces": null },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough, not a core feature" }
+  },
+  "scenarios": [
+    { "name": "default", "props": { "label": "Overview" },
+      "golden": "<button class=\"pa-card__tab\">Overview</button>" },
+    { "name": "active", "props": { "active": true, "label": "Overview" },
+      "golden": "<button class=\"pa-card__tab pa-card__tab--active\">Overview</button>" },
+    { "name": "extra-class", "props": { "label": "Overview", "extraClass": "custom" },
+      "golden": "<button class=\"pa-card__tab custom\">Overview</button>" }
+  ]
+}

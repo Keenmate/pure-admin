@@ -1,0 +1,63 @@
+{
+  "//": "Markup-fidelity fixture for the INPUT-GROUP CONTAINER — the prepend/append/button wrapper `.pa-input-group` (keen `PureAdmin.Components.Form.input_group/1`, svelte `forms/InputGroup.svelte`). SCOPE = CONTAINER ONLY: a `<div class=\"pa-input-group ...\">{children}</div>`. Both dumpers feed a PLAIN TEXT body, so this proves the <div> tag + its pa-input-group class (+ the size modifiers) + the body + class passthrough. Modifiers in main.css: xs/sm/lg/xl. The __prepend / __append / __button elements are per-ADDON markup built from SUB-SLOTS (keen `:prepend`/`:append`/`:button` named slots; svelte raw child <span>/<button> markup) — not the container shell. The container-only text slot can't carry them, so they are PROSE-deferred below (the checkbox-list/list container precedent). The input INSIDE the group is a separate pa-input component. See checkbox-list.json for the container-only model.",
+  "component": "input-group",
+  "block": "pa-input-group",
+  "propsVocabulary": {
+    "body": "the group's inner area — filled with plain slot text in this container-only slice (real addon/input children are the prose-deferred sub-slice)",
+    "size": "group size → one pa-input-group--* modifier (xs|sm|lg|xl) matching the prepend/append height to the input size. svelte `size`, keen `size`.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The container is always a <div class=\"pa-input-group ...\"> in both wrappers. The body slot is a plain text token so the diff checks the container's tag + class + nesting, not addon content. A size modifier is present when a size is set. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-input-group block modifiers are exactly xs/sm/lg/xl. The __prepend/__append/__button elements are per-addon, prose-deferred below.",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; addon structure is the deferred sub-slice" },
+    "size":       { "kind": "enum",   "options": ["xs", "sm", "lg", "xl"], "produces": "pa-input-group--{value}" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ADDON element classes of the pa-input-group block — NOT container markup. keen builds them from named slots (:prepend/:append/:button); svelte from raw child markup. The container-only text slot can't carry them, so this is a PROSE deferral (not a verified fixture ref — neither dumper registers an addon fragment). Verified instead in each wrapper's own tests.",
+    "pa-input-group__prepend": "inline-start addon — keen :prepend named slot (<span class=pa-input-group__prepend>), svelte raw <span> child",
+    "pa-input-group__append":  "inline-end addon — keen :append named slot (<span class=pa-input-group__append>), svelte raw <span> child",
+    "pa-input-group__button":  "button addon — class the author puts on the button so it keeps the group's joined radius; keen :button slot content, svelte raw <button> child"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-input-group\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-input-group\">. Both wrappers emit a <div>."
+    },
+    {
+      "name": "size-xs",
+      "props": { "body": "Body", "size": "xs" },
+      "golden": "<div class=\"pa-input-group pa-input-group--xs\">Body</div>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "body": "Body", "size": "sm" },
+      "golden": "<div class=\"pa-input-group pa-input-group--sm\">Body</div>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "body": "Body", "size": "lg" },
+      "golden": "<div class=\"pa-input-group pa-input-group--lg\">Body</div>"
+    },
+    {
+      "name": "size-xl",
+      "props": { "body": "Body", "size": "xl" },
+      "golden": "<div class=\"pa-input-group pa-input-group--xl\">Body</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-input-group mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-input-group."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-input-group\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits the shell."
+    }
+  ]
+}

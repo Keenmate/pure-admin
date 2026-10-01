@@ -1,0 +1,52 @@
+{
+  "//": "Markup-fidelity fixture for split-button. CAPABILITY-ONLY (zero scenarios → no render comparison), by the command-palette precedent: the pre-JS SSR shells of the two wrappers diverge in framework-essential ways that are NOT reconcilable into a single golden, so axis-1 (features↔CSS) + axis-2 (features↔maps) completeness is enforced while the render diff is intentionally skipped. See irreconcilableReason. Feature contract authored from dist/css/main.css (pa-btn-split block) + snippets/buttons.html.",
+  "component": "split-button",
+  "block": "pa-btn-split",
+  "irreconcilableReason": "The SSR shell differs by LiveView vs client-rendering necessities, not cosmetics: (1) keen's split_button ALWAYS renders id=\"split-btn-<unique_integer>\" + phx-hook=\"PureAdminSplitButton\" (the hook's DOM target) and the empty menu scaffold (<div class=\"pa-btn-split__menu\"><div class=\"pa-btn-split__menu-inner\">) because LiveView renders the menu server-side for the hook to populate; (2) svelte's SplitButton renders NO id, omits data-placement when it equals the default bottom-end, and renders the menu container ONLY when a `menu` snippet is passed (it teleports the menu to <body> on open, client-side). The normalizer keeps id + data-placement (they are not phx-* wiring), so these can't be normalized away, and neither value can be removed without breaking the respective wrapper's runtime. Both are proven aligned on the buttons themselves (same pa-btn / pa-btn--{variant} / pa-btn-split__toggle / pa-btn-split__chevron classes + type=\"button\"; svelte's missing type=\"button\" was FIXED in this slice). The open menu + all items (pa-btn-split__item*, --open, group-label, item-row, in-overflow) are JS-runtime and out of scope regardless (cssStateClasses / cssStateElements).",
+  "propsVocabulary": {
+    "label": "primary button label text",
+    "variant": "colour variant applied to BOTH the primary button and the toggle (pa-btn--{variant})",
+    "size": "xs|sm|lg|xl applied to both buttons"
+  },
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. variant/size produce pa-btn--* (button.json's block-modifier contract, reused on the split's two buttons). capability.mjs expands + cross-checks against main.css AND each wrapper's map.",
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-btn--{value}",
+      "note": "colours both buttons; pa-btn--{variant} is button.json's contract, reused here"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-btn--{value}",
+      "note": "sizes both buttons; pa-btn--{size} is button.json's contract, reused here"
+    },
+    "label": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — primary button text"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-btn-split--* classes in main.css that are NOT SSR-shell props — toggled by the JS hook at runtime. capability.mjs treats these as legitimately unclaimed.",
+    "pa-btn-split--open": "added by the JS hook while the dropdown is open (rotates the chevron)",
+    "pa-btn-split--in-overflow": "added by overflow.js when a split button is folded into a toolbar's [⋮] more-menu as an atomic group",
+    "pa-btn-split-chevron-rotate-open": "keyframes helper name (not an element class)",
+    "pa-btn-split-chevron-rotate-closed": "keyframes helper name (not an element class)"
+  },
+  "cssStateElements": {
+    "//": "pa-btn-split__* elements that are either built/populated by the JS hook at runtime or part of the menu scaffold whose SSR presence is wrapper-divergent (keen always, svelte only with a menu slot). Listed so they are not blind spots.",
+    "pa-btn-split__chevron": "chevron glyph inside the toggle — present in both shells (aligned), listed for completeness as part of the toggle",
+    "pa-btn-split__toggle": "the dropdown toggle button — present in both shells (aligned)",
+    "pa-btn-split__menu": "menu container — keen renders it always, svelte only with a menu slot (JS-runtime concern)",
+    "pa-btn-split__menu--open": "open-state class the JS hook adds to the menu container when the dropdown opens (svelte's closeMenu/openMenu toggle it)",
+    "pa-btn-split__menu-inner": "menu inner scroll area — same",
+    "pa-btn-split__item": "a dropdown menu item — built from the item/menu slot (JS-runtime)",
+    "pa-btn-split__item--danger": "destructive menu item styling",
+    "pa-btn-split__item-icon": "leading icon inside a menu item",
+    "pa-btn-split__item-row": "wraps a menu item + its inline action button",
+    "pa-btn-split__group-label": "section heading overflow.js inserts above a folded atomic group"
+  },
+  "scenarios": []
+}

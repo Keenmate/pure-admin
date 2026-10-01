@@ -1,0 +1,30 @@
+{
+  "//": "Markup-fidelity fixture for the DIVIDER — a standalone horizontal rule (keen `PureAdmin.Components.Layout.divider/1`, svelte `layout/Divider.svelte`). SCOPE = a single thin element: a BARE `<hr>`. The blessed shape carries NO class: core defines NO class for a standalone rule — `.pa-divider` appears NOWHERE in dist/css/main.css, in any snippet, or in any theme (grep '\\.pa-divider' is empty everywhere), so it was a PHANTOM base class. svelte's <Divider> always emitted a bare `<hr>`; keen's divider/1 used to stamp the phantom `pa-divider` (fixed in this slice — keen now emits a bare `<hr>`, class passthrough only, matching svelte and the oracle). The block name is kept as `pa-divider` purely for the fixture id; because that class matches 0 modifier + 0 element + 0 base class in main.css, capability.mjs axis-1 prints an advisory `note` (the legit genuinely-class-less case, like inline <code>) — NOT a hard failure. Distinct from `.pc-sidebar__divider` (an <li> in the sidebar flow) and the in-card `.pa-card__divider` — both real classes on DIFFERENT blocks, out of scope here. Canonical shape: a bare <hr> (no dedicated snippet — it is a one-element primitive).",
+  "component": "divider",
+  "block": "pa-divider",
+  "propsVocabulary": {
+    "extraClass": "extra classes appended verbatim to the <hr ...> (svelte `class`, keen `class`) — e.g. spacing utilities. The ONLY way to put a class on the rule; there is no core modifier."
+  },
+  "goldenConventions": "A single bare <hr> — no class in the base shape. The empty `class=\"\"` HEEx may emit when class is nil normalizes away to no class attribute (same as svelte's bare <hr>). With extraClass the rule carries exactly that class. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "There is NO feature→class contract: core blesses no class for a standalone rule (`.pa-divider` is absent from main.css / snippets / themes). The element is intentionally class-less. The only knob is the class passthrough. `produces: null`. capability.mjs axis-1 will print the advisory `note` that `pa-divider` matches nothing in CSS — that is CORRECT here (a genuinely class-less primitive, like inline <code>), not a gap.",
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the <hr>; svelte `class`, keen `class`. The only way to class the rule." }
+  },
+  "deferred": {
+    "//": "Nothing to defer — the divider is a single bare <hr> with no sub-elements or modifiers. (The phantom `pa-divider` base class keen used to emit was dropped as a wrapper bug; see the leading note.)"
+  },
+  "scenarios": [
+    {
+      "name": "bare",
+      "props": {},
+      "golden": "<hr>",
+      "note": "The blessed shape: a bare <hr> with no class. keen's nil class normalizes to no attribute, matching svelte's bare <hr>."
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "my-4" },
+      "golden": "<hr class=\"my-4\">",
+      "note": "Class passthrough — the only way to put a class on the rule; there is no core divider class."
+    }
+  ]
+}

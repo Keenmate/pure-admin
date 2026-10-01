@@ -1,0 +1,203 @@
+{
+  "//": "Markup-fidelity fixture for the FIELDS FAMILY — the data-display label/value system (svelte <Fields>/<Field>/<FieldGroup>, keen fields/1 + field/1 + field_group/1). SCOPE = CONTAINER ONLY (the pa-fields block). The harness renders one component whose slot receives plain TEXT (both dumpers HTML-escape it), so the pa-field items and the pa-field-group title can't flow through the slot — they come from SEPARATE sub-components (<Field>/<FieldGroup>, field/1/field_group/1). So this fixture proves ONLY what the pa-fields container itself emits: its <div>, its pa-fields class, and its RICH modifier set (the valuable coverage here — 23 container modifiers). The pa-field* and pa-field-group* element/modifier classes are accounted for via the `deferred` block (acknowledged out-of-scope prose, because the item/group sub-components feed through the same text-only slot and have no dedicated fragment fixture in this slice). This uses the multi-block form `blocks: [...]` so axis-1's reverse check sees all THREE family blocks (pa-fields / pa-field / pa-field-group) and every one of their modifiers is deliberately accounted for (container modifiers via features, pa-field author modifiers + pa-field-group via deferred, the JS-toggled pa-field--copied via cssStateClasses). Authored from dist/css/main.css + snippets/data-display.html + _data-display.scss.",
+  "component": "fields",
+  "blocks": ["pa-fields", "pa-field", "pa-field-group"],
+  "propsVocabulary": {
+    "cols": "grid columns 2|3|4 — emits pa-fields--cols-{n}. svelte types it numeric (2|3|4), keen as a string (\"2\"|\"3\"|\"4\"); both interpolate the same class, so scenarios pass the value as a string token that works for both.",
+    "horizontal": "label left / value right side-by-side (pa-fields--horizontal)",
+    "table": "consistent label widths, key-value table (pa-fields--table)",
+    "bordered": "bottom-border separator between fields (pa-fields--bordered)",
+    "striped": "alternating row backgrounds (pa-fields--striped)",
+    "compact": "tighter spacing (pa-fields--compact)",
+    "relaxed": "larger gaps (pa-fields--relaxed)",
+    "inline": "fields flow on one line (pa-fields--inline)",
+    "row": "equal-width auto columns (pa-fields--row)",
+    "linear": "ultra-clean side-by-side, weight+colour contrast only (pa-fields--linear)",
+    "chips": "Notion-style inline pairs with pill/chip values (pa-fields--chips)",
+    "filled": "subtle background panel (pa-fields--filled)",
+    "color": "theme colour 1-9 for the left border (pa-fields--color-{n})",
+    "noBorder": "remove the left border (pa-fields--no-border). svelte models this as hasBorder=false (negated); keen as is_no_border=true.",
+    "body": "the container's item area — plain slot text in this container-only slice (the real pa-field children are the deferred sub-slice)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The body slot is a plain text token (Body) so the diff checks the container's tag + pa-fields class + modifier set + nesting, not rich item content. Both wrappers emit a bare <div class=\"pa-fields …\">{body}</div>. svelte's hasContainerQuery wrapper (pa-fields-container) is OFF by default and not exercised here (keen has no equivalent prop — it would be an API divergence, absorbed not modelled). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. All 23 pa-fields container modifiers (cols-2/3/4, horizontal, table, bordered, striped, compact, relaxed, inline, row, linear, chips, filled, color-1..9, no-border) are produced here and exercised by scenario goldens. The pa-field item modifiers (--full, --copy-btn/--copy-hover/--copy-click) and value tints (__value--success/warning/danger/info) are AUTHOR-set via the <Field>/field-1 sub-component props (svelte full/copyMode/valueVariant, keen is_full/is_copy_*/value_variant) — real features, but they land on the pa-field block which flows through this container's text-only slot, so they're deferred here (see deferred). pa-field--copied is JS-toggled (cssStateClasses). cols/color use single-template produces that can't carry the {n}, so their produces is null and they are verified via scenarios/goldens; their per-value modifiers are claimed by cssStateClasses so axis-1's reverse check passes.",
+    "cols":       { "kind": "enum", "options": ["2", "3", "4"], "produces": null, "note": "emits pa-fields--cols-{n}; verified via scenarios (produces template can't carry {n})." },
+    "horizontal": { "kind": "bool", "produces": "pa-fields--horizontal" },
+    "table":      { "kind": "bool", "produces": "pa-fields--table" },
+    "bordered":   { "kind": "bool", "produces": "pa-fields--bordered" },
+    "striped":    { "kind": "bool", "produces": "pa-fields--striped" },
+    "compact":    { "kind": "bool", "produces": "pa-fields--compact" },
+    "relaxed":    { "kind": "bool", "produces": "pa-fields--relaxed" },
+    "inline":     { "kind": "bool", "produces": "pa-fields--inline" },
+    "row":        { "kind": "bool", "produces": "pa-fields--row" },
+    "linear":     { "kind": "bool", "produces": "pa-fields--linear" },
+    "chips":      { "kind": "bool", "produces": "pa-fields--chips" },
+    "filled":     { "kind": "bool", "produces": "pa-fields--filled" },
+    "color":      { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": null, "note": "emits pa-fields--color-{n}; verified via scenarios (produces template can't carry {n})." },
+    "noBorder":   { "kind": "bool", "produces": "pa-fields--no-border", "note": "svelte hasBorder=false (negated), keen is_no_border=true" },
+    "body":       { "kind": "slot", "produces": null, "note": "structural — the container's inner content; pa-field items are the deferred sub-slice" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "This bucket serves TWO roles here (see loader.json precedent): (a) real JS-runtime state, and (b) claiming block modifiers the reverse check sees but that no single-template `produces` / no in-scope scenario can account for. ROLE (a): pa-field--copied is the JS-runtime copy-feedback class — pa-*.js TOGGLES it for ~1.5s after a clipboard write (snippets/data-display.html COPY PATTERN L357-398 + _data-display.scss `&--copied`); never hand-authored, no feature produces it. ROLE (b): pa-fields--cols-N / --color-N are produced by the cols/color enum features but via a {n} template the expander can't emit (claimed here, exercised by goldens); pa-field--full / --copy-btn / --copy-hover / --copy-click are REAL AUTHOR-set modifiers of the pa-field ITEM block (svelte <Field> full/copyMode, keen field/1 is_full/is_copy_*) — but the item sub-component feeds through this container's text-only slot, so no pa-fields scenario can render them and there is no pa-field fragment fixture in this slice. The blocks list includes pa-field so axis-1's reverse check sees these four; claiming them here (the bucket's reverse-check role) keeps the check honest while their author-feature semantics are documented in `deferred`. They are NOT JS state.",
+    "pa-fields--cols-2": "cols=2",
+    "pa-fields--cols-3": "cols=3",
+    "pa-fields--cols-4": "cols=4",
+    "pa-fields--color-1": "color=1",
+    "pa-fields--color-2": "color=2",
+    "pa-fields--color-3": "color=3",
+    "pa-fields--color-4": "color=4",
+    "pa-fields--color-5": "color=5",
+    "pa-fields--color-6": "color=6",
+    "pa-fields--color-7": "color=7",
+    "pa-fields--color-8": "color=8",
+    "pa-fields--color-9": "color=9",
+    "pa-field--copied": "ROLE (a) — JS-toggled copy-feedback state (~1.5s after clipboard write); never in SSR markup",
+    "pa-field--full": "ROLE (b) — author item modifier (svelte <Field> full, keen field/1 is_full); on the pa-field item, out of this container slice. Claimed here for the block-modifier reverse check; semantics in deferred.",
+    "pa-field--copy-btn": "ROLE (b) — author item copy mode (svelte copyMode='btn', keen is_copy_btn); on the pa-field item, out of this container slice. Claimed here for the reverse check; semantics in deferred.",
+    "pa-field--copy-hover": "ROLE (b) — author item copy mode (svelte copyMode='hover', keen is_copy_hover); on the pa-field item, out of this container slice. Claimed here for the reverse check; semantics in deferred.",
+    "pa-field--copy-click": "ROLE (b) — author item copy mode (svelte copyMode='click', keen is_copy_click); on the pa-field item, out of this container slice. Claimed here for the reverse check; semantics in deferred."
+  },
+  "deferred": {
+    "//": "Element/modifier classes of the pa-field ITEM block and the pa-field-group block — NOT pa-fields container markup. In this container-only slice the item/group sub-components (<Field>/<FieldGroup>, field/1/field_group/1) feed through the same text-only slot the dumpers escape, so none can be rendered through a pa-fields scenario. There is no dedicated pa-field / pa-field-group FRAGMENT fixture in this slice, so these are acknowledged PROSE (out of scope), not verified fixture refs. The pa-field author modifiers (--full, --copy-*) and value tints (__value--success/etc.) are REAL wrapper features (svelte full/copyMode/valueVariant on <Field>, keen is_full/is_copy_*/value_variant on field/1) — just owned by the item sub-component, out of this container's scope. pa-field__copy's glyph is the canonical bare span.pa-icon pa-icon--copy inside the copy button (snippets/data-display.html L370-372).",
+    "pa-field":                   "item sub-component (<Field>/field-1) — flows through the container's text-only slot; out of container scope",
+    "pa-field--full":             "item author modifier — svelte <Field> full, keen field/1 is_full; on the pa-field item, out of container scope",
+    "pa-field--copy-btn":         "item copy mode — svelte copyMode='btn', keen is_copy_btn; on the pa-field item, out of container scope",
+    "pa-field--copy-hover":       "item copy mode — svelte copyMode='hover', keen is_copy_hover; on the pa-field item, out of container scope",
+    "pa-field--copy-click":       "item copy mode — svelte copyMode='click', keen is_copy_click; on the pa-field item, out of container scope",
+    "pa-field__label":            "item element — the label span inside pa-field",
+    "pa-field__value":            "item element — the value span inside pa-field",
+    "pa-field__value--success":   "value tint — svelte valueVariant='success', keen value_variant='success'; on the pa-field item",
+    "pa-field__value--warning":   "value tint — svelte valueVariant='warning', keen value_variant='warning'; on the pa-field item",
+    "pa-field__value--danger":    "value tint — svelte valueVariant='danger', keen value_variant='danger'; on the pa-field item",
+    "pa-field__value--info":      "value tint — svelte valueVariant='info', keen value_variant='info'; on the pa-field item",
+    "pa-field__copy":             "item element — the copy button (bare span.pa-icon pa-icon--copy glyph); on the pa-field item",
+    "pa-field-group":             "group sub-component (<FieldGroup>/field_group-1) — titled wrapper around pa-fields; out of container scope",
+    "pa-field-group__title":      "group element — the <h3> title inside pa-field-group"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-fields\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-fields\">. Both wrappers default to <div>."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-fields\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-fields mb-4\">Body</div>",
+      "note": "Class passthrough — appended after pa-fields; token order normalized away."
+    },
+    {
+      "name": "cols-2",
+      "props": { "body": "Body", "cols": "2" },
+      "golden": "<div class=\"pa-fields pa-fields--cols-2\">Body</div>"
+    },
+    {
+      "name": "cols-3",
+      "props": { "body": "Body", "cols": "3" },
+      "golden": "<div class=\"pa-fields pa-fields--cols-3\">Body</div>"
+    },
+    {
+      "name": "cols-4",
+      "props": { "body": "Body", "cols": "4" },
+      "golden": "<div class=\"pa-fields pa-fields--cols-4\">Body</div>"
+    },
+    {
+      "name": "horizontal",
+      "props": { "body": "Body", "horizontal": true },
+      "golden": "<div class=\"pa-fields pa-fields--horizontal\">Body</div>"
+    },
+    {
+      "name": "table",
+      "props": { "body": "Body", "table": true },
+      "golden": "<div class=\"pa-fields pa-fields--table\">Body</div>"
+    },
+    {
+      "name": "bordered",
+      "props": { "body": "Body", "bordered": true },
+      "golden": "<div class=\"pa-fields pa-fields--bordered\">Body</div>"
+    },
+    {
+      "name": "striped",
+      "props": { "body": "Body", "striped": true },
+      "golden": "<div class=\"pa-fields pa-fields--striped\">Body</div>"
+    },
+    {
+      "name": "compact",
+      "props": { "body": "Body", "compact": true },
+      "golden": "<div class=\"pa-fields pa-fields--compact\">Body</div>"
+    },
+    {
+      "name": "relaxed",
+      "props": { "body": "Body", "relaxed": true },
+      "golden": "<div class=\"pa-fields pa-fields--relaxed\">Body</div>"
+    },
+    {
+      "name": "inline",
+      "props": { "body": "Body", "inline": true },
+      "golden": "<div class=\"pa-fields pa-fields--inline\">Body</div>"
+    },
+    {
+      "name": "row",
+      "props": { "body": "Body", "row": true },
+      "golden": "<div class=\"pa-fields pa-fields--row\">Body</div>"
+    },
+    {
+      "name": "linear",
+      "props": { "body": "Body", "linear": true },
+      "golden": "<div class=\"pa-fields pa-fields--linear\">Body</div>"
+    },
+    {
+      "name": "chips",
+      "props": { "body": "Body", "chips": true },
+      "golden": "<div class=\"pa-fields pa-fields--chips\">Body</div>"
+    },
+    {
+      "name": "filled",
+      "props": { "body": "Body", "filled": true },
+      "golden": "<div class=\"pa-fields pa-fields--filled\">Body</div>"
+    },
+    {
+      "name": "no-border",
+      "props": { "body": "Body", "noBorder": true },
+      "golden": "<div class=\"pa-fields pa-fields--no-border\">Body</div>",
+      "note": "svelte hasBorder=false (negated bool), keen is_no_border=true -> same pa-fields--no-border."
+    },
+    {
+      "name": "color-1",
+      "props": { "body": "Body", "color": "1" },
+      "golden": "<div class=\"pa-fields pa-fields--color-1\">Body</div>"
+    },
+    {
+      "name": "color-5",
+      "props": { "body": "Body", "color": "5" },
+      "golden": "<div class=\"pa-fields pa-fields--color-5\">Body</div>"
+    },
+    {
+      "name": "color-9",
+      "props": { "body": "Body", "color": "9" },
+      "golden": "<div class=\"pa-fields pa-fields--color-9\">Body</div>"
+    },
+    {
+      "name": "filled-color",
+      "props": { "body": "Body", "filled": true, "color": "3" },
+      "golden": "<div class=\"pa-fields pa-fields--filled pa-fields--color-3\">Body</div>",
+      "note": "Snippet-blessed combo (snippets/data-display.html L105): tinted background panel."
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Body", "cols": "2", "horizontal": true, "bordered": true, "compact": true },
+      "golden": "<div class=\"pa-fields pa-fields--cols-2 pa-fields--horizontal pa-fields--bordered pa-fields--compact\">Body</div>",
+      "note": "Several modifiers together — class-token order normalized away."
+    }
+  ]
+}

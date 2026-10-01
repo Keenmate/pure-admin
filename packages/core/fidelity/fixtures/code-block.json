@@ -1,0 +1,120 @@
+{
+  "//": "Markup-fidelity fixture for the RICH code block — the <pre class=\"pa-code …\"> form. NEUTRAL scenarios + the GOLDEN markup core blesses. This is the block-level sibling of the inline code.json (which covers the bare inline <code>). SCOPE: the <pre class=\"pa-code\"> element + its modifiers (language accent / --compact / --numbered). The HEADERED pa-code-block form (pa-code-block__header/__title/__body + the 📋 Copy button) is emitted by a DIFFERENT component in each wrapper than the one the shared `code-block` dumper key drives (keen code_block/1 only grows the header when filename/copy_text is set; svelte's bare CodeBlock.svelte — wired to this key — has no header at all, its header form lives in the separate CodeBlockWithHeader.svelte). The dumper REGISTRY is not touchable, so the headered form + the syntax-token spans (pa-code-keyword/string/… authored inside the slot by a highlighter) are deferred — see deferred + goldenConventions. See ../README.md and code.json for the model.",
+  "component": "code-block",
+  "blocks": ["pa-code", "pa-code-block"],
+  "propsVocabulary": {
+    "language": "javascript|json|html|css|bash|sql|python — language accent (coloured left border); core ships accents for these seven only",
+    "compact": "boolean — smaller padding + font (pa-code--compact)",
+    "numbered": "boolean — empty line-number gutter on the inline-start side (pa-code--numbered)",
+    "content": "code text (slot / inner_block) — rendered verbatim inside <pre>",
+    "extraClass": "extra classes appended verbatim to the <pre>"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape (snippets/code.html): a bare <pre class=\"pa-code [pa-code--{lang}] [pa-code--compact] [pa-code--numbered]\">CODE</pre>. The <pre> carries NO added attribute conventions. Content is a plain text token so the diff checks structural nesting + class contract, not rich highlighting. The headered pa-code-block form (pa-code-block__header > __title + Copy button; pa-code-block__body > pre) is a separate component per wrapper (see //), driven by filename/copy state, with a JS clipboard delegator for the copy button + its copied state — all JS/state-runtime and out of the shared-key render scope, so pa-code-block__* is deferred. Syntax-token spans (pa-code-keyword/string/number/comment/function/property) are authored inside the slot by a highlighter, not produced by the wrapper — they are not pa-code__* elements (own blocks) so the axis-1 element check does not expect them. Class-token order + whitespace are normalized away; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `produces` with {value}; capability.mjs expands + cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native.",
+    "language": {
+      "kind": "enum",
+      "options": ["javascript", "json", "html", "css", "bash", "sql", "python"],
+      "produces": "pa-code--{value}",
+      "note": "core ships a coloured left-border accent for exactly these seven"
+    },
+    "compact": {
+      "kind": "bool",
+      "produces": "pa-code--compact"
+    },
+    "numbered": {
+      "kind": "bool",
+      "produces": "pa-code--numbered"
+    },
+    "content": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — code text inside <pre>"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "No pa-code--* / pa-code-block--* modifier is JS-applied; this bucket is empty (all modifiers are feature-driven). Kept for the axis-1 reverse-check contract shape."
+  },
+  "deferred": {
+    "//": "pa-code-block__* header/body elements emitted by the HEADERED code-block form — a different component than the one the shared `code-block` dumper key drives in each wrapper (keen code_block/1 with filename/copy_text; svelte CodeBlockWithHeader.svelte). The dumper REGISTRY is not editable in this slice, so the headered form can't be rendered under this key — deferred as acknowledged out-of-scope (prose, unverified).",
+    "pa-code-block__header": "header row (title + copy actions) — headered form only",
+    "pa-code-block__title": "filename / description in the header — headered form only",
+    "pa-code-block__body": "body wrapper that strips the inner <pre> border/radius — headered form only"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "content": "const x = 42;" },
+      "golden": "<pre class=\"pa-code\">const x = 42;</pre>"
+    },
+    {
+      "name": "javascript",
+      "props": { "language": "javascript", "content": "const x = 42;" },
+      "golden": "<pre class=\"pa-code pa-code--javascript\">const x = 42;</pre>",
+      "note": "content deliberately avoids quotes/apostrophes/angle-brackets/ampersands: HEEx and Svelte SSR HTML-escape those differently (' → &#39; in HEEx, \" → &quot;, < → &lt; in both but inconsistently). The normalizer compares text verbatim, so neutral scenarios steer clear of them — a framework text-escaping divergence, not a markup contract difference (same convention as tooltip.json's `help` scenario)."
+    },
+    {
+      "name": "json",
+      "props": { "language": "json", "content": "a: 1" },
+      "golden": "<pre class=\"pa-code pa-code--json\">a: 1</pre>",
+      "note": "braces/quotes avoided — see the escaping note on `javascript`."
+    },
+    {
+      "name": "html",
+      "props": { "language": "html", "content": "div.card" },
+      "golden": "<pre class=\"pa-code pa-code--html\">div.card</pre>",
+      "note": "angle brackets avoided — see the escaping note on `javascript`."
+    },
+    {
+      "name": "css",
+      "props": { "language": "css", "content": ".x { color: blue; }" },
+      "golden": "<pre class=\"pa-code pa-code--css\">.x { color: blue; }</pre>"
+    },
+    {
+      "name": "bash",
+      "props": { "language": "bash", "content": "npm install" },
+      "golden": "<pre class=\"pa-code pa-code--bash\">npm install</pre>"
+    },
+    {
+      "name": "sql",
+      "props": { "language": "sql", "content": "SELECT 1 FROM t;" },
+      "golden": "<pre class=\"pa-code pa-code--sql\">SELECT 1 FROM t;</pre>"
+    },
+    {
+      "name": "python",
+      "props": { "language": "python", "content": "x = 42" },
+      "golden": "<pre class=\"pa-code pa-code--python\">x = 42</pre>",
+      "note": "apostrophe avoided — see the escaping note on `javascript`."
+    },
+    {
+      "name": "compact",
+      "props": { "compact": true, "content": "const x = 42;" },
+      "golden": "<pre class=\"pa-code pa-code--compact\">const x = 42;</pre>"
+    },
+    {
+      "name": "numbered",
+      "props": { "numbered": true, "content": "const x = 42;" },
+      "golden": "<pre class=\"pa-code pa-code--numbered\">const x = 42;</pre>"
+    },
+    {
+      "name": "compact-javascript",
+      "props": { "compact": true, "language": "javascript", "content": "const x = 42;" },
+      "golden": "<pre class=\"pa-code pa-code--javascript pa-code--compact\">const x = 42;</pre>"
+    },
+    {
+      "name": "numbered-python",
+      "props": { "numbered": true, "language": "python", "content": "x = 42" },
+      "golden": "<pre class=\"pa-code pa-code--python pa-code--numbered\">x = 42</pre>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "maxhr-20", "content": "const x = 42;" },
+      "golden": "<pre class=\"pa-code maxhr-20\">const x = 42;</pre>"
+    }
+  ]
+}

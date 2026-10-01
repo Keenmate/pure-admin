@@ -1,0 +1,126 @@
+{
+  "//": "Markup-fidelity fixture for the DASHBOARD GAUGE component (pa-gauge) — a top semi-circle ring gauge drawn purely with CSS (a conic-gradient on the ::before pseudo masked into a donut). See ../README.md and progress.json / data-bar.json for the CLOSEST model (a data-driven inline style carries the geometry value; a primary-default-no-class variant guard). Shape: <div class=\"pa-gauge [pa-gauge--{variant}] [pa-gauge--zones]\" style=\"--value: N\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">TEXT</span></div><span class=\"pa-gauge__min\">MIN</span><span class=\"pa-gauge__label\">LABEL</span><span class=\"pa-gauge__max\">MAX</span></div>. The ring fill is NOT an SVG arc or a JS needle — it is a single inline CSS custom property style=\"--value: N\" (unitless 0-100; the SCSS multiplies by 1.8deg). Nothing is drawn by JS at runtime, so there are no cssStateElements: the whole gauge is SSR-complete.",
+  "component": "gauge",
+  "block": "pa-gauge",
+  "propsVocabulary": {
+    "value": "gauge value 0-100 (NO % suffix) — sets the inline style --value: N on the block; the SCSS converts it to degrees (N * 1.8deg) on the conic-gradient. Data-driven geometry, structural, no class.",
+    "valueText": "text shown inside the donut in pa-gauge__value (e.g. \"72%\", \"85°\"). Distinct from value: value drives the arc geometry, valueText is the human-readable display string.",
+    "label": "gauge caption (CPU / Memory / Temp …) rendered below the baseline in pa-gauge__label, centred between the min/max endpoints. Omitted when falsy.",
+    "min": "left endpoint label in pa-gauge__min (default conceptually \"0\").",
+    "max": "right endpoint label in pa-gauge__max (default conceptually \"100\").",
+    "variant": "colour variant (success|warning|danger|info) — overrides only --pa-gauge-fill. primary is the BASE fill (var(--pc-accent)) and emits NO modifier class.",
+    "zones": "boolean — multi-zone gauge (pa-gauge--zones): replaces the single-colour arc with a fixed green/yellow/red band gradient. Independent of variant (zones wins the fill).",
+    "size": "optional CSS length override for --pa-gauge-size (default upstream 12rem). Appended to the inline style after --value. Structural, no class.",
+    "extraClass": "extra classes appended verbatim"
+  },
+  "goldenConventions": "Goldens encode the core SCSS contract (_data-viz.scss §4) as refined by the component docstrings, NOT the stale demo markup. TWO deliberate deviations from demo/views/data-visualization.mustache: (1) the demo nests pa-gauge__label INSIDE pa-gauge__inner, but the SCSS comment is explicit that the label 'moved out to the row below (alongside __min / __max)' and __inner 'gets the whole interior to itself' — so the blessed shape puts __label as a SIBLING after __inner, in natural left-to-right reading order __min · __label · __max. (2) the demo wraps each gauge in a layout <div class=\"text-center\"> — that is a demo grid cell, NOT part of pa-gauge, so the golden is the bare pa-gauge block. The arc fill is a data-driven inline CSS variable style=\"--value: {value}\" (unitless, no %; the SCSS applies *1.8deg). An optional --pa-gauge-size follows in the same style when size is set. primary is the DEFAULT variant and emits NO pa-gauge--primary class (no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-gauge(--|__)'). `produces: null` = structural/native/inline-style (no pa-gauge modifier). variant EXCLUDES 'primary' — the base fill IS the accent, there is no pa-gauge--primary in the CSS. The arc value and the size override are data-driven INLINE STYLES (--value / --pa-gauge-size), not classes, matching the progress/data-bar inline-style precedent.",
+    "variant": {
+      "kind": "enum",
+      "options": ["success", "warning", "danger", "info"],
+      "produces": "pa-gauge--{value}"
+    },
+    "zones": {
+      "kind": "bool",
+      "produces": "pa-gauge--zones"
+    },
+    "value": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — inline style --value: N on the block (unitless 0-100, SCSS *1.8deg); no class. nativeType number in both wrappers."
+    },
+    "valueText": {
+      "kind": "string",
+      "produces": "pa-gauge__value",
+      "note": "display text inside the donut; a <span class=\"pa-gauge__value\">. Always present in the blessed shape."
+    },
+    "label": {
+      "kind": "string",
+      "produces": "pa-gauge__label",
+      "note": "caption below the baseline; a <span class=\"pa-gauge__label\">. Omitted when falsy."
+    },
+    "min": {
+      "kind": "string",
+      "produces": "pa-gauge__min",
+      "note": "left endpoint label; a <span class=\"pa-gauge__min\">."
+    },
+    "max": {
+      "kind": "string",
+      "produces": "pa-gauge__max",
+      "note": "right endpoint label; a <span class=\"pa-gauge__max\">."
+    },
+    "size": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — optional inline style --pa-gauge-size: <len> appended after --value; no class"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "value": 72, "valueText": "72%", "label": "CPU", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge\" style=\"--value: 72\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">72%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">CPU</span><span class=\"pa-gauge__max\">100</span></div>"
+    },
+    {
+      "name": "variant-success",
+      "props": { "value": 45, "valueText": "45%", "label": "Memory", "variant": "success", "min": "0", "max": "32 GB" },
+      "golden": "<div class=\"pa-gauge pa-gauge--success\" style=\"--value: 45\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">45%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">Memory</span><span class=\"pa-gauge__max\">32 GB</span></div>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "value": 66, "valueText": "66%", "label": "Load", "variant": "warning", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge pa-gauge--warning\" style=\"--value: 66\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">66%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">Load</span><span class=\"pa-gauge__max\">100</span></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "value": 85, "valueText": "85°", "label": "Temp", "variant": "danger", "min": "0°C", "max": "100°C" },
+      "golden": "<div class=\"pa-gauge pa-gauge--danger\" style=\"--value: 85\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">85°</span></div><span class=\"pa-gauge__min\">0°C</span><span class=\"pa-gauge__label\">Temp</span><span class=\"pa-gauge__max\">100°C</span></div>"
+    },
+    {
+      "name": "variant-info",
+      "props": { "value": 88, "valueText": "88%", "label": "Throughput", "variant": "info", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge pa-gauge--info\" style=\"--value: 88\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">88%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">Throughput</span><span class=\"pa-gauge__max\">100</span></div>"
+    },
+    {
+      "name": "primary-default-no-class",
+      "props": { "value": 50, "valueText": "50%", "label": "CPU", "variant": "primary", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge\" style=\"--value: 50\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">50%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">CPU</span><span class=\"pa-gauge__max\">100</span></div>",
+      "note": "Guard: primary is the base fill; there is NO pa-gauge--primary in main.css. Must NOT emit a phantom modifier."
+    },
+    {
+      "name": "zones",
+      "props": { "value": 62, "valueText": "62", "label": "Speed", "zones": true, "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge pa-gauge--zones\" style=\"--value: 62\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">62</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">Speed</span><span class=\"pa-gauge__max\">100</span></div>"
+    },
+    {
+      "name": "zones-wins-over-variant",
+      "props": { "value": 30, "valueText": "30", "label": "Risk", "zones": true, "variant": "success", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge pa-gauge--zones\" style=\"--value: 30\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">30</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">Risk</span><span class=\"pa-gauge__max\">100</span></div>",
+      "note": "Guard: zones replaces the whole fill gradient, so when both zones and a variant are set, only pa-gauge--zones is emitted (the variant colour would be dead under the zone bands). Both wrappers suppress the variant class when zones is on."
+    },
+    {
+      "name": "no-label",
+      "props": { "value": 40, "valueText": "40%", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge\" style=\"--value: 40\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">40%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__max\">100</span></div>",
+      "note": "Guard: no label → the pa-gauge__label span is omitted entirely; __min and __max still render."
+    },
+    {
+      "name": "custom-size",
+      "props": { "value": 55, "valueText": "55%", "label": "Disk", "variant": "info", "size": "16rem", "min": "0", "max": "100" },
+      "golden": "<div class=\"pa-gauge pa-gauge--info\" style=\"--value: 55; --pa-gauge-size: 16rem\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">55%</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">Disk</span><span class=\"pa-gauge__max\">100</span></div>",
+      "note": "size appends --pa-gauge-size to the same inline style after --value; no class."
+    },
+    {
+      "name": "combined",
+      "props": { "value": 72, "valueText": "72", "label": "NPS", "variant": "success", "min": "0", "max": "100", "extraClass": "mt-sm" },
+      "golden": "<div class=\"pa-gauge pa-gauge--success mt-sm\" style=\"--value: 72\"><div class=\"pa-gauge__inner\"><span class=\"pa-gauge__value\">72</span></div><span class=\"pa-gauge__min\">0</span><span class=\"pa-gauge__label\">NPS</span><span class=\"pa-gauge__max\">100</span></div>",
+      "note": "kpi-dashboard.mustache NPS gauge; extra class appended after the variant, token order normalized."
+    }
+  ]
+}

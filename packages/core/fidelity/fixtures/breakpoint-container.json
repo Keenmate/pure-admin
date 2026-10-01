@@ -1,0 +1,53 @@
+{
+  "//": "Markup-fidelity fixture for breakpoint-container (the Container Breakpoint measuring wrapper). CAPABILITY-ONLY (zero scenarios → no render comparison), on TWO grounds: (1) the component is intentionally CLASS-LESS — it emits a plain wrapper element carrying data-attributes + (keen) an inline FOUC <style>, with NO pa-*/pc-* class (like inline <code>), so there is no CSS class contract to diff; (2) the two wrappers' pre-JS SSR shells are irreconcilable. So only axis-2 (features↔maps) completeness is meaningful; axis-1 reports the expected class-less note. See irreconcilableReason. Contract authored from keen responsive.ex + svelte ContainerBreakpoint.svelte.",
+  "component": "breakpoint-container",
+  "block": "pa-breakpoint-container",
+  "classLess": true,
+  "irreconcilableReason": "There is no shared CSS class and the data-attribute SSR shells differ by engine-wiring model: (1) keen's breakpoint_container/1 configures the engine DECLARATIVELY via data-attributes rendered server-side — data-pc-breakpoints (JSON of the steps map), data-pc-breakpoint-initial, data-pc-breakpoint-unit (only when not rem), data-mode=initial — PLUS an inline <style> pre-paint FOUC guard scoped to the id, keyed on [data-mode]; (2) svelte's ContainerBreakpoint configures the engine IMPERATIVELY in onMount (observe(el, {steps, unit, hysteresis, initial, hiddenClass})), so its SSR emits ONLY data-mode (seeded to initial ?? first step key) + an optional class — no data-pc-breakpoints, no unit/initial attrs, no inline <style>. keen also requires an id (hook target + style scope) that svelte doesn't emit (it binds the element by ref). Neither shell can be rewritten to match the other without changing its engine-wiring model. The reflected [data-mode] + the .d-none toggling on data-pc-show children are JS-runtime regardless.",
+  "propsVocabulary": {
+    "steps": "mode => min-width threshold map, e.g. {compact: 0, comfy: 34, wide: 64}",
+    "initial": "mode a first paint assumes before JS measures (FOUC-safe)",
+    "unit": "rem (default) | px — threshold unit",
+    "tag": "wrapper element tag (default div)",
+    "content": "wrapped content (slot / inner_block); receives the current mode in svelte",
+    "extraClass": "extra classes on the wrapper element"
+  },
+  "features": {
+    "//": "All features are STRUCTURAL (produces: null) — this component emits NO class, only data-attributes / an inline style / wrapped content. capability.mjs axis-2 checks each is declared by both wrapper maps; axis-1 has no classes to verify.",
+    "steps": {
+      "kind": "map",
+      "produces": null,
+      "note": "structural — keen renders it into data-pc-breakpoints JSON; svelte passes it to the JS observer at mount"
+    },
+    "initial": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — keen renders data-pc-breakpoint-initial + data-mode; svelte seeds data-mode"
+    },
+    "unit": {
+      "kind": "enum",
+      "options": ["rem", "px"],
+      "produces": null,
+      "note": "structural — keen renders data-pc-breakpoint-unit only when px; svelte passes it to the observer"
+    },
+    "tag": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — the wrapper element tag"
+    },
+    "content": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — wrapped content"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "Class-less component — no pa-*/pc-* modifier exists. The engine toggles the SHARED utility .d-none on out-of-mode data-pc-show children at runtime (not a block modifier of this component). Empty."
+  },
+  "scenarios": []
+}

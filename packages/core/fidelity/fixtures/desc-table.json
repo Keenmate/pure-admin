@@ -1,0 +1,119 @@
+{
+  "//": "Markup-fidelity fixture for the DESC-TABLE CONTAINER — the Ant-Design-style `.pa-desc-table` descriptions grid (keen `PureAdmin.Components.DataDisplay.desc_table/1`, svelte `display/DescTable.svelte`). SCOPE = CONTAINER ONLY. The label/value cells are a SEPARATE sub-component (svelte DescTableItem; keen desc_label/1 + desc_value/1) fed through the parent's children slot, and BOTH dumpers pass slot content as plain ESCAPED TEXT (svelte textSnippet, keen text_slot) — so the cell markup can't flow through the harness. The body is a bare text token; per-cell element structure (pa-desc-table__label / __value / __value--full / __copy / copy-mode value states) is DEFERRED as acknowledged prose (no dedicated fragment fixture exists for the item). This fixture proves what the CONTAINER itself emits: the pa-desc-container wrapper, the pa-desc-table class, its eight layout modifiers, and the --label-width inline style. CONTAINER WRAPPER NOTE: keen's desc_table ALWAYS emits the outer <div class=\"pa-desc-container\">; svelte's DescTable only emits it when hasContainerQuery is set. The goldens include the wrapper, and svelte's map carries an EXTRA hasContainerQuery=true flag (set in every scenario) so both wrappers agree on the wrapped shape — same absorbed-divergence treatment list.json gives keen's as=ul.",
+  "component": "desc-table",
+  "block": "pa-desc-table",
+  "propsVocabulary": {
+    "body": "the table's cell area — filled with plain slot text in this container-only slice (real pa-desc-table__label/__value pairs are the deferred sub-component DescTableItem / desc_label+desc_value)",
+    "cols2": "boolean — 2 label/value column pairs per row instead of the default 3 (pa-desc-table--cols-2)",
+    "fixed": "boolean — fixed-width label columns (pa-desc-table--fixed); width from --label-width (default SCSS var)",
+    "labelWidth": "custom label column width as a single CSS length (svelte labelWidth, keen label_width) — emitted as the inline style --label-width; invalid keen input is dropped. Typically paired with fixed.",
+    "middle": "boolean — vertically center label + value cells (pa-desc-table--middle)",
+    "labelEnd": "boolean — right-align labels (pa-desc-table--label-end)",
+    "labelCenter": "boolean — center-align labels (pa-desc-table--label-center)",
+    "valueEnd": "boolean — right-align values (pa-desc-table--value-end)",
+    "valueCenter": "boolean — center-align values (pa-desc-table--value-center)",
+    "truncate": "boolean — single-line ellipsis on labels + values (pa-desc-table--truncate)",
+    "extraClass": "extra classes appended verbatim to pa-desc-table (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — desc-table adds no attribute conventions like button's type. The body slot is a plain text token (Body) so the diff checks the container wrapper + table tag + class + the --label-width inline style, not rich cell content. The outer pa-desc-container wrapper is present in every golden (keen always emits it; svelte emits it when hasContainerQuery is true, which its map forces on). labelWidth renders as style=\"--label-width: <len>\" (no trailing semicolon from either wrapper); attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The pa-desc-table BLOCK has exactly eight --* modifiers (cols-2, fixed, middle, label-end, label-center, value-end, value-center, truncate), all author-set container props; axis-1's block-modifier reverse-check is fully claimed by them. All pa-desc-table__* ELEMENT classes belong to the sub-component (cells), covered under `deferred` / `cssStateElements`. labelWidth produces an inline custom property, not a class. hasContainerQuery is NOT modeled as an oracle feature — it's an absorbed wrapper divergence (keen always wraps, svelte conditionally), carried only in svelte's map as an EXTRA flag.",
+    "cols2":        { "kind": "bool",   "produces": "pa-desc-table--cols-2" },
+    "fixed":        { "kind": "bool",   "produces": "pa-desc-table--fixed" },
+    "middle":       { "kind": "bool",   "produces": "pa-desc-table--middle" },
+    "labelEnd":     { "kind": "bool",   "produces": "pa-desc-table--label-end" },
+    "labelCenter":  { "kind": "bool",   "produces": "pa-desc-table--label-center" },
+    "valueEnd":     { "kind": "bool",   "produces": "pa-desc-table--value-end" },
+    "valueCenter":  { "kind": "bool",   "produces": "pa-desc-table--value-center" },
+    "truncate":     { "kind": "bool",   "produces": "pa-desc-table--truncate" },
+    "labelWidth":   { "kind": "string", "produces": null, "note": "inline --label-width custom property (style attr), not a class; paired with fixed" },
+    "body":         { "kind": "slot",   "produces": null, "note": "structural — the container's inner cell area; cell structure is the deferred sub-component" },
+    "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-CELL element classes of the pa-desc-table block — NOT container markup. They are emitted only by the DescTableItem (svelte) / desc_label+desc_value (keen) sub-component, which the harness feeds as PLAIN TEXT through the children slot, so no container golden can exercise them and there is no dedicated fragment fixture for the item. Acknowledged out-of-scope prose (unverified) — same container-only treatment list.json gives pa-list__item et al. __value--copied is JS-runtime state (see cssStateElements).",
+    "pa-desc-table__label":            "sub-component cell: the tinted label span (DescTableItem / desc_label)",
+    "pa-desc-table__value":            "sub-component cell: the value span (DescTableItem / desc_value)",
+    "pa-desc-table__value--full":      "sub-component value modifier: value spans all remaining columns (svelte full / keen is_full)",
+    "pa-desc-table__copy":             "sub-component copy button inside a copyable value (copy-btn / copy-hover modes)",
+    "pa-desc-table__value--copy-btn":  "sub-component value modifier: always-visible copy button layout",
+    "pa-desc-table__value--copy-click":"sub-component value modifier: click-value-to-copy layout",
+    "pa-desc-table__value--copy-hover":"sub-component value modifier: copy button revealed on hover"
+  },
+  "cssStateElements": {
+    "//": "Element-level runtime state on the sub-component value cell — toggled by the copy-to-clipboard interaction, never hand-authored in SSR markup (svelte sets it from the `copied` $state after navigator.clipboard.writeText; it drives the 'Copied!' ::after). No feature produces it and no SSR golden exercises it.",
+    "pa-desc-table__value--copied": "copy-success state on the value cell, JS-toggled ~1.5s after a successful copy"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body", "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table\">Body</div></div>",
+      "note": "The blessed default container: pa-desc-container > pa-desc-table, no modifiers. Body is the plain slot token standing in for the deferred cell pairs. hasContainerQuery=true (every scenario) forces svelte to emit the wrapper keen always emits — it is NOT an oracle feature, only a svelte-map absorbed-divergence flag; keen's dumper warns-and-skips it harmlessly."
+    },
+    {
+      "name": "cols-2",
+      "props": { "body": "Body", "cols2": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--cols-2\">Body</div></div>"
+    },
+    {
+      "name": "fixed",
+      "props": { "body": "Body", "fixed": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--fixed\">Body</div></div>"
+    },
+    {
+      "name": "fixed-label-width",
+      "props": { "body": "Body", "fixed": true, "labelWidth": "16rem", "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--fixed\" style=\"--label-width: 16rem\">Body</div></div>",
+      "note": "labelWidth drives the inline --label-width custom property (no trailing semicolon from either wrapper). Paired with fixed, as the SCSS --fixed track reads var(--label-width)."
+    },
+    {
+      "name": "middle",
+      "props": { "body": "Body", "middle": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--middle\">Body</div></div>"
+    },
+    {
+      "name": "label-end",
+      "props": { "body": "Body", "labelEnd": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--label-end\">Body</div></div>"
+    },
+    {
+      "name": "label-center",
+      "props": { "body": "Body", "labelCenter": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--label-center\">Body</div></div>"
+    },
+    {
+      "name": "value-end",
+      "props": { "body": "Body", "valueEnd": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--value-end\">Body</div></div>"
+    },
+    {
+      "name": "value-center",
+      "props": { "body": "Body", "valueCenter": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--value-center\">Body</div></div>"
+    },
+    {
+      "name": "truncate",
+      "props": { "body": "Body", "truncate": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--truncate\">Body</div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Body", "cols2": true, "fixed": true, "middle": true, "labelEnd": true, "valueEnd": true, "truncate": true, "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--middle pa-desc-table--label-end pa-desc-table--value-end pa-desc-table--truncate\">Body</div></div>",
+      "note": "Modifiers stack on one container (snippet's alignment+middle+truncate row). Class-token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4", "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table mb-4\">Body</div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-desc-table; token order normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "", "hasContainerQuery": true },
+      "golden": "<div class=\"pa-desc-container\"><div class=\"pa-desc-table\"></div></div>",
+      "note": "Empty body still emits the bare container shell — proves the wrapper never omits or collapses the pa-desc-container > pa-desc-table skeleton."
+    }
+  ]
+}

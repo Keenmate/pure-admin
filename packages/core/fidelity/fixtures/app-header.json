@@ -1,0 +1,33 @@
+{
+  "//": "Markup-fidelity fixture for the APP-HEADER brand block — `.pc-app-header` (keen `PureAdmin.Components.Layout.app_header/1`, svelte `layout/AppHeader.svelte`). A SHELL component migrated DOWN into @keenmate/pure-css, so the block class is `pc-app-header` (NOT `pa-app-header`); confirmed in dist/css/main.css (`.pc-app-header` + the element `.pc-app-header__version`). SCOPE = INLINE CONTAINER. Canonical shape from snippets/layout.html (NAVBAR section): `<div class=\"pc-app-header\"><h1>Pure Admin</h1></div>` — a thin wrapper whose BRAND MARKUP is supplied as children (usually an `<h1>` wordmark, optionally a fit_slot/fit_step steps ladder + a `.pc-app-header__version` tag). The reconcilable shape is CHILDREN SUPPLIED: both wrappers then emit exactly `<div class=\"pc-app-header\">{children}</div>`. The scenarios supply a plain brand slot token to sidestep the one documented divergence: (1) CONFIG FALLBACK — with NO children both wrappers fall back to the configured logo + app name, but divergently (keen emits `<img class=\"pc-app-header__logo\">` + `<h1>`, svelte emits a BARE `<img>` — no logo class — + a `<Heading level=1>` → `<h1>`); supplying children makes neither fallback fire. The `.pc-app-header__version` element is NOT emitted by the container — it is a class a consumer puts on a fit_slot INSIDE the children (svelte `class=\"pc-app-header__version\"`, keen `fit_slot class=\"pc-app-header__version\"`), so it is deferred as prose (its own fit-ladder composition, out of container scope). Canonical shape: packages/core/snippets/layout.html.",
+  "component": "app-header",
+  "block": "pc-app-header",
+  "propsVocabulary": {
+    "brand": "brand content — the app-identity markup (usually an <h1> wordmark). svelte `children`, keen `inner_block`. Supplying it suppresses the divergent config logo+name fallback.",
+    "extraClass": "extra classes appended verbatim to the root <div class=\"pc-app-header ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Goldens encode the children-supplied shape both wrappers agree on: `<div class=\"pc-app-header\">{brand}</div>`. Supplying the brand slot suppresses the config logo+name fallback, whose markup diverges (keen `.pc-app-header__logo` img + <h1>; svelte bare <img> + Heading <h1>). The `.pc-app-header__version` fit-ladder element is composed by the consumer inside the children, not emitted by the container, so it is not exercised. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-app-header'). The `.pc-app-header` BLOCK has ZERO modifiers (no `.pc-app-header--*`). Its ONE element class is `.pc-app-header__version` — a tag a consumer puts on a fit_slot INSIDE the children (a fit-ladder composition), NOT emitted by the container shell → deferred as prose, not a container feature. So the container contract is minimal: the base class + a brand slot + a class passthrough. `produces: null` everywhere — the container emits no modifier/element class of its own.",
+    "brand":      { "kind": "slot",   "produces": null, "note": "the app-identity markup; svelte `children`, keen `inner_block`. Structural — produces no class." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-app-header div; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "The one element class under ^pc-app-header__ is `pc-app-header__version`. It is NOT emitted by the container shell — a consumer stamps it on a fit_slot/fit_step ladder placed INSIDE the brand children (the responsive wordmark→monogram + version-drops-first composition). So it is covered by the consumer's own fit-ladder markup, not this container slice; acknowledged as PROSE.",
+    "pc-app-header__version": "version tag inside the brand wordmark; stamped by a consumer on a fit_slot (strategy=hide, drops first) placed in the children. svelte `class=\"pc-app-header__version\"` on a FitSlot; keen `fit_slot class=\"pc-app-header__version\"`. Container-only scope defers it."
+  },
+  "scenarios": [
+    {
+      "name": "brand",
+      "props": { "brand": "Pure Admin" },
+      "golden": "<div class=\"pc-app-header\">Pure Admin</div>",
+      "note": "Children supplied → both wrappers emit the plain wrapper around the brand; no config logo+name fallback fires."
+    },
+    {
+      "name": "extra-class",
+      "props": { "brand": "Pure Admin", "extraClass": "mb-0" },
+      "golden": "<div class=\"pc-app-header mb-0\">Pure Admin</div>",
+      "note": "Class passthrough — the extra class is appended after pc-app-header; token order is normalized away."
+    }
+  ]
+}

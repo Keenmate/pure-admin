@@ -1,0 +1,37 @@
+{
+  "//": "Markup-fidelity fixture for the NOTIFICATIONS widget — the `.pa-notifications` block (keen `PureAdmin.Components.Layout.notifications/1`, svelte `feedback/NotificationsPanel.svelte`). A `pa-*` component (NOT migrated to pure-css); ~21 `.pa-notifications*` selectors in dist/css/main.css. SCOPE = CAPABILITY-ONLY, ZERO strict-compare scenarios — same path as navbar.json / sidebar.json / settings-panel.json, because the two wrappers model DIFFERENT LEVELS of the block tree and so cannot share a golden ROOT at all: keen `notifications/1` is the WHOLE bell+panel widget — root `<div id=\"notifications\" class=\"pa-notifications\">` containing the `.pa-notifications__btn` bell (icon + badge) AND the `.pa-notifications__panel` dropdown (header/list/footer), with a DEFAULT hook-anchor id=\"notifications\" on the root + a `id=\"notifications-panel\"` + inline `style=\"display: none;\"` on the panel (toggle_notifications(id) targets them); svelte `NotificationsPanel` renders ONLY the panel — root `<div class=\"pa-notifications__panel\">` (header/list/footer), with NO `.pa-notifications` wrapper, NO bell button, NO id (visibility via an `is-open` class from the `show` prop + a sibling NotificationBell component). So even the ROOT element class differs (pa-notifications vs pa-notifications__panel), and keen's default id=\"notifications\" (kept by the normalizer, like sidebar.json's id=\"sidebar\") can never equal svelte's id-free panel. A shared full-tree golden can't even write the root opening tag. The whole `pa-notifications__*` family (btn/badge/icon/panel/header/list/list--page/item/item--unread/icon-wrapper/icon-wrapper--{variant}/content/time/footer/actions/mark-read) is split across the two components' differing trees → deferred as prose. Correctness is carried by the completeness contract: the base `pa-notifications` class + every `__*` element class accounted for + the `class` passthrough both wrappers accept on their (divergent) root. Canonical shape: packages/core/snippets/notifications.html (the bell+panel widget).",
+  "component": "notifications",
+  "block": "pa-notifications",
+  "propsVocabulary": {
+    "extraClass": "extra classes appended verbatim to each wrapper's (divergent) root — keen on the `.pa-notifications` widget root, svelte on the `.pa-notifications__panel` panel root (svelte `class`, keen `class`). Class passthrough, declared for axis-2; not a core modifier."
+  },
+  "goldenConventions": "No scenarios → no goldens. See the leading note: keen models the whole bell+panel widget (root `.pa-notifications`, default hook id) while svelte models only the panel (root `.pa-notifications__panel`, no id), so the two SSR trees share no reconcilable root. Correctness is carried by the structural contract: the base block class, the class-passthrough feature, and the deferred `__*` element inventory. Attribute + class-token order and whitespace would be normalized away if a golden existed.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-notifications(--|__)'). The `.pa-notifications` BLOCK has ZERO modifiers (no `.pa-notifications--*`). Every styled class is a `__*` ELEMENT class, split across the two wrappers' differing trees (keen widget vs svelte panel) → all deferred. The ONE declarable shared feature is the class passthrough (on each wrapper's own root). `produces: null` — no block modifier exists.",
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to each wrapper's root (keen `.pa-notifications`, svelte `.pa-notifications__panel`); svelte `class`, keen `class`. Declared in both maps for axis-2; not exercised by a strict scenario (capability-only fixture)." }
+  },
+  "deferred": {
+    "//": "Every element class of the pa-notifications block. They are split across the two wrappers' DIFFERENT trees — keen's widget emits the bell (__btn/__badge/__icon) + panel chrome; svelte's panel emits the panel chrome; the ITEMS (__item*/__icon-wrapper*/__content/__time/__actions) come from keen's notification_item/1 sub-component vs svelte's in-component iteration. None can be strict-compared because the roots don't reconcile (see the leading note). Acknowledged as PROSE. All class names exist in main.css and are emitted identically-named by whichever wrapper owns that part of the tree.",
+    "pa-notifications__btn": "the bell button (keen widget only; svelte's bell is a separate NotificationBell component). Opens/toggles the panel.",
+    "pa-notifications__badge": "unread-count badge on the bell (keen widget only).",
+    "pa-notifications__icon": "bell glyph inside the button (keen widget), and the per-item leading icon slot.",
+    "pa-notifications__panel": "the dropdown panel — keen emits it as a CHILD of the widget (with an id + inline display:none); svelte emits it as its ROOT (is-open class toggles visibility). Same class, divergent position/attrs.",
+    "pa-notifications__header": "panel header (title + mark-all-read). Emitted by both inside their panel.",
+    "pa-notifications__mark-read": "the \"mark all as read\" button in the header (svelte default header; keen leaves the header content to the consumer).",
+    "pa-notifications__list": "the <ul> of items inside the panel.",
+    "pa-notifications__list--page": "page-view list modifier (svelte isPageView — a bare full-page list; keen has no page-view mode on this fn).",
+    "pa-notifications__item": "a single notification <li> (keen notification_item/1 sub-component; svelte in-component iteration).",
+    "pa-notifications__item--unread": "unread-item modifier (keen is_unread; svelte item.isUnread).",
+    "pa-notifications__icon-wrapper": "the per-item tinted icon tile.",
+    "pa-notifications__icon-wrapper--primary": "primary icon-tile tint (one of the five role tints; keen variant / svelte iconVariant).",
+    "pa-notifications__icon-wrapper--secondary": "secondary icon-tile tint.",
+    "pa-notifications__icon-wrapper--success": "success icon-tile tint.",
+    "pa-notifications__icon-wrapper--warning": "warning icon-tile tint.",
+    "pa-notifications__icon-wrapper--danger": "danger icon-tile tint.",
+    "pa-notifications__content": "the per-item text column (title/body/time).",
+    "pa-notifications__time": "the per-item timestamp.",
+    "pa-notifications__footer": "the panel footer (e.g. a \"View all\" link).",
+    "pa-notifications__actions": "per-item hover-revealed actions row (svelte itemActions slot / keen rest-provided)."
+  },
+  "scenarios": []
+}

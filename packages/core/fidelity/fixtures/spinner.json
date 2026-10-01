@@ -1,0 +1,77 @@
+{
+  "//": "Markup-fidelity fixture for the SPINNER component — the rotating-border spinner (keen `Loader.spinner/1`, svelte `feedback/Spinner.svelte`). SCOPE: the flat `pa-spinner` block only. This is the SIBLING of the advanced-loader family (loader.json covers pa-loader-{dots,bars,…}); the spinner is a SEPARATE block/component. Authored from dist/css/main.css + snippets/loaders.html + _loaders.scss.",
+  "component": "spinner",
+  "block": "pa-spinner",
+  "propsVocabulary": {
+    "size": "spinner size — core ships ONLY --xs (snippets/loaders.html + _loaders.scss document no --sm/--md/--lg/--xl). Both wrappers restrict `size` to xs; any other size renders at the default.",
+    "variant": "colour variant primary|secondary|success|danger|warning|info — emits pa-spinner--{variant}, which sets border-top-color from the $btn-*-bg theme tokens (a REAL class, unlike the advanced loaders which theme via currentColor)",
+    "class": "extra classes appended verbatim (passthrough, not a core feature)"
+  },
+  "goldenConventions": "Structural: the spinner is an empty self-closing-ish <div> with no children (CSS-only, animated via border-top + @keyframes pa-spin). The block class is pa-spinner; size emits pa-spinner--xs; variant emits pa-spinner--{variant}. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-spinner(--)?'). Unlike the advanced loaders, the spinner HAS real colour modifier classes (pa-spinner--{variant}). The only size is --xs.",
+    "size": {
+      "kind": "enum",
+      "options": ["xs"],
+      "produces": "pa-spinner--{value}"
+    },
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "danger", "warning", "info"],
+      "produces": "pa-spinner--{value}"
+    },
+    "class": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": {},
+      "golden": "<div class=\"pa-spinner\"></div>"
+    },
+    {
+      "name": "xs",
+      "props": { "size": "xs" },
+      "golden": "<div class=\"pa-spinner pa-spinner--xs\"></div>"
+    },
+    {
+      "name": "variant-primary",
+      "props": { "variant": "primary" },
+      "golden": "<div class=\"pa-spinner pa-spinner--primary\"></div>"
+    },
+    {
+      "name": "variant-secondary",
+      "props": { "variant": "secondary" },
+      "golden": "<div class=\"pa-spinner pa-spinner--secondary\"></div>"
+    },
+    {
+      "name": "variant-success",
+      "props": { "variant": "success" },
+      "golden": "<div class=\"pa-spinner pa-spinner--success\"></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "variant": "danger" },
+      "golden": "<div class=\"pa-spinner pa-spinner--danger\"></div>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "variant": "warning" },
+      "golden": "<div class=\"pa-spinner pa-spinner--warning\"></div>"
+    },
+    {
+      "name": "variant-info",
+      "props": { "variant": "info" },
+      "golden": "<div class=\"pa-spinner pa-spinner--info\"></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "size": "xs", "variant": "primary", "class": "ms-sm" },
+      "golden": "<div class=\"pa-spinner pa-spinner--xs pa-spinner--primary ms-sm\"></div>",
+      "note": "size + variant + class passthrough together."
+    }
+  ]
+}

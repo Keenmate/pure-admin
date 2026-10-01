@@ -1,0 +1,99 @@
+{
+  "//": "Markup-fidelity fixture for the GRID row container (svelte layout/Grid.svelte, keen Grid.grid/1). SCOPE = CONTAINER ONLY. Core's flex grid row is `<div class=\"pc-row\">` (foundation class from @keenmate/pure-css, see snippets/grid.html). NOTE the `pc-` prefix (foundation-owned), not `pa-`. The row block carries alignment + gutter modifiers; its CHILDREN are columns (`pc-col-*`), modelled by the SEPARATE `column` fixture — here the body is plain slot text so the diff checks only the container's tag + class + nesting. The `.pc-row--*` modifiers claimed below are exactly the set in main.css: no-gutter, center, end, between, around, top, middle, bottom, stretch, same-height. Gap spacing is the shared `gap-*` utility (reachable via the class passthrough), not a `pc-row` modifier — out of scope. See accent-grid.json / section.json for the container-only model.",
+  "component": "grid",
+  "block": "pc-row",
+  "propsVocabulary": {
+    "noGutter": "boolean — remove the horizontal gutter between columns (pc-row--no-gutter)",
+    "sameHeight": "boolean — force .pa-card inside each column to equal height (pc-row--same-height)",
+    "justify": "horizontal alignment of columns center|end|between|around → pc-row--{justify}",
+    "valign": "vertical alignment of columns top|middle|bottom|stretch → pc-row--{valign} (stretch is the explicit default)",
+    "body": "the row's content area — plain slot text here (real children are pc-col columns)",
+    "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
+  },
+  "goldenConventions": "Structural only. Base is always `<div class=\"pc-row\">`; a modifier class is added per set feature. The body slot is a plain text token (Columns) so the diff checks the container's tag + class + nesting, not rich column content. Class-token order + whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The full .pc-row--* set in main.css is exactly: no-gutter, center, end, between, around, top, middle, bottom, stretch, same-height (10) — all claimed below (justify covers center/end/between/around; valign covers top/middle/bottom/stretch; noGutter + sameHeight cover the remaining two). Base `.pc-row` exists as a real rule. `produces: null` only for the slot + class passthrough.",
+    "noGutter":   { "kind": "bool",   "produces": "pc-row--no-gutter" },
+    "sameHeight": { "kind": "bool",   "produces": "pc-row--same-height" },
+    "justify":    { "kind": "enum",   "options": ["center", "end", "between", "around"], "produces": "pc-row--{value}" },
+    "valign":     { "kind": "enum",   "options": ["top", "middle", "bottom", "stretch"], "produces": "pc-row--{value}" },
+    "body":       { "kind": "slot",   "produces": null, "note": "the row's inner content (columns)" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "All 10 pc-row--* modifiers are feature-driven; none are JS-toggled state classes."
+  },
+  "deferred": {
+    "//": "The row's column children (`pc-col-*`, `pc-offset-*`, `pc-col--*`) belong to the SEPARATE `column` component, modelled by column.json — not elements of the pc-row block (they don't match `pc-row--*`/`pc-row__*`), so capability.mjs never reads them as part of this container's surface. Nothing to defer: the pc-row block has no sub-element classes of its own."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Columns" },
+      "golden": "<div class=\"pc-row\">Columns</div>",
+      "note": "Unmodified row — just the base .pc-row."
+    },
+    {
+      "name": "no-gutter",
+      "props": { "noGutter": true, "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--no-gutter\">Columns</div>"
+    },
+    {
+      "name": "same-height",
+      "props": { "sameHeight": true, "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--same-height\">Columns</div>"
+    },
+    {
+      "name": "justify-center",
+      "props": { "justify": "center", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--center\">Columns</div>"
+    },
+    {
+      "name": "justify-end",
+      "props": { "justify": "end", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--end\">Columns</div>"
+    },
+    {
+      "name": "justify-between",
+      "props": { "justify": "between", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--between\">Columns</div>"
+    },
+    {
+      "name": "justify-around",
+      "props": { "justify": "around", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--around\">Columns</div>"
+    },
+    {
+      "name": "valign-top",
+      "props": { "valign": "top", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--top\">Columns</div>"
+    },
+    {
+      "name": "valign-middle",
+      "props": { "valign": "middle", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--middle\">Columns</div>"
+    },
+    {
+      "name": "valign-bottom",
+      "props": { "valign": "bottom", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--bottom\">Columns</div>"
+    },
+    {
+      "name": "valign-stretch",
+      "props": { "valign": "stretch", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--stretch\">Columns</div>"
+    },
+    {
+      "name": "combined",
+      "props": { "noGutter": true, "sameHeight": true, "justify": "between", "valign": "middle", "body": "Columns" },
+      "golden": "<div class=\"pc-row pc-row--no-gutter pc-row--same-height pc-row--between pc-row--middle\">Columns</div>",
+      "note": "Stacks gutter + same-height + justify + valign; class-token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "justify": "center", "body": "Columns", "extraClass": "mb-4" },
+      "golden": "<div class=\"pc-row pc-row--center mb-4\">Columns</div>",
+      "note": "Class passthrough appended after the component classes."
+    }
+  ]
+}

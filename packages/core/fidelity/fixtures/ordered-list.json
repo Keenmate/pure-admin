@@ -1,0 +1,51 @@
+{
+  "//": "Markup-fidelity fixture for the ORDERED-LIST component — the styled <ol> block pa-list-ordered (keen `List.ordered_list/1`, svelte `display/OrderedList.svelte`). SCOPE = CONTAINER ONLY. Like list.json, the slot receives plain TEXT (HTML-escaped by the dumper), so real <li> item markup can't flow through; the body is a bare text token. This fixture proves the container's tag (<ol>), its pa-list-ordered class + the style modifier, and its class passthrough. SIBLING blocks pa-list / pa-list-basic / pa-list-definition are DIFFERENT components, out of scope. Authored from dist/css/main.css + snippets/lists.html + _lists.scss.",
+  "component": "ordered-list",
+  "block": "pa-list-ordered",
+  "propsVocabulary": {
+    "style": "marker style roman|alpha — emits pa-list-ordered--{style} (default = numeric 1,2,3, no modifier)",
+    "body": "the list's item area — plain slot text in this container-only slice (real <li> children are out of scope)",
+    "extraClass": "extra classes appended verbatim — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural. The container is a <ol class=\"pa-list-ordered …\">. style emits pa-list-ordered--{value}; default numeric emits no modifier. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-list-ordered--'): roman, alpha. No numeric modifier (it's the default). body/extraClass produce null (structural/passthrough).",
+    "style": {
+      "kind": "enum",
+      "options": ["roman", "alpha"],
+      "produces": "pa-list-ordered--{value}"
+    },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; <li> items are out of scope" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Steps" },
+      "golden": "<ol class=\"pa-list-ordered\">Steps</ol>",
+      "note": "Default numeric markers — no style modifier."
+    },
+    {
+      "name": "roman",
+      "props": { "body": "Steps", "style": "roman" },
+      "golden": "<ol class=\"pa-list-ordered pa-list-ordered--roman\">Steps</ol>"
+    },
+    {
+      "name": "alpha",
+      "props": { "body": "Steps", "style": "alpha" },
+      "golden": "<ol class=\"pa-list-ordered pa-list-ordered--alpha\">Steps</ol>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Steps", "style": "roman", "extraClass": "mb-base" },
+      "golden": "<ol class=\"pa-list-ordered pa-list-ordered--roman mb-base\">Steps</ol>",
+      "note": "Class passthrough — the extra class is appended; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<ol class=\"pa-list-ordered\"></ol>",
+      "note": "Empty body still emits the bare container."
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "//": "Markup-fidelity fixture for the KPI HERO + SUPPORTING container — the `.pa-kpi-hero-list` block (keen `PureAdmin.Components.KpiHero.kpi_hero_list/1`, svelte `display/KpiHeroList.svelte`). SCOPE = CONTAINER ONLY. A pa-kpi-hero-list is a `.pa-card` namespaced into the exec/marketing hero showcase: an optional header (`.pa-card__header.pa-kpi-header` holding the card title + a `.pa-kpi-live` pill), a body (`.pa-card__body.pa-kpi-hero-list__body`) wrapping the two-column grid (`.pa-kpi-hero-list__layout` + its `--hero-2-3` / `--hero-3-4` split modifiers), and an optional footer (`.pa-card__footer.pa-kpi-footer`). The HERO panel (`.pa-kpi-hero-main*`) and the SUPPORTING rail tiles (`.pa-kpi-hero-side*`) are SEPARATE blocks emitted by DISTINCT sub-components (svelte KpiHeroMain / KpiHeroSide, keen kpi_hero_main/1 / kpi_hero_side/1) fed through the default slot (hero) and the `rail` slot. Both dumpers pass slot content as plain ESCAPED TEXT, so real sub-component markup can't flow through; the hero content area inside __layout is a bare text token (Body) here, and the `rail` slot (→ `.pa-kpi-hero-list__rail`) is NOT exercised (no rail scenario), so __rail is deferred prose alongside the two child blocks. This fixture proves ONLY what the container itself emits: the `.pa-card.pa-kpi-hero-list` shell, the conditional header (title + live pill), the body + layout grid wrapper with its split modifiers, and the conditional footer. Same container-only model as kpi-bento.json (card chrome + slot body + slot-fed child sub-component deferred).",
+  "component": "kpi-hero",
+  "block": "pa-kpi-hero-list",
+  "propsVocabulary": {
+    "title": "card header title — rendered inside `.pa-kpi-header` as `.pa-card__title` > `.pa-card__title-text` (the single blessed card-title shape per the card-header canonicalization, mirrored by snippets/kpi.html L474). svelte titleText; keen title_text. Header renders only when title and/or live is present.",
+    "live": "the LIVE status pill — `.pa-kpi-live` with an animated `.pa-kpi-live__dot` and the hardcoded 'LIVE' label. svelte isLive (label hardcoded 'LIVE'); keen is_live (label defaults 'LIVE' via live_text). bool.",
+    "layout": "grid split modifier on `__layout` — hero-2-3 (`.pa-kpi-hero-list__layout--hero-2-3`, hero 2/3 · rail 1/3) or hero-3-4 (`.pa-kpi-hero-list__layout--hero-3-4`, hero 3/4 · rail thin sidebar). Default (nil) is the base 1:1 split, no modifier. svelte heroSplit ('2-3' | '3-4'); keen hero_split ('2_3' | '3_4', dasherized to the class). The markup is unchanged across splits.",
+    "body": "the layout grid's hero content area — filled with plain slot text in this container-only slice (the real `.pa-kpi-hero-main` hero panel is the deferred sub-component). svelte children; keen inner_block (required:true, so every scenario supplies it).",
+    "footer": "card footer caption — rendered inside `.pa-card__footer.pa-kpi-footer` as a bare `<span>` when the plain-string footer is set (the richer footer snippet override is out of this text-only slice). svelte footerText; keen footer_text. Footer renders only when set.",
+    "extraClass": "extra classes appended verbatim to the card shell (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "Structural container only — pa-kpi-hero-list adds no attribute conventions. The body slot is a plain text token (Body) so the diff checks the shell + header + body/layout-grid + footer nesting and the layout split modifiers, NOT rich hero/rail content (the hero panel + supporting tiles are the deferred sub-components, and the `rail` slot is not exercised, so `.pa-kpi-hero-list__rail` never materializes). The header renders ONLY when title and/or live is present; the body + layout wrapper ALWAYS renders; the footer renders ONLY when a footer caption is present. The title is the blessed `.pa-card__title` > `.pa-card__title-text` shape (snippets/kpi.html L474). The LIVE pill text is hardcoded 'LIVE'. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-hero-list(--|__)'). The `.pa-kpi-hero-list` BLOCK has ZERO block-level modifiers (grep '\\.pa-kpi-hero-list--' on main.css is empty — hero-2-3/hero-3-4 are ELEMENT modifiers on `__layout`), so capability.mjs axis-1 block-modifier reverse-check is vacuous. Block element classes in CSS: `__body`, `__layout`, `__layout--hero-2-3`, `__layout--hero-3-4`, `__rail` — `__body` + `__layout` appear in every golden; the two `__layout--hero-*` modifiers are produced by the `layout` enum; `__rail` is DEFERRED (its slot isn't exercised — slot content is plain text, so a real rail can't materialize). The header pill / footer / title classes (`pa-kpi-header`, `pa-kpi-live`, `pa-kpi-live__dot`, `pa-kpi-footer`, `pa-card__title`, `pa-card__title-text`) belong to the card/kpi-base chrome, not this block, so they are structural (produces:null) but still exercised directly by the goldens. The `.pa-kpi-hero-main*` and `.pa-kpi-hero-side*` families are SEPARATE blocks (deferred prose). `produces:null` = structural/native (no `pa-kpi-hero-list` modifier).",
+    "title":      { "kind": "string", "produces": null, "note": "structural — blessed card title shape .pa-card__title > .pa-card__title-text inside .pa-kpi-header; svelte titleText / keen title_text" },
+    "live":       { "kind": "bool",   "produces": null, "note": "structural — the .pa-kpi-live pill (with .pa-kpi-live__dot + hardcoded 'LIVE'); svelte isLive / keen is_live" },
+    "layout":     { "kind": "enum",   "produces": "pa-kpi-hero-list__layout--hero-{value}", "options": ["2-3", "3-4"], "note": "grid split modifier on __layout; svelte heroSplit ('2-3'|'3-4'), keen hero_split ('2_3'|'3_4' dasherized)" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the layout grid's hero content area; the real .pa-kpi-hero-main hero panel is the deferred sub-component" },
+    "footer":     { "kind": "string", "produces": null, "note": "structural — footer caption in .pa-card__footer.pa-kpi-footer as a bare <span>; svelte footerText / keen footer_text" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card shell, not a core feature" }
+  },
+  "deferred": {
+    "//": "The `.pa-kpi-hero-list__rail` element + the entire `.pa-kpi-hero-main*` (hero panel) and `.pa-kpi-hero-side*` (supporting tile) BLOCK families. The rail wrapper renders only when the `rail` slot is filled; the hero panel + supporting tiles are emitted by SEPARATE sub-components (svelte KpiHeroMain / KpiHeroSide, keen kpi_hero_main/1 / kpi_hero_side/1) fed through the default slot (hero) and the `rail` slot, which the generic dumper passes as plain escaped TEXT, so none of them can materialize here. The two tile families are DISTINCT blocks (hyphen-joined `pa-kpi-hero-main` / `pa-kpi-hero-side`, NOT `pa-kpi-hero-list__*` elements), so capability axis-1's `pa-kpi-hero-list__*` element reverse-check does NOT see them — these are acknowledged PROSE deferrals, not fixture-verified (no kpi-hero-main / kpi-hero-side fragment fixture/dumper clause exists to fixture-ref; a ref would DEFER?-fail). __rail IS a `pa-kpi-hero-list__*` element, but its slot is deliberately not exercised (rail is the deferred child container), so it is also prose here. The tile sentiment modifiers (--positive/--negative/--neutral/--up-strong) cascade the chart + delta accent via --pa-kpi-accent.",
+    "pa-kpi-hero-list__rail":            "vertical stack wrapping the supporting tiles — renders only when the `rail` slot is filled; the slot is not exercised (its content is plain text), so it is deferred prose here",
+    "pa-kpi-hero-main":                  "hero panel sub-component (svelte KpiHeroMain / keen kpi_hero_main/1) — the one headline metric; not container markup, slot-fed, no fragment fixture/dumper wiring",
+    "pa-kpi-hero-main--positive":        "hero sentiment accent (positive) — cascades chart/delta colour via --pa-kpi-accent; hero sub-component modifier",
+    "pa-kpi-hero-main--negative":        "hero sentiment accent (negative) — hero sub-component modifier",
+    "pa-kpi-hero-main--neutral":         "hero sentiment accent (neutral) — hero sub-component modifier",
+    "pa-kpi-hero-main--up-strong":       "hero sentiment accent (very-positive) — hero sub-component modifier",
+    "pa-kpi-hero-main__label":           "hero uppercase caption — hero sub-component element",
+    "pa-kpi-hero-main__value":           "hero focal value wrapper (__num + __unit) — hero sub-component element",
+    "pa-kpi-hero-main__num":             "hero number — container-query-scaled; hero sub-component element",
+    "pa-kpi-hero-main__unit":            "hero unit/affix — hero sub-component element",
+    "pa-kpi-hero-main__meta":            "hero meta row (delta · period · target) — hero sub-component element",
+    "pa-kpi-hero-main__delta":           "hero delta cell — hero sub-component element",
+    "pa-kpi-hero-main__period":          "hero period cell — hero sub-component element",
+    "pa-kpi-hero-main__target":          "hero target cell — hero sub-component element",
+    "pa-kpi-hero-main__chart":           "hero sparkline container (grows to fill spare height) — hero sub-component element",
+    "pa-kpi-hero-main__chart-svg":       "hero fixed-height SVG host (avoids Y distortion) — hero sub-component element",
+    "pa-kpi-hero-side":                  "supporting tile sub-component (svelte KpiHeroSide / keen kpi_hero_side/1) — one rail tile; not container markup, slot-fed, no fragment fixture/dumper wiring",
+    "pa-kpi-hero-side--positive":        "tile sentiment accent (positive) — tile sub-component modifier",
+    "pa-kpi-hero-side--negative":        "tile sentiment accent (negative) — tile sub-component modifier",
+    "pa-kpi-hero-side--neutral":         "tile sentiment accent (neutral) — tile sub-component modifier",
+    "pa-kpi-hero-side--up-strong":       "tile sentiment accent (very-positive) — tile sub-component modifier",
+    "pa-kpi-hero-side__label":           "tile uppercase caption cell — tile sub-component element",
+    "pa-kpi-hero-side__value":           "tile focal value wrapper (__num + __unit) — tile sub-component element",
+    "pa-kpi-hero-side__num":             "tile number — tile sub-component element",
+    "pa-kpi-hero-side__unit":            "tile unit/affix — tile sub-component element",
+    "pa-kpi-hero-side__delta":           "tile delta cell — tile sub-component element"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout\">Body</div></div></div>",
+      "note": "No title/live → NO header; no footer caption → NO footer; no rail slot → NO __rail. The body + layout wrapper always renders; its content is the deferred .pa-kpi-hero-main hero panel (here plain text)."
+    },
+    {
+      "name": "title",
+      "props": { "title": "Key Performance Indicators", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div></div><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout\">Body</div></div></div>",
+      "note": "Title opens the header; blessed title shape = .pa-card__title > .pa-card__title-text (snippets/kpi.html L474)."
+    },
+    {
+      "name": "live",
+      "props": { "live": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__header pa-kpi-header\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout\">Body</div></div></div>",
+      "note": "The LIVE pill alone still opens the header (header renders when title and/or live is present). Pill text is hardcoded 'LIVE'."
+    },
+    {
+      "name": "title-live",
+      "props": { "title": "Key Performance Indicators", "live": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout\">Body</div></div></div>",
+      "note": "Full header: title then the LIVE pill, in document order (snippets/kpi.html L474-475)."
+    },
+    {
+      "name": "layout-hero-2-3",
+      "props": { "layout": "2-3", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout pa-kpi-hero-list__layout--hero-2-3\">Body</div></div></div>",
+      "note": "Split modifier on __layout — hero 2/3 · rail 1/3. svelte heroSplit='2-3'; keen hero_split='2_3' dasherizes to the same class."
+    },
+    {
+      "name": "layout-hero-3-4",
+      "props": { "layout": "3-4", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout pa-kpi-hero-list__layout--hero-3-4\">Body</div></div></div>",
+      "note": "Split modifier on __layout — hero 3/4 · rail thin sidebar. svelte heroSplit='3-4'; keen hero_split='3_4' dasherizes to the same class."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footer": "Updated 2 min ago" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2 min ago</span></div></div>",
+      "note": "Footer caption renders only when set — a bare <span> inside .pa-card__footer.pa-kpi-footer."
+    },
+    {
+      "name": "full",
+      "props": { "title": "Key Performance Indicators", "live": true, "layout": "2-3", "body": "Body", "footer": "Updated 2 min ago" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout pa-kpi-hero-list__layout--hero-2-3\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2 min ago</span></div></div>",
+      "note": "Everything at once: full header (title + live) + hero-2-3 layout + footer."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-hero-list mb-4\"><div class=\"pa-card__body pa-kpi-hero-list__body\"><div class=\"pa-kpi-hero-list__layout\">Body</div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-card pa-kpi-hero-list; token order is normalized away."
+    }
+  ]
+}

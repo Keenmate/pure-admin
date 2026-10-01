@@ -1,0 +1,79 @@
+{
+  "//": "Markup-fidelity fixture for the RANGE-GROUP compact control — the `.pa-range-group` block (keen `PureAdmin.Components.RangeGroup.range_group/1`, svelte `forms/RangeGroup.svelte`). SCOPE = the GROUP CONTAINER SHELL ONLY (root + toggle[summary+caret] + floating panel + Reset/Apply actions footer). WHY container-only (splitter precedent): the group is a COMPOSITE — its panel holds one `.pa-range` SLIDER PRIMITIVE per dimension, built from a child input the generic single-component dumpers CANNOT feed (keen a required `:range` SLOT, svelte a required `rows: RangeGroupRow[]` ARRAY — the map `kind`s are enum/string/bool/slot/const, none can carry an array of row configs). So the dumpers render the group with ZERO rows, and the GOLDEN asserts only the always-emitted shell the snippet/demo bless (closed state, no `--open`). The `.pa-range` slider primitive is a SEPARATE block/component (keen `range/1`, core renders it per-row) and is therefore OUT OF SCOPE here — NOT in `blocks` — so this fixture is `blocks: [pa-range-group]` only; every `pa-range` / `pa-range__*` / `pa-range--*` class (rail/track/fill/thumb, handle-shape + single + disabled + ticks-labeled modifiers) is the child-composition sub-slice, prose-deferred below. SVELTE IS NOT DUMPABLE by the generic harness: `RangeGroup.svelte` calls `onDestroy()` (debounce cleanup) at init, and the dumper's standalone `render()` has no component lifecycle context, so `onDestroy` throws `Cannot read properties of null (reading 'r')` — the SAME dump.mjs lifecycle-context limitation documented for setContext components (splitter.svelte). Verified by running the dumper (per task, dump.mjs must NOT be edited). So there is NO svelte dump/compare; the svelte map is still authored + validated by capability axis-2 (capability-only). KEEN dumps + compares cleanly (keen `range_group/1` has NO init-time lifecycle call). Canonical shape: packages/core/snippets/range-group.html (the closed `.pa-range-group` + the `--open` resulting-DOM reference).",
+  "component": "range-group",
+  "blocks": ["pa-range-group"],
+  "propsVocabulary": {
+    "groupId": "DOM id on the group root. API DIVERGENCE: keen `id` is REQUIRED (the LiveView hook anchor — keen also wires phx-hook=\"PureAdminRangeGroup\" off it, normalized away by the comparator); svelte `RangeGroup` has NO id prop at all (it keys the hook off the display:contents host). Set in every keen golden because keen needs it; mapped in BOTH maps for axis-2 completeness (the svelte side is a declared-but-unused divergence, like splitter's splitterId). Structural attr, no class.",
+    "ariaLabel": "aria-label on the floating panel dialog (keen `panel_aria_label`, svelte `ariaLabel`; both default \"Numeric filters\"). Structural attr, no class. NB svelte ALSO stamps aria-label on the toggle button (keen does not) — an acknowledged divergence, moot for the golden since svelte is non-dumpable.",
+    "resetText": "Reset button label (keen `reset_text`, svelte hard-codes \"Reset\"). Text content, no class.",
+    "applyText": "Apply button label (keen `apply_text`, svelte hard-codes \"Apply\"). Text content, no class.",
+    "hasActions": "render the Reset / Apply footer (keen `has_actions`, default true; svelte always renders it). false → the pa-range-group__actions block is omitted entirely.",
+    "panelStyle": "inline style on the __panel — where per-instance --pa-range-* token overrides belong (the panel reparents to <body> when open). keen `panel_style`, svelte `panelStyle`. GUARD: a nil value must emit NO style attribute (not a phantom style=\"\"). Structural, no class. Declared-but-not-exercised (no golden sets it) — see goldenConventions.",
+    "body": "the panel's rows — one .pa-range-group__row (+ .pa-range slider) per dimension. In this container-only slice it is EMPTY (the dumpers can't build the rows from a slot/array). keen `:range` slot, svelte `rows` prop. The per-row structure is the prose-deferred child-composition sub-slice.",
+    "extraClass": "extra classes appended verbatim on the root (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "Goldens assert the always-emitted CLOSED shell: <div id=\"...\" class=\"pa-range-group\" data-range-group> > a __toggle button (aria-expanded=\"false\") wrapping an empty __summary span + a __caret span, then the __panel (role=dialog, aria-label) whose only child is the __actions footer (Reset / Apply) — the panel holds ZERO .pa-range-group__row because the generic dumpers can't feed the rows. This is the snippet's closed-state shape minus the JS-built rows/segments. The bare marker attrs (data-range-group, data-range-group-toggle, data-range-group-summary, data-range-group-panel, data-range-output, data-range-group-reset/-apply) are NOT in the normalizer's BOOLEAN_ATTRS set, so presence + spelling must match; both the golden and keen emit them bare. phx-* (keen's hook wiring) is stripped by the normalizer; the hand-set `id` is SIGNAL and is written in every golden (keen requires it). panelStyle is deliberately NOT set in any golden: it is the style-attr GUARD prop — keen's fix folds it into the panel attrs only when present so nil emits no attribute (a bare style={nil} renders style=\"\" in HEEx, the desc-table/loader/gauge phantom-style bug); mapped in both maps for axis-2. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability. COMPARE: svelte has NO compare run (non-dumpable — onDestroy at init, see top note); keen compares clean on every scenario.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-range-group(--|__)'). The ONLY pa-range-group BLOCK modifier is --open (JS-toggled on the root when the panel opens -> cssStateClasses). Group-level props here are all structural (produces:null) — the group shell carries fixed element classes, not prop-driven modifiers. The JS-built summary segments (__seg-*), the --open panel/row-value state, and the per-row __row* elements are NOT in the SSR shell: __seg-* + __panel--open + __row-value--empty are cssStateElements (built/toggled by range-group.js at runtime), and __row / __row-head / __row-label / __row-value are the per-row child-composition sub-slice (deferred). The .pa-range slider primitive is a separate block, out of scope entirely (see top note).",
+    "groupId":    { "kind": "string", "produces": null, "note": "structural — DOM id on the root. keen `id` REQUIRED (hook anchor + phx-hook off it, phx-* normalized away); svelte has no id prop (declared-but-unused in the svelte map). Set in every golden; mapped in both maps for axis-2." },
+    "ariaLabel":  { "kind": "string", "produces": null, "note": "structural — aria-label on the __panel dialog (default \"Numeric filters\")." },
+    "resetText":  { "kind": "string", "produces": null, "note": "structural — Reset button text (svelte hard-codes it; keen `reset_text`)." },
+    "applyText":  { "kind": "string", "produces": null, "note": "structural — Apply button text (svelte hard-codes it; keen `apply_text`)." },
+    "hasActions": { "kind": "bool",   "produces": null, "note": "structural — presence of the __actions footer. false omits it. svelte always renders it (declared-but-unused in the svelte map)." },
+    "panelStyle": { "kind": "string", "produces": null, "note": "structural — inline style on the __panel; nil MUST emit no style attribute (keen folds it into the panel attrs only when present). Declared-but-not-exercised; mapped in both maps for axis-2." },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the panel rows. EMPTY in this container-only slice; the per-row .pa-range-group__row + .pa-range is the deferred child-composition sub-slice." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim after pa-range-group, not a core feature." }
+  },
+  "deferred": {
+    "//": "Per-ROW element classes of the pa-range-group block — NOT the group shell. Both wrappers build one __row per dimension from a child input the generic single-component dumper can't supply (keen a required `:range` slot, svelte a required `rows` array). PROSE deferral (not a verified {fixture:...} ref): neither dumper registers a `range` fragment this session and the dumpers must not be edited, so a `{fixture:...}` ref would hard-fail DEFER?. Verified instead in each wrapper's own component tests. The .pa-range SLIDER PRIMITIVE block (pa-range / pa-range__* / pa-range--*) is a SEPARATE component, entirely out of scope (not in `blocks`), so its classes are not this fixture's responsibility.",
+    "pa-range-group__row":              "per-row — one dimension; built from the rows slot/array the container dumper can't feed",
+    "pa-range-group__row-head":         "per-row — the row's label + readout header",
+    "pa-range-group__row-label":        "per-row — the dimension name",
+    "pa-range-group__row-value":        "per-row — [data-range-output] live readout (JS fills the text)"
+  },
+  "cssStateClasses": {
+    "//": "pa-range-group-- BLOCK modifier range-group.js TOGGLES at runtime (never hand-authored at SSR), so no feature produces it; the axis-1 block-modifier reverse check counts it as claimed.",
+    "pa-range-group--open": "Added to the root while the panel is open (rotates the __caret 180deg). Toggled by range-group.js on open/close — never part of the SSR markup."
+  },
+  "cssStateElements": {
+    "//": "pa-range-group__ ELEMENT classes range-group.js BUILDS or TOGGLES at runtime and that never appear in the SSR shell a wrapper emits — no feature can produce them and no SSR golden can exercise them. The __summary span IS in the SSR markup (empty), but the __seg-* children it gets filled with are JS-built. __panel--open + __row-value--empty are JS-toggled state modifiers.",
+    "pa-range-group__panel--open":      "display:flex state on the __panel — range-group.js toggles it on open/close.",
+    "pa-range-group__seg-label":        "JS-built summary segment (dimension name) injected into __summary when closed.",
+    "pa-range-group__seg-value":        "JS-built summary segment (the value).",
+    "pa-range-group__seg-value--empty": "JS-built 'Any' placeholder segment when a dimension sits at its full bound.",
+    "pa-range-group__seg-sep":          "JS-built ' / ' separator between summary segments.",
+    "pa-range-group__row-value--empty": "JS-toggled muted in-panel readout for an unbounded row."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "groupId": "flt" },
+      "golden": "<div id=\"flt\" class=\"pa-range-group\" data-range-group><button type=\"button\" class=\"pa-range-group__toggle\" data-range-group-toggle aria-expanded=\"false\"><span class=\"pa-range-group__summary\" data-range-group-summary></span><span class=\"pa-range-group__caret\" aria-hidden=\"true\"></span></button><div class=\"pa-range-group__panel\" data-range-group-panel role=\"dialog\" aria-label=\"Numeric filters\"><div class=\"pa-range-group__actions\"><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--ghost\" data-range-group-reset>Reset</button><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--primary\" data-range-group-apply>Apply</button></div></div></div>",
+      "note": "The blessed closed shell with no rows: root + toggle(summary+caret) + panel + Reset/Apply footer. Default aria-label + button labels."
+    },
+    {
+      "name": "aria-label",
+      "props": { "groupId": "flt", "ariaLabel": "People filters" },
+      "golden": "<div id=\"flt\" class=\"pa-range-group\" data-range-group><button type=\"button\" class=\"pa-range-group__toggle\" data-range-group-toggle aria-expanded=\"false\"><span class=\"pa-range-group__summary\" data-range-group-summary></span><span class=\"pa-range-group__caret\" aria-hidden=\"true\"></span></button><div class=\"pa-range-group__panel\" data-range-group-panel role=\"dialog\" aria-label=\"People filters\"><div class=\"pa-range-group__actions\"><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--ghost\" data-range-group-reset>Reset</button><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--primary\" data-range-group-apply>Apply</button></div></div></div>",
+      "note": "Custom panel aria-label overrides the default."
+    },
+    {
+      "name": "custom-action-labels",
+      "props": { "groupId": "flt", "resetText": "Clear", "applyText": "Filter" },
+      "golden": "<div id=\"flt\" class=\"pa-range-group\" data-range-group><button type=\"button\" class=\"pa-range-group__toggle\" data-range-group-toggle aria-expanded=\"false\"><span class=\"pa-range-group__summary\" data-range-group-summary></span><span class=\"pa-range-group__caret\" aria-hidden=\"true\"></span></button><div class=\"pa-range-group__panel\" data-range-group-panel role=\"dialog\" aria-label=\"Numeric filters\"><div class=\"pa-range-group__actions\"><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--ghost\" data-range-group-reset>Clear</button><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--primary\" data-range-group-apply>Filter</button></div></div></div>",
+      "note": "Reset / Apply text are configurable in keen (svelte hard-codes them)."
+    },
+    {
+      "name": "no-actions",
+      "props": { "groupId": "flt", "hasActions": false },
+      "golden": "<div id=\"flt\" class=\"pa-range-group\" data-range-group><button type=\"button\" class=\"pa-range-group__toggle\" data-range-group-toggle aria-expanded=\"false\"><span class=\"pa-range-group__summary\" data-range-group-summary></span><span class=\"pa-range-group__caret\" aria-hidden=\"true\"></span></button><div class=\"pa-range-group__panel\" data-range-group-panel role=\"dialog\" aria-label=\"Numeric filters\"></div></div>",
+      "note": "Guard: hasActions=false omits the __actions footer entirely, leaving an empty panel shell."
+    },
+    {
+      "name": "extra-class",
+      "props": { "groupId": "flt", "extraClass": "mb-4" },
+      "golden": "<div id=\"flt\" class=\"pa-range-group mb-4\" data-range-group><button type=\"button\" class=\"pa-range-group__toggle\" data-range-group-toggle aria-expanded=\"false\"><span class=\"pa-range-group__summary\" data-range-group-summary></span><span class=\"pa-range-group__caret\" aria-hidden=\"true\"></span></button><div class=\"pa-range-group__panel\" data-range-group-panel role=\"dialog\" aria-label=\"Numeric filters\"><div class=\"pa-range-group__actions\"><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--ghost\" data-range-group-reset>Reset</button><button type=\"button\" class=\"pa-btn pa-btn--sm pa-btn--primary\" data-range-group-apply>Apply</button></div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-range-group on the root."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "//": "Markup-fidelity fixture for the popconfirm component (pa-popconfirm). NEUTRAL scenarios + the GOLDEN markup core blesses for each. Scope is the popconfirm OVERLAY block only — the <div class=\"pa-popconfirm ...\"> subtree from snippets/popconfirm.html: __arrow (decorative) + __content (card surface) wrapping __message (body, optional __icon severity glyph) + __actions (cancel/confirm button row). The TRIGGER button is a bare sibling in the core snippet (onclick=\"togglePopconfirm(...)\"), NOT part of this block, so it is out of scope. Popconfirm is a popover: positioning (left/top inline style, the --top/--bottom flip, .is-open display toggle) is done by JS AFTER open — the SSR markup a wrapper emits is the CLOSED, un-positioned overlay, which is the layer this fixture captures. See ../README.md and badge.json (single-block structural model) / progress.json (deferred + a11y model).",
+  "component": "popconfirm",
+  "block": "pa-popconfirm",
+  "propsVocabulary": {
+    "placement": "logical initial side (top|bottom|start|end) — pa-popconfirm--{placement}; the snippet always carries one (bottom is the authored default). JS may rewrite it after flip() at runtime (out of scope).",
+    "compact": "boolean — tighter padding + narrower min-width (pa-popconfirm--compact)",
+    "icon": "severity glyph on the __message element (danger|warning|info) — adds pa-popconfirm__icon + pa-popconfirm__icon--{icon}; omitted = no icon (plain message)",
+    "message": "body copy, rendered inside __message > p",
+    "confirmVariant": "colour variant of the confirm button (pa-btn--{confirmVariant}); the cancel button is always pa-btn--secondary",
+    "confirmText": "confirm button label",
+    "cancelText": "cancel button label",
+    "class": "extra classes appended verbatim to the block"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape (snippets/popconfirm.html) for the overlay block PLUS the one convention both wrappers legitimately add over the static snippet: the action <button>s carry type=\"button\" (sensible default preventing implicit form submit — same convention blessed in button.json). The block always carries a placement modifier (bottom is the authored/default side; the snippet never ships bare). The overlay is authored in its CLOSED state: NO is-open (JS toggles it on open) and NO inline position style (JS sets left/top on open) — both are runtime concerns out of the pre-JS-hook SSR surface. Structure is fixed: .pa-popconfirm > (.pa-popconfirm__arrow + .pa-popconfirm__content > (.pa-popconfirm__message[ .pa-popconfirm__icon .pa-popconfirm__icon--X] > p + .pa-popconfirm__actions > (cancel .pa-btn--secondary, confirm .pa-btn--{variant}))). Cancel button is the FIRST action, confirm SECOND (right-aligned row). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-popconfirm(--|__)'). `produces` is a class template with {value}; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native (no pa-popconfirm modifier — inner text, button labels, or always-present structural element).",
+    "placement": {
+      "kind": "enum",
+      "options": ["top", "bottom", "start", "end"],
+      "produces": "pa-popconfirm--{value}",
+      "note": "logical sides; mirror in RTL. All four are real CSS modifiers. bottom is the authored default but still emits a class — the snippet never ships a bare .pa-popconfirm."
+    },
+    "compact": {
+      "kind": "bool",
+      "produces": "pa-popconfirm--compact"
+    },
+    "icon": {
+      "kind": "enum",
+      "options": ["danger", "warning", "info"],
+      "produces": "pa-popconfirm__icon--{value}",
+      "note": "applied on the __message element; the base pa-popconfirm__icon is added alongside the modifier (exercised by every icon golden). Omitting icon = plain message, no icon classes. keen additionally accepts icon_variant=\"default\" (bare __icon, no modifier) — an EXTRA wrapper capability, not in the oracle enum, so not required of svelte."
+    },
+    "message": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — body copy inside __message > p"
+    },
+    "confirmVariant": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — produces a pa-btn--{variant} class on the confirm button (a BUTTON modifier, owned by the button component, not a pa-popconfirm class). Cancel is always pa-btn--secondary."
+    },
+    "confirmText": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — confirm button label text"
+    },
+    "cancelText": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — cancel button label text"
+    },
+    "class": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-popconfirm classes toggled by JS at runtime, never hand-authored into the SSR markup — listed so the axis-1 reverse check doesn't read them as an unmapped feature. is-open is NOT a pa-popconfirm--* BEM modifier (it's a bare .is-open state class) so it doesn't trigger the reverse check, but it is noted here for the record: the overlay JS toggles display:none→block via .is-open on open."
+  },
+  "deferred": {
+    "//": "No deferred element classes — every pa-popconfirm__* element (arrow, content, message, actions, icon) is part of this overlay block and exercised by the scenario goldens."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "placement": "bottom", "message": "Are you sure you want to proceed with this action?", "confirmVariant": "primary", "confirmText": "Confirm", "cancelText": "Cancel" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message\"><p>Are you sure you want to proceed with this action?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--primary\" type=\"button\">Confirm</button></div></div></div>",
+      "note": "No icon = plain __message (no __icon classes). Overlay authored closed (no is-open) and un-positioned (no inline style) — JS adds both on open."
+    },
+    {
+      "name": "placement-top",
+      "props": { "placement": "top", "message": "Replace the current selection?", "confirmVariant": "primary", "confirmText": "Yes", "cancelText": "No" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--top\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message\"><p>Replace the current selection?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">No</button><button class=\"pa-btn pa-btn--primary\" type=\"button\">Yes</button></div></div></div>"
+    },
+    {
+      "name": "placement-start",
+      "props": { "placement": "start", "message": "Move this to the start side?", "confirmVariant": "primary", "confirmText": "Yes", "cancelText": "No" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--start\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message\"><p>Move this to the start side?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">No</button><button class=\"pa-btn pa-btn--primary\" type=\"button\">Yes</button></div></div></div>"
+    },
+    {
+      "name": "placement-end",
+      "props": { "placement": "end", "compact": true, "message": "Remove tag?", "confirmVariant": "danger", "confirmText": "Yes", "cancelText": "No" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--end pa-popconfirm--compact\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message\"><p>Remove tag?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">No</button><button class=\"pa-btn pa-btn--danger\" type=\"button\">Yes</button></div></div></div>",
+      "note": "Mirrors the snippet's inline-end compact example (remove-tag)."
+    },
+    {
+      "name": "compact",
+      "props": { "placement": "bottom", "compact": true, "message": "Delete this item?", "confirmVariant": "danger", "confirmText": "Yes", "cancelText": "No" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message\"><p>Delete this item?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">No</button><button class=\"pa-btn pa-btn--danger\" type=\"button\">Yes</button></div></div></div>"
+    },
+    {
+      "name": "icon-danger",
+      "props": { "placement": "bottom", "icon": "danger", "message": "Are you sure you want to delete this item? This action cannot be undone.", "confirmVariant": "danger", "confirmText": "Delete", "cancelText": "Cancel" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger\"><p>Are you sure you want to delete this item? This action cannot be undone.</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--danger\" type=\"button\">Delete</button></div></div></div>",
+      "note": "The canonical delete-confirm (snippet BASIC example). __message carries both the base __icon and the __icon--danger modifier."
+    },
+    {
+      "name": "icon-warning",
+      "props": { "placement": "bottom", "icon": "warning", "message": "Archive this item? It will be moved to the archive folder.", "confirmVariant": "warning", "confirmText": "Archive", "cancelText": "Cancel" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--warning\"><p>Archive this item? It will be moved to the archive folder.</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--warning\" type=\"button\">Archive</button></div></div></div>"
+    },
+    {
+      "name": "icon-info",
+      "props": { "placement": "bottom", "icon": "info", "message": "Reset all settings to their default values?", "confirmVariant": "primary", "confirmText": "Reset", "cancelText": "Cancel" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info\"><p>Reset all settings to their default values?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--primary\" type=\"button\">Reset</button></div></div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "placement": "top", "compact": true, "icon": "danger", "message": "Delete John Doe?", "confirmVariant": "danger", "confirmText": "Yes", "cancelText": "No", "class": "mt-sm" },
+      "golden": "<div class=\"pa-popconfirm pa-popconfirm--top pa-popconfirm--compact mt-sm\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger\"><p>Delete John Doe?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">No</button><button class=\"pa-btn pa-btn--danger\" type=\"button\">Yes</button></div></div></div>",
+      "note": "Stacks placement + compact + icon + confirmVariant + class passthrough to exercise full class ordering together."
+    }
+  ]
+}

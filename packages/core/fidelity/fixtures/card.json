@@ -40,13 +40,21 @@
     "body":                      { "kind": "slot", "produces": "pa-card__body" },
     "footer":                    { "kind": "slot", "produces": "pa-card__footer" },
     "footerActions":             { "kind": "slot", "produces": "pa-card__actions", "note": "in footer" },
-    "tools":                     { "kind": "slot", "produces": "pa-card__actions", "note": "in header" }
+    "tools":                     { "kind": "slot", "produces": "pa-card__actions", "note": "in header" },
+    "tabs":                      { "kind": "slot", "produces": "pa-card__tabs", "note": "tab strip INSIDE the header, after the title (canonical per snippets/cards.html). Tab buttons/panels are the card-tab / card-tab-content fragments." },
+    "inlineTabs":                { "kind": "bool", "produces": "pa-card__tabs--inline", "note": "compact pill style; the tab strip still lives in the header" }
+  },
+  "deferred": {
+    "//": "Element classes covered by a fragment fixture (verified against it) or acknowledged out-of-scope. See README 'deferred'. { fixture: X } is verified: capability confirms X's goldens/produces actually include the class.",
+    "pa-card__tab":                 { "fixture": "card-tab" },
+    "pa-card__tab--active":         { "fixture": "card-tab" },
+    "pa-card__tab-content":         { "fixture": "card-tab-content" },
+    "pa-card__tab-content--active": { "fixture": "card-tab-content" },
+    "pa-card__actions-full":        "CORE-ONLY responsive-actions subtree — author-provided inside the :tools slot; NO wrapper component emits it (keen docs: author supplies both -full/-collapsed). Not wrapper-fidelity-testable.",
+    "pa-card__actions-collapsed":   "CORE-ONLY responsive-actions subtree — see pa-card__actions-full."
   },
   "cssStateClasses": {
-    "//": "pa-card modifiers not modeled as features in this slice (specialized sub-components / JS-driven). Out of scope for now; the axis-1 reverse check is block-modifier-scoped so these don't trip it.",
-    "pa-card__tab--active": "tabs sub-feature (card_tab)",
-    "pa-card__tabs--inline": "tabs sub-feature",
-    "pa-card__tab-content--active": "tabs sub-feature",
+    "//": "Wrapper-emitted __actions modifiers driven by actions_variant (container-query / JS). Claimed here; dedicated scenarios owed.",
     "pa-card__actions--overflow": "JS progressive-collapse toolbar",
     "pa-card__actions--responsive": "container-query collapse (needs -full/-collapsed subtrees)"
   },
@@ -142,6 +150,17 @@
       "name": "footer-actions",
       "props": { "body": "Body", "footerActions": "Actions" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__body\">Body</div><div class=\"pa-card__footer\"><div class=\"pa-card__actions\">Actions</div></div></div>"
+    },
+    {
+      "name": "tabs",
+      "props": { "title": "Title", "tabs": "Tabs", "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><div class=\"pa-card__tabs\">Tabs</div></div><div class=\"pa-card__body\">Body</div></div>",
+      "note": "Canonical tab strip lives INSIDE the header, after the title. Both wrappers fixed to this shape (svelte previously dropped the title when tabs were present; keen previously rendered non-inline tabs OUTSIDE the header)."
+    },
+    {
+      "name": "inline-tabs",
+      "props": { "title": "Title", "tabs": "Tabs", "inlineTabs": true, "body": "Body" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><div class=\"pa-card__tabs pa-card__tabs--inline\">Tabs</div></div><div class=\"pa-card__body\">Body</div></div>"
     }
   ]
 }

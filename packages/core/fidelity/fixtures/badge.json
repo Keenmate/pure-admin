@@ -1,0 +1,165 @@
+{
+  "//": "Markup-fidelity fixture for the badge component. NEUTRAL scenarios (framework-agnostic prop bags) + the GOLDEN markup core blesses for each. Scoped to the single `badge` component (pa-badge) that keen `badge/1` and svelte `Badge.svelte` render — NOT the sibling pa-label / pa-composite-badge / pa-badge-group components in badges.html, nor the pa-badge__remove element owned by another component. Wrapper dumpers map `props` to their own API, render, and the core comparator diffs their output against `golden` after normalization. See ../README.md and button.json/card.json for the model.",
+  "component": "badge",
+  "block": "pa-badge",
+  "propsVocabulary": {
+    "variant": "colour variant (primary|secondary|success|warning|danger|info|light|dark) — the 8 btn-style colour pairs",
+    "themeColor": "1..9 theme colour slot — emits pa-badge--color-N (paints --pc-color-N + contrasting text); overrides variant",
+    "size": "xs|sm|lg|xl (default is the unmodified 12px badge)",
+    "pill": "boolean — full-round ends (pa-badge--pill)",
+    "ellipsisStart": "boolean — truncate from the start (pa-badge--ellipsis-start)",
+    "icon": "glyph/text rendered inside pa-badge__icon before the label",
+    "label": "inner text content"
+  },
+  "goldenConventions": "Structural only — badges add no attribute conventions like button's type. The badge is a plain <span>; a variant modifier is present when a variant/themeColor is set. Slot content is a plain text token (Verified/Status/etc.) so the diff checks the wrapper's structural nesting, not rich content. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability. themeColor scenarios deliberately omit `variant` — pa-badge--color-N is the sole colour class and must NOT co-exist with pa-badge--primary (keen's variant defaults to primary; the map + component must suppress it when theme_color is set).",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json — its static extraction misses SCSS-@each-generated variants like the color-1..9 + variant loops). `produces` is a class template with {value} placeholders; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native (no pa-badge modifier).",
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-badge--{value}"
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-badge--color-{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-badge--{value}"
+    },
+    "pill": {
+      "kind": "bool",
+      "produces": "pa-badge--pill"
+    },
+    "ellipsisStart": {
+      "kind": "bool",
+      "produces": "pa-badge--ellipsis-start"
+    },
+    "icon": {
+      "kind": "slot",
+      "produces": "pa-badge__icon"
+    },
+    "label": {
+      "kind": "slot",
+      "produces": null
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-badge--* classes in main.css that are NOT feature-driven props in this slice, so the axis-1 reverse check doesn't read them as an unmapped feature."
+  },
+  "deferred": {
+    "//": "pa-badge__* element classes in main.css that the badge COMPONENT does not own, so no badge feature produces them and no badge golden exercises them. Acknowledged out-of-scope (prose, not a fixture ref).",
+    "pa-badge__remove": "Foreign element — defined by command-palette under `.pa-command-palette__tokens .pa-badge__remove` (_command-palette.scss), a remove button command-palette places inside its token chips. The badge component (keen badge/1, svelte Badge.svelte) emits no remove affordance; this class is the command-palette slice's concern, not badge's."
+  },
+  "scenarios": [
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "label": "Primary" },
+      "golden": "<span class=\"pa-badge pa-badge--primary\">Primary</span>"
+    },
+    {
+      "name": "secondary",
+      "props": { "variant": "secondary", "label": "Secondary" },
+      "golden": "<span class=\"pa-badge pa-badge--secondary\">Secondary</span>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "label": "Success" },
+      "golden": "<span class=\"pa-badge pa-badge--success\">Success</span>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "label": "Warning" },
+      "golden": "<span class=\"pa-badge pa-badge--warning\">Warning</span>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "label": "Danger" },
+      "golden": "<span class=\"pa-badge pa-badge--danger\">Danger</span>"
+    },
+    {
+      "name": "info",
+      "props": { "variant": "info", "label": "Info" },
+      "golden": "<span class=\"pa-badge pa-badge--info\">Info</span>"
+    },
+    {
+      "name": "light",
+      "props": { "variant": "light", "label": "Light" },
+      "golden": "<span class=\"pa-badge pa-badge--light\">Light</span>"
+    },
+    {
+      "name": "dark",
+      "props": { "variant": "dark", "label": "Dark" },
+      "golden": "<span class=\"pa-badge pa-badge--dark\">Dark</span>"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "themeColor": "1", "label": "Color 1" },
+      "golden": "<span class=\"pa-badge pa-badge--color-1\">Color 1</span>",
+      "note": "themeColor omits variant on purpose — pa-badge--color-N is the sole colour class. keen's variant defaults to primary; badge.ex must suppress it when theme_color is set (mirrors keen button)."
+    },
+    {
+      "name": "theme-color-5",
+      "props": { "themeColor": "5", "label": "Color 5" },
+      "golden": "<span class=\"pa-badge pa-badge--color-5\">Color 5</span>"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "themeColor": "9", "label": "Color 9" },
+      "golden": "<span class=\"pa-badge pa-badge--color-9\">Color 9</span>"
+    },
+    {
+      "name": "size-xs",
+      "props": { "variant": "primary", "size": "xs", "label": "XS" },
+      "golden": "<span class=\"pa-badge pa-badge--primary pa-badge--xs\">XS</span>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "variant": "primary", "size": "sm", "label": "Small" },
+      "golden": "<span class=\"pa-badge pa-badge--primary pa-badge--sm\">Small</span>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "variant": "primary", "size": "lg", "label": "Large" },
+      "golden": "<span class=\"pa-badge pa-badge--primary pa-badge--lg\">Large</span>"
+    },
+    {
+      "name": "size-xl",
+      "props": { "variant": "primary", "size": "xl", "label": "XL" },
+      "golden": "<span class=\"pa-badge pa-badge--primary pa-badge--xl\">XL</span>"
+    },
+    {
+      "name": "pill",
+      "props": { "variant": "primary", "pill": true, "label": "Pill Badge" },
+      "golden": "<span class=\"pa-badge pa-badge--primary pa-badge--pill\">Pill Badge</span>"
+    },
+    {
+      "name": "pill-success",
+      "props": { "variant": "success", "pill": true, "label": "Active" },
+      "golden": "<span class=\"pa-badge pa-badge--success pa-badge--pill\">Active</span>"
+    },
+    {
+      "name": "ellipsis-start",
+      "props": { "variant": "secondary", "ellipsisStart": true, "label": "Long breadcrumb path" },
+      "golden": "<span class=\"pa-badge pa-badge--secondary pa-badge--ellipsis-start\">Long breadcrumb path</span>"
+    },
+    {
+      "name": "icon",
+      "props": { "variant": "success", "icon": "✓", "label": "Verified" },
+      "golden": "<span class=\"pa-badge pa-badge--success\"><span class=\"pa-badge__icon\">✓</span>Verified</span>"
+    },
+    {
+      "name": "icon-sm",
+      "props": { "variant": "warning", "size": "sm", "icon": "⚠", "label": "Alert" },
+      "golden": "<span class=\"pa-badge pa-badge--warning pa-badge--sm\"><span class=\"pa-badge__icon\">⚠</span>Alert</span>"
+    },
+    {
+      "name": "combined",
+      "props": { "variant": "info", "size": "lg", "pill": true, "icon": "★", "label": "Featured" },
+      "golden": "<span class=\"pa-badge pa-badge--info pa-badge--lg pa-badge--pill\"><span class=\"pa-badge__icon\">★</span>Featured</span>",
+      "note": "Stacks variant + size + pill + icon slot to exercise the full class ordering + icon nesting together."
+    }
+  ]
+}

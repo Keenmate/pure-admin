@@ -1,0 +1,67 @@
+{
+  "//": "Markup-fidelity fixture for the inline TEXT component (svelte typography/Text.svelte, keen Typography.text/1). SCOPE = a flat inline `<span>` for coloured inline text. Core's blessed inline-colour shape is a BARE <span> carrying a `.text-{variant}` SEMANTIC COLOUR utility (snippets/typography.html lines 111-115: `<span class=\"text-primary\">`, `<span class=\"text-success\">` …). These are the colour-only `.text-*` utilities (NOT the pa-text paragraph component) — core ships exactly five: primary, success, danger, warning, info (there is NO text-secondary/-muted/-light/-dark). With no variant the span is CLASS-LESS (the `<code>`/heading precedent). The only other inputs are a `title` tooltip attribute and a class passthrough. See code.json for the class-less-default model and label.json for the variant model.",
+  "component": "text",
+  "block": "text",
+  "propsVocabulary": {
+    "variant": "semantic colour primary|success|danger|warning|info → text-{variant} (colour-only utility). Omit → bare <span> with no class.",
+    "title": "HTML title attribute (hover tooltip) — a real attribute, not a class",
+    "content": "inner text content (slot / inner_block)",
+    "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
+  },
+  "goldenConventions": "Structural + the one `title` attribute convention. The span carries a `text-{variant}` class only when a variant is set, otherwise NO class. `title` is emitted only when provided. Slot content is a plain text token so the diff checks tag + class + attribute + nesting, not rich content. Class-token order + whitespace + attribute order are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The INLINE text component uses the colour-only `.text-*` utilities (NOT pa-text--*). Core ships exactly five: text-primary, text-success, text-danger, text-warning, text-info. The block name here is `text` — a bare type/utility prefix with no `text--*` BEM modifiers and no `text__*` elements (the `.text-{variant}` utilities are flat), so the axis-1 reverse checks find nothing to claim and the 'vacuous scope' note is EXPECTED (the component's canonical default is a class-less bare <span>). `title` + the slot + class passthrough are structural → produces: null.",
+    "variant":    { "kind": "enum",   "options": ["primary", "success", "danger", "warning", "info"], "produces": "text-{value}" },
+    "title":      { "kind": "string", "produces": null, "note": "HTML title attribute (tooltip) — not a class" },
+    "content":    { "kind": "slot",   "produces": null, "note": "inner text of the span" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "The inline text span has no BEM block/modifier classes of its own (the colour utilities are flat `.text-*`), so there is nothing for the axis-1 reverse check to claim."
+  },
+  "scenarios": [
+    {
+      "name": "default",
+      "props": { "content": "Plain text" },
+      "golden": "<span>Plain text</span>",
+      "note": "No variant → a class-less bare <span>."
+    },
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "content": "Primary" },
+      "golden": "<span class=\"text-primary\">Primary</span>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "content": "Success" },
+      "golden": "<span class=\"text-success\">Success</span>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "content": "Danger" },
+      "golden": "<span class=\"text-danger\">Danger</span>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "content": "Warning" },
+      "golden": "<span class=\"text-warning\">Warning</span>"
+    },
+    {
+      "name": "info",
+      "props": { "variant": "info", "content": "Info" },
+      "golden": "<span class=\"text-info\">Info</span>"
+    },
+    {
+      "name": "with-title",
+      "props": { "variant": "danger", "title": "Overdue by 3 days", "content": "Overdue" },
+      "golden": "<span class=\"text-danger\" title=\"Overdue by 3 days\">Overdue</span>",
+      "note": "The title attribute rides alongside the colour utility."
+    },
+    {
+      "name": "extra-class",
+      "props": { "variant": "info", "content": "Noted", "extraClass": "text-truncate" },
+      "golden": "<span class=\"text-info text-truncate\">Noted</span>",
+      "note": "Class passthrough appended after the variant class."
+    }
+  ]
+}

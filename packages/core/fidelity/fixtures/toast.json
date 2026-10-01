@@ -1,0 +1,174 @@
+{
+  "//": "Markup-fidelity fixture for the toast component — scoped to the SINGLE pa-toast block (one toast ITEM), NOT the sibling pa-toast-container (the positioned stack is a separate block/concern, grepped out of this contract). Goldens are the canonical snippets/toasts.html shape + _toasts.scss. A toast is alert-shaped: severity variant (NO secondary/light/dark — toast has only primary/success/danger/warning/info), an optional theme-colour slot (1..9), a `filled` full-colour style that swaps the variant class to pa-toast--filled-*, a leading icon chip, a title + message content column, a trailing close button, and (svelte-only; see wrapper notes) an actions row + a JS-animated progress bar. See ../README.md and alert.json/badge.json for the model.",
+  "component": "toast",
+  "block": "pa-toast",
+  "propsVocabulary": {
+    "variant": "severity variant (primary|success|danger|warning|info) — NO secondary/light/dark, unlike alert/badge",
+    "themeColor": "1..9 theme colour slot (emits pa-toast--color-N bordered, or pa-toast--filled-color-N when filled); overrides named variant",
+    "filled": "boolean — full-colour background style; swaps the variant class to pa-toast--filled-{variant} (or pa-toast--filled-color-N with themeColor)",
+    "show": "boolean — SSR visibility/enter state; emits pa-toast--show (both wrappers default to visible/true so every toast carries it)",
+    "icon": "leading icon glyph rendered inside pa-toast__icon (the snippet always leads with an icon chip)",
+    "title": "title text rendered as .pa-toast__title",
+    "message": "message text rendered as .pa-toast__message",
+    "actions": "action-button row rendered as .pa-toast__actions INSIDE .pa-toast__content, under a separator (Undo/Retry/etc.)",
+    "close": "trailing dismiss button (.pa-toast__close). svelte renders it unconditionally; keen renders it only when an on_close event is wired — scenarios pass it so both emit the close affordance.",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape. Every toast leads with a .pa-toast__icon chip (snippet always has one; keen auto-derives the glyph from the variant, svelte renders the icon slot — scenarios always pass an explicit icon so both emit the chip with the same content), a .pa-toast__content column holding .pa-toast__title + .pa-toast__message (+ optional .pa-toast__actions), and a trailing .pa-toast__close <button> whose glyph is the masked .pa-icon--x primitive. The close carries aria-label=\"Close\" (both wrappers resolve their close-label i18n key to \"Close\" in English) and — matching the snippet — NO type=\"button\" and NO role on the toast root (the toast snippet, unlike the alert snippet, blesses neither; see honestNotes). Slot content (icon/title/message/actions) is a plain text token so the diff checks structural nesting, not rich content — real icon usage is <span class=pa-icon>. Attribute + class-token order and whitespace are normalized away.",
+  "honestNotes": "(1) type=\"button\" on the close: the toast snippet's close button carries NO type (unlike the alert snippet), and NEITHER wrapper emits one, so the golden omits it — consistent across oracle + both wrappers (no bug to fix here, unlike alert which caught keen's missing type). (2) role on the toast root: the snippet sets no role (the toast-service JS owns live-region semantics at the container level), and neither wrapper emits one — golden omits it. (3) pa-toast__progress is JS-animated: keen's toast/1 does NOT server-render it (its PureAdminToast hook builds + animates it at runtime), and svelte emits only a static initial frame with a dynamic inline transition — so it sits in cssStateElements, out of the shared SSR compare surface. (4) pa-toast--hide is a pure JS exit-state class neither wrapper SSR-emits → cssStateClasses.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json — misses the SCSS @for/@each color-1..9 + filled loops). `produces` is a class template; capability.mjs expands it and cross-checks against main.css AND each wrapper map + scenarios. `filled` reuses the {variant}+appliesToVariants expansion (pa-toast--filled-{variant}); themeColor reuses outlineProduces as its filled-color-{value} channel. `produces: null` = structural/native.",
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "success", "danger", "warning", "info"],
+      "produces": "pa-toast--{value}",
+      "note": "Toast has NO secondary/light/dark variants (alert/badge do) — only the 5 severity variants."
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-toast--color-{value}",
+      "outlineProduces": "pa-toast--filled-color-{value}",
+      "note": "overrides named variant. outlineProduces is the filled channel (themeColor + filled → pa-toast--filled-color-{n}); the slot is named `outlineProduces` only because capability.mjs expands it over `options`."
+    },
+    "filled": {
+      "kind": "bool",
+      "produces": "pa-toast--filled-{variant}",
+      "appliesToVariants": ["primary", "success", "danger", "warning", "info"],
+      "note": "Full-colour style — swaps the variant class rather than adding a modifier. With themeColor it routes through themeColor.outlineProduces (pa-toast--filled-color-{n}) instead."
+    },
+    "show": {
+      "kind": "bool",
+      "produces": "pa-toast--show",
+      "note": "SSR enter/visible state. Both wrappers default to visible (svelte show / keen is_visible both default true) so every golden carries pa-toast--show; the sibling exit-state pa-toast--hide is JS-only (cssStateClasses)."
+    },
+    "icon": {
+      "kind": "slot",
+      "produces": "pa-toast__icon",
+      "note": "Leading chip. svelte renders the chip only when the icon slot is present; keen renders the chip unconditionally and auto-derives the glyph from the variant when no icon slot is given. Scenarios always pass an explicit icon token so both emit an identical chip."
+    },
+    "title": {
+      "kind": "string",
+      "produces": "pa-toast__title"
+    },
+    "message": {
+      "kind": "string",
+      "produces": "pa-toast__message"
+    },
+    "actions": {
+      "kind": "slot",
+      "produces": "pa-toast__actions",
+      "note": "Button row INSIDE pa-toast__content, after the message. keen's toast/1 gained an :actions slot to match the snippet (see wrapper-bug note)."
+    },
+    "close": {
+      "kind": "string",
+      "produces": "pa-toast__close",
+      "note": "Dismiss button. svelte renders it unconditionally; keen renders it only when on_close is wired. Scenarios always pass a close token so keen emits it too. The passed value is the dismiss event name for keen (phx-click, normalized away) and is ignored by svelte's onclose callback under SSR."
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-toast--* block modifiers toggled by pa-*.js / toast-service at runtime (never hand-authored as a prop). The axis-1 block-modifier reverse check counts these as claimed.",
+    "pa-toast--hide": "Exit-state class — toast-service adds it on dismiss (opacity 0 + off-axis transform) just before removal. Neither wrapper SSR-emits it."
+  },
+  "cssStateElements": {
+    "//": "pa-toast__* elements built/animated by JS at runtime, outside the shared SSR compare surface.",
+    "pa-toast__progress": "Auto-dismiss progress bar. keen's toast/1 does NOT server-render it — its PureAdminToast JS hook builds + animates it from push_toast; svelte emits only a static initial frame carrying a dynamic inline `transition: width {duration}ms linear`. Data-driven/animation element, not part of the canonical shared golden."
+  },
+  "scenarios": [
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "icon": "ⓘ", "title": "Primary", "message": "This is a primary toast notification.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--primary pa-toast--show\"><div class=\"pa-toast__icon\">ⓘ</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Primary</div><div class=\"pa-toast__message\">This is a primary toast notification.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "icon": "✓", "title": "Success", "message": "Your action was completed successfully.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--success pa-toast--show\"><div class=\"pa-toast__icon\">✓</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Success</div><div class=\"pa-toast__message\">Your action was completed successfully.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "icon": "✕", "title": "Error", "message": "An error occurred. Please try again.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--danger pa-toast--show\"><div class=\"pa-toast__icon\">✕</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Error</div><div class=\"pa-toast__message\">An error occurred. Please try again.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "icon": "⚠", "title": "Warning", "message": "Please review this warning message.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--warning pa-toast--show\"><div class=\"pa-toast__icon\">⚠</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Warning</div><div class=\"pa-toast__message\">Please review this warning message.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "info",
+      "props": { "variant": "info", "icon": "ⓘ", "title": "Information", "message": "Here is some useful information for you.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--info pa-toast--show\"><div class=\"pa-toast__icon\">ⓘ</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Information</div><div class=\"pa-toast__message\">Here is some useful information for you.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "filled-primary",
+      "props": { "variant": "primary", "filled": true, "icon": "ⓘ", "title": "Heads up", "message": "This is a filled primary toast.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-primary pa-toast--show\"><div class=\"pa-toast__icon\">ⓘ</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Heads up</div><div class=\"pa-toast__message\">This is a filled primary toast.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "filled-success",
+      "props": { "variant": "success", "filled": true, "icon": "✓", "title": "Saved", "message": "Changes stored successfully.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-success pa-toast--show\"><div class=\"pa-toast__icon\">✓</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Saved</div><div class=\"pa-toast__message\">Changes stored successfully.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "filled-danger",
+      "props": { "variant": "danger", "filled": true, "icon": "✕", "title": "Delete failed", "message": "The record could not be removed.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-danger pa-toast--show\"><div class=\"pa-toast__icon\">✕</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Delete failed</div><div class=\"pa-toast__message\">The record could not be removed.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "filled-warning",
+      "props": { "variant": "warning", "filled": true, "icon": "⚠", "title": "Check your input", "message": "Some fields need your attention.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-warning pa-toast--show\"><div class=\"pa-toast__icon\">⚠</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Check your input</div><div class=\"pa-toast__message\">Some fields need your attention.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "filled-info",
+      "props": { "variant": "info", "filled": true, "icon": "ⓘ", "title": "FYI", "message": "A new version is available.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-info pa-toast--show\"><div class=\"pa-toast__icon\">ⓘ</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">FYI</div><div class=\"pa-toast__message\">A new version is available.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "themeColor": "1", "icon": "●", "title": "Color 1", "message": "Border and icon pulled from color slot 1.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--color-1 pa-toast--show\"><div class=\"pa-toast__icon\">●</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Color 1</div><div class=\"pa-toast__message\">Border and icon pulled from color slot 1.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
+      "note": "themeColor omits variant on purpose — pa-toast--color-N is the sole colour class and must NOT co-exist with a pa-toast--primary default."
+    },
+    {
+      "name": "theme-color-5",
+      "props": { "themeColor": "5", "icon": "●", "title": "Color 5", "message": "Slot 5.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--color-5 pa-toast--show\"><div class=\"pa-toast__icon\">●</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Color 5</div><div class=\"pa-toast__message\">Slot 5.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "themeColor": "9", "icon": "●", "title": "Color 9", "message": "Slot 9.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--color-9 pa-toast--show\"><div class=\"pa-toast__icon\">●</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Color 9</div><div class=\"pa-toast__message\">Slot 9.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>"
+    },
+    {
+      "name": "filled-color-3",
+      "props": { "themeColor": "3", "filled": true, "icon": "●", "title": "Filled slot 3", "message": "Filled colour slot 3.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-color-3 pa-toast--show\"><div class=\"pa-toast__icon\">●</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Filled slot 3</div><div class=\"pa-toast__message\">Filled colour slot 3.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
+      "note": "themeColor + filled exercises the filled-colour channel (themeColor.outlineProduces → pa-toast--filled-color-{n})."
+    },
+    {
+      "name": "show-explicit",
+      "props": { "variant": "info", "show": true, "icon": "ⓘ", "title": "Visible", "message": "Explicit show state.", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--info pa-toast--show\"><div class=\"pa-toast__icon\">ⓘ</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Visible</div><div class=\"pa-toast__message\">Explicit show state.</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
+      "note": "Exercises the `show` bool explicitly (axis-3 coverage); every other scenario relies on the wrappers' visible-by-default."
+    },
+    {
+      "name": "actions",
+      "props": { "variant": "info", "icon": "🗑", "title": "Entry removed", "message": "The record was deleted from the list.", "actions": "Undo", "close": "dismiss" },
+      "golden": "<div class=\"pa-toast pa-toast--info pa-toast--show\"><div class=\"pa-toast__icon\">🗑</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">Entry removed</div><div class=\"pa-toast__message\">The record was deleted from the list.</div><div class=\"pa-toast__actions\">Undo</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
+      "note": "actions slot sits INSIDE pa-toast__content, after the message; real usage is a <button class=pa-btn> row. keen's toast/1 gained an :actions slot to match (see wrapper-bug note)."
+    },
+    {
+      "name": "combined",
+      "props": { "variant": "success", "filled": true, "show": true, "icon": "✓", "title": "All done", "message": "Everything at once.", "actions": "Retry", "close": "dismiss", "extraClass": "mb-0" },
+      "golden": "<div class=\"pa-toast pa-toast--filled-success pa-toast--show mb-0\"><div class=\"pa-toast__icon\">✓</div><div class=\"pa-toast__content\"><div class=\"pa-toast__title\">All done</div><div class=\"pa-toast__message\">Everything at once.</div><div class=\"pa-toast__actions\">Retry</div></div><button class=\"pa-toast__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
+      "note": "Stacks filled variant + show + icon + title + message + actions + close + extra class."
+    }
+  ]
+}

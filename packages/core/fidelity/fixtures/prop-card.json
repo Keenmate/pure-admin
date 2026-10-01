@@ -1,0 +1,54 @@
+{
+  "//": "Markup-fidelity fixture for the prop-card CONTAINER — the bordered `.pa-prop-card` block (keen `DataDisplay.prop_card/1`, svelte `display/PropCard.svelte`). SCOPE = CONTAINER ONLY. The rows (`pa-prop-card__row` / `__label` / `__value` / `__value--bold` / `__copy` + the `__row--copy-*` interaction modifiers) come from a SEPARATE sub-component (keen `prop_card_row/1`, svelte `PropCardRow.svelte`) handed to the container through its default slot. Both dumpers pass slots as PLAIN ESCAPED TEXT, so that row markup can't flow through — the body is a bare text token. This fixture proves ONLY what the container itself emits: its `<div class=\"pa-prop-card\">` shell, the optional `pa-prop-card__header` it renders from a title prop, class passthrough, and that the body slot lands inside. The row element classes are listed in `deferred` as acknowledged prose (they are the row sub-component's contract, covered by each wrapper's own prop_card_row / PropCardRow unit tests, not this container slice).",
+  "component": "prop-card",
+  "block": "pa-prop-card",
+  "propsVocabulary": {
+    "header": "card header title — rendered as pa-prop-card__header only when present (keen `header`, svelte `headerText`)",
+    "body": "the card's row area — filled with plain slot text in this container-only slice (real pa-prop-card__row children are the deferred sub-slice fed via the default slot). keen's inner_block is required:true so every scenario supplies it",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the prop-card container adds no attribute conventions (unlike button's type). The body slot is a plain text token (Body) so the diff checks the container's tag + class + the header element + nesting, not rich row content. The header is emitted ONLY when a title is supplied (both wrappers gate it with :if / {#if}). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. The .pa-prop-card BLOCK has ZERO block-level modifiers (no pa-prop-card--* exists — grep '\\.pa-prop-card--' on main.css is empty; the --copy-* modifiers are ELEMENT modifiers on __row, part of the deferred row sub-component). So the container contract is minimal: the base class, an optional header title, a body slot, and a class passthrough. capability.mjs axis-1 block-modifier reverse-check is therefore vacuous for this block; __header is verified forward via the header scenarios, and the per-row __element classes are deferred as prose.",
+    "header":     { "kind": "string", "produces": "pa-prop-card__header", "note": "card header; only emitted when a title is supplied" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; row structure is the deferred sub-slice" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ROW element classes of the pa-prop-card block — NOT container markup. They come from the row sub-component (keen prop_card_row/1, svelte PropCardRow.svelte) handed to the container through its default slot, which both dumpers render as plain escaped text, so they can't appear in this container-only slice. There is no separate prop-card-row FIXTURE, so these are acknowledged PROSE (not verified fixture refs). The copyable `__copy` element and the `__row--copy-btn/-click/-hover` modifiers are the row's clipboard-interaction markup (svelte PropCardRow emits them when copyMode is set; keen prop_card_row has no copy support) and live on the row, likewise out of this scope. All are covered by each wrapper's own row unit tests.",
+    "pa-prop-card__row":              "row sub-component (prop_card_row / PropCardRow) — fed via the default slot, out of container scope",
+    "pa-prop-card__label":            "row sub-component element — out of container scope",
+    "pa-prop-card__value":            "row sub-component element — out of container scope",
+    "pa-prop-card__value--bold":      "row sub-component per-row author flag (keen is_bold, svelte isBold) — out of container scope",
+    "pa-prop-card__copy":             "row sub-component clipboard button (svelte PropCardRow copyMode) — out of container scope",
+    "pa-prop-card__row--copy-btn":    "row copy-interaction modifier (svelte copyMode=btn) — out of container scope",
+    "pa-prop-card__row--copy-click":  "row copy-interaction modifier (svelte copyMode=click) — out of container scope",
+    "pa-prop-card__row--copy-hover":  "row copy-interaction modifier (svelte copyMode=hover) — out of container scope"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "header": "Specifications", "body": "Body" },
+      "golden": "<div class=\"pa-prop-card\"><div class=\"pa-prop-card__header\">Specifications</div>Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-prop-card\"> with an uppercase header element then the row body. Both wrappers emit the same shell."
+    },
+    {
+      "name": "no-header",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-prop-card\">Body</div>",
+      "note": "No header title -> the pa-prop-card__header element is omitted entirely (both wrappers gate it)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "header": "Identifiers", "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-prop-card mb-4\"><div class=\"pa-prop-card__header\">Identifiers</div>Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-prop-card; token order is normalized away."
+    },
+    {
+      "name": "empty-body",
+      "props": { "header": "Specifications", "body": "" },
+      "golden": "<div class=\"pa-prop-card\"><div class=\"pa-prop-card__header\">Specifications</div></div>",
+      "note": "Empty body still emits the shell + header -> proves the wrapper never omits or wraps the container."
+    }
+  ]
+}

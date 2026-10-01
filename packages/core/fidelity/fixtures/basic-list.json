@@ -1,0 +1,119 @@
+{
+  "//": "Markup-fidelity fixture for the BASIC-LIST component — the styled <ul> block pa-list-basic (keen `List.basic_list/1`, svelte `display/BasicList.svelte`). SCOPE = CONTAINER ONLY. Like list.json, the harness renders one component whose slot receives plain TEXT (HTML-escaped by the dumper), so real <li> item markup can't flow through the slot; the body is a bare text token. This fixture proves the container's tag (<ul>), its pa-list-basic class + every modifier, and its class passthrough. SIBLING blocks pa-list (complex, list.json) / pa-list-ordered (ordered-list.json) / pa-list-definition are DIFFERENT components, out of scope. Authored from dist/css/main.css + snippets/lists.html + _lists.scss.",
+  "component": "basic-list",
+  "block": "pa-list-basic",
+  "propsVocabulary": {
+    "spacing": "inter-item density compact|spacious — emits pa-list-basic--{spacing} (default = no modifier)",
+    "unstyled": "boolean — removes bullets/padding (pa-list-basic--unstyled)",
+    "inline": "boolean — horizontal flex layout (pa-list-basic--inline)",
+    "bordered": "boolean — borders between items (pa-list-basic--bordered)",
+    "striped": "boolean — zebra striping (pa-list-basic--striped)",
+    "hasIcon": "boolean — shows ::before icons, green ✓ by default (pa-list-basic--icon)",
+    "iconVariant": "icon colour success|danger|info|warning — COUPLED to hasIcon: emits pa-list-basic--{iconVariant} ONLY when hasIcon is true AND iconVariant != success (success is the default ✓ and has NO modifier class in core). These semantic modifiers only style the ::before pseudo, which exists only with --icon.",
+    "body": "the list's item area — plain slot text in this container-only slice (real <li> children are out of scope)",
+    "extraClass": "extra classes appended verbatim — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural. The container is a <ul class=\"pa-list-basic …\">. spacing emits pa-list-basic--{value}; the booleans each emit their modifier; the icon-variant emits pa-list-basic--{variant} only under the hasIcon+non-success coupling (see iconVariant). There is NO pa-list-basic--success (default). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-list-basic--'): compact, spacious, unstyled, inline, bordered, striped, icon, danger, info, warning. NO --success (default). iconVariant is type-coupled like loader's size (emits pa-list-basic--{variant} only with hasIcon && variant!=success), so its produces is null and it is verified via scenarios/goldens + claimed via cssStateClasses. body/extraClass produce null (structural/passthrough).",
+    "spacing": {
+      "kind": "enum",
+      "options": ["compact", "spacious"],
+      "produces": "pa-list-basic--{value}"
+    },
+    "unstyled": { "kind": "bool", "produces": "pa-list-basic--unstyled" },
+    "inline":   { "kind": "bool", "produces": "pa-list-basic--inline" },
+    "bordered": { "kind": "bool", "produces": "pa-list-basic--bordered" },
+    "striped":  { "kind": "bool", "produces": "pa-list-basic--striped" },
+    "hasIcon":  { "kind": "bool", "produces": "pa-list-basic--icon" },
+    "iconVariant": {
+      "kind": "enum",
+      "options": ["success", "danger", "info", "warning"],
+      "produces": null,
+      "note": "coupled — emits pa-list-basic--{variant} only when hasIcon is true AND variant != success. success is the default (no class). Verified via scenarios + claimed via cssStateClasses."
+    },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; <li> items are out of scope" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "The icon-variant classes (danger/info/warning) are the iconVariant feature's coupled output (see its note). Listing them here claims them so capability axis-1's reverse-check over pa-list-basic--* passes (the single-template expander can't express the hasIcon+non-success coupling).",
+    "pa-list-basic--danger":  "iconVariant=danger with hasIcon",
+    "pa-list-basic--info":    "iconVariant=info with hasIcon",
+    "pa-list-basic--warning": "iconVariant=warning with hasIcon"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Items" },
+      "golden": "<ul class=\"pa-list-basic\">Items</ul>"
+    },
+    {
+      "name": "compact",
+      "props": { "body": "Items", "spacing": "compact" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--compact\">Items</ul>"
+    },
+    {
+      "name": "spacious",
+      "props": { "body": "Items", "spacing": "spacious" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--spacious\">Items</ul>"
+    },
+    {
+      "name": "unstyled",
+      "props": { "body": "Items", "unstyled": true },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--unstyled\">Items</ul>"
+    },
+    {
+      "name": "inline",
+      "props": { "body": "Items", "inline": true },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--inline\">Items</ul>"
+    },
+    {
+      "name": "bordered",
+      "props": { "body": "Items", "bordered": true },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--bordered\">Items</ul>"
+    },
+    {
+      "name": "striped",
+      "props": { "body": "Items", "striped": true },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--striped\">Items</ul>"
+    },
+    {
+      "name": "icon-default-success",
+      "props": { "body": "Items", "hasIcon": true },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--icon\">Items</ul>",
+      "note": "hasIcon with default success → only --icon, NO --success class (success is the default ✓)."
+    },
+    {
+      "name": "icon-success-explicit",
+      "props": { "body": "Items", "hasIcon": true, "iconVariant": "success" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--icon\">Items</ul>",
+      "note": "Guard: explicitly passing success must NOT emit a phantom pa-list-basic--success."
+    },
+    {
+      "name": "icon-danger",
+      "props": { "body": "Items", "hasIcon": true, "iconVariant": "danger" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--icon pa-list-basic--danger\">Items</ul>"
+    },
+    {
+      "name": "icon-info",
+      "props": { "body": "Items", "hasIcon": true, "iconVariant": "info" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--icon pa-list-basic--info\">Items</ul>"
+    },
+    {
+      "name": "icon-warning",
+      "props": { "body": "Items", "hasIcon": true, "iconVariant": "warning" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--icon pa-list-basic--warning\">Items</ul>"
+    },
+    {
+      "name": "variant-without-icon",
+      "props": { "body": "Items", "iconVariant": "danger" },
+      "golden": "<ul class=\"pa-list-basic\">Items</ul>",
+      "note": "Guard: iconVariant without hasIcon emits NO modifier — the semantic class only styles the ::before pseudo, which needs --icon."
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Items", "spacing": "compact", "bordered": true, "hasIcon": true, "iconVariant": "info", "extraClass": "mb-base" },
+      "golden": "<ul class=\"pa-list-basic pa-list-basic--compact pa-list-basic--bordered pa-list-basic--icon pa-list-basic--info mb-base\">Items</ul>"
+    }
+  ]
+}

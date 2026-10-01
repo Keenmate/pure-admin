@@ -1,0 +1,58 @@
+{
+  "//": "Markup-fidelity fixture for the badge-group container. NEUTRAL scenarios + the GOLDEN markup core blesses. CONTAINER-ONLY: the group is a <div class=\"pa-badge-group [--show-all]\"> whose items (badges) arrive via the text/children slot — the badge block itself is covered by badge.json, so item classes are deferred there. Models the group's own modifier (--show-all). The overflow limit + the injected 'N more'/'Collapse' toggle badges + the __toggle-* element classes are JS/data-driven runtime behaviour → cssStateClasses / cssStateElements. See ../README.md and badge.json for the model.",
+  "component": "badge-group",
+  "block": "pa-badge-group",
+  "propsVocabulary": {
+    "showAll": "boolean — disable the CSS overflow limit; render all children (pa-badge-group--show-all)",
+    "content": "inner badges — rendered verbatim into the container (a text slot here)",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape (snippets/badges.html — a bare <div class=\"pa-badge-group\"> wrapping badges; +--show-all to disable the limit). Container-only: the inner badges are a text slot and the badge block is covered by badge.json, so pa-badge* item classes are intentionally deferred there. The scenarios use SNIPPET/manual mode (children provided directly) so no limit logic runs and no id/toggle badges are injected — the pure container contract. Attribute order and class-token order are normalized away; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `produces` with {value}; capability.mjs expands + cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native.",
+    "showAll": {
+      "kind": "bool",
+      "produces": "pa-badge-group--show-all"
+    },
+    "content": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — inner badges; the badge block is covered by badge.json"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-badge-group--* classes handled outside the static container contract. (none beyond --show-all, which is a feature)"
+  },
+  "cssStateElements": {
+    "//": "pa-badge-group__* elements the wrappers inject at runtime (the overflow toggle badges in client-side limit mode), never in the pure-container SSR shell these scenarios render.",
+    "pa-badge-group__toggle-more": "the injected '» N more' toggle badge (client-side limit mode, keen data-pa-badge-group-expand)",
+    "pa-badge-group__toggle-collapse": "the injected '« Collapse' toggle badge (client-side limit mode)"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "content": "Badges" },
+      "golden": "<div class=\"pa-badge-group\">Badges</div>"
+    },
+    {
+      "name": "show-all",
+      "props": { "showAll": true, "content": "Badges" },
+      "golden": "<div class=\"pa-badge-group pa-badge-group--show-all\">Badges</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "gap-2", "content": "Badges" },
+      "golden": "<div class=\"pa-badge-group gap-2\">Badges</div>"
+    },
+    {
+      "name": "show-all-extra-class",
+      "props": { "showAll": true, "extraClass": "gap-2", "content": "Badges" },
+      "golden": "<div class=\"pa-badge-group pa-badge-group--show-all gap-2\">Badges</div>"
+    }
+  ]
+}

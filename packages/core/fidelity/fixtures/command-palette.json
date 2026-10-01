@@ -1,0 +1,68 @@
+{
+  "//": "Markup-fidelity fixture for the COMMAND PALETTE (pa-command-palette) — the macOS-Spotlight-style search modal (keen `PureAdmin.Components.CommandPalette.command_palette/1`, svelte `navigation/CommandPalette.svelte`). SCOPE = CAPABILITY-ONLY, ZERO strict-compare scenarios — the same path settings-panel.json took, for the same reason: the two wrappers' PRE-JS-hook SSR shells are IRRECONCILABLE BY DESIGN, so no shared full-tree golden exists that compare.mjs (whole-fragment equality, no sub-tree matching) could assert. This is the biggest, most JS-driven component in the set: its results list, active/selected item, loading spinner, step-mode wizard, context chips, token badges and pagination are ALL built/toggled at runtime from data + keyboard interaction — none of it is in the neutral/empty SSR markup. What IS in the SSR shell diverges between the wrappers down to the ROOT ELEMENT itself (confirmed by dumping both at neutral/empty state): (1) ROOT ATTRS — keen stamps a required driver anchor `id` (default \"command-palette\") + `data-mode` / `data-display` / `data-locked-length` SSR-state attrs (all SIGNAL — not phx-*, not boolean, so the normalizer keeps them) + a phx-hook; svelte (a client-reactive component) emits a BARE `<div class=\"pa-command-palette\">` with none of those and an omitted `style`. A shared golden can't even write the opening tag. (2) INPUT — keen `<input id=\"{id}-input\">`; svelte has no input id. (3) CONTEXT — keen ALWAYS renders a `__context` div inside the input-wrapper; svelte renders it ONLY when `mode !== 'idle'` (so never in the neutral shell). (4) HOME — keen emits an EMPTY `__home` (its command/context sections are `:if`-gated on non-empty lists); svelte ALWAYS emits two `__home-section` wrappers each with a `__home-heading` (\"Commands\" / \"Search In\"). (5) TOKENS — in `display=tokens` keen emits an empty `__tokens` div; svelte emits nothing until `selections.length > 0`. (6) FOOTER — keen's neutral footer has 3 hints (↑↓ / ↵ / Esc, matching the snippet) + runtime-gated ←→ / ⌫ hints; svelte has 4 (↑↓ / ↵ / Tab / Esc). None of these are wrapper BUGS: BOTH wrappers use ONLY real, SCSS-blessed pa-command-palette__* classes (every class verified against _command-palette.scss — no invented classes), and the differences are legitimate per-framework API/behaviour choices (keen = stateful LiveView driver with SSR-state attrs + i18n/data-bound chrome; svelte = client-reactive component) that the markup-fidelity (CSS-class) contract does not govern — the footer hint SET and the home section labels are app-convention text, not class contract, exactly like settings-panel's label-text divergence. Because there is no shared full-tree golden, compare passes vacuously (0/0 both wrappers) and correctness is asserted by the completeness contract: the `size` feature (the one block modifier both wrappers emit identically in SSR, pa-command-palette--{sm|lg|xl}) + the `display` structural feature (data-display, no class) + the --active / --fullscreen JS state classes (cssStateClasses) + every __* element class accounted for (deferred chrome, or cssStateElements for the JS-toggled element modifiers). Mirrors settings-panel.json (capability-only, fixed/divergent chrome, completeness as the proof). Canonical shape: packages/core/snippets/command-palette.html + _command-palette.scss.",
+  "component": "command-palette",
+  "block": "pa-command-palette",
+  "propsVocabulary": {
+    "size": "size preset on the ROOT — sm (48/28.8rem) | lg (76.8/51.2rem) | xl (89.6/64rem); emits pa-command-palette--{size}. Default (nil) keeps 60.8/38.4rem and emits NO class (a bare .pa-command-palette IS the default size). This is the ONE block modifier BOTH wrappers emit identically in SSR (svelte `size`, keen `size`), so it is the shared oracle feature.",
+    "display": "step display style — inline (default; the input shows the full accumulated sentence, a command badge on the right) | tokens (input cleared each step; prior selections shown as badge spans above the input). svelte `displayStyle`, keen `display`. Structural (NO class): it writes keen's data-display attr + gates the __tokens region; it does NOT toggle a pa-command-palette--* modifier. The __tokens element it gates is deferred (framework-divergent: keen emits an empty __tokens div even with no selections, svelte omits it until selections exist)."
+  },
+  "goldenConventions": "No scenarios → no goldens. See the leading note for why a shared full-tree golden is impossible (JS-driven internals + root-element-level SSR divergence by design) and why even the bare shell can't reconcile (keen's required driver id + data-mode/data-display/data-locked-length SSR-state attrs vs svelte's bare root). Correctness is carried by the structural contract: the `size` block-modifier feature, the `display` structural feature, the --active / --fullscreen JS state classes, and the deferred / cssStateElements element inventory. Attribute + class-token order and whitespace would be normalized away if a golden existed.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-command-palette(--|__)'). Block modifiers in CSS: --active + --fullscreen (JS-toggled → cssStateClasses) and --sm/--lg/--xl (size feature). `size` is the only block modifier both wrappers SSR-emit from a prop. `display` is structural (data-display attr, no class). Every other surface is either a JS state class, a JS-built element, or deferred fixed chrome — see cssStateClasses / cssStateElements / deferred. Both maps declare size + display so axis-2 passes.",
+    "size": {
+      "kind": "enum",
+      "options": ["sm", "lg", "xl"],
+      "produces": "pa-command-palette--{value}",
+      "note": "The shared, SSR-emitted block modifier. svelte `size`, keen `size`. Default (nil) emits no class."
+    },
+    "display": {
+      "kind": "enum",
+      "options": ["inline", "tokens"],
+      "produces": null,
+      "note": "structural — step display style. svelte `displayStyle`, keen `display`. Emits keen's data-display attr and gates the deferred __tokens region; produces NO pa-command-palette--* class. Declared in both maps for axis-2 completeness; not exercised by a strict scenario (capability-only fixture)."
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-command-palette--* BLOCK modifiers toggled by runtime JS (never hand-authored at SSR, never prop-driven), so no feature produces them; axis-1's reverse block-modifier check counts them as claimed.",
+    "pa-command-palette--active": "open/visible state (display:flex). svelte toggles it from the `show` prop in its reactive class string; keen toggles it from `is_open` which the PureAdminCommandPalette hook flips at runtime on open/close. Not part of a blessed SSR shell a shared golden could assert (keen defaults is_open=false, svelte defaults show=false → neither emits it neutrally), so left to this bucket.",
+    "pa-command-palette--fullscreen": "mobile full-viewport sheet. Added ONLY by the palette JS driver via pureAdmin.device classification (a touch-primary phone), never by a width media query and never hand-authored — a pure runtime state class on both wrappers."
+  },
+  "cssStateElements": {
+    "//": "pa-command-palette__* ELEMENT MODIFIER classes toggled by runtime JS/keyboard interaction (never in the neutral SSR shell), so no feature produces them and no SSR golden exercises them. The regex ^pa-command-palette__ in capability axis-1 matches these element modifiers, so they must be accounted for here.",
+    "pa-command-palette__item--active": "the keyboard-selected result row. Toggled as the user arrows ↑/↓ through runtime-built results (svelte: class:…--active={activeIndex===index}; keen: index==@active_index on data-driven results). Never in the neutral/empty shell.",
+    "pa-command-palette__results--loading": "translucent overlay over the results during async refetch. Toggled from the loading flag (svelte `loading`, keen `is_loading`) while a search is in flight — a runtime state, not SSR.",
+    "pa-command-palette__context--visible": "fades in the context pill once a search context (e.g. /products) is active. Toggled at runtime when a context/command mode engages (svelte: mode!=='idle'; keen: context_search mode) — never in the neutral idle shell."
+  },
+  "deferred": {
+    "//": "Every STRUCTURAL pa-command-palette__* element class. These DO appear in SSR markup (not JS-built — so not cssStateElements), but they are FIXED, slot-less internal chrome whose surrounding content + attributes genuinely diverge between the wrappers (root id + data-mode/data-display/data-locked-length SSR-state attrs, input id, always-rendered vs gated __context, empty vs section-populated __home, 3- vs 4-hint __footer, empty vs omitted __tokens). The class names all exist in _command-palette.scss and are emitted identically-NAMED by both wrappers; only the chrome around them diverges. There is no command-palette sub-component with its own dumper wiring to fixture-ref (a ref would DEFER?-fail), and no single core-blessed inner tree the comparator could diff, so each is acknowledged as PROSE — out of the strict-compare surface, exactly like settings-panel's fixed chrome. The runtime result-item inner parts (__item-icon/-content/-title/-meta, __key, __shortcut, __section, __pagination, __empty, __loader) only appear once results/data are supplied + the hook runs, which the pre-JS-hook, single-component dumper cannot drive.",
+    "pa-command-palette__backdrop": "fullscreen blurred backdrop (clicking it closes). Both emit it identically-classed directly under the root.",
+    "pa-command-palette__container": "centred card holding the UI; max-width = --pa-command-palette-width (size preset sets it).",
+    "pa-command-palette__search": "search row wrapper with bottom border (tokens + input-wrapper).",
+    "pa-command-palette__tokens": "flex-wrap row of token badge pills. display=tokens gates it; keen emits an empty __tokens div, svelte omits it until selections exist — the display-feature divergence lives here.",
+    "pa-command-palette__token-prompt": "italic muted inline caption shown alongside tokens (\"type to filter…\"); only rendered in tokens display with an active step.",
+    "pa-command-palette__input-wrapper": "positioning context for the input + __context pill.",
+    "pa-command-palette__input": "the search <input>. keen stamps id=\"{id}-input\"; svelte emits no id — a documented structural divergence.",
+    "pa-command-palette__context": "accent context pill floating over the input's inline-end. keen ALWAYS renders the div (empty in idle); svelte renders it only when mode!=='idle' — divergent SSR presence.",
+    "pa-command-palette__results": "scrollable results container (home / empty / loader / items swap inside it).",
+    "pa-command-palette__home": "idle-state wrapper. keen emits it EMPTY when commands/contexts are empty; svelte always nests two __home-section inside — divergent.",
+    "pa-command-palette__home-section": "logical group (Recent / Commands); sections after the first get an auto top-border divider.",
+    "pa-command-palette__home-heading": "tiny uppercase section label inside a home-section.",
+    "pa-command-palette__empty": "centred muted text (\"no results\"); rendered only when a search yields nothing — data-driven.",
+    "pa-command-palette__loader": "flex row with spinner + label during async search; rendered only while loading with no results — runtime.",
+    "pa-command-palette__item": "one result/command/context row (icon + content + trailing badge/shortcut); built per data item at runtime.",
+    "pa-command-palette__item-icon": "accent-tinted square icon slot inside an item.",
+    "pa-command-palette__item-content": "flexible middle (flex:1) of an item.",
+    "pa-command-palette__item-title": "item title row; <mark> children auto-styled as search-match highlights.",
+    "pa-command-palette__item-meta": "small muted meta line under the title.",
+    "pa-command-palette__key": "individual keycap pill — used in __hint (footer) and __shortcut (item). Appears in the footer SSR but the footer hint SET diverges (keen 3 / svelte 4), so the whole footer is deferred chrome.",
+    "pa-command-palette__shortcut": "inline flex row of __key caps on an item (e.g. the \"Ctrl ,\" hint).",
+    "pa-command-palette__section": "inline section divider inside results (group header); data-driven.",
+    "pa-command-palette__pagination": "\"Page X of Y\" indicator below a page of results; rendered only with multi-page results — runtime.",
+    "pa-command-palette__footer": "border-top row of inline keyboard hints. keen's neutral footer has 3 hints (matches the snippet), svelte 4 (adds Tab/Complete), plus keen's runtime-gated ←→ / ⌫ hints — hint SET is app-convention content, not a class contract, so the footer is deferred.",
+    "pa-command-palette__hint": "a single footer hint (__key + label text).",
+    "pa-command-palette__fullscreen-bar": "pinned top row (title + close) injected by the JS driver ONLY on the mobile fullscreen sheet; display:none in the floating dialog. Neither wrapper SSR-emits it (driver-injected), so purely deferred.",
+    "pa-command-palette__fullscreen-title": "sheet title text in the fullscreen bar; driver-injected (mobile only).",
+    "pa-command-palette__close": "the close button in the fullscreen bar (mobile only; desktop closes via backdrop / Esc); driver-injected."
+  },
+  "scenarios": []
+}

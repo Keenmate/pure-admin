@@ -1,0 +1,93 @@
+{
+  "//": "Markup-fidelity fixture for the STACKED BAR CONTAINER — the `.pa-stacked-bar` block (keen `PureAdmin.Components.DataViz.stacked_bar/1`, svelte `display/StackedBar.svelte`). SCOPE = CONTAINER ONLY (the list.json container-only precedent). BOTH wrappers compose the bar's segments and legend from SEPARATE child components (svelte StackedBarSegment/StackedBarLegend/StackedBarLegendItem; keen stacked_segment/stacked_bar_legend/stacked_legend_item), fed through the container's `children`/`inner_block` slot. The fidelity dumpers render ONLY the single registered component (the container) and pass its slot content through as ESCAPED PLAIN TEXT — real child-component markup can't flow through the slot. So this fixture proves ONLY what the container itself emits: its <div>, its pa-stacked-bar class, its --sm/--lg/--rounded block modifiers, and its class passthrough. The per-segment + legend ELEMENT classes (pa-stacked-bar__segment[/--variant], __legend, __legend-item, __legend-swatch[/--variant]) belong to the child components and are DEFERRED as acknowledged prose (no dedicated fragment fixture + dumper exists for them — see the `deferred` block). NOTE on scoping options from the brief: not Option 1/3 (data-array) because neither wrapper takes a segments data array — both are slot-of-child-component, which the dumper can't materialize; container-only (Option 2) is the honest maximum that yields 0 compare diffs for BOTH wrappers.",
+  "component": "stacked-bar",
+  "block": "pa-stacked-bar",
+  "propsVocabulary": {
+    "body": "the bar's segment area — filled with plain slot text in this container-only slice (real pa-stacked-bar__segment children are the deferred child-component sub-slice). svelte `children`, keen `inner_block`.",
+    "size": "size variant — sm (pa-stacked-bar--sm, $progress-height-sm) or lg (pa-stacked-bar--lg, $progress-height-lg). Default (nil) is the base height, no modifier.",
+    "rounded": "pill shape — pa-stacked-bar--rounded (border-radius: 50rem). svelte `isRounded` bool, keen `is_rounded` bool.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural container only — pa-stacked-bar adds no attribute conventions. The body slot is a plain text token (Body) so the diff checks the container's tag + class + modifiers + nesting, not rich segment content. The demo (demo/views/data-visualization.mustache lines 136-186) renders the __legend as a SIBLING of .pa-stacked-bar, not nested inside — both wrappers mirror that (legend is its own component), and it is out of this container's scope regardless. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-stacked-bar(--|__)'). The .pa-stacked-bar BLOCK has three modifiers — --sm, --lg, --rounded. size folds --sm/--lg into one enum; rounded is an independent bool. All other pa-stacked-bar classes are __element classes owned by the child segment/legend components (deferred prose). `produces: null` = structural/native (no modifier).",
+    "size": {
+      "kind": "enum",
+      "options": ["sm", "lg"],
+      "produces": "pa-stacked-bar--{value}"
+    },
+    "rounded": {
+      "kind": "bool",
+      "produces": "pa-stacked-bar--rounded"
+    },
+    "body": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — the container's inner content (segment area); real segments are the deferred child-component sub-slice"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "deferred": {
+    "//": "Element classes of the pa-stacked-bar block owned by SEPARATE child components (segment, legend, legend-item, legend-swatch), not the container. They cannot flow through the container's text-only slot in the dumper, and no dedicated fragment fixture + dumper registration exists for them, so these are ACKNOWLEDGED PROSE deferrals (unverified, reported advisory). The default segment / default legend-swatch render the accent colour via the BARE __segment / __legend-swatch class (no --primary segment modifier exists in the CSS; __legend-swatch--primary does). The swatch/segment colour modifiers mirror the role palette (success/warning/danger/info/secondary; legend-swatch also primary).",
+    "pa-stacked-bar__segment": "child component (svelte StackedBarSegment / keen stacked_segment) — bare class is the accent-coloured default segment; carries the inline --value: N% width",
+    "pa-stacked-bar__segment--success": "segment colour modifier — child component",
+    "pa-stacked-bar__segment--warning": "segment colour modifier — child component",
+    "pa-stacked-bar__segment--danger": "segment colour modifier — child component",
+    "pa-stacked-bar__segment--info": "segment colour modifier — child component",
+    "pa-stacked-bar__segment--secondary": "segment colour modifier — child component",
+    "pa-stacked-bar__legend": "child component (svelte StackedBarLegend / keen stacked_bar_legend) — a SIBLING of the bar in the demo, its own component",
+    "pa-stacked-bar__legend-item": "legend row — child component (svelte StackedBarLegendItem / keen stacked_legend_item)",
+    "pa-stacked-bar__legend-swatch": "legend colour chip — child component; bare class is the accent-coloured default",
+    "pa-stacked-bar__legend-swatch--primary": "legend swatch colour modifier — child component",
+    "pa-stacked-bar__legend-swatch--success": "legend swatch colour modifier — child component",
+    "pa-stacked-bar__legend-swatch--warning": "legend swatch colour modifier — child component",
+    "pa-stacked-bar__legend-swatch--danger": "legend swatch colour modifier — child component",
+    "pa-stacked-bar__legend-swatch--info": "legend swatch colour modifier — child component",
+    "pa-stacked-bar__legend-swatch--secondary": "legend swatch colour modifier — child component"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-stacked-bar\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-stacked-bar\">. Both wrappers render a bare <div> wrapper around the slot."
+    },
+    {
+      "name": "size-sm",
+      "props": { "body": "Body", "size": "sm" },
+      "golden": "<div class=\"pa-stacked-bar pa-stacked-bar--sm\">Body</div>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "body": "Body", "size": "lg" },
+      "golden": "<div class=\"pa-stacked-bar pa-stacked-bar--lg\">Body</div>"
+    },
+    {
+      "name": "rounded",
+      "props": { "body": "Body", "rounded": true },
+      "golden": "<div class=\"pa-stacked-bar pa-stacked-bar--rounded\">Body</div>"
+    },
+    {
+      "name": "rounded-lg",
+      "props": { "body": "Body", "size": "lg", "rounded": true },
+      "golden": "<div class=\"pa-stacked-bar pa-stacked-bar--lg pa-stacked-bar--rounded\">Body</div>",
+      "note": "Demo 'Browser Market Share' bar: pa-stacked-bar--rounded pa-stacked-bar--lg combined; token order normalized."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-stacked-bar mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-stacked-bar; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-stacked-bar\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

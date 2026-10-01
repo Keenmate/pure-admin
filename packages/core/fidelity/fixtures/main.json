@@ -1,0 +1,32 @@
+{
+  "//": "Markup-fidelity fixture for the MAIN content region — `.pc-layout__main` (keen `PureAdmin.Components.Layout.main/1`, svelte `layout/Main.svelte`). A SHELL component migrated DOWN into @keenmate/pure-css, so the class is `pc-layout__main` (NOT `pa-main`); confirmed in dist/css/main.css (`.pc-layout__main`). It is an ELEMENT of the `pc-layout` block but ships as its own component, so the fixture `block` is `pc-layout__main` (its base class exists in CSS → axis-1 vacuous-scope guard stays quiet; it owns no `--*` modifier or `__*` sub-element of its own). SCOPE = INLINE CONTAINER. Canonical shape from snippets/layout.html: `<main class=\"pc-layout__main\">…content…</main>` — content directly inside, NO inner wrapper class (core sets container-type: inline-size here, which is WHY nested pc-col-*-md etc. respond). Both wrappers emit exactly `<main class=\"pc-layout__main\">{children}</main>` — fully reconcilable (no hook, no id, no conditionals). Canonical shape: packages/core/snippets/layout.html.",
+  "component": "main",
+  "block": "pc-layout__main",
+  "propsVocabulary": {
+    "body": "the main content — a plain slot token in this slice (real children would be page content). svelte `children`, keen `inner_block`.",
+    "extraClass": "extra classes appended verbatim to the root <main class=\"pc-layout__main ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Structural only — `<main class=\"pc-layout__main\">{body}</main>`. The body slot is a plain text token so the diff checks the <main> tag + class + nesting. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-layout__main'). The `.pc-layout__main` class is a lone element of the pc-layout block with NO modifier of its own (no `.pc-layout__main--*`) and NO sub-element (no `.pc-layout__main__*`). So the contract is minimal: the base class + a body slot + a class passthrough. `produces: null` everywhere.",
+    "body":       { "kind": "slot",   "produces": null, "note": "the main content; svelte `children`, keen `inner_block`. Structural — produces no class." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-layout__main main; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "The .pc-layout__main class owns no `--*` modifier and no `__*` sub-element in CSS — nothing to defer. (Its SIBLING pc-layout element classes — __inner/__content/__footer/__sidebar — belong to the pc-layout CONTAINER block, covered by the layout fixture, not this one; they are not matched by this fixture's ^pc-layout__main regexes.)"
+  },
+  "scenarios": [
+    {
+      "name": "body",
+      "props": { "body": "Page content" },
+      "golden": "<main class=\"pc-layout__main\">Page content</main>",
+      "note": "The blessed shape: content directly inside <main>, no inner wrapper class."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Page content", "extraClass": "p-4" },
+      "golden": "<main class=\"pc-layout__main p-4\">Page content</main>",
+      "note": "Class passthrough — the extra class is appended after pc-layout__main; token order is normalized away."
+    }
+  ]
+}

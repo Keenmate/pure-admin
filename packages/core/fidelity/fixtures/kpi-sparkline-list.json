@@ -1,0 +1,109 @@
+{
+  "//": "Markup-fidelity fixture for the KPI SPARKLINE-LIST CONTAINER — the `.pa-kpi-spark-list` block, a `.pa-card` namespaced as a sparkline-list host (keen `PureAdmin.Components.KpiSparklineList.kpi_sparkline_list/1`, svelte `display/KpiSparklineList.svelte`). The card is a container-query host whose body holds one `.pa-kpi-spark-row` per KPI (label · sparkline · value · Δ%). SCOPE = the container card chrome the component EMITS INLINE (header with the canonical card title + the `.pa-kpi-live` pill, the `.pa-card__body pa-kpi-spark-list__body` region, the `.pa-card__footer pa-kpi-footer`) + the two BLOCK modifiers `--no-delta` / `--chart-first`. The ROWS are a SEPARATE sub-component (svelte `KpiSparklineRow`, keen `kpi_sparkline_row/1`) fed through the body slot; both dumpers pass slot content as plain escaped TEXT, so the per-row `.pa-kpi-spark-row*` element + sentiment classes (incl. the inline SVG sparkline, the __num/__unit value split, the __delta--* tints and the __chart sentiment --up/--down tints) CANNOT materialize here and have no row-fragment fixture/dumper wiring — they are DEFERRED as acknowledged prose (same model as stacked-bar.json / accent-grid.json / dot-leaders.json defer their row sub-components, while table-card.json is the precedent for a header/body/footer-bearing CARD container that scopes the chrome it emits inline and defers the slot's rich child). The harness slot carries a plain text token (Body) so the diff proves the card tag + its classes + block modifiers + the header/body/footer nesting, not rich row content. TITLE SHAPE: the blessed title is the CANONICAL card title — `.pa-card__title` > `.pa-card__title-text` (snippets/kpi.html L333, matching the card-header canonicalization rule: never a bare <h3>), NOT a bare heading. svelte already emits this; keen was fixed to match (it previously emitted a bare <h3>, diverging from both the snippet and its own canonical card title shape).",
+  "component": "kpi-sparkline-list",
+  "block": "pa-kpi-spark-list",
+  "propsVocabulary": {
+    "title": "header title text — rendered inside the canonical `.pa-card__title` > `.pa-card__title-text` shape (snippets/kpi.html L333). svelte titleText; keen title_text.",
+    "live": "show the animated LIVE pill (`.pa-kpi-live` + `.pa-kpi-live__dot` + the text 'LIVE') next to the title. svelte isLive (hardcodes 'LIVE'); keen is_live (live_text defaults to 'LIVE').",
+    "footer": "footer caption text — wrapped in `.pa-card__footer pa-kpi-footer` as a <span>. svelte footerText; keen footer_text.",
+    "noDelta": "pa-kpi-spark-list--no-delta — drops the trailing Δ% column from every row's grid. svelte noDelta; keen is_no_delta.",
+    "chartFirst": "pa-kpi-spark-list--chart-first — rotates the mid-narrow row layout to label-on-top / chart-middle / value+delta-bottom. svelte isChartFirst; keen is_chart_first.",
+    "body": "the row area — filled with plain slot text in this container-only slice (the real `.pa-kpi-spark-row` children are the deferred row sub-component, rendered by KpiSparklineRow / kpi_sparkline_row which both dumpers can't flow through a text slot). svelte children; keen inner_block.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "Structural container card. The header renders ONLY when title or live is present; the body wrapper (`.pa-card__body pa-kpi-spark-list__body`) ALWAYS renders; the footer renders ONLY when footer text is present. The body slot is a plain text token (Body) so the diff checks the card's tag + classes + block modifiers + the header/body/footer nesting, not rich row content. The title is the canonical `.pa-card__title` > `.pa-card__title-text` shape (blessed). The LIVE pill text is the literal 'LIVE'. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-kpi-spark-list'). The .pa-kpi-spark-list BLOCK has exactly TWO modifiers — --no-delta and --chart-first — plus the __body element class on the card body. Every other pa-kpi-spark-* class (the whole pa-kpi-spark-row* family: __label/__chart/__value/__num/__unit/__delta[--*] + the row sentiment modifiers --up/--up-strong/--flat/--down/--down-strong, plus the JS-generated pa-kpi-spark-wrap/pa-kpi-spark-dot) belongs to the ROW sub-component (deferred prose). title/live/footer are structural chrome this container emits inline using shared card + kpi-base classes (pa-card__title/__title-text, pa-kpi-live, pa-card__footer/pa-kpi-footer) — they carry no pa-kpi-spark-list--* block modifier, so produces:null. capability.mjs axis-1 reverse-check is scoped to the pa-kpi-spark-list--* block modifiers (--no-delta, --chart-first).",
+    "title":      { "kind": "string", "produces": null, "note": "structural — canonical .pa-card__title > .pa-card__title-text (blessed shape, NOT a bare <h3>)" },
+    "live":       { "kind": "bool",   "produces": null, "note": "structural — emits the .pa-kpi-live pill (shared kpi-base class, not a block modifier)" },
+    "footer":     { "kind": "string", "produces": null, "note": "structural — footer caption wrapped in .pa-card__footer pa-kpi-footer" },
+    "noDelta":    { "kind": "bool",   "produces": "pa-kpi-spark-list--no-delta", "note": "svelte noDelta; keen is_no_delta" },
+    "chartFirst": { "kind": "bool",   "produces": "pa-kpi-spark-list--chart-first", "note": "svelte isChartFirst; keen is_chart_first" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the card body (.pa-card__body pa-kpi-spark-list__body); the real .pa-kpi-spark-row children are the deferred row sub-component" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "The entire pa-kpi-spark-row* family — NOT container markup. Owned by the ROW sub-component (svelte KpiSparklineRow, keen kpi_sparkline_row/1), which both dumpers pass as plain escaped text through the container's body slot and so cannot render here. There is NO row-fragment fixture (neither wrapper registers one for kpi-sparkline-row), so these are ACKNOWLEDGED PROSE deferrals (reported, not verified against another fixture). The sentiment row modifiers (--up/--up-strong/--flat/--down/--down-strong) tint the chart via currentColor; the __delta--* tints colour the Δ% cell; pa-kpi-spark-wrap/pa-kpi-spark-dot are JS-generated at init (the SVG endpoint <circle> is swapped for a positioned CSS span — never SSR-authored).",
+    "pa-kpi-spark-row":               "one KPI row — owned by the KpiSparklineRow / kpi_sparkline_row sub-component (slot child), not the container",
+    "pa-kpi-spark-row--up":           "row sentiment modifier — tints the chart line/area/dot via currentColor (--pa-positive); row sub-component",
+    "pa-kpi-spark-row--up-strong":    "row sentiment modifier — --pa-very-positive; row sub-component",
+    "pa-kpi-spark-row--flat":         "row sentiment modifier — --pa-neutral; row sub-component",
+    "pa-kpi-spark-row--down":         "row sentiment modifier — --pa-negative; row sub-component",
+    "pa-kpi-spark-row--down-strong":  "row sentiment modifier — --pa-very-negative; row sub-component",
+    "pa-kpi-spark-row__label":        "row element — uppercase metric name; row sub-component",
+    "pa-kpi-spark-row__chart":        "row element — positioned sparkline wrapper (anchors the dot); row sub-component",
+    "pa-kpi-spark-row__value":        "row element — focal value cell; row sub-component",
+    "pa-kpi-spark-row__num":          "row element — numeric portion of the value; row sub-component",
+    "pa-kpi-spark-row__unit":         "row element — unit/prefix suffix of the value; row sub-component",
+    "pa-kpi-spark-row__delta":        "row element — Δ% cell; row sub-component",
+    "pa-kpi-spark-row__delta--very-positive": "Δ% tint — row sub-component",
+    "pa-kpi-spark-row__delta--positive":      "Δ% tint — row sub-component",
+    "pa-kpi-spark-row__delta--neutral":       "Δ% tint — row sub-component",
+    "pa-kpi-spark-row__delta--negative":      "Δ% tint — row sub-component",
+    "pa-kpi-spark-row__delta--very-negative": "Δ% tint — row sub-component",
+    "pa-kpi-spark-wrap":              "JS-generated positioned wrapper inserted around an SVG sparkline at init — never SSR-authored",
+    "pa-kpi-spark-dot":               "JS-generated CSS span replacing the SVG endpoint <circle> at init — never SSR-authored"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list\"><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "No title/live → NO header; no footer text → NO footer. The body wrapper always renders; its content is the deferred .pa-kpi-spark-row children (here a plain text token)."
+    },
+    {
+      "name": "title",
+      "props": { "title": "Key Performance Indicators", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div></div><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "Title opens the header; blessed title shape = canonical .pa-card__title > .pa-card__title-text (snippets/kpi.html L333), NOT a bare <h3>."
+    },
+    {
+      "name": "live",
+      "props": { "title": "Live KPIs", "live": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Live KPIs</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "LIVE pill sits after the title in the header (snippets/kpi.html L334). Text is the literal 'LIVE'."
+    },
+    {
+      "name": "live-only",
+      "props": { "live": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list\"><div class=\"pa-card__header pa-kpi-header\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "live alone still opens the header (header renders when title OR live is present)."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footer": "Updated just now" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list\"><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated just now</span></div></div>",
+      "note": "Footer renders only when footer text is present; wrapped in .pa-card__footer pa-kpi-footer as a <span>."
+    },
+    {
+      "name": "no-delta",
+      "props": { "noDelta": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list pa-kpi-spark-list--no-delta\"><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "Block modifier: drops the trailing Δ% column from every row's grid."
+    },
+    {
+      "name": "chart-first",
+      "props": { "chartFirst": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list pa-kpi-spark-list--chart-first\"><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "Block modifier: rotates the mid-narrow row layout (label/chart/value+delta)."
+    },
+    {
+      "name": "both-modifiers",
+      "props": { "noDelta": true, "chartFirst": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list pa-kpi-spark-list--no-delta pa-kpi-spark-list--chart-first\"><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "Both block modifiers compose (SCSS has a dedicated --no-delta.--chart-first rule); token order normalized."
+    },
+    {
+      "name": "full",
+      "props": { "title": "Key Performance Indicators", "live": true, "noDelta": true, "chartFirst": true, "body": "Body", "footer": "Live feed" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list pa-kpi-spark-list--no-delta pa-kpi-spark-list--chart-first\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div><div class=\"pa-card__footer pa-kpi-footer\"><span>Live feed</span></div></div>",
+      "note": "Everything at once: full header (title + LIVE), both block modifiers, body, footer — the snippets/kpi.html L331-375 shape (minus the deferred rows)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-spark-list mb-4\"><div class=\"pa-card__body pa-kpi-spark-list__body\">Body</div></div>",
+      "note": "Class passthrough — appended after pa-kpi-spark-list; token order is normalized away."
+    }
+  ]
+}

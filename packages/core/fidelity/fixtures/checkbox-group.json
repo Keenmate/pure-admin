@@ -1,0 +1,57 @@
+{
+  "//": "Markup-fidelity fixture for the CHECKBOX-GROUP CONTAINER — `.pa-checkbox-group` (keen `PureAdmin.Components.Form.checkbox_group/1`, svelte `forms/CheckboxGroup.svelte`). SCOPE = CONTAINER ONLY: a `<div class=\"pa-checkbox-group ...\">{children}</div>` grouping pa-checkbox options. Both dumpers feed a PLAIN TEXT body (real pa-checkbox children are the separate checkbox component), so this proves the <div> tag + its pa-checkbox-group class (+ the layout modifiers) + the body + class passthrough. Modifiers in main.css: horizontal/grid/2col/3col (default, unset, is a vertical flex column with NO class). Per-OPTION structure (pa-checkbox and its elements) is the separate checkbox fixture. See checkbox-list.json for the container-only model.",
+  "component": "checkbox-group",
+  "block": "pa-checkbox-group",
+  "propsVocabulary": {
+    "body": "the group's inner area — filled with plain slot text in this container-only slice (real pa-checkbox children are the separate checkbox component)",
+    "layout": "group layout → one pa-checkbox-group--* modifier (horizontal | grid | 2col | 3col). Default (unset) is a vertical flex column (no class). svelte `layout`, keen `layout`.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The container is always a <div class=\"pa-checkbox-group ...\"> in both wrappers. The body slot is a plain text token. A layout modifier is present when a layout is set; the default column has no class. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-checkbox-group block modifiers are exactly horizontal/grid/2col/3col. No pa-checkbox-group__* element classes exist (options are the separate pa-checkbox component).",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; option structure is the separate checkbox component" },
+    "layout":     { "kind": "enum",   "options": ["horizontal", "grid", "2col", "3col"], "produces": "pa-checkbox-group--{value}" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-checkbox-group\">Body</div>",
+      "note": "The blessed default container (vertical column, no layout class). Both wrappers emit a <div>."
+    },
+    {
+      "name": "layout-horizontal",
+      "props": { "body": "Body", "layout": "horizontal" },
+      "golden": "<div class=\"pa-checkbox-group pa-checkbox-group--horizontal\">Body</div>"
+    },
+    {
+      "name": "layout-grid",
+      "props": { "body": "Body", "layout": "grid" },
+      "golden": "<div class=\"pa-checkbox-group pa-checkbox-group--grid\">Body</div>"
+    },
+    {
+      "name": "layout-2col",
+      "props": { "body": "Body", "layout": "2col" },
+      "golden": "<div class=\"pa-checkbox-group pa-checkbox-group--2col\">Body</div>"
+    },
+    {
+      "name": "layout-3col",
+      "props": { "body": "Body", "layout": "3col" },
+      "golden": "<div class=\"pa-checkbox-group pa-checkbox-group--3col\">Body</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-checkbox-group mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-checkbox-group."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-checkbox-group\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits the shell."
+    }
+  ]
+}

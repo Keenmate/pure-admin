@@ -1,0 +1,35 @@
+{
+  "//": "Markup-fidelity fixture for the LOADER-CENTER utility (keen `Loader.loader_center/1`, svelte `feedback/LoaderCenter.svelte`). SCOPE: CONTAINER ONLY — a flex-column centering wrapper (.pa-loader-center) whose slot holds a spinner + optional caption. Like list.json, the harness feeds the slot plain TEXT (HTML-escaped by the dumper), so the real child (a spinner/<p>) can't flow through; the body is a bare text token. This fixture proves ONLY what the container emits: its <div> tag, its pa-loader-center class, and its class passthrough. Authored from dist/css/main.css + snippets/loaders.html + _loaders.scss.",
+  "component": "loader-center",
+  "block": "pa-loader-center",
+  "propsVocabulary": {
+    "body": "the centered content area — filled with plain slot text in this container-only slice (real spinner + caption children are out of scope)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. .pa-loader-center is a bare flex-centering <div> with NO modifiers (grep '\\.pa-loader-center--' on main.css is empty). The body slot is a plain text token. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-loader-center block has ZERO modifiers — the container contract is minimal: base class + a body slot + class passthrough. capability axis-1 reverse-check sees no pa-loader-center--* to claim.",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-loader-center\">Body</div>",
+      "note": "The blessed container: a <div class=\"pa-loader-center\">. Both wrappers emit <div>."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mt-base" },
+      "golden": "<div class=\"pa-loader-center mt-base\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-loader-center; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-loader-center\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

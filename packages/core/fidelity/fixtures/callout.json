@@ -1,0 +1,102 @@
+{
+  "//": "Markup-fidelity fixture for the callout component. See ../README.md and button.json/card.json for the model. Callouts are documentation-style boxes with a left (inline-start) border accent — NOT dismissible, no filled background (that's the alert). Canonical shape from snippets/callouts.html + _callouts.scss: base .pa-callout + a variant modifier; optional .pa-callout__heading (an <h4>); optional floated .pa-callout__icon which, when present, forces the rest of the content into a .pa-callout__content clearfix wrapper. When there's NO icon, heading + body are direct children of .pa-callout (no __content wrapper).",
+  "component": "callout",
+  "block": "pa-callout",
+  "propsVocabulary": {
+    "variant": "colour variant (primary|secondary|success|danger|warning|info)",
+    "themeColor": "1..9 theme colour slot (overrides variant → pa-callout--color-N)",
+    "size": "sm|lg",
+    "heading": "heading text rendered in an <h4> .pa-callout__heading",
+    "icon": "glyph/markup rendered inside the floated .pa-callout__icon; its presence wraps heading+body in .pa-callout__content",
+    "body": "main callout content (default slot)",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Structural only — callouts add no attribute conventions like button's type. Slot content is a plain text token (Body/heading/icon glyph) so the diff checks structural nesting, not rich content. The heading element is always an <h4>. When an icon is present, heading+body live inside .pa-callout__content; without an icon they are direct children of .pa-callout. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json). `produces` is a class template expanded by capability.mjs and cross-checked against main.css + each wrapper map. `produces: null` = structural (no pa-callout modifier). Axis-1 reverse check is block-modifier-scoped (pa-callout--*); element modifiers (__icon/__heading/__content) are verified forward via `produces`.",
+    "variant":    { "kind": "enum", "options": ["primary", "secondary", "success", "danger", "warning", "info"], "produces": "pa-callout--{value}" },
+    "themeColor": { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": "pa-callout--color-{value}" },
+    "size":       { "kind": "enum", "options": ["sm", "lg"], "produces": "pa-callout--{value}" },
+    "heading":    { "kind": "string", "produces": "pa-callout__heading", "note": "rendered as an <h4>" },
+    "icon":       { "kind": "slot", "produces": "pa-callout__icon", "note": "presence also forces the .pa-callout__content clearfix wrapper around heading+body" },
+    "body":       { "kind": "slot", "produces": null, "note": "default content; wrapped in .pa-callout__content only when an icon is present" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "pa-callout element modifier that is verified forward via a feature's produces, not a block modifier — listed so the axis-1 reverse check (block-modifier-scoped) stays clean. __content has no block modifier so nothing is needed here, but kept for symmetry with the model."
+  },
+  "scenarios": [
+    {
+      "name": "info",
+      "props": { "variant": "info", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--info\">Body</div>"
+    },
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--primary\">Body</div>"
+    },
+    {
+      "name": "secondary",
+      "props": { "variant": "secondary", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--secondary\">Body</div>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--success\">Body</div>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--danger\">Body</div>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--warning\">Body</div>"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "themeColor": "1", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--color-1\">Body</div>"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "themeColor": "9", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--color-9\">Body</div>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "variant": "info", "size": "sm", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--info pa-callout--sm\">Body</div>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "variant": "info", "size": "lg", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--info pa-callout--lg\">Body</div>"
+    },
+    {
+      "name": "heading",
+      "props": { "variant": "info", "heading": "Requirements", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--info\"><h4 class=\"pa-callout__heading\">Requirements</h4>Body</div>"
+    },
+    {
+      "name": "icon",
+      "props": { "variant": "success", "icon": "✓", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--success\"><span class=\"pa-callout__icon\">✓</span><div class=\"pa-callout__content\">Body</div></div>",
+      "note": "An icon floats to the start; the rest of the content is wrapped in .pa-callout__content for the clearfix (snippets/callouts.html)."
+    },
+    {
+      "name": "icon-heading",
+      "props": { "variant": "warning", "icon": "!", "heading": "Breaking Change", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--warning\"><span class=\"pa-callout__icon\">!</span><div class=\"pa-callout__content\"><h4 class=\"pa-callout__heading\">Breaking Change</h4>Body</div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "themeColor": "3", "size": "lg", "icon": "★", "heading": "Did you know?", "body": "Body" },
+      "golden": "<div class=\"pa-callout pa-callout--color-3 pa-callout--lg\"><span class=\"pa-callout__icon\">★</span><div class=\"pa-callout__content\"><h4 class=\"pa-callout__heading\">Did you know?</h4>Body</div></div>",
+      "note": "themeColor + size + icon + heading exercised together; themeColor overrides variant."
+    }
+  ]
+}

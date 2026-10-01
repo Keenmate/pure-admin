@@ -1,0 +1,223 @@
+{
+  "//": "Markup-fidelity fixture for the INPUT component — the text form field `.pa-input` (keen `PureAdmin.Components.Form.input/1`, svelte `forms/Input.svelte`). SCOPE = the BARE `<input class=\"pa-input ...\">` both wrappers emit — a self-contained, mostly-flat control. There is NO `pa-input__*` element in the compiled CSS and NO base `pa-input--disabled` class: disabled/readonly/required are NATIVE boolean attrs on the control, not modifiers. The blessed empty shape (no value given) carries NO `value` attribute — matching snippets/forms.html (`<input type=\"text\" class=\"pa-input\">`); value is emitted only when supplied. Both wrappers default `type` to \"text\", so every golden carries `type=\"text\"`. Sibling form controls (pa-select, pa-textarea) and the field-wrapper chrome around an input — `pa-form-group` / native `<label>` / `pa-form-help(--error)` — are DIFFERENT components / sub-slices, out of scope and prose-deferred below. keen's input/1 DOES emit a conditional `<.form_help variant=\"error\">` AFTER the input, but only `:if={show_errors and has_errors?(errors)}`; no scenario feeds errors, so it never renders and both wrappers emit a bare input. See badge.json/button.json for the model; checkbox-list.json for the container/sub-slice deferral precedent.",
+  "component": "input",
+  "block": "pa-input",
+  "propsVocabulary": {
+    "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md input). Shared scale with pa-select/pa-textarea; this slice only exercises pa-input--{size}.",
+    "state": "success|warning|error — standalone validation border (pa-input--{state}). Core defines these three for pa-input (and pa-select); pa-textarea has none.",
+    "themeColor": "1..9 theme colour slot — pa-input--color-N (paints the border with --pc-color-N). Orthogonal to state/size.",
+    "type": "native input type (text|email|password|tel|url|search) — text-like inputs only. Structural: a native `type` attr, not a class. Both wrappers default to text.",
+    "placeholder": "native placeholder attribute",
+    "value": "native value attribute — emitted only when supplied (the blessed empty shape carries no value)",
+    "name": "native name attribute",
+    "id": "native id attribute (hand-set — the normalizer keeps real ids, only strips framework-generated ones)",
+    "disabled": "native boolean attribute (there is NO pa-input--disabled class)",
+    "readonly": "native boolean attribute",
+    "required": "native boolean attribute",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Goldens encode the bare `<input class=\"pa-input ...\">` from snippets/forms.html plus the one convention both wrappers legitimately add: `type=\"text\"` is always present (both default type to \"text\"). `value` appears ONLY in scenarios that set it — the empty shape omits it (svelte had to drop its `$bindable('')` default to stop emitting a phantom `value=\"\"`; see the fix note). Native boolean attrs (disabled/readonly/required) are canonicalized to bare presence by the normalizer, so `disabled=\"\"` (svelte) ≡ `disabled` (keen). Attribute order and class-token order are normalized away, so goldens are written for readability. themeColor scenarios omit state/size — pa-input--color-N composes but is the colour axis.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (the only `.pa-input*` selectors are the size/state/color modifiers below — no `pa-input__*` elements exist). `produces` is a class template; `produces: null` = a native HTML attribute (type/placeholder/value/name/id) or native boolean attr (disabled/readonly/required), NOT a pa-input modifier. capability.mjs expands each produces and cross-checks against main.css AND each wrapper map + the scenario set.",
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-input--{value}"
+    },
+    "state": {
+      "kind": "enum",
+      "options": ["success", "warning", "error"],
+      "produces": "pa-input--{value}"
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-input--color-{value}"
+    },
+    "type": {
+      "kind": "enum",
+      "options": ["text", "email", "password", "tel", "url", "search"],
+      "produces": null,
+      "note": "native `type` attribute — no class. Both wrappers default to text."
+    },
+    "placeholder": { "kind": "string", "produces": null, "note": "native placeholder attribute" },
+    "value": { "kind": "string", "produces": null, "note": "native value attribute — emitted only when supplied" },
+    "name": { "kind": "string", "produces": null, "note": "native name attribute" },
+    "id": { "kind": "string", "produces": null, "note": "native id attribute (hand-set)" },
+    "disabled": { "kind": "bool", "produces": null, "note": "native boolean attribute — there is NO pa-input--disabled class" },
+    "readonly": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "required": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "No `pa-input__*` element classes exist in main.css, so there is nothing to bucket for the strict element-coverage check. This bucket records the field-wrapper chrome that is SEPARATE components (not the pa-input block) and intentionally out of this bare-control slice — prose only, no fixture ref. They carry no `pa-input` prefix so they don't affect the axis-1 element sweep; listed for reviewer orientation.",
+    "note-form-group": "pa-form-group / pa-form-group--success|warning|error|horizontal|required — the field WRAPPER (form-layout component), not the input. Both wrappers model it separately; this slice is the control only.",
+    "note-form-help": "pa-form-help / pa-form-help--error|success|warning|color-N — help/validation caption. keen input/1 emits pa-form-help--error only when :field errors are present (no scenario feeds errors); svelte Input has no help slot at all. Out of scope for the bare control.",
+    "note-label": "native <label> inside .pa-form .pa-form-group is styled automatically (no pa-form-label class). Belongs to the form-group slice."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": {},
+      "golden": "<input type=\"text\" class=\"pa-input\">",
+      "note": "The blessed default: a bare <input type=\"text\" class=\"pa-input\"> with NO value attribute. Proves neither wrapper emits a phantom value=\"\" (svelte's $bindable default was dropped for this)."
+    },
+    {
+      "name": "value",
+      "props": { "value": "Hello" },
+      "golden": "<input type=\"text\" value=\"Hello\" class=\"pa-input\">",
+      "note": "value is emitted only when supplied."
+    },
+    {
+      "name": "placeholder",
+      "props": { "placeholder": "Enter username" },
+      "golden": "<input type=\"text\" placeholder=\"Enter username\" class=\"pa-input\">"
+    },
+    {
+      "name": "type-text",
+      "props": { "type": "text" },
+      "golden": "<input type=\"text\" class=\"pa-input\">",
+      "note": "explicit type=text (same as the default) — exercises the enum option for coverage."
+    },
+    {
+      "name": "type-email",
+      "props": { "type": "email", "placeholder": "your@email.com" },
+      "golden": "<input type=\"email\" placeholder=\"your@email.com\" class=\"pa-input\">"
+    },
+    {
+      "name": "type-password",
+      "props": { "type": "password" },
+      "golden": "<input type=\"password\" class=\"pa-input\">"
+    },
+    {
+      "name": "type-tel",
+      "props": { "type": "tel" },
+      "golden": "<input type=\"tel\" class=\"pa-input\">"
+    },
+    {
+      "name": "type-url",
+      "props": { "type": "url" },
+      "golden": "<input type=\"url\" class=\"pa-input\">"
+    },
+    {
+      "name": "type-search",
+      "props": { "type": "search", "placeholder": "Search…" },
+      "golden": "<input type=\"search\" placeholder=\"Search…\" class=\"pa-input\">"
+    },
+    {
+      "name": "size-xs",
+      "props": { "size": "xs" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--xs\">"
+    },
+    {
+      "name": "size-sm",
+      "props": { "size": "sm" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--sm\">"
+    },
+    {
+      "name": "size-lg",
+      "props": { "size": "lg" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--lg\">"
+    },
+    {
+      "name": "size-xl",
+      "props": { "size": "xl" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--xl\">"
+    },
+    {
+      "name": "state-success",
+      "props": { "state": "success", "value": "Valid value" },
+      "golden": "<input type=\"text\" value=\"Valid value\" class=\"pa-input pa-input--success\">"
+    },
+    {
+      "name": "state-warning",
+      "props": { "state": "warning", "value": "Check this" },
+      "golden": "<input type=\"text\" value=\"Check this\" class=\"pa-input pa-input--warning\">"
+    },
+    {
+      "name": "state-error",
+      "props": { "state": "error", "value": "Invalid value" },
+      "golden": "<input type=\"text\" value=\"Invalid value\" class=\"pa-input pa-input--error\">"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "themeColor": "1" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-1\">"
+    },
+    {
+      "name": "theme-color-2",
+      "props": { "themeColor": "2" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-2\">"
+    },
+    {
+      "name": "theme-color-4",
+      "props": { "themeColor": "4" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-4\">"
+    },
+    {
+      "name": "theme-color-5",
+      "props": { "themeColor": "5" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-5\">"
+    },
+    {
+      "name": "theme-color-6",
+      "props": { "themeColor": "6" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-6\">"
+    },
+    {
+      "name": "theme-color-7",
+      "props": { "themeColor": "7" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-7\">"
+    },
+    {
+      "name": "theme-color-8",
+      "props": { "themeColor": "8" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-8\">"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "themeColor": "9" },
+      "golden": "<input type=\"text\" class=\"pa-input pa-input--color-9\">"
+    },
+    {
+      "name": "disabled",
+      "props": { "value": "Disabled input", "disabled": true },
+      "golden": "<input type=\"text\" value=\"Disabled input\" disabled class=\"pa-input\">",
+      "note": "native disabled attr — no pa-input--disabled class. Normalizer canonicalizes to bare presence."
+    },
+    {
+      "name": "readonly",
+      "props": { "value": "Readonly input", "readonly": true },
+      "golden": "<input type=\"text\" value=\"Readonly input\" readonly class=\"pa-input\">"
+    },
+    {
+      "name": "required",
+      "props": { "placeholder": "Required", "required": true },
+      "golden": "<input type=\"text\" placeholder=\"Required\" required class=\"pa-input\">"
+    },
+    {
+      "name": "name-id",
+      "props": { "name": "username", "id": "username", "placeholder": "Enter username" },
+      "golden": "<input type=\"text\" name=\"username\" id=\"username\" placeholder=\"Enter username\" class=\"pa-input\">",
+      "note": "name + id are hand-set here; the normalizer keeps real (non-generated) ids."
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "mb-4" },
+      "golden": "<input type=\"text\" class=\"pa-input mb-4\">",
+      "note": "Class passthrough — the extra class is appended after pa-input."
+    },
+    {
+      "name": "size-and-state",
+      "props": { "size": "lg", "state": "error", "value": "x" },
+      "golden": "<input type=\"text\" value=\"x\" class=\"pa-input pa-input--lg pa-input--error\">",
+      "note": "size + state compose — class-token order is normalized away."
+    },
+    {
+      "name": "combined",
+      "props": { "type": "email", "size": "sm", "themeColor": "3", "name": "email", "id": "email", "placeholder": "you@co", "required": true },
+      "golden": "<input type=\"email\" name=\"email\" id=\"email\" placeholder=\"you@co\" required class=\"pa-input pa-input--sm pa-input--color-3\">",
+      "note": "Stacks type + size + themeColor + native attrs to exercise class ordering + attribute passthrough together."
+    }
+  ]
+}

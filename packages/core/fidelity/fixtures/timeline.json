@@ -1,0 +1,96 @@
+{
+  "//": "Markup-fidelity fixture for the timeline CONTAINER. See ../README.md + button.json/card.json for the model. SCOPE: this slice tests ONLY the timeline container contract — its tag, its pa-timeline / pa-timeline--* block classes (variant + alternating layout modifiers), and its class passthrough. The item area is filled with a plain slot-text token (the dumpers HTML-escape slot text, so real child markup cannot be fed through a slot). Per-item structure (pa-timeline__item + markers/connectors, __time/__date/__icon/__content/__avatar/__comment/__date-header/__date-icon/__date-label, and the __scroll-container/__loader/__load-more-wrapper utilities) is a DEFERRED sub-slice with its own timeline_item fixture later — exactly like tooltip deferred its JS bubble. Those classes are listed under `deferred` below so they are explicitly labelled, not silently swallowed; none are block (pa-timeline--*) modifiers so capability.mjs axis-1 (block-modifier-scoped reverse check) does not false-fail on them.",
+  "component": "timeline",
+  "block": "pa-timeline",
+  "propsVocabulary": {
+    "variant": "visual variant, mutually exclusive (simple|alternating|feed)",
+    "alignment": "alternating-only layout modifier: force all items to start or end side (start|end); omit to zig-zag",
+    "keepLayout": "boolean — alternating-only: keep desktop zig-zag on mobile (no single-column collapse below the breakpoint)",
+    "singleColumn": "boolean — alternating-only: force single-column layout at any width (pa-timeline--single-column)",
+    "body": "item area content — a plain text token in this container slice (items are the deferred sub-slice)",
+    "extraClass": "extra classes appended verbatim (class passthrough)"
+  },
+  "goldenConventions": "The container is a <ul> in EVERY scenario. The core snippet's canonical timelines use <ul>/<li> (simple/feed/alternating, snippet lines 22-159) and note that <div> works identically because the SCSS keys off :nth-child, not the tag; <ul> is the blessed container tag (semantic list of events). The base pa-timeline class carries no visual styling on its own — pick ONE variant. Slot content is a plain text token (Body) so the diff checks the wrapper's container tag + classes + passthrough, not rich item content. Attribute + class-token order and whitespace are normalized away by the comparator.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. Only the 7 pa-timeline--* BLOCK modifiers are container features. capability.mjs axis-1 reverse-check is block-modifier-scoped, so the item-level pa-timeline__* classes (see `deferred`) are neither required here nor flagged.",
+    "variant":      { "kind": "enum", "options": ["simple", "alternating", "feed"], "produces": "pa-timeline--{value}" },
+    "alignment":    { "kind": "enum", "options": ["start", "end"], "produces": "pa-timeline--{value}", "note": "alternating-only layout modifier" },
+    "keepLayout":   { "kind": "bool", "produces": "pa-timeline--keep-layout" },
+    "singleColumn": { "kind": "bool", "produces": "pa-timeline--single-column" },
+    "body":         { "kind": "slot", "produces": null, "note": "structural — item area; a plain text token in this container slice" },
+    "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-item classes. Those the timeline-item FRAGMENT fixture renders/produces carry { fixture: timeline-item } and are VERIFIED by capability. The icon/avatar/alternating sub-layout classes are NOT yet covered — timeline-item defers them because keen renders the item as <div> when an icon is present vs svelte's <li> (reconciliation owed) — and the __scroll-container/__loader* classes belong to the container's JS load-more feature (own scenarios owed); both stay acknowledged prose.",
+    "pa-timeline__item":              { "fixture": "timeline-item" },
+    "pa-timeline__item--primary":     { "fixture": "timeline-item" },
+    "pa-timeline__item--secondary":   { "fixture": "timeline-item" },
+    "pa-timeline__item--success":     { "fixture": "timeline-item" },
+    "pa-timeline__item--warning":     { "fixture": "timeline-item" },
+    "pa-timeline__item--danger":      { "fixture": "timeline-item" },
+    "pa-timeline__item--info":        { "fixture": "timeline-item" },
+    "pa-timeline__item--filled":      { "fixture": "timeline-item" },
+    "pa-timeline__item--date-header": { "fixture": "timeline-item" },
+    "pa-timeline__time":              { "fixture": "timeline-item" },
+    "pa-timeline__content":           { "fixture": "timeline-item" },
+    "pa-timeline__date-label":        { "fixture": "timeline-item" },
+    "pa-timeline__date": "icon/alternating sub-layout — NOT yet covered (keen <div> vs svelte <li> divergence); reconciliation owed",
+    "pa-timeline__icon": "icon/alternating sub-layout — NOT yet covered; see pa-timeline__date",
+    "pa-timeline__avatar": "feed sub-layout — NOT yet covered; see pa-timeline__date",
+    "pa-timeline__comment": "feed sub-layout — NOT yet covered; see pa-timeline__date",
+    "pa-timeline__date-icon": "feed date-header-with-icon — NOT yet covered; see pa-timeline__date",
+    "pa-timeline__scroll-container": "CONTAINER JS load-more feature — own scenarios owed",
+    "pa-timeline__loader": "CONTAINER JS load-more feature — own scenarios owed",
+    "pa-timeline__loader-text": "CONTAINER JS load-more feature — own scenarios owed",
+    "pa-timeline__load-more-wrapper": "CONTAINER JS load-more feature — own scenarios owed"
+  },
+  "scenarios": [
+    {
+      "name": "simple",
+      "props": { "variant": "simple", "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--simple\">Body</ul>"
+    },
+    {
+      "name": "alternating",
+      "props": { "variant": "alternating", "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--alternating\">Body</ul>",
+      "note": "Container tag is <ul> (the snippet's canonical alternating example, lines 87-117). keen historically emitted <div> for alternating; that div special-case is a container divergence fixed in this slice — the SCSS keys off :nth-child, not the tag, so <ul> is blessed uniformly."
+    },
+    {
+      "name": "feed",
+      "props": { "variant": "feed", "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--feed\">Body</ul>"
+    },
+    {
+      "name": "alternating-start",
+      "props": { "variant": "alternating", "alignment": "start", "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--start\">Body</ul>"
+    },
+    {
+      "name": "alternating-end",
+      "props": { "variant": "alternating", "alignment": "end", "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--end\">Body</ul>"
+    },
+    {
+      "name": "alternating-keep-layout",
+      "props": { "variant": "alternating", "keepLayout": true, "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--keep-layout\">Body</ul>"
+    },
+    {
+      "name": "alternating-single-column",
+      "props": { "variant": "alternating", "singleColumn": true, "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--single-column\">Body</ul>"
+    },
+    {
+      "name": "alternating-start-keep-layout",
+      "props": { "variant": "alternating", "alignment": "start", "keepLayout": true, "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--start pa-timeline--keep-layout\">Body</ul>",
+      "note": "Combined scenario: layout modifiers stack on the alternating variant (snippet lines 301-310)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "variant": "simple", "extraClass": "mb-4", "body": "Body" },
+      "golden": "<ul class=\"pa-timeline pa-timeline--simple mb-4\">Body</ul>"
+    }
+  ]
+}

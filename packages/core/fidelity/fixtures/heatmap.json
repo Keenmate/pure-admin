@@ -1,0 +1,75 @@
+{
+  "//": "Markup-fidelity fixture for pa-heatmap — an activity grid (GitHub-contributions style) of intensity cells. Shape: <div class=\"pa-heatmap [pa-heatmap--{variant}] [pa-heatmap--compact]\" style=\"grid-template-columns: repeat(N, 1.2rem)\"><div class=\"pa-heatmap__cell\" data-level=\"L\"></div>…</div>. Cells are DATA-DRIVEN from a `levels` list; each cell's intensity is a data-level=\"0..4\" ATTRIBUTE (NOT a modifier class — the SCSS styles cells via .pa-heatmap__cell[data-level=\"N\"]). `columns` sets the inline grid-template-columns (the base SCSS hardcodes repeat(53,…); the inline style overrides the column count). variant is success|danger ONLY — those are the two CSS-backed cell ramps (.pa-heatmap--success/.pa-heatmap--danger .pa-heatmap__cell[data-level]); there is no base/primary modifier (the default accent ramp emits no class). SCOPE: the pa-heatmap block only. The SEPARATE legend block (pa-heatmap__legend / pa-heatmap__legend-cell — keen heatmap_legend/1, svelte HeatmapLegend.svelte) is a different component and is deferred out of scope below.",
+  "component": "heatmap",
+  "block": "pa-heatmap",
+  "propsVocabulary": {
+    "levels": "list of intensity levels (0-4); one pa-heatmap__cell is rendered per entry, carrying data-level={level}. Structural data — drives the cells, no class.",
+    "columns": "number of grid columns — inline style grid-template-columns: repeat(N, 1.2rem). Structural, no class.",
+    "variant": "cell-ramp colour variant (success|danger). The default accent ramp is the BASE and emits NO modifier class; there is no pa-heatmap--primary.",
+    "compact": "denser inline grid (smaller 1rem cells) → pa-heatmap--compact",
+    "extraClass": "extra classes appended verbatim"
+  },
+  "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache lines 442+). pa-heatmap is an inline-grid whose cells come from a data list; the per-cell intensity is a data-level ATTRIBUTE (0-4), not a class. The column count is a data-driven inline style (grid-template-columns: repeat(N, 1.2rem)) treated as a scenario-provided value so both wrappers receive the same N. variant success|danger emit pa-heatmap--{variant}; the default accent ramp emits no modifier. compact emits pa-heatmap--compact. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-heatmap(--|__)'). Block modifiers in CSS: pa-heatmap--success, pa-heatmap--danger, pa-heatmap--compact. Element classes: pa-heatmap__cell (claimed/exercised), pa-heatmap__legend + pa-heatmap__legend-cell (SEPARATE legend component — deferred out of scope; they are pa-heatmap__* so the reverse element check sees them, hence an explicit deferred bucket). `produces: null` = structural/native (no pa-heatmap modifier). variant EXCLUDES any base/primary — the default accent cell ramp is the base and has no modifier class. levels/columns are structural data (produces:null, kind:string so capability doesn't enum-check them).",
+    "variant": {
+      "kind": "enum",
+      "options": ["success", "danger"],
+      "produces": "pa-heatmap--{value}"
+    },
+    "compact": {
+      "kind": "bool",
+      "produces": "pa-heatmap--compact"
+    },
+    "columns": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — inline style grid-template-columns: repeat(N, 1.2rem); no class"
+    },
+    "levels": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural data — one pa-heatmap__cell[data-level] per entry; no modifier class. kind:string so capability doesn't enum-check the list."
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "deferred": {
+    "//": "The legend is a SEPARATE block/component (keen heatmap_legend/1, svelte HeatmapLegend.svelte) that happens to use pa-heatmap__* element names, so the reverse element-class check sees pa-heatmap__legend / pa-heatmap__legend-cell. They are acknowledged out-of-scope for THIS fixture (prose deferral — advisory, not fixture-verified).",
+    "pa-heatmap__legend": "separate legend component (heatmap_legend/1 · HeatmapLegend.svelte) — out of scope for the grid fixture",
+    "pa-heatmap__legend-cell": "separate legend component (heatmap_legend/1 · HeatmapLegend.svelte) — out of scope for the grid fixture"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "levels": [0, 1, 2, 3, 4], "columns": 5 },
+      "golden": "<div class=\"pa-heatmap\" style=\"grid-template-columns: repeat(5, 1.2rem)\"><div class=\"pa-heatmap__cell\" data-level=\"0\"></div><div class=\"pa-heatmap__cell\" data-level=\"1\"></div><div class=\"pa-heatmap__cell\" data-level=\"2\"></div><div class=\"pa-heatmap__cell\" data-level=\"3\"></div><div class=\"pa-heatmap__cell\" data-level=\"4\"></div></div>",
+      "note": "Default accent ramp — no variant modifier. Five cells, one per level; intensity is the data-level attribute (0-4)."
+    },
+    {
+      "name": "variant-success",
+      "props": { "levels": [0, 1, 2, 3, 4], "columns": 5, "variant": "success" },
+      "golden": "<div class=\"pa-heatmap pa-heatmap--success\" style=\"grid-template-columns: repeat(5, 1.2rem)\"><div class=\"pa-heatmap__cell\" data-level=\"0\"></div><div class=\"pa-heatmap__cell\" data-level=\"1\"></div><div class=\"pa-heatmap__cell\" data-level=\"2\"></div><div class=\"pa-heatmap__cell\" data-level=\"3\"></div><div class=\"pa-heatmap__cell\" data-level=\"4\"></div></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "levels": [0, 1, 2, 3, 4], "columns": 5, "variant": "danger" },
+      "golden": "<div class=\"pa-heatmap pa-heatmap--danger\" style=\"grid-template-columns: repeat(5, 1.2rem)\"><div class=\"pa-heatmap__cell\" data-level=\"0\"></div><div class=\"pa-heatmap__cell\" data-level=\"1\"></div><div class=\"pa-heatmap__cell\" data-level=\"2\"></div><div class=\"pa-heatmap__cell\" data-level=\"3\"></div><div class=\"pa-heatmap__cell\" data-level=\"4\"></div></div>"
+    },
+    {
+      "name": "compact",
+      "props": { "levels": [0, 1, 2, 3, 4], "columns": 5, "compact": true },
+      "golden": "<div class=\"pa-heatmap pa-heatmap--compact\" style=\"grid-template-columns: repeat(5, 1.2rem)\"><div class=\"pa-heatmap__cell\" data-level=\"0\"></div><div class=\"pa-heatmap__cell\" data-level=\"1\"></div><div class=\"pa-heatmap__cell\" data-level=\"2\"></div><div class=\"pa-heatmap__cell\" data-level=\"3\"></div><div class=\"pa-heatmap__cell\" data-level=\"4\"></div></div>",
+      "note": "Compact grid — the SCSS --compact rule shrinks cells to 1rem; the inline grid-template-columns still carries the base 1.2rem track value (both wrappers emit the same inline string)."
+    },
+    {
+      "name": "combined",
+      "props": { "levels": [1, 0, 3, 2, 4, 2], "columns": 6, "variant": "success", "compact": true, "extraClass": "mt-sm" },
+      "golden": "<div class=\"pa-heatmap pa-heatmap--success pa-heatmap--compact mt-sm\" style=\"grid-template-columns: repeat(6, 1.2rem)\"><div class=\"pa-heatmap__cell\" data-level=\"1\"></div><div class=\"pa-heatmap__cell\" data-level=\"0\"></div><div class=\"pa-heatmap__cell\" data-level=\"3\"></div><div class=\"pa-heatmap__cell\" data-level=\"2\"></div><div class=\"pa-heatmap__cell\" data-level=\"4\"></div><div class=\"pa-heatmap__cell\" data-level=\"2\"></div></div>",
+      "note": "variant + compact + class passthrough + a 6-cell levels list with a different column count."
+    }
+  ]
+}

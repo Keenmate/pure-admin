@@ -1,0 +1,45 @@
+{
+  "//": "Markup-fidelity fixture for the table-container — the bare, card-less framed wrapper around a table (border + rounded corners + horizontal scroll on overflow). NEUTRAL scenarios + the GOLDEN markup core blesses. CONTAINER-ONLY: the inner <table class=\"pa-table\"> arrives via the text slot and is covered by table.json, so pa-table* is deferred there. The DEPRECATED panel mode (pa-table-container--panel + __header/__title/__actions, deprecated core 2.9.0-rc10 as a near-duplicate of pa-table-card) is legacy tolerance, NOT a blessed shape — it is deferred (cssStateClasses / deferred), not modelled as a scenario (rigidity-over-flexibility: one canonical shape per component). See ../README.md, table.json / table-card.json (siblings) for the model.",
+  "component": "table-container",
+  "block": "pa-table-container",
+  "propsVocabulary": {
+    "content": "inner table markup — rendered verbatim into the container (a text slot here)",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape (snippets/tables.html): a bare <div class=\"pa-table-container\"> wrapping a table. Container-only: the inner table is a text slot and pa-table* is covered by table.json, so it is deferred there. No attribute conventions are added. The deprecated panel form is not exercised. Attribute + class-token order and whitespace are normalized away; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `produces: null` = structural/native. The container's only blessed class is the base pa-table-container (no blessed modifier — --panel is deprecated, see cssStateClasses).",
+    "content": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — inner table; pa-table is covered by table.json"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-table-container--* modifier(s) in main.css that are NOT blessed features. --panel is DEPRECATED (core 2.9.0-rc10, near-duplicate of pa-table-card); both wrappers still render it as legacy tolerance but it is not a documented option, so it is claimed here rather than modelled as a scenario.",
+    "pa-table-container--panel": "DEPRECATED panel styling with a header row — superseded by pa-table-card; legacy tolerance only"
+  },
+  "deferred": {
+    "//": "pa-table-container__* elements belong to the DEPRECATED panel form only (never emitted in the blessed card-less container). Acknowledged out-of-scope (prose, unverified) — they are legacy tolerance, superseded by pa-table-card's header/title/actions. NOTE one known wrapper divergence in this deprecated form: keen emits __title as <h3>, svelte as <div> — intentionally not reconciled because the shape is deprecated.",
+    "pa-table-container__header": "DEPRECATED panel header row",
+    "pa-table-container__title": "DEPRECATED panel title (keen <h3> / svelte <div>)",
+    "pa-table-container__actions": "DEPRECATED panel header actions slot"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "content": "TABLE" },
+      "golden": "<div class=\"pa-table-container\">TABLE</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "content": "TABLE", "extraClass": "maxhr-40" },
+      "golden": "<div class=\"pa-table-container maxhr-40\">TABLE</div>"
+    }
+  ]
+}

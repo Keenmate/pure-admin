@@ -53,9 +53,14 @@ whitespace, and boolean/presence-attr spelling (`disabled` ≡ `disabled=""` ≡
 
 ## The fixture (contract)
 
-`fixtures/<component>.json` carries three things:
+`fixtures/<component>.json` carries:
 
 - **`block`** — the component's base class (`pa-btn`, `pa-card`) for the CSS check.
+  For a **family** that spans several blocks (`pa-loader-dots`/`-bars`/…,
+  `pa-list` + `pa-list-ordered`, …) use **`blocks: [...]`** instead — the CSS check
+  then scopes to every listed block. (A single `block` whose name matches *nothing*
+  in the CSS triggers a "vacuous scope" note — the tell that the block is wrong or
+  is really a family. The one legit class-less case is inline `<code>`.)
 - **`features`** — the oracle's feature→class contract, authored from
   `dist/css/main.css` (NOT `components.json` — its static extraction misses every
   SCSS-`@each`-generated variant). Each feature declares `kind`
@@ -63,6 +68,29 @@ whitespace, and boolean/presence-attr spelling (`disabled` ≡ `disabled=""` ≡
   (`pa-btn--{value}`, `null` for structural/native).
 - **`scenarios`** — neutral prop bags + the `golden` markup. Attribute + class
   order and whitespace are normalized, so goldens are written for readability.
+- **`deferred`** *(optional)* — element classes a slice intentionally leaves to a
+  later sub-slice. Two forms: a **fixture ref** (`{ "fixture": "card-tab" }` or
+  `"fixture:card-tab"`) is *verified* — the named fixture must actually produce or
+  render the class, else `DEFER?` hard-fails; **plain prose** is an *acknowledged*
+  out-of-scope note (e.g. `pa-badge__remove`, owned by command-palette, not the
+  badge component; `pa-progress__label`, the composed group shape the wrappers
+  still diverge on). Reported `deferred` (visible, advisory) instead of failing.
+- **`cssStateClasses`** *(optional)* — block modifiers (`<block>--*`) that
+  `pa-*.js` TOGGLES at runtime (never hand-authored), so no feature produces them.
+  Counted as claimed by the block-modifier reverse check.
+- **`cssStateElements`** *(optional)* — the element-level analogue: `<block>__*`
+  elements `pa-*.js` BUILDS at runtime and that never appear in the SSR markup a
+  wrapper emits (e.g. stat fit-mode's `__slot`/`__group`/`__meta`). No feature can
+  produce them and no SSR golden can exercise them, so they'd read as blind spots —
+  listed here they're reported as `runtime` (out of the strict-compare surface).
+
+**The CSS check has two reverse directions.** Block modifiers (`<block>--*`) must be
+claimed by a feature's `produces` or `cssStateClasses`. Element classes (`<block>__*`)
+must be *accounted for* — claimed by a feature, **exercised by at least one scenario
+golden** (so `compare.mjs` actually renders it), listed in `deferred`, or listed in
+`cssStateElements` (JS-built, runtime-only). An element class core ships that none of
+those account for is an `UNCOVERED` blind spot (hard failure) — this is what catches a
+fixture that silently skips a whole sub-feature (card's inline-tabs, …).
 
 ## The capability map (per wrapper)
 

@@ -1,0 +1,232 @@
+{
+  "//": "Markup-fidelity fixture for the composite-badge component — the three-part `.pa-composite-badge` block ([icon][label][button]) that keen `composite_badge/1` and svelte `CompositeBadge.svelte` render. SCOPE = IN-SCOPE / SELF-CONTAINED (NOT container-only like prop-card). Unlike prop-card — whose rows are a separate sub-component fed via a slot — the composite badge renders its own `__icon` / `__label` / `__button` parts INLINE from flat string/slot props (labelText + buttonText + optional icon). There is no composite-badge-row sub-component; the three parts ARE the component's markup, so they're modelled as features and exercised directly in the goldens (nothing deferred). Wrapper dumpers map `props` to their own API, render, and the core comparator diffs their output against `golden` after normalization. See ../README.md and badge.json for the model, prop-card.json for the container-only counter-example.",
+  "component": "composite-badge",
+  "block": "pa-composite-badge",
+  "propsVocabulary": {
+    "variant": "base colour variant (primary|secondary|success|warning|danger|info|light|dark) — paints all three sections. On the block as pa-composite-badge--{variant}",
+    "labelVariant": "override the LABEL section's colour independently of the base variant — pa-composite-badge--label-{v} (svelte labelVariant, keen label_variant)",
+    "buttonVariant": "override the BUTTON section's colour independently — pa-composite-badge--btn-{v} (svelte buttonVariant, keen button_variant). All 8 variants exist (incl. --btn-danger; the SCSS @each covers every variant even though the base __button already renders danger-coloured).",
+    "iconVariant": "override the ICON section's colour independently — pa-composite-badge--icon-{v} (svelte iconVariant, keen icon_variant)",
+    "icon": "glyph/text rendered inside pa-composite-badge__icon (left section). svelte: icon snippet; keen: icon_content slot (the string `icon` attr and the slot both emit the same __icon span)",
+    "label": "middle section text — rendered inside pa-composite-badge__label (svelte labelText, keen label)",
+    "buttonText": "right section text/count — rendered inside pa-composite-badge__button (svelte buttonText, keen button_text / count)"
+  },
+  "goldenConventions": "Structural only — the composite badge adds no attribute conventions like button's type. The outer node is a plain <div>; the three sections are plain <span>s (both wrappers emit <span> for the non-interactive default — keen's button is a <span> unless on_button_click is set; svelte's is a <span> unless isInteractive is set; neither click/interactive path is exercised here, so the blessed default is all-spans). A variant modifier is present when its prop is set. Section text is a plain token (Notifications / 5 / ...) so the diff checks structural nesting, not rich content. The icon section is emitted ONLY when an icon is supplied (both wrappers gate it). The __button section is always present in these scenarios because every scenario supplies buttonText (keen gates __button on btn_text; svelte requires buttonText). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (NOT components.json — its static extraction misses the SCSS-@each-generated variant loops). The .pa-composite-badge block has FOUR independent variant axes — full (--{v}), label (--label-{v}), button (--btn-{v}), icon (--icon-{v}) — each generated for all 8 variants (primary secondary success warning danger info light dark), = 32 block modifiers total, exactly the set in main.css. `produces` is a class template with {value}; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. The three element parts (__icon via the icon slot, __label + __button via the label/buttonText string props) are produced/exercised inline — nothing deferred.",
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-composite-badge--{value}"
+    },
+    "labelVariant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-composite-badge--label-{value}"
+    },
+    "buttonVariant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-composite-badge--btn-{value}"
+    },
+    "iconVariant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+      "produces": "pa-composite-badge--icon-{value}"
+    },
+    "icon": {
+      "kind": "slot",
+      "produces": "pa-composite-badge__icon"
+    },
+    "label": {
+      "kind": "string",
+      "produces": null,
+      "note": "text inside the always-present pa-composite-badge__label element (exercised by every golden)"
+    },
+    "buttonText": {
+      "kind": "string",
+      "produces": null,
+      "note": "text inside the pa-composite-badge__button element (exercised by every golden)"
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-composite-badge--* classes in main.css that are NOT feature-driven props in this slice. None — all 32 block modifiers are feature-driven."
+  },
+  "scenarios": [
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "icon": "🔔", "label": "Notifications", "buttonText": "5" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary\"><span class=\"pa-composite-badge__icon\">🔔</span><span class=\"pa-composite-badge__label\">Notifications</span><span class=\"pa-composite-badge__button\">5</span></div>",
+      "note": "The blessed default: a <div> wrapper with the three plain-<span> sections in icon/label/button order. Non-interactive, so __button is a <span>."
+    },
+    {
+      "name": "secondary",
+      "props": { "variant": "secondary", "icon": "☰", "label": "Drafts", "buttonText": "8" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--secondary\"><span class=\"pa-composite-badge__icon\">☰</span><span class=\"pa-composite-badge__label\">Drafts</span><span class=\"pa-composite-badge__button\">8</span></div>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "icon": "✓", "label": "Completed", "buttonText": "12" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--success\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">Completed</span><span class=\"pa-composite-badge__button\">12</span></div>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "icon": "!", "label": "Pending", "buttonText": "7" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--warning\"><span class=\"pa-composite-badge__icon\">!</span><span class=\"pa-composite-badge__label\">Pending</span><span class=\"pa-composite-badge__button\">7</span></div>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "icon": "⚠", "label": "Errors", "buttonText": "3" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--danger\"><span class=\"pa-composite-badge__icon\">⚠</span><span class=\"pa-composite-badge__label\">Errors</span><span class=\"pa-composite-badge__button\">3</span></div>"
+    },
+    {
+      "name": "info",
+      "props": { "variant": "info", "icon": "ℹ", "label": "Updates", "buttonText": "2" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--info\"><span class=\"pa-composite-badge__icon\">ℹ</span><span class=\"pa-composite-badge__label\">Updates</span><span class=\"pa-composite-badge__button\">2</span></div>"
+    },
+    {
+      "name": "light",
+      "props": { "variant": "light", "icon": "○", "label": "Idle", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--light\"><span class=\"pa-composite-badge__icon\">○</span><span class=\"pa-composite-badge__label\">Idle</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "dark",
+      "props": { "variant": "dark", "icon": "●", "label": "Archived", "buttonText": "99" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--dark\"><span class=\"pa-composite-badge__icon\">●</span><span class=\"pa-composite-badge__label\">Archived</span><span class=\"pa-composite-badge__button\">99</span></div>"
+    },
+    {
+      "name": "no-icon",
+      "props": { "variant": "primary", "label": "Messages", "buttonText": "4" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary\"><span class=\"pa-composite-badge__label\">Messages</span><span class=\"pa-composite-badge__button\">4</span></div>",
+      "note": "No icon supplied -> the pa-composite-badge__icon span is omitted entirely (both wrappers gate it). Label + button remain."
+    },
+    {
+      "name": "label-primary",
+      "props": { "variant": "success", "labelVariant": "primary", "icon": "✓", "label": "Build", "buttonText": "9" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--success pa-composite-badge--label-primary\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">Build</span><span class=\"pa-composite-badge__button\">9</span></div>"
+    },
+    {
+      "name": "label-secondary",
+      "props": { "variant": "success", "labelVariant": "secondary", "icon": "✓", "label": "CI passed", "buttonText": "9" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--success pa-composite-badge--label-secondary\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">CI passed</span><span class=\"pa-composite-badge__button\">9</span></div>"
+    },
+    {
+      "name": "label-success",
+      "props": { "variant": "primary", "labelVariant": "success", "icon": "✓", "label": "OK", "buttonText": "1" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-success\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">OK</span><span class=\"pa-composite-badge__button\">1</span></div>"
+    },
+    {
+      "name": "label-warning",
+      "props": { "variant": "primary", "labelVariant": "warning", "icon": "!", "label": "Review", "buttonText": "2" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-warning\"><span class=\"pa-composite-badge__icon\">!</span><span class=\"pa-composite-badge__label\">Review</span><span class=\"pa-composite-badge__button\">2</span></div>"
+    },
+    {
+      "name": "label-info",
+      "props": { "variant": "primary", "labelVariant": "info", "icon": "📧", "label": "New messages", "buttonText": "6" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-info\"><span class=\"pa-composite-badge__icon\">📧</span><span class=\"pa-composite-badge__label\">New messages</span><span class=\"pa-composite-badge__button\">6</span></div>"
+    },
+    {
+      "name": "label-danger",
+      "props": { "variant": "primary", "labelVariant": "danger", "icon": "⚠", "label": "Blocked", "buttonText": "3" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-danger\"><span class=\"pa-composite-badge__icon\">⚠</span><span class=\"pa-composite-badge__label\">Blocked</span><span class=\"pa-composite-badge__button\">3</span></div>"
+    },
+    {
+      "name": "label-light",
+      "props": { "variant": "dark", "labelVariant": "light", "icon": "○", "label": "Muted", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--dark pa-composite-badge--label-light\"><span class=\"pa-composite-badge__icon\">○</span><span class=\"pa-composite-badge__label\">Muted</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "label-dark",
+      "props": { "variant": "light", "labelVariant": "dark", "icon": "●", "label": "Pinned", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--light pa-composite-badge--label-dark\"><span class=\"pa-composite-badge__icon\">●</span><span class=\"pa-composite-badge__label\">Pinned</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "btn-primary",
+      "props": { "variant": "success", "buttonVariant": "primary", "icon": "✓", "label": "Deploy", "buttonText": "5" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--success pa-composite-badge--btn-primary\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">Deploy</span><span class=\"pa-composite-badge__button\">5</span></div>"
+    },
+    {
+      "name": "btn-secondary",
+      "props": { "variant": "primary", "buttonVariant": "secondary", "icon": "☰", "label": "Queue", "buttonText": "8" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--btn-secondary\"><span class=\"pa-composite-badge__icon\">☰</span><span class=\"pa-composite-badge__label\">Queue</span><span class=\"pa-composite-badge__button\">8</span></div>"
+    },
+    {
+      "name": "btn-success",
+      "props": { "variant": "success", "buttonVariant": "success", "icon": "✓", "label": "CI passed", "buttonText": "9" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--success pa-composite-badge--btn-success\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">CI passed</span><span class=\"pa-composite-badge__button\">9</span></div>"
+    },
+    {
+      "name": "btn-warning",
+      "props": { "variant": "primary", "buttonVariant": "warning", "icon": "!", "label": "Retry", "buttonText": "2" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--btn-warning\"><span class=\"pa-composite-badge__icon\">!</span><span class=\"pa-composite-badge__label\">Retry</span><span class=\"pa-composite-badge__button\">2</span></div>"
+    },
+    {
+      "name": "btn-danger",
+      "props": { "variant": "primary", "buttonVariant": "danger", "icon": "📧", "label": "New messages", "buttonText": "×" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--btn-danger\"><span class=\"pa-composite-badge__icon\">📧</span><span class=\"pa-composite-badge__label\">New messages</span><span class=\"pa-composite-badge__button\">×</span></div>",
+      "note": "--btn-danger DOES exist in main.css (the SCSS @each iterates every variant). The badges.html snippet's 'no --btn-danger' comment is stale vs the compiled CSS."
+    },
+    {
+      "name": "btn-info",
+      "props": { "variant": "primary", "buttonVariant": "info", "icon": "ℹ", "label": "Details", "buttonText": "2" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--btn-info\"><span class=\"pa-composite-badge__icon\">ℹ</span><span class=\"pa-composite-badge__label\">Details</span><span class=\"pa-composite-badge__button\">2</span></div>"
+    },
+    {
+      "name": "btn-light",
+      "props": { "variant": "dark", "buttonVariant": "light", "icon": "●", "label": "Snooze", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--dark pa-composite-badge--btn-light\"><span class=\"pa-composite-badge__icon\">●</span><span class=\"pa-composite-badge__label\">Snooze</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "btn-dark",
+      "props": { "variant": "light", "buttonVariant": "dark", "icon": "○", "label": "Mute", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--light pa-composite-badge--btn-dark\"><span class=\"pa-composite-badge__icon\">○</span><span class=\"pa-composite-badge__label\">Mute</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "icon-primary",
+      "props": { "variant": "secondary", "iconVariant": "primary", "icon": "🔔", "label": "Alerts", "buttonText": "5" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--secondary pa-composite-badge--icon-primary\"><span class=\"pa-composite-badge__icon\">🔔</span><span class=\"pa-composite-badge__label\">Alerts</span><span class=\"pa-composite-badge__button\">5</span></div>",
+      "note": "iconVariant adds the --icon-{v} block modifier on the outer div, independent of the base variant. Both wrappers support it (svelte iconVariant, keen icon_variant added to match the SCSS @each)."
+    },
+    {
+      "name": "icon-secondary",
+      "props": { "variant": "primary", "iconVariant": "secondary", "icon": "☰", "label": "Lists", "buttonText": "3" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--icon-secondary\"><span class=\"pa-composite-badge__icon\">☰</span><span class=\"pa-composite-badge__label\">Lists</span><span class=\"pa-composite-badge__button\">3</span></div>"
+    },
+    {
+      "name": "icon-success",
+      "props": { "variant": "primary", "iconVariant": "success", "icon": "✓", "label": "Verified", "buttonText": "1" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--icon-success\"><span class=\"pa-composite-badge__icon\">✓</span><span class=\"pa-composite-badge__label\">Verified</span><span class=\"pa-composite-badge__button\">1</span></div>"
+    },
+    {
+      "name": "icon-warning",
+      "props": { "variant": "primary", "iconVariant": "warning", "icon": "!", "label": "Caution", "buttonText": "2" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--icon-warning\"><span class=\"pa-composite-badge__icon\">!</span><span class=\"pa-composite-badge__label\">Caution</span><span class=\"pa-composite-badge__button\">2</span></div>"
+    },
+    {
+      "name": "icon-danger",
+      "props": { "variant": "primary", "iconVariant": "danger", "icon": "⚠", "label": "Critical", "buttonText": "3" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--icon-danger\"><span class=\"pa-composite-badge__icon\">⚠</span><span class=\"pa-composite-badge__label\">Critical</span><span class=\"pa-composite-badge__button\">3</span></div>"
+    },
+    {
+      "name": "icon-info",
+      "props": { "variant": "primary", "iconVariant": "info", "icon": "ℹ", "label": "Notes", "buttonText": "4" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--icon-info\"><span class=\"pa-composite-badge__icon\">ℹ</span><span class=\"pa-composite-badge__label\">Notes</span><span class=\"pa-composite-badge__button\">4</span></div>"
+    },
+    {
+      "name": "icon-light",
+      "props": { "variant": "dark", "iconVariant": "light", "icon": "○", "label": "Faint", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--dark pa-composite-badge--icon-light\"><span class=\"pa-composite-badge__icon\">○</span><span class=\"pa-composite-badge__label\">Faint</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "icon-dark",
+      "props": { "variant": "light", "iconVariant": "dark", "icon": "●", "label": "Bold", "buttonText": "0" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--light pa-composite-badge--icon-dark\"><span class=\"pa-composite-badge__icon\">●</span><span class=\"pa-composite-badge__label\">Bold</span><span class=\"pa-composite-badge__button\">0</span></div>"
+    },
+    {
+      "name": "mixed-sections",
+      "props": { "variant": "primary", "labelVariant": "info", "buttonVariant": "danger", "icon": "📧", "label": "New messages", "buttonText": "×" },
+      "golden": "<div class=\"pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-info pa-composite-badge--btn-danger\"><span class=\"pa-composite-badge__icon\">📧</span><span class=\"pa-composite-badge__label\">New messages</span><span class=\"pa-composite-badge__button\">×</span></div>",
+      "note": "Stacks base + label + button overrides (the snippet's canonical mixed-colour composite) to exercise multiple modifiers + all three section nestings together."
+    }
+  ]
+}

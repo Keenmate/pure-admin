@@ -1,0 +1,48 @@
+{
+  "//": "FRAGMENT fixture for a Timeline sub-component — the item (pa-timeline__item). See ../README.md + timeline.json. Tested in isolation (svelte TimelineItem, keen timeline_item/1). GENERALITY NOTES: (1) element-rooted block pa-timeline__item carries its own 8 modifiers (--primary…--info, --filled, --date-header), caught by the reverse check. (2) Its parts are FLAT SIBLINGS under pa-timeline__ (pa-timeline__time/__content/__date-label), claimed via features' produces + goldens. (3) SCOPE: this covers the simple/marker/date-header layouts where BOTH wrappers agree (item = <li>, content raw). The icon/avatar/alternating layouts are DEFERRED — keen renders the item as <div> when an icon is present while svelte always emits <li> (a genuine tag divergence, same family as the container <div>→<ul> fix), and keen wraps content differently there; reconciling that is separate wrapper work, not this prototype. Authored from snippets/timeline.html + _timeline.scss.",
+  "component": "timeline-item",
+  "block": "pa-timeline__item",
+  "goldenConventions": "Item element is <li> (canonical; snippet uses <li> throughout). Simple/marker content is RAW inside pa-timeline__content (no <p>/<h3> wrapper unless title/meta slots are used — not exercised here). Class-token order normalized.",
+  "deferred": {
+    "//": "Element classes belonging to the icon/avatar/alternating layouts, which carry the keen <div> vs svelte <li> tag divergence — out of scope for this slice.",
+    "pa-timeline__icon": "alternating/feed layout — deferred (tag divergence)",
+    "pa-timeline__date": "alternating layout — deferred",
+    "pa-timeline__date-icon": "date-header-with-icon — deferred",
+    "pa-timeline__avatar": "feed layout — deferred",
+    "pa-timeline__comment": "feed layout — deferred"
+  },
+  "propsVocabulary": {
+    "variant": "marker colour — pa-timeline__item--{variant}",
+    "filled": "filled marker — pa-timeline__item--filled",
+    "dateHeader": "date-header item — pa-timeline__item--date-header; content renders in pa-timeline__date-label",
+    "time": "time/date text — pa-timeline__time",
+    "content": "item content slot — pa-timeline__content (or pa-timeline__date-label when dateHeader)"
+  },
+  "features": {
+    "variant":    { "kind": "enum", "options": ["primary", "secondary", "success", "warning", "danger", "info"], "produces": "pa-timeline__item--{value}" },
+    "filled":     { "kind": "bool", "produces": "pa-timeline__item--filled" },
+    "dateHeader": { "kind": "bool", "produces": "pa-timeline__item--date-header" },
+    "time":       { "kind": "string", "produces": "pa-timeline__time" },
+    "content":    { "kind": "slot", "produces": "pa-timeline__content" }
+  },
+  "scenarios": [
+    { "name": "simple", "props": { "time": "14:32", "content": "Deployed release" },
+      "golden": "<li class=\"pa-timeline__item\"><div class=\"pa-timeline__time\">14:32</div><div class=\"pa-timeline__content\">Deployed release</div></li>" },
+    { "name": "primary", "props": { "variant": "primary", "time": "Now", "content": "Primary event marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--primary\"><div class=\"pa-timeline__time\">Now</div><div class=\"pa-timeline__content\">Primary event marker</div></li>" },
+    { "name": "secondary", "props": { "variant": "secondary", "time": "30 min ago", "content": "Secondary event marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--secondary\"><div class=\"pa-timeline__time\">30 min ago</div><div class=\"pa-timeline__content\">Secondary event marker</div></li>" },
+    { "name": "success", "props": { "variant": "success", "time": "5 min ago", "content": "Success event marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--success\"><div class=\"pa-timeline__time\">5 min ago</div><div class=\"pa-timeline__content\">Success event marker</div></li>" },
+    { "name": "warning", "props": { "variant": "warning", "time": "10 min ago", "content": "Warning event marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--warning\"><div class=\"pa-timeline__time\">10 min ago</div><div class=\"pa-timeline__content\">Warning event marker</div></li>" },
+    { "name": "danger", "props": { "variant": "danger", "time": "15 min ago", "content": "Danger event marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--danger\"><div class=\"pa-timeline__time\">15 min ago</div><div class=\"pa-timeline__content\">Danger event marker</div></li>" },
+    { "name": "info", "props": { "variant": "info", "time": "20 min ago", "content": "Info event marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--info\"><div class=\"pa-timeline__time\">20 min ago</div><div class=\"pa-timeline__content\">Info event marker</div></li>" },
+    { "name": "filled", "props": { "variant": "primary", "filled": true, "time": "Now", "content": "Filled primary marker" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--primary pa-timeline__item--filled\"><div class=\"pa-timeline__time\">Now</div><div class=\"pa-timeline__content\">Filled primary marker</div></li>" },
+    { "name": "date-header", "props": { "dateHeader": true, "content": "January 2021" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--date-header\"><div class=\"pa-timeline__date-label\">January 2021</div></li>" }
+  ]
+}

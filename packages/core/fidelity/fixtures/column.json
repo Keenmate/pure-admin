@@ -1,0 +1,128 @@
+{
+  "//": "Markup-fidelity fixture for the GRID COLUMN item (svelte layout/Column.svelte, keen Grid.column/1). SCOPE = the flex column item inside a pc-row (modelled by grid.json). Core's column is `<div class=\"pc-col-{size}\">` (foundation class from @keenmate/pure-css, see snippets/grid.html). NOTE the `pc-` prefix (foundation-owned), not `pa-`. `size` is a percentage (5% increments 5..100), a fraction alias (1-2, 1-3, …, 11-12), or `auto`; with NO size (and no responsive size) the column is the bare `pc-col` (flex:1 auto-equal). Responsive sizes prefix a breakpoint (pc-col-{sm|md|lg|xl}-{size}); base offsets are `pc-offset-{5..95}`; three flex modifiers are pc-col--no-padding / --grow / --shrink. The body is plain slot text so the diff checks only the column's tag + class + nesting. See grid.json for the row container + label.json for the modifier model.",
+  "component": "column",
+  "block": "pc-col",
+  "propsVocabulary": {
+    "size": "base width — percentage (5..100 step 5), fraction alias (1-2 … 11-12), or `auto`. Omit → bare `pc-col` (flex:1). → pc-col-{size}",
+    "sm": "width at sm breakpoint (>=576px) → pc-col-sm-{size}",
+    "md": "width at md breakpoint (>=768px) → pc-col-md-{size}",
+    "lg": "width at lg breakpoint (>=992px) → pc-col-lg-{size}",
+    "xl": "width at xl breakpoint (>=1200px) → pc-col-xl-{size}",
+    "offset": "margin-inline-start offset in 5% increments (5..95) → pc-offset-{offset}",
+    "noPadding": "boolean — zero the column's gutter padding (pc-col--no-padding)",
+    "grow": "boolean — flex-grow:1 (pc-col--grow)",
+    "shrink": "boolean — flex-shrink:1 (pc-col--shrink)",
+    "body": "the column's content area — plain slot text here",
+    "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
+  },
+  "goldenConventions": "Structural only. A sized column is `<div class=\"pc-col-{size}\">`; a column with no size (and no responsive size) is the bare `<div class=\"pc-col\">`. Responsive + offset + modifier classes are added per set feature. The body slot is a plain text token (Content) so the diff checks tag + class + nesting. Class-token order + whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `size` (+ the responsive sm/md/lg/xl) expand over the full width vocabulary — auto, the twenty 5%-increment percentages (5..100), and the fifteen fraction aliases — each verified to exist in main.css by the axis-1 forward check. `offset` expands over the nineteen pc-offset-{5..95}. The only `.pc-col--*` BLOCK MODIFIERS in main.css are no-padding, grow, shrink (all claimed). The sizing classes are SIBLING classes (pc-col-50, pc-col-1-2 — single dash), not `pc-col--*` modifiers nor `pc-col__*` elements, so the axis-1 reverse checks (scoped to `pc-col--*`/`pc-col__*`) don't read them. Base `.pc-col` exists as a real rule. `produces: null` only for the slot + class passthrough.",
+    "size":       { "kind": "enum", "options": ["auto", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "1-2", "1-3", "2-3", "1-4", "3-4", "1-5", "2-5", "3-5", "4-5", "1-6", "5-6", "1-12", "5-12", "7-12", "11-12"], "produces": "pc-col-{value}", "nativeType": "string" },
+    "sm":         { "kind": "enum", "options": ["auto", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "1-2", "1-3", "2-3", "1-4", "3-4", "1-5", "2-5", "3-5", "4-5", "1-6", "5-6", "1-12", "5-12", "7-12", "11-12"], "produces": "pc-col-sm-{value}", "nativeType": "string" },
+    "md":         { "kind": "enum", "options": ["auto", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "1-2", "1-3", "2-3", "1-4", "3-4", "1-5", "2-5", "3-5", "4-5", "1-6", "5-6", "1-12", "5-12", "7-12", "11-12"], "produces": "pc-col-md-{value}", "nativeType": "string" },
+    "lg":         { "kind": "enum", "options": ["auto", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "1-2", "1-3", "2-3", "1-4", "3-4", "1-5", "2-5", "3-5", "4-5", "1-6", "5-6", "1-12", "5-12", "7-12", "11-12"], "produces": "pc-col-lg-{value}", "nativeType": "string" },
+    "xl":         { "kind": "enum", "options": ["auto", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "1-2", "1-3", "2-3", "1-4", "3-4", "1-5", "2-5", "3-5", "4-5", "1-6", "5-6", "1-12", "5-12", "7-12", "11-12"], "produces": "pc-col-xl-{value}", "nativeType": "string" },
+    "offset":     { "kind": "enum", "options": ["5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95"], "produces": "pc-offset-{value}", "nativeType": "string" },
+    "noPadding":  { "kind": "bool", "produces": "pc-col--no-padding" },
+    "grow":       { "kind": "bool", "produces": "pc-col--grow" },
+    "shrink":     { "kind": "bool", "produces": "pc-col--shrink" },
+    "body":       { "kind": "slot", "produces": null, "note": "the column's inner content" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "All pc-col--* modifiers (no-padding, grow, shrink) are feature-driven; none are JS-toggled state classes."
+  },
+  "scenarios": [
+    {
+      "name": "bare",
+      "props": { "body": "Content" },
+      "golden": "<div class=\"pc-col\">Content</div>",
+      "note": "No size → the bare pc-col (flex:1 auto-equal)."
+    },
+    {
+      "name": "auto",
+      "props": { "size": "auto", "body": "Content" },
+      "golden": "<div class=\"pc-col-auto\">Content</div>"
+    },
+    {
+      "name": "percent-50",
+      "props": { "size": "50", "body": "Content" },
+      "golden": "<div class=\"pc-col-50\">Content</div>"
+    },
+    {
+      "name": "percent-25",
+      "props": { "size": "25", "body": "Content" },
+      "golden": "<div class=\"pc-col-25\">Content</div>"
+    },
+    {
+      "name": "percent-100",
+      "props": { "size": "100", "body": "Content" },
+      "golden": "<div class=\"pc-col-100\">Content</div>"
+    },
+    {
+      "name": "fraction-1-2",
+      "props": { "size": "1-2", "body": "Content" },
+      "golden": "<div class=\"pc-col-1-2\">Content</div>"
+    },
+    {
+      "name": "fraction-1-3",
+      "props": { "size": "1-3", "body": "Content" },
+      "golden": "<div class=\"pc-col-1-3\">Content</div>"
+    },
+    {
+      "name": "fraction-2-3",
+      "props": { "size": "2-3", "body": "Content" },
+      "golden": "<div class=\"pc-col-2-3\">Content</div>"
+    },
+    {
+      "name": "fraction-11-12",
+      "props": { "size": "11-12", "body": "Content" },
+      "golden": "<div class=\"pc-col-11-12\">Content</div>"
+    },
+    {
+      "name": "responsive-md",
+      "props": { "size": "100", "md": "50", "body": "Content" },
+      "golden": "<div class=\"pc-col-100 pc-col-md-50\">Content</div>",
+      "note": "Mobile full → half at md+."
+    },
+    {
+      "name": "responsive-multi",
+      "props": { "size": "100", "sm": "50", "md": "1-3", "lg": "25", "xl": "auto", "body": "Content" },
+      "golden": "<div class=\"pc-col-100 pc-col-sm-50 pc-col-md-1-3 pc-col-lg-25 pc-col-xl-auto\">Content</div>",
+      "note": "All four breakpoints exercised in one column."
+    },
+    {
+      "name": "offset",
+      "props": { "size": "50", "offset": "25", "body": "Content" },
+      "golden": "<div class=\"pc-col-50 pc-offset-25\">Content</div>"
+    },
+    {
+      "name": "no-padding",
+      "props": { "size": "50", "noPadding": true, "body": "Content" },
+      "golden": "<div class=\"pc-col-50 pc-col--no-padding\">Content</div>"
+    },
+    {
+      "name": "grow",
+      "props": { "size": "auto", "grow": true, "body": "Content" },
+      "golden": "<div class=\"pc-col-auto pc-col--grow\">Content</div>"
+    },
+    {
+      "name": "shrink",
+      "props": { "size": "auto", "shrink": true, "body": "Content" },
+      "golden": "<div class=\"pc-col-auto pc-col--shrink\">Content</div>"
+    },
+    {
+      "name": "combined",
+      "props": { "size": "100", "md": "50", "offset": "25", "noPadding": true, "body": "Content" },
+      "golden": "<div class=\"pc-col-100 pc-col-md-50 pc-offset-25 pc-col--no-padding\">Content</div>",
+      "note": "Stacks base + responsive + offset + modifier; class-token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "size": "50", "body": "Content", "extraClass": "d-flex" },
+      "golden": "<div class=\"pc-col-50 d-flex\">Content</div>",
+      "note": "Class passthrough appended after the component classes."
+    }
+  ]
+}

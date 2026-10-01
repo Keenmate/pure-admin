@@ -1,0 +1,92 @@
+{
+  "//": "Markup-fidelity fixture for the CHECKBOX-LIST CONTAINER — the `.pa-checkbox-list` block (keen `PureAdmin.Components.CheckboxList.checkbox_list/1`, svelte `display/CheckboxList.svelte`). SCOPE = CONTAINER ONLY. BOTH wrappers render rows from a SLOT of item components (keen `checkbox_list_item/1`, svelte `CheckboxListItem.svelte`), and BOTH fidelity dumpers feed a slot only PLAIN ESCAPED TEXT (svelte `textSnippet`, keen `text_slot`) — real `pa-checkbox-list__item` children can't flow through the slot, exactly as in the `list` container precedent. So this fixture proves ONLY what the <ul> container emits: its tag, its pa-checkbox-list class (+ the 7 layout/variant modifiers), the body slot, and class passthrough. Per-ROW structure (pa-checkbox-list__item / __label / __checkbox / __text / __description / __actions and the __item--selected/--disabled/--locked state modifiers) is PROSE-deferred below. NOTE both wrappers DO ship a standalone item component — but neither dumper REGISTERS a `checkbox-list-item` fragment (and this session must not edit the dumpers), so a verified `{fixture:...}` ref would hard-fail DEFER?; prose is the honest form here (the list/timeline container-only precedent). SIBLING blocks `pa-checkbox` (the custom tri-state checkbox from _checkboxes-radios.scss) and `pa-checkbox-group` (form-layout container) are DIFFERENT components and OUT OF SCOPE — there is no `pa-checkbox-box` block in the compiled CSS (keen's `checkbox_box/1` renders a `pa-checkbox`, not its own block).",
+  "component": "checkbox-list",
+  "block": "pa-checkbox-list",
+  "propsVocabulary": {
+    "body": "the list's row area — filled with plain slot text in this container-only slice (real pa-checkbox-list__item children are the prose-deferred sub-slice)",
+    "variant": "list style variant → one pa-checkbox-list--* modifier (compact | bordered | striped). Both wrappers expose this as `variant`.",
+    "layout": "list layout → one pa-checkbox-list--* modifier (inline | grid | 2col | 3col). Both wrappers expose this as `layout`. Orthogonal to variant — the two can compose, but each wrapper takes at most one value per axis.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The container is always a <ul class=\"pa-checkbox-list ...\"> in BOTH wrappers (svelte template is a fixed <ul>, keen renders a literal <ul> — neither offers an `as`/tag choice, so the <ul> is unambiguous). The body slot is a plain text token so the diff checks the container's tag + class + nesting, not rich row content. Attribute + class-token order and whitespace are normalized away; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-checkbox-list BLOCK has SEVEN flat modifiers — split here across the two wrapper API axes (variant: compact/bordered/striped; layout: inline/grid/2col/3col) that BOTH wrappers expose, so every pa-checkbox-list--* is claimed by a feature's `produces`. The __element and __item--state classes are per-ROW markup, prose-deferred below (see top note).",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; row structure is the deferred sub-slice" },
+    "variant":    { "kind": "enum",   "options": ["compact", "bordered", "striped"], "produces": "pa-checkbox-list--{value}" },
+    "layout":     { "kind": "enum",   "options": ["inline", "grid", "2col", "3col"], "produces": "pa-checkbox-list--{value}" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ROW element + item-state classes of the pa-checkbox-list block — NOT container markup. Both wrappers build them from a slot of standalone item components (keen checkbox_list_item/1, svelte CheckboxListItem.svelte), which the container-only slot (plain text in both dumpers) can't carry. PROSE deferral (not a verified {fixture:...} ref) because neither dumper registers a `checkbox-list-item` fragment this session and the dumpers must not be edited. Verified instead in each wrapper's own component tests.",
+    "pa-checkbox-list__item":           "per-row — built by the item component (checkbox_list_item/1 / CheckboxListItem), not the container slot",
+    "pa-checkbox-list__item--selected": "per-row state modifier — item component only (keen state=\"selected\", svelte isSelected)",
+    "pa-checkbox-list__item--disabled": "per-row state modifier — item component only (state=\"disabled\")",
+    "pa-checkbox-list__item--locked":   "per-row state modifier — item component only (state=\"locked\")",
+    "pa-checkbox-list__label":          "per-row — the clickable <label> emitted by the item component",
+    "pa-checkbox-list__checkbox":       "per-row — LEGACY native-input helper class; neither wrapper emits it (both nest the custom pa-checkbox via checkbox_box/CheckboxBox), so it is unexercised core legacy tolerance",
+    "pa-checkbox-list__text":           "per-row — title wrapper emitted by the item component",
+    "pa-checkbox-list__description":    "per-row — muted caption emitted by the item component when a description is supplied",
+    "pa-checkbox-list__actions":        "per-row — absolutely-positioned button group emitted by the item component's actions slot"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<ul class=\"pa-checkbox-list\">Body</ul>",
+      "note": "The blessed default container: a <ul class=\"pa-checkbox-list\">. Both wrappers emit a <ul>."
+    },
+    {
+      "name": "variant-compact",
+      "props": { "body": "Body", "variant": "compact" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--compact\">Body</ul>"
+    },
+    {
+      "name": "variant-bordered",
+      "props": { "body": "Body", "variant": "bordered" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--bordered\">Body</ul>"
+    },
+    {
+      "name": "variant-striped",
+      "props": { "body": "Body", "variant": "striped" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--striped\">Body</ul>"
+    },
+    {
+      "name": "layout-inline",
+      "props": { "body": "Body", "layout": "inline" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--inline\">Body</ul>"
+    },
+    {
+      "name": "layout-grid",
+      "props": { "body": "Body", "layout": "grid" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--grid\">Body</ul>"
+    },
+    {
+      "name": "layout-2col",
+      "props": { "body": "Body", "layout": "2col" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--2col\">Body</ul>"
+    },
+    {
+      "name": "layout-3col",
+      "props": { "body": "Body", "layout": "3col" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--3col\">Body</ul>"
+    },
+    {
+      "name": "variant-and-layout",
+      "props": { "body": "Body", "variant": "bordered", "layout": "2col" },
+      "golden": "<ul class=\"pa-checkbox-list pa-checkbox-list--bordered pa-checkbox-list--2col\">Body</ul>",
+      "note": "variant + layout compose — class-token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<ul class=\"pa-checkbox-list mb-4\">Body</ul>",
+      "note": "Class passthrough — the extra class is appended after pa-checkbox-list."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<ul class=\"pa-checkbox-list\"></ul>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

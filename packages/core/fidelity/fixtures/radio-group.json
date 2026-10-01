@@ -1,0 +1,57 @@
+{
+  "//": "Markup-fidelity fixture for the RADIO-GROUP CONTAINER — `.pa-radio-group` (keen `PureAdmin.Components.Form.radio_group/1`, svelte `forms/RadioGroup.svelte`). SCOPE = CONTAINER ONLY: a `<div class=\"pa-radio-group ...\">{children}</div>` grouping pa-radio options. Both dumpers feed a PLAIN TEXT body (real pa-radio children are the separate radio component), so this proves the <div> tag + its pa-radio-group class (+ the layout modifiers) + the body + class passthrough. Modifiers in main.css: horizontal/grid/2col/3col (default, unset, is a vertical flex column with NO class). Shares the exact shape + layout set with pa-checkbox-group. Per-OPTION structure (pa-radio) is the separate radio fixture. See checkbox-list.json for the container-only model.",
+  "component": "radio-group",
+  "block": "pa-radio-group",
+  "propsVocabulary": {
+    "body": "the group's inner area — filled with plain slot text in this container-only slice (real pa-radio children are the separate radio component)",
+    "layout": "group layout → one pa-radio-group--* modifier (horizontal | grid | 2col | 3col). Default (unset) is a vertical flex column (no class). svelte `layout`, keen `layout`.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The container is always a <div class=\"pa-radio-group ...\"> in both wrappers. The body slot is a plain text token. A layout modifier is present when a layout is set; the default column has no class. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-radio-group block modifiers are exactly horizontal/grid/2col/3col. No pa-radio-group__* element classes exist (options are the separate pa-radio component).",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; option structure is the separate radio component" },
+    "layout":     { "kind": "enum",   "options": ["horizontal", "grid", "2col", "3col"], "produces": "pa-radio-group--{value}" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-radio-group\">Body</div>",
+      "note": "The blessed default container (vertical column, no layout class). Both wrappers emit a <div>."
+    },
+    {
+      "name": "layout-horizontal",
+      "props": { "body": "Body", "layout": "horizontal" },
+      "golden": "<div class=\"pa-radio-group pa-radio-group--horizontal\">Body</div>"
+    },
+    {
+      "name": "layout-grid",
+      "props": { "body": "Body", "layout": "grid" },
+      "golden": "<div class=\"pa-radio-group pa-radio-group--grid\">Body</div>"
+    },
+    {
+      "name": "layout-2col",
+      "props": { "body": "Body", "layout": "2col" },
+      "golden": "<div class=\"pa-radio-group pa-radio-group--2col\">Body</div>"
+    },
+    {
+      "name": "layout-3col",
+      "props": { "body": "Body", "layout": "3col" },
+      "golden": "<div class=\"pa-radio-group pa-radio-group--3col\">Body</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-radio-group mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-radio-group."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-radio-group\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits the shell."
+    }
+  ]
+}

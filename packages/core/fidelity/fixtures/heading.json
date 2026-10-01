@@ -1,0 +1,59 @@
+{
+  "//": "Markup-fidelity fixture for the HEADING typography component (svelte typography/Heading.svelte, keen Typography.heading/1). SCOPE = a single flat SEMANTIC element. Core's blessed heading is a BARE <h1>..<h6> tag with NO block class — _base.scss styles the raw `h1..h6` type selectors directly, and snippets/typography.html shows bare `<h1>Heading 1</h1>` (there is NO `pa-heading` class in main.css). So heading is a CLASS-LESS bare element (the `<code>` precedent): the only structural input is the LEVEL (which picks the tag h1..h6) and the text slot. Alignment / colour are the shared `pa-text--*` + `.text-*` utilities applied via the class passthrough on ANY element — they are NOT a heading-specific contract and are modelled by the `text`/`paragraph` fixtures, so they are out of scope here. See code.json / section.json for the class-less + container models.",
+  "component": "heading",
+  "block": "pa-heading",
+  "propsVocabulary": {
+    "level": "heading level 1..6 — selects the semantic tag <h1>..<h6>. Default 2. Structural: changes the TAG, emits no class.",
+    "content": "inner text content (slot / inner_block)",
+    "extraClass": "extra classes appended verbatim to the heading element (class passthrough — e.g. a `pa-text--center` alignment utility; not a core heading feature)"
+  },
+  "goldenConventions": "Structural only. The heading is a BARE <h#> element with no class (styled by the `h1..h6` type selectors in _base.scss). No attribute conventions are added. `level` picks the tag; when no extra class is passed the element carries NO class attribute at all. Slot content is a plain text token so the diff checks tag + nesting, not rich content. Class-token order + whitespace are normalized away.",
+  "features": {
+    "//": "There is NO pa-heading block class and NO pa-heading--modifier in main.css — the heading is a bare semantic tag. `level` is structural (selects the TAG, produces no class); `content` is the slot; `extraClass` is a class passthrough. All `produces: null`. The block name `pa-heading` therefore matches nothing in main.css — the 'vacuous scope' note is EXPECTED here (this is the legit class-less case, like inline <code>).",
+    "level":      { "kind": "enum",   "options": ["1", "2", "3", "4", "5", "6"], "produces": null, "nativeType": "number", "note": "structural — selects the tag h1..h6, emits no class" },
+    "content":    { "kind": "slot",   "produces": null, "note": "inner text of the heading" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "The heading is a bare semantic element with no BEM block/modifier classes, so there are no pa-heading--* classes in main.css for the axis-1 reverse check to claim."
+  },
+  "scenarios": [
+    {
+      "name": "h1",
+      "props": { "level": 1, "content": "Heading 1" },
+      "golden": "<h1>Heading 1</h1>"
+    },
+    {
+      "name": "h2-default",
+      "props": { "level": 2, "content": "Heading 2" },
+      "golden": "<h2>Heading 2</h2>",
+      "note": "Level 2 is the default — still a bare <h2> with no class."
+    },
+    {
+      "name": "h3",
+      "props": { "level": 3, "content": "Heading 3" },
+      "golden": "<h3>Heading 3</h3>"
+    },
+    {
+      "name": "h4",
+      "props": { "level": 4, "content": "Heading 4" },
+      "golden": "<h4>Heading 4</h4>"
+    },
+    {
+      "name": "h5",
+      "props": { "level": 5, "content": "Heading 5" },
+      "golden": "<h5>Heading 5</h5>"
+    },
+    {
+      "name": "h6",
+      "props": { "level": 6, "content": "Heading 6" },
+      "golden": "<h6>Heading 6</h6>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "level": 2, "content": "Centered", "extraClass": "pa-text--center" },
+      "golden": "<h2 class=\"pa-text--center\">Centered</h2>",
+      "note": "Class passthrough — a shared pa-text--* alignment utility rides on the heading element; the heading itself emits no class of its own."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "//": "Markup-fidelity fixture for the NAV-DROPDOWN — `.pc-navmenu__dropdown` (keen `PureAdmin.Components.Layout.nav_dropdown/1`, svelte `navigation/NavDropdown.svelte`). The hover-dropdown <ul> inside a `pc-navmenu` has-dropdown item. A SHELL element migrated DOWN into @keenmate/pure-css, so the class is `pc-navmenu__dropdown` (NOT `pa-*`); confirmed in dist/css/main.css (`.pc-navmenu__dropdown` + the modifier `.pc-navmenu__dropdown--level2`). It is an ELEMENT of the `pc-navmenu` block but ships as its own component, so the fixture `block` is `pc-navmenu__dropdown` (its base class exists in CSS → axis-1 vacuous-scope guard stays quiet; axis-1's reverse checks then see the `--level2` modifier via ^pc-navmenu__dropdown--). SCOPE = CONTAINER (the <ul> + its one modifier). Canonical shape from snippets/layout.html: `<ul class=\"pc-navmenu__dropdown\"><li>…</li></ul>` (and the nested `<ul class=\"pc-navmenu__dropdown pc-navmenu__dropdown--level2\">` for level-2). Both wrappers emit exactly `<ul class=\"pc-navmenu__dropdown\">{items}</ul>` (plus the --level2 modifier when level2) — fully reconcilable (no hook, no id). The dropdown's LIST ITEMS come from nav_item sub-components fed through the slot → out of scope, a plain token here. Canonical shape: packages/core/snippets/layout.html.",
+  "component": "nav-dropdown",
+  "block": "pc-navmenu__dropdown",
+  "propsVocabulary": {
+    "level2": "boolean — second-level nested dropdown; emits pc-navmenu__dropdown--level2 (shifts it to the side). svelte `level2`, keen `is_level2`.",
+    "items": "the dropdown's list items — nav_item sub-components in a real app; a plain slot token here. svelte `children`, keen `inner_block`.",
+    "extraClass": "extra classes appended verbatim to the root <ul class=\"pc-navmenu__dropdown ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Structural — `<ul class=\"pc-navmenu__dropdown\">{items}</ul>`, plus `pc-navmenu__dropdown--level2` when level2 is set. The items slot is a plain text token so the diff checks the <ul> + class + nesting. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-navmenu__dropdown'). The element has ONE modifier, `pc-navmenu__dropdown--level2` (prop-driven, both wrappers → a feature), and no sub-element of its own. So the contract is: the base class + the level2 modifier + an items slot + a class passthrough.",
+    "level2":     { "kind": "bool",   "produces": "pc-navmenu__dropdown--level2", "note": "svelte `level2`, keen `is_level2`. Emits the nested-dropdown modifier." },
+    "items":      { "kind": "slot",   "produces": null, "note": "the dropdown's list items (slot-fed nav_item in a real app); svelte `children`, keen `inner_block`." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-navmenu__dropdown <ul>; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "The nav_dropdown element owns no sub-element class under ^pc-navmenu__dropdown__ — only the --level2 modifier (claimed by the level2 feature). Its list items (pc-navmenu__item*/__link) belong to the SEPARATE nav_item sub-component fed through the slot and are not matched by this block's ^pc-navmenu__dropdown regexes."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "items": "Items" },
+      "golden": "<ul class=\"pc-navmenu__dropdown\">Items</ul>",
+      "note": "The blessed shape: the hover-dropdown <ul> wrapping its items (real children are nav_item sub-components)."
+    },
+    {
+      "name": "level2",
+      "props": { "items": "Items", "level2": true },
+      "golden": "<ul class=\"pc-navmenu__dropdown pc-navmenu__dropdown--level2\">Items</ul>",
+      "note": "Second-level nested dropdown — the --level2 modifier is appended; token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "items": "Items", "extraClass": "shadow-lg" },
+      "golden": "<ul class=\"pc-navmenu__dropdown shadow-lg\">Items</ul>",
+      "note": "Class passthrough — the extra class is appended after pc-navmenu__dropdown; token order is normalized away."
+    }
+  ]
+}

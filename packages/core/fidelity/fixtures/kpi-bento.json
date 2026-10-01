@@ -1,0 +1,96 @@
+{
+  "//": "Markup-fidelity fixture for the KPI BENTO CONTAINER — the `.pa-kpi-bento` block (keen `PureAdmin.Components.KpiBento.kpi_bento/1`, svelte `display/KpiBento.svelte`). SCOPE = CONTAINER ONLY. A pa-kpi-bento is a `.pa-card` namespaced into a magazine-style bento showcase: an optional header (`.pa-card__header.pa-kpi-header` holding the card title + a `.pa-kpi-live` pill), a body (`.pa-card__body.pa-kpi-bento__body`) that wraps the named-area grid (`.pa-kpi-bento__grid` + its `--hero-right` / `--5-tile` layout modifiers), and an optional footer (`.pa-card__footer.pa-kpi-footer`). The per-KPI CELLS come from a SEPARATE sub-component (svelte KpiBentoTile.svelte, keen kpi_bento_tile/1) that emits the whole `.pa-kpi-bento-tile*` block family — a DISTINCT block (hyphen-joined `pa-kpi-bento-tile`, NOT a `pa-kpi-bento__tile` element of this block), fed through the grid's default slot. BOTH dumpers pass slot content as plain ESCAPED TEXT, so real tile markup can't flow through; the grid's inner content is a bare text token (Body) here. The tile block is therefore DEFERRED as acknowledged PROSE (no kpi-bento-tile fragment fixture/dumper clause exists to fixture-ref — a ref would DEFER?-fail; and because `pa-kpi-bento-tile*` is its own block it is not even caught by capability axis-1's `pa-kpi-bento__*` element reverse-check). This fixture proves ONLY what the container itself emits: the `.pa-card.pa-kpi-bento` shell, the conditional header (title + live pill), the body+grid wrapper with its layout modifiers, and the conditional footer. Same container-only model as table-card.json (card chrome + slot body) and accent-grid.json / stacked-bar.json (slot-fed child sub-component deferred).",
+  "component": "kpi-bento",
+  "block": "pa-kpi-bento",
+  "propsVocabulary": {
+    "title": "card header title — rendered inside `.pa-kpi-header` as `.pa-card__title` > `.pa-card__title-text` (the single blessed card-title shape per the card-header canonicalization, mirrored by snippets/kpi.html L559). svelte titleText; keen title_text. Header renders only when title and/or live is present.",
+    "live": "the LIVE status pill — `.pa-kpi-live` with an animated `.pa-kpi-live__dot` and the hardcoded 'LIVE' label. svelte isLive (label hardcoded 'LIVE'); keen is_live (label defaults 'LIVE' via live_text). bool.",
+    "layout": "grid layout modifier — hero-right (`.pa-kpi-bento__grid--hero-right`, mirror of the default hero-left) or 5-tile (`.pa-kpi-bento__grid--5-tile`, hero + 4 supporting). Default (nil) is the base 6-tile hero-left grid, no modifier. Tile source order is unchanged across layouts. svelte layout ('hero-right' | '5-tile'); keen bento_layout ('hero_right' | '5_tile', dasherized to the class).",
+    "body": "the grid's tile area — filled with plain slot text in this container-only slice (real `.pa-kpi-bento-tile` children are the deferred sub-component). svelte children; keen inner_block (required:true, so every scenario supplies it).",
+    "footer": "card footer caption — rendered inside `.pa-card__footer.pa-kpi-footer` as a bare `<span>` when the plain-string footer is set (the richer footer snippet override is out of this text-only slice). svelte footerText; keen footer_text. Footer renders only when set.",
+    "extraClass": "extra classes appended verbatim to the card shell (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "Structural container only — pa-kpi-bento adds no attribute conventions. The body slot is a plain text token (Body) so the diff checks the shell + header + body/grid + footer nesting and the grid layout modifiers, NOT rich tile content (tiles are the deferred sub-component). The header renders ONLY when title and/or live is present; the body+grid wrapper ALWAYS renders; the footer renders ONLY when a footer caption is present. The title is the blessed `.pa-card__title` > `.pa-card__title-text` shape (snippets/kpi.html L559). The LIVE pill text is hardcoded 'LIVE'. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. The `.pa-kpi-bento` BLOCK has ZERO block-level modifiers (grep '\\.pa-kpi-bento--' on main.css is empty — hero-right/5-tile are ELEMENT modifiers on `__grid`), so capability.mjs axis-1 block-modifier reverse-check is vacuous. Block element classes in CSS: `__body`, `__grid`, `__grid--hero-right`, `__grid--5-tile` — all exercised: `__body` + `__grid` appear in every golden, the two `__grid--*` modifiers are produced by the `layout` enum. The header pill / footer / title classes (`pa-kpi-header`, `pa-kpi-live`, `pa-kpi-live__dot`, `pa-kpi-footer`, `pa-card__title`, `pa-card__title-text`) belong to the card/kpi-base chrome, not this block, so they are structural (produces:null) but still exercised directly by the goldens. The whole `.pa-kpi-bento-tile*` family is a SEPARATE block (deferred prose). `produces:null` = structural/native (no `pa-kpi-bento` modifier).",
+    "title":      { "kind": "string", "produces": null, "note": "structural — blessed card title shape .pa-card__title > .pa-card__title-text inside .pa-kpi-header; svelte titleText / keen title_text" },
+    "live":       { "kind": "bool",   "produces": null, "note": "structural — the .pa-kpi-live pill (with .pa-kpi-live__dot + hardcoded 'LIVE'); svelte isLive / keen is_live" },
+    "layout":     { "kind": "enum",   "produces": "pa-kpi-bento__grid--{value}", "options": ["hero-right", "5-tile"], "note": "grid layout modifier on __grid; svelte layout ('hero-right'|'5-tile'), keen bento_layout ('hero_right'|'5_tile' dasherized)" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the grid's inner tile area; real .pa-kpi-bento-tile children are the deferred sub-component" },
+    "footer":     { "kind": "string", "produces": null, "note": "structural — footer caption in .pa-card__footer.pa-kpi-footer as a bare <span>; svelte footerText / keen footer_text" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card shell, not a core feature" }
+  },
+  "deferred": {
+    "//": "The per-KPI tile block `.pa-kpi-bento-tile*` — emitted by the SEPARATE sub-component (svelte KpiBentoTile.svelte, keen kpi_bento_tile/1) fed through the grid's default slot, which the generic dumper passes as plain escaped TEXT, so it cannot materialize here. It is a DISTINCT block (hyphen-joined `pa-kpi-bento-tile`, not a `pa-kpi-bento__tile` element), so capability axis-1's `pa-kpi-bento__*` element reverse-check does NOT see it — these are acknowledged PROSE deferrals, not fixture-verified (no kpi-bento-tile fragment fixture/dumper clause exists to fixture-ref; a ref would DEFER?-fail). The tile sentiment modifiers (--positive/--negative/--neutral/--up-strong/--down-strong) cascade the sparkline + delta accent; --hero is the oversized primary cell.",
+    "pa-kpi-bento-tile":               "tile sub-component (svelte KpiBentoTile.svelte / keen kpi_bento_tile/1) — one bento cell; not container markup, slot-fed, no fragment fixture/dumper wiring",
+    "pa-kpi-bento-tile--hero":         "the oversized primary tile (first child); bumps value font-size + chart height — tile sub-component modifier",
+    "pa-kpi-bento-tile--positive":     "tile sentiment accent (positive) — cascades sparkline/delta colour; tile sub-component modifier",
+    "pa-kpi-bento-tile--negative":     "tile sentiment accent (negative) — tile sub-component modifier",
+    "pa-kpi-bento-tile--neutral":      "tile sentiment accent (neutral) — tile sub-component modifier",
+    "pa-kpi-bento-tile--up-strong":    "tile sentiment accent (very-positive) — tile sub-component modifier",
+    "pa-kpi-bento-tile--down-strong":  "tile sentiment accent (very-negative) — tile sub-component modifier",
+    "pa-kpi-bento-tile__label":        "tile uppercase name cell — tile sub-component element",
+    "pa-kpi-bento-tile__delta":        "tile delta chip cell — tile sub-component element",
+    "pa-kpi-bento-tile__value":        "tile focal value wrapper (__num + __unit) — tile sub-component element",
+    "pa-kpi-bento-tile__num":          "tile number — container-query-scaled; tile sub-component element",
+    "pa-kpi-bento-tile__unit":         "tile unit/affix — tile sub-component element",
+    "pa-kpi-bento-tile__chart":        "tile full-bleed faint sparkline layer — tile sub-component element",
+    "pa-kpi-bento-tile__chart-svg":    "tile SVG host span inside __chart — tile sub-component element"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid\">Body</div></div></div>",
+      "note": "No title/live → NO header; no footer caption → NO footer. The body+grid wrapper always renders; its content is the deferred .pa-kpi-bento-tile children (here plain text)."
+    },
+    {
+      "name": "title",
+      "props": { "title": "Key Performance Indicators", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div></div><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid\">Body</div></div></div>",
+      "note": "Title opens the header; blessed title shape = .pa-card__title > .pa-card__title-text (snippets/kpi.html L559)."
+    },
+    {
+      "name": "live",
+      "props": { "live": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__header pa-kpi-header\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid\">Body</div></div></div>",
+      "note": "The LIVE pill alone still opens the header (header renders when title and/or live is present). Pill text is hardcoded 'LIVE'."
+    },
+    {
+      "name": "title-live",
+      "props": { "title": "Key Performance Indicators", "live": true, "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid\">Body</div></div></div>",
+      "note": "Full header: title then the LIVE pill, in document order (snippets/kpi.html L558-561)."
+    },
+    {
+      "name": "layout-hero-right",
+      "props": { "layout": "hero-right", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid pa-kpi-bento__grid--hero-right\">Body</div></div></div>",
+      "note": "Layout modifier on __grid — mirror of the default (hero on the right). svelte layout='hero-right'; keen bento_layout='hero_right' dasherizes to the same class."
+    },
+    {
+      "name": "layout-5-tile",
+      "props": { "layout": "5-tile", "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid pa-kpi-bento__grid--5-tile\">Body</div></div></div>",
+      "note": "5-tile layout variant (hero + 4 supporting). svelte layout='5-tile'; keen bento_layout='5_tile' dasherizes to the same class."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footer": "Updated 2 min ago" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2 min ago</span></div></div>",
+      "note": "Footer caption renders only when set — a bare <span> inside .pa-card__footer.pa-kpi-footer."
+    },
+    {
+      "name": "full",
+      "props": { "title": "Key Performance Indicators", "live": true, "layout": "hero-right", "body": "Body", "footer": "Updated 2 min ago" },
+      "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid pa-kpi-bento__grid--hero-right\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2 min ago</span></div></div>",
+      "note": "Everything at once: full header (title + live) + hero-right grid + footer."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-bento mb-4\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid\">Body</div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-card pa-kpi-bento; token order is normalized away."
+    }
+  ]
+}

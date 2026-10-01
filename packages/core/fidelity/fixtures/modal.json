@@ -1,0 +1,283 @@
+{
+  "//": "Markup-fidelity fixture for the modal component (pa-modal). NEUTRAL scenarios + the GOLDEN markup core blesses. Scope is the single modal component that keen `modal/1` and svelte `Modal.svelte` render. Goldens encode the canonical shape from packages/core/snippets/modals.html: root .pa-modal[ --variant / --banded / --top ] > .pa-modal__backdrop + .pa-modal__container[ --size ] > (.pa-modal__header > .pa-modal__title + close pa-btn) + .pa-modal__body[ --scrollable ] + (.pa-modal__footer). See ../README.md and card.json for the model.",
+  "component": "modal",
+  "block": "pa-modal",
+  "propsVocabulary": {
+    "variant": "role colour on the ROOT (primary|success|warning|danger|info) — emits pa-modal--{variant}; colours the header via a descendant selector. There is NO pa-modal__header--{variant}. --info has no solid-header rule (band-only), but the class exists and is valid, so it's kept in the enum; pair it with banded for colour.",
+    "banded": "boolean — pa-modal--banded; header AND footer wear the role colour as filled bands (needs a band role variant: success/warning/danger/info).",
+    "top": "boolean — pa-modal--top; align the dialog near the top (5vh) instead of centred.",
+    "size": "container size on __container (sm|lg|xl|xxl|fw) — emits pa-modal__container--{size}. md is the DEFAULT and emits NO class (a bare .pa-modal__container IS medium).",
+    "scrollable": "boolean — pa-modal__body--scrollable; explicit shorter body max-height (60vh).",
+    "static": "boolean — BEHAVIOURAL JS hook only. There is NO .pa-modal--static CSS rule (confirmed absent from dist/css/main.css); it exists purely so the example JS skips Esc + backdrop dismissal. The two wrappers DIVERGE on it (keen emits the class, svelte deliberately omits it), so no scenario exercises it — see goldenConventions.",
+    "showClose": "boolean — whether the header close button (pa-btn pa-btn--icon-only ...) is rendered. Default true.",
+    "title": "header title text, rendered as <h3 class=\"pa-modal__title\">.",
+    "titleIcon": "optional leading severity glyph name — emits <span class=\"pa-icon pa-icon--{name}\" aria-hidden=\"true\"></span> followed by a space before the title text (matches core's severity/banded headers).",
+    "body": "main body content (pa-modal__body).",
+    "footer": "footer action content (pa-modal__footer)."
+  },
+  "goldenConventions": "Goldens encode the snippet shape PLUS the a11y conventions BOTH wrappers carry on the SSR close button: aria-label=\"Close\" on the <button>, and aria-hidden=\"true\" on the inner <span class=\"pa-icon pa-icon--x\">. (Both wrappers resolve their close-label i18n key to the literal \"Close\"; no type=\"button\" is emitted by either, matching the snippet.) The close button uses standard pa-btn classes — pa-btn--secondary on a plain header, pa-btn--light when the header wears a role colour (variant or banded band) so the × reads against the fill — mirroring the snippet; this is the ONE place the two wrappers' close-class logic must agree, so every banded scenario is paired with a role variant (svelte keys --light off `variant || isBanded`, keen off `variant`, so they agree only when a variant is present). pa-modal--show is OMITTED from every golden: it is a JS-toggled state class (cssStateClasses) — svelte would emit it from `show=true` but keen adds it via phx-mounted at runtime, never in SSR markup, so `show` is left unmapped/false on both. Every scenario supplies a `body` because keen's inner_block is required (always renders __body) while svelte renders __body only when children exist — a shared golden needs both to emit it. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-modal(--|__)'). `produces: null` = structural/native (no pa-modal modifier class). variant keeps 'info' because .pa-modal--info exists in the CSS (as a band role) even though it has no solid-header rule.",
+    "variant": {
+      "kind": "enum",
+      "options": [
+        "primary",
+        "success",
+        "warning",
+        "danger",
+        "info"
+      ],
+      "produces": "pa-modal--{value}"
+    },
+    "banded": {
+      "kind": "bool",
+      "produces": "pa-modal--banded"
+    },
+    "top": {
+      "kind": "bool",
+      "produces": "pa-modal--top"
+    },
+    "size": {
+      "kind": "enum",
+      "options": [
+        "sm",
+        "lg",
+        "xl",
+        "xxl",
+        "fw"
+      ],
+      "produces": "pa-modal__container--{value}"
+    },
+    "scrollable": {
+      "kind": "bool",
+      "produces": "pa-modal__body--scrollable"
+    },
+    "static": {
+      "kind": "bool",
+      "produces": null,
+      "note": "Behavioural JS hook; NO CSS rule and no pa-modal--static in main.css. Wrappers diverge (keen emits the class, svelte omits it), so this is mapped-but-not-exercised: declared in both maps for axis-2, left out of every golden to avoid a spurious compare diff."
+    },
+    "showClose": {
+      "kind": "bool",
+      "produces": null,
+      "note": "structural — toggles the header close button (standard pa-btn, no pa-modal__* class). Default true."
+    },
+    "title": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — <h3 class=\"pa-modal__title\">. The pa-modal__title element is exercised by the header scenarios."
+    },
+    "titleIcon": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural — emits <span class=\"pa-icon pa-icon--{name}\"> inside the title (foreign pa-icon class, owned by the icon system, not a pa-modal element)."
+    },
+    "body": {
+      "kind": "slot",
+      "produces": "pa-modal__body"
+    },
+    "footer": {
+      "kind": "slot",
+      "produces": "pa-modal__footer"
+    },
+    "id": {
+      "kind": "string",
+      "produces": null,
+      "note": "Root id=\"...\" — the open/close JS target the core snippet carries (openModal/closeModal(id)). BOTH goldens include it. keen's modal/1 has `id` REQUIRED and always renders `id={@id}`. svelte's Modal.svelte originally had NO id prop; an optional `id` prop (rendered `{id}` on the root, omitted when unset) was added in this slice so the wrapper can emit the snippet's root id — a minimal, principled fix (also enables aria-labelledby / external addressing), see report. Both maps now declare it."
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-modal--* classes toggled by runtime JS (never hand-authored at SSR), so no feature produces them; the axis-1 reverse check counts them as claimed.",
+    "pa-modal--show": "Open/visible state (display:flex). Toggled by openModal/closeModal JS (svelte: `show` prop; keen: JS.add_class via phx-mounted). Never part of the blessed SSR markup a shared golden can assert — svelte emits it only when show=true, keen only after mount."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": {
+        "id": "modal-basic",
+        "title": "Modal Title",
+        "body": "Modal body content goes here."
+      },
+      "golden": "<div id=\"modal-basic\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Modal Title</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Modal body content goes here.</div></div></div>"
+    },
+    {
+      "name": "with-footer",
+      "props": {
+        "id": "modal-with-footer",
+        "title": "Confirm",
+        "body": "Are you sure?",
+        "footer": "Footer"
+      },
+      "golden": "<div id=\"modal-with-footer\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Confirm</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Are you sure?</div><div class=\"pa-modal__footer\">Footer</div></div></div>"
+    },
+    {
+      "name": "no-close-button",
+      "props": {
+        "id": "modal-no-close-button",
+        "title": "No Close",
+        "body": "Body",
+        "showClose": false
+      },
+      "golden": "<div id=\"modal-no-close-button\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">No Close</h3></div><div class=\"pa-modal__body\">Body</div></div></div>",
+      "note": "showClose=false drops the header close button on both wrappers (keen also drops it under is_static; here it's the explicit flag)."
+    },
+    {
+      "name": "top",
+      "props": {
+        "id": "modal-top",
+        "title": "Top-Aligned Modal",
+        "body": "Body",
+        "top": true
+      },
+      "golden": "<div id=\"modal-top\" class=\"pa-modal pa-modal--top\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Top-Aligned Modal</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
+    },
+    {
+      "name": "size-sm",
+      "props": {
+        "id": "modal-size-sm",
+        "title": "Small",
+        "body": "Body",
+        "size": "sm"
+      },
+      "golden": "<div id=\"modal-size-sm\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--sm\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Small</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
+    },
+    {
+      "name": "size-lg",
+      "props": {
+        "id": "modal-size-lg",
+        "title": "Large",
+        "body": "Body",
+        "size": "lg"
+      },
+      "golden": "<div id=\"modal-size-lg\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--lg\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Large</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
+    },
+    {
+      "name": "size-xl",
+      "props": {
+        "id": "modal-size-xl",
+        "title": "XL",
+        "body": "Body",
+        "size": "xl"
+      },
+      "golden": "<div id=\"modal-size-xl\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--xl\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">XL</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
+    },
+    {
+      "name": "size-xxl",
+      "props": {
+        "id": "modal-size-xxl",
+        "title": "XXL",
+        "body": "Body",
+        "size": "xxl"
+      },
+      "golden": "<div id=\"modal-size-xxl\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--xxl\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">XXL</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
+    },
+    {
+      "name": "size-fw",
+      "props": {
+        "id": "modal-size-fw",
+        "title": "Full Width",
+        "body": "Body",
+        "size": "fw"
+      },
+      "golden": "<div id=\"modal-size-fw\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--fw\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Full Width</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
+    },
+    {
+      "name": "scrollable",
+      "props": {
+        "id": "modal-scrollable",
+        "title": "Terms and Conditions",
+        "body": "Long content",
+        "scrollable": true,
+        "size": "lg",
+        "footer": "Footer"
+      },
+      "golden": "<div id=\"modal-scrollable\" class=\"pa-modal\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--lg\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Terms and Conditions</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body pa-modal__body--scrollable\">Long content</div><div class=\"pa-modal__footer\">Footer</div></div></div>"
+    },
+    {
+      "name": "variant-primary",
+      "props": {
+        "id": "modal-variant-primary",
+        "title": "Primary Modal",
+        "body": "Body content.",
+        "variant": "primary"
+      },
+      "golden": "<div id=\"modal-variant-primary\" class=\"pa-modal pa-modal--primary\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Primary Modal</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body content.</div></div></div>",
+      "note": "Role variant on the root → header colour cascades; close button flips to pa-btn--light to read against the filled header."
+    },
+    {
+      "name": "variant-success-icon",
+      "props": {
+        "id": "modal-variant-success-icon",
+        "title": "Success Modal",
+        "titleIcon": "success",
+        "body": "Body content.",
+        "variant": "success"
+      },
+      "golden": "<div id=\"modal-variant-success-icon\" class=\"pa-modal pa-modal--success\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\"><span class=\"pa-icon pa-icon--success\" aria-hidden=\"true\"></span> Success Modal</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body content.</div></div></div>",
+      "note": "titleIcon emits a leading masked icon + a single space before the title (both wrappers render <span ...></span> then a literal space)."
+    },
+    {
+      "name": "variant-warning",
+      "props": {
+        "id": "modal-variant-warning",
+        "title": "Warning Modal",
+        "body": "Body content.",
+        "variant": "warning"
+      },
+      "golden": "<div id=\"modal-variant-warning\" class=\"pa-modal pa-modal--warning\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Warning Modal</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body content.</div></div></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": {
+        "id": "modal-variant-danger",
+        "title": "Danger Modal",
+        "body": "Body content.",
+        "variant": "danger"
+      },
+      "golden": "<div id=\"modal-variant-danger\" class=\"pa-modal pa-modal--danger\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Danger Modal</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body content.</div></div></div>"
+    },
+    {
+      "name": "banded-info",
+      "props": {
+        "id": "modal-banded-info",
+        "title": "Info (banded)",
+        "titleIcon": "info",
+        "body": "Body stays neutral.",
+        "variant": "info",
+        "banded": true,
+        "footer": "Footer"
+      },
+      "golden": "<div id=\"modal-banded-info\" class=\"pa-modal pa-modal--info pa-modal--banded\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\"><span class=\"pa-icon pa-icon--info\" aria-hidden=\"true\"></span> Info (banded)</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body stays neutral.</div><div class=\"pa-modal__footer\">Footer</div></div></div>",
+      "note": "banded REQUIRES a band role variant for colour; info earns its keep here. Close button is --light (variant present, so svelte `variant||isBanded` and keen `variant` agree)."
+    },
+    {
+      "name": "banded-danger",
+      "props": {
+        "id": "modal-banded-danger",
+        "title": "Delete (banded danger)",
+        "titleIcon": "danger",
+        "body": "Both bands carry danger.",
+        "variant": "danger",
+        "banded": true,
+        "footer": "Footer"
+      },
+      "golden": "<div id=\"modal-banded-danger\" class=\"pa-modal pa-modal--danger pa-modal--banded\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\"><span class=\"pa-icon pa-icon--danger\" aria-hidden=\"true\"></span> Delete (banded danger)</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Both bands carry danger.</div><div class=\"pa-modal__footer\">Footer</div></div></div>"
+    },
+    {
+      "name": "combined",
+      "props": {
+        "id": "modal-combined",
+        "title": "Everything",
+        "body": "Body",
+        "variant": "warning",
+        "banded": true,
+        "top": true,
+        "size": "xl",
+        "scrollable": true,
+        "footer": "Footer"
+      },
+      "golden": "<div id=\"modal-combined\" class=\"pa-modal pa-modal--warning pa-modal--banded pa-modal--top\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container pa-modal__container--xl\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Everything</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body pa-modal__body--scrollable\">Body</div><div class=\"pa-modal__footer\">Footer</div></div></div>",
+      "note": "Stacks root modifiers (variant+banded+top) + container size + scrollable body + footer to exercise class ordering + full nesting together."
+    }
+  ]
+}

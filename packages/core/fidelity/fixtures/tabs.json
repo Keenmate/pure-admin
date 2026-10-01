@@ -1,0 +1,128 @@
+{
+  "//": "Markup-fidelity fixture for the TABS CONTAINER — the `.pa-tabs` block (keen `PureAdmin.Components.Navigation.tabs/1`, svelte `navigation/Tabs.svelte`). SCOPE = CONTAINER ONLY. A tabs component's buttons + panels come from SEPARATE sub-components (keen tab_item/tab_panel/tabs_content/tabs_container/tabs_vertical_layout, svelte TabItem/TabPanel/TabsContent/TabsContainer) fed through the slot. The harness slot receives plain TEXT (the dumper HTML-escapes it), so item/panel markup can't flow through; the body area is a bare text token. This fixture proves ONLY what the `.pa-tabs` container itself emits: its tag, its base class, every style/size/align/overflow/border-top/wrap-labels MODIFIER, and class passthrough. Per-ITEM (__item/__item--active), per-PANEL (__content/__panel), LAYOUT-WRAPPER (__container--*/__vertical-layout--*) and OVERFLOW-MENU (__overflow*) element classes are DEFERRED (prose — their defining sub-components are out of scope). The scrollable overflow variant is capability-covered (the enum option is declared + the pa-tabs--scrollable modifier is claimed) but has NO strict scenario: keen's scrollable SSR shell wraps the slot in .pa-tabs__scroll-container + start/end .pa-tabs__scroll-btn arrows, while svelte's Tabs.svelte emits the slot flat — an irreconcilable-by-design SSR shell, so the __scroll-* element classes are listed in cssStateElements. See README 'container-only' + 'absorbed API divergence'.",
+  "component": "tabs",
+  "block": "pa-tabs",
+  "propsVocabulary": {
+    "body": "the tab row's content — filled with plain slot text in this container-only slice (real pa-tabs__item children are the deferred sub-components)",
+    "style": "underline(default, no class) | pills | boxed | vertical — the tab visual style",
+    "size": "sm | lg — compact / generous item padding",
+    "align": "centered | full — center the row, or distribute items full-width",
+    "overflow": "nowrap | scrollable | collapse — row overflow handling. scrollable is enum-declared for completeness but has no strict scenario (see top note)",
+    "borderTop": "boolean — active indicator on the TOP border instead of the bottom (pa-tabs--border-top). API DIVERGENCE absorbed: svelte models this as isBorderTop (bool); keen folds it into its style enum as style=\"border-top\". Both emit pa-tabs--border-top; the maps absorb the spelling (card `stat` precedent — svelte bool / keen const).",
+    "wrapLabels": "boolean — let long tab TITLES wrap to multiple lines (pa-tabs--wrap-labels). svelte wrapLabels; keen is_wrap_labels.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the tabs container adds no attribute conventions (unlike button's type). The body slot is a plain text token (Body) so the diff checks the container's tag + class + nesting, not rich item content. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability. keen's tabs/1 emits id={@id} (nil → omitted) and data-tabs-scroll only when overflow=scrollable (not exercised), so neither leaks into a strict golden.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. All 12 pa-tabs--* block modifiers are claimed here (style×3 + borderTop + size×2 + align×2 + overflow×3 + wrapLabels). capability.mjs axis-1 reverse-check is scoped to block modifiers (pa-tabs--*). Element classes (pa-tabs__*) belong to the deferred sub-components (prose) or, for the scrollable SSR shell, to cssStateElements.",
+    "style":      { "kind": "enum",   "options": ["pills", "boxed", "vertical"], "produces": "pa-tabs--{value}", "note": "underline is the default (no class); border-top is a SEPARATE feature because svelte spells it as a bool, not a style enum option" },
+    "size":       { "kind": "enum",   "options": ["sm", "lg"], "produces": "pa-tabs--{value}" },
+    "align":      { "kind": "enum",   "options": ["centered", "full"], "produces": "pa-tabs--{value}" },
+    "overflow":   { "kind": "enum",   "options": ["nowrap", "scrollable", "collapse"], "produces": "pa-tabs--{value}", "note": "scrollable has no strict scenario — keen's SSR shell wraps the slot in __scroll-container + __scroll-btn arrows while svelte emits it flat (irreconcilable shell). The modifier class is still claimed here and both maps declare the option; the __scroll-* elements are in cssStateElements." },
+    "borderTop":  { "kind": "bool",   "produces": "pa-tabs--border-top", "note": "svelte isBorderTop (bool); keen style=\"border-top\" (const)" },
+    "wrapLabels": { "kind": "bool",   "produces": "pa-tabs--wrap-labels", "note": "svelte wrapLabels; keen is_wrap_labels" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; item/panel structure is the deferred sub-components" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Element classes of the pa-tabs block whose DEFINING sub-components are out of this container-only slice. Prose deferrals (acknowledged out-of-scope, unverified) — the sub-components (keen tab_item/tab_panel/tabs_content/tabs_container/tabs_vertical_layout, svelte TabItem/TabPanel/TabsContent/TabsContainer) are the deferred children and are not part of this fixture.",
+    "pa-tabs__item":                        "tab BUTTON — keen tab_item/1, svelte TabItem.svelte (deferred child sub-component).",
+    "pa-tabs__item--active":                "active tab button — keen tab_item is_active, svelte TabItem (deferred child).",
+    "pa-tabs__content":                     "panel-area wrapper — keen tabs_content/1, svelte TabsContent.svelte (deferred child).",
+    "pa-tabs__panel":                       "tab PANEL — keen tab_panel/1, svelte TabPanel.svelte (deferred child).",
+    "pa-tabs__panel--active":               "active panel — keen tab_panel is_active, svelte TabPanel (deferred child).",
+    "pa-tabs__container--bordered":         "horizontal layout wrapper — keen tabs_container/1 (deferred sibling component), svelte TabsContainer.svelte.",
+    "pa-tabs__container--card":             "card-header layout wrapper — keen tabs_container/1 (deferred sibling), svelte TabsContainer.svelte.",
+    "pa-tabs__vertical-layout":             "vertical layout wrapper — keen tabs_vertical_layout/1 (deferred sibling), svelte TabsContainer.svelte.",
+    "pa-tabs__vertical-layout--bordered":   "bordered vertical layout wrapper — keen tabs_vertical_layout/1 (deferred sibling).",
+    "pa-tabs__overflow":                    "card-header overflow wrapper — author/JS-supplied inside the card-header layout; not emitted by tabs/1 itself (deferred).",
+    "pa-tabs__overflow-menu":               "overflow dropdown — JS-toggled, author-supplied (deferred).",
+    "pa-tabs__overflow-menu--open":         "overflow dropdown open state — JS-toggled (deferred).",
+    "pa-tabs__overflow-toggle":             "overflow toggle button — author-supplied (deferred).",
+    "pa-tabs__overflow-toggle--has-active": "overflow toggle active-hidden indicator — JS/author (deferred)."
+  },
+  "cssStateElements": {
+    "//": "The scrollable-overflow SSR scaffold. keen's tabs/1 emits these inline when overflow=scrollable (wrapping the slot in a scroll-container between start/end arrow buttons whose --visible state is JS-driven); svelte's Tabs.svelte emits the slot flat with no scaffold. Because the two SSR shells diverge BY DESIGN there is no shared strict golden for scrollable — these elements are therefore out of the strict-compare surface, listed here rather than left as blind spots. The pa-tabs--scrollable BLOCK modifier is still claimed by the overflow enum feature (axis-1) and declared by both maps (axis-2).",
+    "pa-tabs__scroll-btn":          "start/end scroll arrow button (keen scrollable SSR; svelte omits)",
+    "pa-tabs__scroll-btn--start":   "start arrow (keen scrollable SSR)",
+    "pa-tabs__scroll-btn--end":     "end arrow (keen scrollable SSR)",
+    "pa-tabs__scroll-btn--visible": "arrow visibility — JS-driven at runtime",
+    "pa-tabs__scroll-container":    "horizontal scroll wrapper around the items (keen scrollable SSR; svelte omits)"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-tabs\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-tabs\"> (underline style = no modifier). Both wrappers default to this."
+    },
+    {
+      "name": "style-pills",
+      "props": { "style": "pills", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--pills\">Body</div>"
+    },
+    {
+      "name": "style-boxed",
+      "props": { "style": "boxed", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--boxed\">Body</div>"
+    },
+    {
+      "name": "style-vertical",
+      "props": { "style": "vertical", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--vertical\">Body</div>"
+    },
+    {
+      "name": "border-top",
+      "props": { "borderTop": true, "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--border-top\">Body</div>",
+      "note": "svelte isBorderTop (bool) / keen style=\"border-top\" (const) — the maps absorb the spelling; both emit pa-tabs--border-top."
+    },
+    {
+      "name": "size-sm",
+      "props": { "size": "sm", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--sm\">Body</div>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "size": "lg", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--lg\">Body</div>"
+    },
+    {
+      "name": "align-centered",
+      "props": { "align": "centered", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--centered\">Body</div>"
+    },
+    {
+      "name": "align-full",
+      "props": { "align": "full", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--full\">Body</div>"
+    },
+    {
+      "name": "overflow-nowrap",
+      "props": { "overflow": "nowrap", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--nowrap\">Body</div>"
+    },
+    {
+      "name": "overflow-collapse",
+      "props": { "overflow": "collapse", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--collapse\">Body</div>"
+    },
+    {
+      "name": "wrap-labels",
+      "props": { "wrapLabels": true, "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--wrap-labels\">Body</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-tabs mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-tabs; token order is normalized away."
+    },
+    {
+      "name": "combo",
+      "props": { "style": "pills", "size": "sm", "align": "centered", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--pills pa-tabs--sm pa-tabs--centered\">Body</div>",
+      "note": "Modifiers compose on one container; class-token order is normalized away."
+    }
+  ]
+}

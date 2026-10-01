@@ -1,0 +1,118 @@
+{
+  "//": "Markup-fidelity fixture for the label component. NEUTRAL scenarios (framework-agnostic prop bags) + the GOLDEN markup core blesses for each. Scoped to the single `label` component (pa-label) that keen `label/1` and svelte `Label.svelte` render — the lighter tag-style sibling of pa-badge in badges.html. pa-label is a flat, self-contained <span>: a tinted-bg + coloured-border indicator with colour variants, a size scale, and a single --outline modifier. It owns NO __element classes (no icon/remove slot). Wrapper dumpers map `props` to their own API, render, and the core comparator diffs their output against `golden` after normalization. See ../README.md and badge.json for the model.",
+  "component": "label",
+  "block": "pa-label",
+  "propsVocabulary": {
+    "variant": "colour variant (primary|secondary|success|warning|danger|info) — NOTE: label has NO light/dark, unlike badge",
+    "size": "xs|sm|lg|xl (default is the unmodified 12px label)",
+    "outline": "boolean — transparent background + coloured border/text (pa-label--outline); composes with a colour variant",
+    "label": "inner text content"
+  },
+  "goldenConventions": "Structural only — labels add no attribute conventions. The label is a plain <span>; a variant modifier is present when a variant is set, a size modifier when a size is set, and pa-label--outline when outline is true. Slot content is a plain text token so the diff checks the wrapper's structural nesting, not rich content. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability. Unlike badge there is NO theme-color, icon, or pill — pa-label is flat with no element-level classes.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json — its static extraction misses SCSS variants). `produces` is a class template with {value} placeholders; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native (no pa-label modifier). The full .pa-label--* set in main.css is exactly: primary, secondary, success, warning, danger, info (6 colours), xs, sm, lg, xl (4 sizes), outline — all claimed below.",
+    "variant": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "warning", "danger", "info"],
+      "produces": "pa-label--{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-label--{value}"
+    },
+    "outline": {
+      "kind": "bool",
+      "produces": "pa-label--outline"
+    },
+    "label": {
+      "kind": "slot",
+      "produces": null
+    }
+  },
+  "cssStateClasses": {
+    "//": "pa-label--* classes in main.css that are NOT feature-driven props in this slice, so the axis-1 reverse check doesn't read them as an unmapped feature. (None — all 11 modifiers are feature-driven.)"
+  },
+  "deferred": {
+    "//": "pa-label__* element classes in main.css that this component does not own. pa-label is flat and emits no __element classes, so there is nothing to defer."
+  },
+  "scenarios": [
+    {
+      "name": "primary",
+      "props": { "variant": "primary", "label": "Primary" },
+      "golden": "<span class=\"pa-label pa-label--primary\">Primary</span>"
+    },
+    {
+      "name": "secondary",
+      "props": { "variant": "secondary", "label": "Secondary" },
+      "golden": "<span class=\"pa-label pa-label--secondary\">Secondary</span>"
+    },
+    {
+      "name": "success",
+      "props": { "variant": "success", "label": "Success" },
+      "golden": "<span class=\"pa-label pa-label--success\">Success</span>"
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "label": "Warning" },
+      "golden": "<span class=\"pa-label pa-label--warning\">Warning</span>"
+    },
+    {
+      "name": "danger",
+      "props": { "variant": "danger", "label": "Danger" },
+      "golden": "<span class=\"pa-label pa-label--danger\">Danger</span>"
+    },
+    {
+      "name": "info",
+      "props": { "variant": "info", "label": "Info" },
+      "golden": "<span class=\"pa-label pa-label--info\">Info</span>"
+    },
+    {
+      "name": "size-xs",
+      "props": { "variant": "primary", "size": "xs", "label": "XS" },
+      "golden": "<span class=\"pa-label pa-label--primary pa-label--xs\">XS</span>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "variant": "primary", "size": "sm", "label": "Small" },
+      "golden": "<span class=\"pa-label pa-label--primary pa-label--sm\">Small</span>"
+    },
+    {
+      "name": "size-default",
+      "props": { "variant": "primary", "label": "Default" },
+      "golden": "<span class=\"pa-label pa-label--primary\">Default</span>",
+      "note": "The unmodified size — no pa-label--{size} class is emitted."
+    },
+    {
+      "name": "size-lg",
+      "props": { "variant": "primary", "size": "lg", "label": "Large" },
+      "golden": "<span class=\"pa-label pa-label--primary pa-label--lg\">Large</span>"
+    },
+    {
+      "name": "size-xl",
+      "props": { "variant": "primary", "size": "xl", "label": "XL" },
+      "golden": "<span class=\"pa-label pa-label--primary pa-label--xl\">XL</span>"
+    },
+    {
+      "name": "outline-primary",
+      "props": { "variant": "primary", "outline": true, "label": "Primary outline" },
+      "golden": "<span class=\"pa-label pa-label--primary pa-label--outline\">Primary outline</span>"
+    },
+    {
+      "name": "outline-success",
+      "props": { "variant": "success", "outline": true, "label": "Success outline" },
+      "golden": "<span class=\"pa-label pa-label--success pa-label--outline\">Success outline</span>"
+    },
+    {
+      "name": "outline-danger",
+      "props": { "variant": "danger", "outline": true, "label": "Danger outline" },
+      "golden": "<span class=\"pa-label pa-label--danger pa-label--outline\">Danger outline</span>"
+    },
+    {
+      "name": "combined",
+      "props": { "variant": "info", "size": "lg", "outline": true, "label": "Featured" },
+      "golden": "<span class=\"pa-label pa-label--info pa-label--lg pa-label--outline\">Featured</span>",
+      "note": "Stacks variant + size + outline to exercise the full class ordering together."
+    }
+  ]
+}

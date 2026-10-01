@@ -1,0 +1,163 @@
+{
+  "//": "Markup-fidelity fixture for the TEXTAREA component — the multi-line form field `.pa-textarea` (keen `PureAdmin.Components.Form.textarea/1`, svelte `forms/Textarea.svelte`). SCOPE = the BARE `<textarea class=\"pa-textarea ...\">value</textarea>` both wrappers emit — a self-contained, flat control. CRITICAL divergence from pa-input/pa-select: core defines NO `pa-textarea--success|warning|error` validation-border class (confirmed: the only `.pa-textarea--*` selectors in dist/css/main.css are the 4 sizes + color-1..9). Textarea errors surface through a surrounding `pa-form-group--error` / `pa-form-help--error`, not a border modifier (snippets/forms.html:109-113, 546-555). Both wrappers agree and emit NO state class for textarea — keen's `textarea_classes` drops `validation`, svelte's NOTE comment says the state drives aria-invalid only. The `value` is the ELEMENT'S TEXT CONTENT (<textarea>value</textarea>), not a `value` attribute. The blessed empty shape (no value) is `<textarea class=\"pa-textarea\"></textarea>`. disabled/readonly/required/placeholder/name/id are NATIVE attrs, not classes. ROWS: svelte hardcodes a `rows={4}` default that is ALWAYS emitted; keen routes `rows` through `@rest` so it only appears when supplied — so `rows` is NOT a modeled feature here and goldens carry no `rows`, with svelte's phantom-default `rows=\"4\"` fixed in the wrapper (see fix note). Sibling controls pa-input/pa-select and the field-wrapper chrome (pa-form-group / label / pa-form-help) are DIFFERENT components, out of scope + prose-deferred. See input.json for the bare-control model.",
+  "component": "textarea",
+  "block": "pa-textarea",
+  "propsVocabulary": {
+    "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md textarea). Shared scale with pa-input/pa-select; pa-textarea--{size} sets both height and min-height so it grows but can't collapse.",
+    "themeColor": "1..9 theme colour slot — pa-textarea--color-N (paints the border with --pc-color-N). The ONLY colour axis; textarea has no validation-state border.",
+    "value": "textarea VALUE — rendered as the element's text content, not an attribute. Emitted only when supplied.",
+    "placeholder": "native placeholder attribute",
+    "name": "native name attribute",
+    "id": "native id attribute (hand-set — the normalizer keeps real ids, only strips framework-generated ones)",
+    "disabled": "native boolean attribute (there is NO pa-textarea--disabled class)",
+    "readonly": "native boolean attribute",
+    "required": "native boolean attribute",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Goldens encode the bare `<textarea class=\"pa-textarea ...\">value</textarea>` from snippets/forms.html. `value` is the text content, present ONLY in scenarios that set it (empty shape is `<textarea ...></textarea>`). No `rows` attribute appears (see the top note — svelte's always-on default is fixed, keen routes it via rest). There is NO validation-state class for textarea — state scenarios are intentionally absent. Native boolean attrs (disabled/readonly/required) are canonicalized to bare presence by the normalizer. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The ONLY `.pa-textarea--*` selectors are the 4 sizes + color-1..9 — there is intentionally NO success/warning/error (the pa-input/pa-select validation borders do NOT exist for textarea). `produces: null` = a native HTML attribute (placeholder/name/id) or the text-content value or a native boolean attr (disabled/readonly/required), NOT a pa-textarea class.",
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-textarea--{value}"
+    },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-textarea--color-{value}"
+    },
+    "value": { "kind": "string", "produces": null, "note": "textarea text content — emitted only when supplied" },
+    "placeholder": { "kind": "string", "produces": null, "note": "native placeholder attribute" },
+    "name": { "kind": "string", "produces": null, "note": "native name attribute" },
+    "id": { "kind": "string", "produces": null, "note": "native id attribute (hand-set)" },
+    "disabled": { "kind": "bool", "produces": null, "note": "native boolean attribute — there is NO pa-textarea--disabled class" },
+    "readonly": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "required": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "No `pa-textarea__*` element classes exist in main.css, so there is nothing to bucket for the strict element-coverage check. This records the field-wrapper chrome that is SEPARATE components (not the pa-textarea block) and intentionally out of this bare-control slice — prose only. They carry no `pa-textarea` prefix so they don't affect the axis-1 element sweep.",
+    "note-form-group": "pa-form-group / --success|warning|error|horizontal|required — the field WRAPPER (form-layout component). For TEXTAREA this is where a validation state is painted, since the control itself has no --error border. Modeled by the form-group slice.",
+    "note-form-help": "pa-form-help / --error|success|warning|color-N — help/validation caption below the textarea. Modeled by the form-help slice.",
+    "note-no-state-class": "There is deliberately NO pa-textarea--success/--warning/--error in core; a validation state lives on the surrounding group/help, not on the control."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": {},
+      "golden": "<textarea class=\"pa-textarea\"></textarea>",
+      "note": "The blessed default: a bare <textarea class=\"pa-textarea\"></textarea> with NO value text and NO rows attribute. Proves neither wrapper emits a phantom rows default (svelte's rows={4} default was dropped for this)."
+    },
+    {
+      "name": "value",
+      "props": { "value": "Hello world" },
+      "golden": "<textarea class=\"pa-textarea\">Hello world</textarea>",
+      "note": "value is the element's text content, emitted only when supplied."
+    },
+    {
+      "name": "placeholder",
+      "props": { "placeholder": "Enter your message" },
+      "golden": "<textarea placeholder=\"Enter your message\" class=\"pa-textarea\"></textarea>"
+    },
+    {
+      "name": "size-xs",
+      "props": { "size": "xs" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--xs\"></textarea>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "size": "sm" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--sm\"></textarea>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "size": "lg" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--lg\"></textarea>"
+    },
+    {
+      "name": "size-xl",
+      "props": { "size": "xl" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--xl\"></textarea>"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "themeColor": "1" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-1\"></textarea>"
+    },
+    {
+      "name": "theme-color-2",
+      "props": { "themeColor": "2", "value": "Theme colour 2" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-2\">Theme colour 2</textarea>"
+    },
+    {
+      "name": "theme-color-3",
+      "props": { "themeColor": "3" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-3\"></textarea>"
+    },
+    {
+      "name": "theme-color-4",
+      "props": { "themeColor": "4" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-4\"></textarea>"
+    },
+    {
+      "name": "theme-color-5",
+      "props": { "themeColor": "5" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-5\"></textarea>"
+    },
+    {
+      "name": "theme-color-6",
+      "props": { "themeColor": "6" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-6\"></textarea>"
+    },
+    {
+      "name": "theme-color-7",
+      "props": { "themeColor": "7" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-7\"></textarea>"
+    },
+    {
+      "name": "theme-color-8",
+      "props": { "themeColor": "8" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-8\"></textarea>"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "themeColor": "9" },
+      "golden": "<textarea class=\"pa-textarea pa-textarea--color-9\"></textarea>"
+    },
+    {
+      "name": "disabled",
+      "props": { "value": "Disabled textarea", "disabled": true },
+      "golden": "<textarea disabled class=\"pa-textarea\">Disabled textarea</textarea>",
+      "note": "native disabled attr — no pa-textarea--disabled class. Normalizer canonicalizes to bare presence."
+    },
+    {
+      "name": "readonly",
+      "props": { "value": "Readonly textarea", "readonly": true },
+      "golden": "<textarea readonly class=\"pa-textarea\">Readonly textarea</textarea>"
+    },
+    {
+      "name": "required",
+      "props": { "placeholder": "Required", "required": true },
+      "golden": "<textarea placeholder=\"Required\" required class=\"pa-textarea\"></textarea>"
+    },
+    {
+      "name": "name-id",
+      "props": { "name": "message", "id": "message", "placeholder": "Enter message" },
+      "golden": "<textarea name=\"message\" id=\"message\" placeholder=\"Enter message\" class=\"pa-textarea\"></textarea>",
+      "note": "name + id are hand-set here; the normalizer keeps real (non-generated) ids."
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "mb-4" },
+      "golden": "<textarea class=\"pa-textarea mb-4\"></textarea>",
+      "note": "Class passthrough — the extra class is appended after pa-textarea."
+    },
+    {
+      "name": "combined",
+      "props": { "size": "lg", "themeColor": "3", "name": "bio", "id": "bio", "placeholder": "About you", "required": true, "value": "Hi" },
+      "golden": "<textarea name=\"bio\" id=\"bio\" placeholder=\"About you\" required class=\"pa-textarea pa-textarea--lg pa-textarea--color-3\">Hi</textarea>",
+      "note": "Stacks size + themeColor + native attrs + value text to exercise class ordering + attribute passthrough together."
+    }
+  ]
+}

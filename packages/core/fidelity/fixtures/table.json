@@ -1,0 +1,118 @@
+{
+  "//": "Markup-fidelity fixture for the TABLE CONTAINER — the `.pa-table` block applied to a <table> (keen `PureAdmin.Components.Table.table/1`, svelte `display/Table.svelte`). SCOPE = CONTAINER ONLY. A `pa-table` is a <table class=\"pa-table ...\"> whose <thead>/<tbody>/<tr>/<th>/<td> are NATIVE consumer markup (styled by element selectors like `.pa-table th` / `.pa-table td`, NOT via __element classes) — snippets/tables.html leads with exactly this shape. The harness renders one component whose slot receives plain TEXT (the dumper HTML-escapes it), so real thead/tbody rows can't flow through; the body is a bare text token. This fixture proves ONLY what the container emits: its <table> tag, its pa-table class, every pa-table--* BLOCK modifier, and the class passthrough. WRAPPER NOTE: svelte's Table is a pure <table>{children}</table> shell — container-only by construction. keen's table/1 is normally DATA-DRIVEN (`:col` slots generate thead/tbody), but renders the SAME container-only shape when given NO `:col` slots (a bare <table class=\"pa-table\"> around inner_block, the consumer-authored-rows shape) — this fixture exercises that path, so both wrappers align on the one pa-table class contract.",
+  "component": "table",
+  "block": "pa-table",
+  "propsVocabulary": {
+    "body": "the row area — filled with plain slot text in this container-only slice (real <thead>/<tbody> children are native elements written inside the slot by the consumer, not a sub-component). svelte: children (Snippet); keen: inner_block slot (the no-:col container path)",
+    "striped": "pa-table--striped — zebra-stripe even body rows. svelte isStriped; keen is_striped",
+    "bordered": "pa-table--bordered — full cell borders on all sides. svelte isBordered; keen is_bordered",
+    "plain": "pa-table--plain — neutral ruled grid: strips the themed header fill + body/stripe backgrounds so the table inherits its surface (paper forms, printouts, sheet grids). Pair with bordered for cell rules. svelte isPlain; keen is_plain",
+    "responsive": "pa-table--responsive — mobile row→card transform (thead hidden, each row a card via data-label). svelte isResponsive; keen is_responsive",
+    "responsiveGrid": "pa-table--responsive-grid — mobile CSS-Grid collapse (per-tr data-grid). svelte isResponsiveGrid; keen is_responsive_grid",
+    "size": "pa-table--{xs|sm|lg|xl} — cell-padding/height size, synced with button/input sizes. svelte size (enum); keen size (enum). svelte's isCompact / keen's is_compact are sugar for size=xs (same pa-table--xs class) — not a separate feature.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the table container adds no attribute conventions. The body slot is a plain text token (Body), so the diff checks the container's tag (<table>) + class + the pa-table--* modifiers, not rich thead/tbody content. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. axis-1 reverse-check is scoped to the pa-table--* BLOCK modifiers. Real authored modifiers: --striped, --bordered, --plain, --responsive, --responsive-grid, and the four size steps --xs/--sm/--lg/--xl (one `size` enum). The compound selector `pa-table--bordered--responsive` that the extractor also sees is NOT a real modifier — it's an SCSS artifact of `.pa-table--bordered &:not(&--responsive)` nesting (& = .pa-table--bordered), accounted for in cssStateClasses. The pa-table__* element classes (item-title/item-desc two-line cell; checkbox-col/row--selected selectable rows) are native cell content / data-driven sub-features, DEFERRED (prose) — not container markup. body + extraClass are structural/passthrough.",
+    "striped":        { "kind": "bool",   "produces": "pa-table--striped",         "note": "svelte isStriped; keen is_striped" },
+    "bordered":       { "kind": "bool",   "produces": "pa-table--bordered",        "note": "svelte isBordered; keen is_bordered" },
+    "plain":          { "kind": "bool",   "produces": "pa-table--plain",           "note": "svelte isPlain; keen is_plain" },
+    "responsive":     { "kind": "bool",   "produces": "pa-table--responsive",      "note": "svelte isResponsive; keen is_responsive" },
+    "responsiveGrid": { "kind": "bool",   "produces": "pa-table--responsive-grid", "note": "svelte isResponsiveGrid; keen is_responsive_grid" },
+    "size":           { "kind": "enum",   "produces": "pa-table--{value}", "options": ["xs", "sm", "lg", "xl"], "note": "cell size; svelte/keen size enum. isCompact/is_compact are sugar for xs (same class)." },
+    "body":           { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; thead/tbody are native elements written inside the slot by the consumer" },
+    "extraClass":     { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "NOT a runtime-toggled state class — the one entry here is an SCSS-nesting artifact. `pa-table--bordered--responsive` is emitted by `.pa-table--bordered { &:not(&--responsive) { … } }` where `&` expands to `.pa-table--bordered`, yielding `.pa-table--bordered:not(.pa-table--bordered--responsive)`. No one authors this class; it exists only inside a :not() guard. Listed here so the axis-1 block-modifier reverse-check accounts for it without inventing a phantom feature (fixing the SCSS is out of scope for this fidelity slice).",
+    "pa-table--bordered--responsive": "SCSS-nesting artifact of .pa-table--bordered &:not(&--responsive); never authored"
+  },
+  "deferred": {
+    "//": "Per-CELL / data-driven element classes of the pa-table block — not container markup, and the harness slot carries only plain text so they can't be exercised here. Acknowledged out-of-scope (prose). item-title/item-desc = the two-line cell (name + spec stacked in one <td>, snippets/tables.html L138-166). checkbox-col/row--selected = selectable rows (leading checkbox column + selected-row tint, snippets/tables.html L176-218). All are native children the consumer writes inside <td>/<tr>, styled by core; keen's table/1 emits checkbox-col/row--selected on its data-driven path (verified in table_test.exs), svelte via hand-authored cells.",
+    "pa-table__item-title":   "two-line cell: primary item name (native <span> inside <td>)",
+    "pa-table__item-desc":    "two-line cell: secondary description (native <span> inside <td>)",
+    "pa-table__checkbox-col": "selectable rows: leading checkbox column (native <th>/<td>)",
+    "pa-table__row--selected":"selectable rows: selected-row tint (native <tr> modifier)"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<table class=\"pa-table\">Body</table>",
+      "note": "The blessed default container: a <table class=\"pa-table\">. thead/tbody rows are native children written inside the slot (snippets/tables.html L7-28)."
+    },
+    {
+      "name": "striped",
+      "props": { "body": "Body", "striped": true },
+      "golden": "<table class=\"pa-table pa-table--striped\">Body</table>",
+      "note": "Zebra-striped body rows (snippets/tables.html L31)."
+    },
+    {
+      "name": "bordered",
+      "props": { "body": "Body", "bordered": true },
+      "golden": "<table class=\"pa-table pa-table--bordered\">Body</table>",
+      "note": "Full cell borders (snippets/tables.html L46)."
+    },
+    {
+      "name": "plain",
+      "props": { "body": "Body", "plain": true },
+      "golden": "<table class=\"pa-table pa-table--plain\">Body</table>",
+      "note": "Neutral ruled grid — transparent header/body/stripe backgrounds."
+    },
+    {
+      "name": "size-xs",
+      "props": { "body": "Body", "size": "xs" },
+      "golden": "<table class=\"pa-table pa-table--xs\">Body</table>",
+      "note": "Compact size (snippets/tables.html L88). isCompact/is_compact map to this same class."
+    },
+    {
+      "name": "size-sm",
+      "props": { "body": "Body", "size": "sm" },
+      "golden": "<table class=\"pa-table pa-table--sm\">Body</table>",
+      "note": "Small size (snippets/tables.html L94)."
+    },
+    {
+      "name": "size-lg",
+      "props": { "body": "Body", "size": "lg" },
+      "golden": "<table class=\"pa-table pa-table--lg\">Body</table>",
+      "note": "Large size (snippets/tables.html L106)."
+    },
+    {
+      "name": "size-xl",
+      "props": { "body": "Body", "size": "xl" },
+      "golden": "<table class=\"pa-table pa-table--xl\">Body</table>",
+      "note": "Extra-large size (snippets/tables.html L112)."
+    },
+    {
+      "name": "responsive",
+      "props": { "body": "Body", "responsive": true },
+      "golden": "<table class=\"pa-table pa-table--responsive\">Body</table>",
+      "note": "Mobile row→card transform (snippets/tables.html L227)."
+    },
+    {
+      "name": "responsive-grid",
+      "props": { "body": "Body", "responsiveGrid": true },
+      "golden": "<table class=\"pa-table pa-table--responsive-grid\">Body</table>",
+      "note": "Mobile CSS-Grid collapse (snippets/tables.html L255)."
+    },
+    {
+      "name": "striped-bordered",
+      "props": { "body": "Body", "striped": true, "bordered": true },
+      "golden": "<table class=\"pa-table pa-table--striped pa-table--bordered\">Body</table>",
+      "note": "Two modifiers combine; class-token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<table class=\"pa-table mb-4\">Body</table>",
+      "note": "Class passthrough — the extra class is appended after pa-table; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<table class=\"pa-table\"></table>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

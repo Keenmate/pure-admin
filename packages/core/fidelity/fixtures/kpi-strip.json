@@ -1,0 +1,110 @@
+{
+  "//": "Markup-fidelity fixture for the KPI NUMERIC STRIP container — the `.pa-kpi-strip` block (keen `PureAdmin.Components.KpiStrip.kpi_strip/1`, svelte `display/KpiStrip.svelte`). SCOPE = CONTAINER + AUTO-GENERATED HEADER ROW. Unlike the bare stacked-bar/accent-grid/dot-leaders containers, this component is a `pa-card`-based SHELL that emits a non-trivial tree on its own: the card wrapper (pa-card pa-kpi-strip [--no-*]), an OPTIONAL header (pa-card__header pa-kpi-header with title + the LIVE pill), the body (pa-card__body pa-kpi-strip__body), an AUTO-GENERATED header row built FROM the visible-column set (pa-kpi-strip__head-row with pa-kpi-strip__head cells, --num on the numeric columns, and the --prev/--delta/--target hide-target modifiers), and an OPTIONAL footer (pa-card__footer pa-kpi-footer). All of that is container markup and is in scope. The DATA ROWS are a SEPARATE sub-component (svelte KpiStripRow, keen kpi_strip_row/1) fed through the default slot, which both dumpers pass as plain escaped TEXT — so the per-row element classes (pa-kpi-strip__row / __metric / __now / __num / __unit / __prev / __delta[/--*] / __target / __bar / __fill / __bar-pct) cannot materialize and are DEFERRED as acknowledged prose (no row-fragment fixture/dumper clause exists to fixture-ref). The --no-prev/--no-delta/--no-target BLOCK modifiers are driven by the noPrev/noDelta/noTarget toggles AND drop the matching head cell, so each toggle scenario proves both the block modifier AND the head-row adjusting its visible cells.",
+  "component": "kpi-strip",
+  "block": "pa-kpi-strip",
+  "propsVocabulary": {
+    "title": "card title — when set, emits the header (pa-card__header pa-kpi-header) with the canonical card title shape (pa-card__title > h3.pa-card__title-text). svelte `titleText`, keen `title_text`.",
+    "live": "LIVE pill — pa-kpi-live + pa-kpi-live__dot, shown next to the title in the header. svelte `isLive`, keen `is_live`.",
+    "footer": "footer caption — emits pa-card__footer pa-kpi-footer with a <span>. svelte `footerText`, keen `footer_text`.",
+    "noHeader": "suppress the auto-generated header row (no pa-kpi-strip__head-row). svelte `noHeader`, keen `no_header`.",
+    "noPrev": "drop the prev column — pa-kpi-strip--no-prev + drops the __head--prev cell. svelte `noPreviousValue`, keen `no_previous_value`.",
+    "noDelta": "drop the Δ% column — pa-kpi-strip--no-delta + drops the __head--delta cell. svelte `noDeltaPercent`, keen `no_delta_percent`.",
+    "noTarget": "drop the target-bar column — pa-kpi-strip--no-target + drops the __head--target cell. svelte `noTargetBar`, keen `no_target_bar`.",
+    "body": "the strip's row area — filled with plain slot text in this slice (the real pa-kpi-strip__row children are the deferred row sub-component). svelte `children`, keen `inner_block`.",
+    "extraClass": "extra classes appended verbatim to the card (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "The strip is a pa-card SHELL. Goldens show the full container tree: the card wrapper + (when title/live set) the header + the body + the auto-generated head-row + (when footer set) the footer. The auto head-row is the KEY in-scope behaviour: the visible-column set is [metric, now, (prev), (delta), (target)] with the optional columns dropped by the matching --no-* toggle, and each visible column emits a pa-kpi-strip__head cell carrying --num on the numeric columns (now/prev/delta) and the --prev/--delta/--target hide-target modifier on those three. The body slot is a plain text token (Body) standing in for the deferred row children. The default header label text (Metric / Now / Prev / Δ% / vs Target) is part of the contract and appears verbatim in the head cells. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-strip(--|__)'). BLOCK modifiers: --no-prev/--no-delta/--no-target (the three composable column toggles). The container also emits the __body + the auto head-row (__head-row, __head, __head--num, __head--prev/--delta/--target) — those are exercised directly by the scenario goldens, so they need no `produces` feature (an element class exercised by a golden is covered on axis-1). __head--metric / __head--now have NO CSS rule (inert column identifiers) and don't appear as selectors. The per-ROW element classes (__row/__metric/__now/__num/__unit/__prev/__delta[/--*]/__target/__bar/__fill/__bar-pct) are owned by the deferred row sub-component. title/live/footer/noHeader toggle structural shell parts (header / LIVE pill / footer / head-row presence) that aren't pa-kpi-strip--* modifiers → produces:null.",
+    "noPrev":    { "kind": "bool", "produces": "pa-kpi-strip--no-prev" },
+    "noDelta":   { "kind": "bool", "produces": "pa-kpi-strip--no-delta" },
+    "noTarget":  { "kind": "bool", "produces": "pa-kpi-strip--no-target" },
+    "title":     { "kind": "string", "produces": null, "note": "structural — emits the header with the canonical pa-card__title > h3.pa-card__title-text shape (pa-card block, not pa-kpi-strip)" },
+    "live":      { "kind": "bool",   "produces": null, "note": "structural — the pa-kpi-live LIVE pill (pa-kpi-base block, not pa-kpi-strip)" },
+    "footer":    { "kind": "string", "produces": null, "note": "structural — the pa-card__footer pa-kpi-footer (card + kpi-base blocks)" },
+    "noHeader":  { "kind": "bool",   "produces": null, "note": "structural — suppresses the auto-generated pa-kpi-strip__head-row (negative toggle: no class produced)" },
+    "body":      { "kind": "slot",   "produces": null, "note": "structural — the container's inner content (row area); real rows are the deferred row sub-component" },
+    "extraClass":{ "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ROW element + state classes of the pa-kpi-strip block — NOT container markup. They are emitted by the SEPARATE row sub-component (svelte KpiStripRow.svelte, keen kpi_strip_row/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize here, and there is NO row-fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. The bare __delta renders the positive colour; __delta--* are the five sentiment variants. __fill carries an inline width (style='width:N%'), never a class. The container's OWN __body + the auto head-row element classes (__head-row/__head/__head--num/__head--prev/--delta/--target) are NOT deferred — they're exercised by the scenario goldens.",
+    "pa-kpi-strip__row":            "data row + hover host for the detail popover — row sub-component (KpiStripRow / kpi_strip_row), slot-fed, not container markup",
+    "pa-kpi-strip__metric":         "metric-name cell — row sub-component",
+    "pa-kpi-strip__now":            "focal 'now' value cell (holds __num + __unit) — row sub-component",
+    "pa-kpi-strip__num":            "the number inside __now — row sub-component",
+    "pa-kpi-strip__unit":           "the unit/prefix affix inside __now — row sub-component",
+    "pa-kpi-strip__prev":           "previous-period cell — row sub-component",
+    "pa-kpi-strip__delta":          "Δ% cell (bare = positive colour) — row sub-component",
+    "pa-kpi-strip__delta--positive":    "Δ% sentiment variant — row sub-component",
+    "pa-kpi-strip__delta--negative":    "Δ% sentiment variant — row sub-component",
+    "pa-kpi-strip__delta--neutral":     "Δ% sentiment variant — row sub-component",
+    "pa-kpi-strip__delta--up-strong":   "Δ% sentiment variant (strong up) — row sub-component",
+    "pa-kpi-strip__delta--down-strong": "Δ% sentiment variant (strong down) — row sub-component",
+    "pa-kpi-strip__target":         "vs-target column (bar + percent) — row sub-component",
+    "pa-kpi-strip__bar":            "target progress track — row sub-component",
+    "pa-kpi-strip__fill":           "target bar fill — row sub-component; width set INLINE (style), never a class",
+    "pa-kpi-strip__bar-pct":        "percent label under the target bar — row sub-component"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-strip\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div></div>",
+      "note": "The blessed default: pa-card pa-kpi-strip shell, no header/footer (no title/live/footer set), body with the auto-generated 5-column head-row (metric, now, prev, delta, target). metric head cell is bare; now/prev/delta carry --num; prev/delta/target carry their hide-target modifier; target does NOT get --num. Default label text is part of the contract. Row children are the deferred sub-component (slot text token)."
+    },
+    {
+      "name": "with-title",
+      "props": { "body": "Body", "title": "Key Performance Indicators" },
+      "golden": "<div class=\"pa-card pa-kpi-strip\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div></div><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div></div>",
+      "note": "Title emits the header with the CANONICAL card title shape (pa-card__title > h3.pa-card__title-text) per the snippet + the card-header canonicalization rule — NOT a bare <h3>."
+    },
+    {
+      "name": "live",
+      "props": { "body": "Body", "title": "Metrics", "live": true },
+      "golden": "<div class=\"pa-card pa-kpi-strip\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Metrics</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div></div>",
+      "note": "The LIVE pill (pa-kpi-live + pa-kpi-live__dot) sits after the title inside the header. Literal 'LIVE' text is the default."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footer": "Updated just now" },
+      "golden": "<div class=\"pa-card pa-kpi-strip\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated just now</span></div></div>",
+      "note": "footerText emits pa-card__footer pa-kpi-footer wrapping a <span>."
+    },
+    {
+      "name": "no-header",
+      "props": { "body": "Body", "noHeader": true },
+      "golden": "<div class=\"pa-card pa-kpi-strip\"><div class=\"pa-card__body pa-kpi-strip__body\">Body</div></div>",
+      "note": "noHeader suppresses the auto head-row entirely — the body holds only the (deferred) row children."
+    },
+    {
+      "name": "no-prev",
+      "props": { "body": "Body", "noPrev": true },
+      "golden": "<div class=\"pa-card pa-kpi-strip pa-kpi-strip--no-prev\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div></div>",
+      "note": "noPrev adds --no-prev to the card AND drops the prev head cell — the visible head columns become metric / now / delta / target."
+    },
+    {
+      "name": "no-delta",
+      "props": { "body": "Body", "noDelta": true },
+      "golden": "<div class=\"pa-card pa-kpi-strip pa-kpi-strip--no-delta\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div></div>",
+      "note": "noDelta adds --no-delta AND drops the delta head cell — visible head columns metric / now / prev / target."
+    },
+    {
+      "name": "no-target",
+      "props": { "body": "Body", "noTarget": true },
+      "golden": "<div class=\"pa-card pa-kpi-strip pa-kpi-strip--no-target\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div></div>Body</div></div>",
+      "note": "noTarget adds --no-target AND drops the target head cell — visible head columns metric / now / prev / delta."
+    },
+    {
+      "name": "minimal-two-col",
+      "props": { "body": "Body", "noPrev": true, "noDelta": true, "noTarget": true },
+      "golden": "<div class=\"pa-card pa-kpi-strip pa-kpi-strip--no-prev pa-kpi-strip--no-delta pa-kpi-strip--no-target\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div></div>Body</div></div>",
+      "note": "All three toggles compose — the three block modifiers stack and the head-row collapses to the two mandatory columns metric / now."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-strip mb-4\"><div class=\"pa-card__body pa-kpi-strip__body\"><div class=\"pa-kpi-strip__head-row\"><div class=\"pa-kpi-strip__head\">Metric</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num\">Now</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev\">Prev</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta\">Δ%</div><div class=\"pa-kpi-strip__head pa-kpi-strip__head--target\">vs Target</div></div>Body</div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-card pa-kpi-strip; token order is normalized away."
+    }
+  ]
+}

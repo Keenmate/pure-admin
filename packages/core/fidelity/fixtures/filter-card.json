@@ -1,0 +1,82 @@
+{
+  "//": "Markup-fidelity fixture for the filter-card component. See ../README.md and card.json for the model. filter-card has NO .pa-filter-card base rule — the wrapper carries BOTH pa-card (chrome) + pa-filter-card (so the modifiers latch on). The body is a pa-card__body holding a __row (= __filters + __actions) and an optional collapsible __advanced block (= advanced content + __advanced-actions). Goldens encode the canonical snippets/filter-card.html shape. Built-in action buttons (toggle/clear/refresh) + the advanced Clear/Apply buttons are wrapper CHROME, not slots; most scenarios turn them OFF (showToggle/showClear/showRefresh/showAdvancedActions=false) so __actions / __advanced read as clean structural divs that both wrappers agree on. A dedicated 'builtin-actions' scenario exercises the icon buttons at the canonical bare-pa-icon shape (NO pa-btn__icon wrapper — matches snippets/buttons.html L393 + button.json icon-only golden); 'advanced-actions' exercises the text Clear/Apply footer buttons.",
+  "component": "filter-card",
+  "block": "pa-filter-card",
+  "propsVocabulary": {
+    "loading": "boolean — dim + pointer-events:none (pa-filter-card--loading)",
+    "disabled": "boolean — dim + pointer-events:none, disables controls (pa-filter-card--disabled)",
+    "expanded": "boolean — advanced section visible (only renders with advancedFilters present)",
+    "showToggle": "boolean — render the built-in expand/collapse icon button (only with advancedFilters)",
+    "showClear": "boolean — render the built-in clear-all icon button",
+    "showRefresh": "boolean — render the built-in refresh icon button",
+    "showAdvancedActions": "boolean — render the Clear/Apply text buttons in the advanced footer",
+    "filters": "main inline filter controls (pa-filter-card__filters)",
+    "advancedFilters": "collapsible advanced filter content (pa-filter-card__advanced)",
+    "actions": "author action buttons rendered inside pa-filter-card__actions before the built-in clear/refresh"
+  },
+  "goldenConventions": "Structural. Slot content is a plain text token (Filters/Advanced/Actions) so the diff checks the wrapper's nesting, not rich content. Both wrappers ALWAYS emit the pa-card > pa-card__body > __row > __filters + __actions skeleton; filters is supplied in every scenario because keen renders __filters unconditionally (no :if) while svelte gates it on the filters slot — a shared filters slot keeps them aligned. The built-in icon buttons use the canonical BARE pa-icon shape (span.pa-icon directly inside the button, aria-hidden, NO pa-btn__icon wrapper) per snippets/filter-card.html + button.json's icon-only golden. Attribute + class-token order are normalized away; title text on the icon buttons is wrapper chrome text (identical EN strings in both) and IS compared.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. Block-modifier reverse-check covers pa-filter-card--loading/--disabled. Element classes verified forward via scenario goldens.",
+    "loading":             { "kind": "bool", "produces": "pa-filter-card--loading" },
+    "disabled":            { "kind": "bool", "produces": "pa-filter-card--disabled" },
+    "filters":             { "kind": "slot", "produces": "pa-filter-card__filters", "note": "inside __row" },
+    "advancedFilters":     { "kind": "slot", "produces": "pa-filter-card__advanced", "note": "collapsible; only rendered when expanded" },
+    "actions":             { "kind": "slot", "produces": null, "note": "author buttons placed inside pa-filter-card__actions (which is always emitted)" },
+    "expanded":            { "kind": "bool", "produces": null, "note": "structural — reveals the __advanced block (no class of its own)" },
+    "showToggle":          { "kind": "bool", "produces": null, "note": "built-in toggle icon button (chrome, no filter-card class)" },
+    "showClear":           { "kind": "bool", "produces": null, "note": "built-in clear icon button (chrome)" },
+    "showRefresh":         { "kind": "bool", "produces": null, "note": "built-in refresh icon button (chrome)" },
+    "showAdvancedActions": { "kind": "bool", "produces": "pa-filter-card__advanced-actions", "note": "advanced footer Clear/Apply buttons" }
+  },
+  "deferred": {
+    "//": "__row / __actions are exercised by every scenario golden; __filters / __advanced / __advanced-actions each have scenarios. Nothing left out of scope."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "filters": "Filters", "showToggle": false, "showClear": false, "showRefresh": false },
+      "golden": "<div class=\"pa-card pa-filter-card\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div></div></div>",
+      "note": "All built-in buttons off -> __actions is an empty structural div. Both wrappers emit the full pa-card>__body>__row>__filters+__actions skeleton."
+    },
+    {
+      "name": "loading",
+      "props": { "filters": "Filters", "loading": true, "showToggle": false, "showClear": false, "showRefresh": false },
+      "golden": "<div class=\"pa-card pa-filter-card pa-filter-card--loading\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div></div></div>"
+    },
+    {
+      "name": "disabled",
+      "props": { "filters": "Filters", "disabled": true, "showToggle": false, "showClear": false, "showRefresh": false },
+      "golden": "<div class=\"pa-card pa-filter-card pa-filter-card--disabled\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div></div></div>"
+    },
+    {
+      "name": "actions-slot",
+      "props": { "filters": "Filters", "actions": "Actions", "showToggle": false, "showClear": false, "showRefresh": false },
+      "golden": "<div class=\"pa-card pa-filter-card\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\">Actions</div></div></div></div>",
+      "note": "Author actions slot content lands inside __actions."
+    },
+    {
+      "name": "advanced",
+      "props": { "filters": "Filters", "advancedFilters": "Advanced", "expanded": true, "showToggle": false, "showClear": false, "showRefresh": false, "showAdvancedActions": false },
+      "golden": "<div class=\"pa-card pa-filter-card\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div><div class=\"pa-filter-card__advanced\">Advanced</div></div></div>",
+      "note": "Advanced block renders only when advancedFilters present AND expanded. Advanced footer buttons off here so __advanced reads as a clean structural div."
+    },
+    {
+      "name": "advanced-collapsed",
+      "props": { "filters": "Filters", "advancedFilters": "Advanced", "expanded": false, "showToggle": false, "showClear": false, "showRefresh": false },
+      "golden": "<div class=\"pa-card pa-filter-card\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div></div></div>",
+      "note": "Not expanded -> no __advanced block in SSR markup."
+    },
+    {
+      "name": "advanced-actions",
+      "props": { "filters": "Filters", "advancedFilters": "Advanced", "expanded": true, "showToggle": false, "showClear": false, "showRefresh": false, "showAdvancedActions": true },
+      "golden": "<div class=\"pa-card pa-filter-card\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div><div class=\"pa-filter-card__advanced\">Advanced<div class=\"pa-filter-card__advanced-actions\"><button type=\"button\" class=\"pa-btn pa-btn--secondary\">Clear Filters</button><button type=\"button\" class=\"pa-btn pa-btn--primary\">Apply Filters</button></div></div></div></div>",
+      "note": "Built-in advanced footer: text Clear/Apply buttons (bare label, no pa-btn__icon, no pa-btn__label). Identical EN labels in both wrappers."
+    },
+    {
+      "name": "builtin-actions",
+      "props": { "filters": "Filters", "advancedFilters": "Advanced", "expanded": false, "showToggle": true, "showClear": true, "showRefresh": true },
+      "golden": "<div class=\"pa-card pa-filter-card\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"><button type=\"button\" title=\"More filters\" class=\"pa-btn pa-btn--primary pa-btn--icon-only\"><span class=\"pa-icon pa-icon--chevron-down\" aria-hidden=\"true\"></span></button><button type=\"button\" title=\"Clear all\" class=\"pa-btn pa-btn--secondary pa-btn--icon-only\"><span class=\"pa-icon pa-icon--clear\" aria-hidden=\"true\"></span></button><button type=\"button\" title=\"Refresh\" class=\"pa-btn pa-btn--primary pa-btn--icon-only\"><span class=\"pa-icon pa-icon--refresh\" aria-hidden=\"true\"></span></button></div></div></div></div>",
+      "note": "Canonical built-in icon buttons in __actions order toggle->clear->refresh. Each glyph is a BARE span.pa-icon (aria-hidden) directly inside the button, NO pa-btn__icon wrapper (snippets/filter-card.html + button.json icon-only). Clear uses pa-icon--clear (snippet-blessed). Toggle only renders because advancedFilters is present. Collapsed so no __advanced noise."
+    }
+  ]
+}

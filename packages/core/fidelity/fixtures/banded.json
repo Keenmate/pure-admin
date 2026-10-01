@@ -1,0 +1,109 @@
+{
+  "//": "Markup-fidelity fixture for the BANDED CONTAINER — the `.pa-banded` block (keen `PureAdmin.Components.DataDisplay.banded/1`, svelte `display/Banded.svelte`). SCOPE = CONTAINER ONLY. The harness renders one component whose slot receives plain TEXT (the dumper HTML-escapes it), so row markup can't flow through the slot; the body area is a bare text token. Per-ROW structure (pa-banded__row / __label / __value / __copy + the copy state modifiers) lives in a SEPARATE sub-component (svelte BandedRow.svelte, keen banded_row/1) fed via the default slot — no dumper wiring exists for that fragment, so it is DEFERRED as acknowledged PROSE (a fixture-ref would DEFER?-fail: there is no banded-row fragment fixture/dumper clause). This fixture proves ONLY what the container itself emits: its <div>, its pa-banded class, the eight layout modifiers, and the class passthrough. The OPTIONAL responsive wrapper pa-banded-container is a sibling structural block (svelte hasContainerQuery / absent in keen) — it is an enclosing wrapper, NOT a pa-banded modifier, so it is out of this container's compare scope and noted in deferred.",
+  "component": "banded",
+  "block": "pa-banded",
+  "propsVocabulary": {
+    "narrow": "boolean — narrow (8rem) label band (pa-banded--narrow). svelte: width='narrow' (enum); keen: is_narrow (bool)",
+    "wide": "boolean — wide (20rem) label band (pa-banded--wide). svelte: width='wide' (enum); keen: is_wide (bool). Mutually exclusive with narrow",
+    "middle": "boolean — vertically center labels + values (pa-banded--middle)",
+    "truncate": "boolean — single-line ellipsis on labels + values (pa-banded--truncate)",
+    "labelEnd": "boolean — right-align labels (pa-banded--label-end)",
+    "labelCenter": "boolean — center-align labels (pa-banded--label-center)",
+    "valueEnd": "boolean — right-align values (pa-banded--value-end)",
+    "valueCenter": "boolean — center-align values (pa-banded--value-center)",
+    "body": "the row area — filled with plain slot text in this container-only slice (real pa-banded__row children are the deferred sub-component)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the banded container adds no attribute conventions (unlike button's type). The body slot is a plain text token (Body) so the diff checks the container's tag + class + the layout modifiers, not rich row content. The width band is modeled as two mutually-exclusive bool features (narrow / wide) rather than one enum because the wrappers diverge: svelte exposes a single width='narrow'|'wide' enum (each bool maps to a fixed `const` width value in its map), keen exposes two is_narrow / is_wide bools (each maps straight through). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. axis-1 reverse-check is scoped to the eight pa-banded--* BLOCK modifiers, all produced by a feature below. The four __element classes (pa-banded__row / __label / __value / __copy) and the four row STATE modifiers (__row--copy-btn / --copy-hover / --copy-click / --copied) belong to the banded_row sub-component and are DEFERRED (see deferred block) — none are container markup.",
+    "narrow":      { "kind": "bool", "produces": "pa-banded--narrow", "note": "svelte width='narrow' (const); keen is_narrow (bool)" },
+    "wide":        { "kind": "bool", "produces": "pa-banded--wide", "note": "svelte width='wide' (const); keen is_wide (bool); mutually exclusive with narrow" },
+    "middle":      { "kind": "bool", "produces": "pa-banded--middle" },
+    "truncate":    { "kind": "bool", "produces": "pa-banded--truncate" },
+    "labelEnd":    { "kind": "bool", "produces": "pa-banded--label-end" },
+    "labelCenter": { "kind": "bool", "produces": "pa-banded--label-center" },
+    "valueEnd":    { "kind": "bool", "produces": "pa-banded--value-end" },
+    "valueCenter": { "kind": "bool", "produces": "pa-banded--value-center" },
+    "body":        { "kind": "slot", "produces": null, "note": "structural — the container's inner content; row structure is the deferred sub-component" },
+    "extraClass":  { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ROW element + state classes of the pa-banded block — NOT container markup. They are emitted by the SEPARATE banded_row sub-component (svelte BandedRow.svelte, keen banded_row/1) fed through the default slot, which the generic dumper passes as plain escaped TEXT, so they cannot materialize here and there is NO banded-row fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. __copy + __row--copy-* are the shared copy-to-clipboard affordance: copy-btn/-hover/-click are prop-driven row modifiers on the sub-component; --copied is TOGGLED at runtime by the copy JS (svelte `copied` state) and never SSR-authored.",
+    "pa-banded__row":            "banded_row sub-component (svelte BandedRow.svelte / keen banded_row/1) — not container markup; slot-fed, no fragment fixture/dumper wiring",
+    "pa-banded__label":          "banded_row sub-component — the tinted label cell",
+    "pa-banded__value":          "banded_row sub-component — the value cell",
+    "pa-banded__copy":           "banded_row sub-component — copy-to-clipboard button (shared copy affordance)",
+    "pa-banded__row--copy-btn":  "banded_row copyMode='btn' — copy button always visible; row-level prop modifier",
+    "pa-banded__row--copy-hover":"banded_row copyMode='hover' — copy button revealed on row hover",
+    "pa-banded__row--copy-click":"banded_row copyMode='click' — value itself clickable to copy",
+    "pa-banded__row--copied":    "runtime-toggled by copy JS (svelte `copied` state) for the 'Copied!' value ::after feedback — never SSR-authored",
+    "pa-banded-container":       "optional sibling wrapper (container-query host) that ENCLOSES pa-banded; svelte hasContainerQuery, absent in keen — an outer wrapper, not a pa-banded modifier, so out of this container's compare scope"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-banded\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-banded\">. Row structure is the deferred sub-component."
+    },
+    {
+      "name": "narrow",
+      "props": { "body": "Body", "narrow": true },
+      "golden": "<div class=\"pa-banded pa-banded--narrow\">Body</div>"
+    },
+    {
+      "name": "wide",
+      "props": { "body": "Body", "wide": true },
+      "golden": "<div class=\"pa-banded pa-banded--wide\">Body</div>"
+    },
+    {
+      "name": "middle",
+      "props": { "body": "Body", "middle": true },
+      "golden": "<div class=\"pa-banded pa-banded--middle\">Body</div>"
+    },
+    {
+      "name": "truncate",
+      "props": { "body": "Body", "truncate": true },
+      "golden": "<div class=\"pa-banded pa-banded--truncate\">Body</div>"
+    },
+    {
+      "name": "label-end",
+      "props": { "body": "Body", "labelEnd": true },
+      "golden": "<div class=\"pa-banded pa-banded--label-end\">Body</div>"
+    },
+    {
+      "name": "label-center",
+      "props": { "body": "Body", "labelCenter": true },
+      "golden": "<div class=\"pa-banded pa-banded--label-center\">Body</div>"
+    },
+    {
+      "name": "value-end",
+      "props": { "body": "Body", "valueEnd": true },
+      "golden": "<div class=\"pa-banded pa-banded--value-end\">Body</div>"
+    },
+    {
+      "name": "value-center",
+      "props": { "body": "Body", "valueCenter": true },
+      "golden": "<div class=\"pa-banded pa-banded--value-center\">Body</div>"
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Body", "narrow": true, "middle": true, "labelEnd": true },
+      "golden": "<div class=\"pa-banded pa-banded--narrow pa-banded--middle pa-banded--label-end\">Body</div>",
+      "note": "Modifiers compound (snippets/data-display.html L271). Class-token order is normalized away."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-banded mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-banded; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-banded\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

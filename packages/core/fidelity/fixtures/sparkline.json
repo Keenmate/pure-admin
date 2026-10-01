@@ -1,0 +1,87 @@
+{
+  "//": "Markup-fidelity fixture for pa-sparkline — an inline-flex row of mini value bars (dashboard trend chips). See heatmap.json for the CLOSEST model (a data-driven list renders the child elements; a primary-default-no-class variant guard; data geometry in an inline style, not a class). Shape: <div class=\"pa-sparkline [pa-sparkline--{variant}] [pa-sparkline--{size}]\"><div class=\"pa-sparkline__bar\" style=\"--value: N%\"></div>…</div>. Bars are DATA-DRIVEN from a `values` list; each bar's height is a data-driven inline style (--value: N%) on pa-sparkline__bar — NOT a modifier class. The SCSS colours the bars by a BLOCK variant modifier (.pa-sparkline--success .pa-sparkline__bar), so the colour lives on the container, not per-bar. variant is success|warning|danger|info; primary/default is the BASE accent and emits NO modifier class. size is sm|lg (the base height emits no modifier). This is NOT a JS/canvas sparkline — the bars are plain SSR divs, so there are no cssStateElements: the whole block is SSR-complete and the golden captures every bar.",
+  "component": "sparkline",
+  "block": "pa-sparkline",
+  "propsVocabulary": {
+    "values": "list of bar heights (percentages 0-100); one pa-sparkline__bar is rendered per entry, carrying the inline style --value: N%. Structural data — drives the bars, no class.",
+    "variant": "bar-colour variant (success|warning|danger|info). Styled on the BLOCK (.pa-sparkline--{variant} .pa-sparkline__bar), colouring every bar. The default accent is the BASE and emits NO modifier class; there is no pa-sparkline--primary.",
+    "size": "size variant — sm (pa-sparkline--sm, 2rem tall) or lg (pa-sparkline--lg, 4.8rem tall + wider bars). The base height (3rem) emits no modifier.",
+    "extraClass": "extra classes appended verbatim"
+  },
+  "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache lines 596+). pa-sparkline is an inline-flex row whose bars come from a data list; the per-bar height is a data-driven inline style (style=\"--value: {n}%\") on each pa-sparkline__bar <div>, not a class. The bar COLOUR is a block-level variant modifier (.pa-sparkline--{variant}), so there is no per-bar colour class. variant success|warning|danger|info emit pa-sparkline--{variant}; the default accent emits no modifier (there is no pa-sparkline--primary in main.css). size sm|lg emit pa-sparkline--{size}; the base height emits no modifier. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-sparkline(--|__)'). Block modifiers in CSS: pa-sparkline--success, --warning, --danger, --info, --sm, --lg. Element class: pa-sparkline__bar (exercised by every golden). `produces: null` = structural/native/inline-style (no pa-sparkline modifier). variant EXCLUDES any base/primary — the default accent bar is the base and has no modifier class. values is structural data (produces:null, kind:string so capability doesn't enum-check the list; the bars it renders carry the inline --value style and the pa-sparkline__bar class exercised by the goldens).",
+    "variant": {
+      "kind": "enum",
+      "options": ["success", "warning", "danger", "info"],
+      "produces": "pa-sparkline--{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["sm", "lg"],
+      "produces": "pa-sparkline--{value}"
+    },
+    "values": {
+      "kind": "string",
+      "produces": null,
+      "note": "structural data — one pa-sparkline__bar per entry, each carrying inline style --value: N%; no modifier class. kind:string so capability doesn't enum-check the list."
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "values": [40, 65, 55, 80, 70, 90, 85] },
+      "golden": "<div class=\"pa-sparkline\"><div class=\"pa-sparkline__bar\" style=\"--value: 40%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 65%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 55%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 80%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 70%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 90%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 85%\"></div></div>",
+      "note": "Default accent bars — no variant modifier. Seven bars, one per value; the height is the data-driven inline --value style (demo 'Revenue (7d)')."
+    },
+    {
+      "name": "variant-success",
+      "props": { "values": [30, 45, 60, 50, 75, 85, 95], "variant": "success" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--success\"><div class=\"pa-sparkline__bar\" style=\"--value: 30%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 45%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 60%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 50%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 75%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 85%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 95%\"></div></div>",
+      "note": "Demo 'Orders (7d)' — the variant colours the bars via the block modifier, not per-bar."
+    },
+    {
+      "name": "variant-warning",
+      "props": { "values": [90, 70, 50, 60, 40, 25, 15], "variant": "warning" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--warning\"><div class=\"pa-sparkline__bar\" style=\"--value: 90%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 70%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 50%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 60%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 40%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 25%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 15%\"></div></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "values": [80, 60, 70, 45, 55, 30, 20], "variant": "danger" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--danger\"><div class=\"pa-sparkline__bar\" style=\"--value: 80%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 60%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 70%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 45%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 55%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 30%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 20%\"></div></div>"
+    },
+    {
+      "name": "variant-info",
+      "props": { "values": [20, 35, 30, 50, 45, 65, 60], "variant": "info" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--info\"><div class=\"pa-sparkline__bar\" style=\"--value: 20%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 35%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 30%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 50%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 45%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 65%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "primary-default-no-class",
+      "props": { "values": [40, 55, 50], "variant": "primary" },
+      "golden": "<div class=\"pa-sparkline\"><div class=\"pa-sparkline__bar\" style=\"--value: 40%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 55%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 50%\"></div></div>",
+      "note": "Guard: primary is the base accent; there is NO pa-sparkline--primary in main.css. Must NOT emit a phantom modifier."
+    },
+    {
+      "name": "size-sm",
+      "props": { "values": [40, 65, 55, 80], "size": "sm" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--sm\"><div class=\"pa-sparkline__bar\" style=\"--value: 40%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 65%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 55%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 80%\"></div></div>",
+      "note": "Guard: sm is a CSS-backed height (pa-sparkline--sm, 2rem). Both wrappers must expose it."
+    },
+    {
+      "name": "size-lg",
+      "props": { "values": [40, 65, 55, 80], "size": "lg" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--lg\"><div class=\"pa-sparkline__bar\" style=\"--value: 40%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 65%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 55%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 80%\"></div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "values": [30, 50, 70, 60, 85], "variant": "success", "size": "lg", "extraClass": "mt-sm" },
+      "golden": "<div class=\"pa-sparkline pa-sparkline--success pa-sparkline--lg mt-sm\"><div class=\"pa-sparkline__bar\" style=\"--value: 30%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 50%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 70%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 60%\"></div><div class=\"pa-sparkline__bar\" style=\"--value: 85%\"></div></div>",
+      "note": "variant + size + class passthrough; token order normalized away."
+    }
+  ]
+}

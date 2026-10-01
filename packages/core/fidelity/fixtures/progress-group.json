@@ -1,0 +1,46 @@
+{
+  "//": "Markup-fidelity fixture for the PROGRESS-GROUP component — the labeled progress block pa-progress-group (keen `DataViz.progress_group/1`, svelte `display/ProgressGroup.svelte`). SCOPE = CONTAINER SHELL + LABEL ROW only; the BAR child is DEFERRED to the progress fixture. Both wrappers are SLOT-COMPOSED: svelte's ProgressGroup always takes the bar through its `children` slot; keen's progress_group takes an `inner_block` slot that OVERRIDES its auto-built <.progress> bar (keen was aligned to svelte in this slice — it previously ALWAYS inlined the bar with no way to override). The shared goldens pass an EMPTY bar slot to both, so each emits exactly the container + label row (span label + span.pa-progress__label-value) and the bar is left out — the diffable shell both agree on. The real bar (svelte-slotted / keen-auto-or-slotted) is the progress fixture's territory; keen's auto-bar FALLBACK + slot OVERRIDE are both locked by keen's data_viz_test.exs. Authored from dist/css/main.css + demo/views/data-visualization.mustache + _data-viz.scss.",
+  "component": "progress-group",
+  "block": "pa-progress-group",
+  "propsVocabulary": {
+    "label": "the label text shown on the left of the label row (a bare <span>)",
+    "valueText": "the value text shown on the right of the label row (pa-progress__label-value), e.g. \"65%\". keen auto-derives it as `<%= @value %>%` from the numeric `value`; svelte takes it verbatim via valueText. Scenarios set it to the matching N% so both wrappers agree.",
+    "value": "the numeric 0-100 that keen feeds its (slot-overridable) auto-bar (aria-valuenow + --value) — the BAR is DEFERRED (the progress fixture's territory). Provided so keen's required attr is satisfied; not asserted by the shell golden.",
+    "body": "the bar slot — passed EMPTY by every scenario so both wrappers emit the shell only (svelte renders an empty children slot; keen's empty-but-present inner_block slot OVERRIDES its auto-bar, leaving the bar out). The real bar is deferred to the progress fixture.",
+    "extraClass": "extra classes appended verbatim — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural. The shell is <div class=\"pa-progress-group\"><div class=\"pa-progress__label\"><span>LABEL</span><span class=\"pa-progress__label-value\">VALUE</span></div> … </div>. The goldens encode the container + label row that BOTH wrappers emit identically; the bar child (keen inlines it, svelte slots it) is DEFERRED. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The pa-progress-group BLOCK has ZERO modifiers (grep '\\.pa-progress-group--' is empty). Its visible classes are the label-row elements pa-progress__label / pa-progress__label-value — which live in the pa-progress block namespace and are DEFERRED here (see deferred): the shell golden exercises them directly. label/valueText/value/extraClass produce null (text / deferred / passthrough).",
+    "label":      { "kind": "string", "produces": null, "note": "label-row left span text" },
+    "valueText":  { "kind": "string", "produces": null, "note": "label-row right span (pa-progress__label-value) text" },
+    "value":      { "kind": "string", "produces": null, "nativeType": "number", "note": "numeric for keen's (slot-overridable) auto-bar — DEFERRED (progress fixture); not asserted by the shell" },
+    "body":       { "kind": "slot",   "produces": null, "note": "bar slot — passed empty so both wrappers emit the shell only; the real bar is deferred to progress" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "The label-row element classes live in the pa-progress block namespace (not pa-progress-group__*), and the inlined/slotted BAR itself is the pa-progress component's territory. The shell goldens below EXERCISE the two label-row classes directly (so compare proves them); they are listed here only to document that they belong to pa-progress, and the bar element classes are covered by the `progress` fixture. pa-progress__label / __label-value are exercised by this fixture's goldens; the fill/bar are deferred to progress.",
+    "pa-progress__label":       "Label row above the bar — EXERCISED by this fixture's shell goldens (listed for provenance; it is a pa-progress-namespace element reused by the group).",
+    "pa-progress__label-value": "Right-hand value span in the label row — EXERCISED by this fixture's shell goldens.",
+    "pa-progress__fill":        { "fixture": "progress" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "label": "Storage", "valueText": "65%", "value": 65, "body": "" },
+      "golden": "<div class=\"pa-progress-group\"><div class=\"pa-progress__label\"><span>Storage</span><span class=\"pa-progress__label-value\">65%</span></div></div>",
+      "note": "Shell + label row. keen inlines a pa-progress bar after the label row (deferred to progress); svelte slots it (empty here). The shared contract is the shell above."
+    },
+    {
+      "name": "upload",
+      "props": { "label": "Upload", "valueText": "89%", "value": 89, "body": "" },
+      "golden": "<div class=\"pa-progress-group\"><div class=\"pa-progress__label\"><span>Upload</span><span class=\"pa-progress__label-value\">89%</span></div></div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "label": "CPU", "valueText": "42%", "value": 42, "body": "", "extraClass": "mb-base" },
+      "golden": "<div class=\"pa-progress-group mb-base\"><div class=\"pa-progress__label\"><span>CPU</span><span class=\"pa-progress__label-value\">42%</span></div></div>",
+      "note": "Class passthrough on the group container; token order normalized away."
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "//": "Markup-fidelity fixture for the KPI EDITORIAL-MINIMAL CONTAINER — the `.pa-kpi-edit` block (keen `PureAdmin.Components.KpiEditorial.kpi_editorial/1`, svelte `display/KpiEditorial.svelte`). SCOPE = CONTAINER ONLY. This is a CARD-based container (`.pa-card.pa-kpi-edit`) with a shared KPI header (`.pa-card__header.pa-kpi-header` + optional `.pa-kpi-live` LIVE pill), a zero-padding body (`.pa-card__body.pa-kpi-edit__body`) holding the tile GRID (`.pa-kpi-edit__grid` + the six `__grid--*` column-cap modifiers + an inline `--pa-kpi-edit-cell-min` density override), and an optional footer (`.pa-card__footer.pa-kpi-footer`). The grid's tile CELLS come from a SEPARATE sub-component (svelte KpiEditorialTile.svelte, keen kpi_editorial_tile/1) fed through the default slot, which BOTH dumpers pass as plain ESCAPED TEXT — so real tile markup can't materialize. This fixture proves ONLY what the container emits: the card shell, the header/live/footer slots, the body, the grid element + its column-cap modifiers + the cell-min inline style, and the class passthrough. The per-TILE element classes (pa-kpi-edit__tile / __label / __value / __num / __unit / __meta / __delta[/--variant] / __target) belong to the deferred tile sub-component and are acknowledged as prose in `deferred` (no tile fragment fixture/dumper clause exists to fixture-ref). See stacked-bar.json / fields.json for the same container-only model (container element-modifiers claimed via features, child-component element classes deferred). The shared pa-kpi-header / pa-kpi-live / pa-kpi-footer classes are NOT pa-kpi-edit__* (different block, shared KPI chrome) so axis-1's element reverse-check doesn't touch them; they still appear verbatim in the goldens.",
+  "component": "kpi-editorial",
+  "block": "pa-kpi-edit",
+  "propsVocabulary": {
+    "titleText": "card header title — rendered as <div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">…</h3></div> inside .pa-card__header.pa-kpi-header. svelte `titleText`, keen `title_text`. When absent AND not live, the whole header is omitted.",
+    "live": "show the LIVE pill (animated dot + 'LIVE') next to the title (.pa-kpi-live > .pa-kpi-live__dot). svelte `isLive` bool (label is the hardcoded literal 'LIVE'); keen `is_live` bool with `live_text` defaulting to 'LIVE'. The header renders if titleText OR live is set.",
+    "footerText": "footer caption text — rendered as <div class=\"pa-card__footer pa-kpi-footer\"><span>…</span></div>. svelte `footerText`, keen `footer_text`. When absent (and no footer slot), the footer is omitted.",
+    "gridLayout": "grid column-cap modifier on the grid element — one of 2col / max-2 / max-3 / max-4 / max-5 / max-6, emitting pa-kpi-edit__grid--{value}. Default (nil) is the bare cell-min-driven auto-fit grid, no modifier. svelte `gridLayout` (dash-cased token), keen `grid_layout` (keen also has an `is_2_columns` shorthand that resolves to '2col' — same class).",
+    "cellMinWidth": "CSS length written as the inline style `--pa-kpi-edit-cell-min: {value};` on the grid element (density override; upstream default 14rem). svelte `cellMinWidth`, keen `cell_min_width`. Inline style, not a class.",
+    "body": "the grid's tile area — plain slot text in this container-only slice (real pa-kpi-edit__tile children are the deferred sub-component). svelte `children`, keen `inner_block` (required:true).",
+    "extraClass": "extra classes appended verbatim to the card (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural container only. The body slot is a plain text token (Body) so the diff checks the card shell + header/footer slots + the grid element (class/modifier/inline-style) + nesting, not rich tile content. The header is emitted ONLY when titleText or live is set; the footer ONLY when footerText (or a footer slot) is set — scenarios exercise both the present and absent forms. The cell-min inline style lands on the GRID element as style=\"--pa-kpi-edit-cell-min: {value};\"; both wrappers serialize it identically (keen `#{width};` / svelte `${width};`). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-kpi-edit'). The .pa-kpi-edit BLOCK has ZERO block-level modifiers (no pa-kpi-edit--* exists — the column caps are ELEMENT modifiers on __grid, and the delta tints are element modifiers on the deferred __delta). So axis-1's block-modifier reverse check is vacuous for this block. CONTAINER element classes: __body (always on the card body) and __grid (+ its six __grid--* caps) are produced/exercised here; __body & __grid appear in every golden, the caps are produced by the gridLayout enum template. TILE element classes (__tile/__label/__value/__num/__unit/__meta/__delta[/--*]/__target) are the deferred sub-component (prose in `deferred`). `produces: null` = structural/native/inline-style (no class).",
+    "titleText":    { "kind": "string", "produces": null, "note": "card header title text; absence (with live off) omits the whole header — structural, no class" },
+    "live":         { "kind": "bool",   "produces": null, "note": "LIVE pill (.pa-kpi-live, shared KPI chrome — not a pa-kpi-edit__* class); structural" },
+    "footerText":   { "kind": "string", "produces": null, "note": "footer caption; absence omits the footer — structural, no class" },
+    "gridLayout":   { "kind": "enum", "options": ["2col", "max-2", "max-3", "max-4", "max-5", "max-6"], "produces": "pa-kpi-edit__grid--{value}", "note": "column-cap element modifier on __grid; default (nil) is the bare auto-fit grid" },
+    "cellMinWidth": { "kind": "string", "produces": null, "note": "inline style --pa-kpi-edit-cell-min on the grid element; density override, not a class" },
+    "body":         { "kind": "slot",   "produces": null, "note": "structural — the grid's inner content; real tiles are the deferred sub-component" },
+    "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-TILE element + state classes of the pa-kpi-edit block — NOT container markup. They are emitted by the SEPARATE tile sub-component (svelte KpiEditorialTile.svelte, keen kpi_editorial_tile/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize here and there is NO kpi-editorial-tile fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. The __delta--* tints mirror the sentiment palette (positive/negative/neutral + up-strong/down-strong strong variants); keen author props use underscore variants (up_strong/down_strong) dasherized to the CSS class.",
+    "pa-kpi-edit__tile":           "tile sub-component (svelte KpiEditorialTile / keen kpi_editorial_tile) — one KPI cell (per-cell container-query host); slot-fed, no fragment fixture/dumper wiring",
+    "pa-kpi-edit__label":          "tile sub-component — the uppercase mono caption",
+    "pa-kpi-edit__value":          "tile sub-component — the thin-weight headline number row",
+    "pa-kpi-edit__num":            "tile sub-component — the tabular numeral inside __value",
+    "pa-kpi-edit__unit":           "tile sub-component — the dim prefix/suffix affix inside __value",
+    "pa-kpi-edit__meta":           "tile sub-component — the delta + target meta row",
+    "pa-kpi-edit__delta":          "tile sub-component — the coloured delta (bare class defaults to --pa-positive)",
+    "pa-kpi-edit__delta--positive":    "tile delta tint — keen delta_variant='positive'; out of container scope",
+    "pa-kpi-edit__delta--negative":    "tile delta tint — keen delta_variant='negative'; out of container scope",
+    "pa-kpi-edit__delta--neutral":     "tile delta tint — keen delta_variant='neutral'; out of container scope",
+    "pa-kpi-edit__delta--up-strong":   "tile delta tint — keen delta_variant='up_strong' (dasherized); out of container scope",
+    "pa-kpi-edit__delta--down-strong": "tile delta tint — keen delta_variant='down_strong' (dasherized); out of container scope",
+    "pa-kpi-edit__target":         "tile sub-component — the dim 'tgt {value}' text (with inner <em>tgt</em>)"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\">Body</div></div></div>",
+      "note": "The blessed default container: a .pa-card.pa-kpi-edit with a zero-padding body wrapping the bare auto-fit grid. No title/live → no header; no footerText → no footer. Tiles are the deferred sub-component."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\"></div></div></div>",
+      "note": "Empty body still emits the full card shell + body + grid — proves the wrapper never omits or collapses the shell."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-edit mb-4\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\">Body</div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-card pa-kpi-edit on the card; token order is normalized away."
+    },
+    {
+      "name": "title",
+      "props": { "body": "Body", "titleText": "Key Performance Indicators" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div></div><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\">Body</div></div></div>",
+      "note": "titleText renders the shared KPI header with the canonical pa-card__title > h3.pa-card__title-text shape."
+    },
+    {
+      "name": "live",
+      "props": { "body": "Body", "live": true },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__header pa-kpi-header\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\">Body</div></div></div>",
+      "note": "live alone still emits the header (header renders on titleText OR live); the LIVE pill is shared KPI chrome (.pa-kpi-live), not a pa-kpi-edit__* class. keen live_text defaults to 'LIVE' matching svelte's literal."
+    },
+    {
+      "name": "title-live",
+      "props": { "body": "Body", "titleText": "Live Metrics", "live": true },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Live Metrics</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\">Body</div></div></div>",
+      "note": "Title + LIVE pill together — title first, then the pill, inside one header."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footerText": "Updated 2m ago" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2m ago</span></div></div>",
+      "note": "footerText renders the footer as a plain <span> inside .pa-card__footer.pa-kpi-footer (shared KPI chrome)."
+    },
+    {
+      "name": "grid-2col",
+      "props": { "body": "Body", "gridLayout": "2col" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--2col\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-2",
+      "props": { "body": "Body", "gridLayout": "max-2" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--max-2\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-3",
+      "props": { "body": "Body", "gridLayout": "max-3" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--max-3\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-4",
+      "props": { "body": "Body", "gridLayout": "max-4" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--max-4\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-5",
+      "props": { "body": "Body", "gridLayout": "max-5" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--max-5\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-6",
+      "props": { "body": "Body", "gridLayout": "max-6" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--max-6\">Body</div></div></div>"
+    },
+    {
+      "name": "cell-min",
+      "props": { "body": "Body", "cellMinWidth": "12rem" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid\" style=\"--pa-kpi-edit-cell-min: 12rem;\">Body</div></div></div>",
+      "note": "cellMinWidth lands as the inline style on the grid element; both wrappers serialize '{value};' identically."
+    },
+    {
+      "name": "full",
+      "props": { "body": "Body", "titleText": "Key Performance Indicators", "live": true, "footerText": "Live data", "gridLayout": "max-3", "cellMinWidth": "16rem" },
+      "golden": "<div class=\"pa-card pa-kpi-edit\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-edit__body\"><div class=\"pa-kpi-edit__grid pa-kpi-edit__grid--max-3\" style=\"--pa-kpi-edit-cell-min: 16rem;\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Live data</span></div></div>",
+      "note": "Everything at once — header (title + LIVE), capped+density grid, footer. Exercises the full container skeleton in one tree."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "//": "Markup-fidelity fixture for the LOADER-OVERLAY utility (keen `Loader.loader_overlay/1`, svelte `feedback/LoaderOverlay.svelte`). SCOPE: CONTAINER ONLY — an absolutely-positioned backdrop overlay (.pa-loader-overlay) that centers a spinner over a positioned parent. Like loader-center.json, the harness feeds the slot plain TEXT (HTML-escaped), so the real child (a spinner) can't flow through; the body is a bare text token. This fixture proves ONLY the container: its <div> tag, its pa-loader-overlay class, and its class passthrough. NOTE on the empty slot: keen's loader_overlay/1 renders a FALLBACK <.spinner /> when the slot is TRULY ABSENT, whereas svelte renders nothing; the harness dumper always passes a (possibly empty-string) slot, so the fallback never fires here and both wrappers emit the bare container. keen's fallback is verified in its own loader_test.exs, not as a shared golden. Authored from dist/css/main.css + snippets/loaders.html + _loaders.scss.",
+  "component": "loader-overlay",
+  "block": "pa-loader-overlay",
+  "propsVocabulary": {
+    "body": "the overlaid content area — filled with plain slot text in this container-only slice (the real spinner child is out of scope)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. .pa-loader-overlay is a bare absolutely-positioned flex-centering <div> with NO modifiers (grep '\\.pa-loader-overlay--' on main.css is empty). The body slot is a plain text token. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-loader-overlay block has ZERO modifiers — minimal container contract: base class + body slot + class passthrough. capability axis-1 reverse-check sees no pa-loader-overlay--* to claim.",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content (a spinner in real use)" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-loader-overlay\">Body</div>",
+      "note": "The blessed container: a <div class=\"pa-loader-overlay\">. Both wrappers emit <div>."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "z-top" },
+      "golden": "<div class=\"pa-loader-overlay z-top\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-loader-overlay; token order is normalized away."
+    },
+    {
+      "name": "empty-slot",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-loader-overlay\"></div>",
+      "note": "An empty (but PRESENT) slot renders the bare container in both wrappers. keen's spinner fallback only fires when the slot is truly ABSENT — the dumper always passes a slot, so no fallback here. See the fixture note."
+    }
+  ]
+}

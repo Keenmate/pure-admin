@@ -1,0 +1,78 @@
+{
+  "//": "Markup-fidelity fixture for the FORM-GROUP CONTAINER — the field wrapper `.pa-form-group` (keen `PureAdmin.Components.Form.form_group/1`, svelte `forms/FormGroup.svelte`). SCOPE = CONTAINER ONLY: a `<div class=\"pa-form-group ...\">{children}</div>` both wrappers emit, wrapping a label + control + help text. The fidelity dumpers feed the inner_block/children a PLAIN TEXT body (real label/control/help children are separate components), so this fixture proves the <div> tag + its pa-form-group class (+ the modifiers) + the body slot + class passthrough. Modifiers in main.css: success/warning/error (validation), required, horizontal — all claimed. NOTE keen also exposes a `label` attr that emits a leading <label> inside the div, and a `field` for error auto-wiring; svelte has neither — both are container-content, out of this container-shell slice and prose-deferred. The `required` modifier is the live core escape-hatch rule (forms.html REQUIRED FIELDS §2) for non-native widgets — BOTH wrappers must emit it (keen's `is_required` no-op was fixed; see the keen test). See checkbox-list.json for the container-only model.",
+  "component": "form-group",
+  "block": "pa-form-group",
+  "propsVocabulary": {
+    "body": "the group's inner area — filled with plain slot text in this container-only slice (real label/control/help children are separate components)",
+    "state": "validation state → one pa-form-group--* modifier (success | warning | error). svelte exposes it as `state`, keen as `validation`.",
+    "required": "boolean → pa-form-group--required, the escape hatch for NON-native widgets (custom selects, image browsers) with no :required descendant. svelte `isRequired`, keen `is_required`.",
+    "horizontal": "boolean → pa-form-group--horizontal (label inline-start, control fills the rest). svelte `isHorizontal`/`horizontal`, keen `is_horizontal`.",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The container is always a <div class=\"pa-form-group ...\"> in both wrappers. The body slot is a plain text token so the diff checks the container's tag + class + nesting, not rich field content. A state modifier is present when a state is set, pa-form-group--required when required, pa-form-group--horizontal when horizontal. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-form-group block modifiers are exactly: success/warning/error (validation), required, horizontal — all claimed below. No pa-form-group__* element classes exist.",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content" },
+    "state":      { "kind": "enum",   "options": ["success", "warning", "error"], "produces": "pa-form-group--{value}" },
+    "required":   { "kind": "bool",   "produces": "pa-form-group--required" },
+    "horizontal": { "kind": "bool",   "produces": "pa-form-group--horizontal" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Container-content left out of this container-shell slice. These carry no pa-form-group class and don't affect the axis-1 sweep; recorded for reviewer orientation.",
+    "note-label": "keen `label` attr emits a leading bare <label> inside the group (auto-styled by core — no pa-form-label class); svelte has no label prop. Container content, not the shell.",
+    "note-field": "keen `field` auto-switches validation to error when the Phoenix field has errors; svelte has no field prop. Behavioural, no class of its own."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-form-group\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-form-group\">. Both wrappers emit a <div>."
+    },
+    {
+      "name": "state-success",
+      "props": { "body": "Body", "state": "success" },
+      "golden": "<div class=\"pa-form-group pa-form-group--success\">Body</div>"
+    },
+    {
+      "name": "state-warning",
+      "props": { "body": "Body", "state": "warning" },
+      "golden": "<div class=\"pa-form-group pa-form-group--warning\">Body</div>"
+    },
+    {
+      "name": "state-error",
+      "props": { "body": "Body", "state": "error" },
+      "golden": "<div class=\"pa-form-group pa-form-group--error\">Body</div>"
+    },
+    {
+      "name": "required",
+      "props": { "body": "Body", "required": true },
+      "golden": "<div class=\"pa-form-group pa-form-group--required\">Body</div>",
+      "note": "The escape-hatch modifier — both wrappers emit it (keen's is_required no-op was fixed)."
+    },
+    {
+      "name": "horizontal",
+      "props": { "body": "Body", "horizontal": true },
+      "golden": "<div class=\"pa-form-group pa-form-group--horizontal\">Body</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-form-group mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-form-group."
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Body", "state": "error", "required": true, "horizontal": true },
+      "golden": "<div class=\"pa-form-group pa-form-group--error pa-form-group--required pa-form-group--horizontal\">Body</div>",
+      "note": "Stacks state + required + horizontal to exercise the full class ordering together."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-form-group\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits the shell."
+    }
+  ]
+}

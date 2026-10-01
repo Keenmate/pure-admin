@@ -1,0 +1,38 @@
+{
+  "//": "Markup-fidelity fixture for the FOOTER shell — the `.pc-layout__footer` block (keen `PureAdmin.Components.Layout.footer/1`, svelte `layout/Footer.svelte`). A SHELL component migrated DOWN into @keenmate/pure-css, so the root block class is `pc-layout__footer` (NOT `pa-footer`); confirmed in dist/css/main.css. The three SECTIONS are a SIBLING block `pc-footer` (note the `-footer` not `__`/`--` after pc-layout) with element classes `pc-footer__start` / `__center` / `__end` and the modifier `pc-footer__end--vertical`. Both blocks are listed under `blocks` so axis-1 checks the section classes too. SCOPE = CONTAINER + its three sections — unlike navbar/sidebar this root reconciles: the footer root carries NO hook and NO id on EITHER wrapper (footer has no JS driver), so a shared golden IS possible. The one reconcilable shape is ALL THREE SECTIONS SUPPLIED with explicit content: then both wrappers emit exactly `<footer class=\"pc-layout__footer\"><div class=\"pc-footer__start\">…</div><div class=\"pc-footer__center\">…</div><div class=\"pc-footer__end\">…</div></footer>`. The scenarios deliberately supply all three slots to sidestep the two documented divergences: (1) EMPTY SECTIONS — svelte in three-section mode ALWAYS emits all three section divs (filling each conditionally), while keen OMITS a section div whose slot is empty AND has no config fallback; supplying all three makes both emit all three. (2) CONFIG FALLBACKS — with every slot supplied, neither wrapper's config copyright/version fallback fires (keen wraps the fallback in <span>, svelte in a <Paragraph>/<p> — divergent, so avoided). The svelte-only `endVertical` → `pc-footer__end--vertical` has no keen counterpart, so it is NOT a shared feature — deferred as prose. Section CONTENTS are plain slot tokens (the diff checks the container + three section divs + nesting, not rich content). Canonical shape: packages/core/snippets/layout.html (footer).",
+  "component": "footer",
+  "block": "pc-layout__footer",
+  "blocks": ["pc-layout__footer", "pc-footer"],
+  "propsVocabulary": {
+    "start": "inline-start section content (copyright area) — pc-footer__start. svelte `start`, keen `start`.",
+    "center": "flexible middle section content — pc-footer__center. svelte `center`, keen `center`.",
+    "end": "inline-end section content (version/links) — pc-footer__end. svelte `end`, keen `end_` (keen's slot is named end_ to avoid the Elixir `end` keyword).",
+    "extraClass": "extra classes appended verbatim to the root <footer class=\"pc-layout__footer ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Goldens encode the all-three-sections shape both wrappers agree on. Every scenario supplies start + center + end so (a) svelte's always-three-divs three-section mode and keen's omit-empty-sections mode converge on the same three divs, and (b) neither wrapper's config copyright/version fallback fires (their fallback wrappers — keen <span> vs svelte <p> — would diverge). Section contents are plain tokens. The svelte-only endVertical / pc-footer__end--vertical modifier is not exercised (no keen counterpart). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-layout__footer' + '\\.pc-footer'). The pc-layout__footer BLOCK has ZERO modifiers and ZERO element classes of its own (the sections live on the sibling pc-footer block). pc-footer block: element classes __start/__center/__end + the modifier pc-footer__end--vertical. Each section is a slot that produces its section div class. The --vertical modifier is svelte-only (no keen attr), so it is NOT a shared oracle feature — it is accounted for via cssStateClasses-style deferral below so axis-1's reverse block-modifier check (pc-footer--*) stays clean (note: pc-footer__end--vertical is an ELEMENT modifier, matched by ^pc-footer__, so it is covered by `deferred`). `produces: null` for extraClass (passthrough).",
+    "start":      { "kind": "slot",   "produces": "pc-footer__start" },
+    "center":     { "kind": "slot",   "produces": "pc-footer__center" },
+    "end":        { "kind": "slot",   "produces": "pc-footer__end" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-layout__footer footer; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "The one element-modifier class under ^pc-footer__ that no shared feature produces: pc-footer__end--vertical. It is svelte-only (the `endVertical` prop toggles it; keen's footer/1 has no such attr), so it can't be a shared oracle feature. Acknowledged as PROSE — out of the shared strict-compare surface — so the axis-1 element-class reverse check accounts for it.",
+    "pc-footer__end--vertical": "stacks the end-section items vertically (flex-column). svelte `endVertical` prop → class; keen has NO counterpart attr, so it is wrapper-asymmetric and not a shared feature. Exercised by neither scenario."
+  },
+  "scenarios": [
+    {
+      "name": "three-sections",
+      "props": { "start": "© 2026 Pure Admin", "center": "Center", "end": "v1.2.1" },
+      "golden": "<footer class=\"pc-layout__footer\"><div class=\"pc-footer__start\">© 2026 Pure Admin</div><div class=\"pc-footer__center\">Center</div><div class=\"pc-footer__end\">v1.2.1</div></footer>",
+      "note": "All three sections supplied → both wrappers emit all three section divs (keen omits empty sections, svelte always emits three; supplying all three converges them). No config fallback fires."
+    },
+    {
+      "name": "extra-class",
+      "props": { "start": "© 2026 Pure Admin", "center": "Center", "end": "v1.2.1", "extraClass": "mt-4" },
+      "golden": "<footer class=\"pc-layout__footer mt-4\"><div class=\"pc-footer__start\">© 2026 Pure Admin</div><div class=\"pc-footer__center\">Center</div><div class=\"pc-footer__end\">v1.2.1</div></footer>",
+      "note": "Class passthrough — the extra class is appended after pc-layout__footer on the root; token order is normalized away."
+    }
+  ]
+}

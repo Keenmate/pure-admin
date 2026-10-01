@@ -1,0 +1,30 @@
+{
+  "//": "Markup-fidelity fixture for the INLINE code component. See ../README.md and button.json/card.json for the model. SCOPE NOTE: the shared dumpers (svelte scripts/fidelity/dump.mjs REGISTRY.code → display/Code.svelte; keen pa.fidelity.dump code → PureAdmin.Components.Code.code/1) render the INLINE <code> element, NOT the block-level pa-code <pre> or the pa-code-block header form. So this fixture is the contract for inline code only: a bare native <code> element with an optional class passthrough and slot content. The block/header forms (pa-code--*, pa-code-block__*) live in separate wrapper components (svelte CodeBlock/CodeBlockWithHeader, keen code_block/1) that the dumpers are not wired to, and are out of scope for this slice.",
+  "component": "code",
+  "block": "code",
+  "propsVocabulary": {
+    "content": "inline code text (slot / inner_block)",
+    "extraClass": "extra classes appended verbatim to the <code> element (class passthrough — not a core feature)"
+  },
+  "goldenConventions": "Inline code is the bare native <code> element core blesses for inline code (snippets/code.html: `<code>npm install</code>`, no pa- class — the element itself is styled by the `code` type selector in _code.scss). No attribute conventions are added. Slot content is a plain text token so the diff checks structural nesting, not rich content. Class-token order + whitespace are normalized away by the comparator; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract for inline code. There is NO pa-code block class and NO pa-code--modifier on the inline element (those belong to the block <pre> form, a separate component out of scope here). `produces: null` = structural/native; the only outputs are the slot content and an optional class passthrough.",
+    "content":    { "kind": "slot",   "produces": null, "note": "inner text of <code>" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "Inline code is a bare `code` element selector with no BEM block/modifier classes, so there are no code--* classes in main.css for the axis-1 reverse check to claim."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "content": "npm install" },
+      "golden": "<code>npm install</code>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "content": "npm start", "extraClass": "text-truncate" },
+      "golden": "<code class=\"text-truncate\">npm start</code>"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "//": "Markup-fidelity fixture for the LINK typography component (svelte typography/Link.svelte, keen Typography.pa_link/1). SCOPE = a flat inline <a>. Core's blessed link is `<a class=\"pa-link\" href=\"…\">` — the `.pa-link` accent-coloured link (underline on hover) from _utilities.scss (snippets/utilities.html line 474). `.pa-link` is a FLAT base class with NO modifiers (no `.pa-link--*` in main.css); colour variations use the shared `.text-*` utilities via the class passthrough. The link carries a required `href` plus an optional `target` attribute. See label.json/code.json for the flat-element + attribute-convention models.",
+  "component": "link",
+  "block": "pa-link",
+  "propsVocabulary": {
+    "href": "destination URL (required). Always emitted on the <a>.",
+    "target": "anchor target (_blank|_self|_parent|_top) — a real attribute, emitted only when set",
+    "content": "inner text content (slot / inner_block)",
+    "extraClass": "extra classes appended verbatim (class passthrough — e.g. a `.text-*` colour utility; not a core feature)"
+  },
+  "goldenConventions": "Structural + the href/target attribute conventions. The <a> always carries `pa-link` + the `href` attribute; `target` is emitted only when provided. Slot content is a plain text token so the diff checks tag + class + attributes + nesting, not rich content. Class-token order + whitespace + attribute order are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `.pa-link` is a real base class with ZERO modifiers (grep '\\.pa-link--' on main.css is empty) and ZERO element classes — colour variants are the shared `.text-*` utilities applied via the class passthrough, out of scope here. The base class is produced by the block itself (always present), so there are no feature-produced modifier classes; href/target/slot/class are all structural → produces: null.",
+    "href":       { "kind": "string", "produces": null, "note": "href attribute — always present (required)" },
+    "target":     { "kind": "enum",   "options": ["_blank", "_self", "_parent", "_top"], "produces": null, "note": "target attribute — not a class" },
+    "content":    { "kind": "slot",   "produces": null, "note": "inner text of the link" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "`.pa-link` has no BEM modifier/element classes, so there is nothing for the axis-1 reverse check to claim beyond the base class itself (which the block always emits)."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "href": "/dashboard", "content": "Dashboard" },
+      "golden": "<a class=\"pa-link\" href=\"/dashboard\">Dashboard</a>"
+    },
+    {
+      "name": "target-blank",
+      "props": { "href": "https://example.com", "target": "_blank", "content": "External" },
+      "golden": "<a class=\"pa-link\" href=\"https://example.com\" target=\"_blank\">External</a>",
+      "note": "target is emitted as an attribute only when set."
+    },
+    {
+      "name": "target-self",
+      "props": { "href": "/profile", "target": "_self", "content": "Profile" },
+      "golden": "<a class=\"pa-link\" href=\"/profile\" target=\"_self\">Profile</a>"
+    },
+    {
+      "name": "target-parent",
+      "props": { "href": "/parent", "target": "_parent", "content": "Parent" },
+      "golden": "<a class=\"pa-link\" href=\"/parent\" target=\"_parent\">Parent</a>"
+    },
+    {
+      "name": "target-top",
+      "props": { "href": "/top", "target": "_top", "content": "Top" },
+      "golden": "<a class=\"pa-link\" href=\"/top\" target=\"_top\">Top</a>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "href": "/danger", "content": "Delete", "extraClass": "text-danger" },
+      "golden": "<a class=\"pa-link text-danger\" href=\"/danger\">Delete</a>",
+      "note": "Class passthrough — a shared .text-* colour utility rides on the link alongside pa-link."
+    }
+  ]
+}

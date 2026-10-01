@@ -59,6 +59,53 @@ function cssClassSet(cssText) {
   return set;
 }
 
+// Class tokens that literally appear in a scenario golden — i.e. markup that
+// compare.mjs actually renders and diffs. An element class exercised by a golden
+// is genuinely tested even if no feature declares it.
+function goldenClassSet(scenarios) {
+  const set = new Set();
+  const re = /class\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
+  for (const s of scenarios || []) {
+    const html = s.golden || '';
+    let m;
+    while ((m = re.exec(html))) {
+      for (const t of (m[1] ?? m[2] ?? '').split(/\s+/)) if (t) set.add(t);
+    }
+  }
+  return set;
+}
+
+// A `deferred` bucket (object keyed by class, or array of classes) names element
+// classes a slice intentionally leaves to a future sub-slice — claimed, but
+// reported separately so the deferral stays visible instead of silent.
+function normalizeBucket(bucket) {
+  if (!bucket) return new Set();
+  if (Array.isArray(bucket)) return new Set(bucket);
+  if (typeof bucket === 'object') return new Set(Object.keys(bucket).filter((k) => k !== '//'));
+  return new Set();
+}
+
+// All concrete classes a fixture is responsible for: everything its features
+// produce + its cssStateClasses. Used to VERIFY a fixture-backed deferral.
+function allProducedClasses(fixture) {
+  const out = new Set();
+  for (const [name, feat] of Object.entries(fixture.features || {})) {
+    if (name === '//') continue;
+    for (const c of producedClasses(name, feat)) out.add(c);
+  }
+  for (const k of Object.keys(fixture.cssStateClasses || {})) if (k !== '//') out.add(k);
+  return out;
+}
+
+// A deferral value may name the fixture that actually covers the class —
+// `{ "fixture": "card-tab" }` or the string `"fixture:card-tab"`. Anything else
+// (plain prose) is an *acknowledged* out-of-scope deferral, not verified.
+function resolveDeferRef(val) {
+  if (val && typeof val === 'object' && val.fixture) return val.fixture;
+  if (typeof val === 'string' && val.startsWith('fixture:')) return val.slice('fixture:'.length);
+  return null;
+}
+
 function main() {
   const args = process.argv.slice(2);
   const positional = [];
@@ -78,8 +125,25 @@ function main() {
   const fixture = readJson(fixturePath);
   const features = fixture.features || {};
   const stateClasses = fixture.cssStateClasses || {};
-  const block = fixture.block || `pa-${fixture.component}`;
-  const blockModRe = new RegExp('^' + block.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '--');
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // One component can span several blocks (a family: pa-loader-dots/-bars/…,
+  // pa-list + pa-list-ordered, …). `blocks: [...]` lists them; `block` is the
+  // single-block shorthand.
+  const blocks =
+    Array.isArray(fixture.blocks) && fixture.blocks.length
+      ? fixture.blocks
+      : [fixture.block || `pa-${fixture.component}`];
+  const blockModRes = blocks.map((b) => new RegExp('^' + esc(b) + '--'));
+  const blockElemRes = blocks.map((b) => new RegExp('^' + esc(b) + '__'));
+  const matchesAny = (res, c) => res.some((re) => re.test(c));
+  const deferred = normalizeBucket(fixture.deferred);
+  // Element-level analogue of cssStateClasses: <block>__* elements that
+  // pa-*.js BUILDS at runtime and are never in the SSR markup a wrapper emits
+  // (e.g. stat fit-mode's __slot/__group/__meta). No feature can produce them
+  // and no SSR golden can exercise them, so they'd read as blind spots — list
+  // them here to mark them legitimately out of the strict-compare surface.
+  const stateElements = normalizeBucket(fixture.cssStateElements);
+  const goldenClasses = goldenClassSet(fixture.scenarios);
   const css = cssClassSet(fs.readFileSync(cssPath, 'utf-8'));
 
   let hardFailures = 0;
@@ -98,11 +162,9 @@ function main() {
       }
     }
   }
-  // reverse: every block modifier (${block}--*) in CSS must be claimed. Scoped
-  // to BLOCK modifiers — element modifiers (${block}__x--y) are verified forward
-  // (feature produces → exists) so specialized sub-features left out of a slice
-  // don't read as unmapped.
-  const blockModifiers = [...css].filter((c) => blockModRe.test(c)).sort();
+  // reverse (block modifiers): every <block>--* in CSS must be claimed by a
+  // feature's `produces` or by `cssStateClasses`.
+  const blockModifiers = [...css].filter((c) => matchesAny(blockModRes, c)).sort();
   const unclaimed = blockModifiers.filter((c) => !claimed.has(c));
   if (unclaimed.length) {
     for (const c of unclaimed) {
@@ -110,7 +172,80 @@ function main() {
       hardFailures++;
     }
   } else {
-    console.log(`   ${paint('green', 'ok')} all ${blockModifiers.length} ${block}--* CSS modifiers are claimed by a feature or a state class`);
+    console.log(`   ${paint('green', 'ok')} all ${blockModifiers.length} block-modifier class(es) (${blocks.join(', ')} --*) are claimed`);
+  }
+
+  // reverse (element classes): every <block>__* in CSS must be ACCOUNTED FOR —
+  // by a feature's produces / cssStateClasses, by appearing in at least one
+  // scenario golden (so compare.mjs actually exercises it), or by an explicit
+  // `deferred` bucket (labelled, reported separately). Anything left is a real
+  // blind spot: markup core ships that no scenario tests and no feature maps.
+  const elementClasses = [...css].filter((c) => matchesAny(blockElemRes, c)).sort();
+  const coveredElem = new Set([...claimed, ...goldenClasses, ...deferred, ...stateElements]);
+  const deferredElem = elementClasses.filter((c) => deferred.has(c));
+  const stateElem = elementClasses.filter((c) => stateElements.has(c) && !deferred.has(c));
+  const uncoveredElem = elementClasses.filter((c) => !coveredElem.has(c));
+  if (uncoveredElem.length) {
+    for (const c of uncoveredElem) {
+      console.log(`   ${paint('red', 'UNCOVERED')} .${c} exists in CSS but no feature claims it and no golden exercises it`);
+      hardFailures++;
+    }
+  } else if (elementClasses.length) {
+    console.log(`   ${paint('green', 'ok')} all ${elementClasses.length} element class(es) (${blocks.join(', ')} __*) are claimed or exercised by a golden`);
+  }
+  // A deferral that NAMES a covering fixture must actually be produced/rendered by
+  // that fixture — otherwise `deferred` is just silencing a real gap. Prose
+  // deferrals (no fixture ref) stay acknowledged/advisory.
+  const deferredRaw =
+    fixture.deferred && typeof fixture.deferred === 'object' && !Array.isArray(fixture.deferred)
+      ? fixture.deferred
+      : {};
+  const verifiedDefer = new Set();
+  for (const [cls, val] of Object.entries(deferredRaw)) {
+    if (cls === '//') continue;
+    const ref = resolveDeferRef(val);
+    if (!ref) continue;
+    const refPath = path.join(path.dirname(path.resolve(fixturePath)), `${ref}.json`);
+    let refFix;
+    try {
+      refFix = readJson(refPath);
+    } catch {
+      console.log(`   ${paint('red', 'DEFER?')} .${cls} defers to fixture "${ref}" — can't read ${ref}.json`);
+      hardFailures++;
+      continue;
+    }
+    const refCovered = new Set([...goldenClassSet(refFix.scenarios), ...allProducedClasses(refFix)]);
+    if (refCovered.has(cls)) verifiedDefer.add(cls);
+    else {
+      console.log(`   ${paint('red', 'DEFER?')} .${cls} defers to "${ref}" but that fixture neither produces nor renders it`);
+      hardFailures++;
+    }
+  }
+  if (verifiedDefer.size) {
+    console.log(`   ${paint('green', 'ok')} ${verifiedDefer.size} deferral(s) verified against a fragment fixture`);
+  }
+  const ackElem = deferredElem.filter((c) => !verifiedDefer.has(c) && !resolveDeferRef(deferredRaw[c]));
+  if (ackElem.length) {
+    const shown = ackElem.slice(0, 6).join(', ');
+    const more = ackElem.length > 6 ? ` …(+${ackElem.length - 6} more)` : '';
+    console.log(`   ${paint('yellow', 'deferred')} ${ackElem.length} element class(es) acknowledged out-of-scope (unverified): ${shown}${more}`);
+  }
+  if (stateElem.length) {
+    const shown = stateElem.slice(0, 6).join(', ');
+    const more = stateElem.length > 6 ? ` …(+${stateElem.length - 6} more)` : '';
+    console.log(`   ${paint('cyan', 'runtime')}  ${stateElem.length} element class(es) built by JS at runtime, not in SSR markup (cssStateElements): ${shown}${more}`);
+  }
+
+  // vacuous-scope guard: block(s) matching NOTHING in CSS — no modifier, no
+  // element, AND no base class — mean the fixture's block name is wrong or it's a
+  // multi-block family that needs `blocks: [...]`. A fragment whose base class
+  // exists but has no modifiers/sub-elements (e.g. pa-list__item, whose parts are
+  // flat siblings pa-list__content/…) is fine — its leaf classes are claimed by
+  // features' `produces` and exercised by goldens. (Inline <code> is the one legit
+  // genuinely class-less case.)
+  const anyBaseClass = blocks.some((b) => css.has(b));
+  if (!blockModifiers.length && !elementClasses.length && !anyBaseClass) {
+    console.log(`   ${paint('yellow', 'note')} block(s) ${blocks.join(', ')} matched 0 modifier + 0 element + 0 base class in main.css — verify the block name, or use "blocks": [...] for a family (ignore if the component is intentionally class-less, e.g. inline <code>)`);
   }
 
   // ── Axis 2: features ↔ each wrapper map ──────────────────────────────────

@@ -1,0 +1,85 @@
+{
+  "//": "Markup-fidelity fixture for the load-more component. NEUTRAL scenarios + the GOLDEN markup core blesses. Full block: the pa-load-more container (+ alignment modifier), the pa-load-more__button (+ --loading), and the __spinner / __text / __count elements. See ../README.md, pager.json (sibling) and button.json for the model.",
+  "component": "load-more",
+  "block": "pa-load-more",
+  "propsVocabulary": {
+    "align": "start|center|end — justify-content of the container (core ships all three; center is also the base default)",
+    "loading": "boolean — spinner + non-interactive button (pa-load-more__button--loading)",
+    "count": "count text shown in pa-load-more__count, e.g. '25 of 250' — the wrapper wraps it in parentheses",
+    "text": "button label text (rendered inside pa-load-more__text)",
+    "extraClass": "extra classes appended to the container"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape (snippets/tables.html load-more): <div class=\"pa-load-more [--align]\"> → <button class=\"pa-load-more__button [--loading]\"> → optional <span class=\"pa-load-more__spinner\"> (loading only) + <span class=\"pa-load-more__text\">LABEL</span> + optional <span class=\"pa-load-more__count\">(COUNT)</span>. ONE convention BOTH wrappers add over the static snippet: a loading button carries the native `disabled` attribute (non-interactive while loading — same spirit as button.json's 'loading buttons are disabled'; keen gained it in this slice, svelte already had it). The label is supplied explicitly in every scenario (keen via its inner_block slot inside the text span, svelte via its `text` prop) to avoid the wrappers' i18n defaults diverging (keen pureAdmin.pagination.loadMore vs svelte pureAdmin.loadMore.loadMore) — an i18n divergence, not a markup contract one. Count text avoids characters HEEx/Svelte escape differently. Attribute + class-token order and whitespace are normalized away; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. `produces` with {value}; capability.mjs expands + cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native.",
+    "align": {
+      "kind": "enum",
+      "options": ["start", "center", "end"],
+      "produces": "pa-load-more--{value}",
+      "note": "center is redundant with the base justify-content:center but core ships the class; both wrappers emit it explicitly"
+    },
+    "loading": {
+      "kind": "bool",
+      "produces": "pa-load-more__button--loading",
+      "note": "element-level modifier on the button; also adds the native disabled attr + the __spinner span"
+    },
+    "count": {
+      "kind": "string",
+      "produces": "pa-load-more__count",
+      "note": "presence of count text renders the __count span; the class is the element that holds it"
+    },
+    "text": {
+      "kind": "slot",
+      "produces": "pa-load-more__text",
+      "note": "the label span; always present"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "No JS-applied pa-load-more--* modifier; this bucket is empty. Kept for the axis-1 reverse-check contract shape."
+  },
+  "cssStateElements": {
+    "//": "Empty — pa-load-more__spinner is rendered (and exercised by the `loading` golden), not a JS-runtime-only element, so nothing belongs here."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "text": "Load More" },
+      "golden": "<div class=\"pa-load-more\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Load More</span></button></div>"
+    },
+    {
+      "name": "with-count",
+      "props": { "text": "Load More", "count": "25 of 250" },
+      "golden": "<div class=\"pa-load-more\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Load More</span><span class=\"pa-load-more__count\">(25 of 250)</span></button></div>"
+    },
+    {
+      "name": "loading",
+      "props": { "text": "Loading", "loading": true },
+      "golden": "<div class=\"pa-load-more\"><button disabled class=\"pa-load-more__button pa-load-more__button--loading\"><span class=\"pa-load-more__spinner\"></span><span class=\"pa-load-more__text\">Loading</span></button></div>"
+    },
+    {
+      "name": "align-start",
+      "props": { "text": "Show More", "align": "start" },
+      "golden": "<div class=\"pa-load-more pa-load-more--start\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Show More</span></button></div>"
+    },
+    {
+      "name": "align-center",
+      "props": { "text": "Show More", "align": "center" },
+      "golden": "<div class=\"pa-load-more pa-load-more--center\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Show More</span></button></div>"
+    },
+    {
+      "name": "align-end",
+      "props": { "text": "Show More", "align": "end" },
+      "golden": "<div class=\"pa-load-more pa-load-more--end\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Show More</span></button></div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "text": "Load More", "extraClass": "mt-0" },
+      "golden": "<div class=\"pa-load-more mt-0\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Load More</span></button></div>"
+    }
+  ]
+}

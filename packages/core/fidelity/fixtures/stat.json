@@ -1,0 +1,160 @@
+{
+  "//": "Markup-fidelity fixture for the stat component. See ../README.md and button.json/card.json for the model. Three mutually-exclusive variants share one BEM block: default (icon + content), --hero/--hero-compact (centred big value + change line), --square (coloured tile, big number + decorative symbol + bottom label). Element names differ by variant: default+square use __number, hero uses __value. Goldens are the canonical snippets/statistics.html shape.",
+  "component": "stat",
+  "block": "pa-stat",
+  "propsVocabulary": {
+    "variant": "hero|hero-compact|square — mutually exclusive; absent = default (icon + content) variant",
+    "color": "primary|secondary|success|info|warning|danger — SQUARE only; the whole tile is the colour (pa-stat--{color} compounds with pa-stat--square)",
+    "iconVariant": "primary|success|warning|info|danger — DEFAULT variant icon-tile colour (pa-stat__icon--{v}); NO --secondary",
+    "number": "big value — __number (default/square) or __value (hero)",
+    "labelText": "muted caption — pa-stat__label",
+    "changeText": "change-vs-period line text — pa-stat__change (hero + square fit-mode)",
+    "changeDirection": "very-positive|positive|neutral|negative|very-negative — sentiment tint modifier on __change",
+    "symbolText": "square only — decorative unit symbol (pa-stat__symbol)",
+    "isSymbolPrefix": "boolean — square only; render __symbol BEFORE __number (prefix currencies $847K) vs after (suffix 87%)",
+    "isFit": "boolean — square only; fit-to-box + progressive-disclosure mode, emits data-pa-stat-fit (JS wraps children at runtime; SSR markup stays flat)",
+    "contextText": "square fit-mode only — lowest-priority caption row (pa-stat__context)",
+    "icon": "default variant — glyph rendered inside pa-stat__icon; presence switches default from the bare number/label shape to the icon + content shape",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Structural only — stat adds no attribute conventions like button's type. Slot content (icon glyph, text) is a plain token so the diff checks structural nesting, not rich content. data-pa-stat-fit is a PRESENCE flag (svelte emits ='', keen emits '') — normalized to bare; the JS-built __slot/__group/__meta wrappers appear only AFTER the hook runs, so SSR goldens stay flat. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. axis-1 reverse-check is scoped to block modifiers (pa-stat--*); element modifiers (pa-stat__icon--*, __change--*) are verified forward (feature produces → exists in CSS). The colour enum classes pa-stat--{color} exist in CSS only compounded with --square, but the reverse check matches the bare token so they are claimed here.",
+    "variant":         { "kind": "enum", "options": ["hero", "hero-compact", "square"], "produces": "pa-stat--{value}" },
+    "color":           { "kind": "enum", "options": ["primary", "secondary", "success", "info", "warning", "danger"], "produces": "pa-stat--{value}", "note": "square-only; compounds with pa-stat--square" },
+    "iconVariant":     { "kind": "enum", "options": ["primary", "success", "warning", "info", "danger"], "produces": "pa-stat__icon--{value}", "note": "default-variant icon tile; no --secondary" },
+    "changeDirection": { "kind": "enum", "options": ["very-positive", "positive", "neutral", "negative", "very-negative"], "produces": "pa-stat__change--{value}" },
+    "isFit":           { "kind": "bool", "produces": null, "note": "square-only JS-HOOK feature — emits data-pa-stat-fit (presence flag) and each wrapper's own hook plumbing (keen: an auto id + phx-hook; svelte: a display:contents host wrapper). That plumbing is emitted at SSR time but is genuinely per-framework and is the 'pre-JS-hook only' boundary the README carves out, so fit mode is intentionally NOT covered by a strict-compare scenario (it can't reconcile to one clean golden without editing the shared normalizer). The flat authored fit shape uses <span> for __number/__symbol (keen has a unit test locking this)." },
+    "isSymbolPrefix":  { "kind": "bool", "produces": null, "note": "structural — reorders pa-stat__symbol vs pa-stat__number, no class" },
+    "number":          { "kind": "string", "produces": null, "note": "structural — pa-stat__number (default/square) or pa-stat__value (hero)" },
+    "labelText":       { "kind": "string", "produces": "pa-stat__label" },
+    "changeText":      { "kind": "string", "produces": "pa-stat__change" },
+    "symbolText":      { "kind": "string", "produces": "pa-stat__symbol" },
+    "contextText":     { "kind": "string", "produces": "pa-stat__context", "note": "square fit-mode only — only rendered in the JS-hook fit shape (see isFit), so exercised by wrappers/tests, not a strict-compare scenario" },
+    "icon":            { "kind": "slot", "produces": "pa-stat__icon", "note": "default variant; presence adds pa-stat__icon + pa-stat__content wrapper" },
+    "extraClass":      { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "cssStateClasses": {
+    "//": "pa-stat--* block modifiers in main.css that are NOT feature-driven props — added by pa-stat-fit.js at runtime. Listed so axis-1's reverse check treats them as legitimately unclaimed.",
+    "pa-stat--fit-wide": "square fit-mode only — JS-toggled by pa-stat-fit.js once the tile is wide enough to flip to the horizontal banner layout; never hand-authored"
+  },
+  "cssStateElements": {
+    "//": "__slot / __group / __meta are built by pa-stat-fit.js at runtime (not in the SSR markup the wrappers emit), so no feature produces them; documented here for reference only.",
+    "pa-stat__slot": "fit-mode JS wrapper around __group",
+    "pa-stat__group": "fit-mode JS wrapper around __number + __symbol (carries the computed font-size)",
+    "pa-stat__meta": "fit-mode JS wrapper around __label + __change + __context"
+  },
+  "scenarios": [
+    {
+      "name": "default",
+      "props": { "number": "1,234", "labelText": "Total users" },
+      "golden": "<div class=\"pa-stat\"><div class=\"pa-stat__number\">1,234</div><div class=\"pa-stat__label\">Total users</div></div>",
+      "note": "Default variant with NO icon: bare number + label, no __content wrapper (see snippet component-reference)."
+    },
+    {
+      "name": "default-icon",
+      "props": { "number": "1,234", "labelText": "Total users", "icon": "👥", "iconVariant": "primary" },
+      "golden": "<div class=\"pa-stat\"><div class=\"pa-stat__icon pa-stat__icon--primary\">👥</div><div class=\"pa-stat__content\"><div class=\"pa-stat__number\">1,234</div><div class=\"pa-stat__label\">Total users</div></div></div>"
+    },
+    {
+      "name": "default-icon-success",
+      "props": { "number": "$45,678", "labelText": "Revenue", "icon": "📊", "iconVariant": "success" },
+      "golden": "<div class=\"pa-stat\"><div class=\"pa-stat__icon pa-stat__icon--success\">📊</div><div class=\"pa-stat__content\"><div class=\"pa-stat__number\">$45,678</div><div class=\"pa-stat__label\">Revenue</div></div></div>"
+    },
+    {
+      "name": "default-icon-warning",
+      "props": { "number": "128", "labelText": "Pending", "icon": "📦", "iconVariant": "warning" },
+      "golden": "<div class=\"pa-stat\"><div class=\"pa-stat__icon pa-stat__icon--warning\">📦</div><div class=\"pa-stat__content\"><div class=\"pa-stat__number\">128</div><div class=\"pa-stat__label\">Pending</div></div></div>"
+    },
+    {
+      "name": "default-icon-info",
+      "props": { "number": "89%", "labelText": "Growth", "icon": "📈", "iconVariant": "info" },
+      "golden": "<div class=\"pa-stat\"><div class=\"pa-stat__icon pa-stat__icon--info\">📈</div><div class=\"pa-stat__content\"><div class=\"pa-stat__number\">89%</div><div class=\"pa-stat__label\">Growth</div></div></div>"
+    },
+    {
+      "name": "default-icon-danger",
+      "props": { "number": "12", "labelText": "Errors", "icon": "⚠", "iconVariant": "danger" },
+      "golden": "<div class=\"pa-stat\"><div class=\"pa-stat__icon pa-stat__icon--danger\">⚠</div><div class=\"pa-stat__content\"><div class=\"pa-stat__number\">12</div><div class=\"pa-stat__label\">Errors</div></div></div>"
+    },
+    {
+      "name": "hero",
+      "props": { "variant": "hero", "number": "$847,392", "labelText": "Total Revenue", "changeText": "▲ 12.5% vs last month", "changeDirection": "positive" },
+      "golden": "<div class=\"pa-stat pa-stat--hero\"><div class=\"pa-stat__label\">Total Revenue</div><div class=\"pa-stat__value\">$847,392</div><div class=\"pa-stat__change pa-stat__change--positive\">▲ 12.5% vs last month</div></div>"
+    },
+    {
+      "name": "hero-negative",
+      "props": { "variant": "hero", "number": "3.47%", "labelText": "Conversion Rate", "changeText": "▼ 2.1% vs last month", "changeDirection": "negative" },
+      "golden": "<div class=\"pa-stat pa-stat--hero\"><div class=\"pa-stat__label\">Conversion Rate</div><div class=\"pa-stat__value\">3.47%</div><div class=\"pa-stat__change pa-stat__change--negative\">▼ 2.1% vs last month</div></div>"
+    },
+    {
+      "name": "hero-neutral",
+      "props": { "variant": "hero", "number": "1,024", "labelText": "Active Sessions", "changeText": "— flat vs last week", "changeDirection": "neutral" },
+      "golden": "<div class=\"pa-stat pa-stat--hero\"><div class=\"pa-stat__label\">Active Sessions</div><div class=\"pa-stat__value\">1,024</div><div class=\"pa-stat__change pa-stat__change--neutral\">— flat vs last week</div></div>"
+    },
+    {
+      "name": "hero-very-positive",
+      "props": { "variant": "hero", "number": "2.4M", "labelText": "Signups", "changeText": "▲ 214%", "changeDirection": "very-positive" },
+      "golden": "<div class=\"pa-stat pa-stat--hero\"><div class=\"pa-stat__label\">Signups</div><div class=\"pa-stat__value\">2.4M</div><div class=\"pa-stat__change pa-stat__change--very-positive\">▲ 214%</div></div>"
+    },
+    {
+      "name": "hero-very-negative",
+      "props": { "variant": "hero", "number": "0.2%", "labelText": "Retention", "changeText": "▼ 78%", "changeDirection": "very-negative" },
+      "golden": "<div class=\"pa-stat pa-stat--hero\"><div class=\"pa-stat__label\">Retention</div><div class=\"pa-stat__value\">0.2%</div><div class=\"pa-stat__change pa-stat__change--very-negative\">▼ 78%</div></div>"
+    },
+    {
+      "name": "hero-no-change",
+      "props": { "variant": "hero", "number": "512", "labelText": "Open Tickets" },
+      "golden": "<div class=\"pa-stat pa-stat--hero\"><div class=\"pa-stat__label\">Open Tickets</div><div class=\"pa-stat__value\">512</div></div>",
+      "note": "No changeText → the __change line is omitted entirely."
+    },
+    {
+      "name": "hero-compact",
+      "props": { "variant": "hero-compact", "number": "$134.52", "labelText": "Avg Order Value", "changeText": "▲ 5.7%", "changeDirection": "positive" },
+      "golden": "<div class=\"pa-stat pa-stat--hero-compact\"><div class=\"pa-stat__label\">Avg Order Value</div><div class=\"pa-stat__value\">$134.52</div><div class=\"pa-stat__change pa-stat__change--positive\">▲ 5.7%</div></div>",
+      "note": "hero-compact is a standalone modifier (single dash), not pa-stat--hero pa-stat--hero-compact together."
+    },
+    {
+      "name": "square",
+      "props": { "variant": "square", "color": "primary", "number": "87", "symbolText": "%", "labelText": "Completion Rate" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--primary\"><div class=\"pa-stat__number\">87</div><div class=\"pa-stat__symbol\">%</div><div class=\"pa-stat__label\">Completion Rate</div></div>",
+      "note": "Suffix symbol (default): __number then __symbol."
+    },
+    {
+      "name": "square-success",
+      "props": { "variant": "square", "color": "success", "number": "94", "symbolText": "%", "labelText": "Customer Satisfaction" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--success\"><div class=\"pa-stat__number\">94</div><div class=\"pa-stat__symbol\">%</div><div class=\"pa-stat__label\">Customer Satisfaction</div></div>"
+    },
+    {
+      "name": "square-info",
+      "props": { "variant": "square", "color": "info", "number": "2.3", "symbolText": "k", "labelText": "Active Tickets" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--info\"><div class=\"pa-stat__number\">2.3</div><div class=\"pa-stat__symbol\">k</div><div class=\"pa-stat__label\">Active Tickets</div></div>"
+    },
+    {
+      "name": "square-warning",
+      "props": { "variant": "square", "color": "warning", "number": "3", "symbolText": "!", "labelText": "Warnings" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--warning\"><div class=\"pa-stat__number\">3</div><div class=\"pa-stat__symbol\">!</div><div class=\"pa-stat__label\">Warnings</div></div>"
+    },
+    {
+      "name": "square-danger",
+      "props": { "variant": "square", "color": "danger", "number": "12", "symbolText": "×", "labelText": "Failures" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--danger\"><div class=\"pa-stat__number\">12</div><div class=\"pa-stat__symbol\">×</div><div class=\"pa-stat__label\">Failures</div></div>"
+    },
+    {
+      "name": "square-secondary",
+      "props": { "variant": "square", "color": "secondary", "number": "48", "symbolText": "k", "labelText": "Archived" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--secondary\"><div class=\"pa-stat__number\">48</div><div class=\"pa-stat__symbol\">k</div><div class=\"pa-stat__label\">Archived</div></div>"
+    },
+    {
+      "name": "square-prefix-symbol",
+      "props": { "variant": "square", "color": "info", "number": "847K", "symbolText": "$", "isSymbolPrefix": true, "labelText": "Monthly Revenue" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--info\"><div class=\"pa-stat__symbol\">$</div><div class=\"pa-stat__number\">847K</div><div class=\"pa-stat__label\">Monthly Revenue</div></div>",
+      "note": "Prefix symbol: __symbol BEFORE __number for prefix currencies ($847K)."
+    },
+    {
+      "name": "square-no-symbol",
+      "props": { "variant": "square", "color": "primary", "number": "42", "labelText": "Tasks" },
+      "golden": "<div class=\"pa-stat pa-stat--square pa-stat--primary\"><div class=\"pa-stat__number\">42</div><div class=\"pa-stat__label\">Tasks</div></div>",
+      "note": "No symbolText → the __symbol element is omitted."
+    }
+  ]
+}

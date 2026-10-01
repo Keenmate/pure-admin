@@ -1,0 +1,37 @@
+{
+  "//": "Markup-fidelity fixture for the FORM-LABEL component — the field label (keen `PureAdmin.Components.Form.form_label/1`, svelte `forms/FormLabel.svelte`). SCOPE = the single bare `<label for=\"…\">text</label>` both wrappers emit. CRITICAL: there is NO `.pa-form-label` class in core — a <label> inside `.pa-form .pa-form-group` is auto-styled by the cascade (snippets/forms.html:529-532, 20-23). So this is an intentionally CLASS-LESS component: the block `pa-form-label` matches zero selectors in main.css (the axis-1 vacuous-scope note is expected and benign — this is the legit class-less case the guard calls out, like inline <code>). The required asterisk is ATTRIBUTE-DRIVEN by core (`.pa-form-group:has(:required) > label::after`), so neither wrapper hand-renders a marker — keen's `is_required` / svelte's (absent) required are no-ops with no class. Only `for` + optional passthrough `class` are real output. See label.json (the pa-label badge, a DIFFERENT component) for contrast — form-label is NOT that.",
+  "component": "form-label",
+  "block": "pa-form-label",
+  "propsVocabulary": {
+    "body": "the label text content",
+    "forAttr": "native `for` attribute associating the label with a control id",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough; note the label has no base class of its own"
+  },
+  "goldenConventions": "Structural only. The label is a plain <label> with an optional `for` attribute and whatever passthrough class is given (no base class is ever emitted — there is no pa-form-label). The body is a plain text token. Attribute + class-token order and whitespace are normalized away. Note: when no class is passed, svelte emits `class={undefined}` (no attribute) — the empty-class case the normalizer drops anyway.",
+  "features": {
+    "//": "Feature→class contract. There is NO pa-form-label CSS class, so EVERY feature here is `produces: null` (native `for` attr, slot text, or raw class passthrough). The block matching nothing in main.css is expected (class-less component).",
+    "body":       { "kind": "slot",   "produces": null, "note": "label text content" },
+    "forAttr":    { "kind": "string", "produces": null, "note": "native for attribute" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — the label has no base class" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "forAttr": "email", "body": "Email" },
+      "golden": "<label for=\"email\">Email</label>",
+      "note": "The blessed default: a bare <label for=\"…\"> with text, NO class (there is no pa-form-label)."
+    },
+    {
+      "name": "no-for",
+      "props": { "body": "Name" },
+      "golden": "<label>Name</label>",
+      "note": "Without a for, just a bare <label> with text."
+    },
+    {
+      "name": "extra-class",
+      "props": { "forAttr": "bio", "body": "Bio", "extraClass": "fw-bold" },
+      "golden": "<label for=\"bio\" class=\"fw-bold\">Bio</label>",
+      "note": "Class passthrough — the only way a class lands on the label (no base class is added)."
+    }
+  ]
+}

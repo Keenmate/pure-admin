@@ -1,0 +1,46 @@
+{
+  "//": "Markup-fidelity fixture for the NAV-MENU container — `.pc-navmenu` (keen `PureAdmin.Components.Layout.nav_menu/1`, svelte `navigation/NavMenu.svelte`). A SHELL component migrated DOWN into @keenmate/pure-css, so the block class is `pc-navmenu` (NOT `pa-navmenu`); confirmed in dist/css/main.css. SCOPE = CONTAINER-ONLY (the <nav> + its <ul> wrapper). Canonical shape from snippets/layout.html (NAVBAR section): `<nav class=\"pc-navmenu\"><ul><li>…</li></ul></nav>` — the menu auto-styles its direct `<ul> > <li> > <a>`; a menu's SIDE is decided by which navbar zone it sits in (rc14 dropped the `--start`/`--end` modifiers, so the block has ZERO modifiers). The reconcilable shape is the PLAIN (non-collapse) menu: both wrappers emit exactly `<nav class=\"pc-navmenu\"><ul>{items}</ul></nav>` — no id, no hook, no data attrs (keen only forces a generated id + PureAdminNavFitCollapse hook + phx-update=ignore + data-pc-fit-nav* when `collapse` is set; svelte never emits an id — it binds via bind:this — and attaches the Fit engine at onMount). The RESPONSIVE-COLLAPSE feature (`collapse` = menu|sidebar → data-pc-fit-nav) is therefore CAPABILITY-ONLY, not strict-compared: in collapse mode keen stamps a NON-DETERMINISTIC generated id (the hook needs a stable DOM id) that svelte doesn't emit, so the <nav> opening tag can't reconcile (navbar.json precedent). The LIST ITEMS (pc-navmenu__item*, __link, __dropdown*) come from SEPARATE nav_item/nav_dropdown sub-components fed through the slot → out of scope, deferred; the __more* / __item--more collapse machinery is BUILT BY fit.js at runtime, never in SSR → cssStateElements. Canonical shape: packages/core/snippets/layout.html.",
+  "component": "nav-menu",
+  "block": "pc-navmenu",
+  "propsVocabulary": {
+    "items": "the menu's list items — in a real app nav_item/nav_dropdown sub-components; here a plain slot token inside the <ul> (container-only scope). svelte `children`, keen `inner_block`.",
+    "collapse": "responsive-collapse mode — \"menu\" folds low-priority items into a generated \"More\" dropdown; \"sidebar\" rebuilds them as sidebar items. Emits data-pc-fit-nav + (keen) a hook+generated id. svelte `collapse`, keen `collapse`. CAPABILITY-ONLY — not strict-compared (keen's generated id can't reconcile with svelte's id-free SSR).",
+    "extraClass": "extra classes appended verbatim to the root <nav class=\"pc-navmenu ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Goldens encode the PLAIN (non-collapse) menu both wrappers agree on: `<nav class=\"pc-navmenu\"><ul>{items}</ul></nav>`. No scenario sets `collapse`, because in collapse mode keen forces a non-deterministic generated id + the PureAdminNavFitCollapse hook (svelte attaches at onMount instead), so the <nav> opening tag can't reconcile — collapse is asserted by the completeness contract only. The items slot is a plain text token so the diff checks the <nav> + <ul> + class + nesting, not the sub-component item markup. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-navmenu(--|__)'). The `.pc-navmenu` BLOCK has ZERO modifiers (rc14 dropped `--start`/`--end`; no `.pc-navmenu--*` in main.css). `collapse` is a shared capability but produces an ATTRIBUTE (data-pc-fit-nav), not a class → `produces: null` (declared for axis-2 completeness; both maps must list the menu/sidebar options). All element classes (__item*/__link/__dropdown*) come from slot-fed nav_item/nav_dropdown sub-components → deferred; the __more*/__item--more machinery is fit.js-built at runtime → cssStateElements. So the container contract is: the base class + an items slot + the collapse capability + a class passthrough.",
+    "items":      { "kind": "slot",   "produces": null, "note": "the menu's list items (slot-fed sub-components in a real app); svelte `children`, keen `inner_block`. Structural — the container wraps them in <ul>." },
+    "collapse":   { "kind": "enum",   "options": ["menu", "sidebar"], "produces": null, "note": "responsive-collapse mode → data-pc-fit-nav ATTRIBUTE (not a class). svelte `collapse`, keen `collapse`. Capability-only — not strict-compared (keen's generated hook id can't reconcile). Declared in both maps for axis-2." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-navmenu nav; svelte `class`, keen `class`." }
+  },
+  "cssStateElements": {
+    "//": "The responsive-collapse \"More\" machinery is BUILT BY fit.js at runtime (appended to the nav + a detached panel parented to <body>), never present in the SSR markup either wrapper emits — so no feature can produce it and no SSR golden can exercise it. Listed here to mark it legitimately out of the strict-compare surface (see snippets/layout.html 'Generated DOM (menu mode)').",
+    "pc-navmenu__item--more": "the generated \"More\" trigger <li> fit.js appends to the nav when items fold (carries .is-open while its panel shows). Runtime-built, not SSR.",
+    "pc-navmenu__more-chevron": "the ›/▾ glyph inside the generated More trigger; rotates under .is-open. Runtime-built, not SSR.",
+    "pc-navmenu__more-menu": "the folded-items panel (a __dropdown parented to <body> to escape the navbar overflow). Runtime-built, not SSR.",
+    "pc-navmenu__more-menu--open": "reveals the generated panel (compound selector beating the base __dropdown display:none). Runtime-toggled, not SSR."
+  },
+  "deferred": {
+    "//": "The remaining `pc-navmenu__*` element classes are emitted by SEPARATE slot-fed sub-components (nav_item → __item--active/__item--has-dropdown/__link; nav_dropdown → __dropdown/__dropdown--level2), not the pc-navmenu container shell. Acknowledged as PROSE (nav_item is its own future slice; __dropdown* are covered by nav-dropdown.json).",
+    "pc-navmenu__item--active": "active-item modifier on a <li>; emitted by nav_item (is_active) — its own future slice.",
+    "pc-navmenu__item--has-dropdown": "dropdown-parent modifier (brings the base pc-navmenu__item); emitted by nav_item (has_dropdown) — its own future slice.",
+    "pc-navmenu__link": "optional anchor class (flex+gap for icon+text); emitted by nav_item when has_dropdown — its own future slice.",
+    "pc-navmenu__dropdown": "the hover-dropdown <ul>; emitted by nav_dropdown — covered by nav-dropdown.json.",
+    "pc-navmenu__dropdown--level2": "nested-dropdown modifier; emitted by nav_dropdown (is_level2) — covered by nav-dropdown.json."
+  },
+  "scenarios": [
+    {
+      "name": "plain",
+      "props": { "items": "Items" },
+      "golden": "<nav class=\"pc-navmenu\"><ul>Items</ul></nav>",
+      "note": "The blessed plain shape: a <nav class=pc-navmenu> wrapping a <ul> of items (real children are nav_item sub-components). No id, no hook, no data attrs — both wrappers converge."
+    },
+    {
+      "name": "extra-class",
+      "props": { "items": "Items", "extraClass": "ms-auto" },
+      "golden": "<nav class=\"pc-navmenu ms-auto\"><ul>Items</ul></nav>",
+      "note": "Class passthrough — the extra class is appended after pc-navmenu; token order is normalized away."
+    }
+  ]
+}

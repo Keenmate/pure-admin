@@ -1,0 +1,113 @@
+{
+  "//": "Markup-fidelity fixture for the tooltip component. See ../README.md and button.json/card.json for the model. Tooltip is ATTRIBUTE-DRIVEN: a trigger element (both wrappers use <span>) carries class=\"pa-tooltip [modifiers]\" and data-tooltip=\"<text>\"; the bubble is a CSS ::before/::after pseudo-element (no static markup) OR a JS-portaled .pa-tooltip-floating <div> built on hover (OUT OF SCOPE — pre-JS-hook SSR only). Goldens capture ONLY the static trigger element.",
+  "component": "tooltip",
+  "block": "pa-tooltip",
+  "propsVocabulary": {
+    "text": "tooltip text — rendered into the data-tooltip attribute on the trigger",
+    "content": "trigger content (the hoverable element's children)",
+    "position": "end|bottom|start — logical placement; top is the default and emits NO class (core defines no pa-tooltip--top)",
+    "variant": "colour variant (primary|success|warning|danger|color-1..9) — colours the bubble + arrow",
+    "multiline": "boolean — allow the bubble text to wrap (fixed width) instead of single-line",
+    "help": "boolean — cursor: help (question-mark cursor) for informational hints",
+    "keyword": "boolean — dotted underline + help cursor for inline term explanations"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape PLUS the one convention BOTH wrappers legitimately add over the static snippet: the trigger always carries pa-tooltip--floating. Both wrappers treat the JS-portaled bubble (.pa-tooltip-floating built on hover) as their canonical tooltip, and pa-tooltip--floating on the trigger suppresses the CSS ::before/::after pseudo so the two can't stack into a double tooltip. It is hardcoded in both (not a prop), exactly like button's type=\"button\". The trigger element is <span> in both wrappers. data-tooltip carries the text (structural attr, no class). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json). `produces` is a class template with {value}; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native (data-tooltip text attr, trigger content).",
+    "position":  { "kind": "enum", "options": ["end", "bottom", "start"], "produces": "pa-tooltip--{value}", "note": "top is the default and emits no class — excluded from options" },
+    "variant":   { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
+    "multiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
+    "help":      { "kind": "bool", "produces": "pa-tooltip--help" },
+    "keyword":   { "kind": "bool", "produces": "pa-tooltip--keyword" },
+    "text":      { "kind": "string", "produces": null, "note": "structural — rendered into the data-tooltip attribute" },
+    "content":   { "kind": "slot", "produces": null, "note": "structural — trigger element's children" }
+  },
+  "cssStateClasses": {
+    "//": "pa-tooltip--* classes in main.css that are NOT feature-driven props — applied by JS at runtime, or a wrapper-convention flag. capability.mjs treats these as legitimately unclaimed so they don't read as 'core added a feature nobody mapped'.",
+    "pa-tooltip--floating": "wrapper/JS convention flag — suppresses the CSS pseudo tooltip when a JS-portaled .pa-tooltip-floating bubble is used; both wrappers hardcode it on the trigger (a goldenConvention, not a prop)",
+    "pa-tooltip--auto-flip-top": "collision-flip class toggled by tooltips-popovers.js at runtime",
+    "pa-tooltip--auto-flip-bottom": "collision-flip class toggled by tooltips-popovers.js at runtime",
+    "pa-tooltip--auto-flip-start": "collision-flip class toggled by tooltips-popovers.js at runtime",
+    "pa-tooltip--auto-flip-end": "collision-flip class toggled by tooltips-popovers.js at runtime"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "text": "This is a tooltip", "content": "Hover me" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating\" data-tooltip=\"This is a tooltip\">Hover me</span>",
+      "note": "top is the default position — no pa-tooltip--top class. pa-tooltip--floating is the shared wrapper convention (see goldenConventions)."
+    },
+    {
+      "name": "position-end",
+      "props": { "text": "Tooltip on the end", "content": "Hover me", "position": "end" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--end\" data-tooltip=\"Tooltip on the end\">Hover me</span>"
+    },
+    {
+      "name": "position-bottom",
+      "props": { "text": "Tooltip on the bottom", "content": "Hover me", "position": "bottom" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom\" data-tooltip=\"Tooltip on the bottom\">Hover me</span>"
+    },
+    {
+      "name": "position-start",
+      "props": { "text": "Tooltip on the start", "content": "Hover me", "position": "start" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--start\" data-tooltip=\"Tooltip on the start\">Hover me</span>"
+    },
+    {
+      "name": "variant-primary",
+      "props": { "text": "Primary tooltip", "content": "Primary", "variant": "primary" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--primary\" data-tooltip=\"Primary tooltip\">Primary</span>"
+    },
+    {
+      "name": "variant-success",
+      "props": { "text": "Success tooltip", "content": "Success", "variant": "success" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--success\" data-tooltip=\"Success tooltip\">Success</span>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "text": "Warning tooltip", "content": "Warning", "variant": "warning" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--warning\" data-tooltip=\"Warning tooltip\">Warning</span>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "text": "Danger tooltip", "content": "Danger", "variant": "danger" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--danger\" data-tooltip=\"Danger tooltip\">Danger</span>"
+    },
+    {
+      "name": "variant-color-3",
+      "props": { "text": "Color 3", "content": "Color 3", "variant": "color-3" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--color-3\" data-tooltip=\"Color 3\">Color 3</span>"
+    },
+    {
+      "name": "variant-color-9",
+      "props": { "text": "Color 9", "content": "Color 9", "variant": "color-9" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--color-9\" data-tooltip=\"Color 9\">Color 9</span>"
+    },
+    {
+      "name": "multiline",
+      "props": { "text": "This is a longer tooltip that wraps to multiple lines.", "content": "Hover for multiline", "multiline": true },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--multiline\" data-tooltip=\"This is a longer tooltip that wraps to multiple lines.\">Hover for multiline</span>"
+    },
+    {
+      "name": "help",
+      "props": { "text": "This provides helpful information", "content": "What is this?", "help": true },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--help\" data-tooltip=\"This provides helpful information\">What is this?</span>",
+      "note": "content avoids an apostrophe on purpose: Phoenix's HEEx engine HTML-escapes ' to &#39; in text content while Svelte SSR does not — a framework text-escaping divergence, not a markup contract difference. The normalizer compares text verbatim, so the neutral scenario steers clear of it."
+    },
+    {
+      "name": "keyword",
+      "props": { "text": "JSON Web Tokens: a signed claim used for stateless auth", "content": "JWT", "keyword": true },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--keyword\" data-tooltip=\"JSON Web Tokens: a signed claim used for stateless auth\">JWT</span>"
+    },
+    {
+      "name": "variant-position-combo",
+      "props": { "text": "Primary info", "content": "Primary Bottom", "variant": "primary", "position": "bottom" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom pa-tooltip--primary\" data-tooltip=\"Primary info\">Primary Bottom</span>",
+      "note": "class-token order is normalized away — the two modifiers may be emitted in either order by either wrapper."
+    },
+    {
+      "name": "multiline-bottom",
+      "props": { "text": "Multiline tooltips work with any position.", "content": "Multiline bottom", "multiline": true, "position": "bottom" },
+      "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom pa-tooltip--multiline\" data-tooltip=\"Multiline tooltips work with any position.\">Multiline bottom</span>"
+    }
+  ]
+}

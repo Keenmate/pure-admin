@@ -1,0 +1,113 @@
+{
+  "//": "Markup-fidelity fixture for the RADIO component — the native radio with Pure Admin chrome `.pa-radio` (keen `PureAdmin.Components.Form.radio/1`, svelte `forms/Radio.svelte`). SCOPE = the canonical radio tree from snippets/forms.html:256-274: a `<label class=\"pa-radio ...\">` wrapping a native `<input type=\"radio\">` and (when a label is set) a `<span class=\"pa-radio__label\">`. Modifiers in main.css: size (xs/sm/lg/xl), label-end/start/top. NOTE the deltas from checkbox: radio has NO __box element (only __label), NO --disabled class (disabled is the native attr only — snippets/forms.html:588-593), and NO --x. disabled/required are NATIVE attrs on the <input>. name + value are native attrs; `value` is REQUIRED by both wrappers (keen `attr value, required: true`; svelte `value` required prop) so every scenario supplies it. CHECKED is OUT OF SCOPE as a strict feature: the two wrappers derive it through incompatible mechanisms — keen takes a `checked` boolean attr, svelte has NO `checked` prop and instead derives it from `bind:group` (checked iff group === value), which has no neutral single-prop representation. ID is OUT OF SCOPE too: keen radio/1 has an `id` attr, svelte Radio has no id prop. Both are prose-deferred. The `pa-radio-group` container is a SEPARATE component. See checkbox.json for the sibling control model.",
+  "component": "radio",
+  "block": "pa-radio",
+  "propsVocabulary": {
+    "size": "xs|sm|lg|xl — scales the native radio input (default is the unmodified md radio). Shared scale with input/select; emits pa-radio--{size}.",
+    "labelPosition": "end|start|top — label placement relative to the input → pa-radio--label-{pos}. `end` is the visual default but still emits the (redundant, valid) class when set explicitly; unset = classless. Requires the __label span, which both wrappers always emit when a label is present.",
+    "label": "label text — rendered inside <span class=\"pa-radio__label\">. When absent, no label span.",
+    "name": "native name attribute on the <input> (the radio group name)",
+    "value": "native value attribute on the <input> — REQUIRED by both wrappers, always supplied",
+    "disabled": "native boolean attribute on the <input> (there is NO pa-radio--disabled class, unlike checkbox)",
+    "required": "native boolean attribute on the <input>",
+    "extraClass": "extra classes appended verbatim to the label (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Goldens encode the <label class=\"pa-radio …\"> wrapper + <input type=\"radio\"> + optional <span class=\"pa-radio__label\">. The input always carries type=\"radio\" + value=\"…\" (value is required). There is NO __box span (radio-specific). disabled/required appear only when set and are NATIVE attrs with NO corresponding --disabled class. Boolean attrs are canonicalized to bare presence. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. Block modifiers: size (4), label-end/start/top. Element: pa-radio__label (exercised by the goldens; there is NO pa-radio__box). `produces: null` = native <input> attr (name/value/disabled/required) or slot text (label).",
+    "size": {
+      "kind": "enum",
+      "options": ["xs", "sm", "lg", "xl"],
+      "produces": "pa-radio--{value}"
+    },
+    "labelPosition": {
+      "kind": "enum",
+      "options": ["end", "start", "top"],
+      "produces": "pa-radio--label-{value}"
+    },
+    "label": { "kind": "string", "produces": null, "note": "label text in <span class=pa-radio__label>" },
+    "name": { "kind": "string", "produces": null, "note": "native name attribute on the input" },
+    "value": { "kind": "string", "produces": null, "note": "native value attribute on the input (required)" },
+    "disabled": { "kind": "bool", "produces": null, "note": "native disabled attr — there is NO pa-radio--disabled class" },
+    "required": { "kind": "bool", "produces": null, "note": "native required attribute on the input" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the label, not a core feature" }
+  },
+  "deferred": {
+    "//": "pa-radio__box does NOT exist (radio has no drawn box — the native input is styled directly). The two out-of-scope props below are API-divergent and carry no pa-radio class, so they don't affect the axis-1 sweep; recorded for reviewer orientation.",
+    "note-checked": "checked state — keen takes a `checked` boolean attr; svelte has no `checked` prop and derives it from bind:group (checked iff group===value). No shared neutral single-prop representation, so it isn't a strict feature here. Verified per-wrapper (keen field tests; svelte group binding).",
+    "note-id": "id attribute — keen radio/1 exposes `id`; svelte Radio has no id prop. Out of scope to keep the blessed shape identical."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "name": "g", "value": "o1", "label": "Option 1" },
+      "golden": "<label class=\"pa-radio\"><input type=\"radio\" name=\"g\" value=\"o1\"><span class=\"pa-radio__label\">Option 1</span></label>",
+      "note": "The blessed canonical radio: label wrapper + input + __label span. name + value always supplied (value is required)."
+    },
+    {
+      "name": "no-label",
+      "props": { "name": "g", "value": "o1" },
+      "golden": "<label class=\"pa-radio\"><input type=\"radio\" name=\"g\" value=\"o1\"></label>",
+      "note": "No label → no pa-radio__label span."
+    },
+    {
+      "name": "disabled",
+      "props": { "name": "g", "value": "o3", "label": "Option 3 (disabled)", "disabled": true },
+      "golden": "<label class=\"pa-radio\"><input type=\"radio\" name=\"g\" value=\"o3\" disabled><span class=\"pa-radio__label\">Option 3 (disabled)</span></label>",
+      "note": "disabled is the NATIVE attr only — NO pa-radio--disabled class (unlike checkbox)."
+    },
+    {
+      "name": "size-xs",
+      "props": { "name": "g", "value": "o1", "label": "xs", "size": "xs" },
+      "golden": "<label class=\"pa-radio pa-radio--xs\"><input type=\"radio\" name=\"g\" value=\"o1\"><span class=\"pa-radio__label\">xs</span></label>"
+    },
+    {
+      "name": "size-sm",
+      "props": { "name": "g", "value": "o1", "label": "sm", "size": "sm" },
+      "golden": "<label class=\"pa-radio pa-radio--sm\"><input type=\"radio\" name=\"g\" value=\"o1\"><span class=\"pa-radio__label\">sm</span></label>"
+    },
+    {
+      "name": "size-lg",
+      "props": { "name": "g", "value": "o1", "label": "lg", "size": "lg" },
+      "golden": "<label class=\"pa-radio pa-radio--lg\"><input type=\"radio\" name=\"g\" value=\"o1\"><span class=\"pa-radio__label\">lg</span></label>"
+    },
+    {
+      "name": "size-xl",
+      "props": { "name": "g", "value": "o1", "label": "xl", "size": "xl" },
+      "golden": "<label class=\"pa-radio pa-radio--xl\"><input type=\"radio\" name=\"g\" value=\"o1\"><span class=\"pa-radio__label\">xl</span></label>"
+    },
+    {
+      "name": "label-end",
+      "props": { "name": "posDemo", "value": "e", "label": "End", "labelPosition": "end" },
+      "golden": "<label class=\"pa-radio pa-radio--label-end\"><input type=\"radio\" name=\"posDemo\" value=\"e\"><span class=\"pa-radio__label\">End</span></label>",
+      "note": "Explicit --label-end (redundant but valid — the default look)."
+    },
+    {
+      "name": "label-start",
+      "props": { "name": "posDemo", "value": "s", "label": "Start", "labelPosition": "start" },
+      "golden": "<label class=\"pa-radio pa-radio--label-start\"><input type=\"radio\" name=\"posDemo\" value=\"s\"><span class=\"pa-radio__label\">Start</span></label>"
+    },
+    {
+      "name": "label-top",
+      "props": { "name": "posDemo", "value": "t", "label": "Top", "labelPosition": "top" },
+      "golden": "<label class=\"pa-radio pa-radio--label-top\"><input type=\"radio\" name=\"posDemo\" value=\"t\"><span class=\"pa-radio__label\">Top</span></label>"
+    },
+    {
+      "name": "required",
+      "props": { "name": "g", "value": "o1", "label": "Required option", "required": true },
+      "golden": "<label class=\"pa-radio\"><input type=\"radio\" name=\"g\" value=\"o1\" required><span class=\"pa-radio__label\">Required option</span></label>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "name": "g", "value": "o1", "label": "Extra", "extraClass": "mb-2" },
+      "golden": "<label class=\"pa-radio mb-2\"><input type=\"radio\" name=\"g\" value=\"o1\"><span class=\"pa-radio__label\">Extra</span></label>",
+      "note": "Class passthrough — appended after pa-radio on the label."
+    },
+    {
+      "name": "combined",
+      "props": { "name": "plan", "value": "pro", "label": "Pro Plan", "size": "lg", "labelPosition": "start", "disabled": true },
+      "golden": "<label class=\"pa-radio pa-radio--lg pa-radio--label-start\"><input type=\"radio\" name=\"plan\" value=\"pro\" disabled><span class=\"pa-radio__label\">Pro Plan</span></label>",
+      "note": "Stacks size + label-start + native disabled attr to exercise class ordering + the no-disabled-class contract together."
+    }
+  ]
+}

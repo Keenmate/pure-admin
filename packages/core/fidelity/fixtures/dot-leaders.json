@@ -1,0 +1,43 @@
+{
+  "//": "Markup-fidelity fixture for the DOT-LEADERS CONTAINER — the `.pa-dot-leaders` block (keen `PureAdmin.Components.DataDisplay.dot_leaders/1`, svelte `display/DotLeaders.svelte`). Restaurant-menu / invoice shape: rows of `label ……… value` with a dotted leader line. SCOPE = CONTAINER ONLY, same as list.json. The harness renders one component whose slot receives plain TEXT (both dumpers HTML-escape it), so the per-ROW markup can't flow through the slot; the body area is a bare text token. The rows are a SEPARATE sub-component (svelte `DotLeadersItem`, keen `dot_leader/1`) passed as children — their element classes (__item / __label / __leader / __value) and the per-row element-modifier __item--total are the DEFERRED sub-slice (acknowledged prose, not container markup). This fixture proves ONLY what the container emits: its <div> tag, its pa-dot-leaders class, and class passthrough. The .pa-dot-leaders BLOCK has ZERO block-level `--` modifiers (grep '\\.pa-dot-leaders--' on main.css is empty) — only element classes + the __item--total element-modifier. So the container contract is minimal.",
+  "component": "dot-leaders",
+  "block": "pa-dot-leaders",
+  "propsVocabulary": {
+    "body": "the dot-leaders row area — filled with plain slot text in this container-only slice (the real pa-dot-leaders__item rows are the deferred sub-slice, rendered by DotLeadersItem / dot_leader which both dumpers can't flow through a text slot)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only — the dot-leaders container adds no attribute conventions. The body slot is a plain text token (Body) so the diff checks the container's tag + class + nesting, not rich row content. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css. The .pa-dot-leaders BLOCK has NO modifiers (no pa-dot-leaders--* exists). Its only classes are the four __element classes + the __item--total element-modifier, all DEFERRED below (owned by the row sub-component, not the container). So the container contract is just the base class + a body slot + a class passthrough. capability.mjs axis-1 reverse-check is scoped to block modifiers (pa-dot-leaders--*), of which there are none.",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; row structure is the deferred sub-slice" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ROW element classes + the per-row element-modifier of the pa-dot-leaders block — NOT container markup. Owned by the row sub-component (svelte DotLeadersItem, keen dot_leader/1), which both dumpers pass as plain escaped text through the container's slot and so cannot render here. There is no row-FRAGMENT fixture (neither wrapper registers one), so these are ACKNOWLEDGED PROSE deferrals (reported, not verified against another fixture). NOTE a known wrapper divergence lives in the deferred row sub-component: keen's dot_leader/1 wraps the __label/__value text in <strong> on is_total, whereas the core snippet (snippets/data-display.html) and svelte's DotLeadersItem rely purely on the __item--total CSS (font-weight:700) with NO <strong>. That divergence is OUT OF SCOPE here (container-only) and would be caught by a future row-fragment fixture.",
+    "pa-dot-leaders__item":        "row element — owned by the DotLeadersItem / dot_leader sub-component (slot child), not the container",
+    "pa-dot-leaders__item--total": "per-row element-modifier (total/summary row: top divider + heavier weight) — set via isTotal / is_total on the row sub-component",
+    "pa-dot-leaders__label":       "row label element — owned by the row sub-component",
+    "pa-dot-leaders__leader":      "row dotted-leader element — owned by the row sub-component",
+    "pa-dot-leaders__value":       "row value element — owned by the row sub-component"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-dot-leaders\">Body</div>",
+      "note": "The blessed container: a <div class=\"pa-dot-leaders\">. Rows are supplied as children (deferred sub-slice); here the slot is a plain text token."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-dot-leaders mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-dot-leaders; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-dot-leaders\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

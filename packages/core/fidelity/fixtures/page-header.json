@@ -1,0 +1,32 @@
+{
+  "//": "Markup-fidelity fixture for the PAGE-HEADER title block — `.pc-page-header` (keen `PureAdmin.Components.Layout.page_header/1`, svelte `layout/PageHeader.svelte`). A SHELL component migrated DOWN into @keenmate/pure-css, so the block class is `pc-page-header` (NOT `pa-page-header`); confirmed in dist/css/main.css (lone `.pc-page-header`, no modifiers, no element classes). SCOPE = INLINE CONTAINER. Canonical shape from snippets/layout.html (NAVBAR CENTER zone): `<div class=\"pc-page-header\"><h2>Dashboard</h2></div>` — a thin structural wrapper (core gives it truncation/flexing) whose title markup (usually an `<h2>`) is supplied as children. Both wrappers emit exactly `<div class=\"pc-page-header\">{children}</div>` — fully reconcilable (no config fallback, no hook, no id, no conditionals). To make the title degrade as the header narrows a consumer wraps THIS element in a fit_slot (svelte) / fit_slot wrapping page_header (keen) — out of scope here (that is the fit_slot slice). Canonical shape: packages/core/snippets/layout.html.",
+  "component": "page-header",
+  "block": "pc-page-header",
+  "propsVocabulary": {
+    "title": "page-title markup — usually an <h2>. svelte `children`, keen `inner_block`. In this slice a plain slot token (the diff checks the wrapper + nesting, not rich content).",
+    "extraClass": "extra classes appended verbatim to the root <div class=\"pc-page-header ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Structural only — `<div class=\"pc-page-header\">{title}</div>`. The title slot is a plain text token so the diff checks the container tag + class + nesting. The fit-slot degradation wrapping is a consumer composition (its own slice), not exercised. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-page-header'). The `.pc-page-header` BLOCK has ZERO modifiers and ZERO element classes — a lone base class. So the contract is minimal: the base class + a title slot + a class passthrough. `produces: null` everywhere.",
+    "title":      { "kind": "slot",   "produces": null, "note": "the page-title markup; svelte `children`, keen `inner_block`. Structural — produces no class." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-page-header div; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "The .pc-page-header block has ZERO element and modifier classes of its own — nothing to defer. The fit-slot that wraps a page_header for header-narrowing degradation is a SEPARATE component (fit_slot), not an element of this block."
+  },
+  "scenarios": [
+    {
+      "name": "title",
+      "props": { "title": "Dashboard" },
+      "golden": "<div class=\"pc-page-header\">Dashboard</div>",
+      "note": "The blessed shape: the thin wrapper around the page title (real markup would be an <h2> child)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "title": "Dashboard", "extraClass": "text-truncate" },
+      "golden": "<div class=\"pc-page-header text-truncate\">Dashboard</div>",
+      "note": "Class passthrough — the extra class is appended after pc-page-header; token order is normalized away."
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "//": "Markup-fidelity fixture for the KPI COMPARISON-GAUGES CONTAINER — the `.pa-kpi-gauge-list` block (keen `PureAdmin.Components.KpiGaugeList.kpi_gauge_list/1`, svelte `display/KpiGaugeList.svelte`). SCOPE = CONTAINER ONLY. This is a CARD-based container (`.pa-card.pa-kpi-gauge-list`) with a shared KPI header (`.pa-card__header.pa-kpi-header` + optional `.pa-kpi-live` LIVE pill), a zero-padding body (`.pa-card__body.pa-kpi-gauge-list__body`) holding the gauge GRID (`.pa-kpi-gauge-list__grid` + its column-cap/2col `__grid--*` modifiers + an inline `--pa-kpi-gauge-cell-min` density override), and an optional footer (`.pa-card__footer.pa-kpi-footer`). The grid's gauge TILES come from a SEPARATE sub-component (svelte KpiGauge.svelte, keen kpi_gauge/1) fed through the default slot, which BOTH dumpers pass as plain ESCAPED TEXT — so real tile markup can't materialize. This fixture proves ONLY what the container emits: the card shell, the header/live/footer slots, the body, the grid element + its column-cap modifiers + the cell-min inline style, and the class passthrough. The per-GAUGE element classes (pa-kpi-gauge / __head / __label / __value / __num / __unit / __bar / __fill / __scale and the --positive/--warning/--negative/--neutral sentiment modifiers) belong to the deferred gauge sub-component and are acknowledged as prose in `deferred` (no gauge fragment fixture/dumper clause exists to fixture-ref). See kpi-editorial.json / kpi-bento.json for the same container-only model (container element-modifiers claimed via features, child-component element classes deferred). The shared pa-kpi-header / pa-kpi-live / pa-kpi-footer classes are NOT pa-kpi-gauge-list__* (different block, shared KPI chrome) so axis-1's element reverse-check doesn't touch them; they still appear verbatim in the goldens.",
+  "component": "kpi-gauge-list",
+  "block": "pa-kpi-gauge-list",
+  "propsVocabulary": {
+    "titleText": "card header title — rendered as <div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">…</h3></div> inside .pa-card__header.pa-kpi-header. svelte `titleText`, keen `title_text`. When absent AND not live, the whole header is omitted.",
+    "live": "show the LIVE pill (animated dot + 'LIVE') next to the title (.pa-kpi-live > .pa-kpi-live__dot). svelte `isLive` bool (label is the hardcoded literal 'LIVE'); keen `is_live` bool with `live_text` defaulting to 'LIVE'. The header renders if titleText OR live is set.",
+    "footerText": "footer caption text — rendered as <div class=\"pa-card__footer pa-kpi-footer\"><span>…</span></div>. svelte `footerText`, keen `footer_text`. When absent (and no footer slot), the footer is omitted.",
+    "gridLayout": "grid column modifier on the grid element — one of 2col / max-2 / max-3 / max-4 / max-5 / max-6, emitting pa-kpi-gauge-list__grid--{value}. Default (nil) is the bare cell-min-driven auto-fit grid, no modifier. 2col forces exactly 2 columns; max-N caps the auto-fit column count at N. svelte `gridLayout` (dash-cased token), keen `grid_layout` (underscored token max_N, dasherized to the CSS class; 2col passes through unchanged).",
+    "cellMinWidth": "CSS length written as the inline style `--pa-kpi-gauge-cell-min: {value};` on the grid element (density override; upstream default 20rem). svelte `cellMinWidth`, keen `cell_min_width`. Inline style, not a class.",
+    "body": "the grid's tile area — plain slot text in this container-only slice (real pa-kpi-gauge children are the deferred sub-component). svelte `children`, keen `inner_block` (required:true).",
+    "extraClass": "extra classes appended verbatim to the card (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural container only. The body slot is a plain text token (Body) so the diff checks the card shell + header/footer slots + the grid element (class/modifier/inline-style) + nesting, not rich gauge content. The header is emitted ONLY when titleText or live is set; the footer ONLY when footerText (or a footer slot) is set — scenarios exercise both the present and absent forms. The cell-min inline style lands on the GRID element as style=\"--pa-kpi-gauge-cell-min: {value};\"; both wrappers serialize it identically (keen `#{width};` / svelte `${width};`). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-kpi-gauge-list'). The .pa-kpi-gauge-list BLOCK has ZERO block-level modifiers (no pa-kpi-gauge-list--* exists — the column caps/2col are ELEMENT modifiers on __grid, and the sentiment tints are modifiers on the deferred gauge tile). So axis-1's block-modifier reverse check is vacuous for this block. CONTAINER element classes: __body (always on the card body) and __grid (+ its 2col / max-2..max-6 __grid--* caps) are produced/exercised here; __body & __grid appear in every golden, the caps are produced by the gridLayout enum template. GAUGE element classes (pa-kpi-gauge/__head/__label/__value/__num/__unit/__bar/__fill/__scale[/--*]) are the deferred sub-component (prose in `deferred`) — note the gauge tile is the hyphen-joined block `pa-kpi-gauge`, NOT a `pa-kpi-gauge-list__gauge` element, so axis-1's pa-kpi-gauge-list__* reverse-check does not even see it. `produces: null` = structural/native/inline-style (no class).",
+    "titleText":    { "kind": "string", "produces": null, "note": "card header title text; absence (with live off) omits the whole header — structural, no class" },
+    "live":         { "kind": "bool",   "produces": null, "note": "LIVE pill (.pa-kpi-live, shared KPI chrome — not a pa-kpi-gauge-list__* class); structural" },
+    "footerText":   { "kind": "string", "produces": null, "note": "footer caption; absence omits the footer — structural, no class" },
+    "gridLayout":   { "kind": "enum", "options": ["2col", "max-2", "max-3", "max-4", "max-5", "max-6"], "produces": "pa-kpi-gauge-list__grid--{value}", "note": "column modifier on __grid; default (nil) is the bare auto-fit grid. 2col = exactly 2 cols; max-N = cap auto-fit at N" },
+    "cellMinWidth": { "kind": "string", "produces": null, "note": "inline style --pa-kpi-gauge-cell-min on the grid element; density override, not a class" },
+    "body":         { "kind": "slot",   "produces": null, "note": "structural — the grid's inner content; real gauges are the deferred sub-component" },
+    "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-GAUGE element + state classes of the comparison-gauges design — NOT container markup. They are emitted by the SEPARATE gauge sub-component (svelte KpiGauge.svelte, keen kpi_gauge/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize here and there is NO kpi-gauge fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. The gauge tile is its own hyphen-joined block (pa-kpi-gauge), not a pa-kpi-gauge-list__* element, so capability axis-1's element reverse-check does not catch it. The --positive/--warning/--negative/--neutral modifiers set the fill colour via --pa-kpi-bar-color. The bar fill width and the target-tick position (--pa-kpi-gauge-tick-pos) are inline per-tile styles.",
+    "pa-kpi-gauge":             "gauge tile sub-component (svelte KpiGauge / keen kpi_gauge) — one goal-vs-target gauge; slot-fed, no fragment fixture/dumper wiring",
+    "pa-kpi-gauge--positive":   "gauge fill tint (positive) — sets --pa-kpi-bar-color; gauge sub-component modifier",
+    "pa-kpi-gauge--warning":    "gauge fill tint (warning) — gauge sub-component modifier",
+    "pa-kpi-gauge--negative":   "gauge fill tint (negative) — gauge sub-component modifier",
+    "pa-kpi-gauge--neutral":    "gauge fill tint (neutral) — gauge sub-component modifier",
+    "pa-kpi-gauge__head":       "gauge sub-component — label + value row (space-between, baseline-aligned)",
+    "pa-kpi-gauge__label":      "gauge sub-component — the uppercase mono metric name",
+    "pa-kpi-gauge__value":      "gauge sub-component — the value wrapper (__num + __unit)",
+    "pa-kpi-gauge__num":        "gauge sub-component — the focal number inside __value",
+    "pa-kpi-gauge__unit":       "gauge sub-component — the unit/currency affix inside __value",
+    "pa-kpi-gauge__bar":        "gauge sub-component — the track; reads --pa-kpi-gauge-tick-pos (inline, default 100%) + --pa-kpi-gauge-tick-color for the target tick",
+    "pa-kpi-gauge__fill":       "gauge sub-component — the coloured fill; width set INLINE (value ÷ target %)",
+    "pa-kpi-gauge__scale":      "gauge sub-component — the '0 … tgt {value}' end-label row"
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\">Body</div></div></div>",
+      "note": "The blessed default container: a .pa-card.pa-kpi-gauge-list with a zero-padding body wrapping the bare auto-fit grid. No title/live → no header; no footerText → no footer. Gauges are the deferred sub-component."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\"></div></div></div>",
+      "note": "Empty body still emits the full card shell + body + grid — proves the wrapper never omits or collapses the shell."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list mb-4\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\">Body</div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-card pa-kpi-gauge-list on the card; token order is normalized away."
+    },
+    {
+      "name": "title",
+      "props": { "body": "Body", "titleText": "Key Performance Indicators" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div></div><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\">Body</div></div></div>",
+      "note": "titleText renders the shared KPI header with the canonical pa-card__title > h3.pa-card__title-text shape (snippets/kpi.html L405-408)."
+    },
+    {
+      "name": "live",
+      "props": { "body": "Body", "live": true },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__header pa-kpi-header\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\">Body</div></div></div>",
+      "note": "live alone still emits the header (header renders on titleText OR live); the LIVE pill is shared KPI chrome (.pa-kpi-live), not a pa-kpi-gauge-list__* class. keen live_text defaults to 'LIVE' matching svelte's literal."
+    },
+    {
+      "name": "title-live",
+      "props": { "body": "Body", "titleText": "Live Metrics", "live": true },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Live Metrics</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\">Body</div></div></div>",
+      "note": "Title + LIVE pill together — title first, then the pill, inside one header."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "Body", "footerText": "Updated 2m ago" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2m ago</span></div></div>",
+      "note": "footerText renders the footer as a plain <span> inside .pa-card__footer.pa-kpi-footer (shared KPI chrome)."
+    },
+    {
+      "name": "grid-2col",
+      "props": { "body": "Body", "gridLayout": "2col" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--2col\">Body</div></div></div>",
+      "note": "2col forces exactly two columns regardless of cell-min / container width."
+    },
+    {
+      "name": "grid-max-2",
+      "props": { "body": "Body", "gridLayout": "max-2" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-2\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-3",
+      "props": { "body": "Body", "gridLayout": "max-3" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-3\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-4",
+      "props": { "body": "Body", "gridLayout": "max-4" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-4\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-5",
+      "props": { "body": "Body", "gridLayout": "max-5" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-5\">Body</div></div></div>"
+    },
+    {
+      "name": "grid-max-6",
+      "props": { "body": "Body", "gridLayout": "max-6" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-6\">Body</div></div></div>"
+    },
+    {
+      "name": "cell-min",
+      "props": { "body": "Body", "cellMinWidth": "16rem" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid\" style=\"--pa-kpi-gauge-cell-min: 16rem;\">Body</div></div></div>",
+      "note": "cellMinWidth lands as the inline style on the grid element; both wrappers serialize '{value};' identically."
+    },
+    {
+      "name": "full",
+      "props": { "body": "Body", "titleText": "Key Performance Indicators", "live": true, "footerText": "Live data", "gridLayout": "max-3", "cellMinWidth": "18rem" },
+      "golden": "<div class=\"pa-card pa-kpi-gauge-list\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div><div class=\"pa-card__body pa-kpi-gauge-list__body\"><div class=\"pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-3\" style=\"--pa-kpi-gauge-cell-min: 18rem;\">Body</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Live data</span></div></div>",
+      "note": "Everything at once — header (title + LIVE), capped+density grid, footer. Exercises the full container skeleton in one tree."
+    }
+  ]
+}

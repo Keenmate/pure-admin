@@ -1,0 +1,102 @@
+{
+  "//": "Markup-fidelity fixture for the PROGRESS-RING component — the circular conic-gradient ring pa-progress-ring (keen `DataViz.progress_ring/1`, svelte `display/ProgressRing.svelte`). SCOPE: the ring block + its inner value/label. The fill is DATA-DRIVEN via an inline style `--value: N` (UNITLESS — the SCSS multiplies by 3.6deg for the conic sweep; there is NO % suffix, unlike pa-progress's fill which is `--value: N%`). Authored from dist/css/main.css + demo/views/data-visualization.mustache + _data-viz.scss.",
+  "component": "progress-ring",
+  "block": "pa-progress-ring",
+  "propsVocabulary": {
+    "value": "0-100 — sets the inline style `--value: N` (UNITLESS) on the ring AND is shown as `N%` inside pa-progress-ring__value",
+    "valueText": "the text shown in pa-progress-ring__value. For a shared golden both wrappers render `N%`: keen auto-derives it from `value` (`<%= @value %>%`), svelte takes it via `valueText`. Scenarios set valueText to the matching `N%` string so the two wrappers agree; keen ignores this prop (not in its map) and auto-derives.",
+    "label": "optional caption shown below the value in pa-progress-ring__label",
+    "variant": "colour variant success|warning|danger|info — emits pa-progress-ring--{variant} (changes the conic fill colour). primary is the BASE (var(--pc-accent)) and emits NO modifier — there is NO pa-progress-ring--primary in core.",
+    "size": "sm|lg ring diameter — emits pa-progress-ring--{size}",
+    "extraClass": "extra classes appended verbatim — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural shape from demo/views/data-visualization.mustache: <div class=\"pa-progress-ring [--variant] [--size]\" style=\"--value: N\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">N%</span><span class=\"pa-progress-ring__label\">LBL</span></div></div>. The `--value` inline style is UNITLESS and treated as a scenario-provided value so both wrappers receive the same input. primary is the DEFAULT variant and emits NO pa-progress-ring--primary class (guard). The __label span is omitted when no label is given. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-progress-ring(--|__)'): modifiers sm, lg, success, warning, danger, info — NO --primary (base is the accent). value/valueText/label/extraClass produce null (data-driven inline style / text content / passthrough).",
+    "variant": {
+      "kind": "enum",
+      "options": ["success", "warning", "danger", "info"],
+      "produces": "pa-progress-ring--{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["sm", "lg"],
+      "produces": "pa-progress-ring--{value}"
+    },
+    "value": {
+      "kind": "string",
+      "produces": null,
+      "nativeType": "number",
+      "note": "data-driven — inline style `--value: N` (unitless) + shown as N% in __value; no class"
+    },
+    "valueText": {
+      "kind": "string",
+      "produces": null,
+      "note": "the __value text; keen auto-derives from value (not in keen map), svelte takes it via valueText. Scenarios set it to the matching N% so the goldens agree."
+    },
+    "label": {
+      "kind": "string",
+      "produces": null,
+      "note": "the __label caption; omitted when absent"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "value": 72, "valueText": "72%", "label": "CPU" },
+      "golden": "<div class=\"pa-progress-ring\" style=\"--value: 72\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">72%</span><span class=\"pa-progress-ring__label\">CPU</span></div></div>"
+    },
+    {
+      "name": "no-label",
+      "props": { "value": 65, "valueText": "65%" },
+      "golden": "<div class=\"pa-progress-ring\" style=\"--value: 65\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">65%</span></div></div>",
+      "note": "No label → the __label span is omitted."
+    },
+    {
+      "name": "variant-success",
+      "props": { "value": 94, "valueText": "94%", "label": "Uptime", "variant": "success" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--success\" style=\"--value: 94\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">94%</span><span class=\"pa-progress-ring__label\">Uptime</span></div></div>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "value": 58, "valueText": "58%", "label": "Memory", "variant": "warning" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--warning\" style=\"--value: 58\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">58%</span><span class=\"pa-progress-ring__label\">Memory</span></div></div>"
+    },
+    {
+      "name": "variant-danger",
+      "props": { "value": 87, "valueText": "87%", "label": "Disk", "variant": "danger" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--danger\" style=\"--value: 87\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">87%</span><span class=\"pa-progress-ring__label\">Disk</span></div></div>"
+    },
+    {
+      "name": "variant-info",
+      "props": { "value": 43, "valueText": "43%", "label": "Network", "variant": "info" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--info\" style=\"--value: 43\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">43%</span><span class=\"pa-progress-ring__label\">Network</span></div></div>"
+    },
+    {
+      "name": "primary-default-no-class",
+      "props": { "value": 65, "valueText": "65%", "label": "Default", "variant": "primary" },
+      "golden": "<div class=\"pa-progress-ring\" style=\"--value: 65\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">65%</span><span class=\"pa-progress-ring__label\">Default</span></div></div>",
+      "note": "Guard: primary is the base fill; there is NO pa-progress-ring--primary in main.css. Must NOT emit a phantom modifier. (svelte emitted one before this slice — fixed in ProgressRing.svelte.)"
+    },
+    {
+      "name": "size-sm",
+      "props": { "value": 72, "valueText": "72%", "size": "sm" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--sm\" style=\"--value: 72\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">72%</span></div></div>"
+    },
+    {
+      "name": "size-lg-success",
+      "props": { "value": 65, "valueText": "65%", "label": "Large", "size": "lg", "variant": "success" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--success pa-progress-ring--lg\" style=\"--value: 65\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">65%</span><span class=\"pa-progress-ring__label\">Large</span></div></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "value": 50, "valueText": "50%", "label": "Load", "variant": "info", "size": "lg", "extraClass": "ms-sm" },
+      "golden": "<div class=\"pa-progress-ring pa-progress-ring--info pa-progress-ring--lg ms-sm\" style=\"--value: 50\"><div class=\"pa-progress-ring__inner\"><span class=\"pa-progress-ring__value\">50%</span><span class=\"pa-progress-ring__label\">Load</span></div></div>"
+    }
+  ]
+}

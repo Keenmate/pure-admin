@@ -1,0 +1,99 @@
+{
+  "//": "Markup-fidelity fixture for the FORM-HELP component — help/validation caption `.pa-form-help` (keen `PureAdmin.Components.Form.form_help/1`, svelte `forms/FormHelp.svelte`). SCOPE = the single `<small class=\"pa-form-help ...\">text</small>` both wrappers emit below a control. TAG = <small> (snippets/forms.html:119,126,133 all use <small class=\"pa-form-help\">; svelte had emitted <span> and was fixed to <small>). Modifiers in main.css: success/warning/error (variant) + color-1..9 — all claimed. There is deliberately NO `pa-form-help--info` (both wrappers agree). variant + themeColor are the only axes; both are orthogonal and can compose. body is the caption text; class passthrough appends verbatim.",
+  "component": "form-help",
+  "block": "pa-form-help",
+  "propsVocabulary": {
+    "variant": "validation variant → one pa-form-help--* modifier (success | warning | error). NO info. svelte `variant`, keen `variant`.",
+    "themeColor": "1..9 theme colour slot → pa-form-help--color-N. svelte `themeColor`, keen `color`.",
+    "body": "the caption text content",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
+  },
+  "goldenConventions": "Structural only. The element is always a <small class=\"pa-form-help ...\">. A variant modifier is present when a variant is set, pa-form-help--color-N when themeColor is set. The body is a plain text token. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-form-help--* set is exactly success/warning/error + color-1..9 (NO info). No pa-form-help__* element classes exist.",
+    "variant":    { "kind": "enum",   "options": ["success", "warning", "error"], "produces": "pa-form-help--{value}" },
+    "themeColor": { "kind": "enum",   "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": "pa-form-help--color-{value}" },
+    "body":       { "kind": "slot",   "produces": null, "note": "caption text content" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Help text" },
+      "golden": "<small class=\"pa-form-help\">Help text</small>",
+      "note": "The blessed default: a bare <small class=\"pa-form-help\"> caption."
+    },
+    {
+      "name": "variant-success",
+      "props": { "body": "Looks good!", "variant": "success" },
+      "golden": "<small class=\"pa-form-help pa-form-help--success\">Looks good!</small>"
+    },
+    {
+      "name": "variant-warning",
+      "props": { "body": "Please verify this field.", "variant": "warning" },
+      "golden": "<small class=\"pa-form-help pa-form-help--warning\">Please verify this field.</small>"
+    },
+    {
+      "name": "variant-error",
+      "props": { "body": "Please provide a valid value.", "variant": "error" },
+      "golden": "<small class=\"pa-form-help pa-form-help--error\">Please provide a valid value.</small>"
+    },
+    {
+      "name": "theme-color-1",
+      "props": { "body": "Colour 1", "themeColor": "1" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-1\">Colour 1</small>"
+    },
+    {
+      "name": "theme-color-2",
+      "props": { "body": "Colour 2", "themeColor": "2" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-2\">Colour 2</small>"
+    },
+    {
+      "name": "theme-color-3",
+      "props": { "body": "Colour-3 help text", "themeColor": "3" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-3\">Colour-3 help text</small>"
+    },
+    {
+      "name": "theme-color-4",
+      "props": { "body": "Colour 4", "themeColor": "4" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-4\">Colour 4</small>"
+    },
+    {
+      "name": "theme-color-5",
+      "props": { "body": "Colour 5", "themeColor": "5" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-5\">Colour 5</small>"
+    },
+    {
+      "name": "theme-color-6",
+      "props": { "body": "Colour 6", "themeColor": "6" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-6\">Colour 6</small>"
+    },
+    {
+      "name": "theme-color-7",
+      "props": { "body": "Colour 7", "themeColor": "7" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-7\">Colour 7</small>"
+    },
+    {
+      "name": "theme-color-8",
+      "props": { "body": "Colour 8", "themeColor": "8" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-8\">Colour 8</small>"
+    },
+    {
+      "name": "theme-color-9",
+      "props": { "body": "Colour 9", "themeColor": "9" },
+      "golden": "<small class=\"pa-form-help pa-form-help--color-9\">Colour 9</small>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Help", "extraClass": "mt-1" },
+      "golden": "<small class=\"pa-form-help mt-1\">Help</small>",
+      "note": "Class passthrough — the extra class is appended after pa-form-help."
+    },
+    {
+      "name": "combined",
+      "props": { "body": "Featured", "variant": "error", "themeColor": "3" },
+      "golden": "<small class=\"pa-form-help pa-form-help--error pa-form-help--color-3\">Featured</small>",
+      "note": "Stacks variant + themeColor to exercise the full class ordering together."
+    }
+  ]
+}

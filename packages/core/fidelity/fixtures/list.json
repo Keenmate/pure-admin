@@ -1,0 +1,45 @@
+{
+  "//": "Markup-fidelity fixture for the LIST CONTAINER — the complex/structured `.pa-list` block (keen `PureAdmin.Components.List.list/1`, svelte `display/List.svelte`). SCOPE = CONTAINER ONLY. The harness renders one component whose slot receives plain TEXT (the dumper HTML-escapes it), so item markup can't flow through the slot; the body area is a bare text token. Per-item structure (pa-list__item / __avatar / __content / __title / __subtitle / __meta) is covered by the list-item FRAGMENT fixture — see the `deferred` block (verified: capability confirms list-item actually renders each). This fixture proves ONLY what the container itself emits: its tag, its pa-list class, and its class passthrough. Note the SIBLING blocks pa-list-basic / pa-list-ordered / pa-list-definition (keen basic_list/ordered_list/definition_list; svelte has none) are DIFFERENT components and OUT OF SCOPE.",
+  "component": "list",
+  "block": "pa-list",
+  "propsVocabulary": {
+    "body": "the list's item area — filled with plain slot text in this container-only slice (real pa-list__item children are the deferred sub-slice)",
+    "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature",
+    "as": "API DIVERGENCE, absorbed not modeled: keen's list/1 offers as=div|ul (dynamic_tag) for the semantic <ul> form core's snippet also blesses; svelte's List.svelte is FIXED to <div> (single-shape wrapper). Both DEFAULT to <div>, which is the blessed canonical container (snippets/lists.html lines 166-191 lead with <div class=\"pa-list\">). The shared scenario set therefore exercises only the default <div>; the keen-only as=\"ul\" form is verified in keen's own list_test.exs, not here, so this fixture stays renderable by both wrappers. See README 'API-name divergence' boundary."
+  },
+  "goldenConventions": "Structural only — the list container adds no attribute conventions (unlike button's type). The body slot is a plain text token (Body) so the diff checks the container's tag + class + nesting, not rich item content. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The .pa-list BLOCK has ZERO modifiers (no pa-list--* exists at all — grep '\\.pa-list--' on main.css is empty) and its only classes are the six DEFERRED __element classes below. So the container contract is minimal: the base class + a body slot + a class passthrough. capability.mjs axis-1 reverse-check is scoped to block modifiers (pa-list--*), of which there are none; the per-item __element classes are deferred to the list-item fixture (verified).",
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the container's inner content; item structure is the deferred sub-slice" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
+  },
+  "deferred": {
+    "//": "Per-ITEM element classes of the pa-list block — not container markup. Covered by the list-item FRAGMENT fixture; { fixture: list-item } makes capability VERIFY each one is actually produced/rendered there (not just silenced).",
+    "pa-list__item":     { "fixture": "list-item" },
+    "pa-list__avatar":   { "fixture": "list-item" },
+    "pa-list__content":  { "fixture": "list-item" },
+    "pa-list__title":    { "fixture": "list-item" },
+    "pa-list__subtitle": { "fixture": "list-item" },
+    "pa-list__meta":     { "fixture": "list-item" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-list\">Body</div>",
+      "note": "The blessed default container: a <div class=\"pa-list\">. Both wrappers default to <div>."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Body", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-list mb-4\">Body</div>",
+      "note": "Class passthrough — the extra class is appended after pa-list; token order is normalized away."
+    },
+    {
+      "name": "empty",
+      "props": { "body": "" },
+      "golden": "<div class=\"pa-list\"></div>",
+      "note": "Empty body still emits the bare container — proves the wrapper never omits or wraps the shell."
+    }
+  ]
+}

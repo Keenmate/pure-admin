@@ -1,0 +1,138 @@
+{
+  "//": "Markup-fidelity fixture for the button-group container. NEUTRAL scenarios + the GOLDEN markup core blesses for each. CONTAINER-ONLY: the group is a <div class=\"pa-btn-group [modifiers]\"> whose items (buttons) arrive via the text slot — the button block itself is covered by button.json, so item classes are deferred. Models the group's own modifiers (orientation / vertical-alignment / responsive-direction / nowrap). See ../README.md and button.json for the model.",
+  "component": "button-group",
+  "block": "pa-btn-group",
+  "propsVocabulary": {
+    "vertical": "boolean — stack buttons vertically (pa-btn-group--vertical)",
+    "align": "center|end|stretch — cross-axis alignment of a vertical group",
+    "nowrap": "boolean — prevent wrapping onto a second line",
+    "responsive": "{bp}-vertical|{bp}-horizontal — switch orientation at a breakpoint (sm/md/lg/xl)",
+    "content": "inner buttons — rendered verbatim into the container (a text slot here)",
+    "extraClass": "extra classes appended"
+  },
+  "goldenConventions": "Goldens encode the core snippet shape (snippets/buttons.html — a bare <div class=\"pa-btn-group …\"> wrapping buttons). Container-only: the inner buttons are a text slot and the button block is covered by button.json, so pa-btn* item classes are intentionally deferred there. Attribute order and class-token order are normalized away by the comparator; goldens are written for readability.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (NOT components.json). `produces` is a class template with {value}; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native.",
+    "vertical": {
+      "kind": "bool",
+      "produces": "pa-btn-group--vertical"
+    },
+    "align": {
+      "kind": "enum",
+      "options": ["center", "end", "stretch"],
+      "produces": "pa-btn-group--{value}",
+      "note": "cross-axis alignment, meaningful on a vertical group"
+    },
+    "nowrap": {
+      "kind": "bool",
+      "produces": "pa-btn-group--nowrap"
+    },
+    "responsive": {
+      "kind": "enum",
+      "options": [
+        "sm-vertical",
+        "sm-horizontal",
+        "md-vertical",
+        "md-horizontal",
+        "lg-vertical",
+        "lg-horizontal",
+        "xl-vertical",
+        "xl-horizontal"
+      ],
+      "produces": "pa-btn-group--{value}"
+    },
+    "content": {
+      "kind": "slot",
+      "produces": null,
+      "note": "structural — inner buttons; the button block is covered by button.json"
+    },
+    "extraClass": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group\">Buttons</div>"
+    },
+    {
+      "name": "vertical",
+      "props": { "vertical": true, "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--vertical\">Buttons</div>"
+    },
+    {
+      "name": "vertical-center",
+      "props": { "vertical": true, "align": "center", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--vertical pa-btn-group--center\">Buttons</div>"
+    },
+    {
+      "name": "vertical-end",
+      "props": { "vertical": true, "align": "end", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--vertical pa-btn-group--end\">Buttons</div>"
+    },
+    {
+      "name": "vertical-stretch",
+      "props": { "vertical": true, "align": "stretch", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--vertical pa-btn-group--stretch\">Buttons</div>"
+    },
+    {
+      "name": "nowrap",
+      "props": { "nowrap": true, "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--nowrap\">Buttons</div>"
+    },
+    {
+      "name": "responsive-md-vertical",
+      "props": { "responsive": "md-vertical", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--md-vertical\">Buttons</div>"
+    },
+    {
+      "name": "responsive-sm-vertical",
+      "props": { "responsive": "sm-vertical", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--sm-vertical\">Buttons</div>"
+    },
+    {
+      "name": "responsive-sm-horizontal",
+      "props": { "responsive": "sm-horizontal", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--sm-horizontal\">Buttons</div>"
+    },
+    {
+      "name": "responsive-md-horizontal",
+      "props": { "responsive": "md-horizontal", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--md-horizontal\">Buttons</div>"
+    },
+    {
+      "name": "responsive-lg-vertical",
+      "props": { "responsive": "lg-vertical", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--lg-vertical\">Buttons</div>"
+    },
+    {
+      "name": "responsive-lg-horizontal",
+      "props": { "responsive": "lg-horizontal", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--lg-horizontal\">Buttons</div>"
+    },
+    {
+      "name": "responsive-xl-vertical",
+      "props": { "responsive": "xl-vertical", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--xl-vertical\">Buttons</div>"
+    },
+    {
+      "name": "responsive-xl-horizontal",
+      "props": { "responsive": "xl-horizontal", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--xl-horizontal\">Buttons</div>"
+    },
+    {
+      "name": "vertical-responsive-lg-horizontal",
+      "props": { "vertical": true, "responsive": "lg-horizontal", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--vertical pa-btn-group--lg-horizontal\">Buttons</div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "extraClass": "gap-2", "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group gap-2\">Buttons</div>",
+      "note": "gap-2 is the utility replacement for the removed --compact gap modifier (rc04)."
+    }
+  ]
+}

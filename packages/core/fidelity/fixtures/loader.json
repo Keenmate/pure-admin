@@ -1,0 +1,136 @@
+{
+  "//": "Markup-fidelity fixture for the LOADER component (animated loaders). See ../README.md and button.json for the model. SCOPE: this covers the advanced-loader family only — the `loader/1` (keen) / <Loader> (svelte) wrappers, i.e. `pa-loader-{type}` where type ∈ dots|bars|pulse|ring|wave. The rotating `pa-spinner` is a SEPARATE component (keen `spinner/1`, svelte <Spinner>) and is NOT in scope here. Authored from dist/css/main.css + snippets/loaders.html + _loaders.scss.",
+  "component": "loader",
+  "blocks": ["pa-loader-dots", "pa-loader-bars", "pa-loader-pulse", "pa-loader-ring", "pa-loader-wave"],
+  "propsVocabulary": {
+    "type": "loader animation type: dots|bars|pulse|ring|wave — selects the block class pa-loader-{type} AND the child-span shape (dots=3 spans, bars/wave=5 spans, pulse/ring=no children)",
+    "size": "lg — the only size modifier; emits the type-coupled class pa-loader-{type}--lg",
+    "color": "primary|secondary|success|danger|warning|info — loaders paint from currentColor, so colour is set on the wrapper (see colorConvention), NOT via a pa-loader-{type}--{color} modifier (none exist in core)",
+    "class": "extra classes appended verbatim (passthrough, not a core feature)"
+  },
+  "goldenConventions": "Structural: the block class is pa-loader-{type}; dots emits exactly 3 empty <span> children, bars/wave emit exactly 5, pulse/ring emit none (CSS-only — pulse via background, ring via ::after). Attribute + class-token order and whitespace are normalized away.",
+  "colorConvention": "Core blesses NO pa-loader-{type}--{color} class — loaders theme via `currentColor`, set on the wrapper. The core snippet (snippets/loaders.html) documents this as an inline `style=\"color: var(--…)\"`. Both wrappers therefore set colour off-class: keen via inline `style=\"color: var(--pc-accent | --pc-text-color-2 | --pa-{color}-bg)\"`, svelte likewise (aligned in this slice — previously svelte emitted a `text-{color}` utility class, a divergent shape). The colour→variable map: primary→--pc-accent, secondary→--pc-text-color-2, success/danger/warning/info→--pa-{color}-bg (there is no --pa-primary-bg/--pa-secondary-bg, hence the two special cases). Colour scenarios below assert the inline-style form.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. NOTE on blocks: there is no `pa-loader` base class nor `pa-loader--*` modifier — each type is its own block `pa-loader-{type}`, so this fixture uses the multi-block form `blocks: [pa-loader-dots … pa-loader-wave]`. Axis-1's reverse check then verifies each family block's only modifier, the type-coupled `pa-loader-{type}--lg` (claimed via cssStateClasses below). `size` is type-coupled (pa-loader-{type}--{size}) which the single-template expander can't express, so its produces is null and it is verified through scenarios + goldens. `color` produces null (off-class, currentColor — see colorConvention).",
+    "type": {
+      "kind": "enum",
+      "options": ["dots", "bars", "pulse", "ring", "wave"],
+      "produces": "pa-loader-{value}"
+    },
+    "size": {
+      "kind": "enum",
+      "options": ["lg"],
+      "produces": null,
+      "note": "type-coupled — emits pa-loader-{type}--lg (e.g. pa-loader-dots--lg). Verified via scenarios/goldens since the produces template can't carry both {type} and {size}."
+    },
+    "color": {
+      "kind": "enum",
+      "options": ["primary", "secondary", "success", "danger", "warning", "info"],
+      "produces": null,
+      "note": "off-class — set on the wrapper as inline currentColor (see colorConvention), never a pa-loader modifier."
+    },
+    "class": {
+      "kind": "string",
+      "produces": null,
+      "note": "class passthrough — appended verbatim, not a core feature"
+    }
+  },
+  "cssStateClasses": {
+    "//": "The per-type --lg modifiers (pa-loader-dots--lg … pa-loader-wave--lg) are the `size` feature's type-coupled output (see its note). With the multi-block `blocks` list, axis-1's reverse check DOES see them (one --lg per family block); listing them here claims them so the reverse check passes.",
+    "pa-loader-dots--lg": "size=lg on type=dots",
+    "pa-loader-bars--lg": "size=lg on type=bars",
+    "pa-loader-pulse--lg": "size=lg on type=pulse",
+    "pa-loader-ring--lg": "size=lg on type=ring",
+    "pa-loader-wave--lg": "size=lg on type=wave"
+  },
+  "scenarios": [
+    {
+      "name": "dots",
+      "props": { "type": "dots" },
+      "golden": "<div class=\"pa-loader-dots\"><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "dots-lg",
+      "props": { "type": "dots", "size": "lg" },
+      "golden": "<div class=\"pa-loader-dots pa-loader-dots--lg\"><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "bars",
+      "props": { "type": "bars" },
+      "golden": "<div class=\"pa-loader-bars\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "bars-lg",
+      "props": { "type": "bars", "size": "lg" },
+      "golden": "<div class=\"pa-loader-bars pa-loader-bars--lg\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "wave",
+      "props": { "type": "wave" },
+      "golden": "<div class=\"pa-loader-wave\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "wave-lg",
+      "props": { "type": "wave", "size": "lg" },
+      "golden": "<div class=\"pa-loader-wave pa-loader-wave--lg\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "pulse",
+      "props": { "type": "pulse" },
+      "golden": "<div class=\"pa-loader-pulse\"></div>"
+    },
+    {
+      "name": "pulse-lg",
+      "props": { "type": "pulse", "size": "lg" },
+      "golden": "<div class=\"pa-loader-pulse pa-loader-pulse--lg\"></div>"
+    },
+    {
+      "name": "ring",
+      "props": { "type": "ring" },
+      "golden": "<div class=\"pa-loader-ring\"></div>"
+    },
+    {
+      "name": "ring-lg",
+      "props": { "type": "ring", "size": "lg" },
+      "golden": "<div class=\"pa-loader-ring pa-loader-ring--lg\"></div>"
+    },
+    {
+      "name": "color-primary",
+      "props": { "type": "dots", "color": "primary" },
+      "golden": "<div class=\"pa-loader-dots\" style=\"color: var(--pc-accent)\"><span></span><span></span><span></span></div>",
+      "note": "primary → --pc-accent (there is no --pa-primary-bg)."
+    },
+    {
+      "name": "color-secondary",
+      "props": { "type": "dots", "color": "secondary" },
+      "golden": "<div class=\"pa-loader-dots\" style=\"color: var(--pc-text-color-2)\"><span></span><span></span><span></span></div>",
+      "note": "secondary → --pc-text-color-2 (there is no --pa-secondary-bg). svelte previously dropped 'secondary' entirely; aligned in this slice."
+    },
+    {
+      "name": "color-success",
+      "props": { "type": "bars", "color": "success" },
+      "golden": "<div class=\"pa-loader-bars\" style=\"color: var(--pa-success-bg)\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "color-danger",
+      "props": { "type": "pulse", "color": "danger" },
+      "golden": "<div class=\"pa-loader-pulse\" style=\"color: var(--pa-danger-bg)\"></div>"
+    },
+    {
+      "name": "color-warning",
+      "props": { "type": "ring", "color": "warning" },
+      "golden": "<div class=\"pa-loader-ring\" style=\"color: var(--pa-warning-bg)\"></div>"
+    },
+    {
+      "name": "color-info",
+      "props": { "type": "wave", "color": "info" },
+      "golden": "<div class=\"pa-loader-wave\" style=\"color: var(--pa-info-bg)\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "combined",
+      "props": { "type": "dots", "size": "lg", "color": "primary" },
+      "golden": "<div class=\"pa-loader-dots pa-loader-dots--lg\" style=\"color: var(--pc-accent)\"><span></span><span></span><span></span></div>",
+      "note": "type + size + color together."
+    }
+  ]
+}

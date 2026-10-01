@@ -1,0 +1,39 @@
+{
+  "//": "Markup-fidelity fixture for the PROFILE BUTTON — `.pc-navbar__profile-btn` (keen `PureAdmin.Components.Layout.profile_button/1`, svelte `profile/ProfileButton.svelte`). A SHELL element migrated DOWN into @keenmate/pure-css, so the class is `pc-navbar__profile-btn` (NOT `pa-*`); confirmed in dist/css/main.css (`.pc-navbar__profile-btn` + the sibling `.pc-navbar__profile-name`). It is an ELEMENT of the `pc-navbar` block but ships as its own component (the navbar END-zone profile trigger), so the fixture `block` is `pc-navbar__profile-btn` (its base class exists in CSS → axis-1 vacuous-scope guard stays quiet; it owns no `--*` modifier or `__*` sub-element). SCOPE = the button + its two spans. Canonical shape from snippets/profile.html + snippets/layout.html: `<button class=\"pc-navbar__profile-btn\" aria-label=\"User Profile\"><span class=\"pa-btn__icon\"><span class=\"pa-icon pa-icon--user\" aria-hidden=\"true\"></span></span><span class=\"pc-navbar__profile-name\">John Doe</span></button>`. Both wrappers reconcile: a `.pc-navbar__profile-btn` <button> carrying aria-label=\"User Profile\" (the a11y convention BOTH carry — keen literal, svelte resolves pureAdmin.a11y.userProfile → \"User Profile\"; keen's old lowercase \"User profile\" was fixed in this slice to match the snippet + svelte), with a `.pa-btn__icon` wrapper (default inner `.pa-icon.pa-icon--user`) and a `.pc-navbar__profile-name` span rendered only when a name is supplied. The custom-icon slot (overriding the default user glyph) is a shared slot but out of scope — a plain default here; deferred as prose. NO onclick/phx-click is modeled (wiring is consumer-supplied, rides in :rest/onclick). Canonical shape: packages/core/snippets/profile.html.",
+  "component": "profile-button",
+  "block": "pc-navbar__profile-btn",
+  "propsVocabulary": {
+    "name": "display name — rendered in a `.pc-navbar__profile-name` span. Omit → no name span at all. svelte `name`, keen `name`.",
+    "extraClass": "extra classes appended verbatim to the root <button class=\"pc-navbar__profile-btn ...\"> (svelte `class`, keen `class`) — class passthrough; not a core modifier."
+  },
+  "goldenConventions": "Goldens encode the a11y convention BOTH wrappers carry: aria-label=\"User Profile\" on the <button> (svelte resolves the i18n key to this literal; keen emits the literal — fixed from the old lowercase \"User profile\" to match the snippet + svelte), and the default icon (`.pa-btn__icon` wrapper + inner `.pa-icon.pa-icon--user` with aria-hidden=\"true\") when no custom icon slot is passed. The `.pc-navbar__profile-name` span appears only when `name` is supplied — both wrappers gate it the same way. No onclick/phx-click (consumer-wired). Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css. The `.pc-navbar__profile-btn` element has NO modifier of its own (no `.pc-navbar__profile-btn--*`) and NO sub-element (no `.pc-navbar__profile-btn__*`). The `name` span's class (`.pc-navbar__profile-name`) is a SIBLING element of the pc-navbar block (not a pc-navbar__profile-btn__* sub-element), so it is not matched by this block's reverse checks — it is exercised directly by the goldens instead. So the contract is: the base class + a name string (→ the name span) + a class passthrough.",
+    "name":       { "kind": "string", "produces": null, "note": "display name → a `.pc-navbar__profile-name` span (exercised by the goldens, not matched by the ^pc-navbar__profile-btn regexes). svelte `name`, keen `name`." },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the root pc-navbar__profile-btn button; svelte `class`, keen `class`." }
+  },
+  "deferred": {
+    "//": "The `.pc-navbar__profile-btn` element owns no `--*` modifier or `__*` sub-element in CSS — nothing axis-1 needs deferred. The custom-icon slot (svelte `icon` snippet / keen `:icon` slot) overrides the default `.pa-icon.pa-icon--user` inside the shared `.pa-btn__icon` wrapper — a shared slot, defaulted (not overridden) in these goldens; acknowledged as PROSE. (`.pa-btn__icon` / `.pa-icon` belong to OTHER blocks — button / icon — and are exercised directly by the goldens.)",
+    "pc-navbar__profile-btn-icon-slot": "the custom icon/avatar slot overriding the default user glyph (svelte `icon` snippet, keen `:icon` slot). Both render it inside the same `.pa-btn__icon` wrapper; defaulted in these goldens."
+  },
+  "scenarios": [
+    {
+      "name": "named",
+      "props": { "name": "John Doe" },
+      "golden": "<button class=\"pc-navbar__profile-btn\" aria-label=\"User Profile\"><span class=\"pa-btn__icon\"><span class=\"pa-icon pa-icon--user\" aria-hidden=\"true\"></span></span><span class=\"pc-navbar__profile-name\">John Doe</span></button>",
+      "note": "The blessed shape: the profile trigger with the default user icon + a name span. aria-label=\"User Profile\" is the a11y convention both carry."
+    },
+    {
+      "name": "no-name",
+      "props": {},
+      "golden": "<button class=\"pc-navbar__profile-btn\" aria-label=\"User Profile\"><span class=\"pa-btn__icon\"><span class=\"pa-icon pa-icon--user\" aria-hidden=\"true\"></span></span></button>",
+      "note": "No name → NO .pc-navbar__profile-name span (both wrappers gate it on name). The icon-only trigger."
+    },
+    {
+      "name": "extra-class",
+      "props": { "name": "John Doe", "extraClass": "ms-2" },
+      "golden": "<button class=\"pc-navbar__profile-btn ms-2\" aria-label=\"User Profile\"><span class=\"pa-btn__icon\"><span class=\"pa-icon pa-icon--user\" aria-hidden=\"true\"></span></span><span class=\"pc-navbar__profile-name\">John Doe</span></button>",
+      "note": "Class passthrough — the extra class is appended after pc-navbar__profile-btn; token order is normalized away."
+    }
+  ]
+}
