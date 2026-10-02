@@ -59,12 +59,19 @@ function main() {
   let totalFail = 0, totalPass = 0, totalMissScenarios = 0;
   const missingDumps = []; // `${component} [${wrapper}]`
   const failedFixtures = [];
+  const knownFixtures = []; // acknowledged divergences — reported, not gated
+  let totalKnown = 0;
 
   console.log(paint('bold', `\nMarkup fidelity sweep — ${wrappers.join(' + ')} vs core goldens\n`));
 
   for (const component of fixtures) {
     const fixture = readJson(path.join(FIXTURES, `${component}.json`));
     const normOpts = fixture.normalize || {};
+    // Per-wrapper acknowledged divergence: a wrapper whose SSR intentionally
+    // differs from the oracle (keen's popconfirm trigger-wrapper + data-placement
+    // scaffolding; svelte non-dumpable components). Reported as KNOWN, not a
+    // miss — so the sweep flags real drift, not documented differences.
+    const knownDivergent = fixture.knownDivergent || {};
     const scenarios = fixture.scenarios || [];
     const cells = [];
     let fixtureHasFail = false;
@@ -85,6 +92,19 @@ function main() {
         if (normalize(s.golden, normOpts) === normalize(actual, normOpts)) pass++;
         else { fail++; failNames.push(s.name); }
       }
+
+      if (knownDivergent[w] && (fail || miss)) {
+        // Acknowledged — count matching scenarios as pass, the rest as known.
+        totalPass += pass;
+        totalKnown += fail + miss;
+        knownFixtures.push(`${component} [${w}]: ${knownDivergent[w]}`);
+        let cell = `${w} ${paint('yellow', 'known')}`;
+        if (fail) cell += paint('yellow', ` ✗${fail}`);
+        if (miss) cell += paint('yellow', ` ?${miss}`);
+        cells.push(cell);
+        continue;
+      }
+
       totalPass += pass; totalFail += fail; totalMissScenarios += miss;
       if (fail || miss) fixtureHasFail = true;
       const color = fail ? 'red' : miss ? 'yellow' : 'green';
@@ -106,6 +126,11 @@ function main() {
     for (const f of failedFixtures) console.log('  ' + paint('red', f));
     console.log('');
   }
+  if (knownFixtures.length) {
+    console.log(paint('yellow', `Known divergences (documented, not gated) — ${knownFixtures.length}:`));
+    for (const f of knownFixtures) console.log('  ' + paint('gray', f));
+    console.log('');
+  }
   if (missingDumps.length) {
     console.log(paint('yellow', `Not dumped (no wrapper map / stale dump) — ${missingDumps.length}:`));
     console.log('  ' + paint('gray', missingDumps.join('  ')));
@@ -114,7 +139,7 @@ function main() {
 
   const summary =
     `${totalPass} pass, ${totalFail} fail, ${totalMissScenarios} missing-scenario` +
-    `  ·  ${missingDumps.length} not-dumped`;
+    `  ·  ${totalKnown} known-divergent  ·  ${missingDumps.length} not-dumped`;
   console.log(paint(totalFail === 0 ? 'green' : 'red', summary) + '\n');
 
   const exit = totalFail + (strict ? totalMissScenarios + missingDumps.length : 0);

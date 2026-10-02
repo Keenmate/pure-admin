@@ -166,6 +166,26 @@ a dump. Exit = total real divergences (missing dumps are reported, not gated,
 unless `--strict`). It reads the sibling dumps directly, so run the two `--all`
 dumps first.
 
+**Acknowledged divergences (`knownDivergent`).** Some wrappers intentionally
+emit markup that differs from the oracle — e.g. keen's `popconfirm/1` wraps the
+trigger in a positioned `<div>` + stamps `data-placement` (LiveView interactivity
+scaffolding svelte expresses via callback props). To keep the sweep able to flag
+*real* drift rather than re-reporting documented differences, a fixture declares
+them:
+
+```jsonc
+"knownDivergent": {
+  "keen": "why keen's SSR diverges from the overlay-only oracle here"
+}
+```
+
+`compare-all.mjs` then reports that wrapper as **KNOWN** (yellow, with the
+reason) instead of a red fail, and excludes it from the gated total. The
+matching scenarios still count as pass, so a *new* divergence beyond the
+documented one still shows. (Use `knownDivergent` only for a genuine, documented
+structural difference — prefer a per-component `normalize` trim when the
+divergence is just wiring attributes.)
+
 ### Core CI gate
 
 `compare.mjs` needs a wrapper's dump, so correctness runs in the svelte/keen

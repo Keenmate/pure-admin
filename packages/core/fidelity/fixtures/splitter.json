@@ -1,5 +1,5 @@
 {
-  "//": "Markup-fidelity fixture for the splitter component (pa-splitter) — a resizable split layout: 2+ panes separated by draggable gutters. SCOPE = CONTAINER (ROOT) + a SINGLE pane. WHY (scoping option 2): the splitter is a COMPOSITE (root + alternating pane / gutter / pane …) AND fully JS-interactive. Both wrappers compose panes + gutters from CHILDREN — svelte via <SplitterPane>/<SplitterGutter> child components, keen via a repeated `:pane` slot that auto-interleaves gutters (N panes → N-1 gutters). The GENERIC map-driven dumpers render ONE component with a single text slot and CANNOT build the multi-pane/gutter skeleton (the svelte dumper pushes escaped text into `children`; the keen dumper seeds ONE text `:pane`). So the GOLDEN asserts ONLY the canonical ROOT (tag, pa-splitter + orientation (+ minimize-mirror) classes, structural data-* attrs) wrapping a plain text body — the exact root the snippet/demo bless, kept oracle-pure (no dumper artifacts baked in). The GUTTER, the per-pane element, and the multi-pane interleave are `deferred` (prose — the child-composition sub-slice no generic dumper can exercise); the JS-toggled drag/rail state classes are `cssStateClasses`/`cssStateElements`. BOTH wrappers are acknowledged divergences from this container-only golden (documented below, like popconfirm's), because neither generic single-component dumper can reproduce the bare-root-with-text shape: (a) SVELTE IS NOT DUMPABLE by the generic harness — Splitter.svelte calls setContext() at init (so <SplitterGutter> children read orientation), and the dumper imports `render` from Node's svelte while loading the component through vite's SSR graph; the split module state leaves ssr_context null, so setContext throws `lifecycle_outside_component`. Verified reproducible with a trivial setContext component under the identical dumper config — it's a dump.mjs limitation (can't edit per task), NOT a Splitter.svelte bug. So no svelte dump/compare; the svelte map is still authored + validated by capability axis-2. (b) KEEN wraps the single seeded `:pane` slot in a real .pa-splitter__pane (correct keen markup — its slot IS a pane), so its dump is root + one text pane rather than bare text; the pane wrapper is the documented, deferred child-composition surface, so keen's compare shows that one acknowledged pane diff. Both wrapper markups are CORRECT for their composition model; the harness simply can't drive the pane/gutter children from a single text slot. Mirrors list.json container-only + modal.json/popconfirm divergence precedents. Canonical shape: packages/core/snippets/splitter.html + demo/views/splitter.mustache.",
+  "//": "Markup-fidelity fixture for the splitter component (pa-splitter) — a resizable split layout: 2+ panes separated by draggable gutters. SCOPE = ROOT + a SINGLE real pane (.pa-splitter__pane). WHY (scoping): the splitter is a COMPOSITE (root + alternating pane / gutter / pane …) AND fully JS-interactive. Both wrappers compose panes + gutters from CHILDREN — svelte via <SplitterPane>/<SplitterGutter> child components, keen via a repeated `:pane` slot that auto-interleaves gutters (N panes → N-1 gutters). The generic map-driven dumper seeds ONE pane from the `body` slot, so the GOLDEN asserts the canonical ROOT (tag, pa-splitter + orientation (+ minimize-mirror) classes, structural data-* attrs) wrapping ONE real .pa-splitter__pane — the minimal canonical unit (content in a splitter always lives in a pane; there is no bare-text-in-root shape in the snippet/demo). The GUTTER + the multi-pane interleave stay `deferred` (a single pane emits zero gutters, N-1=0); the JS-toggled drag/rail state classes are `cssStateClasses`/`cssStateElements`. DUMPABILITY: (a) KEEN dumps cleanly — its `:pane` slot IS a pane, so one seeded pane → root + one .pa-splitter__pane matching the golden exactly. (The earlier style=\"\" artifact on panes without an inline style is fixed in splitter.ex: HEEx renders style={nil} as style=\"\", so the pane now spreads style only when present.) (b) SVELTE IS NOT DUMPABLE by the generic harness — Splitter.svelte calls setContext() at init (so <SplitterGutter> children read orientation), and the dumper imports `render` from Node's svelte while loading the component through vite's SSR graph; the split module state leaves ssr_context null, so setContext throws `lifecycle_outside_component`. Verified reproducible with a trivial setContext component under the identical dumper config — a dump.mjs limitation (can't edit per task), NOT a Splitter.svelte bug. So no svelte dump/compare; the svelte map is still authored + validated by capability axis-2. NOTE svelte's composition model also differs: a pane is a <SplitterPane> CHILD component, so svelte's text `children` slot would render bare text (no pane) — if the dumper limit is ever lifted, svelte needs a COMPOSITE fixture (a real SplitterPane child) to match this pane-shaped golden, not the text-slot path. Mirrors list.json container-only + the tabs sub-component precedent. Canonical shape: packages/core/snippets/splitter.html + demo/views/splitter.mustache.",
   "component": "splitter",
   "block": "pa-splitter",
   "propsVocabulary": {
@@ -9,11 +9,11 @@
     "step": "keyboard arrow-step in px — emits data-pa-splitter-step. Numeric; both wrappers render it verbatim (keen does no math on it). Structural data-attr, no class.",
     "railSize": "rail width in px when a pane minimizes — emits data-pa-splitter-rail-size. Numeric. Structural data-attr, no class.",
     "minimizeThreshold": "drag-into-rail snap ratio — emits data-pa-splitter-minimize-threshold. STRING (e.g. \"0.40\") on both wrappers (keen's attr is :string, svelte renders the value as-is). Structural data-attr, no class.",
-    "body": "the splitter's inner content — panes + gutters. In this container-only slice it is a plain text token (the dumpers HTML-escape it); real pa-splitter__pane / __gutter children are the deferred child-composition sub-slice. svelte `children`, keen `:pane` slot."
+    "body": "ONE pane's inner content — a plain text token the dumper seeds into a single keen `:pane` / svelte pane. It renders INSIDE a .pa-splitter__pane. The multi-pane + __gutter interleave is the deferred child-composition sub-slice."
   },
-  "goldenConventions": "Goldens assert ONLY the root element: a <div class=\"pa-splitter pa-splitter--{orientation}\" data-pa-splitter> wrapping a plain text body (oracle-pure — the snippet/demo root, no dumper artifacts). data-pa-splitter is a BARE marker attribute on both wrappers (svelte literal `data-pa-splitter`, keen literal `data-pa-splitter`) — it is NOT in the normalizer's BOOLEAN_ATTRS set, so presence+spelling must match; both emit the bare form, so goldens write it bare. The numeric/string sizing data-attrs (step / rail-size / minimize-threshold) are each exercised by one scenario with the SAME literal the dumper passes verbatim (numeric literals for step/railSize per the keen-dumper verbatim-pass gotcha; a string for minimizeThreshold). splitterId is deliberately NOT set in any golden: keen would additionally emit a bare `id` + phx-hook off it that svelte omits (acknowledged API divergence, like modal's static/show) — it is mapped in both wrapper maps for axis-2 completeness only. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability. The empty-body scenario proves the shell is never omitted or re-wrapped. NOTE on compare: svelte is non-dumpable here (setContext — see top note) so it has no compare run; keen's compare shows exactly ONE acknowledged, documented diff per scenario — keen wraps the single text body in a real .pa-splitter__pane (its slot IS a pane), the deferred child-composition surface. Both are correct wrapper markup; the oracle stays the canonical bare root.",
+  "goldenConventions": "Goldens assert the ROOT element wrapping exactly ONE .pa-splitter__pane: <div class=\"pa-splitter pa-splitter--{orientation}\" data-pa-splitter><div class=\"pa-splitter__pane\">{body}</div></div> — the minimal canonical unit (content always sits in a pane). data-pa-splitter is a BARE marker attribute on both wrappers (svelte literal `data-pa-splitter`, keen literal `data-pa-splitter`) — it is NOT in the normalizer's BOOLEAN_ATTRS set, so presence+spelling must match; both emit the bare form, so goldens write it bare. The pane carries no attrs in these scenarios (no size/min/max/minimizable/style/class set), so it is a bare .pa-splitter__pane — keen's style={nil} no longer leaks a style=\"\" (fixed in splitter.ex). The numeric/string sizing data-attrs (step / rail-size / minimize-threshold) sit on the ROOT and are each exercised by one scenario with the SAME literal the dumper passes verbatim (numeric literals for step/railSize per the keen-dumper verbatim-pass gotcha; a string for minimizeThreshold). splitterId is deliberately NOT set in any golden: keen would additionally emit a bare `id` + phx-hook off it that svelte omits (acknowledged API divergence, like modal's static/show) — it is mapped in both wrapper maps for axis-2 completeness only. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability. COMPARE: keen dumps + matches cleanly; svelte is non-dumpable here (setContext — see top note) so it has no compare run (capability-only).",
   "features": {
-    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-splitter(--|__)'). Block modifiers in CSS: --dragging (JS state → cssStateClasses), --horizontal + --vertical (orientation feature), --minimize-mirror (feature). (Docs mention --minimized / --accordion / --collapsed but those are NOT in compiled CSS — JS toggles --minimized/--accordion as behavioural hooks with no CSS rule, so they are neither features nor cssStateClasses here.) Element classes in CSS: __gutter, __pane (structural children → deferred), __gutter--active + __pane--minimized (JS runtime state → cssStateElements), __pane--start + __pane--end (legacy flex classes from the RETIRED 2-pane shorthand → deferred, see note).",
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-splitter(--|__)'). Block modifiers in CSS: --dragging (JS state → cssStateClasses), --horizontal + --vertical (orientation feature), --minimize-mirror (feature). (Docs mention --minimized / --accordion / --collapsed but those are NOT in compiled CSS — JS toggles --minimized/--accordion as behavioural hooks with no CSS rule, so they are neither features nor cssStateClasses here.) Element classes in CSS: __pane (now asserted in the golden — the single-pane unit), __gutter (needs 2+ panes → deferred), __gutter--active + __pane--minimized (JS runtime state → cssStateElements), __pane--start + __pane--end (legacy flex classes from the RETIRED 2-pane shorthand → deferred, see note).",
     "orientation": {
       "kind": "enum",
       "options": ["horizontal", "vertical"],
@@ -32,28 +32,27 @@
     "step": {
       "kind": "string",
       "produces": null,
-      "note": "structural — data-pa-splitter-step. Numeric literal in the scenario (keen renders it verbatim, no math)."
+      "note": "structural — data-pa-splitter-step on the ROOT. Numeric literal in the scenario (keen renders it verbatim, no math)."
     },
     "railSize": {
       "kind": "string",
       "produces": null,
-      "note": "structural — data-pa-splitter-rail-size. Numeric literal in the scenario (keen renders it verbatim)."
+      "note": "structural — data-pa-splitter-rail-size on the ROOT. Numeric literal in the scenario (keen renders it verbatim)."
     },
     "minimizeThreshold": {
       "kind": "string",
       "produces": null,
-      "note": "structural — data-pa-splitter-minimize-threshold. String value on both wrappers."
+      "note": "structural — data-pa-splitter-minimize-threshold on the ROOT. String value on both wrappers."
     },
     "body": {
       "kind": "slot",
       "produces": null,
-      "note": "structural — the container's inner content; real pane/gutter children are the deferred child-composition sub-slice."
+      "note": "structural — ONE pane's content, rendered inside the asserted .pa-splitter__pane. Multi-pane / __gutter interleave is the deferred child-composition sub-slice."
     }
   },
   "deferred": {
-    "//": "Element classes the CONTAINER-only slice leaves to a future child-composition sub-slice OR that are legacy-retired. Plain-prose (acknowledged out-of-scope, not fixture-verified) because no fragment fixture exists for panes/gutters and the generic dumpers can't compose them. __pane + __gutter are the alternating children both wrappers build from pane/gutter inputs the single-component dumper can't supply. __pane--start / __pane--end are LEGACY flex classes from the retired 2-pane shorthand (pre-N-pane model) — they live only in _splitter.scss + compiled CSS; NOTHING emits them (not splitter.js, not the snippet/demo, not either wrapper — every pane is a bare .pa-splitter__pane in the generic N-pane model), so no golden can exercise them and no JS toggles them.",
-    "pa-splitter__pane": "alternating child pane — child-composition sub-slice; the generic single-component dumper can't build the pane/gutter interleave (svelte <SplitterPane>, keen repeated :pane slot). keen's dump DOES emit one .pa-splitter__pane (it wraps the single seeded :pane slot), which is the one acknowledged keen compare diff vs this container-only golden — see the top note.",
-    "pa-splitter__gutter": "alternating child gutter (role=separator, tabindex=0, aria-orientation) between each pane pair — same child-composition sub-slice.",
+    "//": "Element classes the single-pane slice can't exercise OR that are legacy-retired. Plain-prose (acknowledged out-of-scope, not fixture-verified). __gutter needs 2+ panes (N-1 = 0 gutters for one pane); the multi-pane interleave is the child-composition sub-slice the generic dumper can't supply (svelte <SplitterPane>/<SplitterGutter>, keen repeated :pane slot). __pane--start / __pane--end are LEGACY flex classes from the retired 2-pane shorthand (pre-N-pane model) — they live only in _splitter.scss + compiled CSS; NOTHING emits them (not splitter.js, not the snippet/demo, not either wrapper — every pane is a bare .pa-splitter__pane in the generic N-pane model), so no golden can exercise them and no JS toggles them.",
+    "pa-splitter__gutter": "alternating child gutter (role=separator, tabindex=0, aria-orientation) between each pane pair — needs 2+ panes; the single-pane slice emits none. Child-composition sub-slice (svelte <SplitterGutter>, keen auto-interleaved between :pane entries).",
     "pa-splitter__pane--start": "LEGACY flex class from the retired 2-pane shorthand; only in _splitter.scss/compiled CSS, emitted by nothing (snippet/demo/wrappers all use bare .pa-splitter__pane in the N-pane model).",
     "pa-splitter__pane--end": "LEGACY flex class from the retired 2-pane shorthand; same as --start — superseded by the generic N-pane pane, emitted by nothing."
   },
@@ -70,32 +69,32 @@
     {
       "name": "horizontal",
       "props": { "orientation": "horizontal", "body": "Body" },
-      "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter>Body</div>",
-      "note": "The blessed default: side-by-side panes, vertical gutter. Root carries the bare data-pa-splitter marker on both wrappers."
+      "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter><div class=\"pa-splitter__pane\">Body</div></div>",
+      "note": "The blessed default: side-by-side panes, vertical gutter. Root carries the bare data-pa-splitter marker; the single pane is a bare .pa-splitter__pane."
     },
     {
       "name": "vertical",
       "props": { "orientation": "vertical", "body": "Body" },
-      "golden": "<div class=\"pa-splitter pa-splitter--vertical\" data-pa-splitter>Body</div>",
+      "golden": "<div class=\"pa-splitter pa-splitter--vertical\" data-pa-splitter><div class=\"pa-splitter__pane\">Body</div></div>",
       "note": "Stacked panes, horizontal gutter — the other orientation enum value."
     },
     {
       "name": "minimize-mirror",
       "props": { "orientation": "horizontal", "minimizeMirror": true, "body": "Body" },
-      "golden": "<div class=\"pa-splitter pa-splitter--horizontal pa-splitter--minimize-mirror\" data-pa-splitter>Body</div>",
+      "golden": "<div class=\"pa-splitter pa-splitter--horizontal pa-splitter--minimize-mirror\" data-pa-splitter><div class=\"pa-splitter__pane\">Body</div></div>",
       "note": "Root modifier flipping the railed title 180°; SSR-authored, so asserted here even though its visible effect needs a runtime-railed pane."
     },
     {
       "name": "sizing-attrs",
       "props": { "orientation": "horizontal", "step": 20, "railSize": 48, "minimizeThreshold": "0.5", "body": "Body" },
-      "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter data-pa-splitter-step=\"20\" data-pa-splitter-rail-size=\"48\" data-pa-splitter-minimize-threshold=\"0.5\">Body</div>",
-      "note": "Exercises the structural sizing data-attrs. step/railSize are numeric literals (keen renders them verbatim — the dumper passes JSON values straight through, no Elixir math); minimizeThreshold is a string. splitterId is NOT set (would add keen-only bare id + phx-hook)."
+      "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter data-pa-splitter-step=\"20\" data-pa-splitter-rail-size=\"48\" data-pa-splitter-minimize-threshold=\"0.5\"><div class=\"pa-splitter__pane\">Body</div></div>",
+      "note": "Exercises the structural sizing data-attrs on the ROOT. step/railSize are numeric literals (keen renders them verbatim — the dumper passes JSON values straight through, no Elixir math); minimizeThreshold is a string. splitterId is NOT set (would add keen-only bare id + phx-hook)."
     },
     {
       "name": "empty",
       "props": { "orientation": "horizontal", "body": "" },
-      "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter></div>",
-      "note": "Empty body still emits the bare root — proves the wrapper never omits or re-wraps the shell."
+      "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter><div class=\"pa-splitter__pane\"></div></div>",
+      "note": "Empty body still emits the root + one empty pane — proves the pane is never omitted and carries no stray style=\"\"."
     }
   ]
 }
