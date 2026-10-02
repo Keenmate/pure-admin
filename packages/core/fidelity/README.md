@@ -142,6 +142,30 @@ Both tools exit non-zero on failure (0 = aligned), so they drop into CI. A
 `*.dump.json` is `[{ "name": "<scenario>", "html": "<fragment>" }]` — a
 regenerable artifact (gitignored in the wrappers).
 
+### Full sweep (all components, both wrappers)
+
+To re-check everything at once — one dump pass per wrapper (reusing a single
+BEAM / vite process), then one cross-wrapper diff matrix:
+
+```bash
+# 1. Dump every mapped component in each wrapper (one process each):
+#    svelte:  node scripts/fidelity/dump.mjs --all
+#    keen:    mix pa.fidelity.dump --all
+#    (--all dumps every component that has BOTH a core fixture AND a local map;
+#     child-only maps like tab-item have no fixture → skipped.)
+
+# 2. Core — diff every fixture against each wrapper's dump:
+node fidelity/compare-all.mjs                 # both wrappers
+node fidelity/compare-all.mjs --wrapper keen  # one wrapper
+```
+
+`compare-all.mjs` prints a per-fixture matrix + totals and surfaces the **gaps**:
+components a wrapper never dumped (missing map or a dumper that can't SSR the
+component, e.g. svelte `setContext`/lifecycle), and golden scenarios absent from
+a dump. Exit = total real divergences (missing dumps are reported, not gated,
+unless `--strict`). It reads the sibling dumps directly, so run the two `--all`
+dumps first.
+
 ### Core CI gate
 
 `compare.mjs` needs a wrapper's dump, so correctness runs in the svelte/keen
