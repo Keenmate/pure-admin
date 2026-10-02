@@ -1,0 +1,79 @@
+{
+  "//": "Markup-fidelity fixture for the KPI TERMINAL CONTAINER — the `.pa-card.pa-kpi-terminal` block (keen `PureAdmin.Components.KpiTerminal.kpi_terminal/1`, svelte `display/KpiTerminal.svelte`). SCOPE = CONTAINER ONLY. A pa-kpi-terminal is a `.pa-card` namespaced into the Bloomberg-style dense KPI panel: an optional header (`.pa-card__header.pa-kpi-header` holding the card title + a `.pa-kpi-terminal__controls` end-group with an optional tab strip + a `.pa-kpi-live` pill), a body (`.pa-card__body.pa-kpi-terminal__body`), and an optional footer (`.pa-card__footer.pa-kpi-footer`). Two body shapes: (a) NO-TABS — a single `.pa-kpi-terminal__grid.pa-kpi-terminal__grid--2col` wrapping the tile slot directly; (b) TABS — a `.pa-kpi-terminal__tabs[role=tablist]` of `.pa-kpi-terminal__tab` buttons in the header controls, and one `.pa-kpi-terminal__pane[data-tab]` per tab in the body (each pane wrapping its own `__grid--2col`), with the active tab + pane carrying a plain SSR-rendered `is-active` state class. The per-KPI CELLS are the SEPARATE `pa-kpi-tile` block (keen kpi_tile/1, svelte KpiTerminalTile) fed through the body/pane slots; BOTH dumpers pass slot content as plain ESCAPED TEXT (keen's demo panes also use text inner_block), so real tile markup can't flow through — the grid/pane content is a bare text token (TILES) here and the whole `pa-kpi-tile*` family is DEFERRED (fixture-ref kpi-tile). SVELTE IS CAP-ONLY: KpiTerminal.svelte calls setContext at init (panes register back via context), which the standalone SSR render() can't drive, so kpi-terminal is NOT in the svelte dumper and NO svelte compare runs — only the keen strict compare + both capability axes. Same cap-only precedent as settings-panel / navbar / command-palette. This fixture proves ONLY what the container emits: the `.pa-card.pa-kpi-terminal` shell, the conditional header (title + optional tab strip + LIVE pill), the body in both no-tabs and tabs shapes, and the conditional footer.",
+  "component": "kpi-terminal",
+  "block": "pa-kpi-terminal",
+  "propsVocabulary": {
+    "title": "card header title — rendered inside `.pa-kpi-header` as `.pa-card__title` > `.pa-card__title-text` (the single blessed card-title shape per the card-header canonicalization, mirrored by snippets/kpi.html L223). svelte titleText; keen title_text. Header renders when title and/or live and/or tabs is present.",
+    "live": "the LIVE status pill — `.pa-kpi-live` with an animated `.pa-kpi-live__dot` and the 'LIVE' label, placed in `.pa-kpi-terminal__controls`. svelte isLive (label hardcoded 'LIVE'); keen is_live (label defaults 'LIVE' via live_text). bool.",
+    "tabs": "switches the body from a single wrapped grid to a tab strip + panes. When set, `.pa-kpi-terminal__tabs[role=tablist]` of `.pa-kpi-terminal__tab` buttons renders in the header controls and one `.pa-kpi-terminal__pane[data-tab]` renders per tab in the body; the active tab + pane carry `is-active`. svelte hasTabs (+ KpiTerminalPane children); keen pane_demo → the dumper swaps in two attributed demo panes (overview/finance). bool.",
+    "body": "the tile area — filled with plain slot text in this container-only slice (real `.pa-kpi-tile` children are the deferred sub-component). In no-tabs it's the single `__grid--2col` content; in the tabs path the demo panes each wrap the text. svelte children; keen inner_block.",
+    "footer": "card footer caption — rendered inside `.pa-card__footer.pa-kpi-footer` as a bare `<span>` when the plain-string footer is set. svelte footerText; keen footer_text. Footer renders only when set.",
+    "extraClass": "extra classes appended verbatim to the card shell (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "Structural container. The header renders ONLY when title and/or live and/or tabs is present; the body ALWAYS renders; the footer renders ONLY when a footer caption is present. The title is the blessed `.pa-card__title` > `.pa-card__title-text` shape (snippets/kpi.html L223). The LIVE pill text is hardcoded 'LIVE'. In the tabs path, each `.pa-kpi-terminal__tab` carries type=\"button\" + data-tab + role=\"tab\" + aria-selected=\"true|false\" (explicit string values, matching the blessed snippet L227-228); each `.pa-kpi-terminal__pane` carries data-tab; the active tab + pane add the plain `is-active` class. Tile content is the deferred text token (TILES). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "deferred": {
+    "//": "The per-KPI tile block `.pa-kpi-tile*` — emitted by the SEPARATE kpi_tile/1 (svelte KpiTerminalTile) fed through the body / pane slots, which the generic dumper passes as plain escaped TEXT (keen's demo panes likewise use a text inner_block), so it cannot materialize here. It is a DISTINCT block (hyphen-joined `pa-kpi-tile`, not a `pa-kpi-terminal__tile` element), so capability axis-1's `pa-kpi-terminal__*` element reverse-check does NOT see it — but a fixture-ref to kpi-tile is authored to VERIFY the ownership (kpi-tile.json produces/renders these). Only the representative tile block + a couple of its elements are referenced; the full tile surface is covered by kpi-tile.json itself.",
+    "pa-kpi-tile":         { "fixture": "kpi-tile" },
+    "pa-kpi-tile__label":  { "fixture": "kpi-tile" },
+    "pa-kpi-tile__values": { "fixture": "kpi-tile" }
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-terminal(--|__)'). The `.pa-kpi-terminal` BLOCK has ZERO block-level modifiers AND no standalone base rule in main.css (it is a pure namespace; all styling hangs off the `__*` elements) — so capability.mjs axis-1 block-modifier reverse-check is vacuous, and because element classes DO exist the vacuous-scope note does not fire. Block element classes in CSS: `__controls`, `__tabs`, `__tab`, `__body`, `__pane`, `__grid`, `__grid--2col` — all exercised by goldens: `__body`/`__grid`/`__grid--2col` in every scenario; `__controls`/`__tabs`/`__tab`/`__pane` in the tabs scenario. The `__grid--2col` ELEMENT modifier is not produced by a feature (the wrapper always emits it with `__grid`); it is exercised directly by every golden. The header pill / footer / title / `is-active` classes (`pa-kpi-header`, `pa-kpi-live`, `pa-kpi-live__dot`, `pa-kpi-footer`, `pa-card__title`, `pa-card__title-text`, `is-active`) belong to the card/kpi-base chrome or are JS/SSR state, not this block, so they are structural (produces:null) but still exercised directly by the goldens. `produces:null` = structural/native (no `pa-kpi-terminal` block modifier).",
+    "title":      { "kind": "string", "produces": null, "note": "structural — blessed card title shape .pa-card__title > .pa-card__title-text inside .pa-kpi-header; svelte titleText / keen title_text" },
+    "live":       { "kind": "bool",   "produces": null, "note": "structural — the .pa-kpi-live pill in .pa-kpi-terminal__controls; svelte isLive / keen is_live" },
+    "tabs":       { "kind": "bool",   "produces": null, "note": "structural — switches on the __controls > __tabs > __tab strip + __body > __pane panes; svelte hasTabs / keen pane_demo" },
+    "body":       { "kind": "slot",   "produces": null, "note": "structural — the grid/pane tile area; real .pa-kpi-tile children are the deferred sub-component" },
+    "footer":     { "kind": "string", "produces": null, "note": "structural — footer caption in .pa-card__footer.pa-kpi-footer as a bare <span>; svelte footerText / keen footer_text" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card shell, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "TILES" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div></div>",
+      "note": "No-tabs, no title/live → NO header; no footer → NO footer. The body always renders; a single __grid--2col wraps the deferred tile slot (here plain text)."
+    },
+    {
+      "name": "title",
+      "props": { "title": "Key Performance Indicators", "body": "TILES" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><div class=\"pa-kpi-terminal__controls\"></div></div><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div></div>",
+      "note": "Title opens the header; blessed title shape = .pa-card__title > .pa-card__title-text (snippets/kpi.html L223). The __controls end-group always renders inside the header (empty here)."
+    },
+    {
+      "name": "live",
+      "props": { "live": true, "body": "TILES" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-kpi-terminal__controls\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div></div><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div></div>",
+      "note": "The LIVE pill alone still opens the header; it sits inside __controls. Pill text is hardcoded 'LIVE'."
+    },
+    {
+      "name": "title-live",
+      "props": { "title": "Key Performance Indicators", "live": true, "body": "TILES" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><div class=\"pa-kpi-terminal__controls\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div></div><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div></div>",
+      "note": "Full no-tabs header: title then __controls holding the LIVE pill."
+    },
+    {
+      "name": "tabs",
+      "props": { "tabs": true, "title": "Key Performance Indicators", "live": true, "body": "TILES" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><div class=\"pa-kpi-terminal__controls\"><div class=\"pa-kpi-terminal__tabs\" role=\"tablist\" aria-label=\"Dashboard view\"><button type=\"button\" class=\"pa-kpi-terminal__tab is-active\" data-tab=\"overview\" role=\"tab\" aria-selected=\"true\">OVERVIEW</button><button type=\"button\" class=\"pa-kpi-terminal__tab\" data-tab=\"finance\" role=\"tab\" aria-selected=\"false\">FINANCE</button></div><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div></div><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__pane is-active\" data-tab=\"overview\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div><div class=\"pa-kpi-terminal__pane\" data-tab=\"finance\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div></div></div>",
+      "note": "Tabs path: __controls > __tabs[role=tablist] holds two __tab buttons (type=button, data-tab, role=tab, aria-selected string, first is-active), then the LIVE pill; __body holds two __pane[data-tab] (first is-active) each wrapping its own __grid--2col with the deferred tile text. Mirrors snippets/kpi.html L225-287 (demo panes carry text tiles)."
+    },
+    {
+      "name": "footer",
+      "props": { "body": "TILES", "footer": "Updated 2 min ago" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2 min ago</span></div></div>",
+      "note": "Footer caption renders only when set — a bare <span> inside .pa-card__footer.pa-kpi-footer."
+    },
+    {
+      "name": "full",
+      "props": { "title": "Key Performance Indicators", "live": true, "body": "TILES", "footer": "Updated 2 min ago" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal\"><div class=\"pa-card__header pa-kpi-header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Key Performance Indicators</h3></div><div class=\"pa-kpi-terminal__controls\"><span class=\"pa-kpi-live\"><span class=\"pa-kpi-live__dot\"></span>LIVE</span></div></div><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div><div class=\"pa-card__footer pa-kpi-footer\"><span>Updated 2 min ago</span></div></div>",
+      "note": "No-tabs full: header (title + LIVE pill) + body + footer."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "TILES", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-card pa-kpi-terminal mb-4\"><div class=\"pa-card__body pa-kpi-terminal__body\"><div class=\"pa-kpi-terminal__grid pa-kpi-terminal__grid--2col\">TILES</div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-card pa-kpi-terminal; token order is normalized away."
+    }
+  ]
+}

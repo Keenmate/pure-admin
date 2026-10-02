@@ -1,0 +1,39 @@
+{
+  "//": "FRAGMENT fixture for the KPI SPARKLINE convenience SVG — keen `PureAdmin.Components.Kpi.kpi_sparkline/1`. KEEN-ONLY: svelte has NO sparkline component (its KpiTerminalTile chart slot takes any SVG/canvas directly), so there is no svelte map or dump — only the keen strict compare + the keen capability axis. The sparkline is NOT its own BEM block: it emits `<svg class=\"pa-kpi-tile__spark\">`, which is an ELEMENT of the `pa-kpi-tile` block. So `block` here is `pa-kpi-tile__spark` — a VACUOUS reverse-check (no `pa-kpi-tile__spark--*` modifiers and no `pa-kpi-tile__spark__*` sub-elements exist), but the base element class `.pa-kpi-tile__spark` DOES exist in main.css, so no vacuous-scope note fires. The SVG stretches to fill the tile via `preserveAspectRatio=\"none\"`; `--pa-chart-trendline-*` tokens control height/stroke. SCOPE = the simple polyline sparkline (no trailing dot). The trailing-dot path (`dot_at={{cx,cy}}` → a `<circle>` the JS hook swaps for a `.pa-kpi-spark-dot` span) is DEFERRED prose: `dot_at` is a `{cx,cy}` TUPLE the generic string/bool/enum dumper path cannot express, and `<circle>` is a NATIVE tag with no pa-* class, so skipping it leaves no `pa-kpi-tile__spark*` blind spot. `<polyline>`/`<circle>` are native. This fixture confirms ONLY what the <svg> wrapper emits: the `pa-kpi-tile__spark` class + the `viewBox` / `preserveAspectRatio` attributes + the native `<polyline points>`. Authored from snippets/kpi.html (L252-255) + _kpi-terminal.scss / _kpi-base.scss.",
+  "component": "kpi-sparkline",
+  "block": "pa-kpi-tile__spark",
+  "propsVocabulary": {
+    "points": "SVG polyline points string (e.g. \"0,18 12,16 24,17\") — rendered on the native `<polyline>`. keen points (required).",
+    "viewBox": "SVG viewBox (default \"0 0 100 24\"). keen view_box."
+  },
+  "goldenConventions": "Root is `<svg class=\"pa-kpi-tile__spark\" viewBox=… preserveAspectRatio=\"none\">` with a native `<polyline points=…>` child. The `viewBox` / `preserveAspectRatio` SVG attributes are real (non-boolean) attributes that ARE compared; the normalizer lowercases attribute names, so `viewBox`→`viewbox` on BOTH the golden and the dump — they still match. No `dot_at` → no `<circle>`. No id → the JS hook attr is absent. Attribute + class-token order and whitespace are normalized away.",
+  "deferred": {
+    "//": "The trailing-dot path: `dot_at={{cx,cy}}` emits a native `<circle cx cy r=\"2\">` that the `PureAdminKpiSparkDot` hook swaps at mount for a CSS-pixel-sized `<span class=\"pa-kpi-spark-dot\">`. `dot_at` is a `{cx,cy}` tuple the generic dumper can't express from scenario JSON, so no scenario sets it; `<circle>` is a native tag carrying no pa-* class, so this prose deferral leaves no `pa-kpi-tile__spark*` element uncovered. (`.pa-kpi-spark-dot` is the JS-built runtime span — a separate base block, not an element of pa-kpi-tile__spark, and only materializes post-hook, out of the SSR surface.)",
+    "circle-dot": "the optional trailing <circle> (dot_at) + its post-hook .pa-kpi-spark-dot swap — tuple prop, not dumper-expressible; native <circle> carries no pa-* class, so acknowledged prose, not a pa-kpi-tile__spark* blind spot"
+  },
+  "features": {
+    "//": "Feature->class contract. `pa-kpi-tile__spark` is an element of pa-kpi-tile (no modifiers/sub-elements of its own), so the block-modifier + element reverse-checks are vacuous (base class exists → no note). The SVG `points` / `viewBox` / `preserveAspectRatio` are structural native SVG attributes (produces:null). The pa-kpi-tile__spark class is exercised directly by every golden.",
+    "points":  { "kind": "string", "produces": null, "note": "structural — native <polyline points>; keen points (required)" },
+    "viewBox": { "kind": "string", "produces": null, "note": "structural — native SVG viewBox; keen view_box" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "points": "0,18 12,16 24,17 36,12 48,15" },
+      "golden": "<svg class=\"pa-kpi-tile__spark\" viewBox=\"0 0 100 24\" preserveAspectRatio=\"none\"><polyline points=\"0,18 12,16 24,17 36,12 48,15\"></polyline></svg>",
+      "note": "Simple polyline sparkline using the default viewBox. No dot_at → no <circle>. snippets/kpi.html L252-253."
+    },
+    {
+      "name": "long-points",
+      "props": { "points": "0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" },
+      "golden": "<svg class=\"pa-kpi-tile__spark\" viewBox=\"0 0 100 24\" preserveAspectRatio=\"none\"><polyline points=\"0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5\"></polyline></svg>",
+      "note": "Full 9-point series matching the terminal tile #1 sparkline."
+    },
+    {
+      "name": "custom-viewbox",
+      "props": { "points": "0,10 20,8 40,9 60,5 80,6 100,2", "viewBox": "0 0 120 20" },
+      "golden": "<svg class=\"pa-kpi-tile__spark\" viewBox=\"0 0 120 20\" preserveAspectRatio=\"none\"><polyline points=\"0,10 20,8 40,9 60,5 80,6 100,2\"></polyline></svg>",
+      "note": "Overridden viewBox — the dimensions flow straight to the SVG attribute."
+    }
+  ]
+}

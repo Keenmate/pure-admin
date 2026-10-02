@@ -1,0 +1,89 @@
+{
+  "//": "FRAGMENT fixture for the KPI BENTO TILE sub-component — one bento cell (svelte display/KpiBentoTile.svelte, keen `PureAdmin.Components.KpiBento.kpi_bento_tile/1`). The parent kpi-bento.json container defers these tile classes (fixture-ref → here). This is a CLEAN BLOCK fixture: the root element carries the hyphen-joined block class `pa-kpi-bento-tile` (NOT a `pa-kpi-bento__tile` element of the container block), and its parts are flat sub-elements `pa-kpi-bento-tile__label/__delta/__value/__num/__unit`. Modifiers on the block: the five sentiment accents (--positive/--negative/--neutral/--up-strong/--down-strong, caught by the block-modifier reverse check and produced by the `variant` enum) plus --hero (the oversized primary cell, produced by the `isHero` bool). The sentiment DEFAULT (no variant) emits NO modifier class — the SCSS seeds `--pa-kpi-accent: var(--pa-positive)` on the bare tile, so both wrappers must guard the modifier (svelte `if (variant)`, keen `{…, v != nil}`) and NOT emit a phantom `--positive`. SCOPE: label + delta + value (prefix/num/unit) — the cells both wrappers emit identically pre-JS-hook. The full-bleed sparkline layer (__chart / __chart-svg) is DEFERRED as acknowledged prose: it hosts an author-supplied SVG fed through a slot the dumpers pass as plain text, and the two wrappers' chart SSR shells diverge (svelte wraps the slot in `use:kpiSparklineDots`, keen iterates the :chart slot list) — forcing a scenario through the chart would diff chart plumbing, not the tile contract. The detail popover (KpiDetailPopover / kpi_detail) is also out of this slice (its own kpi-detail fragment fixture). Authored from snippets/kpi.html (BENTO section) + _kpi-bento.scss. Same clean-block fragment model as timeline-item.json; same chart-deferral stance the parent container took.",
+  "component": "kpi-bento-tile",
+  "block": "pa-kpi-bento-tile",
+  "goldenConventions": "Root element is a <div class=\"pa-kpi-bento-tile …\">. __label ALWAYS renders (both wrappers emit it unconditionally; empty when no label). __delta renders only when a delta value is supplied. __value is the focal wrapper holding, in document order, an optional __unit prefix span, the __num span, and an optional __unit suffix span (snippets/kpi.html bento tile). The default sentiment emits no modifier class; --hero and the five sentiment variants are the only block modifiers. The detail popover + the sparkline __chart/__chart-svg layer are deferred (see `deferred`). Class-token + attribute order and whitespace are normalized away, so goldens are written for readability.",
+  "deferred": {
+    "//": "The full-bleed sparkline layer — hosts an author-supplied SVG fed via a slot the dumpers pass as plain TEXT, and the two wrappers' chart SSR shells diverge (svelte wraps it in a `use:kpiSparklineDots` host, keen iterates the :chart slot). Diffing it would test chart plumbing, not the tile contract — acknowledged out-of-scope prose (same stance the parent kpi-bento.json container took for the whole tile).",
+    "pa-kpi-bento-tile__chart": "full-bleed faint sparkline layer — hosts a slot-fed SVG (plain text through the dumpers); chart SSR shells diverge between wrappers — deferred",
+    "pa-kpi-bento-tile__chart-svg": "SVG host span inside __chart — part of the deferred chart layer"
+  },
+  "propsVocabulary": {
+    "variant": "sentiment accent — pa-kpi-bento-tile--{variant}; cascades the delta/sparkline colour via --pa-kpi-accent. Default (nil) emits NO modifier (SCSS seeds --pa-positive on the bare tile). svelte `variant`, keen `variant`.",
+    "isHero": "the oversized primary cell (first child) — pa-kpi-bento-tile--hero; bumps value font-size + chart height. svelte `isHero`, keen `is_hero`.",
+    "labelText": "uppercase mono name cell — pa-kpi-bento-tile__label (always rendered). svelte `labelText`, keen `label_text`.",
+    "deltaText": "Δ% chip — pa-kpi-bento-tile__delta (rendered only when set). svelte `deltaText`, keen `delta_text`.",
+    "valueText": "focal number — pa-kpi-bento-tile__num inside the __value wrapper. svelte `valueText`, keen `value_text`.",
+    "unit": "unit/affix suffix — pa-kpi-bento-tile__unit after the number. svelte `unit`, keen `unit_text`.",
+    "prefix": "currency/scale prefix — pa-kpi-bento-tile__unit before the number. svelte `prefix`, keen `prefix_text`.",
+    "extraClass": "extra classes appended verbatim to the tile (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-kpi-bento-tile'). Block modifiers in CSS: --hero + the five sentiment accents — all claimed (variant enum + isHero bool). Element classes: __label/__delta/__value/__num/__unit (exercised by goldens) + __chart/__chart-svg (deferred prose). The default sentiment produces no class. `produces: null` = structural/native (no modifier).",
+    "variant":    { "kind": "enum", "options": ["positive", "negative", "neutral", "up-strong", "down-strong"], "produces": "pa-kpi-bento-tile--{value}", "note": "sentiment accent; default (nil) emits no modifier — matches the SCSS bare-tile --pa-positive seed" },
+    "isHero":     { "kind": "bool", "produces": "pa-kpi-bento-tile--hero", "note": "the oversized primary cell (first child)" },
+    "labelText":  { "kind": "string", "produces": "pa-kpi-bento-tile__label", "note": "uppercase mono name cell, always rendered" },
+    "deltaText":  { "kind": "string", "produces": "pa-kpi-bento-tile__delta", "note": "Δ% chip, rendered only when set" },
+    "valueText":  { "kind": "string", "produces": "pa-kpi-bento-tile__num", "note": "focal number inside the __value wrapper" },
+    "unit":       { "kind": "string", "produces": "pa-kpi-bento-tile__unit", "note": "unit/affix suffix after the number (shares the __unit class with prefix)" },
+    "prefix":     { "kind": "string", "produces": "pa-kpi-bento-tile__unit", "note": "currency/scale prefix before the number (shares the __unit class with unit)" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the tile, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "labelText": "Active Users", "valueText": "12.4" },
+      "golden": "<div class=\"pa-kpi-bento-tile\"><div class=\"pa-kpi-bento-tile__label\">Active Users</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">12.4</span></div></div>",
+      "note": "Bare tile — no sentiment modifier (default seeds --pa-positive via SCSS, no class), no delta, no prefix/unit. __label + __value(__num) are the minimal cells."
+    },
+    {
+      "name": "value-affixes",
+      "props": { "labelText": "Monthly Revenue", "prefix": "$", "valueText": "849", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-bento-tile\"><div class=\"pa-kpi-bento-tile__label\">Monthly Revenue</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__unit\">$</span><span class=\"pa-kpi-bento-tile__num\">849</span><span class=\"pa-kpi-bento-tile__unit\">K</span></div></div>",
+      "note": "Prefix + unit both render as __unit spans around __num, in document order prefix → num → unit (snippets/kpi.html bento hero tile)."
+    },
+    {
+      "name": "delta",
+      "props": { "labelText": "Server Capacity", "valueText": "85.9", "unit": "%", "deltaText": "+21.0%" },
+      "golden": "<div class=\"pa-kpi-bento-tile\"><div class=\"pa-kpi-bento-tile__label\">Server Capacity</div><div class=\"pa-kpi-bento-tile__delta\">+21.0%</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">85.9</span><span class=\"pa-kpi-bento-tile__unit\">%</span></div></div>",
+      "note": "The delta chip renders only when a delta is supplied; it sits between __label and __value in document order (both wrappers)."
+    },
+    {
+      "name": "hero",
+      "props": { "isHero": true, "variant": "positive", "labelText": "Monthly Revenue", "deltaText": "+12.8%", "prefix": "$", "valueText": "849", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-bento-tile pa-kpi-bento-tile--positive pa-kpi-bento-tile--hero\"><div class=\"pa-kpi-bento-tile__label\">Monthly Revenue</div><div class=\"pa-kpi-bento-tile__delta\">+12.8%</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__unit\">$</span><span class=\"pa-kpi-bento-tile__num\">849</span><span class=\"pa-kpi-bento-tile__unit\">K</span></div></div>",
+      "note": "The hero cell with every cell populated — sentiment + --hero modifiers (snippets/kpi.html bento hero tile). Token order is normalized away."
+    },
+    {
+      "name": "positive",
+      "props": { "variant": "positive", "labelText": "Conversions", "valueText": "3.2", "unit": "%" },
+      "golden": "<div class=\"pa-kpi-bento-tile pa-kpi-bento-tile--positive\"><div class=\"pa-kpi-bento-tile__label\">Conversions</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">3.2</span><span class=\"pa-kpi-bento-tile__unit\">%</span></div></div>"
+    },
+    {
+      "name": "negative",
+      "props": { "variant": "negative", "labelText": "Churn", "valueText": "1.8", "unit": "%" },
+      "golden": "<div class=\"pa-kpi-bento-tile pa-kpi-bento-tile--negative\"><div class=\"pa-kpi-bento-tile__label\">Churn</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">1.8</span><span class=\"pa-kpi-bento-tile__unit\">%</span></div></div>"
+    },
+    {
+      "name": "neutral",
+      "props": { "variant": "neutral", "labelText": "Sessions", "valueText": "42.0", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-bento-tile pa-kpi-bento-tile--neutral\"><div class=\"pa-kpi-bento-tile__label\">Sessions</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">42.0</span><span class=\"pa-kpi-bento-tile__unit\">K</span></div></div>"
+    },
+    {
+      "name": "up-strong",
+      "props": { "variant": "up-strong", "labelText": "Server Capacity", "valueText": "85.9", "unit": "%", "deltaText": "+21.0%" },
+      "golden": "<div class=\"pa-kpi-bento-tile pa-kpi-bento-tile--up-strong\"><div class=\"pa-kpi-bento-tile__label\">Server Capacity</div><div class=\"pa-kpi-bento-tile__delta\">+21.0%</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">85.9</span><span class=\"pa-kpi-bento-tile__unit\">%</span></div></div>"
+    },
+    {
+      "name": "down-strong",
+      "props": { "variant": "down-strong", "labelText": "Error Rate", "valueText": "0.27", "unit": "%", "deltaText": "-34.6%" },
+      "golden": "<div class=\"pa-kpi-bento-tile pa-kpi-bento-tile--down-strong\"><div class=\"pa-kpi-bento-tile__label\">Error Rate</div><div class=\"pa-kpi-bento-tile__delta\">-34.6%</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">0.27</span><span class=\"pa-kpi-bento-tile__unit\">%</span></div></div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "labelText": "Active Users", "valueText": "12.4", "extraClass": "mb-2" },
+      "golden": "<div class=\"pa-kpi-bento-tile mb-2\"><div class=\"pa-kpi-bento-tile__label\">Active Users</div><div class=\"pa-kpi-bento-tile__value\"><span class=\"pa-kpi-bento-tile__num\">12.4</span></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-kpi-bento-tile; token order is normalized away."
+    }
+  ]
+}

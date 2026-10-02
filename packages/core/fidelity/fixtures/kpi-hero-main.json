@@ -1,0 +1,96 @@
+{
+  "//": "FRAGMENT fixture for the KPI HERO PANEL sub-component — the `.pa-kpi-hero-main` block (keen `PureAdmin.Components.KpiHero.kpi_hero_main/1`, svelte `display/KpiHeroMain.svelte`). This is the headline-metric panel that lives inside a `.pa-kpi-hero-list__layout` (the container is covered by kpi-hero.json, which defers this block to THIS fixture via a fixture-ref). `.pa-kpi-hero-main` is a standalone block (hyphen-joined, NOT a `pa-kpi-hero-list__*` element) carrying its own sentiment modifiers (--positive/--negative/--neutral/--up-strong, which only re-point the `--pa-kpi-accent` cascade). Its parts are FLAT siblings under `pa-kpi-hero-main__`: __label, __value (wrapping __num + optional __unit/prefix), __meta (wrapping __delta · __period · __target). SCOPE = the text/structural shape BOTH wrappers agree on. The sparkline cell (__chart / __chart-svg) is DEFERRED prose: both wrappers feed chart content through a slot that the generic dumper passes as plain ESCAPED TEXT, and the real sparkline `<svg>` is native markup the author supplies — the SSR shells for that cell can't be exercised identically here. The detail popover (`.pa-kpi-detail`, shared by every KPI tile) is opt-in (renders only when a detail title/slot is set) and is a SEPARATE block covered by kpi-detail.json, so no scenario enables it. Authored from snippets/kpi.html L483-502 + _kpi-hero-supporting.scss.",
+  "component": "kpi-hero-main",
+  "block": "pa-kpi-hero-main",
+  "propsVocabulary": {
+    "variant": "sentiment accent — pa-kpi-hero-main--{variant}; only re-points the --pa-kpi-accent cascade (delta + chart colour). Default (nil) emits NO modifier. svelte variant ('positive'|'negative'|'neutral'|'up-strong'); keen variant ('positive'|'negative'|'neutral'|'up-strong', dasherized from its underscored attr value — the dashed value passes through unchanged).",
+    "label": "uppercase mono caption — pa-kpi-hero-main__label; renders only when set. svelte labelText; keen label_text.",
+    "value": "focal numeric value — rendered as pa-kpi-hero-main__num inside the pa-kpi-hero-main__value wrapper. svelte valueText; keen value_text.",
+    "prefix": "currency/scale prefix rendered BEFORE the number as a pa-kpi-hero-main__unit span. svelte prefix; keen prefix_text.",
+    "unit": "unit suffix rendered AFTER the number as a pa-kpi-hero-main__unit span. svelte unit; keen unit_text.",
+    "delta": "Δ text in the meta row — pa-kpi-hero-main__delta. svelte deltaText; keen delta_text.",
+    "period": "period label in the meta row — pa-kpi-hero-main__period. svelte periodText; keen period_text.",
+    "target": "target label in the meta row — pa-kpi-hero-main__target. svelte targetText; keen target_text.",
+    "extraClass": "extra classes appended verbatim to the panel (svelte class, keen class) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "The __value wrapper renders whenever any of value/prefix/unit is set; inside it the prefix __unit span comes first, then the __num, then the suffix __unit span (snippets/kpi.html L486). The __meta row renders whenever any of delta/period/target is set; its three cells are __delta, __period, __target in document order. In the snippet the three meta cells are <div>s, but both wrappers emit them as <span>s (svelte :if guards + keen :if guards both use <span>), so the blessed shape for the generated DOM is <span>; the snippet's <div> is reference-only. The __label renders only when set. Default variant emits NO modifier class (SCSS treats the bare .pa-kpi-hero-main as the base, with --positive merely re-selecting the same accent). The chart cell (__chart/__chart-svg) and the opt-in detail popover are out of scope (deferred prose). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "deferred": {
+    "//": "The sparkline cell + the opt-in detail popover. __chart wraps author-supplied chart content fed through a slot the generic dumper passes as plain escaped text; __chart-svg is the native fixed-height SVG host inside it — the SSR shells for that cell can't be exercised identically across both wrappers here, so both are acknowledged prose. The detail popover is the separate `.pa-kpi-detail` block (kpi-detail.json), opt-in (renders only when a detail title/slot is set), so no scenario here enables it.",
+    "pa-kpi-hero-main__chart": "sparkline container (grows to fill spare height) — wraps author-supplied chart content fed through a slot (plain text in the dumper); deferred prose",
+    "pa-kpi-hero-main__chart-svg": "fixed-height native SVG host inside __chart (avoids Y distortion) — author markup, not emitted by the component; deferred prose"
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-hero-main(--|__)'). Block modifiers in CSS: --positive/--negative/--neutral/--up-strong (all produced by the `variant` enum). Element classes in CSS: __label, __value, __num, __unit, __meta, __delta, __period, __target (all claimed by a feature's produces + exercised by a golden) and __chart, __chart-svg (deferred prose). produces:null = structural/native (no pa-kpi-hero-main modifier).",
+    "variant":    { "kind": "enum",   "produces": "pa-kpi-hero-main--{value}", "options": ["positive", "negative", "neutral", "up-strong"], "note": "sentiment accent (re-points --pa-kpi-accent); svelte variant / keen variant (dasherized)" },
+    "label":      { "kind": "string", "produces": "pa-kpi-hero-main__label",  "note": "uppercase mono caption; svelte labelText / keen label_text" },
+    "value":      { "kind": "string", "produces": "pa-kpi-hero-main__num",    "note": "focal number inside .pa-kpi-hero-main__value; svelte valueText / keen value_text" },
+    "prefix":     { "kind": "string", "produces": "pa-kpi-hero-main__unit",   "note": "currency/scale prefix span before the number; svelte prefix / keen prefix_text" },
+    "unit":       { "kind": "string", "produces": "pa-kpi-hero-main__unit",   "note": "unit suffix span after the number; svelte unit / keen unit_text" },
+    "delta":      { "kind": "string", "produces": "pa-kpi-hero-main__delta",  "note": "Δ cell in the meta row; svelte deltaText / keen delta_text" },
+    "period":     { "kind": "string", "produces": "pa-kpi-hero-main__period", "note": "period cell in the meta row; svelte periodText / keen period_text" },
+    "target":     { "kind": "string", "produces": "pa-kpi-hero-main__target", "note": "target cell in the meta row; svelte targetText / keen target_text" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the panel, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "value-only",
+      "props": { "value": "852" },
+      "golden": "<div class=\"pa-kpi-hero-main\"><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">852</span></div></div>",
+      "note": "No label/meta → only the __value wrapper with the bare __num. No variant → no modifier class. No chart/detail."
+    },
+    {
+      "name": "label-value",
+      "props": { "label": "Monthly Revenue", "value": "852" },
+      "golden": "<div class=\"pa-kpi-hero-main\"><div class=\"pa-kpi-hero-main__label\">Monthly Revenue</div><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">852</span></div></div>",
+      "note": "Label opens the __label cell above the value."
+    },
+    {
+      "name": "value-affixes",
+      "props": { "prefix": "$", "value": "852", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-hero-main\"><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__unit\">$</span><span class=\"pa-kpi-hero-main__num\">852</span><span class=\"pa-kpi-hero-main__unit\">K</span></div></div>",
+      "note": "Prefix __unit before __num, suffix __unit after (snippets/kpi.html L486)."
+    },
+    {
+      "name": "meta",
+      "props": { "value": "852", "delta": "▲ 13.3%", "period": "vs last month", "target": "tgt $900K" },
+      "golden": "<div class=\"pa-kpi-hero-main\"><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">852</span></div><div class=\"pa-kpi-hero-main__meta\"><span class=\"pa-kpi-hero-main__delta\">▲ 13.3%</span><span class=\"pa-kpi-hero-main__period\">vs last month</span><span class=\"pa-kpi-hero-main__target\">tgt $900K</span></div></div>",
+      "note": "Any meta field opens the __meta row; the three cells are <span>s (both wrappers), delta · period · target in document order."
+    },
+    {
+      "name": "positive",
+      "props": { "variant": "positive", "label": "Monthly Revenue", "value": "852" },
+      "golden": "<div class=\"pa-kpi-hero-main pa-kpi-hero-main--positive\"><div class=\"pa-kpi-hero-main__label\">Monthly Revenue</div><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">852</span></div></div>",
+      "note": "Positive sentiment modifier."
+    },
+    {
+      "name": "negative",
+      "props": { "variant": "negative", "label": "Churn", "value": "4.1", "unit": "%" },
+      "golden": "<div class=\"pa-kpi-hero-main pa-kpi-hero-main--negative\"><div class=\"pa-kpi-hero-main__label\">Churn</div><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">4.1</span><span class=\"pa-kpi-hero-main__unit\">%</span></div></div>",
+      "note": "Negative sentiment modifier."
+    },
+    {
+      "name": "neutral",
+      "props": { "variant": "neutral", "label": "Active Users", "value": "12.4", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-hero-main pa-kpi-hero-main--neutral\"><div class=\"pa-kpi-hero-main__label\">Active Users</div><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">12.4</span><span class=\"pa-kpi-hero-main__unit\">K</span></div></div>",
+      "note": "Neutral sentiment modifier."
+    },
+    {
+      "name": "up-strong",
+      "props": { "variant": "up-strong", "label": "Signups", "value": "320", "delta": "▲ 48%" },
+      "golden": "<div class=\"pa-kpi-hero-main pa-kpi-hero-main--up-strong\"><div class=\"pa-kpi-hero-main__label\">Signups</div><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">320</span></div><div class=\"pa-kpi-hero-main__meta\"><span class=\"pa-kpi-hero-main__delta\">▲ 48%</span></div></div>",
+      "note": "Very-positive sentiment modifier; a single meta field still opens the __meta row with just __delta."
+    },
+    {
+      "name": "full",
+      "props": { "variant": "positive", "label": "Monthly Revenue", "prefix": "$", "value": "852", "unit": "K", "delta": "▲ 13.3%", "period": "vs last month", "target": "tgt $900K" },
+      "golden": "<div class=\"pa-kpi-hero-main pa-kpi-hero-main--positive\"><div class=\"pa-kpi-hero-main__label\">Monthly Revenue</div><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__unit\">$</span><span class=\"pa-kpi-hero-main__num\">852</span><span class=\"pa-kpi-hero-main__unit\">K</span></div><div class=\"pa-kpi-hero-main__meta\"><span class=\"pa-kpi-hero-main__delta\">▲ 13.3%</span><span class=\"pa-kpi-hero-main__period\">vs last month</span><span class=\"pa-kpi-hero-main__target\">tgt $900K</span></div></div>",
+      "note": "Everything (minus the deferred chart + opt-in detail popover): variant + label + affixed value + full meta row, mirroring snippets/kpi.html L483-492."
+    },
+    {
+      "name": "extra-class",
+      "props": { "value": "852", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-kpi-hero-main mb-4\"><div class=\"pa-kpi-hero-main__value\"><span class=\"pa-kpi-hero-main__num\">852</span></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-kpi-hero-main; token order is normalized away."
+    }
+  ]
+}

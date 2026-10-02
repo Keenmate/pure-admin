@@ -1,0 +1,52 @@
+{
+  "//": "FRAGMENT fixture for the per-GAUGE tile of the KPI comparison-gauges design — the `pa-kpi-gauge` CLEAN BLOCK (svelte `display/KpiGauge.svelte`, keen `PureAdmin.Components.KpiGaugeList.kpi_gauge/1`). This is the sub-component the kpi-gauge-list CONTAINER fixture defers (its gauge tiles arrive through the default slot as escaped text, so they can't materialize there). Tested in isolation here. SCOPE = the gauge tile: the block + its 4 sentiment modifiers (--positive/--warning/--negative/--neutral, which set --pa-kpi-bar-color), the head row (__head > __label + __value(__num/__unit)), the bar (__bar + __fill with the INLINE fill width), and the 0/tgt scale row (__scale). Authored from snippets/kpi.html L404-440 (comparison-gauges section) + _kpi-comparison-gauges.scss. NOTE `pa-kpi-gauge-list` is the sibling CONTAINER block — this fixture's block is the hyphen-joined `pa-kpi-gauge`, so axis-1's reverse checks scope to pa-kpi-gauge--* / pa-kpi-gauge__* only and never touch pa-kpi-gauge-list. The gauge's detail popover (keen Kpi.kpi_detail / svelte KpiDetailPopover) is a SEPARATE sub-component (its own kpi-detail fixture) and only renders when detail props are set — none of these scenarios set them, so it stays out of this slice.",
+  "component": "kpi-gauge",
+  "block": "pa-kpi-gauge",
+  "goldenConventions": "The tile is a <div class=\"pa-kpi-gauge[ --variant]\">. The head is ALWAYS emitted (__head > __label + __value); every scenario sets valueText so both wrappers emit the __num span (svelte emits an empty __num even without a value, keen omits it — so goldens only cover the value-present shape where they agree). Inside __value the order is prefix(__unit) · value(__num) · unit(__unit). The __bar ALWAYS wraps a __fill whose width is set INLINE as style=\"width: N%\" — both wrappers serialize it identically (keen `width: #{fill}%`, svelte `width: {fill}%`), defaulting to `width: 0%` when no barPercent is given. The __bar gets an inline `--pa-kpi-gauge-tick-pos: …;` style ONLY when tickPosition is set (otherwise NO style attribute — keen omits nil, svelte must omit empty; see the phantom-style note). The __scale is ALWAYS emitted with two <span>s (left defaults to '0', right empty unless scaleEndText is set) — both wrappers agree on this default. No detail popover is exercised. Attribute + class-token order and whitespace are normalized away.",
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-kpi-gauge(--|__)'). The pa-kpi-gauge BLOCK carries 4 sentiment modifiers (--positive/--warning/--negative/--neutral), each setting --pa-kpi-bar-color (the fill reads it). Element classes: __head/__label/__value/__num/__unit/__bar/__fill/__scale — all produced/exercised by the scenarios below. `produces: null` = structural/native/inline-style (no class). barPercent / tickPosition are inline styles, not classes.",
+    "variant":      { "kind": "enum", "options": ["positive", "warning", "negative", "neutral"], "produces": "pa-kpi-gauge--{value}", "note": "sentiment tint — sets --pa-kpi-bar-color" },
+    "labelText":    { "kind": "string", "produces": "pa-kpi-gauge__label", "note": "uppercase mono metric name in the head row" },
+    "valueText":    { "kind": "string", "produces": "pa-kpi-gauge__num", "note": "focal number inside __value; rendered in the __num span" },
+    "unit":         { "kind": "string", "produces": "pa-kpi-gauge__unit", "note": "unit affix after the number (__unit span)" },
+    "prefix":       { "kind": "string", "produces": "pa-kpi-gauge__unit", "note": "currency/scale affix before the number (also a __unit span)" },
+    "barPercent":   { "kind": "string", "produces": null, "note": "bar fill width as a percent; set INLINE on __fill as style=\"width: N%\" (default 0). Integer (keen attr is :integer)" },
+    "tickPosition": { "kind": "string", "produces": null, "note": "inline --pa-kpi-gauge-tick-pos on __bar; absence omits the style attribute entirely" },
+    "scaleEndText": { "kind": "string", "produces": null, "note": "right scale label (e.g. 'tgt 90%'); the __scale row itself is structural — produced by the always-on scale" }
+  },
+  "deferred": {
+    "//": "The hover detail popover is a SEPARATE sub-component (svelte KpiDetailPopover / keen Kpi.kpi_detail, covered by the kpi-detail fixture) that renders only when detail props are set — none of these scenarios set them, so no pa-kpi-detail* class appears and there is nothing here to defer. No pa-kpi-gauge* element class is left uncovered."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "labelText": "Monthly Revenue", "valueText": "859" },
+      "golden": "<div class=\"pa-kpi-gauge\"><div class=\"pa-kpi-gauge__head\"><div class=\"pa-kpi-gauge__label\">Monthly Revenue</div><div class=\"pa-kpi-gauge__value\"><span class=\"pa-kpi-gauge__num\">859</span></div></div><div class=\"pa-kpi-gauge__bar\"><div class=\"pa-kpi-gauge__fill\" style=\"width: 0%\"></div></div><div class=\"pa-kpi-gauge__scale\"><span>0</span><span></span></div></div>",
+      "note": "The blessed default tile with no variant: head (label + value/num only), bar wrapping a zero-width fill (no barPercent → width: 0%), and the always-on scale row defaulting to '0' / empty right."
+    },
+    {
+      "name": "positive",
+      "props": { "variant": "positive", "labelText": "Monthly Revenue", "prefix": "$", "valueText": "859", "unit": "K", "barPercent": 95, "scaleEndText": "tgt $900K" },
+      "golden": "<div class=\"pa-kpi-gauge pa-kpi-gauge--positive\"><div class=\"pa-kpi-gauge__head\"><div class=\"pa-kpi-gauge__label\">Monthly Revenue</div><div class=\"pa-kpi-gauge__value\"><span class=\"pa-kpi-gauge__unit\">$</span><span class=\"pa-kpi-gauge__num\">859</span><span class=\"pa-kpi-gauge__unit\">K</span></div></div><div class=\"pa-kpi-gauge__bar\"><div class=\"pa-kpi-gauge__fill\" style=\"width: 95%\"></div></div><div class=\"pa-kpi-gauge__scale\"><span>0</span><span>tgt $900K</span></div></div>",
+      "note": "Full positive tile mirroring the snippet's Monthly Revenue gauge — prefix($) + num + unit(K) in the value, a filled bar, and a target-labelled scale. prefix and unit both use the __unit span."
+    },
+    {
+      "name": "warning",
+      "props": { "variant": "warning", "labelText": "Server Capacity", "valueText": "84.5", "unit": "%", "barPercent": 84, "tickPosition": "80%", "scaleEndText": "100% · tgt 80%" },
+      "golden": "<div class=\"pa-kpi-gauge pa-kpi-gauge--warning\"><div class=\"pa-kpi-gauge__head\"><div class=\"pa-kpi-gauge__label\">Server Capacity</div><div class=\"pa-kpi-gauge__value\"><span class=\"pa-kpi-gauge__num\">84.5</span><span class=\"pa-kpi-gauge__unit\">%</span></div></div><div class=\"pa-kpi-gauge__bar\" style=\"--pa-kpi-gauge-tick-pos: 80%;\"><div class=\"pa-kpi-gauge__fill\" style=\"width: 84%\"></div></div><div class=\"pa-kpi-gauge__scale\"><span>0</span><span>100% · tgt 80%</span></div></div>",
+      "note": "Warning tile mirroring the snippet's Server Capacity gauge — num + unit(%), and a shifted target tick (--pa-kpi-gauge-tick-pos: 80%) for a 0→100% scale. Both wrappers serialize the tick style identically (keen `#{pos};`, svelte `${pos}`→trailing ';' added by the wrapper); the tick-only form is 'tickPosition: {pos};'."
+    },
+    {
+      "name": "negative",
+      "props": { "variant": "negative", "labelText": "Churn Rate", "valueText": "7.2", "unit": "%", "barPercent": 40, "scaleEndText": "tgt 5%" },
+      "golden": "<div class=\"pa-kpi-gauge pa-kpi-gauge--negative\"><div class=\"pa-kpi-gauge__head\"><div class=\"pa-kpi-gauge__label\">Churn Rate</div><div class=\"pa-kpi-gauge__value\"><span class=\"pa-kpi-gauge__num\">7.2</span><span class=\"pa-kpi-gauge__unit\">%</span></div></div><div class=\"pa-kpi-gauge__bar\"><div class=\"pa-kpi-gauge__fill\" style=\"width: 40%\"></div></div><div class=\"pa-kpi-gauge__scale\"><span>0</span><span>tgt 5%</span></div></div>",
+      "note": "Negative sentiment tint (sets --pa-kpi-bar-color to --pa-negative)."
+    },
+    {
+      "name": "neutral",
+      "props": { "variant": "neutral", "labelText": "Open Tickets", "valueText": "128", "barPercent": 55 },
+      "golden": "<div class=\"pa-kpi-gauge pa-kpi-gauge--neutral\"><div class=\"pa-kpi-gauge__head\"><div class=\"pa-kpi-gauge__label\">Open Tickets</div><div class=\"pa-kpi-gauge__value\"><span class=\"pa-kpi-gauge__num\">128</span></div></div><div class=\"pa-kpi-gauge__bar\"><div class=\"pa-kpi-gauge__fill\" style=\"width: 55%\"></div></div><div class=\"pa-kpi-gauge__scale\"><span>0</span><span></span></div></div>",
+      "note": "Neutral sentiment tint (muted text colour via color-mix). No unit, no scale-end label — default empty right scale span."
+    }
+  ]
+}

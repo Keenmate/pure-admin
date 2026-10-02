@@ -1,0 +1,31 @@
+{
+  "//": "FRAGMENT fixture for the KPI DETAIL hover popover — the `.pa-kpi-detail` block (keen `PureAdmin.Components.Kpi.kpi_detail/1`, svelte `display/KpiDetailPopover.svelte`). A pa-kpi-detail is the `<div class=\"pa-kpi-detail\" role=\"tooltip\">` element authored INSIDE a host KPI tile/row; the client JS hook relocates it to `<body>` and follows the cursor. It holds an optional `.pa-kpi-detail__title` and a native `<dl>` of `<dt>`/`<dd>` rows (each `<dd>` optionally tinted with a bare `pos`/`neg`/`warn` sentiment class — NOT `pa-*`). SCOPE = the popover's own structural markup for the TITLE-driven shape where both wrappers agree verbatim. The `<dl>` AUTO-ROWS path is DEFERRED as acknowledged prose: the row data is a typed list (keen `rows` = list of maps with ATOM keys via KpiDetail.build_auto_rows/1; svelte `rows` = KpiDetailRow[] with camelCase keys), which the generic text/string/bool/enum dumper path cannot express (a JSON array of string-keyed maps would crash keen's atom-key `row.label_text` access), so no scenario drives rows — the `<dl>`/`<dt>`/`<dd>` are NATIVE tags carrying no `pa-*` class anyway, so leaving them unexercised does not create a `pa-kpi-detail__*` blind spot (the block's ONLY element class in CSS is `__title`, exercised by every scenario). The popover renders NOTHING when there is no title and no custom content (opt-in), so a no-title scenario is intentionally omitted. Authored from snippets/kpi.html (L257-260) + _kpi-base.scss.",
+  "component": "kpi-detail",
+  "block": "pa-kpi-detail",
+  "propsVocabulary": {
+    "title": "popover title — `.pa-kpi-detail__title` div. Setting it (or custom content) enables the popover. svelte titleText; keen title_text."
+  },
+  "goldenConventions": "The popover root is `<div class=\"pa-kpi-detail\" role=\"tooltip\">`; its `role=\"tooltip\"` is a real (non-boolean) attribute that IS compared. The title is a `.pa-kpi-detail__title` div. The auto-row `<dl>` is not exercised (deferred prose); it would be a native `<dl><dt>…</dt><dd class=\"pos|neg|warn\">…</dd></dl>` with no pa-* class. Attribute + class-token order and whitespace are normalized away.",
+  "deferred": {
+    "//": "The auto-built row list rendered as a native `<dl>`/`<dt>`/`<dd>` — driven by a typed `rows` list prop the generic dumper can't express (keen atom-key maps vs svelte camelCase maps), so no scenario exercises it. These are NATIVE tags with NO `pa-*` class (the only tint is a bare `pos`/`neg`/`warn` string on `<dd>`, outside the pa- namespace), so this prose deferral does NOT leave a `pa-kpi-detail__*` element uncovered — the block's sole element class in CSS, `__title`, is exercised by every scenario.",
+    "dl-rows": "the native <dl>/<dt>/<dd> auto-row body — typed list prop, not dumper-expressible; carries no pa-* class (dd tint is a bare pos/neg/warn string), so it's acknowledged prose, not a pa-kpi-detail__* blind spot"
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-detail(--|__)' yields only `__title`; the block has NO modifiers). `title` produces `pa-kpi-detail__title`. role=\"tooltip\" is a structural native attribute on the root (not a feature). produces:null = structural/native.",
+    "title": { "kind": "string", "produces": "pa-kpi-detail__title", "note": "popover title div; svelte titleText / keen title_text" }
+  },
+  "scenarios": [
+    {
+      "name": "title",
+      "props": { "title": "Completion Rate · 30D" },
+      "golden": "<div class=\"pa-kpi-detail\" role=\"tooltip\"><div class=\"pa-kpi-detail__title\">Completion Rate · 30D</div></div>",
+      "note": "Title-only popover — root div carries role=\"tooltip\"; title is the __title div. No rows → no <dl>. snippets/kpi.html L257-258."
+    },
+    {
+      "name": "title-revenue",
+      "props": { "title": "Monthly Revenue · 12mo" },
+      "golden": "<div class=\"pa-kpi-detail\" role=\"tooltip\"><div class=\"pa-kpi-detail__title\">Monthly Revenue · 12mo</div></div>",
+      "note": "Second title variant — confirms the __title shape is stable across values."
+    }
+  ]
+}

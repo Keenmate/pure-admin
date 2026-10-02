@@ -122,6 +122,34 @@ Both tools exit non-zero on failure (0 = aligned), so they drop into CI. A
 `*.dump.json` is `[{ "name": "<scenario>", "html": "<fragment>" }]` — a
 regenerable artifact (gitignored in the wrappers).
 
+### Core CI gate
+
+`compare.mjs` needs a wrapper's dump, so correctness runs in the svelte/keen
+repos' own CI. The **completeness** half needs only the fixtures + the compiled
+CSS, so it runs in core:
+
+```bash
+npm run fidelity -w @keenmate/pure-admin-core   # fidelity/check-all.mjs
+```
+
+`check-all.mjs` sweeps every fixture through `capability.mjs` axis-1 (feature
+contract ↔ `dist/css/main.css`) + axis-3, failing if core drifts its CSS out from
+under the oracle contract (phantom class, unmapped modifier, uncovered element).
+Wired as `.github/workflows/fidelity.yml` on push/PR touching `src/scss/**` or
+`fidelity/**`.
+
+### Consuming the oracle from the published package
+
+`fidelity/` ships in the npm package (`files` + the `./fidelity/*` export), so a
+wrapper can run the harness against the installed core instead of a sibling
+checkout:
+
+```bash
+node node_modules/@keenmate/pure-admin-core/fidelity/compare.mjs \
+  node_modules/@keenmate/pure-admin-core/fidelity/fixtures/card.json \
+  scripts/fidelity/svelte-card.dump.json --label svelte
+```
+
 ## Adding a component
 
 1. **Fixture** — write `fixtures/<component>.json`: set `block`, author

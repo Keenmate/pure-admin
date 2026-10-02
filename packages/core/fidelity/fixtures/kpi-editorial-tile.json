@@ -1,0 +1,90 @@
+{
+  "//": "FRAGMENT fixture for the KPI EDITORIAL TILE sub-component — one editorial-minimal cell (svelte display/KpiEditorialTile.svelte, keen `PureAdmin.Components.KpiEditorial.kpi_editorial_tile/1`). The parent kpi-editorial.json container defers these tile classes (fixture-ref → here). This is a FLAT-SIBLING fragment (same model as list-item.json): the root element is itself an ELEMENT of the container block — `pa-kpi-edit__tile` — and all its cells are FLAT SIBLINGS under the same `pa-kpi-edit__` prefix (`__label/__value/__num/__unit/__meta/__delta[/--*]/__target`), NOT `pa-kpi-edit__tile__*`. There are no `pa-kpi-edit__tile--*` modifiers and no `pa-kpi-edit__tile__*` sub-elements, so capability's reverse checks (scoped to `pa-kpi-edit__tile--` / `pa-kpi-edit__tile__`) are vacuously empty; the base class `pa-kpi-edit__tile` DOES exist in main.css, so there's no vacuous-scope note. The sibling cell classes are claimed via each feature's `produces` (forward-verified against main.css) and exercised by the goldens. The only block-with-modifiers here is the __delta cell: its five sentiment tints (--positive/--negative/--neutral/--up-strong/--down-strong) are produced by the `deltaVariant` enum; the BARE __delta (no variant) emits no tint class and the SCSS defaults it to --pa-positive. SCOPE: label + value (prefix/num/unit) + meta (delta + target). The detail popover (KpiDetailPopover / kpi_detail) is out of this slice (its own kpi-detail fragment fixture). The __target cell wraps its value after a literal `<em>tgt</em>` (both wrappers). Authored from snippets/kpi.html (EDITORIAL section) + _kpi-editorial-minimal.scss.",
+  "component": "kpi-editorial-tile",
+  "block": "pa-kpi-edit__tile",
+  "goldenConventions": "Root element is a <div class=\"pa-kpi-edit__tile …\">. __label ALWAYS renders (both wrappers emit it unconditionally; empty when no label). __value is the headline wrapper holding, in document order, an optional __unit prefix span, the __num span, and an optional __unit suffix span. __meta renders only when a delta and/or target is supplied; inside it, the __delta span (coloured, with an optional sentiment tint modifier) comes first, then the __target span whose content is a literal <em>tgt</em> followed by the target value. The bare __delta (no deltaVariant) emits no tint modifier. Class-token + attribute order and whitespace are normalized away, so goldens are written for readability.",
+  "propsVocabulary": {
+    "labelText": "uppercase mono caption — pa-kpi-edit__label (always rendered). svelte `labelText`, keen `label_text`.",
+    "valueText": "headline thin numeral — pa-kpi-edit__num inside the __value wrapper. svelte `valueText`, keen `value_text`.",
+    "unit": "unit/affix suffix — pa-kpi-edit__unit after the number. svelte `unit`, keen `unit_text`.",
+    "prefix": "currency/scale prefix — pa-kpi-edit__unit before the number. svelte `prefix`, keen `prefix_text`.",
+    "deltaText": "delta value in the meta row — pa-kpi-edit__delta (rendered only when set). svelte `deltaText`, keen `delta_text`.",
+    "deltaVariant": "sentiment tint on the delta — pa-kpi-edit__delta--{variant}; default (nil) emits no tint (SCSS defaults the bare __delta to --pa-positive). svelte `deltaVariant`, keen `delta_variant` (underscore up_strong/down_strong dasherized to the class).",
+    "targetText": "target value in the meta row — pa-kpi-edit__target, prefixed by a literal <em>tgt</em> (rendered only when set). svelte `targetText`, keen `target_text`.",
+    "extraClass": "extra classes appended verbatim to the tile (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "features": {
+    "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-kpi-edit__'). The root block pa-kpi-edit__tile has NO own modifiers/sub-elements (reverse checks vacuously empty; base class exists → no note). Sibling cell classes are claimed via `produces` + exercised by goldens. The only modifier family is on __delta — the five sentiment tints (deltaVariant enum); the default emits no tint. `produces: null` = structural/native (no class).",
+    "labelText":    { "kind": "string", "produces": "pa-kpi-edit__label", "note": "uppercase mono caption, always rendered" },
+    "valueText":    { "kind": "string", "produces": "pa-kpi-edit__num", "note": "headline thin numeral inside the __value wrapper" },
+    "unit":         { "kind": "string", "produces": "pa-kpi-edit__unit", "note": "unit/affix suffix after the number (shares __unit with prefix)" },
+    "prefix":       { "kind": "string", "produces": "pa-kpi-edit__unit", "note": "currency/scale prefix before the number (shares __unit with unit)" },
+    "deltaText":    { "kind": "string", "produces": "pa-kpi-edit__delta", "note": "delta value in the meta row, rendered only when set" },
+    "deltaVariant": { "kind": "enum", "options": ["positive", "negative", "neutral", "up-strong", "down-strong"], "produces": "pa-kpi-edit__delta--{value}", "note": "sentiment tint on the delta; default (nil) emits no tint — matches the SCSS bare-__delta --pa-positive default" },
+    "targetText":   { "kind": "string", "produces": "pa-kpi-edit__target", "note": "target value in the meta row, prefixed by a literal <em>tgt</em>" },
+    "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the tile, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "labelText": "Active Users", "valueText": "12.4" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Active Users</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">12.4</span></div></div>",
+      "note": "Bare tile — label + value(num) only, no meta row (no delta/target). The flat-sibling cells under pa-kpi-edit__."
+    },
+    {
+      "name": "value-affixes",
+      "props": { "labelText": "Monthly Revenue", "prefix": "$", "valueText": "849", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Monthly Revenue</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__unit\">$</span><span class=\"pa-kpi-edit__num\">849</span><span class=\"pa-kpi-edit__unit\">K</span></div></div>",
+      "note": "Prefix + unit both render as __unit spans around __num, in document order prefix → num → unit."
+    },
+    {
+      "name": "delta",
+      "props": { "labelText": "Completion Rate", "valueText": "87.1", "unit": "%", "deltaText": "+3.4%" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Completion Rate</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">87.1</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta\">+3.4%</span></div></div>",
+      "note": "Delta alone opens the __meta row; the bare __delta emits no tint modifier (default --pa-positive via SCSS)."
+    },
+    {
+      "name": "target",
+      "props": { "labelText": "Completion Rate", "valueText": "87.1", "unit": "%", "targetText": "90.0%" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Completion Rate</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">87.1</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__target\"><em>tgt</em>90.0%</span></div></div>",
+      "note": "Target alone opens the __meta row; __target content is a literal <em>tgt</em> followed by the value (both wrappers)."
+    },
+    {
+      "name": "delta-target",
+      "props": { "labelText": "Completion Rate", "valueText": "87.1", "unit": "%", "deltaText": "+3.4%", "deltaVariant": "positive", "targetText": "90.0%" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Completion Rate</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">87.1</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta pa-kpi-edit__delta--positive\">+3.4%</span><span class=\"pa-kpi-edit__target\"><em>tgt</em>90.0%</span></div></div>",
+      "note": "Full meta row — tinted delta first, then target; delta → target document order."
+    },
+    {
+      "name": "delta-positive",
+      "props": { "labelText": "Conversions", "valueText": "3.2", "unit": "%", "deltaText": "+0.4%", "deltaVariant": "positive" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Conversions</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">3.2</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta pa-kpi-edit__delta--positive\">+0.4%</span></div></div>"
+    },
+    {
+      "name": "delta-negative",
+      "props": { "labelText": "Churn", "valueText": "1.8", "unit": "%", "deltaText": "+0.3%", "deltaVariant": "negative" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Churn</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">1.8</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta pa-kpi-edit__delta--negative\">+0.3%</span></div></div>"
+    },
+    {
+      "name": "delta-neutral",
+      "props": { "labelText": "Sessions", "valueText": "42.0", "unit": "K", "deltaText": "0.0%", "deltaVariant": "neutral" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Sessions</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">42.0</span><span class=\"pa-kpi-edit__unit\">K</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta pa-kpi-edit__delta--neutral\">0.0%</span></div></div>"
+    },
+    {
+      "name": "delta-up-strong",
+      "props": { "labelText": "Server Capacity", "valueText": "85.9", "unit": "%", "deltaText": "+21.0%", "deltaVariant": "up-strong" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Server Capacity</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">85.9</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta pa-kpi-edit__delta--up-strong\">+21.0%</span></div></div>"
+    },
+    {
+      "name": "delta-down-strong",
+      "props": { "labelText": "Error Rate", "valueText": "0.27", "unit": "%", "deltaText": "-34.6%", "deltaVariant": "down-strong" },
+      "golden": "<div class=\"pa-kpi-edit__tile\"><div class=\"pa-kpi-edit__label\">Error Rate</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">0.27</span><span class=\"pa-kpi-edit__unit\">%</span></div><div class=\"pa-kpi-edit__meta\"><span class=\"pa-kpi-edit__delta pa-kpi-edit__delta--down-strong\">-34.6%</span></div></div>"
+    },
+    {
+      "name": "extra-class",
+      "props": { "labelText": "Active Users", "valueText": "12.4", "extraClass": "mb-2" },
+      "golden": "<div class=\"pa-kpi-edit__tile mb-2\"><div class=\"pa-kpi-edit__label\">Active Users</div><div class=\"pa-kpi-edit__value\"><span class=\"pa-kpi-edit__num\">12.4</span></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-kpi-edit__tile; token order is normalized away."
+    }
+  ]
+}

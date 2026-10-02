@@ -23,20 +23,20 @@
     "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card, not a core feature" }
   },
   "deferred": {
-    "//": "Per-GAUGE element + state classes of the comparison-gauges design — NOT container markup. They are emitted by the SEPARATE gauge sub-component (svelte KpiGauge.svelte, keen kpi_gauge/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize here and there is NO kpi-gauge fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. The gauge tile is its own hyphen-joined block (pa-kpi-gauge), not a pa-kpi-gauge-list__* element, so capability axis-1's element reverse-check does not catch it. The --positive/--warning/--negative/--neutral modifiers set the fill colour via --pa-kpi-bar-color. The bar fill width and the target-tick position (--pa-kpi-gauge-tick-pos) are inline per-tile styles.",
-    "pa-kpi-gauge":             "gauge tile sub-component (svelte KpiGauge / keen kpi_gauge) — one goal-vs-target gauge; slot-fed, no fragment fixture/dumper wiring",
-    "pa-kpi-gauge--positive":   "gauge fill tint (positive) — sets --pa-kpi-bar-color; gauge sub-component modifier",
-    "pa-kpi-gauge--warning":    "gauge fill tint (warning) — gauge sub-component modifier",
-    "pa-kpi-gauge--negative":   "gauge fill tint (negative) — gauge sub-component modifier",
-    "pa-kpi-gauge--neutral":    "gauge fill tint (neutral) — gauge sub-component modifier",
-    "pa-kpi-gauge__head":       "gauge sub-component — label + value row (space-between, baseline-aligned)",
-    "pa-kpi-gauge__label":      "gauge sub-component — the uppercase mono metric name",
-    "pa-kpi-gauge__value":      "gauge sub-component — the value wrapper (__num + __unit)",
-    "pa-kpi-gauge__num":        "gauge sub-component — the focal number inside __value",
-    "pa-kpi-gauge__unit":       "gauge sub-component — the unit/currency affix inside __value",
-    "pa-kpi-gauge__bar":        "gauge sub-component — the track; reads --pa-kpi-gauge-tick-pos (inline, default 100%) + --pa-kpi-gauge-tick-color for the target tick",
-    "pa-kpi-gauge__fill":       "gauge sub-component — the coloured fill; width set INLINE (value ÷ target %)",
-    "pa-kpi-gauge__scale":      "gauge sub-component — the '0 … tgt {value}' end-label row"
+    "//": "Per-GAUGE element + state classes of the comparison-gauges design — NOT container markup. They are emitted by the SEPARATE gauge sub-component (svelte KpiGauge.svelte, keen kpi_gauge/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize in THIS container slice. They are now covered by the dedicated kpi-gauge FRAGMENT fixture (svelte KpiGauge, keen kpi_gauge/1) and are fixture-ref'd here — capability VERIFIES each ref actually produces/renders the class in kpi-gauge.json. The gauge tile is its own hyphen-joined block (pa-kpi-gauge), not a pa-kpi-gauge-list__* element, so capability axis-1's element reverse-check does not catch it; the fixture-ref is the verifier. The --positive/--warning/--negative/--neutral modifiers set the fill colour via --pa-kpi-bar-color. The bar fill width and the target-tick position (--pa-kpi-gauge-tick-pos) are inline per-tile styles, exercised in the kpi-gauge fragment scenarios.",
+    "pa-kpi-gauge":             { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge--positive":   { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge--warning":    { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge--negative":   { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge--neutral":    { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__head":       { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__label":      { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__value":      { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__num":        { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__unit":       { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__bar":        { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__fill":       { "fixture": "kpi-gauge" },
+    "pa-kpi-gauge__scale":      { "fixture": "kpi-gauge" }
   },
   "scenarios": [
     {

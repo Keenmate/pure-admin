@@ -1,0 +1,38 @@
+name: Markup-fidelity gate
+
+on:
+  push:
+    branches: [prod, main]
+    paths:
+      - "packages/core/src/scss/**"
+      - "packages/core/fidelity/**"
+      - ".github/workflows/fidelity.yml"
+  pull_request:
+    paths:
+      - "packages/core/src/scss/**"
+      - "packages/core/fidelity/**"
+
+jobs:
+  fidelity:
+    name: Fixtures vs compiled CSS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core CSS
+        run: npm run build -w @keenmate/pure-admin-core
+
+      # capability.mjs axis-1 (feature contract ↔ compiled CSS) + axis-3 need only
+      # the fixtures + dist/css/main.css — no wrapper checkout. (compare.mjs needs a
+      # wrapper's dump, so correctness lives in the svelte/keen repos' own CI.)
+      - name: Fidelity gate
+        run: npm run fidelity -w @keenmate/pure-admin-core

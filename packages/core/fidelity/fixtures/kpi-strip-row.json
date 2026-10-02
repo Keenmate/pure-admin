@@ -1,0 +1,81 @@
+{
+  "//": "FRAGMENT fixture for the KPI NUMERIC-STRIP ROW sub-component — the `.pa-kpi-strip__row` the kpi-strip container (kpi-strip.json) feeds through its default slot and DEFERS to here. Tested in isolation (svelte `display/KpiStripRow.svelte` → REGISTRY key kpi-strip-row; keen `PureAdmin.Components.KpiStrip.kpi_strip_row/1` → render/2 + meta/1 key kpi-strip-row). GENERALITY NOTE (same model as list-item.json): the row's cells are FLAT SIBLINGS under the `pa-kpi-strip__` block (`pa-kpi-strip__metric`/`__now`/`__num`/`__unit`/`__prev`/`__delta`/`__target`/`__bar`/`__fill`/`__bar-pct`), NOT sub-elements of `pa-kpi-strip__row`. So block=`pa-kpi-strip__row` gives a VACUOUS reverse scope (no `pa-kpi-strip__row--*`/`pa-kpi-strip__row__*` selectors exist) — but the base class `pa-kpi-strip__row` DOES exist in main.css, so no vacuous-scope note. The sibling cells are claimed via each feature's `produces` (forward-verified against main.css) and exercised by the goldens; capability's reverse checks (scoped to pa-kpi-strip__row--/__ ) are correctly empty. The container (kpi-strip.json) OWNS `__body`/`__head-row`/`__head`(+`--num`/`--prev`/`--delta`/`--target`) — those are NOT part of this row fragment. The bare `__delta` renders the positive colour; `__delta--*` are the five sentiment variants. `__fill` carries an INLINE width (style='width: N%'), never a class — both wrappers emit the identical `width: N%` value (keen `width: #{capped||0}%`, svelte `width: {capped ?? 0}%`). Authored from snippets/kpi.html (NUMERIC STRIP section, L648-672) + _kpi-numeric-strip.scss.",
+  "component": "kpi-strip-row",
+  "block": "pa-kpi-strip__row",
+  "goldenConventions": "Row element is a <div class=\"pa-kpi-strip__row\"> (hover host for the detail popover; the popover itself is JS-relocated and not SSR-material here when no detail is set). Cell order is fixed: metric, now, (prev), delta, target. The metric/now/delta/target cells ALWAYS render; the prev cell renders ONLY when previousValueText is set (both wrappers guard it). Inside __now: an optional __unit prefix, then __num, then an optional __unit suffix — __num always renders when valueText is set (keen guards __num on value_text, svelte renders it unconditionally, so every scenario here sets valueText to keep the two shells identical). The target cell always holds __bar > __fill (inline width), plus __bar-pct ONLY when targetPercentText is set. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "propsVocabulary": {
+    "metric": "metric-name cell text — pa-kpi-strip__metric. svelte metricText; keen metric_text.",
+    "value": "focal 'now' number — the pa-kpi-strip__num inside pa-kpi-strip__now. svelte valueText; keen value_text.",
+    "unit": "unit suffix after the number — pa-kpi-strip__unit (second affix inside __now). svelte unit; keen unit_text.",
+    "prefix": "currency/scale prefix before the number — pa-kpi-strip__unit (first affix inside __now). svelte prefix; keen prefix_text.",
+    "prev": "previous-period value — pa-kpi-strip__prev (cell omitted when unset). svelte previousValueText; keen previous_value_text.",
+    "delta": "Δ% text — pa-kpi-strip__delta. svelte deltaText; keen delta_text.",
+    "deltaVariant": "Δ% sentiment — pa-kpi-strip__delta--{variant}. svelte deltaVariant; keen delta_variant.",
+    "targetBarPercent": "target bar fill width % (0-100, visually capped) — inline style on pa-kpi-strip__fill. svelte targetBarPercent; keen target_bar_percent.",
+    "targetPercent": "percent label below the target bar — pa-kpi-strip__bar-pct (may exceed 100). svelte targetPercentText; keen target_percent_text.",
+    "extraClass": "extra classes appended verbatim to the row (passthrough — svelte class, keen class)."
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-strip__'). The row's cells are flat siblings under pa-kpi-strip__ claimed via produces + exercised by goldens. deltaVariant's five options map to the blessed sentiment suffixes (--positive/--negative/--neutral/--up-strong/--down-strong). metric/value/prev/delta text slots carry no modifier. unit/prefix both land in pa-kpi-strip__unit (the same affix class, before/after __num). targetBarPercent sets the INLINE width on __fill (produces:null — structural, no class). targetPercent produces the __bar-pct label element. __now/__target/__bar/__fill are structural wrappers always present (exercised by goldens).",
+    "metric":           { "kind": "string", "produces": "pa-kpi-strip__metric" },
+    "value":            { "kind": "string", "produces": "pa-kpi-strip__num" },
+    "unit":             { "kind": "string", "produces": "pa-kpi-strip__unit" },
+    "prefix":           { "kind": "string", "produces": "pa-kpi-strip__unit" },
+    "prev":             { "kind": "string", "produces": "pa-kpi-strip__prev" },
+    "delta":            { "kind": "string", "produces": "pa-kpi-strip__delta" },
+    "deltaVariant":     { "kind": "enum", "options": ["positive", "negative", "neutral", "up-strong", "down-strong"], "produces": "pa-kpi-strip__delta--{value}" },
+    "targetBarPercent": { "kind": "string", "produces": null, "note": "structural — sets the INLINE width on pa-kpi-strip__fill (style='width: N%'), never a class" },
+    "targetPercent":    { "kind": "string", "produces": "pa-kpi-strip__bar-pct" },
+    "extraClass":       { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the row, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "full",
+      "props": { "metric": "Completion Rate", "value": "87.1", "unit": "%", "prev": "84.2%", "delta": "+3.4%", "deltaVariant": "positive", "targetBarPercent": 97, "targetPercent": "97%" },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Completion Rate</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__num\">87.1</span><span class=\"pa-kpi-strip__unit\">%</span></div><div class=\"pa-kpi-strip__prev\">84.2%</div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--positive\">+3.4%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 97%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">97%</div></div></div>",
+      "note": "Every cell: metric, now (num + unit suffix), prev, positive delta, target (bar with inline 97% fill + bar-pct). Mirrors snippets/kpi.html L648-661."
+    },
+    {
+      "name": "prefix-unit",
+      "props": { "metric": "Monthly Revenue", "prefix": "$", "value": "835", "unit": "K", "prev": "$752K", "delta": "+11.0%", "deltaVariant": "up-strong", "targetBarPercent": 93, "targetPercent": "93%" },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Monthly Revenue</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__unit\">$</span><span class=\"pa-kpi-strip__num\">835</span><span class=\"pa-kpi-strip__unit\">K</span></div><div class=\"pa-kpi-strip__prev\">$752K</div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--up-strong\">+11.0%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 93%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">93%</div></div></div>",
+      "note": "Prefix affix precedes __num, unit affix follows it (both are pa-kpi-strip__unit). up-strong delta sentiment."
+    },
+    {
+      "name": "delta-negative",
+      "props": { "metric": "Churn", "value": "4.1", "unit": "%", "prev": "3.6%", "delta": "+13.9%", "deltaVariant": "negative", "targetBarPercent": 114, "targetPercent": "114%" },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Churn</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__num\">4.1</span><span class=\"pa-kpi-strip__unit\">%</span></div><div class=\"pa-kpi-strip__prev\">3.6%</div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--negative\">+13.9%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 100%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">114%</div></div></div>",
+      "note": "negative delta sentiment. targetBarPercent 114 is capped to 100 for the INLINE fill width (both wrappers clamp to 0-100), while targetPercent prints the raw 114% in __bar-pct."
+    },
+    {
+      "name": "delta-neutral",
+      "props": { "metric": "Active Users", "value": "12.4", "unit": "K", "prev": "12.4K", "delta": "0.0%", "deltaVariant": "neutral", "targetBarPercent": 62, "targetPercent": "62%" },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Active Users</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__num\">12.4</span><span class=\"pa-kpi-strip__unit\">K</span></div><div class=\"pa-kpi-strip__prev\">12.4K</div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--neutral\">0.0%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 62%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">62%</div></div></div>",
+      "note": "neutral delta sentiment."
+    },
+    {
+      "name": "delta-down-strong",
+      "props": { "metric": "Error Rate", "value": "0.27", "unit": "%", "prev": "0.41%", "delta": "-34.6%", "deltaVariant": "down-strong", "targetBarPercent": 54, "targetPercent": "54%" },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Error Rate</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__num\">0.27</span><span class=\"pa-kpi-strip__unit\">%</span></div><div class=\"pa-kpi-strip__prev\">0.41%</div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--down-strong\">-34.6%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 54%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">54%</div></div></div>",
+      "note": "down-strong delta sentiment. Mirrors snippets/kpi.html L663-671."
+    },
+    {
+      "name": "bare-delta",
+      "props": { "metric": "Latency", "value": "128", "unit": "ms", "prev": "131ms", "delta": "-2.3%", "targetBarPercent": 88, "targetPercent": "88%" },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Latency</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__num\">128</span><span class=\"pa-kpi-strip__unit\">ms</span></div><div class=\"pa-kpi-strip__prev\">131ms</div><div class=\"pa-kpi-strip__delta\">-2.3%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 88%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">88%</div></div></div>",
+      "note": "No deltaVariant → bare pa-kpi-strip__delta (renders the default positive colour via the CSS base rule). Verifies neither wrapper adds a phantom default --* modifier."
+    },
+    {
+      "name": "no-prev-no-barpct",
+      "props": { "metric": "Signups", "value": "1,204", "delta": "+6.0%", "deltaVariant": "positive", "targetBarPercent": 75 },
+      "golden": "<div class=\"pa-kpi-strip__row\"><div class=\"pa-kpi-strip__metric\">Signups</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__num\">1,204</span></div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--positive\">+6.0%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 75%\"></div></div></div></div>",
+      "note": "No prev → the __prev cell is omitted entirely (both wrappers guard it). No unit/prefix → __now holds only __num. No targetPercent → __bar-pct omitted (both wrappers guard it), but __bar/__fill still render."
+    },
+    {
+      "name": "extra-class",
+      "props": { "metric": "Revenue", "value": "900", "unit": "K", "prefix": "$", "delta": "+1.0%", "deltaVariant": "positive", "targetBarPercent": 100, "targetPercent": "100%", "extraClass": "is-featured" },
+      "golden": "<div class=\"pa-kpi-strip__row is-featured\"><div class=\"pa-kpi-strip__metric\">Revenue</div><div class=\"pa-kpi-strip__now\"><span class=\"pa-kpi-strip__unit\">$</span><span class=\"pa-kpi-strip__num\">900</span><span class=\"pa-kpi-strip__unit\">K</span></div><div class=\"pa-kpi-strip__delta pa-kpi-strip__delta--positive\">+1.0%</div><div class=\"pa-kpi-strip__target\"><div class=\"pa-kpi-strip__bar\"><div class=\"pa-kpi-strip__fill\" style=\"width: 100%\"></div></div><div class=\"pa-kpi-strip__bar-pct\">100%</div></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-kpi-strip__row; token order normalized. No prev cell."
+    }
+  ]
+}

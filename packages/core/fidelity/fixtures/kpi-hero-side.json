@@ -1,0 +1,84 @@
+{
+  "//": "FRAGMENT fixture for the KPI SUPPORTING TILE sub-component — the `.pa-kpi-hero-side` block (keen `PureAdmin.Components.KpiHero.kpi_hero_side/1`, svelte `display/KpiHeroSide.svelte`). This is one compact tile in the right-side rail of a `.pa-kpi-hero-list` (the container is covered by kpi-hero.json, which defers this block to THIS fixture via a fixture-ref). `.pa-kpi-hero-side` is a standalone block (hyphen-joined, NOT a `pa-kpi-hero-list__*` element) carrying its own sentiment modifiers (--positive/--negative/--neutral/--up-strong, which only re-point the `--pa-kpi-accent` cascade on __delta). It is a 2×2 grid: __label top-left, __delta bottom-left, __value (wrapping __num + optional __unit/prefix) spanning both rows on the right. GOTCHA: both wrappers ALWAYS emit the __label and __value cells (even when empty), because the grid areas are fixed; only __delta is conditional. SCOPE = the full text/structural shape both wrappers agree on. The detail popover (`.pa-kpi-detail`, shared by every KPI tile) is opt-in (renders only when a detail title/slot is set) and is a SEPARATE block covered by kpi-detail.json, so no scenario enables it. Authored from snippets/kpi.html L506-515 + _kpi-hero-supporting.scss.",
+  "component": "kpi-hero-side",
+  "block": "pa-kpi-hero-side",
+  "propsVocabulary": {
+    "variant": "sentiment accent — pa-kpi-hero-side--{variant}; only re-points the --pa-kpi-accent cascade (delta colour). Default (nil) emits NO modifier. svelte variant ('positive'|'negative'|'neutral'|'up-strong'); keen variant ('positive'|'negative'|'neutral'|'up-strong', dasherized from its underscored attr value — the dashed value passes through unchanged).",
+    "label": "uppercase mono caption — pa-kpi-hero-side__label; the cell ALWAYS renders (fixed grid area), empty when unset. svelte labelText; keen label_text.",
+    "value": "focal numeric value — rendered as pa-kpi-hero-side__num inside the always-rendered pa-kpi-hero-side__value wrapper. svelte valueText; keen value_text.",
+    "prefix": "currency/scale prefix rendered BEFORE the number as a pa-kpi-hero-side__unit span. svelte prefix; keen prefix_text.",
+    "unit": "unit suffix rendered AFTER the number as a pa-kpi-hero-side__unit span. svelte unit; keen unit_text.",
+    "delta": "Δ text — pa-kpi-hero-side__delta; renders only when set. svelte deltaText; keen delta_text.",
+    "extraClass": "extra classes appended verbatim to the tile (svelte class, keen class) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "The __label and __value cells ALWAYS render (both wrappers unconditionally emit them so the 2×2 grid areas are present), so EVERY golden carries them — __label is empty when no label is set. Inside __value the prefix __unit span comes first, then the __num, then the suffix __unit span. The __delta cell renders only when the delta text is set. Default variant emits NO modifier class (SCSS treats the bare .pa-kpi-hero-side as the base). The opt-in detail popover is out of scope (never enabled). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "deferred": {
+    "//": "Only the opt-in detail popover is out of scope here — it is the separate `.pa-kpi-detail` block (kpi-detail.json), rendered only when a detail title/slot is set, so no scenario enables it. All of pa-kpi-hero-side's own element classes (__label/__value/__num/__unit/__delta) are exercised by the goldens; nothing from this block is deferred."
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-hero-side(--|__)'). Block modifiers in CSS: --positive/--negative/--neutral/--up-strong (all produced by the `variant` enum). Element classes in CSS: __label, __value, __num, __unit, __delta — all claimed by a feature's produces + exercised by a golden. produces:null = structural/native (no pa-kpi-hero-side modifier).",
+    "variant":    { "kind": "enum",   "produces": "pa-kpi-hero-side--{value}", "options": ["positive", "negative", "neutral", "up-strong"], "note": "sentiment accent (re-points --pa-kpi-accent); svelte variant / keen variant (dasherized)" },
+    "label":      { "kind": "string", "produces": "pa-kpi-hero-side__label", "note": "uppercase mono caption (cell always rendered); svelte labelText / keen label_text" },
+    "value":      { "kind": "string", "produces": "pa-kpi-hero-side__num",   "note": "focal number inside the always-rendered .pa-kpi-hero-side__value; svelte valueText / keen value_text" },
+    "prefix":     { "kind": "string", "produces": "pa-kpi-hero-side__unit",  "note": "currency/scale prefix span before the number; svelte prefix / keen prefix_text" },
+    "unit":       { "kind": "string", "produces": "pa-kpi-hero-side__unit",  "note": "unit suffix span after the number; svelte unit / keen unit_text" },
+    "delta":      { "kind": "string", "produces": "pa-kpi-hero-side__delta", "note": "Δ cell; renders only when set; svelte deltaText / keen delta_text" },
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the tile, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "value-only",
+      "props": { "value": "88.5" },
+      "golden": "<div class=\"pa-kpi-hero-side\"><div class=\"pa-kpi-hero-side__label\"></div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">88.5</span></div></div>",
+      "note": "No label/delta set, but the __label cell still renders (empty) — the fixed grid area. No variant → no modifier."
+    },
+    {
+      "name": "label-value",
+      "props": { "label": "Completion Rate", "value": "88.5", "unit": "%" },
+      "golden": "<div class=\"pa-kpi-hero-side\"><div class=\"pa-kpi-hero-side__label\">Completion Rate</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">88.5</span><span class=\"pa-kpi-hero-side__unit\">%</span></div></div>",
+      "note": "Label + value + unit suffix; snippets/kpi.html L507-508."
+    },
+    {
+      "name": "value-affixes",
+      "props": { "label": "Monthly Revenue", "prefix": "$", "value": "852", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-hero-side\"><div class=\"pa-kpi-hero-side__label\">Monthly Revenue</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__unit\">$</span><span class=\"pa-kpi-hero-side__num\">852</span><span class=\"pa-kpi-hero-side__unit\">K</span></div></div>",
+      "note": "Prefix __unit before __num, suffix __unit after."
+    },
+    {
+      "name": "delta",
+      "props": { "label": "Completion Rate", "value": "88.5", "unit": "%", "delta": "+5.1% vs prev" },
+      "golden": "<div class=\"pa-kpi-hero-side\"><div class=\"pa-kpi-hero-side__label\">Completion Rate</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">88.5</span><span class=\"pa-kpi-hero-side__unit\">%</span></div><div class=\"pa-kpi-hero-side__delta\">+5.1% vs prev</div></div>",
+      "note": "Delta set → the __delta cell renders (snippets/kpi.html L509). Note cell order in markup: label, value, then delta (grid-area places delta bottom-left visually)."
+    },
+    {
+      "name": "positive",
+      "props": { "variant": "positive", "label": "Completion Rate", "value": "88.5", "unit": "%", "delta": "+5.1% vs prev" },
+      "golden": "<div class=\"pa-kpi-hero-side pa-kpi-hero-side--positive\"><div class=\"pa-kpi-hero-side__label\">Completion Rate</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">88.5</span><span class=\"pa-kpi-hero-side__unit\">%</span></div><div class=\"pa-kpi-hero-side__delta\">+5.1% vs prev</div></div>",
+      "note": "Positive sentiment modifier (snippets/kpi.html L506)."
+    },
+    {
+      "name": "negative",
+      "props": { "variant": "negative", "label": "Error Rate", "value": "0.27", "unit": "%", "delta": "-0.14pp vs prev" },
+      "golden": "<div class=\"pa-kpi-hero-side pa-kpi-hero-side--negative\"><div class=\"pa-kpi-hero-side__label\">Error Rate</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">0.27</span><span class=\"pa-kpi-hero-side__unit\">%</span></div><div class=\"pa-kpi-hero-side__delta\">-0.14pp vs prev</div></div>",
+      "note": "Negative sentiment modifier (snippets/kpi.html L511)."
+    },
+    {
+      "name": "neutral",
+      "props": { "variant": "neutral", "label": "Sessions", "value": "4.2", "unit": "K" },
+      "golden": "<div class=\"pa-kpi-hero-side pa-kpi-hero-side--neutral\"><div class=\"pa-kpi-hero-side__label\">Sessions</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">4.2</span><span class=\"pa-kpi-hero-side__unit\">K</span></div></div>",
+      "note": "Neutral sentiment modifier; no delta → no __delta cell."
+    },
+    {
+      "name": "up-strong",
+      "props": { "variant": "up-strong", "label": "Signups", "value": "320", "delta": "▲ 48%" },
+      "golden": "<div class=\"pa-kpi-hero-side pa-kpi-hero-side--up-strong\"><div class=\"pa-kpi-hero-side__label\">Signups</div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">320</span></div><div class=\"pa-kpi-hero-side__delta\">▲ 48%</div></div>",
+      "note": "Very-positive sentiment modifier."
+    },
+    {
+      "name": "extra-class",
+      "props": { "value": "88.5", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-kpi-hero-side mb-4\"><div class=\"pa-kpi-hero-side__label\"></div><div class=\"pa-kpi-hero-side__value\"><span class=\"pa-kpi-hero-side__num\">88.5</span></div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-kpi-hero-side; token order is normalized away."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "//": "FRAGMENT fixture for the KPI SPARKLINE-LIST ROW sub-component — the `.pa-kpi-spark-row` CLEAN BLOCK the kpi-sparkline-list container (kpi-sparkline-list.json) feeds through its body slot and DEFERS to here. Tested in isolation (svelte `display/KpiSparklineRow.svelte` → REGISTRY key kpi-sparkline-row; keen `PureAdmin.Components.KpiSparklineList.kpi_sparkline_row/1` → render/2 + meta/1 key kpi-sparkline-row). Unlike kpi-strip-row (an element-rooted FLAT-SIBLING fragment), this is a real BLOCK (block=`pa-kpi-spark-row`) carrying its own five sentiment modifiers (--up/--up-strong/--flat/--down/--down-strong) caught by the reverse check, with proper __-element children (__label/__chart/__value/__num/__unit/__delta[+ --*]). The container (kpi-sparkline-list.json) owns the --no-delta/--chart-first list modifiers + the card chrome — NOT this fragment. CHART CELL: __chart hosts an author SVG via a slot; both wrappers ALWAYS emit the <div class=\"pa-kpi-spark-row__chart\"> wrapper and render the slot content inside it verbatim, so a PLAIN-TEXT chart token keeps the two SSR shells identical (the real SVG + the JS-generated pa-kpi-spark-wrap/pa-kpi-spark-dot are out of scope — JS-built, never SSR-authored; they stay deferred on the container). Authored from snippets/kpi.html (SPARKLINE LIST section, L339-367) + _kpi-sparkline-list.scss.",
+  "component": "kpi-sparkline-row",
+  "block": "pa-kpi-spark-row",
+  "goldenConventions": "Row element is a <div class=\"pa-kpi-spark-row [--variant]\"> (hover host for the detail popover; the popover is JS-relocated and not SSR-material here when no detail is set). Cell order is fixed and ALL FOUR always render: __label, __chart, __value, __delta. Inside __value: an optional __unit prefix, then __num, then an optional __unit suffix — __num always renders when valueText is set (keen guards __num on value_text, svelte renders it unconditionally, so every scenario sets valueText to keep the two shells identical). The chart cell wraps a plain-text token standing in for the author SVG. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "propsVocabulary": {
+    "variant": "row trend sentiment — pa-kpi-spark-row--{variant}; cascades colour to the chart via currentColor. svelte variant; keen variant.",
+    "label": "uppercase metric name — pa-kpi-spark-row__label. svelte labelText; keen label_text.",
+    "chart": "chart cell content (author SVG sparkline; plain text here) — wrapped in pa-kpi-spark-row__chart. svelte chart snippet; keen :chart slot.",
+    "value": "focal number — the pa-kpi-spark-row__num inside pa-kpi-spark-row__value. svelte valueText; keen value_text.",
+    "unit": "unit suffix after the number — pa-kpi-spark-row__unit (second affix inside __value). svelte unit; keen unit_text.",
+    "prefix": "currency/scale prefix before the number — pa-kpi-spark-row__unit (first affix inside __value). svelte prefix; keen prefix_text.",
+    "delta": "Δ% text — pa-kpi-spark-row__delta. svelte deltaText; keen delta_text.",
+    "deltaVariant": "Δ% sentiment tint — pa-kpi-spark-row__delta--{variant}. svelte deltaVariant; keen delta_variant.",
+    "extraClass": "extra classes appended verbatim to the row (passthrough — svelte class, keen class)."
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-spark-row'). variant's five options are the blessed row sentiment modifiers (--up-strong/--up/--flat/--down/--down-strong). deltaVariant's five options are the blessed Δ% tints (--very-positive/--positive/--neutral/--negative/--very-negative — a DIFFERENT scale from variant). label/value/delta text slots + chart carry element classes. unit/prefix both land in pa-kpi-spark-row__unit (same affix class, before/after __num). __value is a structural wrapper always present (exercised by goldens).",
+    "variant":      { "kind": "enum", "options": ["up-strong", "up", "flat", "down", "down-strong"], "produces": "pa-kpi-spark-row--{value}" },
+    "label":        { "kind": "string", "produces": "pa-kpi-spark-row__label" },
+    "chart":        { "kind": "slot", "produces": "pa-kpi-spark-row__chart" },
+    "value":        { "kind": "string", "produces": "pa-kpi-spark-row__num" },
+    "unit":         { "kind": "string", "produces": "pa-kpi-spark-row__unit" },
+    "prefix":       { "kind": "string", "produces": "pa-kpi-spark-row__unit" },
+    "delta":        { "kind": "string", "produces": "pa-kpi-spark-row__delta" },
+    "deltaVariant": { "kind": "enum", "options": ["very-positive", "positive", "neutral", "negative", "very-negative"], "produces": "pa-kpi-spark-row__delta--{value}" },
+    "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the row, not a core feature" }
+  },
+  "scenarios": [
+    {
+      "name": "up",
+      "props": { "variant": "up", "label": "Completion Rate", "chart": "CHART", "value": "87.9", "unit": "%", "delta": "+4.4%", "deltaVariant": "positive" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--up\"><div class=\"pa-kpi-spark-row__label\">Completion Rate</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__num\">87.9</span><span class=\"pa-kpi-spark-row__unit\">%</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive\">+4.4%</div></div>",
+      "note": "up trend variant + positive delta tint. Mirrors snippets/kpi.html L339-354 (minus the real SVG — a plain CHART text token stands in for the slotted sparkline)."
+    },
+    {
+      "name": "up-strong",
+      "props": { "variant": "up-strong", "label": "Signups", "chart": "CHART", "value": "1,204", "delta": "+28.0%", "deltaVariant": "very-positive" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--up-strong\"><div class=\"pa-kpi-spark-row__label\">Signups</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__num\">1,204</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--very-positive\">+28.0%</div></div>",
+      "note": "up-strong trend + very-positive delta tint. No unit/prefix → __value holds only __num."
+    },
+    {
+      "name": "flat",
+      "props": { "variant": "flat", "label": "Active Users", "chart": "CHART", "value": "12.4", "unit": "K", "delta": "0.0%", "deltaVariant": "neutral" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--flat\"><div class=\"pa-kpi-spark-row__label\">Active Users</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__num\">12.4</span><span class=\"pa-kpi-spark-row__unit\">K</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--neutral\">0.0%</div></div>",
+      "note": "flat trend + neutral delta tint."
+    },
+    {
+      "name": "down",
+      "props": { "variant": "down", "label": "Latency", "chart": "CHART", "value": "128", "unit": "ms", "delta": "+2.3%", "deltaVariant": "negative" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--down\"><div class=\"pa-kpi-spark-row__label\">Latency</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__num\">128</span><span class=\"pa-kpi-spark-row__unit\">ms</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--negative\">+2.3%</div></div>",
+      "note": "down trend + negative delta tint."
+    },
+    {
+      "name": "down-strong",
+      "props": { "variant": "down-strong", "label": "Error Rate", "chart": "CHART", "value": "0.25", "unit": "%", "delta": "-38.1%", "deltaVariant": "very-negative" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--down-strong\"><div class=\"pa-kpi-spark-row__label\">Error Rate</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__num\">0.25</span><span class=\"pa-kpi-spark-row__unit\">%</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--very-negative\">-38.1%</div></div>",
+      "note": "down-strong trend + very-negative delta tint. Mirrors snippets/kpi.html L356-366."
+    },
+    {
+      "name": "prefix-unit",
+      "props": { "variant": "up", "label": "Monthly Revenue", "chart": "CHART", "prefix": "$", "value": "848", "unit": "K", "delta": "+12.0%", "deltaVariant": "positive" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--up\"><div class=\"pa-kpi-spark-row__label\">Monthly Revenue</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__unit\">$</span><span class=\"pa-kpi-spark-row__num\">848</span><span class=\"pa-kpi-spark-row__unit\">K</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive\">+12.0%</div></div>",
+      "note": "Prefix affix precedes __num, unit affix follows it (both pa-kpi-spark-row__unit)."
+    },
+    {
+      "name": "bare",
+      "props": { "label": "Throughput", "chart": "CHART", "value": "9.2", "unit": "k/s", "delta": "+1.1%" },
+      "golden": "<div class=\"pa-kpi-spark-row\"><div class=\"pa-kpi-spark-row__label\">Throughput</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__num\">9.2</span><span class=\"pa-kpi-spark-row__unit\">k/s</span></div><div class=\"pa-kpi-spark-row__delta\">+1.1%</div></div>",
+      "note": "No variant → bare pa-kpi-spark-row (no trend modifier); no deltaVariant → bare pa-kpi-spark-row__delta. Verifies neither wrapper adds a phantom default modifier on either scale."
+    },
+    {
+      "name": "extra-class",
+      "props": { "variant": "up", "label": "Revenue", "chart": "CHART", "value": "900", "unit": "K", "prefix": "$", "delta": "+1.0%", "deltaVariant": "positive", "extraClass": "is-featured" },
+      "golden": "<div class=\"pa-kpi-spark-row pa-kpi-spark-row--up is-featured\"><div class=\"pa-kpi-spark-row__label\">Revenue</div><div class=\"pa-kpi-spark-row__chart\">CHART</div><div class=\"pa-kpi-spark-row__value\"><span class=\"pa-kpi-spark-row__unit\">$</span><span class=\"pa-kpi-spark-row__num\">900</span><span class=\"pa-kpi-spark-row__unit\">K</span></div><div class=\"pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive\">+1.0%</div></div>",
+      "note": "Class passthrough — the extra class is appended after pa-kpi-spark-row--up; token order normalized."
+    }
+  ]
+}

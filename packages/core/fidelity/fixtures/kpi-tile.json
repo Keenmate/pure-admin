@@ -1,0 +1,185 @@
+{
+  "//": "FRAGMENT fixture for the canonical KPI TILE — the `.pa-kpi-tile` block (keen `PureAdmin.Components.Kpi.kpi_tile/1`, svelte `display/KpiTerminalTile.svelte`). A pa-kpi-tile is one dense KPI cell used inside a `.pa-kpi-terminal__grid` (or standalone via `--standalone`): a head row (`__head` with `__id` + `__status`), an uppercase `__label`, a focal value group (`__values` > `__value` > `__num`/`__unit`), a previous-period `__prev` row (bare `prev <value>` span + `__delta` chip), a sparkline `__spark` SVG, and an optional hover detail popover. SCOPE = the tile's own structural markup across the simple/sentiment states where BOTH wrappers agree. TWO ACKNOWLEDGED DIVERGENCES drive the scenario design (documented, NOT fixed in either wrapper): (1) svelte ALWAYS emits `.pa-kpi-tile__label` and `.pa-kpi-tile__values` (even empty), while keen renders them only when their data is present — so EVERY scenario supplies both labelText AND valueText, making the two wrappers emit identical label + values. (2) svelte wraps the chart slot in a `<div style=\"display:contents\">` host (for the kpiSparklineDots action) while keen renders the chart SVG directly — so NO scenario exercises the chart slot; the `.pa-kpi-tile__spark` SVG is DEFERRED (fixture-ref) to kpi-sparkline, which produces it. The hover detail popover (`.pa-kpi-detail*`) is a SEPARATE block (distinct hyphen-joined `pa-kpi-detail`, not a `pa-kpi-tile__*` element) emitted by the sibling kpi_detail/1 — none of these scenarios set detailTitleText, so the popover never renders, and it is deferred (fixture-ref) to kpi-detail. Authored from snippets/kpi.html (terminal tile, L239-261) + _kpi-terminal.scss / _kpi-base.scss.",
+  "component": "kpi-tile",
+  "block": "pa-kpi-tile",
+  "propsVocabulary": {
+    "variant": "spark-direction sentiment cascade on the block — `pa-kpi-tile--{variant}` (up-strong/up/flat/down/down-strong); colours the sparkline via currentColor. svelte variant; keen variant (dasherizes up_strong->up-strong).",
+    "standalone": "`pa-kpi-tile--standalone` — full border + card bg + bottom margin for a tile OUTSIDE a `__grid`. svelte isStandalone; keen is_standalone. bool.",
+    "idText": "tertiary identifier caption in the head row — `__id` span. svelte idText; keen id_text. Head row renders when idText and/or statusText is present.",
+    "statusText": "status pill text (e.g. WARN/GOOD) — `__status` span. svelte statusText; keen status_text.",
+    "statusVariant": "status pill variant — `__status--{variant}` (good/warn/neutral). svelte statusVariant; keen status_variant.",
+    "labelText": "uppercase metric name — `__label`. svelte labelText; keen label_text. (Divergence: svelte always emits the __label div; keen only when set — every scenario sets it.)",
+    "valuePrefix": "currency/scale prefix ($,¥) — leading `__unit` span inside `__value`. svelte valuePrefix; keen prefix_text.",
+    "valueText": "focal number — `__num`. svelte valueText; keen value_text. (Divergence: svelte always emits the __values div; keen only when a value part is set — every scenario sets it.)",
+    "valueUnit": "trailing unit affix (%,K) — trailing `__unit` span inside `__value`. svelte valueUnit; keen unit_text.",
+    "valueVariant": "sentiment tint on the focal value — `__value--{variant}` (very-positive/positive/neutral/negative/very-negative). svelte valueVariant; keen value_variant.",
+    "previousValueText": "bare previous value — rendered as `prev <value>` in a plain `<span>` inside `__prev`. svelte previousValueText; keen previous_value_text. The __prev row renders when previousValueText and/or deltaText is present.",
+    "deltaText": "bottom-row Δ% chip text (caller supplies the arrow) — `__delta`. svelte deltaText; keen delta_text.",
+    "deltaVariant": "sentiment tint on the delta chip — `__delta--{variant}` (same 5-value sentiment scale as valueVariant). svelte deltaVariant; keen delta_variant.",
+    "extraClass": "extra classes appended verbatim to the tile shell (svelte `class`, keen `class`) — class passthrough, not a core feature."
+  },
+  "goldenConventions": "Element order inside `.pa-kpi-tile`: `__head` (when id/status) → `__label` → `__values` > `__value` > [prefix __unit] __num [unit __unit] → `__prev` (plain prev span + `__delta` chip) → `__spark` (deferred, not exercised). The `__prev` baseline is a BARE `<span>` (no element class) holding the literal text `prev <value>`. Every scenario sets labelText + valueText so svelte's always-rendered __label/__values match keen's conditional ones. The chart slot is never exercised (svelte wraps it in a display:contents host; keen renders direct). No detailTitleText → no popover. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "deferred": {
+    "//": "`.pa-kpi-tile__spark` is the sparkline SVG — svelte wraps the chart slot in a `<div style=\"display:contents\">` host while keen renders the SVG directly, so the chart slot is NOT exercised here; the spark SVG is produced by the kpi_sparkline/1 convenience component and is fixture-verified against kpi-sparkline. The `.pa-kpi-detail*` popover is a SEPARATE block (distinct hyphen-joined `pa-kpi-detail`, not a `pa-kpi-tile__*` element) emitted by the sibling kpi_detail/1 only when detailTitleText (or a detail slot) is set — no scenario sets it, so it never renders; verified against kpi-detail. Because `pa-kpi-detail*` is its own block it is NOT caught by capability axis-1's `pa-kpi-tile__*` element reverse-check, but a fixture-ref is still authored to document the ownership.",
+    "pa-kpi-tile__spark":        { "fixture": "kpi-sparkline" },
+    "pa-kpi-detail":             { "fixture": "kpi-detail" },
+    "pa-kpi-detail__title":      { "fixture": "kpi-detail" }
+  },
+  "features": {
+    "//": "Feature->class contract authored from dist/css/main.css (grep '\\.pa-kpi-tile(--|__)'). Block modifiers: --up-strong/--up/--flat/--down/--down-strong (produced by `variant`) + --standalone (produced by `standalone`). Element classes: __head/__id/__status(+good/warn/neutral)/__label/__values/__value(+5 sentiment)/__num/__unit/__prev/__delta(+5 sentiment) all claimed by features and/or exercised by goldens (the BASE `__delta` class has NO standalone rule in main.css — only `__delta--*` is styled, produced by deltaVariant — so deltaText is produces:null and the base class is covered by the goldens that render it); __spark is deferred (fixture-ref kpi-sparkline). produces:null = structural/native (no pa-kpi-tile modifier).",
+    "variant":        { "kind": "enum",   "produces": "pa-kpi-tile--{value}", "options": ["up-strong", "up", "flat", "down", "down-strong"], "note": "spark-direction sentiment on the block; svelte variant / keen variant (dasherized)" },
+    "standalone":     { "kind": "bool",   "produces": "pa-kpi-tile--standalone", "note": "full-border standalone tile; svelte isStandalone / keen is_standalone" },
+    "idText":         { "kind": "string", "produces": "pa-kpi-tile__id", "note": "head-row identifier caption; svelte idText / keen id_text" },
+    "statusText":     { "kind": "string", "produces": "pa-kpi-tile__status", "note": "head-row status pill text; svelte statusText / keen status_text" },
+    "statusVariant":  { "kind": "enum",   "produces": "pa-kpi-tile__status--{value}", "options": ["good", "warn", "neutral"], "note": "status pill variant; svelte statusVariant / keen status_variant" },
+    "labelText":      { "kind": "string", "produces": "pa-kpi-tile__label", "note": "uppercase metric name; svelte labelText / keen label_text (svelte always emits the div)" },
+    "valuePrefix":    { "kind": "string", "produces": "pa-kpi-tile__unit", "note": "leading currency/scale affix inside __value; svelte valuePrefix / keen prefix_text" },
+    "valueText":      { "kind": "string", "produces": "pa-kpi-tile__num", "note": "focal number; svelte valueText / keen value_text (svelte always emits the __values div)" },
+    "valueUnit":      { "kind": "string", "produces": "pa-kpi-tile__unit", "note": "trailing unit affix inside __value; svelte valueUnit / keen unit_text" },
+    "valueVariant":   { "kind": "enum",   "produces": "pa-kpi-tile__value--{value}", "options": ["very-positive", "positive", "neutral", "negative", "very-negative"], "note": "focal-value sentiment tint; svelte valueVariant / keen value_variant" },
+    "previousValueText": { "kind": "string", "produces": null, "note": "structural — bare `prev <value>` span inside __prev; svelte previousValueText / keen previous_value_text" },
+    "deltaText":      { "kind": "string", "produces": null, "note": "structural — bottom-row delta chip `.pa-kpi-tile__delta`; the BASE class has no standalone rule in main.css (only the `__delta--*` sentiment variants are styled, produced by deltaVariant), so produces:null — the base class is still exercised directly by the prev-delta goldens. svelte deltaText / keen delta_text" },
+    "deltaVariant":   { "kind": "enum",   "produces": "pa-kpi-tile__delta--{value}", "options": ["very-positive", "positive", "neutral", "negative", "very-negative"], "note": "delta chip sentiment tint; svelte deltaVariant / keen delta_variant" },
+    "extraClass":     { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the tile shell" }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "labelText": "Completion Rate", "valueText": "88.6" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">88.6</span></span></div></div>",
+      "note": "Minimal tile — label + focal number only. No head (no id/status), no prev row, no chart. Both label + value always present so svelte/keen agree."
+    },
+    {
+      "name": "head",
+      "props": { "idText": "KPI.01 · 30d", "statusText": "WARN", "statusVariant": "warn", "labelText": "Completion Rate", "valueText": "88.6" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__head\"><span class=\"pa-kpi-tile__id\">KPI.01 · 30d</span><span class=\"pa-kpi-tile__status pa-kpi-tile__status--warn\">WARN</span></div><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">88.6</span></span></div></div>",
+      "note": "Head row: __id + __status pill (warn). snippets/kpi.html L240-243."
+    },
+    {
+      "name": "status-good",
+      "props": { "idText": "KPI.02 · 12mo", "statusText": "GOOD", "statusVariant": "good", "labelText": "Monthly Revenue", "valueText": "835" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__head\"><span class=\"pa-kpi-tile__id\">KPI.02 · 12mo</span><span class=\"pa-kpi-tile__status pa-kpi-tile__status--good\">GOOD</span></div><div class=\"pa-kpi-tile__label\">Monthly Revenue</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">835</span></span></div></div>",
+      "note": "Status pill variant good."
+    },
+    {
+      "name": "status-neutral",
+      "props": { "statusText": "NEUTRAL", "statusVariant": "neutral", "labelText": "Active Users", "valueText": "1204" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__head\"><span class=\"pa-kpi-tile__status pa-kpi-tile__status--neutral\">NEUTRAL</span></div><div class=\"pa-kpi-tile__label\">Active Users</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">1204</span></span></div></div>",
+      "note": "Status pill variant neutral; head row with only a status (no id)."
+    },
+    {
+      "name": "value-prefix-unit",
+      "props": { "labelText": "Monthly Revenue", "valuePrefix": "$", "valueText": "835", "valueUnit": "K" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Monthly Revenue</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__unit\">$</span><span class=\"pa-kpi-tile__num\">835</span><span class=\"pa-kpi-tile__unit\">K</span></span></div></div>",
+      "note": "Prefix + number + unit — three children of __value in order. snippets/kpi.html L270."
+    },
+    {
+      "name": "value-sentiment",
+      "props": { "labelText": "Completion Rate", "valueText": "88.6", "valueUnit": "%", "valueVariant": "positive" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value pa-kpi-tile__value--positive\"><span class=\"pa-kpi-tile__num\">88.6</span><span class=\"pa-kpi-tile__unit\">%</span></span></div></div>",
+      "note": "Focal-value sentiment tint (positive) on __value; number + trailing unit."
+    },
+    {
+      "name": "value-very-positive",
+      "props": { "labelText": "Growth", "valueText": "99.1", "valueVariant": "very-positive" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Growth</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value pa-kpi-tile__value--very-positive\"><span class=\"pa-kpi-tile__num\">99.1</span></span></div></div>",
+      "note": "very-positive value tint."
+    },
+    {
+      "name": "value-neutral",
+      "props": { "labelText": "Latency", "valueText": "42", "valueVariant": "neutral" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Latency</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value pa-kpi-tile__value--neutral\"><span class=\"pa-kpi-tile__num\">42</span></span></div></div>",
+      "note": "neutral value tint."
+    },
+    {
+      "name": "value-negative",
+      "props": { "labelText": "Error Rate", "valueText": "3.2", "valueVariant": "negative" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Error Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value pa-kpi-tile__value--negative\"><span class=\"pa-kpi-tile__num\">3.2</span></span></div></div>",
+      "note": "negative value tint."
+    },
+    {
+      "name": "value-very-negative",
+      "props": { "labelText": "Downtime", "valueText": "12.5", "valueVariant": "very-negative" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Downtime</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value pa-kpi-tile__value--very-negative\"><span class=\"pa-kpi-tile__num\">12.5</span></span></div></div>",
+      "note": "very-negative value tint."
+    },
+    {
+      "name": "prev-delta",
+      "props": { "labelText": "Completion Rate", "valueText": "88.6", "previousValueText": "84.2%", "deltaText": "▲ 5.2%", "deltaVariant": "positive" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">88.6</span></span></div><div class=\"pa-kpi-tile__prev\"><span>prev 84.2%</span><span class=\"pa-kpi-tile__delta pa-kpi-tile__delta--positive\">▲ 5.2%</span></div></div>",
+      "note": "Previous row: bare `prev <value>` span + __delta chip (positive). snippets/kpi.html L248-251."
+    },
+    {
+      "name": "delta-very-positive",
+      "props": { "labelText": "Revenue", "valueText": "835", "previousValueText": "752", "deltaText": "▲ 11.0%", "deltaVariant": "very-positive" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Revenue</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">835</span></span></div><div class=\"pa-kpi-tile__prev\"><span>prev 752</span><span class=\"pa-kpi-tile__delta pa-kpi-tile__delta--very-positive\">▲ 11.0%</span></div></div>",
+      "note": "very-positive delta tint."
+    },
+    {
+      "name": "delta-neutral",
+      "props": { "labelText": "Sessions", "valueText": "500", "deltaText": "▬ 0.0%", "deltaVariant": "neutral" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Sessions</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">500</span></span></div><div class=\"pa-kpi-tile__prev\"><span class=\"pa-kpi-tile__delta pa-kpi-tile__delta--neutral\">▬ 0.0%</span></div></div>",
+      "note": "neutral delta; prev row with only a delta (no previous value)."
+    },
+    {
+      "name": "delta-negative",
+      "props": { "labelText": "Error Rate", "valueText": "3.2", "previousValueText": "2.8", "deltaText": "▼ 14.3%", "deltaVariant": "negative" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Error Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">3.2</span></span></div><div class=\"pa-kpi-tile__prev\"><span>prev 2.8</span><span class=\"pa-kpi-tile__delta pa-kpi-tile__delta--negative\">▼ 14.3%</span></div></div>",
+      "note": "negative delta tint."
+    },
+    {
+      "name": "delta-very-negative",
+      "props": { "labelText": "Downtime", "valueText": "12.5", "previousValueText": "4.0", "deltaText": "▼ 212%", "deltaVariant": "very-negative" },
+      "golden": "<div class=\"pa-kpi-tile\"><div class=\"pa-kpi-tile__label\">Downtime</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">12.5</span></span></div><div class=\"pa-kpi-tile__prev\"><span>prev 4.0</span><span class=\"pa-kpi-tile__delta pa-kpi-tile__delta--very-negative\">▼ 212%</span></div></div>",
+      "note": "very-negative delta tint."
+    },
+    {
+      "name": "variant-up",
+      "props": { "variant": "up", "labelText": "Completion Rate", "valueText": "88.6" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--up\"><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">88.6</span></span></div></div>",
+      "note": "Block spark-direction modifier up."
+    },
+    {
+      "name": "variant-up-strong",
+      "props": { "variant": "up-strong", "labelText": "Growth", "valueText": "140" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--up-strong\"><div class=\"pa-kpi-tile__label\">Growth</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">140</span></span></div></div>",
+      "note": "up-strong; keen dasherizes up_strong."
+    },
+    {
+      "name": "variant-flat",
+      "props": { "variant": "flat", "labelText": "Sessions", "valueText": "500" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--flat\"><div class=\"pa-kpi-tile__label\">Sessions</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">500</span></span></div></div>",
+      "note": "flat."
+    },
+    {
+      "name": "variant-down",
+      "props": { "variant": "down", "labelText": "Error Rate", "valueText": "3.2" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--down\"><div class=\"pa-kpi-tile__label\">Error Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">3.2</span></span></div></div>",
+      "note": "down."
+    },
+    {
+      "name": "variant-down-strong",
+      "props": { "variant": "down-strong", "labelText": "Downtime", "valueText": "12.5" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--down-strong\"><div class=\"pa-kpi-tile__label\">Downtime</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">12.5</span></span></div></div>",
+      "note": "down-strong; keen dasherizes down_strong."
+    },
+    {
+      "name": "standalone",
+      "props": { "standalone": true, "labelText": "Custom", "valueText": "42" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--standalone\"><div class=\"pa-kpi-tile__label\">Custom</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">42</span></span></div></div>",
+      "note": "Standalone modifier for a tile outside a __grid."
+    },
+    {
+      "name": "full",
+      "props": { "variant": "up", "idText": "KPI.01 · 30d", "statusText": "WARN", "statusVariant": "warn", "labelText": "Completion Rate", "valueText": "88.6", "valueUnit": "%", "valueVariant": "positive", "previousValueText": "84.2%", "deltaText": "▲ 5.2%", "deltaVariant": "positive" },
+      "golden": "<div class=\"pa-kpi-tile pa-kpi-tile--up\"><div class=\"pa-kpi-tile__head\"><span class=\"pa-kpi-tile__id\">KPI.01 · 30d</span><span class=\"pa-kpi-tile__status pa-kpi-tile__status--warn\">WARN</span></div><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value pa-kpi-tile__value--positive\"><span class=\"pa-kpi-tile__num\">88.6</span><span class=\"pa-kpi-tile__unit\">%</span></span></div><div class=\"pa-kpi-tile__prev\"><span>prev 84.2%</span><span class=\"pa-kpi-tile__delta pa-kpi-tile__delta--positive\">▲ 5.2%</span></div></div>",
+      "note": "Everything at once except the deferred spark/popover — mirrors snippets/kpi.html L239-251 tile #1 (minus the <svg>/popover)."
+    },
+    {
+      "name": "extra-class",
+      "props": { "labelText": "Completion Rate", "valueText": "88.6", "extraClass": "mb-4" },
+      "golden": "<div class=\"pa-kpi-tile mb-4\"><div class=\"pa-kpi-tile__label\">Completion Rate</div><div class=\"pa-kpi-tile__values\"><span class=\"pa-kpi-tile__value\"><span class=\"pa-kpi-tile__num\">88.6</span></span></div></div>",
+      "note": "Class passthrough — extra class appended after pa-kpi-tile; token order normalized away."
+    }
+  ]
+}

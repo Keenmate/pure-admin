@@ -23,20 +23,20 @@
     "extraClass":   { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card, not a core feature" }
   },
   "deferred": {
-    "//": "Per-TILE element + state classes of the pa-kpi-edit block — NOT container markup. They are emitted by the SEPARATE tile sub-component (svelte KpiEditorialTile.svelte, keen kpi_editorial_tile/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize here and there is NO kpi-editorial-tile fragment fixture/dumper clause to fixture-ref (a ref would DEFER?-fail). Acknowledged as prose. The __delta--* tints mirror the sentiment palette (positive/negative/neutral + up-strong/down-strong strong variants); keen author props use underscore variants (up_strong/down_strong) dasherized to the CSS class.",
-    "pa-kpi-edit__tile":           "tile sub-component (svelte KpiEditorialTile / keen kpi_editorial_tile) — one KPI cell (per-cell container-query host); slot-fed, no fragment fixture/dumper wiring",
-    "pa-kpi-edit__label":          "tile sub-component — the uppercase mono caption",
-    "pa-kpi-edit__value":          "tile sub-component — the thin-weight headline number row",
-    "pa-kpi-edit__num":            "tile sub-component — the tabular numeral inside __value",
-    "pa-kpi-edit__unit":           "tile sub-component — the dim prefix/suffix affix inside __value",
-    "pa-kpi-edit__meta":           "tile sub-component — the delta + target meta row",
-    "pa-kpi-edit__delta":          "tile sub-component — the coloured delta (bare class defaults to --pa-positive)",
-    "pa-kpi-edit__delta--positive":    "tile delta tint — keen delta_variant='positive'; out of container scope",
-    "pa-kpi-edit__delta--negative":    "tile delta tint — keen delta_variant='negative'; out of container scope",
-    "pa-kpi-edit__delta--neutral":     "tile delta tint — keen delta_variant='neutral'; out of container scope",
-    "pa-kpi-edit__delta--up-strong":   "tile delta tint — keen delta_variant='up_strong' (dasherized); out of container scope",
-    "pa-kpi-edit__delta--down-strong": "tile delta tint — keen delta_variant='down_strong' (dasherized); out of container scope",
-    "pa-kpi-edit__target":         "tile sub-component — the dim 'tgt {value}' text (with inner <em>tgt</em>)"
+    "//": "Per-TILE element + state classes of the pa-kpi-edit block — NOT container markup. They are emitted by the SEPARATE tile sub-component (svelte KpiEditorialTile.svelte, keen kpi_editorial_tile/1) fed through the default slot, which both dumpers pass as plain escaped TEXT, so they cannot materialize in THIS container slice. The tile now has its OWN fragment fixture (kpi-editorial-tile.json), so EVERY per-tile class is a FIXTURE-REF — capability VERIFIES each (the fragment must produce or render the class; because these are pa-kpi-edit__* they are also what axis-1's element reverse-check accounts for). The __delta--* tints mirror the sentiment palette (positive/negative/neutral + up-strong/down-strong); keen's delta_variant takes underscore variants (up_strong/down_strong) dasherized to the CSS class.",
+    "pa-kpi-edit__tile":               { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__label":              { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__value":              { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__num":                { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__unit":               { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__meta":               { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__delta":              { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__delta--positive":    { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__delta--negative":    { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__delta--neutral":     { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__delta--up-strong":   { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__delta--down-strong": { "fixture": "kpi-editorial-tile" },
+    "pa-kpi-edit__target":             { "fixture": "kpi-editorial-tile" }
   },
   "scenarios": [
     {

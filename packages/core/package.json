@@ -10,7 +10,8 @@
     "./scss": "./src/scss/main.scss",
     "./scss/*": "./src/scss/*",
     "./js/*": "./src/js/*",
-    "./snippets/*": "./snippets/*"
+    "./snippets/*": "./snippets/*",
+    "./fidelity/*": "./fidelity/*"
   },
   "files": [
     "dist/",
@@ -20,6 +21,7 @@
     "scripts/pack-theme.js",
     "snippets/",
     "starter/",
+    "fidelity/",
     "components.json",
     "COMPONENTS.md",
     "README.md",
@@ -33,6 +35,7 @@
     "watch": "npm run build:scss:watch",
     "generate-hashes": "node scripts/generate-hashes.js",
     "catalog": "node scripts/build-components-catalog.mjs",
+    "fidelity": "node fidelity/check-all.mjs",
     "pack-theme": "node scripts/pack-theme.js",
     "prepublishOnly": "npm run build"
   },

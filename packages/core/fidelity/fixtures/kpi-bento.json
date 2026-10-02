@@ -21,21 +21,21 @@
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card shell, not a core feature" }
   },
   "deferred": {
-    "//": "The per-KPI tile block `.pa-kpi-bento-tile*` — emitted by the SEPARATE sub-component (svelte KpiBentoTile.svelte, keen kpi_bento_tile/1) fed through the grid's default slot, which the generic dumper passes as plain escaped TEXT, so it cannot materialize here. It is a DISTINCT block (hyphen-joined `pa-kpi-bento-tile`, not a `pa-kpi-bento__tile` element), so capability axis-1's `pa-kpi-bento__*` element reverse-check does NOT see it — these are acknowledged PROSE deferrals, not fixture-verified (no kpi-bento-tile fragment fixture/dumper clause exists to fixture-ref; a ref would DEFER?-fail). The tile sentiment modifiers (--positive/--negative/--neutral/--up-strong/--down-strong) cascade the sparkline + delta accent; --hero is the oversized primary cell.",
-    "pa-kpi-bento-tile":               "tile sub-component (svelte KpiBentoTile.svelte / keen kpi_bento_tile/1) — one bento cell; not container markup, slot-fed, no fragment fixture/dumper wiring",
-    "pa-kpi-bento-tile--hero":         "the oversized primary tile (first child); bumps value font-size + chart height — tile sub-component modifier",
-    "pa-kpi-bento-tile--positive":     "tile sentiment accent (positive) — cascades sparkline/delta colour; tile sub-component modifier",
-    "pa-kpi-bento-tile--negative":     "tile sentiment accent (negative) — tile sub-component modifier",
-    "pa-kpi-bento-tile--neutral":      "tile sentiment accent (neutral) — tile sub-component modifier",
-    "pa-kpi-bento-tile--up-strong":    "tile sentiment accent (very-positive) — tile sub-component modifier",
-    "pa-kpi-bento-tile--down-strong":  "tile sentiment accent (very-negative) — tile sub-component modifier",
-    "pa-kpi-bento-tile__label":        "tile uppercase name cell — tile sub-component element",
-    "pa-kpi-bento-tile__delta":        "tile delta chip cell — tile sub-component element",
-    "pa-kpi-bento-tile__value":        "tile focal value wrapper (__num + __unit) — tile sub-component element",
-    "pa-kpi-bento-tile__num":          "tile number — container-query-scaled; tile sub-component element",
-    "pa-kpi-bento-tile__unit":         "tile unit/affix — tile sub-component element",
-    "pa-kpi-bento-tile__chart":        "tile full-bleed faint sparkline layer — tile sub-component element",
-    "pa-kpi-bento-tile__chart-svg":    "tile SVG host span inside __chart — tile sub-component element"
+    "//": "The per-KPI tile block `.pa-kpi-bento-tile*` — emitted by the SEPARATE sub-component (svelte KpiBentoTile.svelte, keen kpi_bento_tile/1) fed through the grid's default slot, which the generic dumper passes as plain escaped TEXT, so it cannot materialize in THIS container slice. It is a DISTINCT block (hyphen-joined `pa-kpi-bento-tile`, not a `pa-kpi-bento__tile` element), so capability axis-1's `pa-kpi-bento__*` element reverse-check does NOT see it. The tile now has its OWN fragment fixture (kpi-bento-tile.json, svelte KpiBentoTile / keen kpi_bento_tile/1), so the structural + modifier classes it covers are FIXTURE-REFS — capability VERIFIES each (the fragment must produce or render the class). The sparkline layer (__chart / __chart-svg) is NOT covered by the fragment (it defers the chart too — slot-fed SVG passed as text, diverging SSR chart shells), so those two stay acknowledged PROSE.",
+    "pa-kpi-bento-tile":               { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile--hero":         { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile--positive":     { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile--negative":     { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile--neutral":      { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile--up-strong":    { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile--down-strong":  { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile__label":        { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile__delta":        { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile__value":        { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile__num":          { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile__unit":         { "fixture": "kpi-bento-tile" },
+    "pa-kpi-bento-tile__chart":        "tile full-bleed faint sparkline layer — deferred by the tile fragment too (slot-fed SVG as text; chart SSR shells diverge between wrappers)",
+    "pa-kpi-bento-tile__chart-svg":    "tile SVG host span inside __chart — part of the deferred chart layer"
   },
   "scenarios": [
     {

@@ -33,7 +33,7 @@ jobs:
           ZIP="pure-admin-core-${VER}.zip"
           cd packages/core
           zip -r "${GITHUB_WORKSPACE}/${ZIP}" \
-            dist src/scss src/js snippets schemas README.md LICENSE
+            dist src/scss src/js snippets schemas fidelity README.md LICENSE
           cd "${GITHUB_WORKSPACE}"
           sha256sum "${ZIP}" > "${ZIP}.sha256"
           ls -l "${ZIP}" "${ZIP}.sha256"
