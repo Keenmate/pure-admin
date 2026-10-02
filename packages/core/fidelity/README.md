@@ -40,6 +40,26 @@ markers), `phx-*` / `data-phx*` attributes, attribute order, class-token order,
 whitespace, and boolean/presence-attr spelling (`disabled` ≡ `disabled=""` ≡
 `disabled="true"`; `data-ripple` likewise). See `lib/normalize.mjs`.
 
+Noise comes in **two layers**. The above are **wrapper-wide** — wiring every
+component of a wrapper emits, always dropped. A fixture may also declare
+**per-component** trims for wiring specific to *one* component, so the global
+normalizer isn't blinded everywhere:
+
+```jsonc
+// in the fixture, alongside "scenarios"
+"normalize": {
+  "ignoreAttrs":      ["data-tab-target"],   // extra attr names to drop
+  "ignoreIdPrefixes": ["tab-btn-"]           // drop id="<prefix>…" values
+}
+```
+
+Example: keen's `tab_item` emits `id="tab-btn-{target}"` + `data-tab-target` as
+`switch_tab`'s DOM handles (the id/data siblings of `phx-click`). The core
+oracle blesses bare class-only buttons, so `tabs-composed.json` scopes those
+trims to itself — a *different* component that legitimately used that id prefix
+or attr stays fully checked. `compare.mjs` applies the block to **both** golden
+and dump symmetrically.
+
 **Boundaries (out of scope):**
 - **Structural markup only, not computed CSS.** Whether a class actually lays
   out correctly is core's job (tested once), not per-wrapper. This catches

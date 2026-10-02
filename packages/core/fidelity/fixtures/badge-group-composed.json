@@ -1,0 +1,35 @@
+{
+  "//": "COMPOSITE (tree) fixture #2 — validates the composite POC on a DIFFERENT shape: an inline `pa-badge-group` wrapping real `pa-badge` <span> children (vs button-group's <button>s). Same machinery: `parentComponent`/`childComponent` name existing dumper keys, `props` map via this fixture's map (badge-group vocabulary), `children` are NEUTRAL badge prop-bags mapped via badge.map.json. keen needs NO per-composite code (generic render_composite/4); svelte uses a fidelity-only `_compose/BadgeGroupComposed.svelte`. Compare-only (check-all.mjs skips composites). Badges are context-free. Each child sets an explicit variant (a variant-less badge would default to pa-badge--primary in both wrappers, like button).",
+  "composite": true,
+  "component": "badge-group-composed",
+  "block": "pa-badge-group",
+  "parentComponent": "badge-group",
+  "childComponent": "badge",
+  "goldenConventions": "Composed golden = the `<div class=\"pa-badge-group\">` shell wrapping real `<span class=\"pa-badge …\">` children in order. Attr/class order + whitespace normalized away.",
+  "features": {
+    "//": "badge-group exposes no layout modifiers relevant here (showAll drives a +N affordance that needs limit/total); scenarios use no parent props, so this map is intentionally empty."
+  },
+  "scenarios": [
+    {
+      "name": "two-badges",
+      "props": {},
+      "children": [
+        { "variant": "primary", "label": "New" },
+        { "variant": "success", "label": "Active" }
+      ],
+      "golden": "<div class=\"pa-badge-group\"><span class=\"pa-badge pa-badge--primary\">New</span><span class=\"pa-badge pa-badge--success\">Active</span></div>",
+      "note": "Group shell wrapping two real badges (inline spans) — a different child element/shape from button-group's buttons."
+    },
+    {
+      "name": "three-badges",
+      "props": {},
+      "children": [
+        { "variant": "info", "label": "Info" },
+        { "variant": "warning", "label": "Warn" },
+        { "variant": "danger", "label": "Error" }
+      ],
+      "golden": "<div class=\"pa-badge-group\"><span class=\"pa-badge pa-badge--info\">Info</span><span class=\"pa-badge pa-badge--warning\">Warn</span><span class=\"pa-badge pa-badge--danger\">Error</span></div>",
+      "note": "Three badges, each with its own variant — the child markup is the real Badge output composed in order."
+    }
+  ]
+}

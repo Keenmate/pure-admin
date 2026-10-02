@@ -1,0 +1,46 @@
+{
+  "//": "COMPOSITE (tree) fixture — PROTOTYPE. Proves the SEAM a container-only fixture skips: that the parent (`pa-btn-group`) drops its REAL children (`pa-btn` buttons) into the right place with the right nesting. Unlike a normal fixture, a scenario here carries BOTH `props` (the parent's own neutral props, mapped via this fixture's map = the button-group feature vocabulary) AND `children` (a list of NEUTRAL child prop-bags, each mapped via the CHILD component's map named in `childComponent`). Each wrapper's dumper renders the parent WITH the real child components composed in (keen: real `Button.button/1` outputs injected into the `button_group/1` slot; svelte: a tiny fixture-only `_compose/ButtonGroupComposed.svelte` that nests `<Button>` inside `<ButtonGroup>`), so the dump — and this golden — is the whole composed tree. This is a COMPARE-only artifact (correctness of the composed markup); the per-class contract still lives in button.json + button-group.json, so `check-all.mjs` SKIPS composite fixtures for the capability sweep. The child (`button`) is CONTEXT-FREE — the group passes it nothing — so the live-inject form keen uses is byte-identical to svelte's true one-pass nesting; for a context-COUPLED child (e.g. a tab whose `--active` comes from the parent) the same fixture would instead need a true one-pass render on both sides.",
+  "composite": true,
+  "component": "button-group-composed",
+  "block": "pa-btn-group",
+  "parentComponent": "button-group",
+  "childComponent": "button",
+  "goldenConventions": "The composed golden = the button-group `<div>` shell (with its modifiers) wrapping the real `<button class=\"pa-btn …\">` children in document order. Both wrappers add `type=\"button\"` on `<button>` (a golden convention also used by button.json). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "features": {
+    "//": "The PARENT's feature vocabulary (button-group). Exercised subset only — the full button-group contract (nowrap, responsive variants, stretch) is asserted by button-group.json; this fixture is about the composition seam, not the class contract (check-all skips composites for capability).",
+    "vertical": { "kind": "bool", "produces": "pa-btn-group--vertical", "note": "svelte vertical / keen is_vertical" },
+    "align":    { "kind": "enum", "produces": "pa-btn-group--{value}", "options": ["center", "end", "stretch"], "note": "svelte align / keen align" }
+  },
+  "scenarios": [
+    {
+      "name": "two-buttons",
+      "props": {},
+      "children": [
+        { "variant": "primary", "label": "Save" },
+        { "label": "Cancel" }
+      ],
+      "golden": "<div class=\"pa-btn-group\"><button type=\"button\" class=\"pa-btn pa-btn--primary\">Save</button><button type=\"button\" class=\"pa-btn pa-btn--primary\">Cancel</button></div>",
+      "note": "The seam: group shell wrapping two real buttons. NOTE both wrappers DEFAULT a variant-less button to pa-btn--primary — so 'Cancel' (no variant) is pa-btn--primary, NOT a bare pa-btn. The standalone button.json never exercised a truly bare button (its no-variant scenarios all set themeColor/outline, which suppress the variant), so this composite surfaced that shared default."
+    },
+    {
+      "name": "vertical",
+      "props": { "vertical": true },
+      "children": [
+        { "label": "One" },
+        { "label": "Two" }
+      ],
+      "golden": "<div class=\"pa-btn-group pa-btn-group--vertical\"><button type=\"button\" class=\"pa-btn pa-btn--primary\">One</button><button type=\"button\" class=\"pa-btn pa-btn--primary\">Two</button></div>",
+      "note": "Group modifier on the parent + two children (variant-less → the shared pa-btn--primary default) — proves the parent modifier and the children compose together."
+    },
+    {
+      "name": "align-end-mixed",
+      "props": { "align": "end" },
+      "children": [
+        { "variant": "success", "size": "sm", "label": "OK" },
+        { "variant": "danger", "label": "Delete" }
+      ],
+      "golden": "<div class=\"pa-btn-group pa-btn-group--end\"><button type=\"button\" class=\"pa-btn pa-btn--success pa-btn--sm\">OK</button><button type=\"button\" class=\"pa-btn pa-btn--danger\">Delete</button></div>",
+      "note": "Parent align modifier + children carrying their own variant/size modifiers — the child markup is the real Button output, not a placeholder."
+    }
+  ]
+}

@@ -10,10 +10,9 @@
 //   - HTML comments               — Svelte 5 SSR injects <!--[--> / <!--]-->
 //                                    / <!----> block anchors; LiveView injects
 //                                    its own. Never part of the contract.
-//   - phx-* / data-phx* attrs     — LiveView wiring, invisible to CSS.
-//   - id / for auto-hooks         — generated ids (phash2, unique_integer)
-//     when they match a noise      differ per render; only stripped when they
-//     pattern (see IGNORE_ATTRS).  look generated, not when hand-set.
+//   - phx-* / data-phx* attrs     — LiveView wiring, invisible to CSS. These
+//                                    are WRAPPER-WIDE (every keen component),
+//                                    so they live in the always-on defaults.
 //   - attribute order             — sorted alphabetically.
 //   - class-token order           — sorted; CSS is order-independent.
 //   - whitespace                  — runs collapsed to a single space, text
@@ -25,15 +24,34 @@
 // What is treated as SIGNAL (kept): tag names, element nesting/order, class
 // tokens, all other attributes (type, title, href, data-*, aria-*, role…),
 // and text content.
+//
+// TWO LAYERS OF IGNORE RULES:
+//   1. WRAPPER-WIDE defaults (below) — wiring every component of a wrapper
+//      emits: phx-* / data-phx* (LiveView), the boolean-attr canonicalization.
+//      Always applied.
+//   2. PER-COMPONENT trims — a fixture may declare a `normalize` block to drop
+//      wiring that is specific to ONE component, so it is not blinded globally.
+//      Shape (passed to normalize() as opts, merged onto the defaults):
+//        "normalize": {
+//          "ignoreAttrs":      ["data-tab-target"],   // extra attr names to drop
+//          "ignoreIdPrefixes": ["tab-btn-"]           // drop id="<prefix>…" values
+//        }
+//      Example: keen's tab_item emits id="tab-btn-{target}" + data-tab-target
+//      purely as switch_tab's DOM handles (the id/data siblings of phx-click) —
+//      the core oracle blesses bare class-only buttons, so tabs-composed.json
+//      scopes those trims to itself rather than polluting the global defaults
+//      (a different component legitimately using that id prefix stays checked).
 
 const VOID_ELEMENTS = new Set([
   'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
   'link', 'meta', 'param', 'source', 'track', 'wbr'
 ]);
 
-// Attributes dropped unconditionally (framework wiring, never CSS contract).
+// WRAPPER-WIDE defaults — framework wiring every component emits, never CSS
+// contract. Always applied. Per-component extras come from the fixture's
+// `normalize` block (see header), merged on at normalize()-call time.
 const IGNORE_ATTR_PREFIXES = ['phx-', 'data-phx'];
-const IGNORE_ATTRS = new Set(['data-phx-id', 'data-phx-component']);
+const DEFAULT_IGNORE_ATTRS = new Set(['data-phx-id', 'data-phx-component']);
 
 // Boolean attributes: presence is all that matters; value is canonicalized to
 // bare-name output. (disabled / disabled="" / disabled="disabled" / true → same.)
@@ -47,8 +65,8 @@ const BOOLEAN_ATTRS = new Set([
   'data-ripple'
 ]);
 
-function isIgnoredAttr(name) {
-  if (IGNORE_ATTRS.has(name)) return true;
+function isIgnoredAttr(name, ctx) {
+  if (ctx.ignoreAttrs.has(name)) return true;
   return IGNORE_ATTR_PREFIXES.some((p) => name.startsWith(p));
 }
 
@@ -164,9 +182,9 @@ function collapseText(s) {
   return s.replace(/\s+/g, ' ').trim();
 }
 
-function serializeAttrs(attrs) {
+function serializeAttrs(attrs, ctx) {
   const names = Object.keys(attrs)
-    .filter((name) => !isIgnoredAttr(name))
+    .filter((name) => !isIgnoredAttr(name, ctx))
     .sort();
   const parts = [];
   for (const name of names) {
@@ -175,6 +193,9 @@ function serializeAttrs(attrs) {
       continue;
     }
     let { value } = attrs[name];
+    if (name === 'id' && ctx.ignoreIdPrefixes.some((p) => value.startsWith(p))) {
+      continue; // per-component switching handle (e.g. keen tab-btn-*), not a contract id
+    }
     if (name === 'class') {
       value = value.split(/\s+/).filter(Boolean).sort().join(' ');
       if (value === '') continue; // empty class = no class
@@ -184,36 +205,49 @@ function serializeAttrs(attrs) {
   return parts.length ? ' ' + parts.join(' ') : '';
 }
 
-function serializeNode(node) {
+function serializeNode(node, ctx) {
   if (node.type === 'text') {
     return collapseText(node.value);
   }
-  const open = `<${node.name}${serializeAttrs(node.attrs)}>`;
+  const open = `<${node.name}${serializeAttrs(node.attrs, ctx)}>`;
   if (VOID_ELEMENTS.has(node.name)) return open;
-  const inner = node.children.map(serializeNode).join('');
+  const inner = node.children.map((c) => serializeNode(c, ctx)).join('');
   return `${open}${inner}</${node.name}>`;
+}
+
+// Build the ignore context for a normalize() call: the always-on wrapper-wide
+// defaults, plus any per-component trims the fixture declared (see header).
+function buildCtx(opts = {}) {
+  return {
+    ignoreAttrs: new Set([...DEFAULT_IGNORE_ATTRS, ...(opts.ignoreAttrs || [])]),
+    ignoreIdPrefixes: opts.ignoreIdPrefixes || []
+  };
 }
 
 /**
  * Normalize an HTML fragment to its canonical form for structural comparison.
  * @param {string} html
+ * @param {{ignoreAttrs?: string[], ignoreIdPrefixes?: string[]}} [opts]
+ *        Per-component trims merged onto the wrapper-wide defaults (see header).
  * @returns {string}
  */
-export function normalize(html) {
+export function normalize(html, opts) {
+  const ctx = buildCtx(opts);
   const root = buildTree(tokenize(html ?? ''));
-  return root.children.map(serializeNode).join('');
+  return root.children.map((n) => serializeNode(n, ctx)).join('');
 }
 
 /**
  * A readable, token-per-line form of the normalized markup — used to produce a
  * human diff when two fragments disagree.
  * @param {string} html
+ * @param {{ignoreAttrs?: string[], ignoreIdPrefixes?: string[]}} [opts]
  * @returns {string[]}
  */
-export function normalizeLines(html) {
+export function normalizeLines(html, opts) {
   // Break the canonical string at tag boundaries so a diff points at the
   // offending element instead of one giant line.
-  return normalize(html)
+  return normalize(html, opts)
     .replace(/></g, '>\n<')
     .split('\n');
 }

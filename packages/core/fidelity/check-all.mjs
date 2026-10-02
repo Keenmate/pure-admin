@@ -38,10 +38,21 @@ const fixtures = fs
 console.log(paint('bold', `\nFidelity gate — ${fixtures.length} fixture(s) vs compiled CSS (capability axis-1 + axis-3)\n`));
 
 let failed = 0;
+let skipped = 0;
 const failingNames = [];
 for (const f of fixtures) {
   const fixturePath = path.join(fixturesDir, f);
   const name = f.replace(/\.json$/, '');
+  // Composite (tree) fixtures are COMPARE-only — they prove the parent↔child
+  // seam against a wrapper dump; their per-class contract lives in the component
+  // fixtures. capability (CSS contract) doesn't apply, so skip them here.
+  try {
+    if (JSON.parse(fs.readFileSync(fixturePath, 'utf-8')).composite) {
+      console.log(paint('gray', `– ${name} (composite — compare-only, skipped)`));
+      skipped++;
+      continue;
+    }
+  } catch { /* fall through to the normal run, which will surface the parse error */ }
   let out = '';
   let hard = 0;
   try {
@@ -64,8 +75,10 @@ for (const f of fixtures) {
   }
 }
 
+const checked = fixtures.length - skipped;
 console.log('\n' + paint(failed === 0 ? 'green' : 'red',
-  `${fixtures.length - failed}/${fixtures.length} fixtures aligned`) +
+  `${checked - failed}/${checked} fixtures aligned`) +
+  (skipped ? paint('gray', ` (${skipped} composite skipped)`) : '') +
   (failed ? paint('red', ` — ${failed} failing: ${failingNames.join(', ')}`) : ''));
 console.log('');
 process.exit(failed);

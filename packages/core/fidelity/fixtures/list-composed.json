@@ -1,0 +1,35 @@
+{
+  "//": "COMPOSITE (tree) fixture #3 — validates the POC on a NESTED child: a `pa-list` container wrapping real `pa-list__item` children, each of which has its OWN sub-structure (`__avatar`/__content > __title/__subtitle/__meta). This is the richest seam so far — the child isn't a leaf, it's a small subtree. Same machinery: `parentComponent`/`childComponent` are existing dumper keys, `props` map via list.map.json vocabulary, `children` are NEUTRAL list-item prop-bags mapped via list-item.map.json. keen needs NO per-composite code; svelte uses `_compose/ListComposed.svelte`. Compare-only (check-all skips composites). Context-free. NOTE the list item renders as a `<div class=\"pa-list__item\">` (flat-sibling BEM — parts are pa-list__content, not pa-list__item__content), NOT an <li>.",
+  "composite": true,
+  "component": "list-composed",
+  "block": "pa-list",
+  "parentComponent": "list",
+  "childComponent": "list-item",
+  "goldenConventions": "Composed golden = `<div class=\"pa-list\">` wrapping real `<div class=\"pa-list__item\">` subtrees in order. Attr/class order + whitespace normalized away.",
+  "features": {
+    "//": "list exposes only a body slot + class passthrough; scenarios use no parent modifiers, so this map is intentionally empty (the body is replaced by the composed children).",
+    "extraClass": { "kind": "string", "produces": null, "note": "class passthrough on the list container" }
+  },
+  "scenarios": [
+    {
+      "name": "two-items",
+      "props": {},
+      "children": [
+        { "title": "Sarah" },
+        { "title": "John" }
+      ],
+      "golden": "<div class=\"pa-list\"><div class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div><div class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">John</div></div></div></div>",
+      "note": "List container wrapping two real title-only list-item subtrees — the child is a subtree, not a leaf."
+    },
+    {
+      "name": "item-with-avatar-meta",
+      "props": {},
+      "children": [
+        { "avatar": "A", "title": "Sarah", "subtitle": "Product Manager", "meta": "2h ago" },
+        { "title": "John", "subtitle": "Engineer" }
+      ],
+      "golden": "<div class=\"pa-list\"><div class=\"pa-list__item\"><div class=\"pa-list__avatar\">A</div><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div><div class=\"pa-list__subtitle\">Product Manager</div><div class=\"pa-list__meta\">2h ago</div></div></div><div class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">John</div><div class=\"pa-list__subtitle\">Engineer</div></div></div></div>",
+      "note": "A full item (avatar + title + subtitle + meta) next to a partial one — proves the composed children carry their own conditional sub-structure through the seam."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "//": "COMPOSITE (tree) fixture — CONTEXT-COUPLED SEAM. Where button-group/badge-group/list composites nest CONTEXT-FREE children (the parent passes the child nothing), this one probes the harder case: a seam where the parent decides a child's STATE — here which tab is `--active`. The oracle golden is the core snippet shape from snippets/tabs.html: a `<div class=\"pa-tabs\">` wrapping bare `<button class=\"pa-tabs__item [pa-tabs__item--active]\">` children — NO id, NO data-*, NO switching wiring. That is the class contract the CSS blesses. svelte's <TabItem> matches it as-is (active is an explicit `active` prop; the button is class-only). keen's tab_item/1 additionally bakes LiveView server-switching into the SSR markup — `id=\"tab-btn-{target}\"`, `data-tab-target=\"{target}\"`, and `phx-click={switch_tab(...)}` — the id/data siblings of phx-click, DOM handles switch_tab needs to find the button. phx-click is dropped by the wrapper-wide defaults (phx-* = noise); the `id` + `data-tab-target` handles are keen-tab_item-SPECIFIC, so they are trimmed via this fixture's PER-COMPONENT `normalize` block rather than the global normalizer (a different component legitimately using that id prefix / data attr stays checked). With those handles trimmed as wiring, BOTH wrappers compare clean against the class contract the CSS actually cares about. NOTE the container-only tabs.json fixture HID the item markup entirely (its body slot is plain text — no items ever render); this composite is what makes the item markup flow through the seam. check-all.mjs SKIPS composites, so this does not gate CI; run it with compare.mjs per wrapper.",
+  "composite": true,
+  "normalize": {
+    "//": "PER-COMPONENT wiring trims (merged onto the wrapper-wide phx-*/data-phx* defaults). keen tab_item's switch_tab handles — invisible to CSS, not in the oracle's bare-button contract. Scoped to this fixture so the global normalizer stays blind only here, not everywhere.",
+    "ignoreAttrs": ["data-tab-target"],
+    "ignoreIdPrefixes": ["tab-btn-"]
+  },
+  "component": "tabs-composed",
+  "block": "pa-tabs",
+  "parentComponent": "tabs",
+  "childComponent": "tab-item",
+  "goldenConventions": "Golden = the core snippet shape: `.pa-tabs` div wrapping bare `.pa-tabs__item` buttons, exactly one carrying `--active`. No id / data-* / switching attrs — those are per-wrapper interactivity, not the class contract. Attribute + class-token order and whitespace normalized away. keen's phx-click is dropped by the wrapper-wide defaults; its id=\"tab-btn-*\" + data-tab-target are dropped by this fixture's per-component `normalize` block (see the top note).",
+  "features": {
+    "//": "PARENT (tabs) feature vocabulary — exercised subset. The full pa-tabs--* modifier contract is asserted by tabs.json; this fixture is about the item seam, not the container's class contract (check-all skips composites).",
+    "style": { "kind": "enum", "produces": "pa-tabs--{value}", "options": ["pills", "boxed", "vertical"], "note": "underline is the default (no class)" },
+    "size":  { "kind": "enum", "produces": "pa-tabs--{value}", "options": ["sm", "lg"] }
+  },
+  "scenarios": [
+    {
+      "name": "basic-first-active",
+      "props": {},
+      "children": [
+        { "label": "Home", "active": true, "target": "panel-1" },
+        { "label": "Profile", "target": "panel-2" },
+        { "label": "Settings", "target": "panel-3" }
+      ],
+      "golden": "<div class=\"pa-tabs\"><button class=\"pa-tabs__item pa-tabs__item--active\">Home</button><button class=\"pa-tabs__item\">Profile</button><button class=\"pa-tabs__item\">Settings</button></div>",
+      "note": "The context-coupled seam: the parent owns which child is active; here the first item carries --active. svelte matches this exactly; keen also emits id=\"tab-btn-panel-1\" + data-tab-target per button, trimmed as wiring by the `normalize` block above so both compare clean."
+    },
+    {
+      "name": "pills-middle-active",
+      "props": { "style": "pills" },
+      "children": [
+        { "label": "Dashboard", "target": "p-1" },
+        { "label": "Analytics", "active": true, "target": "p-2" },
+        { "label": "Reports", "target": "p-3" }
+      ],
+      "golden": "<div class=\"pa-tabs pa-tabs--pills\"><button class=\"pa-tabs__item\">Dashboard</button><button class=\"pa-tabs__item pa-tabs__item--active\">Analytics</button><button class=\"pa-tabs__item\">Reports</button></div>",
+      "note": "Parent style modifier + active on the MIDDLE child — proves the active flag tracks the right item through the seam, not just position 0."
+    },
+    {
+      "name": "sm-first-active",
+      "props": { "size": "sm" },
+      "children": [
+        { "label": "Code", "active": true, "target": "s-1" },
+        { "label": "Issues", "target": "s-2" }
+      ],
+      "golden": "<div class=\"pa-tabs pa-tabs--sm\"><button class=\"pa-tabs__item pa-tabs__item--active\">Code</button><button class=\"pa-tabs__item\">Issues</button></div>",
+      "note": "Parent size modifier composes with the item children."
+    }
+  ]
+}

@@ -64,6 +64,11 @@ function main() {
   const dump = readJson(path.resolve(dumpPath));
   const dumpByName = new Map(dump.map((d) => [d.name, d.html]));
 
+  // Per-component normalize trims (optional). Applied to BOTH golden and dump so
+  // wiring a single component emits (e.g. keen tab_item's switching handles) is
+  // dropped symmetrically. Wrapper-wide wiring (phx-*) is handled by defaults.
+  const normOpts = fixture.normalize || {};
+
   const results = [];
   for (const scenario of fixture.scenarios) {
     const golden = scenario.golden;
@@ -72,8 +77,8 @@ function main() {
       results.push({ name: scenario.name, status: 'MISSING' });
       continue;
     }
-    const g = normalize(golden);
-    const a = normalize(actual);
+    const g = normalize(golden, normOpts);
+    const a = normalize(actual, normOpts);
     results.push({ name: scenario.name, status: g === a ? 'PASS' : 'FAIL', golden, actual });
   }
 
@@ -89,7 +94,7 @@ function main() {
       console.log(`  ${paint('yellow', 'MISS')}  ${r.name}  ${paint('gray', '(no dump entry)')}`);
     } else {
       console.log(`  ${paint('red', 'FAIL')}  ${r.name}`);
-      const lines = diffLines(normalizeLines(r.golden), normalizeLines(r.actual));
+      const lines = diffLines(normalizeLines(r.golden, normOpts), normalizeLines(r.actual, normOpts));
       for (const l of lines) console.log('        ' + l);
       console.log('');
     }
