@@ -371,6 +371,14 @@
                     <td>Font Size</td>
                     <td><code>text-2xs</code>, <code>text-xs</code>, <code>text-sm</code>, <code>text-base</code>, <code>text-lg</code>, <code>text-xl</code>, <code>text-2xl</code></td>
                 </tr>
+                <tr>
+                    <td>Colour</td>
+                    <td><code>text-muted</code>, <code>text-body</code>, <code>text-secondary</code> <span class="pa-badge pa-badge--warning">provisional</span>, plus role colours <code>text-primary</code> (accent), <code>text-success</code>, <code>text-danger</code>, <code>text-warning</code>, <code>text-info</code></td>
+                </tr>
+                <tr>
+                    <td>Semantic</td>
+                    <td><code>text-caption</code>, <code>text-lead</code></td>
+                </tr>
             </tbody>
         </table>
 
@@ -383,6 +391,26 @@
             <span class="text-lg">text-lg (18px)</span>
             <span class="text-xl">text-xl (20px)</span>
             <span class="text-2xl">text-2xl (24px)</span>
+        </div>
+
+        <h4 class="mt-4">Text Colour</h4>
+        <p class="text-muted mb-2">Neutral hierarchy maps to <code>--pc-text-color-*</code>; role colours are the semantic palette. (<code>text-muted</code> is the flat muted-text utility added in the text-consolidation work — see <code>docs/text-consolidation-plan.md</code>.)</p>
+        <div class="d-flex flex-column gap-xs">
+            <span class="text-body">text-body — default body text (<code>--pc-text-color-1</code>)</span>
+            <span class="text-muted">text-muted — muted / secondary text (<code>--pc-text-color-2</code>)</span>
+            <span class="text-secondary">text-secondary — provisional alias of text-muted</span>
+            <span class="text-primary">text-primary — accent colour (NOT body text)</span>
+            <span class="text-success">text-success</span>
+            <span class="text-danger">text-danger</span>
+            <span class="text-warning">text-warning</span>
+            <span class="text-info">text-info</span>
+        </div>
+
+        <h4 class="mt-4">Semantic Text</h4>
+        <p class="text-muted mb-2">Compound shorthands migrated from the old <code>pa-text--caption</code> / <code>--lead</code>.</p>
+        <div class="d-flex flex-column gap-sm">
+            <p class="text-lead m-0">text-lead — introductory lead paragraph at 16px with relaxed line-height, for the opening sentence of a section.</p>
+            <p class="text-caption m-0">text-caption — small muted caption text (12px), for figure captions and fine print.</p>
         </div>
     </div>
 </div>

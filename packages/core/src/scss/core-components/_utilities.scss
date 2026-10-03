@@ -222,6 +222,31 @@ $_font-base-sizes: (9, 10, 11, 12);
 .text-3xl { font-size: $font-size-3xl; }   // 2.8rem = 28px
 .text-4xl { font-size: $font-size-4xl; }   // 3.2rem = 32px
 
+// Text colour — neutral hierarchy (ADDITIVE, phase 1 of the text consolidation —
+// see docs/text-consolidation-plan.md). `.text-muted` is the flat muted-text
+// utility the framework was missing: the only muted token used to live INSIDE
+// the `.pa-text--secondary` component modifier, so inline muted text had no flat
+// utility (people reached for the undefined `text-muted`/`text-secondary`).
+// Mirrors the role-colour utilities (.text-primary/.text-success/… in pure-css),
+// which also use !important so the colour wins when composed onto a component
+// (e.g. a paragraph that otherwise carries its own colour).
+// NOTE: `.text-color-N` (palette) maps to --pc-color-N (data colours); the
+// neutral hierarchy below maps to --pc-text-color-N — a DIFFERENT scale.
+.text-muted     { color: var(--pc-text-color-2) !important; } // muted / secondary body text
+.text-body      { color: var(--pc-text-color-1) !important; } // default body text (explicit)
+.text-secondary { color: var(--pc-text-color-2) !important; } // PROVISIONAL alias of .text-muted (keep/drop TBD)
+
+// Semantic text shorthands (migrated from `.pa-text--caption` / `--lead`).
+.text-caption {
+  font-size: $font-size-xs;
+  color: var(--pc-text-color-2);
+  margin-bottom: $spacing-sm;
+}
+.text-lead {
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+}
+
 // Font-weight utilities. Named verbosely as font-weight-* to match the
 // font-family-* utilities (NOT Bootstrap's fw-*), and kept distinct from the
 // text-* cluster which owns font-SIZE and alignment.
