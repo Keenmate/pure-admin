@@ -155,7 +155,7 @@ them stuck in `pa-`. All are atomic colour utilities → they belong unprefixed.
 | `pa-text-color-N` | 12 | 0 | 2 | 14 | unprefixed `text-color-N` already exists (134 uses) — the dominant form |
 | `pa-bg-color-N` | 1 | 1 | 11 | 13 | |
 | `pa-border-color-N` | 10 | 0 | 2 | 12 | |
-| `pa-text-on-color-N` | 0 | 0 | 0 | **0** | **UNUSED — delete outright** |
+| `pa-text-on-color-N` | 0 | 0 | 0 | **0** | unused today, but KEPT (renamed) by decision |
 | `pa-text-bg-color-N` | 10 | 0 | 0 | 10 | the composite |
 
 ~49 pa- call sites total (vs 134 already-unprefixed `text-color-N`).
@@ -167,7 +167,7 @@ them stuck in `pa-`. All are atomic colour utilities → they belong unprefixed.
 | `pa-text-color-N` + `text-color-N` | **`text-color-N`** | `color: var(--pc-color-N)` |
 | `pa-bg-color-N` | **`bg-color-N`** | `background-color: var(--pc-color-N)` |
 | `pa-border-color-N` | **`border-color-N`** | `border-color: var(--pc-color-N)` |
-| `pa-text-on-color-N` | **`text-on-color-N`** (or drop — unused) | `color: var(--pc-color-N-text)` |
+| `pa-text-on-color-N` | **`text-on-color-N`** | `color: var(--pc-color-N-text)` (contrast text; kept despite 0 current uses) |
 | `pa-text-bg-color-N` | **`surface-color-N`** | `background: var(--pc-color-N)` + `color: var(--pc-color-N-text)` |
 
 Naming logic: **`{property}-color-N` = palette slot N applied to that property**;
@@ -175,13 +175,22 @@ Naming logic: **`{property}-color-N` = palette slot N applied to that property**
 composite). All emit `!important` to match `text-color-N` + the role colours so
 they win when composed onto a component.
 
-### Decisions
-- **Locked:** unprefix all (atomic utilities, per the rule); composite name =
-  `surface-color-N`; `!important` on all; keep the composite (don't force compose);
-  home = core `_utilities.scss` now (file-linked, demo-able) → pure-css
-  `utilities.scss` beside the role colours in the coordinated release.
-- **`pa-text-on-color-N` is unused** → recommend **drop it entirely** rather than
-  rename (add `text-on-color-N` only if a real need appears). Confirm.
+### Decisions (locked)
+- Unprefix **all five** families (incl. `text-on-color-N`, kept despite 0 current
+  uses — renamed, not dropped).
+- Composite name = `surface-color-N`.
+- `!important` on all (cascade parity with `text-color-N` + role colours).
+- Keep the composite (don't force compose).
+- Home = core `_utilities.scss` now (file-linked, demo-able) → pure-css
+  `utilities.scss` beside the role colours + palette tokens in the coordinated release.
+
+### Exhaustive colour-apply scan (confirmed complete)
+These **5 families are the ENTIRE standalone colour-apply surface** — no other
+`bg-{role}` / `fill-` / `ring-` utilities exist. Everything else matching "color"
+is a **component `--color` modifier** (`pa-btn--color`, `pa-badge--color`,
+`pa-alert--color`, `pa-card--color`, `pa-toast--color`, `pa-input--color`, …) —
+palette-tinted *component variants*, correctly `pa-`-scoped (part of a component's
+BEM), so they **stay** and are out of scope.
 
 ### Known naming wart (accepted)
 `text-color-N` → `--pc-color-N` (data PALETTE, e.g. pink) while
@@ -191,8 +200,8 @@ not renaming.
 
 ### Phases (mirror Initiative 1)
 - **A. Additive:** add unprefixed `bg-color-N`, `border-color-N`,
-  `surface-color-N` (and `text-on-color-N` only if kept); `text-color-N` already
-  exists. Build core + themes; showcase on Helpers/Colors demo. Non-breaking.
+  `text-on-color-N`, `surface-color-N`; `text-color-N` already exists. Build core
+  + themes; showcase on Helpers/Colors demo. Non-breaking.
 - **B. Sweep call sites (~49):** `pa-text-color→text-color`,
   `pa-bg-color→bg-color`, `pa-border-color→border-color`,
   `pa-text-bg-color→surface-color` across all repos (raw HTML → classes,
