@@ -132,7 +132,7 @@
                     <div class="pa-card__title">
                         <h3 class="pa-card__title-text">Alerts with Additional Content</h3>
                     </div>
-                    <p class="pa-text pa-text--secondary mb-0">Always use <code>pa-alert__heading</code> for a separate title element; default sits at the alert's body font-size, add <code>--lg</code> for the punchier presentation. Pair with <code>pa-alert__list</code> for an in-alert <code>&lt;ul&gt;</code>, and a plain <code>&lt;hr&gt;</code> for a subtle divider that picks up an alert-tinted top border automatically.</p>
+                    <p class="text-sm text-secondary mb-0">Always use <code>pa-alert__heading</code> for a separate title element; default sits at the alert's body font-size, add <code>--lg</code> for the punchier presentation. Pair with <code>pa-alert__list</code> for an in-alert <code>&lt;ul&gt;</code>, and a plain <code>&lt;hr&gt;</code> for a subtle divider that picks up an alert-tinted top border automatically.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pc-row">
@@ -166,7 +166,7 @@
                     <div class="pa-card__title">
                         <h3 class="pa-card__title-text">Heading size: default vs. <code>--lg</code></h3>
                     </div>
-                    <p class="pa-text pa-text--secondary mb-0">Same markup either way — always <code>pa-alert__heading</code>. Default size sits at the alert's body font-size for compact status banners ("Validation failed", "Saved", "Connection lost"). Add <code>pa-alert__heading--lg</code> when the alert needs deliberate attention (blocking errors, system updates, quota warnings).</p>
+                    <p class="text-sm text-secondary mb-0">Same markup either way — always <code>pa-alert__heading</code>. Default size sits at the alert's body font-size for compact status banners ("Validation failed", "Saved", "Connection lost"). Add <code>pa-alert__heading--lg</code> when the alert needs deliberate attention (blocking errors, system updates, quota warnings).</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pc-row">
@@ -203,7 +203,7 @@
                     <div class="pa-card__title">
                         <h3 class="pa-card__title-text">Alerts with custom actions</h3>
                     </div>
-                    <p class="pa-text pa-text--secondary mb-0">Wrap action buttons in <code>pa-alert__actions</code>. The element renders a thin divider above with symmetric padding — same separator pattern as <code>pa-toast__actions</code>, so action-bearing alerts and custom-action toasts feel visually consistent.</p>
+                    <p class="text-sm text-secondary mb-0">Wrap action buttons in <code>pa-alert__actions</code>. The element renders a thin divider above with symmetric padding — same separator pattern as <code>pa-toast__actions</code>, so action-bearing alerts and custom-action toasts feel visually consistent.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pc-row">
@@ -251,7 +251,7 @@
                     <div class="pa-card__title">
                         <h3 class="pa-card__title-text">Sizes</h3>
                     </div>
-                    <p class="pa-text pa-text--secondary mb-0">Three sizes — <code>pa-alert--sm</code>, default, and <code>pa-alert--lg</code>. Both padding and font-size step at each size; themes can retune via the <code>$alert-padding-&#123;sm,lg&#125;-&#123;v,h&#125;</code> and <code>$alert-font-size-&#123;sm,lg&#125;</code> SCSS variables.</p>
+                    <p class="text-sm text-secondary mb-0">Three sizes — <code>pa-alert--sm</code>, default, and <code>pa-alert--lg</code>. Both padding and font-size step at each size; themes can retune via the <code>$alert-padding-&#123;sm,lg&#125;-&#123;v,h&#125;</code> and <code>$alert-font-size-&#123;sm,lg&#125;</code> SCSS variables.</p>
                 </div>
                 <div class="pa-card__body">
                     <h4>Small — <code>pa-alert--sm</code></h4>
@@ -393,7 +393,7 @@
                     <div class="pa-card__title">
                         <h3 class="pa-card__title-text">Icon + multi-line content</h3>
                     </div>
-                    <p class="pa-text pa-text--secondary mb-0">When you pair an <code>pa-alert__icon</code> with a multi-line <code>pa-alert__content</code> (heading + body + actions), add <code>pa-alert--multiline</code> so the icon stays at the top with the heading instead of vertically centring against the whole stack. Side by side below — the left example uses the modifier; the right one shows what happens without it.</p>
+                    <p class="text-sm text-secondary mb-0">When you pair an <code>pa-alert__icon</code> with a multi-line <code>pa-alert__content</code> (heading + body + actions), add <code>pa-alert--multiline</code> so the icon stays at the top with the heading instead of vertically centring against the whole stack. Side by side below — the left example uses the modifier; the right one shows what happens without it.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pc-row">
@@ -428,7 +428,7 @@
                     <div class="pa-card__title">
                         <h3 class="pa-card__title-text">Status strip layout</h3>
                     </div>
-                    <p class="pa-text pa-text--secondary mb-0">Real-world example — small, icon-prefixed alerts arranged in a row above a section. <code>pa-alert--sm</code> keeps each pill compact so multiple states fit on one line at desktop widths.</p>
+                    <p class="text-sm text-secondary mb-0">Real-world example — small, icon-prefixed alerts arranged in a row above a section. <code>pa-alert--sm</code> keeps each pill compact so multiple states fit on one line at desktop widths.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pc-row">
@@ -495,7 +495,7 @@
             <li><code>pa-alert--dismissible</code> &mdash; Adds inline-end padding so the absolutely-positioned close button doesn't overlap text</li>
             <li><code>pa-alert--multiline</code> &mdash; Opts out of the default <code>align-items: center</code> so an icon next to multi-line <code>pa-alert__content</code> stays top-aligned with the heading instead of centring against the content stack</li>
         </ul>
-        <p class="pa-text pa-text--secondary mt-2">
+        <p class="text-sm text-secondary mt-2">
             V steps <code>0.5 &rarr; 0.75 &rarr; 1rem</code>; H steps <code>1 &rarr; 1.25 &rarr; 1.5rem</code> &mdash; clean 0.25rem increments.
             Themes can retune the scale via the
             <code>$alert-padding-&#123;v,h&#125;</code>,
@@ -514,7 +514,7 @@
             <li><code>pa-alert__actions</code> &mdash; Action buttons row, sits below a thin divider with symmetric padding (same separator pattern as <code>pa-toast__actions</code>); always renders on its own row at the bottom</li>
             <li><code>pa-alert__close</code> &mdash; Close/dismiss button (absolutely positioned, inline-end &mdash; RTL-aware)</li>
         </ul>
-        <p class="pa-text pa-text--secondary mt-2">
+        <p class="text-sm text-secondary mt-2">
             <strong>Layout note:</strong> the alert is <code>display: flex; flex-wrap: wrap</code> with <code>gap: $spacing-sm</code>.
             Structural children (<code>__heading</code>, <code>__list</code>, <code>__actions</code>, top-level <code>&lt;p&gt;</code>, <code>&lt;hr&gt;</code>)
             get <code>flex-basis: 100%</code> so they take their own row; inline siblings (<code>__icon</code>, <code>__content</code>, bare text + <code>&lt;strong&gt;</code>) stay on the flex row.

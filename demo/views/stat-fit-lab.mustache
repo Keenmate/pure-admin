@@ -116,7 +116,7 @@
 <div class="pa-card mb-4">
   <div class="pa-card__header"><div class="pa-card__title"><h3 class="pa-card__title pa-card__title-text">1 · Playground — drag the bottom-right corner</h3></div></div>
   <div class="pa-card__body">
-    <p class="pa-text pa-text--secondary mb-3">Resize to <strong>any</strong> width/height. The label drops, then the symbol, while the number always
+    <p class="text-sm text-secondary mb-3">Resize to <strong>any</strong> width/height. The label drops, then the symbol, while the number always
        fits and stays as large as possible. Swap content to confirm it's char-count independent.</p>
     <div class="sfl-playground">
       <div>
@@ -139,7 +139,7 @@
           <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="23" data-sym="°C">23°C</button>
         </div>
       </div>
-      <div class="pa-text pa-text--secondary" style="max-width:30rem">
+      <div class="text-sm text-secondary" style="max-width:30rem">
         <p class="mb-1"><strong>What to look for</strong></p>
         <ul style="padding-left:1.8rem;margin:.6rem 0;">
           <li>Grow the box → tiers appear in priority order:
@@ -160,7 +160,7 @@
 <div class="pa-card mb-4">
   <div class="pa-card__header"><div class="pa-card__title"><h3 class="pa-card__title pa-card__title-text">1b · Real component — <code>pa-stat--square[data-pa-stat-fit]</code></h3></div></div>
   <div class="pa-card__body">
-    <p class="pa-text pa-text--secondary mb-3">
+    <p class="text-sm text-secondary mb-3">
       The actual framework component (theme CSS + <code>pa-stat-fit.js</code>), not the <code>sfl-</code> prototype.
       Minimal authored markup — the JS wraps <code>__number</code> + <code>__symbol</code> into the fit group at runtime.
       Drag the corner; behaviour should match the playground above.
@@ -173,7 +173,7 @@
       <div class="pa-stat__change pa-stat__change--positive">▲ 12.5% vs last month</div>
       <div class="pa-stat__context">Updated 2 min ago · FY2026 Q2</div>
     </div>
-    <p class="pa-text--secondary mt-3 mb-0" style="font-size:1.2rem">
+    <p class="text-secondary mt-3 mb-0" style="font-size:1.2rem">
       Authored markup (5 children, flat — JS does the wrapping):
     </p>
 <pre class="pa-code" style="margin-top:.6rem"><code>&lt;div class="pa-stat pa-stat--square pa-stat--info" data-pa-stat-fit&gt;
@@ -190,7 +190,7 @@
 <div class="pa-card mb-4">
   <div class="pa-card__header"><div class="pa-card__title"><h3 class="pa-card__title pa-card__title-text">2 · Fixed-size matrix — eyeball the disclosure tiers</h3></div></div>
   <div class="pa-card__body">
-    <p class="pa-text pa-text--secondary mb-3">Identical content at decreasing box sizes. Note where label / symbol drop, and that the number is always maxed.</p>
+    <p class="text-sm text-secondary mb-3">Identical content at decreasing box sizes. Note where label / symbol drop, and that the number is always maxed.</p>
     <div class="sfl-matrix">
       <figure><div class="sfl-tile sfl-tile--info sfl-lg">    <div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>300×140 (lg)</figcaption></figure>
       <figure><div class="sfl-tile sfl-tile--info sfl-md">    <div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>200×96 (md)</figcaption></figure>
@@ -205,7 +205,7 @@
 <div class="pa-card mb-4">
   <div class="pa-card__header"><div class="pa-card__title"><h3 class="pa-card__title pa-card__title-text">3 · Char-count independence — same box, different content</h3></div></div>
   <div class="pa-card__body">
-    <p class="pa-text pa-text--secondary mb-3">All <code>200×96</code>. With JS fit each number fills its box at the max size that fits — regardless of character count.</p>
+    <p class="text-sm text-secondary mb-3">All <code>200×96</code>. With JS fit each number fills its box at the max size that fits — regardless of character count.</p>
     <div class="sfl-matrix">
       <figure><div class="sfl-tile sfl-tile--secondary sfl-md"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">1</span></span></div><div class="sfl-label">Res Version</div></div><figcaption>"1"</figcaption></figure>
       <figure><div class="sfl-tile sfl-tile--secondary sfl-md"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">92</span></span></div><div class="sfl-label">Contracts</div></div><figcaption>"92"</figcaption></figure>
@@ -219,7 +219,7 @@
 <div class="pa-card mb-4">
   <div class="pa-card__header"><div class="pa-card__title"><h3 class="pa-card__title pa-card__title-text">4 · Why pure <code>cqi</code> can't do it</h3></div></div>
   <div class="pa-card__body">
-    <p class="pa-text pa-text--secondary mb-3">Both boxes are <code>160×90</code> with a pure-CSS <code>clamp(2rem, 42cqi, 20rem)</code> font.
+    <p class="text-sm text-secondary mb-3">Both boxes are <code>160×90</code> with a pure-CSS <code>clamp(2rem, 42cqi, 20rem)</code> font.
        Short content is fine; longer content <strong>overflows</strong> — the font size knows the box width but not the character count.</p>
     <div class="sfl-matrix">
       <figure><div class="sfl-cqi"><span class="sfl-num">92</span></div><figcaption>cqi · "92" ✓</figcaption></figure>

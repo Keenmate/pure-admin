@@ -5,6 +5,45 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc06] - 2026-10-04
+
+### Added
+
+- **Flat neutral text-colour + semantic utilities — `.text-secondary`,
+  `.text-body`, `.text-caption`, `.text-lead`.** Fill the gap that forced the
+  undefined `text-secondary` class people kept reaching for: muted / subdued body
+  text (`--pc-text-color-2`) used to be available only INSIDE the
+  `pa-text--secondary` component modifier, never as a flat utility.
+  `.text-secondary` is the flat muted/subdued text colour — the name matches the
+  component `--secondary` role vocabulary (a `pa-btn--secondary` /
+  `pa-stat--secondary` is the subdued variant). `.text-body` is the explicit
+  default body colour. Both mirror the role-colour utilities (`!important`, so the
+  colour wins when composed onto a component); `.text-caption` / `.text-lead` are
+  the compound semantic shorthands.
+
+### Removed
+
+- **BREAKING: the `.pa-text` BEM typography component (base + `--xs/sm/lg/xl`,
+  `--primary/secondary`, `--start/center/end`, `--caption/lead` — 12 classes).** It
+  was a single-declaration utility mis-filed as a pseudo-component: every size
+  resolved to the identical `$font-size-*` token as a flat `text-*` (just
+  offset-named), and its one unique token (muted colour) is now the flat
+  `.text-secondary`. Replace per the map: `pa-text`→`text-sm`, `pa-text--xs`→`text-2xs`,
+  `pa-text--sm`→`text-xs`, `pa-text--lg`→`text-base`, `pa-text--xl`→`text-lg`,
+  `pa-text--secondary`→`text-secondary`, `pa-text--primary`→(body default) / `text-body`,
+  `pa-text--start/center/end`→`text-start/center/end`, `pa-text--caption`→`text-caption`,
+  `pa-text--lead`→`text-lead`. The `svelte-pure-admin` / `keen-pure-admin`
+  `<Paragraph>` / `<Text>` / `<Heading>` wrappers already emit the flat classes (prop
+  APIs unchanged; `color="secondary"` / `variant="secondary"` map to `.text-secondary`).
+  The palette utilities `.pa-text-color-N` / `.pa-text-bg-color-N` /
+  `.pa-text-on-color-N` and the form `.pa-textarea` are unrelated and untouched. See
+  `docs/text-consolidation-plan.md`.
+
+### Internal
+
+- Component catalog regenerated after the `pa-text` removal (`npm run catalog`):
+  60 components · 152 blocks · 659 selectors.
+
 ## [3.3.0-rc05] - 2026-09-28 [PUBLISHED]
 
 ### Added

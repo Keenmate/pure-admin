@@ -329,6 +329,10 @@ app.get('/design/icons', (req, res) => {
     renderWithLayout(res, 'icons', { pageTitle: 'Icons', currentPage: 'icons', isIcons: true });
 });
 
+app.get('/design/typography', (req, res) => {
+    renderWithLayout(res, 'typography', { pageTitle: 'Typography', currentPage: 'typography', isTypography: true });
+});
+
 app.get('/design/helpers', (req, res) => {
     renderWithLayout(res, 'helpers', { pageTitle: 'Helpers', currentPage: 'helpers', isHelpers: true });
 });

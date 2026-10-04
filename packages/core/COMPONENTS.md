@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc05** · **60** components · **153** blocks · **660** class selectors.
+Framework version **3.3.0-rc05** · **60** components · **152** blocks · **659** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -711,7 +711,7 @@ Mask-based icon element (pa-icon--x etc.).
 
 Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).
 
-- **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text`, `pa-text-bg-color`, `pa-text-color`, `pa-text-on-color`
+- **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text-bg-color`, `pa-text-color`, `pa-text-on-color`
 - **SCSS:** `core-components/_utilities.scss`
 - **Snippet:** `utilities.html`
 - **Demo:** ✗ none

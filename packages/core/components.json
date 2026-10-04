@@ -3,8 +3,8 @@
   "frameworkVersion": "3.3.0-rc05",
   "totals": {
     "components": 60,
-    "blocks": 153,
-    "selectors": 660,
+    "blocks": 152,
+    "selectors": 659,
     "experimental": 1
   },
   "categories": [
@@ -2011,7 +2011,6 @@
         "pa-font-mobile",
         "pa-font-responsive",
         "pa-link",
-        "pa-text",
         "pa-text-bg-color",
         "pa-text-color",
         "pa-text-on-color"

@@ -1,0 +1,165 @@
+<p>Typography — headings, paragraphs, colours, alignment, and compound semantic styles. The size scale is absolute: one name, one size, everywhere.</p>
+
+<!-- Headings -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Headings</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <h1>Heading 1</h1>
+        <h2>Heading 2</h2>
+        <h3>Heading 3</h3>
+        <h4>Heading 4</h4>
+        <h5>Heading 5</h5>
+        <h6>Heading 6</h6>
+    </div>
+</div>
+
+<!-- Paragraph Sizes -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Paragraph Sizes</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <p class="text-secondary mb-4">No size is the body default (16px). Each size maps directly to the same-named text-* utility.</p>
+        <div class="d-flex flex-column gap-xs">
+            <p class="text-xs m-0">text-xs — 12px</p>
+            <p class="text-sm m-0">text-sm — 14px (UI-control size)</p>
+            <p class="m-0">no size — body default (16px)</p>
+            <p class="text-lg m-0">text-lg — 18px</p>
+            <p class="text-xl m-0">text-xl — 20px</p>
+        </div>
+    </div>
+</div>
+
+<div class="pc-row">
+    <div class="pc-col-100 pc-col-md-50">
+        <!-- Text Colour -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Text Colour</h3>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <p class="text-secondary mb-2">Neutral text hierarchy. Role colours are in the Inline Text section.</p>
+                <div class="d-flex flex-column gap-xs">
+                    <p class="text-body m-0">Body text — the default (--pc-text-color-1)</p>
+                    <p class="text-secondary m-0">Secondary — muted / subdued (--pc-text-color-2)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pc-col-100 pc-col-md-50">
+        <!-- Alignment -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Alignment</h3>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <p class="text-secondary mb-2">Logical, RTL-aware.</p>
+                <div class="d-flex flex-column gap-xs">
+                    <p class="text-start m-0">Start — leading edge</p>
+                    <p class="text-center m-0">Center</p>
+                    <p class="text-end m-0">End — trailing edge</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Semantic Text -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Semantic Text</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <p class="text-secondary mb-2">Compound shorthands.</p>
+        <div class="d-flex flex-column gap-sm">
+            <p class="text-lead m-0">Lead — an introductory paragraph at 16px with relaxed line-height, for the opening sentence of a section.</p>
+            <p class="text-caption m-0">Caption — small muted text at 12px, for figure captions and fine print.</p>
+        </div>
+    </div>
+</div>
+
+<div class="pc-row">
+    <div class="pc-col-100 pc-col-md-50">
+        <!-- Inline Text -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Inline Text</h3>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <p>Inline spans: <span class="text-secondary">secondary</span>, <span class="text-primary">primary</span>, <span class="text-success">success</span>, <span class="text-danger">danger</span>, <span class="text-warning">warning</span>, <span class="text-info">info</span>.</p>
+                <p class="m-0">Emphasis: <strong>strong</strong> and <em>em</em>.</p>
+            </div>
+        </div>
+    </div>
+    <div class="pc-col-100 pc-col-md-50">
+        <!-- Links -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Links</h3>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <div class="d-flex flex-column gap-xs">
+                    <a href="#" class="pa-link">Default link</a>
+                    <a href="#" class="pa-link text-secondary">Muted link</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Class Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Class Reference</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <table class="pa-table pa-table--striped pa-table--sm">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Font size</td>
+                    <td><code>text-2xs</code>, <code>text-xs</code>, <code>text-sm</code>, <code>text-base</code>, <code>text-lg</code>, <code>text-xl</code>, <code>text-2xl</code></td>
+                </tr>
+                <tr>
+                    <td>Colour</td>
+                    <td><code>text-body</code>, <code>text-secondary</code>, <code>text-primary</code>, <code>text-success</code>, <code>text-danger</code>, <code>text-warning</code>, <code>text-info</code></td>
+                </tr>
+                <tr>
+                    <td>Alignment</td>
+                    <td><code>text-start</code>, <code>text-center</code>, <code>text-end</code></td>
+                </tr>
+                <tr>
+                    <td>Wrapping</td>
+                    <td><code>text-nowrap</code>, <code>text-truncate</code></td>
+                </tr>
+                <tr>
+                    <td>Semantic</td>
+                    <td><code>text-caption</code>, <code>text-lead</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -15,7 +15,7 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 | Component | Snippet | Coverage | Ref block | Missing selectors |
 |---|---|:--:|:--:|---|
 | Icon | icon.html | 18/40 (45%) | ✓ | `pa-icon--bell`, `pa-icon--check`, `pa-icon--copy`, `pa-icon--danger`, `pa-icon--download`, `pa-icon--ellipsis`, `pa-icon--ellipsis-vertical`, `pa-icon--external-link`, `pa-icon--favorites`, `pa-icon--filter`, `pa-icon--help`, `pa-icon--info`, `pa-icon--link`, `pa-icon--lock`, `pa-icon--logout`, `pa-icon--refresh`, `pa-icon--save`, `pa-icon--settings`, `pa-icon--star`, `pa-icon--success`, `pa-icon--user`, `pa-icon--warning` |
-| Utilities & state hooks | utilities.html | 8/10 (80%) | ✓ | `pa-text-bg-color`, `pa-text-on-color` |
+| Utilities & state hooks | utilities.html | 7/9 (78%) | ✓ | `pa-text-bg-color`, `pa-text-on-color` |
 | Button | buttons.html | 20/21 (95%) | ✓ | `pa-btn--disabled` |
 
 ## Gaps — components with no snippet

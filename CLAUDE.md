@@ -357,17 +357,34 @@ $font-size-xl:   2rem;      // 20px
 $font-size-2xl:  2.4rem;    // 24px
 ```
 
-### Native Grid System (pa-col-*)
+### Native Grid System (pc-col-*)
+
+**Prefix is `pc-`, not `pa-`.** The grid is foundation-level, so it uses the
+`pc-` namespace. (The old `pa-row` / `pa-col-*` classes are GONE — not legacy
+tolerance, they do not exist in the compiled CSS. Any `pa-col-*` markup renders
+unstyled.) The `pc-` grid is currently **emitted from core** (`dist/main.css`)
+with the `pc-` prefix; a planned coordinated release graduates it down into
+`@keenmate/pure-css` — see the `pc-grid graduation` note. Consume it the same
+way regardless of which package emits it.
+
 ```
-.pa-row              → Flex container
-.pa-col              → Auto-equal width (flex: 1)
-.pa-col-auto         → Content-based width
-.pa-col-{5-100}      → Percentage columns (5% increments)
-.pa-col-1-2          → 50%
-.pa-col-1-3, 2-3     → Thirds
-.pa-col-1-4, 3-4     → Quarters
-.pa-col-sm-*, md-*, lg-*, xl-*  → Responsive variants
+.pc-row                         → Flex container (row)
+.pc-row--center/end             → Justify the row (also --between / --around)
+.pc-row--top/middle/bottom      → Align items vertically
+.pc-col                         → Auto-equal width (flex: 1)
+.pc-col-auto                    → Content-based width
+.pc-col-{5..100}                → Percentage columns (5% increments)
+.pc-col-1-2                     → 50%  (fractions)
+.pc-col-1-3, 2-3                → Thirds
+.pc-col-1-4, 3-4                → Quarters
+.pc-col-1-5…4-5, 1-6/5-6, 1-12…11-12  → Fifths / sixths / twelfths
+.pc-col-sm-*, md-*, lg-*, xl-*  → Responsive variants (mobile-first)
+.pc-col--no-padding             → Drop the column gutter
+.pc-col--grow / --shrink        → flex-grow / allow shrink below content
 ```
+
+Wrappers emit these from props: svelte `<Column size="100" md="50">` and keen
+`<.column size="100" md="50">` both render `pc-col-100 pc-col-md-50`.
 
 ### Card header icon alignment (FA glyph metrics)
 

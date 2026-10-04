@@ -1,8 +1,42 @@
 # Text / typography consolidation — migration plan
 
-**Status:** DRAFT for review (2026-10-04). Phase 1 (additive) implemented; the
-breaking phases are specified but NOT yet executed (they need visual review +
-wrapper testing).
+> **DECISION REVISED (2026-10-04): the canonical muted-text utility is
+> `.text-secondary`, NOT `.text-muted`. `.text-muted` was removed entirely.**
+> Rationale: `text-secondary` already had the dominant, pre-existing usage across
+> the demos (loaders / splitter / detail-panel / data-display …) and its name
+> matches the component `--secondary` role vocabulary (a `pa-btn--secondary` /
+> `pa-stat--secondary` is the subdued variant). All `text-muted` occurrences were
+> swept → `text-secondary` across the three repos; the wrapper prop value is
+> `secondary` (its original name — the `muted` value added earlier this session was
+> reverted). svelte's `mode="muted"` legacy prop alias is kept (→ `text-secondary`).
+> `--pc-text-muted` *variable* refs in svelte docs are unrelated and untouched.
+> Everything below that says "text-muted (canonical)" / "text-secondary
+> (provisional alias)" is SUPERSEDED by this note.
+
+> **TYPOGRAPHY SIZE MODEL — PINNED (2026-10-04).** The `text-*` / `$font-size-*`
+> scale is ABSOLUTE: a px maps to ONE token name everywhere (no per-component
+> renaming). Empirical tiers in actual use:
+> - `base` = **16px** → body / bare `<p>` / `<Paragraph>` default / card titles = **the body/reading default**
+> - `md` = 15px → sidebar / nav menu items (lone outlier; normalize later)
+> - `sm` = **14px** → buttons / inputs / tables / tabs = **the UI-control default**
+> - `xs` = 12px → badges / field labels / captions
+> The old "16px called `lg`" contradiction lived ONLY in the deleted `.pa-text`
+> (its local base was 14px). Gone now. `<Paragraph>`/`<.paragraph>` with no `size`
+> = a plain `<p>` at 16px (matches a bare `<p>`); `size` maps DIRECTLY to the
+> same-named flat utility (`sm`→text-sm=14, `lg`→text-lg=18, …) — no offset.
+
+**Status:** Initiative 1 (`pa-text` → `text-*`) **COMPLETE** (2026-10-04).
+Phases 1–4 executed and verified across all three repos: core `.pa-text`
+component deleted, flat `text-*` utilities live, wrappers re-pointed, all call
+sites swept, catalog regenerated, core bumped to 3.3.0-rc06 + CHANGELOG.
+Verified: core/themes rebuilt (0 `.pa-text` in corporate dist), demo renders
+flat utilities, svelte-check clean for the typography components, zero in-scope
+`pa-text*` references remain anywhere. NOT yet committed (left for review) and
+NOT published. **Deferred to the coordinated release (user-driven):** move
+`.text-secondary`/`.text-body` down into pure-css beside the role
+colours; `CSS-VARIABLES.md` refresh; publish chain (core → themes → wrappers);
+commit the keen + svelte wrapper changes after a live runtime pass.
+Initiative 2 (palette `pa-*-color-N`) is still planned/pending below.
 
 ## Why
 
@@ -121,23 +155,38 @@ drop `color="primary"` (body is default).
 - Rebuild core + themes. Add a demo page showcasing the full `text-*` family.
 - **Reversible, breaks nothing.** This is what's up for review in the morning.
 
-### Phase 2 — components re-point (breaking; needs wrapper testing)
-- `<Paragraph>`/`<.paragraph>` + `<Text>`/`<.text>` emit `text-*` instead of
-  `pa-text*`; add `muted` prop values; keep `secondary` alias.
-- Build + visual-check both wrappers (keen :18700, svelte dev). Fidelity dumps.
+### Phase 2 — components re-point (breaking) ✅ DONE 2026-10-04
+- keen `typography.ex`: `paragraph` now emits flat `text-*` via a
+  `paragraph_size_class/1` remap (offset scale: `xs`→`text-2xs`, `sm`→`text-xs`,
+  default→`text-sm`, `lg`→`text-base`, `xl`→`text-lg`) + `paragraph_color_class/1`
+  (`muted`/`secondary`→`text-muted`, `primary`→`text-body`); `text` →
+  `text-muted` for muted (`muted` canonical, `secondary` deprecated alias).
+- svelte `Paragraph.svelte` (sizeClassMap + `color`/`mode` → `text-muted`/`text-body`),
+  `Text.svelte` (`muted`/`secondary` → `text-muted`), `Heading.svelte`
+  (`horizontalAlignment` → `text-*`). Prop APIs unchanged; `muted` added, `secondary`
+  kept as deprecated alias. svelte-check: 0 new errors (5 pre-existing DataViz errors
+  are unrelated).
 
-### Phase 3 — call-site sweep (breaking)
-- Raw HTML (pure-admin demo): remaining `pa-text*` → `text-*`.
-- Wrappers: any remaining raw classes → props.
-- Second dead-class population (`text-secondary`/`pa-text-secondary`) resolved
-  per the Phase-1 decision.
+### Phase 3 — call-site sweep (breaking) ✅ DONE 2026-10-04
+- pure-admin demo: all mustache `pa-text*` → flat `text-*` (scripted token remap;
+  `pa-textarea` / `pa-text-color-N` / `pa-text-bg-color-N` left untouched).
+- keen demo (24 occ / 9 files) + svelte docs (39 occ / 10 files): raw classes → flat
+  `text-*` on arbitrary elements, `color="muted"` / `variant="muted"` props on
+  `<.paragraph>`/`<Paragraph>`/`<.text>`, prose/`<Code>` renamed to `text-muted`.
+- Dead `pa-text-secondary` (single-hyphen) + keen's dead `pa-text--danger`/`--success`
+  resolved to `text-muted` / `text-danger` / `text-success`.
 
-### Phase 4 — remove `pa-text*` + relocate `.text-muted` to pure-css
-- Delete the 12 `pa-text*` classes from core.
-- Move `.text-muted`/`.text-body`/`.text-secondary` into pure-css `utilities.scss`
-  beside the role colours.
-- **Coordinated release:** pure-css → core → themes → wrappers (file:/npm chain).
-- Update `COMPONENTS.md` / `components.json` catalog + `CSS-VARIABLES.md`.
+### Phase 4 — remove `pa-text*` ✅ DONE 2026-10-04 (relocation deferred)
+- Deleted the 12 `pa-text*` classes from core `_utilities.scss`; rebuilt core + all
+  16 themes (0 `.pa-text` component in corporate dist; flat utils present).
+- Catalog regenerated: removed `pa-text` from the generator taxonomy (line ~334) and
+  de-dotted the migration-note comments (the generator scrapes `.pa-*` from comments
+  too, so dotted `.pa-text--*` in a comment re-created phantom catalog blocks).
+  Now 60 components · 152 blocks · 659 selectors. Core → 3.3.0-rc06 + CHANGELOG + lockfile.
+- **STILL DEFERRED (coordinated release, user-driven):** move
+  `.text-muted`/`.text-body`/`.text-secondary` into pure-css `utilities.scss` beside
+  the role colours; `CSS-VARIABLES.md` refresh; publish chain
+  pure-css → core → themes → wrappers; commit keen + svelte after a live runtime pass.
 
 ---
 

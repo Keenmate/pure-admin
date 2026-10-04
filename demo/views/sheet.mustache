@@ -12,7 +12,7 @@
     <button type="button" class="pa-btn pa-btn--primary" onclick="window.print()">
         {{> partials/printer-icon}} Print whole page
     </button>
-    <span class="pa-text pa-text--secondary ms-2"><code>window.print()</code> prints the entire document. Each sheet below also has its own button that prints <strong>just that one sheet</strong> in isolation via <code>pureAdmin.printElement()</code> — no page-level print CSS needed.</span>
+    <span class="text-sm text-secondary ms-2"><code>window.print()</code> prints the entire document. Each sheet below also has its own button that prints <strong>just that one sheet</strong> in isolation via <code>pureAdmin.printElement()</code> — no page-level print CSS needed.</span>
 
     <!-- Print colour policy — three direct-print buttons. The policy lives
          inside @media print (invisible on screen), so each button prints the
@@ -21,7 +21,7 @@
          element synchronously, so the class is captured and removed again with
          no on-screen flicker. Most visible on a dark theme (e.g. Cobalt2). -->
     <div class="mt-3" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-        <span class="pa-text pa-text--secondary"><strong>Test print colour modes</strong> — opens a print preview of the invoice below:</span>
+        <span class="text-sm text-secondary"><strong>Test print colour modes</strong> — opens a print preview of the invoice below:</span>
         <div role="group" aria-label="Print colour modes" style="display: inline-flex; gap: 0.5rem;">
             <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" onclick="printInvoiceMode('', 'Invoice — ink on paper')">Ink on paper (default)</button>
             <button type="button" class="pa-btn pa-btn--sm pa-btn--secondary" onclick="printInvoiceMode('pa-sheet--print-color', 'Invoice — theme colours')">Theme colours</button>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="mt-1">
-        <span class="pa-text pa-text--secondary">All three print on white paper (never a toner-heavy background). Switch to a dark theme (e.g. Cobalt2) to feel the difference: <strong>Ink on paper</strong> is pure black-and-white; <strong>Theme colours</strong> keeps the accent/brand colours (coloured title, logo) on white; <strong>Greyscale</strong> desaturates those to grey.</span>
+        <span class="text-sm text-secondary">All three print on white paper (never a toner-heavy background). Switch to a dark theme (e.g. Cobalt2) to feel the difference: <strong>Ink on paper</strong> is pure black-and-white; <strong>Theme colours</strong> keeps the accent/brand colours (coloured title, logo) on white; <strong>Greyscale</strong> desaturates those to grey.</span>
     </div>
 </div>
 
@@ -683,7 +683,7 @@
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-cn23', { title: 'CN 23 customs declaration' })">
         {{> partials/printer-icon}} Print this form
     </button>
-    <label class="d-flex align-items-center gap-2 pa-text pa-text--secondary">
+    <label class="d-flex align-items-center gap-2 text-sm text-secondary">
         Item rows
         <span class="pa-input-group pa-input-group--sm" style="width: 12rem;">
             <button type="button" class="pa-input-group__button pa-btn pa-btn--secondary" onclick="cn23Rows(-1)">−</button>
@@ -691,7 +691,7 @@
             <button type="button" class="pa-input-group__button pa-btn pa-btn--secondary" onclick="cn23Rows(1)">+</button>
         </span>
     </label>
-    <span class="pa-text pa-text--secondary">Built entirely from generic <code>pc-grid</code> + <code>pa-table--plain</code> + utilities — no CN23-specific classes.</span>
+    <span class="text-sm text-secondary">Built entirely from generic <code>pc-grid</code> + <code>pa-table--plain</code> + utilities — no CN23-specific classes.</span>
 </div>
 <div id="sheet-cn23" class="pa-sheet pa-sheet--framed mb-8" style="--pa-sheet-padding: 0; --pa-sheet-gap: 0;">
     <div class="pc-grid pc-grid--cols-2 pc-grid--flush">
@@ -717,15 +717,15 @@
             <div class="pc-grid pc-grid--cols-3 pc-grid--flush p-4">
                 <div class="pc-col-span-2">
                     <div class="text-2xl font-weight-bold">CUSTOMS DECLARATION</div>
-                    <div class="pa-text pa-text--secondary text-xs">No. of item (barcode, if any)</div>
+                    <div class="text-sm text-secondary text-xs">No. of item (barcode, if any)</div>
                     <div class="font-weight-bold font-style-italic">May be opened officially</div>
                     <div class="text-xl font-weight-bold">DÉCLARATION EN DOUANE</div>
-                    <div class="pa-text pa-text--secondary text-xs font-style-italic">Peut être ouvert d'office</div>
+                    <div class="text-sm text-secondary text-xs font-style-italic">Peut être ouvert d'office</div>
                 </div>
                 <div class="pc-col-span-1 text-end">
                     <div class="text-xl font-weight-bold font-style-italic">CN 23</div>
                     <div class="font-weight-bold">Important!</div>
-                    <div class="pa-text pa-text--secondary font-style-italic">See instructions on the back</div>
+                    <div class="text-sm text-secondary font-style-italic">See instructions on the back</div>
                 </div>
             </div>
             <div><span class="pa-field__label">Sender's Customs reference (if any)</span></div>
@@ -737,11 +737,11 @@
     <table class="pa-table pa-table--bordered pa-table--plain pa-table--sm">
         <thead>
             <tr>
-                <th rowspan="2" class="text-start" style="width: 34%;">Detailed Description of Contents (1)<br><span class="pa-text pa-text--secondary font-style-italic">Description détaillée du contenu</span></th>
+                <th rowspan="2" class="text-start" style="width: 34%;">Detailed Description of Contents (1)<br><span class="text-sm text-secondary font-style-italic">Description détaillée du contenu</span></th>
                 <th rowspan="2" class="text-start">Quantity (2)</th>
                 <th rowspan="2" class="text-start">Net Weight (3)</th>
                 <th rowspan="2" class="text-start">Value (5)</th>
-                <th colspan="2" class="text-center">For commercial items only<br><span class="pa-text pa-text--secondary font-style-italic">Pour les envois commerciaux seulement</span></th>
+                <th colspan="2" class="text-center">For commercial items only<br><span class="text-sm text-secondary font-style-italic">Pour les envois commerciaux seulement</span></th>
             </tr>
             <tr>
                 <th class="text-start">HS Tariff Number (7)</th>
@@ -763,7 +763,7 @@
 
     <div class="pc-grid pc-grid--cols-2 pc-grid--ruled">
         <div>
-            <div class="font-weight-bold">Category of Item (10) <span class="pa-text pa-text--secondary font-style-italic">Catégorie de l'envoi</span></div>
+            <div class="font-weight-bold">Category of Item (10) <span class="text-sm text-secondary font-style-italic">Catégorie de l'envoi</span></div>
             <div class="pc-row">
                 <div class="pc-col-1-2">
                     <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Gift</span></label>
@@ -778,7 +778,7 @@
         </div>
         <div class="minhr-15">
             <div class="font-weight-bold">Office of Origin and Date of Posting</div>
-            <span class="pa-text pa-text--secondary font-style-italic">Bureau d'origine Date de dépôt</span>
+            <span class="text-sm text-secondary font-style-italic">Bureau d'origine Date de dépôt</span>
         </div>
     </div>
 
@@ -794,15 +794,15 @@
     <div class="pc-grid pc-grid--cols-12 pc-grid--ruled">
         <div class="pc-col-span-3 minhr-10">
             <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Licence (12)</span></label>
-            <div class="pa-text pa-text--secondary">No(s). of licence(s)</div>
+            <div class="text-sm text-secondary">No(s). of licence(s)</div>
         </div>
         <div class="pc-col-span-3 minhr-10">
             <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Certificate (13)</span></label>
-            <div class="pa-text pa-text--secondary">No(s). of certificate(s)</div>
+            <div class="text-sm text-secondary">No(s). of certificate(s)</div>
         </div>
         <div class="pc-col-span-2 minhr-10">
             <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Invoice (14)</span></label>
-            <div class="pa-text pa-text--secondary">No. of invoice</div>
+            <div class="text-sm text-secondary">No. of invoice</div>
         </div>
         <div class="pc-col-span-4">
             <div class="pa-sheet__sign minhr-10"><span>Date and Sender's Signature (15)</span></div>
@@ -823,7 +823,7 @@
     <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" onclick="pureAdmin.printElement('#sheet-zatca', { title: 'فاتورة ضريبية مبسطة' })">
         {{> partials/printer-icon}} Print this invoice
     </button>
-    <span class="pa-text pa-text--secondary ms-2">Same <code>pa-sheet</code> regions as the LTR invoice — only <code>dir="rtl"</code> added; everything mirrors via logical properties.</span>
+    <span class="text-sm text-secondary ms-2">Same <code>pa-sheet</code> regions as the LTR invoice — only <code>dir="rtl"</code> added; everything mirrors via logical properties.</span>
 </div>
 <div id="sheet-zatca" class="pa-sheet pa-sheet--framed mb-8" dir="rtl" lang="ar">
     <header class="pa-sheet__masthead pa-sheet__masthead--ruled">
@@ -1004,7 +1004,7 @@
             <li><code>--pa-sheet-qr-size</code> - QR code square size (default 12rem)</li>
         </ul>
 
-        <p class="pa-text pa-text--secondary mt-4"><strong>Barcodes &amp; QR codes:</strong> the framework ships only the placement slots (<code>pa-sheet__barcode</code> / <code>pa-sheet__qr</code>) — generate the code itself as <strong>inline SVG</strong> (JsBarcode, a QR library, or a server-rendered image). Use SVG, not <code>&lt;canvas&gt;</code>: a canvas prints blank via <code>printElement()</code> and blurs at print DPI. This demo uses JsBarcode + qrcode-generator (both SVG).</p>
+        <p class="text-sm text-secondary mt-4"><strong>Barcodes &amp; QR codes:</strong> the framework ships only the placement slots (<code>pa-sheet__barcode</code> / <code>pa-sheet__qr</code>) — generate the code itself as <strong>inline SVG</strong> (JsBarcode, a QR library, or a server-rendered image). Use SVG, not <code>&lt;canvas&gt;</code>: a canvas prints blank via <code>printElement()</code> and blurs at print DPI. This demo uses JsBarcode + qrcode-generator (both SVG).</p>
 
         <h5 class="mt-4">Printing (JavaScript)</h5>
         <ul class="pa-list-basic pa-list-basic--compact">
@@ -1014,7 +1014,7 @@
             <li><code>data-print-omit</code> / <code>.pa-print-hide</code> - Mark elements (e.g. the print button itself) to strip from the printout</li>
         </ul>
 
-        <p class="pa-text pa-text--secondary mt-4">The sheet ships its own <code>@media print</code> rules and a default <code>@page { size: A4 }</code>. The page <strong>margin is intentionally not set</strong> — the browser's own margin (the <em>Margins</em> setting the user picks in the print dialog) governs it; to pin a fixed margin, declare <code>@page { margin: 15mm }</code> after the framework. <code>pureAdmin.printElement()</code> (in <code>src/js/sheet-print.js</code>) is the reliable way to print one sheet without a page-level print stylesheet — the browser has no native single-element print.</p>
+        <p class="text-sm text-secondary mt-4">The sheet ships its own <code>@media print</code> rules and a default <code>@page { size: A4 }</code>. The page <strong>margin is intentionally not set</strong> — the browser's own margin (the <em>Margins</em> setting the user picks in the print dialog) governs it; to pin a fixed margin, declare <code>@page { margin: 15mm }</code> after the framework. <code>pureAdmin.printElement()</code> (in <code>src/js/sheet-print.js</code>) is the reliable way to print one sheet without a page-level print stylesheet — the browser has no native single-element print.</p>
     </div>
 </div>
 

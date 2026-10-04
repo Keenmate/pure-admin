@@ -8,18 +8,18 @@
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">Install the core package and the CLI:</p>
+        <p class="text-sm mb-4">Install the core package and the CLI:</p>
 
         <pre class="pa-code"><code>npm install @keenmate/pure-admin-core
 npm install -g @keenmate/pureadmin</code></pre>
 
-        <p class="pa-text mt-4 mb-4">Then download a theme using the CLI:</p>
+        <p class="text-sm mt-4 mb-4">Then download a theme using the CLI:</p>
 
         <pre class="pa-code"><code># Download one or more themes
 pureadmin themes audi
 pureadmin themes audi dark express</code></pre>
 
-        <p class="pa-text mt-4 mb-4">This downloads the theme CSS into your project (default: <code>static/themes/</code>) and saves the configuration to <code>pureadmin.json</code>. Then link it in your HTML:</p>
+        <p class="text-sm mt-4 mb-4">This downloads the theme CSS into your project (default: <code>static/themes/</code>) and saves the configuration to <code>pureadmin.json</code>. Then link it in your HTML:</p>
 
         <pre class="pa-code"><code>&lt;link rel="stylesheet" href="static/themes/audi/audi.css"&gt;</code></pre>
 
@@ -39,7 +39,7 @@ pureadmin themes audi dark express</code></pre>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">Link the theme CSS (which includes the core) and use the standard layout structure:</p>
+        <p class="text-sm mb-4">Link the theme CSS (which includes the core) and use the standard layout structure:</p>
 
         <pre class="pa-code"><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="en" class="pa-font-responsive"&gt;
@@ -87,7 +87,7 @@ pureadmin themes audi dark express</code></pre>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">Override SCSS variables <strong>before</strong> importing the core to customize the framework:</p>
+        <p class="text-sm mb-4">Override SCSS variables <strong>before</strong> importing the core to customize the framework:</p>
 
         <pre class="pa-code"><code>// Override variables first
 $primary-bg: #1a73e8;
@@ -97,7 +97,7 @@ $body-font-family: 'Inter', sans-serif;
 // Then import core (applies your overrides via !default)
 @import '@keenmate/pure-admin-core/src/scss/main';</code></pre>
 
-        <p class="pa-text pa-text--secondary mt-4 mb-0">
+        <p class="text-sm text-secondary mt-4 mb-0">
             See <a href="/design/theme-variables">Theme Variables</a> for the full list of customizable variables.
         </p>
     </div>
@@ -111,18 +111,18 @@ $body-font-family: 'Inter', sans-serif;
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">
+        <p class="text-sm mb-4">
             Themes are standalone CSS files that include the core framework. Browse and preview all available
             themes at <a href="https://pureadmin.io" target="_blank">pureadmin.io</a>,
             or use the settings panel (gear icon) on this demo to try them live.
         </p>
 
         <h4>Keeping themes up to date</h4>
-        <p class="pa-text mb-2">The CLI tracks installed theme versions in <code>pureadmin.json</code>. To check for updates and re-download only what changed:</p>
+        <p class="text-sm mb-2">The CLI tracks installed theme versions in <code>pureadmin.json</code>. To check for updates and re-download only what changed:</p>
         <pre class="pa-code"><code>pureadmin update</code></pre>
 
         <h4 class="mt-4">Online vs. Offline mode</h4>
-        <p class="pa-text mb-2">By default, theme files are <strong>not</strong> committed to git — they are downloaded on demand. For air-gapped environments or reproducible builds, use offline mode:</p>
+        <p class="text-sm mb-2">By default, theme files are <strong>not</strong> committed to git — they are downloaded on demand. For air-gapped environments or reproducible builds, use offline mode:</p>
         <pre class="pa-code"><code># Offline: theme files committed to your repo, no network needed in CI/CD
 pureadmin themes audi --offline
 
@@ -130,11 +130,11 @@ pureadmin themes audi --offline
 pureadmin themes audi</code></pre>
 
         <h4 class="mt-4">CI/CD &amp; Docker</h4>
-        <p class="pa-text mb-2">Use the CLI in your Dockerfile — it reads <code>pureadmin.json</code> and downloads the configured themes:</p>
+        <p class="text-sm mb-2">Use the CLI in your Dockerfile — it reads <code>pureadmin.json</code> and downloads the configured themes:</p>
         <pre class="pa-code"><code>RUN npm install -g @keenmate/pureadmin &amp;&amp; \
     pureadmin themes</code></pre>
 
-        <p class="pa-text pa-text--secondary mt-4 mb-0">Or with offline themes already committed to your repo, no download step is needed at all.</p>
+        <p class="text-sm text-secondary mt-4 mb-0">Or with offline themes already committed to your repo, no download step is needed at all.</p>
     </div>
 </div>
 
@@ -146,19 +146,19 @@ pureadmin themes audi</code></pre>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">
+        <p class="text-sm mb-4">
             Pure Admin uses a <strong>10px rem base</strong> — the <code>html</code> font-size is 10px, so all rem values
             scale proportionally. Changing the html font-size scales the entire UI: text, spacing, components.
         </p>
 
         <h4>Shorthand (recommended)</h4>
-        <p class="pa-text mb-2">One class for the common case — default on desktop, larger on mobile:</p>
+        <p class="text-sm mb-2">One class for the common case — default on desktop, larger on mobile:</p>
         <pre class="pa-code"><code>&lt;html class="pa-font-responsive"&gt;
 &lt;!-- Desktop: 10px base (16px body text) --&gt;
 &lt;!-- Mobile (&le;768px): 12px base (~19px body text) --&gt;</code></pre>
 
         <h4 class="mt-4">Granular Control</h4>
-        <p class="pa-text mb-2">Pick exact sizes for desktop and mobile independently:</p>
+        <p class="text-sm mb-2">Pick exact sizes for desktop and mobile independently:</p>
         <pre class="pa-code"><code>&lt;html class="pa-font-base-10 pa-font-mobile-12"&gt;</code></pre>
 
         <table class="pa-table pa-table--striped pa-table--sm mt-4">
@@ -219,11 +219,11 @@ pureadmin themes audi</code></pre>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">Full right-to-left support via CSS Logical Properties. Just set the <code>dir</code> attribute:</p>
+        <p class="text-sm mb-4">Full right-to-left support via CSS Logical Properties. Just set the <code>dir</code> attribute:</p>
 
         <pre class="pa-code"><code>&lt;html dir="rtl" lang="he"&gt;</code></pre>
 
-        <p class="pa-text mt-4 mb-2">All components automatically mirror. Use logical utility classes for RTL-aware spacing:</p>
+        <p class="text-sm mt-4 mb-2">All components automatically mirror. Use logical utility classes for RTL-aware spacing:</p>
 
         <table class="pa-table pa-table--striped pa-table--sm">
             <thead>
@@ -258,7 +258,7 @@ pureadmin themes audi</code></pre>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="pa-text mb-4">All classes use the <code>pa-</code> prefix with BEM naming:</p>
+        <p class="text-sm mb-4">All classes use the <code>pa-</code> prefix with BEM naming:</p>
 
         <pre class="pa-code"><code>pa-[block]__[element]--[modifier]
 
