@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-05T13:27:58.809Z",
+  "generated": "2026-10-05T14:00:57.626Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -188,9 +188,9 @@
       "modified": "2026-10-05T13:27:04.876Z"
     },
     "utilities.html": {
-      "hash": "53333c93356df98acaff14289f42713d65dacc68f383a5878a5c8a87d17c1b3f",
-      "size": 27186,
-      "modified": "2026-09-24T18:10:35.004Z"
+      "hash": "593f292b27fdef78524e00bf1747cc63bb993ab4e39b54522f4079566c505b18",
+      "size": 27159,
+      "modified": "2026-10-05T13:56:40.818Z"
     },
     "virtual-scroll.html": {
       "hash": "03d6c68dae634de20b8dac82a2ef9b40c059deca6d09f45c5d36bcb8336a4e6b",
@@ -210,9 +210,9 @@
   },
   "scss": {
     "core-components/badges/_badge-base.scss": {
-      "hash": "ab02a446ef31bdf960a041cd4068af77c1c89d2f5714caabfc765535ef1eb599",
-      "size": 3656,
-      "modified": "2026-09-12T15:25:37.319Z"
+      "hash": "724c66aa55e9d06285bcb2a7240adedb6c48f313249e9e108a13ab00cce5b796",
+      "size": 3651,
+      "modified": "2026-10-05T13:59:18.055Z"
     },
     "core-components/badges/_badge-group.scss": {
       "hash": "7f03987dee29ad37eded48cd7c8fbf60096007efead1b7ffea94361181c9f497",
@@ -575,9 +575,9 @@
       "modified": "2026-09-12T17:59:49.265Z"
     },
     "core-components/_utilities.scss": {
-      "hash": "e159124de5b089f19420633f290c9a4d33533bc1db1ea02451e0a8b415e87706",
-      "size": 12740,
-      "modified": "2026-10-04T12:42:06.913Z"
+      "hash": "30d007f96bcebdad78672ab976a12451595258308d4d0c6f18286a96d627022b",
+      "size": 13110,
+      "modified": "2026-10-05T13:55:15.778Z"
     },
     "core-components/_web-components-theme.scss": {
       "hash": "853ccea1b554b186a5b19993ca7b989c3efce28078b5f88b43f08e9d455b2eef",

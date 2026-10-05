@@ -274,25 +274,28 @@ $_font-base-sizes: (9, 10, 11, 12);
   }
 }
 
-// Theme color utilities (color-1 through color-9)
-// Use these to apply theme colors to any element.
-//
-// Two token layers per slot:
+// Theme palette colour utilities (color-1 through color-9)
+// Apply a data-palette slot to a property. Two token layers per slot:
 //   --pc-color-N       the slot colour itself
 //   --pc-color-N-text  its guaranteed-contrasting text colour
 //
-// bg/text/border-color map to the slot colour; text-on / text-bg map to the
-// contrast token so a coloured surface never lands unreadable (white-on-light):
-//   .pa-text-on-color-N  contrast text only (pair with .pa-bg-color-N yourself)
-//   .pa-text-bg-color-N  slot background + contrast text in one class
+// The colour form, `.text-color-N`, lives in pure-css beside the role colours
+// (`.text-primary`/`.text-success`/…); the remaining property forms live here
+// until the coordinated pure-css relocation. All emit `!important` for cascade
+// parity with `.text-color-N` + the role colours, so they win when composed onto
+// a component. `text-on` / `surface` use the contrast token so a coloured
+// surface never lands unreadable (white-on-light):
+//   .bg-color-N       slot colour as background
+//   .border-color-N   slot colour as border
+//   .text-on-color-N  contrast text only (pair with .bg-color-N yourself)
+//   .surface-color-N  slot background + contrast text in one class (composite)
 @for $i from 1 through 9 {
-  .pa-bg-color-#{$i} { background-color: var(--pc-color-#{$i}); }
-  .pa-text-color-#{$i} { color: var(--pc-color-#{$i}); }
-  .pa-border-color-#{$i} { border-color: var(--pc-color-#{$i}); }
-  .pa-text-on-color-#{$i} { color: var(--pc-color-#{$i}-text); }
-  .pa-text-bg-color-#{$i} {
-    background-color: var(--pc-color-#{$i});
-    color: var(--pc-color-#{$i}-text);
+  .bg-color-#{$i} { background-color: var(--pc-color-#{$i}) !important; }
+  .border-color-#{$i} { border-color: var(--pc-color-#{$i}) !important; }
+  .text-on-color-#{$i} { color: var(--pc-color-#{$i}-text) !important; }
+  .surface-color-#{$i} {
+    background-color: var(--pc-color-#{$i}) !important;
+    color: var(--pc-color-#{$i}-text) !important;
   }
 }
 

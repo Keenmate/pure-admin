@@ -330,8 +330,8 @@ const TAXONOMY = [
 
   // ---------------- Utilities & state hooks ----------------
   { key: 'utilities', name: 'Utilities & state hooks', category: 'Utilities & state hooks',
-    desc: 'Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).',
-    blocks: ['pa-text-color', 'pa-link', 'pa-font-base', 'pa-font-mobile', 'pa-font-responsive', 'pa-bg-color', 'pa-border-color', 'pa-text-on-color', 'pa-text-bg-color'] },
+    desc: 'Standalone helper classes (not components): link helpers, responsive font hooks. The palette colour helpers are now unprefixed (text-color-N / bg-color-N / border-color-N / text-on-color-N / surface-color-N) and live outside the pa- namespace. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).',
+    blocks: ['pa-link', 'pa-font-base', 'pa-font-mobile', 'pa-font-responsive'] },
 ];
 
 // Explicit doc homes. Many components are documented in a SHARED category file

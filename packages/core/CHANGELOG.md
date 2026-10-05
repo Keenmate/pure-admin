@@ -35,14 +35,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `pa-text--lead`→`text-lead`. The `svelte-pure-admin` / `keen-pure-admin`
   `<Paragraph>` / `<Text>` / `<Heading>` wrappers already emit the flat classes (prop
   APIs unchanged; `color="secondary"` / `variant="secondary"` map to `.text-secondary`).
-  The palette utilities `.pa-text-color-N` / `.pa-text-bg-color-N` /
-  `.pa-text-on-color-N` and the form `.pa-textarea` are unrelated and untouched. See
+  (The numbered palette utilities are a separate cluster — Initiative 2, below; the
+  form `.pa-textarea` is unrelated and untouched.) See
   `docs/text-consolidation-plan.md`.
+
+- **BREAKING: the `pa-*-color-N` palette utilities dropped the `pa-` prefix
+  (Initiative 2).** Atomic colour-apply helpers belong in the flat utility
+  namespace beside `.text-color-N` (which already existed unprefixed). Rename per
+  the map: `pa-bg-color-N`→`bg-color-N`, `pa-border-color-N`→`border-color-N`,
+  `pa-text-color-N`→`text-color-N` (drops the prefixed duplicate — both already
+  resolved to `--pc-color-N`), `pa-text-on-color-N`→`text-on-color-N`, and the
+  composite `pa-text-bg-color-N`→**`surface-color-N`** (clearer name: a
+  palette-tinted surface with guaranteed-readable text). All five now emit
+  `!important` for cascade parity with `.text-color-N` + the role colours. The
+  component `--color-N` modifiers (`pa-btn--color-N`, `pa-badge--color-N`, …) are
+  BEM variants, not standalone utilities — they keep the `pa-` prefix and are
+  unaffected. See `docs/text-consolidation-plan.md` (Initiative 2).
 
 ### Internal
 
-- Component catalog regenerated after the `pa-text` removal (`npm run catalog`):
-  60 components · 152 blocks · 659 selectors.
+- Component catalog regenerated after the `pa-text` removal and the `pa-*-color-N`
+  palette unprefixing (`npm run catalog`): 60 components · 147 blocks · 654 selectors.
 
 ## [3.3.0-rc05] - 2026-09-28 [PUBLISHED]
 

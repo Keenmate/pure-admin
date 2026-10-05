@@ -10,7 +10,7 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 
 Readable colour utilities and the last of the emoji swept out of the snippets.
 
-- **Contrast-text colour utilities** — `.pa-text-bg-color-N` sets a theme colour slot's background *and* its guaranteed-contrasting text in one class (Bootstrap `text-bg-*` shape), and `.pa-text-on-color-N` applies just the contrast text. Completes the `bg`/`text`/`border-color` set, so a coloured chip or surface no longer needs a hardcoded `color: white` that goes unreadable on the light slots.
+- **Unprefixed palette colour utilities** — the theme-slot helpers dropped the `pa-` prefix to join the flat utility namespace: `.bg-color-N`, `.text-color-N`, `.border-color-N`, `.text-on-color-N` (contrast text only), and the new composite `.surface-color-N` (slot background *and* its guaranteed-contrasting text in one class, Bootstrap `text-bg-*` shape). So a coloured chip or surface no longer needs a hardcoded `color: white` that goes unreadable on the light slots.
 - **Three new masked icon primitives** — `.pa-icon--lock`, `.pa-icon--help`, and `.pa-icon--logout` finish the profile-panel nav glyph set (alongside `--user` / `--bell` / `--settings`), drawing the shared Lucide shape in `currentColor` with the same theme re-skin path as the rest.
 - **Snippets off emoji** — the profile-panel and sidebar reference snippets now show the blessed masked `.pa-icon--*` / inline-SVG icon shapes with the hover-highlight contract, so wrappers copying them get the current markup instead of raw emoji.
 
@@ -676,9 +676,12 @@ Wrap data display components in these containers to enable responsive behavior b
 - `.text-2xs` through `.text-4xl` - Font size utilities
 
 ### Theme Colors
-- `.pa-bg-color-1` through `.pa-bg-color-9` - Background color slots
-- `.pa-text-color-1` through `.pa-text-color-9` - Text color slots
-- `.pa-border-color-1` through `.pa-border-color-9` - Border color slots
+Unprefixed palette utilities (slots 1–9) — apply a data-palette slot to a property:
+- `.bg-color-1` through `.bg-color-9` - Background color slots
+- `.text-color-1` through `.text-color-9` - Text color slots
+- `.border-color-1` through `.border-color-9` - Border color slots
+- `.text-on-color-1` through `.text-on-color-9` - Contrast text only (pair with `.bg-color-N`)
+- `.surface-color-1` through `.surface-color-9` - Slot background + contrast text in one class
 - **CSS Variables:**
   - `--pc-color-1` through `--pc-color-9` - Background colors (theme-defined)
   - `--pc-color-1-text` through `--pc-color-9-text` - Contrast text colors for readability on colored backgrounds
