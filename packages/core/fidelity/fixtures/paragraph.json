@@ -1,100 +1,101 @@
 {
-  "//": "Markup-fidelity fixture for the PARAGRAPH typography component (svelte typography/Paragraph.svelte, keen Typography.paragraph/1). SCOPE = a single flat element: core's canonical paragraph is `<p class=\"pa-text\">` — the BEM paragraph-typography component from _utilities.scss (snippets/typography.html). The base `.pa-text` carries 14px + primary colour; modifiers tune size (xs/sm/lg/xl), colour (primary/secondary), logical alignment (start/center/end), and compound semantic styles (caption/lead). All `.pa-text--*` modifiers claimed below are exactly the set in main.css. See label.json for the flat-element-with-modifiers model.",
+  "//": "Markup-fidelity fixture for the PARAGRAPH typography component (svelte typography/Paragraph.svelte, keen Typography.paragraph/1). As of core 3.3.0-rc06 the old `.pa-text` BEM component is GONE — paragraphs now compose the flat `text-*` typography utilities (utilities.scss / snippets/typography.html) on a plain `<p>`. There is NO block/element/modifier structure: a paragraph with no props is a bare `<p>` at the body default (16px); each prop adds one flat utility class. Size/align/semantic map 1:1 to `text-{value}`; colour is irregular (primary → text-body = default body colour, secondary → text-secondary = muted). See label.json for a real BEM flat-element-with-modifiers component by contrast.",
   "component": "paragraph",
-  "block": "pa-text",
+  "block": "text",
   "propsVocabulary": {
-    "size": "size modifier xs|sm|lg|xl (default unmodified = 14px) → pa-text--{value}",
-    "color": "colour modifier primary|secondary → pa-text--{value} (primary = default colour; secondary = muted)",
-    "align": "logical text alignment start|center|end → pa-text--{value} (RTL-aware)",
-    "semantic": "compound semantic style caption|lead → pa-text--{value}",
+    "size": "size modifier xs|sm|lg|xl (default unset = 16px body default, bare <p>) → text-{value}",
+    "color": "colour modifier primary|secondary → text-body (primary = default body colour) | text-secondary (muted). Irregular map, so not a {value} template.",
+    "align": "logical text alignment start|center|end → text-{value} (RTL-aware)",
+    "semantic": "compound semantic style caption|lead → text-{value}",
     "content": "inner text content (slot / inner_block)",
     "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
   },
-  "goldenConventions": "Structural only. Base is always `<p class=\"pa-text\">`; a modifier class is added per set feature. Slot content is a plain text token so the diff checks tag + class + nesting, not rich content. Class-token order + whitespace are normalized away, so goldens are written for readability.",
+  "goldenConventions": "Structural only. Base is a plain `<p>` with NO class when no prop is set; each set prop appends one flat `text-*` utility. Slot content is a plain text token so the diff checks tag + class + nesting, not rich content. Class-token order + whitespace are normalized away, so goldens are written for readability.",
   "features": {
-    "//": "Feature→class contract authored from dist/css/main.css. The full .pa-text--* set in main.css is exactly: xs, sm, lg, xl (4 sizes), primary, secondary (2 colours), start, center, end (3 alignments), caption, lead (2 semantics) — all 11 claimed below. Base `.pa-text` exists as a real rule. `produces: null` only for the slot + class passthrough.",
-    "size":       { "kind": "enum",   "options": ["xs", "sm", "lg", "xl"], "produces": "pa-text--{value}" },
-    "color":      { "kind": "enum",   "options": ["primary", "secondary"], "produces": "pa-text--{value}" },
-    "align":      { "kind": "enum",   "options": ["start", "center", "end"], "produces": "pa-text--{value}" },
-    "semantic":   { "kind": "enum",   "options": ["caption", "lead"], "produces": "pa-text--{value}" },
+    "//": "Feature→class contract authored from dist/css/main.css. size/align/semantic use the uniform `text-{value}` template (capability.mjs expands + phantom-checks each against main.css). `color` produces null because its map is irregular (primary → text-body, NOT text-primary; secondary → text-secondary) — the two classes are instead exercised by the color-* scenario goldens. The `text` block matches no `text--*`/`text__*` in CSS (flat utilities, not BEM), so the capability gate emits a harmless advisory 'matched 0' note — expected for a utility-composed component.",
+    "size":       { "kind": "enum",   "options": ["xs", "sm", "lg", "xl"], "produces": "text-{value}" },
+    "color":      { "kind": "enum",   "options": ["primary", "secondary"], "produces": null, "note": "primary → text-body (default body colour), secondary → text-secondary (muted); exercised by color-* goldens" },
+    "align":      { "kind": "enum",   "options": ["start", "center", "end"], "produces": "text-{value}" },
+    "semantic":   { "kind": "enum",   "options": ["caption", "lead"], "produces": "text-{value}" },
     "content":    { "kind": "slot",   "produces": null, "note": "inner text of the paragraph" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
   "cssStateClasses": {
-    "//": "All 11 pa-text--* modifiers are feature-driven; none are JS-toggled state classes."
+    "//": "No JS-toggled state classes — every text-* utility is feature-driven."
   },
   "scenarios": [
     {
       "name": "default",
       "props": { "content": "Body text" },
-      "golden": "<p class=\"pa-text\">Body text</p>",
-      "note": "Unmodified paragraph — just the base .pa-text."
+      "golden": "<p>Body text</p>",
+      "note": "Unmodified paragraph — a bare <p> at the 16px body default, no class."
     },
     {
       "name": "size-xs",
       "props": { "size": "xs", "content": "Extra small" },
-      "golden": "<p class=\"pa-text pa-text--xs\">Extra small</p>"
+      "golden": "<p class=\"text-xs\">Extra small</p>"
     },
     {
       "name": "size-sm",
       "props": { "size": "sm", "content": "Small" },
-      "golden": "<p class=\"pa-text pa-text--sm\">Small</p>"
+      "golden": "<p class=\"text-sm\">Small</p>"
     },
     {
       "name": "size-lg",
       "props": { "size": "lg", "content": "Large" },
-      "golden": "<p class=\"pa-text pa-text--lg\">Large</p>"
+      "golden": "<p class=\"text-lg\">Large</p>"
     },
     {
       "name": "size-xl",
       "props": { "size": "xl", "content": "Extra large" },
-      "golden": "<p class=\"pa-text pa-text--xl\">Extra large</p>"
+      "golden": "<p class=\"text-xl\">Extra large</p>"
     },
     {
       "name": "color-primary",
       "props": { "color": "primary", "content": "Primary" },
-      "golden": "<p class=\"pa-text pa-text--primary\">Primary</p>"
+      "golden": "<p class=\"text-body\">Primary</p>",
+      "note": "color=\"primary\" maps to the default body colour utility text-body (NOT text-primary, which is the accent)."
     },
     {
       "name": "color-secondary",
       "props": { "color": "secondary", "content": "Muted" },
-      "golden": "<p class=\"pa-text pa-text--secondary\">Muted</p>"
+      "golden": "<p class=\"text-secondary\">Muted</p>"
     },
     {
       "name": "align-start",
       "props": { "align": "start", "content": "Start" },
-      "golden": "<p class=\"pa-text pa-text--start\">Start</p>"
+      "golden": "<p class=\"text-start\">Start</p>"
     },
     {
       "name": "align-center",
       "props": { "align": "center", "content": "Center" },
-      "golden": "<p class=\"pa-text pa-text--center\">Center</p>"
+      "golden": "<p class=\"text-center\">Center</p>"
     },
     {
       "name": "align-end",
       "props": { "align": "end", "content": "End" },
-      "golden": "<p class=\"pa-text pa-text--end\">End</p>"
+      "golden": "<p class=\"text-end\">End</p>"
     },
     {
       "name": "semantic-caption",
       "props": { "semantic": "caption", "content": "Caption" },
-      "golden": "<p class=\"pa-text pa-text--caption\">Caption</p>"
+      "golden": "<p class=\"text-caption\">Caption</p>"
     },
     {
       "name": "semantic-lead",
       "props": { "semantic": "lead", "content": "Lead paragraph" },
-      "golden": "<p class=\"pa-text pa-text--lead\">Lead paragraph</p>"
+      "golden": "<p class=\"text-lead\">Lead paragraph</p>"
     },
     {
       "name": "combined",
       "props": { "size": "sm", "color": "secondary", "align": "center", "content": "Small muted centered" },
-      "golden": "<p class=\"pa-text pa-text--center pa-text--secondary pa-text--sm\">Small muted centered</p>",
+      "golden": "<p class=\"text-center text-secondary text-sm\">Small muted centered</p>",
       "note": "Stacks align + colour + size; class-token order is normalized away."
     },
     {
       "name": "extra-class",
       "props": { "size": "sm", "content": "With utility", "extraClass": "mt-4" },
-      "golden": "<p class=\"pa-text pa-text--sm mt-4\">With utility</p>",
+      "golden": "<p class=\"text-sm mt-4\">With utility</p>",
       "note": "Class passthrough appended after the component classes."
     }
   ]
