@@ -7,8 +7,9 @@
 FOUNDATION — 10px rem base
 The framework sets html { font-size: 10px } so rem maths is trivial:
   1rem  = 10px    1.4rem = 14px   1.6rem = 16px   2rem = 20px
-Body text is 1.6rem (16px) by default. Every pa-text size below reads
-off the same `$font-size-*` scale.
+Body text is 1.6rem (16px) by default. The size scale is ABSOLUTE:
+one name, one size, everywhere — each text-* utility maps to a fixed
+`$font-size-*` step.
 -->
 
 
@@ -23,8 +24,11 @@ off the same `$font-size-*` scale.
 <h2>Heading 2</h2>
 <h3>Heading 3</h3>
 <h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
 
-<!-- Paragraph spacing via $paragraph-margin-top/bottom -->
+<!-- Paragraph spacing via $paragraph-margin-top/bottom. A bare <p> is the
+     body default (16px, primary text colour) — no class needed. -->
 <p>A paragraph of body text. Default font-family and colour flow from
 the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-color-1)</code>).</p>
 
@@ -53,42 +57,40 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 
 
 <!-- ================================
-     .pa-text — paragraph typography component
-     The canonical way to apply framework text styles to a block.
-     Works on <p>, <span>, <div> — any element.
+     text-* — flat typography utilities (utilities.scss)
+     The canonical way to style text. Apply directly to any element
+     (<p>, <span>, <div>, <a>, …). No base class, no BEM block — each
+     utility is standalone and composes with the others.
      ================================ -->
 
-<!-- Base (default: 14px, primary text colour) -->
-<p class="pa-text">Default paragraph text with 14px font size and primary colour.</p>
+<!-- Sizes — a bare element is the 16px body default; add one size utility to change it -->
+<p class="text-xs">Extra small text (12px)</p>
+<p class="text-sm">Small text (14px — UI-control size)</p>
+<p>Default body text (16px — no class)</p>
+<p class="text-lg">Large text (18px)</p>
+<p class="text-xl">Extra large text (20px)</p>
 
-<!-- Size Modifiers -->
-<p class="pa-text pa-text--xs">Extra small text (10px)</p>
-<p class="pa-text pa-text--sm">Small text (12px)</p>
-<p class="pa-text">Default text (14px)</p>
-<p class="pa-text pa-text--lg">Large text (16px)</p>
-<p class="pa-text pa-text--xl">Extra large text (18px)</p>
+<!-- Neutral text hierarchy -->
+<p class="text-body">Body text — the default colour (--pc-text-color-1)</p>
+<p class="text-secondary">Secondary / muted text (--pc-text-color-2)</p>
 
-<!-- Colour Modifiers -->
-<p class="pa-text pa-text--primary">Primary colour text (= default, maps to --pc-text-color-1)</p>
-<p class="pa-text pa-text--secondary">Secondary/muted colour text (--pc-text-color-2)</p>
+<!-- Alignment (logical — mirror in RTL) -->
+<p class="text-start">Start-aligned text  (left in LTR, right in RTL)</p>
+<p class="text-center">Center-aligned text</p>
+<p class="text-end">End-aligned text    (right in LTR, left in RTL)</p>
 
-<!-- Alignment Modifiers (logical — mirror in RTL) -->
-<p class="pa-text pa-text--start">Start-aligned text  (left in LTR, right in RTL)</p>
-<p class="pa-text pa-text--center">Center-aligned text</p>
-<p class="pa-text pa-text--end">End-aligned text    (right in LTR, left in RTL)</p>
+<!-- Semantic compound styles -->
 
-<!-- Semantic Variants (compound styles) -->
+<!-- Caption: small + muted — ideal above a component as a hint or as fine print -->
+<p class="text-caption">29 badges in narrow container</p>
 
-<!-- Caption: small + secondary + margin-bottom — ideal above a component as a hint -->
-<p class="pa-text pa-text--caption">29 badges in narrow container</p>
+<!-- Lead: larger + relaxed line-height — ideal for the opening paragraph of a section -->
+<p class="text-lead">Lead text — larger font with relaxed line height for introductory paragraphs.</p>
 
-<!-- Lead: larger + relaxed line-height — ideal for intro paragraphs -->
-<p class="pa-text pa-text--lead">Lead text — larger font with relaxed line height for introductory paragraphs.</p>
-
-<!-- Combined Modifiers -->
-<p class="pa-text pa-text--sm pa-text--secondary">Small secondary text</p>
-<p class="pa-text pa-text--lg pa-text--center">Large centred text</p>
-<p class="pa-text pa-text--xs pa-text--end pa-text--secondary">Extra small, end-aligned, secondary</p>
+<!-- Combined utilities — compose freely -->
+<p class="text-sm text-secondary">Small secondary text</p>
+<p class="text-lg text-center">Large centred text</p>
+<p class="text-xs text-end text-secondary">Extra small, end-aligned, secondary</p>
 
 
 <!-- ================================
@@ -102,10 +104,10 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 
 
 <!-- ================================
-     SEMANTIC TEXT COLOURS (utilities.scss)
-     Use these when you want a *colour* without the rest of pa-text's
-     baseline sizing. They apply with !important so they win over
-     component-scoped colour rules.
+     ROLE / SEMANTIC TEXT COLOURS (utilities.scss)
+     Colour-only utilities (applied with !important so they win over
+     component-scoped colour rules). text-primary is the ACCENT colour —
+     use text-body / text-secondary for the neutral reading hierarchy.
      ================================ -->
 
 <span class="text-primary">Primary (accent)</span>
@@ -127,23 +129,23 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 <!-- Card header with secondary description -->
 <div class="pa-card__header">
     <h3>Feature Title</h3>
-    <p class="pa-text pa-text--secondary">Brief description of this feature or section.</p>
+    <p class="text-secondary">Brief description of this feature or section.</p>
 </div>
 
 <!-- Form helper text -->
 <div class="pa-card__footer">
-    <p class="pa-text pa-text--sm pa-text--secondary" style="margin: 0;">
+    <p class="text-sm text-secondary" style="margin: 0;">
         <strong>Note:</strong> Additional information about the form layout.
     </p>
 </div>
 
 <!-- Centred tab panel copy -->
 <div class="pa-tabs__panel">
-    <p class="pa-text pa-text--center">Feature highlights and capabilities.</p>
+    <p class="text-center">Feature highlights and capabilities.</p>
 </div>
 
 <!-- Toast/notification helper -->
-<p class="pa-text pa-text--secondary mt-4">
+<p class="text-secondary mt-4">
     Progress bar shows time remaining before auto-dismiss (5 seconds).
 </p>
 
@@ -158,14 +160,14 @@ REM BASE:
   body default text: 1.6rem = 16px.
 
 FONT-SIZE SCALE (SCSS variables, all relative to the 10px rem base):
-  $font-size-2xs   1rem   10px
-  $font-size-xs    1.2rem 12px
-  $font-size-sm    1.4rem 14px   ← pa-text default
-  $font-size-md    1.5rem 15px
-  $font-size-base  1.6rem 16px   ← body default
-  $font-size-lg    1.8rem 18px
-  $font-size-xl    2rem   20px
-  $font-size-2xl   2.4rem 24px
+  $font-size-2xs   1rem   10px    → text-2xs
+  $font-size-xs    1.2rem 12px    → text-xs
+  $font-size-sm    1.4rem 14px    → text-sm   (UI-control size)
+  $font-size-md    1.5rem 15px    → text-md
+  $font-size-base  1.6rem 16px    → text-base (= body default, bare element)
+  $font-size-lg    1.8rem 18px    → text-lg
+  $font-size-xl    2rem   20px    → text-xl
+  $font-size-2xl   2.4rem 24px    → text-2xl
 
 BASE ELEMENTS (from _base.scss, apply automatically):
   h1..h6        $heading-margin-top / $heading-margin-bottom
@@ -181,45 +183,41 @@ BASE ELEMENTS (from _base.scss, apply automatically):
                 font-family: inherit; font-size: inherit — so form
                 controls track the theme font instead of OS defaults.
 
-.pa-text — BEM paragraph component (from _utilities.scss):
-  Base       .pa-text            (14px, --pc-text-color-1)
+text-* — FLAT TYPOGRAPHY UTILITIES (_utilities.scss):
+  There is NO .pa-text base class and no BEM modifiers — every utility is
+  standalone and composes. A bare element is the 16px body default.
 
-  Sizes      .pa-text--xs        10px
-             .pa-text--sm        12px
-             .pa-text--lg        16px
-             .pa-text--xl        18px
+  Sizes      text-2xs   10px      text-base  16px (body default)
+             text-xs    12px      text-lg    18px
+             text-sm    14px      text-xl    20px
+             text-md    15px      text-2xl   24px
 
-  Colours    .pa-text--primary   --pc-text-color-1   (same as default)
-             .pa-text--secondary --pc-text-color-2   (muted)
+  Colours    text-body           --pc-text-color-1  (default reading colour)
+             text-secondary      --pc-text-color-2  (muted / subdued)
+             text-primary        accent colour
+             text-success / -danger / -warning / -info   role colours
+             text-color-{1..9}   theme palette slots
 
-  Alignment  .pa-text--start     text-align: start   (RTL-aware)
-             .pa-text--center    text-align: center
-             .pa-text--end       text-align: end     (RTL-aware)
+  Alignment  text-start          text-align: start   (RTL-aware)
+             text-center         text-align: center
+             text-end            text-align: end     (RTL-aware)
 
-  Semantic   .pa-text--caption   12px + secondary + margin-bottom: $spacing-sm
-                                  → small hint/description above a component
-             .pa-text--lead      16px + $line-height-relaxed
-                                  → intro paragraph
+  Semantic   text-caption        12px + muted  → fine print / figure captions
+             text-lead           16px + relaxed line-height → intro paragraph
+
+  Wrapping   text-nowrap         white-space: nowrap
+             text-truncate       overflow hidden + ellipsis + nowrap
+             text-vertical       vertical writing mode (text-vertical-up to flip)
 
 FONT FAMILY SWITCHERS (_fonts.scss):
-  .font-family-system   native OS font stack
-  .font-family-sans     sans-serif stack
-  .font-family-serif    serif stack
-  .font-family-mono     monospace stack (same as <code>)
-
-SEMANTIC TEXT COLOURS (_utilities.scss — !important, colour-only):
-  .text-primary / -success / -danger / -warning / -info
-  .text-color-{1..9}                theme palette slots
-  (Use pa-text--primary/--secondary when you want sizing + colour;
-   use .text-* when you just want colour.)
-
-TEXT UTILITIES (_utilities.scss):
-  .text-center        synonym for pa-text--center without the rest of pa-text
-  .text-nowrap        white-space: nowrap
-  .text-truncate      overflow hidden + ellipsis + nowrap
+  font-family-system   native OS font stack
+  font-family-sans     sans-serif stack
+  font-family-serif    serif stack
+  font-family-mono     monospace stack (same as <code>)
 
 COMBINE WITH SPACING UTILITIES:
-  .mt-1 .. .mt-20     margin-top
-  .mb-1 .. .mb-20     margin-bottom
-  (see utilities.scss for full spacing scale + semantic sizes like mt-md)
+  mt-1 .. mt-20     margin-top
+  mb-1 .. mb-20     margin-bottom
+  m-0               reset margins
+  (see utilities.scss for the full spacing scale + semantic sizes like mt-md)
 -->
