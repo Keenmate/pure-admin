@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   colour wins when composed onto a component); `.text-caption` / `.text-lead` are
   the compound semantic shorthands.
 
+### Changed
+
+- **Depend on the published `@keenmate/pure-css` `^1.2.0`** (was a local
+  `file:` link). 1.2.0 ships the new role surface utilities
+  (`bg-/surface-/text-on-{primary|success|warning|danger|info}`) — the role
+  parallel of the numeric `*-color-N` helpers — which the card / table-card colour
+  system and the new `--pa-card-header-*` / `--pa-card-underline-color` var-setters
+  consume. Pinning the registry version (not the link) is what lets standalone
+  consumers resolve the foundation.
+
 ### Removed
 
 - **BREAKING: the `.pa-text` BEM typography component (base + `--xs/sm/lg/xl`,
