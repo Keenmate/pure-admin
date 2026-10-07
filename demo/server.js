@@ -766,6 +766,27 @@ app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules
     maxAge: 120000 // 2 minutes
 }));
 
+// 404 — pure-admin styled, rendered through the SAME layout as every page so the
+// navbar / sidebar / theme chrome + settings panel all keep working. Reached only
+// after every route AND every static handler above has fallen through (each
+// express.static calls next() when the file is missing). HTML clients get the
+// themed page; asset/API probes get a terse body so we don't ship a full HTML
+// document in response to a missing .js/.css.
+app.use((req, res) => {
+    res.status(404);
+    if (req.accepts('html')) {
+        return renderWithLayout(res, '404', {
+            pageTitle: 'Page Not Found',
+            currentPage: '404',
+            requestedPath: req.originalUrl,
+        });
+    }
+    if (req.accepts('json')) {
+        return res.json({ error: 'Not found', path: req.originalUrl });
+    }
+    res.type('txt').send('Not found');
+});
+
 app.listen(port, () => {
     console.log(`Pure Admin server running at http://localhost:${port}`);
 });
