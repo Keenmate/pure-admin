@@ -304,19 +304,26 @@ TERMINAL REFERENCE (_kpi-terminal.scss):
 - .pa-kpi-terminal__grid      Tile grid inside a pane.
 - .pa-kpi-terminal__grid--2col  Two-column hairline grid variant.
 - .pa-kpi-tile                A single KPI cell (also usable standalone via
-                              .pa-kpi-tile--standalone). Sentiment: --up-strong
-                              / --up / --flat / --down / --down-strong.
+                              .pa-kpi-tile--standalone). Trend tints the spark:
+    .pa-kpi-tile--up-strong .pa-kpi-tile--up .pa-kpi-tile--flat
+    .pa-kpi-tile--down .pa-kpi-tile--down-strong
 - .pa-kpi-tile__head          Top row: __id + __status.
 - .pa-kpi-tile__id            Tertiary identifier caption.
-- .pa-kpi-tile__status        Status pill (--warn / --good / --neutral variants).
+- .pa-kpi-tile__status        Status pill:
+    .pa-kpi-tile__status--good .pa-kpi-tile__status--warn .pa-kpi-tile__status--neutral
 - .pa-kpi-tile__label         Uppercase metric name.
 - .pa-kpi-tile__values        Wrapper for the focal value.
-- .pa-kpi-tile__value         Focal value (sentiment: --very-positive …
-                              --very-negative tints the nested __num).
+- .pa-kpi-tile__value         Focal value — sentiment tints the nested __num:
+    .pa-kpi-tile__value--very-positive .pa-kpi-tile__value--positive
+    .pa-kpi-tile__value--neutral .pa-kpi-tile__value--negative
+    .pa-kpi-tile__value--very-negative
 - .pa-kpi-tile__num           Large focal number.
 - .pa-kpi-tile__unit          Unit / currency affix.
 - .pa-kpi-tile__prev          Previous-period baseline + delta row.
-- .pa-kpi-tile__delta         Delta chip (same sentiment suffixes as __value).
+- .pa-kpi-tile__delta         Delta chip — same sentiment suffixes as __value:
+    .pa-kpi-tile__delta--very-positive .pa-kpi-tile__delta--positive
+    .pa-kpi-tile__delta--neutral .pa-kpi-tile__delta--negative
+    .pa-kpi-tile__delta--very-negative
 - .pa-kpi-tile__spark         The sparkline <svg> (or <canvas>); inherits the
                               tile's sentiment colour via currentColor.
 -->
@@ -380,14 +387,18 @@ SPARKLINE-LIST REFERENCE (_kpi-sparkline-list.scss):
 - .pa-kpi-spark-list__body    Card body, padding:0 for edge-to-edge dividers.
 - .pa-kpi-spark-list--no-delta   Drop the trailing Δ% column.
 - .pa-kpi-spark-list--chart-first  Flip the mid-narrow layout to label/chart/value.
-- .pa-kpi-spark-row           One metric row (sentiment: --up-strong … --down-strong
-                              tints the chart via currentColor).
+- .pa-kpi-spark-row           One metric row — trend tints the chart:
+    .pa-kpi-spark-row--up-strong .pa-kpi-spark-row--up .pa-kpi-spark-row--flat
+    .pa-kpi-spark-row--down .pa-kpi-spark-row--down-strong
 - .pa-kpi-spark-row__label    Uppercase metric name.
 - .pa-kpi-spark-row__chart    Sparkline wrapper (positioned anchor for the dot).
 - .pa-kpi-spark-row__value    Focal value cell.
 - .pa-kpi-spark-row__num      Numeric portion.
 - .pa-kpi-spark-row__unit     Unit suffix.
-- .pa-kpi-spark-row__delta    Δ% cell (--very-positive … --very-negative tints).
+- .pa-kpi-spark-row__delta    Δ% cell — sentiment tints:
+    .pa-kpi-spark-row__delta--very-positive .pa-kpi-spark-row__delta--positive
+    .pa-kpi-spark-row__delta--neutral .pa-kpi-spark-row__delta--negative
+    .pa-kpi-spark-row__delta--very-negative
 - .pa-kpi-spark-wrap / .pa-kpi-spark-dot  JS-generated (see shared base): the
                               <circle> is swapped for a CSS dot so it stays round.
 -->
@@ -449,8 +460,9 @@ COMPARISON-GAUGES REFERENCE (_kpi-comparison-gauges.scss):
                      .pa-kpi-gauge-list__grid--max-2, .pa-kpi-gauge-list__grid--max-3,
                      .pa-kpi-gauge-list__grid--max-4, .pa-kpi-gauge-list__grid--max-5,
                      .pa-kpi-gauge-list__grid--max-6.
-- .pa-kpi-gauge               One gauge (sentiment: --positive / --warning /
-                              --negative / --neutral sets the fill colour).
+- .pa-kpi-gauge               One gauge — sentiment sets the fill colour:
+    .pa-kpi-gauge--positive .pa-kpi-gauge--warning
+    .pa-kpi-gauge--negative .pa-kpi-gauge--neutral
 - .pa-kpi-gauge__head         Label + value row.
 - .pa-kpi-gauge__label        Uppercase metric name.
 - .pa-kpi-gauge__value        Value wrapper (__num + __unit).
@@ -532,8 +544,9 @@ HERO-SUPPORTING REFERENCE (_kpi-hero-supporting.scss):
 - Widen the hero column: .pa-kpi-hero-list__layout--hero-2-3,
                          .pa-kpi-hero-list__layout--hero-3-4.
 - .pa-kpi-hero-list__rail     Vertical stack of supporting tiles.
-- .pa-kpi-hero-main           The hero panel (sentiment: --positive / --negative
-                              / --neutral / --up-strong via --pa-kpi-accent).
+- .pa-kpi-hero-main           The hero panel — sentiment via --pa-kpi-accent:
+    .pa-kpi-hero-main--positive .pa-kpi-hero-main--negative
+    .pa-kpi-hero-main--neutral .pa-kpi-hero-main--up-strong
 - .pa-kpi-hero-main__label    Uppercase caption.
 - .pa-kpi-hero-main__value    Focal value wrapper (__num + __unit).
 - .pa-kpi-hero-main__num / __unit  Container-query-scaled number + affix.
@@ -541,7 +554,9 @@ HERO-SUPPORTING REFERENCE (_kpi-hero-supporting.scss):
 - .pa-kpi-hero-main__delta / __period / __target  The three meta cells.
 - .pa-kpi-hero-main__chart    Chart container (grows to fill spare height).
 - .pa-kpi-hero-main__chart-svg  Fixed-height SVG host (avoids Y distortion).
-- .pa-kpi-hero-side           A supporting tile (same sentiment suffixes).
+- .pa-kpi-hero-side           A supporting tile — same sentiment set:
+    .pa-kpi-hero-side--positive .pa-kpi-hero-side--negative
+    .pa-kpi-hero-side--neutral .pa-kpi-hero-side--up-strong
 - .pa-kpi-hero-side__label / __value / __num / __unit / __delta  Its 2×2 cells.
 -->
 
@@ -608,8 +623,10 @@ BENTO REFERENCE (_kpi-bento.scss):
 - .pa-kpi-bento__grid         6×3 named-area grid; placement by source order.
 - .pa-kpi-bento__grid--hero-right  Flip the hero to the right half.
 - .pa-kpi-bento__grid--5-tile      5-tile layout variant.
-- .pa-kpi-bento-tile          One cell (sentiment: --positive / --negative /
-                              --neutral / --up-strong / --down-strong).
+- .pa-kpi-bento-tile          One cell — sentiment via --pa-kpi-accent:
+    .pa-kpi-bento-tile--positive .pa-kpi-bento-tile--negative
+    .pa-kpi-bento-tile--neutral .pa-kpi-bento-tile--up-strong
+    .pa-kpi-bento-tile--down-strong
 - .pa-kpi-bento-tile--hero    The oversized primary tile.
 - .pa-kpi-bento-tile__label   Uppercase name.
 - .pa-kpi-bento-tile__delta   Δ% chip.
@@ -698,8 +715,10 @@ NUMERIC-STRIP REFERENCE (_kpi-numeric-strip.scss — block prefix pa-kpi-strip):
 - .pa-kpi-strip__now          Focal "now" value cell (__num + __unit).
 - .pa-kpi-strip__num / __unit Number + affix inside __now.
 - .pa-kpi-strip__prev         Previous-period cell.
-- .pa-kpi-strip__delta        Δ% cell (--positive / --negative / --neutral /
-                              --up-strong / --down-strong).
+- .pa-kpi-strip__delta        Δ% cell — sentiment colours the number:
+    .pa-kpi-strip__delta--positive .pa-kpi-strip__delta--negative
+    .pa-kpi-strip__delta--neutral .pa-kpi-strip__delta--up-strong
+    .pa-kpi-strip__delta--down-strong
 - .pa-kpi-strip__target       vs-target column: bar + percent.
 - .pa-kpi-strip__bar          Progress track.
 - .pa-kpi-strip__fill         Coloured fill — width set INLINE.
@@ -769,8 +788,10 @@ EDITORIAL-MINIMAL REFERENCE (_kpi-editorial-minimal.scss — block prefix pa-kpi
 - .pa-kpi-edit__value         Headline number row (thin weight).
 - .pa-kpi-edit__num / __unit  Number + dim affix.
 - .pa-kpi-edit__meta          delta + target row.
-- .pa-kpi-edit__delta         Coloured delta (--positive / --negative / --neutral /
-                              --up-strong / --down-strong).
+- .pa-kpi-edit__delta         Coloured delta — sentiment set:
+    .pa-kpi-edit__delta--positive .pa-kpi-edit__delta--negative
+    .pa-kpi-edit__delta--neutral .pa-kpi-edit__delta--up-strong
+    .pa-kpi-edit__delta--down-strong
 - .pa-kpi-edit__target        Dim "tgt {value}" text.
 -->
 

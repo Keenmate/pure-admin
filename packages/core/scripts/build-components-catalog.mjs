@@ -65,23 +65,91 @@ function isLeading(text, dotIdx) {
   return '\n\r,{};'.includes(text[j]);
 }
 
+// Strip SCSS comments so a `.pa-x` mentioned in prose never counts as a selector.
+function stripComments(t) {
+  return t.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
+}
+
+// Brace-aware scan that RESOLVES SCSS parent nesting (`&`). Returns the list of
+// fully-resolved selector parts (each a single comma-segment, dots intact) that
+// appear before a `{`. This is what lets the catalog see `&__heading` /
+// `&__list` sub-elements written the idiomatic nested way — the old flat regex
+// only saw classes spelled out as full `.pa-block__x` literals, so every
+// `&`-nested element/modifier was invisible (see the alert __heading/__list bug).
+//
+// At-rules (`@each`, `@media`, …) keep the current parent context so their inner
+// rules still resolve. Interpolated parts (`&--#{$sev}` from colour loops) are
+// kept in the nesting stack (so their children resolve) but the caller skips
+// them for class extraction — loop-generated colours are deliberately NOT catalog
+// selectors (the snippet-coverage sweep depends on that; see its header note).
+function resolvedSelectorParts(text) {
+  text = stripComments(text);
+  const stack = [['']]; // stack of parent selector-lists
+  const parts = [];
+  let buf = '';
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '#' && text[i + 1] === '{') {
+      // Sass interpolation `#{…}` — consume through the matching brace so its
+      // inner `{` isn't misread as a block opener (which would truncate the
+      // selector to a phantom stem: `&--icon-#{$v}` → a bogus
+      // `.pa-composite-badge--icon`). Keep a literal `#{}` marker in buf so the
+      // interpolation guard at the extraction site still skips this part.
+      buf += '#{';
+      i += 2;
+      let depth = 1;
+      for (; i < text.length && depth > 0; i++) {
+        if (text[i] === '{') depth++;
+        else if (text[i] === '}') depth--;
+      }
+      buf += '}';
+      i--; // the for-loop's own i++ will re-advance past the closing brace
+      continue;
+    }
+    if (c === '{') {
+      const sel = buf.trim();
+      buf = '';
+      if (sel.startsWith('@')) { stack.push(stack[stack.length - 1]); continue; } // at-rule → keep parent
+      const parents = stack[stack.length - 1];
+      const resolved = [];
+      for (const raw of sel.split(',').map((s) => s.trim()).filter(Boolean)) {
+        if (raw.includes('&')) for (const p of parents) resolved.push(raw.replaceAll('&', p));
+        else resolved.push(raw); // new nested context (descendant / nested block)
+      }
+      parts.push(...resolved);
+      stack.push(resolved);
+    } else if (c === '}') {
+      buf = '';
+      if (stack.length > 1) stack.pop();
+    } else if (c === ';') {
+      buf = ''; // declaration — not a selector
+    } else {
+      buf += c;
+    }
+  }
+  return parts;
+}
+
 for (const file of scssFiles) {
   const rel = relative(SCSS, file).replaceAll('\\', '/');
   const text = readFileSync(file, 'utf8');
   scssTextByRel.set(rel, text);
-  for (const m of text.matchAll(CLASS_RE)) {
-    const cls = m[1];
-    const block = cls.split(/__|--/)[0];
-    if (IGNORE.has(block)) continue;
-    if (!selToFiles.has(cls)) selToFiles.set(cls, new Set());
-    selToFiles.get(cls).add(rel);
-    if (isLeading(text, m.index)) {
-      if (!blockOwners.has(block)) blockOwners.set(block, new Set());
-      blockOwners.get(block).add(rel);
-      // bare base rule `.pa-block` (no __/--) → the true defining partial
-      if (cls === block) {
-        if (!bareOwners.has(block)) bareOwners.set(block, new Set());
-        bareOwners.get(block).add(rel);
+  for (const part of resolvedSelectorParts(text)) {
+    if (part.includes('#{')) continue; // unresolved interpolation — not a static class
+    for (const m of part.matchAll(CLASS_RE)) {
+      const cls = m[1];
+      const block = cls.split(/__|--/)[0];
+      if (IGNORE.has(block)) continue;
+      if (!selToFiles.has(cls)) selToFiles.set(cls, new Set());
+      selToFiles.get(cls).add(rel);
+      if (isLeading(part, m.index)) {
+        if (!blockOwners.has(block)) blockOwners.set(block, new Set());
+        blockOwners.get(block).add(rel);
+        // bare base rule `.pa-block` (no __/--) → the true defining partial
+        if (cls === block) {
+          if (!bareOwners.has(block)) bareOwners.set(block, new Set());
+          bareOwners.get(block).add(rel);
+        }
       }
     }
   }
@@ -331,7 +399,10 @@ const TAXONOMY = [
   // ---------------- Utilities & state hooks ----------------
   { key: 'utilities', name: 'Utilities & state hooks', category: 'Utilities & state hooks',
     desc: 'Standalone helper classes (not components): link helpers, responsive font hooks. The palette colour helpers are now unprefixed (text-color-N / bg-color-N / border-color-N / text-on-color-N / surface-color-N) and live outside the pa- namespace. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).',
-    blocks: ['pa-link', 'pa-font-base', 'pa-font-mobile', 'pa-font-responsive'] },
+    // pa-font-base-N / pa-font-mobile-N are @each-interpolated size families
+    // (like the palette colour loops) so they aren't catalog blocks; only the
+    // static pa-font-responsive hook is.
+    blocks: ['pa-link', 'pa-font-responsive'] },
 ];
 
 // Explicit doc homes. Many components are documented in a SHARED category file
@@ -528,10 +599,13 @@ writeFileSync(join(CORE, 'COMPONENTS.md'), md.join('\n'));
 // is the "systematic snippet sweep": it flags components whose snippet omits
 // real structural modifiers/elements, plus the true no-snippet gaps.
 //
-// Caveat: loop-generated colour variants (`pa-badge--primary`, `pa-btn--info`,
-// …) are emitted from SCSS @each loops, so they are NOT distinct catalog
-// selectors and do not count here. 100% structural coverage therefore means
-// "every hand-written element/modifier is shown", NOT "every colour is shown".
+// Caveat: only `@each`-INTERPOLATED variants (`&--#{$v}`, e.g. the
+// composite-badge tint loop → `pa-composite-badge--primary`) are excluded — the
+// extractor can't know a loop's values, so those are not catalog selectors and
+// don't count here. Colour modifiers written out EXPLICITLY (`&--primary`,
+// `&--danger`, … as badge/alert/label do) ARE real catalog selectors and are
+// counted, so a snippet that omits some of them now shows as < 100% — that is
+// the intended signal, not noise.
 const snipCache = {};
 const readSnip = (f) => {
   if (!(f in snipCache)) {
@@ -571,8 +645,9 @@ cov.push('The systematic sweep behind the snippet walkthrough: for each `pa-*` c
   'in the snippet a code-gen tool would copy from.\n');
 cov.push('**How to read it**');
 cov.push('- **Structural coverage** — share of the component\'s catalog selectors present in its snippet. ' +
-  'Loop-generated colour variants (`pa-badge--primary`, …) are not catalog selectors, so **100% ≠ ' +
-  '"every colour shown"** — it means every hand-written element/modifier is shown.');
+  'Only `@each`-interpolated variants (`&--#{$v}`, e.g. `pa-composite-badge--primary`) are excluded; ' +
+  'explicitly-written colour modifiers (`pa-badge--danger`, …) ARE catalog selectors and count, so a ' +
+  'snippet omitting some now reads as < 100% (intended signal).');
 cov.push('- **Ref block** — heuristic: does the snippet carry a trailing `REFERENCE` / `CLASSES:` summary ' +
   '(the `badges.html` gold-standard shape: sections → inline modifier docs → scenarios → reference block)?');
 cov.push('- **Status** — for gaps: `todo` (snippet owed), `deferred` (API in flux), `superseded` (owned elsewhere).\n');

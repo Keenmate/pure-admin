@@ -598,7 +598,9 @@ RADIO:
 - .pa-radio-group              Vertical flex stack
 - .pa-radio-group--horizontal  Wrapping row instead of a column
 - .pa-radio-group--grid        CSS-grid auto-flow (options wrap into rows by
-                               themselves; --2col / --3col force a fixed count)
+                               themselves — responsive column count)
+- .pa-radio-group--2col        Fixed 2-column grid
+- .pa-radio-group--3col        Fixed 3-column grid
 
 INPUT GROUP (prepend / append / button — RTL-aware via logical borders):
 - .pa-input-group
@@ -632,14 +634,32 @@ SMART FILTERS / QUERY EDITOR
 (SCSS file: forms/_query-editor.scss; demo page: /tables/smart-filters,
 wired up by search-autocomplete.js + search-autocomplete-v2.js +
 virtual-textbox.js. Separate family — full coverage pending a dedicated
-snippet — probably smart-filters.html):
-- .pa-search-highlight + __overlay / __input / __field / __operator
-- .pa-search-autocomplete + __item / __item-name / __item-type /
-  __section / __empty / __item--active
+snippet — probably smart-filters.html. Classes spelled in full below so a
+code generator sees the literal contract):
+
+- .pa-search-highlight                    Relative overlay container.
+  .pa-search-highlight__overlay           Transparent-text highlight layer.
+  .pa-search-highlight__input             The real input, stacked on top.
+  .pa-search-highlight__field             Highlighted field-name token.
+  .pa-search-highlight__operator          Highlighted operator token.
+
+- .pa-search-autocomplete                 Result popover.
+  .pa-search-autocomplete__item           One result row.
+  .pa-search-autocomplete__item--active   Keyboard-focused row.
+  .pa-search-autocomplete__item-name      Result label.
+  .pa-search-autocomplete__item-type      Trailing type hint.
+  .pa-search-autocomplete__section        Group header.
+  .pa-search-autocomplete__empty          No-results state.
+
 - .pa-virtual-textbox          Contenteditable input with inline badges.
                                Uses data-placeholder attribute for empty
                                state.
-- .pa-inline-query-editor + __layers / __highlights / __input
+
+- .pa-inline-query-editor                 Dual-layer editor wrapper.
+  .pa-inline-query-editor__layers         Positioning context for the layers.
+  .pa-inline-query-editor__highlights     Back layer — coloured tokens.
+  .pa-inline-query-editor__input          Front layer — transparent textarea.
+
 - .pa-inline-query-token   — highlight pill; ONE type modifier per token,
                              built by search-autocomplete-v2.js:
     .pa-inline-query-token--field       recognised field name
@@ -651,7 +671,15 @@ snippet — probably smart-filters.html):
   Resulting DOM the JS emits for an unrecognised field token:
     <span class="pa-inline-query-token pa-inline-query-token--field
                  pa-inline-query-token--invalid">statuz</span>
-- .pa-inline-query-autocomplete + rich __item substructure
+
+- .pa-inline-query-autocomplete                 Field/value suggestion popup.
+  .pa-inline-query-autocomplete__item           One suggestion row.
+  .pa-inline-query-autocomplete__item--active   Keyboard-focused row.
+  .pa-inline-query-autocomplete__item-icon      Leading glyph.
+  .pa-inline-query-autocomplete__item-content   Name + type column.
+  .pa-inline-query-autocomplete__item-name      Suggestion label.
+  .pa-inline-query-autocomplete__item-type      Secondary descriptor.
+  .pa-inline-query-autocomplete__item-badge     Trailing type/kind badge.
 
 IMPLICIT BEHAVIOURS:
 - .pa-form-group margin resets to 0 when it's the first/last child of a

@@ -48,7 +48,7 @@
                 <span class="pc-sidebar__label">Dashboard</span>
             </a></li>
 
-            <li class="pc-sidebar__item"><a href="/components/overview" class="pc-sidebar__link {{#isComponents}}pc-sidebar__link--active{{/isComponents}}">
+            <li class="pc-sidebar__item"><a href="/components" class="pc-sidebar__link {{#isComponents}}pc-sidebar__link--active{{/isComponents}}">
                 <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z" /><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z" /><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z" /><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z" /></svg></span>
                 <span class="pc-sidebar__label">Components Overview</span>
             </a></li>
@@ -82,6 +82,10 @@
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg></span>
                         <span class="pc-sidebar__label">Helpers</span>
                     </a></li>
+                    <li class="pc-sidebar__item"><a href="/design/layouts" class="pc-sidebar__link {{#isLayouts}}pc-sidebar__link--active{{/isLayouts}}">
+                        <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" /></svg></span>
+                        <span class="pc-sidebar__label">Layouts</span>
+                    </a></li>
                     <li class="pc-sidebar__item"><a href="/design/typography" class="pc-sidebar__link {{#isTypography}}pc-sidebar__link--active{{/isTypography}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7" /><line x1="9" x2="15" y1="20" y2="20" /><line x1="12" x2="12" y1="4" y2="20" /></svg></span>
                         <span class="pc-sidebar__label">Typography</span>
@@ -97,23 +101,23 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/sizing" class="pc-sidebar__link {{#isSizing}}pc-sidebar__link--active{{/isSizing}}">
+                    <li class="pc-sidebar__item"><a href="/layout/sizing" class="pc-sidebar__link {{#isSizing}}pc-sidebar__link--active{{/isSizing}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z" /><path d="m14.5 12.5 2-2" /><path d="m11.5 9.5 2-2" /><path d="m8.5 6.5 2-2" /><path d="m17.5 15.5 2-2" /></svg></span>
                         <span class="pc-sidebar__label">Sizing & Layout</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/grid" class="pc-sidebar__link {{#isGrid}}pc-sidebar__link--active{{/isGrid}}">
+                    <li class="pc-sidebar__item"><a href="/layout/grid" class="pc-sidebar__link {{#isGrid}}pc-sidebar__link--active{{/isGrid}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" /><rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" /></svg></span>
                         <span class="pc-sidebar__label">Grid System</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/overflow" class="pc-sidebar__link {{#isOverflow}}pc-sidebar__link--active{{/isOverflow}}">
+                    <li class="pc-sidebar__item"><a href="/layout/overflow" class="pc-sidebar__link {{#isOverflow}}pc-sidebar__link--active{{/isOverflow}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg></span>
                         <span class="pc-sidebar__label">Overflow</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/responsivity" class="pc-sidebar__link {{#isResponsivity}}pc-sidebar__link--active{{/isResponsivity}}">
+                    <li class="pc-sidebar__item"><a href="/layout/responsivity" class="pc-sidebar__link {{#isResponsivity}}pc-sidebar__link--active{{/isResponsivity}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg></span>
                         <span class="pc-sidebar__label">How It Works</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/fit-to-size" class="pc-sidebar__link {{#isFitToSize}}pc-sidebar__link--active{{/isFitToSize}}">
+                    <li class="pc-sidebar__item"><a href="/layout/fit-to-size" class="pc-sidebar__link {{#isFitToSize}}pc-sidebar__link--active{{/isFitToSize}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M14 15H9v-5" /><path d="M16 3h5v5" /><path d="M21 3 9 15" /></svg></span>
                         <span class="pc-sidebar__label">Fit to Size</span>
                     </a></li>
@@ -147,11 +151,11 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/inputs" class="pc-sidebar__link {{#isInputs}}pc-sidebar__link--active{{/isInputs}}">
+                    <li class="pc-sidebar__item"><a href="/forms/inputs" class="pc-sidebar__link {{#isInputs}}pc-sidebar__link--active{{/isInputs}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg></span>
                         <span class="pc-sidebar__label">Inputs</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/validations" class="pc-sidebar__link {{#isValidations}}pc-sidebar__link--active{{/isValidations}}">
+                    <li class="pc-sidebar__item"><a href="/forms/validations" class="pc-sidebar__link {{#isValidations}}pc-sidebar__link--active{{/isValidations}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="m16 9-5.5 5.5L8 12" /></svg></span>
                         <span class="pc-sidebar__label">Validations</span>
                     </a></li>
@@ -159,23 +163,23 @@
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg></span>
                         <span class="pc-sidebar__label">Forms</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/date-picker" class="pc-sidebar__link {{#isDatePicker}}pc-sidebar__link--active{{/isDatePicker}}">
+                    <li class="pc-sidebar__item"><a href="/forms/date-picker" class="pc-sidebar__link {{#isDatePicker}}pc-sidebar__link--active{{/isDatePicker}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /></svg></span>
                         <span class="pc-sidebar__label">Date Picker</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/multiselect" class="pc-sidebar__link {{#isMultiselect}}pc-sidebar__link--active{{/isMultiselect}}">
+                    <li class="pc-sidebar__item"><a href="/forms/multiselect" class="pc-sidebar__link {{#isMultiselect}}pc-sidebar__link--active{{/isMultiselect}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5h8" /><path d="M13 12h8" /><path d="M13 19h8" /><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /></svg></span>
                         <span class="pc-sidebar__label">Multiselect</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/checkbox-lists" class="pc-sidebar__link {{#isCheckboxLists}}pc-sidebar__link--active{{/isCheckboxLists}}">
+                    <li class="pc-sidebar__item"><a href="/forms/checkbox-lists" class="pc-sidebar__link {{#isCheckboxLists}}pc-sidebar__link--active{{/isCheckboxLists}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5h8" /><path d="M13 12h8" /><path d="M13 19h8" /><path d="m3 17 2 2 4-4" /><rect x="3" y="4" width="6" height="6" rx="1" /></svg></span>
                         <span class="pc-sidebar__label">Checkbox Lists</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/range-group" class="pc-sidebar__link {{#isRangeGroup}}pc-sidebar__link--active{{/isRangeGroup}}">
+                    <li class="pc-sidebar__item"><a href="/forms/range-group" class="pc-sidebar__link {{#isRangeGroup}}pc-sidebar__link--active{{/isRangeGroup}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3" /><path d="M12 19H3" /><path d="M14 3v4" /><path d="M16 17v4" /><path d="M21 12h-9" /><path d="M21 19h-5" /><path d="M21 5h-7" /><path d="M8 10v4" /><path d="M8 12H3" /></svg></span>
                         <span class="pc-sidebar__label">Range Group</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/file-selector" class="pc-sidebar__link {{#isFileSelector}}pc-sidebar__link--active{{/isFileSelector}}">
+                    <li class="pc-sidebar__item"><a href="/forms/file-selector" class="pc-sidebar__link {{#isFileSelector}}pc-sidebar__link--active{{/isFileSelector}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m17 8-5-5-5 5" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg></span>
                         <span class="pc-sidebar__label">File Upload</span>
                     </a></li>
@@ -190,15 +194,15 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/buttons" class="pc-sidebar__link {{#isButtons}}pc-sidebar__link--active{{/isButtons}}">
+                    <li class="pc-sidebar__item"><a href="/buttons" class="pc-sidebar__link {{#isButtons}}pc-sidebar__link--active{{/isButtons}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z" /><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" /></svg></span>
                         <span class="pc-sidebar__label">Buttons</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/pagers" class="pc-sidebar__link {{#isPagers}}pc-sidebar__link--active{{/isPagers}}">
+                    <li class="pc-sidebar__item"><a href="/buttons/pagers" class="pc-sidebar__link {{#isPagers}}pc-sidebar__link--active{{/isPagers}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5" /><path d="m15 7 5 5-5 5" /></svg></span>
                         <span class="pc-sidebar__label">Pagers</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/popconfirm" class="pc-sidebar__link {{#isPopconfirm}}pc-sidebar__link--active{{/isPopconfirm}}">
+                    <li class="pc-sidebar__item"><a href="/buttons/popconfirm" class="pc-sidebar__link {{#isPopconfirm}}pc-sidebar__link--active{{/isPopconfirm}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /><path d="M12 15h.01" /><path d="M12 7v4" /></svg></span>
                         <span class="pc-sidebar__label">Popconfirm</span>
                     </a></li>
@@ -213,27 +217,27 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/cards" class="pc-sidebar__link {{#isCards}}pc-sidebar__link--active{{/isCards}}">
+                    <li class="pc-sidebar__item"><a href="/surfaces/cards" class="pc-sidebar__link {{#isCards}}pc-sidebar__link--active{{/isCards}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2" /><path d="M10 16c-1.1 0-2-.9-2-2v-4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2" /><rect width="8" height="8" x="14" y="14" rx="2" /></svg></span>
                         <span class="pc-sidebar__label">Cards</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/tabs" class="pc-sidebar__link {{#isTabs}}pc-sidebar__link--active{{/isTabs}}">
+                    <li class="pc-sidebar__item"><a href="/surfaces/tabs" class="pc-sidebar__link {{#isTabs}}pc-sidebar__link--active{{/isTabs}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" /></svg></span>
                         <span class="pc-sidebar__label">Tabs</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/modals" class="pc-sidebar__link {{#isModals}}pc-sidebar__link--active{{/isModals}}">
+                    <li class="pc-sidebar__item"><a href="/surfaces/modals" class="pc-sidebar__link {{#isModals}}pc-sidebar__link--active{{/isModals}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M10 4v4" /><path d="M2 8h20" /><path d="M6 4v4" /></svg></span>
                         <span class="pc-sidebar__label">Modals</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/modal-dialogs" class="pc-sidebar__link {{#isModalDialogs}}pc-sidebar__link--active{{/isModalDialogs}}">
+                    <li class="pc-sidebar__item"><a href="/surfaces/modal-dialogs" class="pc-sidebar__link {{#isModalDialogs}}pc-sidebar__link--active{{/isModalDialogs}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /><path d="M12 11h.01" /><path d="M16 11h.01" /><path d="M8 11h.01" /></svg></span>
                         <span class="pc-sidebar__label">Modal Dialogs</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/detail-panel" class="pc-sidebar__link {{#isDetailPanel}}pc-sidebar__link--active{{/isDetailPanel}}">
+                    <li class="pc-sidebar__item"><a href="/surfaces/detail-panel" class="pc-sidebar__link {{#isDetailPanel}}pc-sidebar__link--active{{/isDetailPanel}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M15 3v18" /></svg></span>
                         <span class="pc-sidebar__label">Detail Panel</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/splitter" class="pc-sidebar__link {{#isSplitter}}pc-sidebar__link--active{{/isSplitter}}">
+                    <li class="pc-sidebar__item"><a href="/surfaces/splitter" class="pc-sidebar__link {{#isSplitter}}pc-sidebar__link--active{{/isSplitter}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M12 3v18" /></svg></span>
                         <span class="pc-sidebar__label">Splitter</span>
                     </a></li>
@@ -248,35 +252,35 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/lists" class="pc-sidebar__link {{#isLists}}pc-sidebar__link--active{{/isLists}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/lists" class="pc-sidebar__link {{#isLists}}pc-sidebar__link--active{{/isLists}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" /><path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" /></svg></span>
                         <span class="pc-sidebar__label">Lists</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/document" class="pc-sidebar__link {{#isDocument}}pc-sidebar__link--active{{/isDocument}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/document" class="pc-sidebar__link {{#isDocument}}pc-sidebar__link--active{{/isDocument}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg></span>
                         <span class="pc-sidebar__label">Document</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/sheet" class="pc-sidebar__link {{#isSheet}}pc-sidebar__link--active{{/isSheet}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/sheet" class="pc-sidebar__link {{#isSheet}}pc-sidebar__link--active{{/isSheet}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /><path d="M12 17V7" /></svg></span>
                         <span class="pc-sidebar__label">Sheet (Invoice)</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/code" class="pc-sidebar__link {{#isCode}}pc-sidebar__link--active{{/isCode}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/code" class="pc-sidebar__link {{#isCode}}pc-sidebar__link--active{{/isCode}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></span>
                         <span class="pc-sidebar__label">Code</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/data-display" class="pc-sidebar__link {{#isDataDisplay}}pc-sidebar__link--active{{/isDataDisplay}}">
+                    <li class="pc-sidebar__item"><a href="/data-display" class="pc-sidebar__link {{#isDataDisplay}}pc-sidebar__link--active{{/isDataDisplay}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" /><path d="M14 4h7" /><path d="M14 9h7" /><path d="M14 15h7" /><path d="M14 20h7" /></svg></span>
                         <span class="pc-sidebar__label">Data Display</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/data-display-2" class="pc-sidebar__link {{#isDataDisplay2}}pc-sidebar__link--active{{/isDataDisplay2}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/data-display-2" class="pc-sidebar__link {{#isDataDisplay2}}pc-sidebar__link--active{{/isDataDisplay2}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3v18" /><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M21 9H3" /><path d="M21 15H3" /></svg></span>
                         <span class="pc-sidebar__label">Data Display v2</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/data-grid" class="pc-sidebar__link {{#isDataGrid}}pc-sidebar__link--active{{/isDataGrid}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/data-grid" class="pc-sidebar__link {{#isDataGrid}}pc-sidebar__link--active{{/isDataGrid}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18" /><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /></svg></span>
                         <span class="pc-sidebar__label">Data Grid</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/svelte-treeview" class="pc-sidebar__link {{#isSvelteTreeview}}pc-sidebar__link--active{{/isSvelteTreeview}}">
+                    <li class="pc-sidebar__item"><a href="/data-display/svelte-treeview" class="pc-sidebar__link {{#isSvelteTreeview}}pc-sidebar__link--active{{/isSvelteTreeview}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z" /><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z" /><path d="M3 5a2 2 0 0 0 2 2h3" /><path d="M3 3v13a2 2 0 0 0 2 2h3" /></svg></span>
                         <span class="pc-sidebar__label">Svelte Treeview</span>
                     </a></li>
@@ -330,7 +334,7 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/data-visualization" class="pc-sidebar__link {{#isDataVisualization}}pc-sidebar__link--active{{/isDataVisualization}}">
+                    <li class="pc-sidebar__item"><a href="/data-viz" class="pc-sidebar__link {{#isDataVisualization}}pc-sidebar__link--active{{/isDataVisualization}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg></span>
                         <span class="pc-sidebar__label">Data Visualization</span>
                     </a></li>
@@ -384,27 +388,27 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/alerts" class="pc-sidebar__link {{#isAlerts}}pc-sidebar__link--active{{/isAlerts}}">
+                    <li class="pc-sidebar__item"><a href="/feedback/alerts" class="pc-sidebar__link {{#isAlerts}}pc-sidebar__link--active{{/isAlerts}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg></span>
                         <span class="pc-sidebar__label">Alerts</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/callouts" class="pc-sidebar__link {{#isCallouts}}pc-sidebar__link--active{{/isCallouts}}">
+                    <li class="pc-sidebar__item"><a href="/feedback/callouts" class="pc-sidebar__link {{#isCallouts}}pc-sidebar__link--active{{/isCallouts}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5" /><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" /></svg></span>
                         <span class="pc-sidebar__label">Callouts</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/toasts" class="pc-sidebar__link {{#isToasts}}pc-sidebar__link--active{{/isToasts}}">
+                    <li class="pc-sidebar__item"><a href="/feedback/toasts" class="pc-sidebar__link {{#isToasts}}pc-sidebar__link--active{{/isToasts}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M22 8c0-2.3-.8-4.3-2-6" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /><path d="M4 2C2.8 3.7 2 5.7 2 8" /></svg></span>
                         <span class="pc-sidebar__label">Toasts</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/notifications" class="pc-sidebar__link {{#isNotifications}}pc-sidebar__link--active{{/isNotifications}}">
+                    <li class="pc-sidebar__item"><a href="/feedback/notifications" class="pc-sidebar__link {{#isNotifications}}pc-sidebar__link--active{{/isNotifications}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></span>
                         <span class="pc-sidebar__label">Notifications</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/tooltips" class="pc-sidebar__link {{#isTooltips}}pc-sidebar__link--active{{/isTooltips}}">
+                    <li class="pc-sidebar__item"><a href="/feedback/tooltips" class="pc-sidebar__link {{#isTooltips}}pc-sidebar__link--active{{/isTooltips}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></span>
                         <span class="pc-sidebar__label">Tooltips</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/loaders" class="pc-sidebar__link {{#isLoaders}}pc-sidebar__link--active{{/isLoaders}}">
+                    <li class="pc-sidebar__item"><a href="/feedback/loaders" class="pc-sidebar__link {{#isLoaders}}pc-sidebar__link--active{{/isLoaders}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg></span>
                         <span class="pc-sidebar__label">Loaders</span>
                     </a></li>
@@ -442,11 +446,11 @@
                     <span class="pc-sidebar__chevron">›</span>
                 </button>
                 <ul class="pc-sidebar__submenu">
-                    <li class="pc-sidebar__item"><a href="/components/badges" class="pc-sidebar__link {{#isBadges}}pc-sidebar__link--active{{/isBadges}}">
+                    <li class="pc-sidebar__item"><a href="/interactive/badges" class="pc-sidebar__link {{#isBadges}}pc-sidebar__link--active{{/isBadges}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" /></svg></span>
                         <span class="pc-sidebar__label">Badges</span>
                     </a></li>
-                    <li class="pc-sidebar__item"><a href="/components/command-palette" class="pc-sidebar__link {{#isCommandPalette}}pc-sidebar__link--active{{/isCommandPalette}}">
+                    <li class="pc-sidebar__item"><a href="/interactive/command-palette" class="pc-sidebar__link {{#isCommandPalette}}pc-sidebar__link--active{{/isCommandPalette}}">
                         <span class="pc-sidebar__icon pc-icon-hover-highlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" /></svg></span>
                         <span class="pc-sidebar__label">Command Palette</span>
                     </a></li>

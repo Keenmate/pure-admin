@@ -418,6 +418,13 @@
                     if (burgerMenu) {
                         burgerMenu.classList.remove('active');
                     }
+                } else if (sidebarBehavior === 'overlay') {
+                    // Overlay: arm the fixed-drawer CSS (FOUC script sets it too),
+                    // start closed, burger shows hamburger.
+                    body.classList.add('sidebar-overlay');
+                    body.classList.remove('sidebar-visible');
+                    body.classList.remove('sidebar-hidden');
+                    if (burgerMenu) burgerMenu.classList.remove('active');
                 } else if (sidebarBehavior === 'icon-collapse') {
                     sidebar.classList.add('pc-layout__sidebar--icon-collapse');
                     // In icon-collapse mode, check if expanded or collapsed
@@ -738,8 +745,19 @@
             if (sidebar) {
                 sidebar.classList.remove('pc-layout__sidebar--icon-collapse');
                 document.body.classList.remove('sidebar-hidden');
+                // Clear any overlay state; the overlay branch re-adds it. Switching
+                // AWAY from overlay must drop the fixed-drawer class + open state.
+                document.body.classList.remove('sidebar-overlay');
+                document.body.classList.remove('sidebar-visible');
+                if (typeof unlockBodyScroll === 'function') unlockBodyScroll();
 
-                if (behavior === 'icon-collapse') {
+                if (behavior === 'overlay') {
+                    // Temporary floating drawer: arm the fixed-drawer CSS, leave it
+                    // closed. Burger toggles it open; open state is not persisted.
+                    document.body.classList.add('sidebar-overlay');
+                    if (burgerMenu) burgerMenu.classList.remove('active'); // closed → hamburger
+                    localStorage.setItem('sidebar-hidden', 'false');
+                } else if (behavior === 'icon-collapse') {
                     // Show icon-only sidebar in collapsed state
                     sidebar.classList.add('pc-layout__sidebar--icon-collapse');
                     // Start in collapsed state (icon bar showing)

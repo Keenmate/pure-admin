@@ -44,13 +44,12 @@
 </div>
 
 <!-- Icon colour variants:
-     The default icon supports four semantic colours.
-     There is NO --danger variant on .pa-stat__icon (only on the
-     square variant below). For an alert-style stat, use the icon
-     family from alerts.html or wrap the icon in a pa-badge. -->
+     The icon tile supports five semantic colours (all resolve via CSS
+     custom properties so theme overrides cascade at runtime). -->
 <div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--primary">👥</div><div class="pa-stat__content">…</div></div>
 <div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--success">📊</div><div class="pa-stat__content">…</div></div>
 <div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--warning">📦</div><div class="pa-stat__content">…</div></div>
+<div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--danger">🚨</div><div class="pa-stat__content">…</div></div>
 <div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--info">📈</div><div class="pa-stat__content">…</div></div>
 
 
@@ -173,17 +172,22 @@
 <!--
 SUB-ELEMENTS:
   .pa-stat                 Block. By default a horizontal flex row.
-  .pa-stat__icon           Square icon tile. Default variant only.
-                            Modifiers: --primary, --success,
-                            --warning, --info  (no --danger).
+  .pa-stat__icon           Square icon tile. Five semantic colours:
+                            .pa-stat__icon--primary .pa-stat__icon--success
+                            .pa-stat__icon--warning .pa-stat__icon--danger
+                            .pa-stat__icon--info
   .pa-stat__content        Wrapper for __number + __label in default.
   .pa-stat__number         Big bold number. Used by default + square.
   .pa-stat__label          Muted caption.
   .pa-stat__value          Hero variant only — same role as __number
                             but at a much larger scale.
   .pa-stat__change         Hero variant only — change-vs-period line.
-                            Modifiers: --positive (green), --negative
-                            (red), --neutral (muted).
+                            Five-step sentiment scale:
+                            .pa-stat__change--very-positive
+                            .pa-stat__change--positive
+                            .pa-stat__change--neutral
+                            .pa-stat__change--negative
+                            .pa-stat__change--very-negative
   .pa-stat__symbol         Square variant only — the decorative
                             watermark symbol on the inline-end side.
   .pa-stat__context        Square fit-mode only — lowest-priority

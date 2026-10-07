@@ -3,8 +3,8 @@
   "frameworkVersion": "3.3.0-rc06",
   "totals": {
     "components": 60,
-    "blocks": 147,
-    "selectors": 654,
+    "blocks": 145,
+    "selectors": 1375,
     "experimental": 1
   },
   "categories": [
@@ -59,17 +59,34 @@
         "pa-card__header",
         "pa-card__meta",
         "pa-card__tab",
+        "pa-card__tab-content",
+        "pa-card__tabs",
         "pa-card__title",
+        "pa-card__title-icon",
         "pa-card__title-text"
       ],
       "modifiers": [
+        "pa-card--danger",
+        "pa-card--ghost",
+        "pa-card--live-down",
+        "pa-card--live-neutral",
+        "pa-card--live-up",
+        "pa-card--primary",
+        "pa-card--stat",
+        "pa-card--success",
+        "pa-card--warning",
         "pa-card__actions--overflow",
         "pa-card__actions--responsive",
-        "pa-card__header--underline-color",
+        "pa-card__body--no-padding",
         "pa-card__header--underline-danger",
         "pa-card__header--underline-info",
         "pa-card__header--underline-success",
-        "pa-card__header--underline-warning"
+        "pa-card__header--underline-warning",
+        "pa-card__header--underlined",
+        "pa-card__header--wrap",
+        "pa-card__tab--active",
+        "pa-card__tab-content--active",
+        "pa-card__tabs--inline"
       ],
       "partials": [
         "core-components/_cards.scss"
@@ -117,9 +134,14 @@
         "pa-splitter__pane"
       ],
       "modifiers": [
+        "pa-splitter--dragging",
+        "pa-splitter--horizontal",
         "pa-splitter--minimize-mirror",
+        "pa-splitter--vertical",
         "pa-splitter__gutter--active",
-        "pa-splitter__pane--minimized"
+        "pa-splitter__pane--end",
+        "pa-splitter__pane--minimized",
+        "pa-splitter__pane--start"
       ],
       "partials": [
         "core-components/_splitter.scss"
@@ -158,7 +180,12 @@
         "pa-modal--success",
         "pa-modal--top",
         "pa-modal--warning",
-        "pa-modal__body--scrollable"
+        "pa-modal__body--scrollable",
+        "pa-modal__container--fw",
+        "pa-modal__container--lg",
+        "pa-modal__container--sm",
+        "pa-modal__container--xl",
+        "pa-modal__container--xxl"
       ],
       "partials": [
         "core-components/_modals.scss"
@@ -183,6 +210,7 @@
         "pa-tabs"
       ],
       "elements": [
+        "pa-tabs__container",
         "pa-tabs__content",
         "pa-tabs__item",
         "pa-tabs__overflow",
@@ -190,10 +218,32 @@
         "pa-tabs__overflow-toggle",
         "pa-tabs__panel",
         "pa-tabs__scroll-btn",
-        "pa-tabs__scroll-container"
+        "pa-tabs__scroll-container",
+        "pa-tabs__vertical-layout"
       ],
       "modifiers": [
-        "pa-tabs--vertical"
+        "pa-tabs--border-top",
+        "pa-tabs--boxed",
+        "pa-tabs--centered",
+        "pa-tabs--collapse",
+        "pa-tabs--full",
+        "pa-tabs--lg",
+        "pa-tabs--nowrap",
+        "pa-tabs--pills",
+        "pa-tabs--scrollable",
+        "pa-tabs--sm",
+        "pa-tabs--vertical",
+        "pa-tabs--wrap-labels",
+        "pa-tabs__container--bordered",
+        "pa-tabs__container--card",
+        "pa-tabs__item--active",
+        "pa-tabs__overflow-menu--open",
+        "pa-tabs__overflow-toggle--has-active",
+        "pa-tabs__panel--active",
+        "pa-tabs__scroll-btn--end",
+        "pa-tabs__scroll-btn--start",
+        "pa-tabs__scroll-btn--visible",
+        "pa-tabs__vertical-layout--bordered"
       ],
       "partials": [
         "core-components/_profile.scss",
@@ -235,7 +285,11 @@
         "pa-detail-panel--mobile-overlay",
         "pa-detail-panel--open",
         "pa-detail-panel--overlay",
-        "pa-detail-view--overlay"
+        "pa-detail-panel-resize--active",
+        "pa-detail-panel__content--bordered",
+        "pa-detail-view--overlay",
+        "pa-detail-view__overlay--visible",
+        "pa-detail-view__panel--open"
       ],
       "partials": [
         "core-components/_detail-panel.scss",
@@ -259,12 +313,35 @@
         "pa-profile-panel"
       ],
       "elements": [
+        "pa-profile-panel__actions",
         "pa-profile-panel__avatar",
+        "pa-profile-panel__avatar-icon",
+        "pa-profile-panel__body",
+        "pa-profile-panel__close",
         "pa-profile-panel__content",
+        "pa-profile-panel__email",
+        "pa-profile-panel__favorite-icon",
+        "pa-profile-panel__favorite-item",
+        "pa-profile-panel__favorite-label",
+        "pa-profile-panel__favorite-remove",
+        "pa-profile-panel__favorites",
+        "pa-profile-panel__favorites-add",
+        "pa-profile-panel__footer",
+        "pa-profile-panel__header",
+        "pa-profile-panel__info",
+        "pa-profile-panel__name",
+        "pa-profile-panel__nav",
+        "pa-profile-panel__nav-icon",
+        "pa-profile-panel__nav-item",
         "pa-profile-panel__overlay",
-        "pa-profile-panel__tab-text"
+        "pa-profile-panel__tab-text",
+        "pa-profile-panel__tabs"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-profile-panel--open",
+        "pa-profile-panel__header--no-avatar",
+        "pa-profile-panel__tabs--icon-only"
+      ],
       "partials": [
         "core-components/_print.scss",
         "core-components/_profile.scss"
@@ -285,9 +362,19 @@
         "pa-settings-panel"
       ],
       "elements": [
+        "pa-settings-panel__checkbox",
+        "pa-settings-panel__checkbox-group",
+        "pa-settings-panel__content",
+        "pa-settings-panel__hint",
+        "pa-settings-panel__label",
+        "pa-settings-panel__section",
+        "pa-settings-panel__select",
+        "pa-settings-panel__title",
         "pa-settings-panel__toggle"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-settings-panel--open"
+      ],
       "partials": [
         "core-components/_print.scss",
         "core-components/_settings-panel.scss"
@@ -308,10 +395,20 @@
       "elements": [
         "pa-table-card__actions",
         "pa-table-card__body",
+        "pa-table-card__description",
         "pa-table-card__footer",
-        "pa-table-card__header"
+        "pa-table-card__header",
+        "pa-table-card__title",
+        "pa-table-card__title-text"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-table-card--danger",
+        "pa-table-card--plain",
+        "pa-table-card--primary",
+        "pa-table-card--success",
+        "pa-table-card--warning",
+        "pa-table-card__body--scrollable"
+      ],
       "partials": [
         "core-components/_tables.scss"
       ],
@@ -340,7 +437,9 @@
         "pa-form-group--required",
         "pa-form-group--success",
         "pa-form-group--warning",
-        "pa-form-help--color"
+        "pa-form-help--error",
+        "pa-form-help--success",
+        "pa-form-help--warning"
       ],
       "partials": [
         "core-components/_utilities.scss",
@@ -367,7 +466,6 @@
       ],
       "elements": [],
       "modifiers": [
-        "pa-input--color",
         "pa-input--error",
         "pa-input--lg",
         "pa-input--sm",
@@ -401,7 +499,6 @@
       ],
       "elements": [],
       "modifiers": [
-        "pa-textarea--color",
         "pa-textarea--lg",
         "pa-textarea--sm",
         "pa-textarea--xl",
@@ -427,7 +524,6 @@
       ],
       "elements": [],
       "modifiers": [
-        "pa-select--color",
         "pa-select--error",
         "pa-select--lg",
         "pa-select--sm",
@@ -458,9 +554,15 @@
       ],
       "elements": [
         "pa-input-group__append",
+        "pa-input-group__button",
         "pa-input-group__prepend"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-input-group--lg",
+        "pa-input-group--sm",
+        "pa-input-group--xl",
+        "pa-input-group--xs"
+      ],
       "partials": [
         "core-components/forms/_input-groups.scss"
       ],
@@ -483,8 +585,12 @@
         "pa-search-tokens",
         "pa-virtual-textbox"
       ],
-      "elements": [],
-      "modifiers": [],
+      "elements": [
+        "pa-input-wrapper__clear"
+      ],
+      "modifiers": [
+        "pa-input-wrapper__clear--hidden"
+      ],
       "partials": [
         "core-components/forms/_input-wrapper.scss",
         "core-components/forms/_query-editor.scss"
@@ -511,7 +617,21 @@
         "pa-checkbox__box",
         "pa-checkbox__label"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-checkbox--disabled",
+        "pa-checkbox--label-end",
+        "pa-checkbox--label-start",
+        "pa-checkbox--label-top",
+        "pa-checkbox--lg",
+        "pa-checkbox--sm",
+        "pa-checkbox--x",
+        "pa-checkbox--xl",
+        "pa-checkbox--xs",
+        "pa-checkbox-group--2col",
+        "pa-checkbox-group--3col",
+        "pa-checkbox-group--grid",
+        "pa-checkbox-group--horizontal"
+      ],
       "partials": [
         "core-components/_checkbox-lists.scss",
         "core-components/forms/_checkboxes-radios.scss"
@@ -537,7 +657,19 @@
       "elements": [
         "pa-radio__label"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-radio--label-end",
+        "pa-radio--label-start",
+        "pa-radio--label-top",
+        "pa-radio--lg",
+        "pa-radio--sm",
+        "pa-radio--xl",
+        "pa-radio--xs",
+        "pa-radio-group--2col",
+        "pa-radio-group--3col",
+        "pa-radio-group--grid",
+        "pa-radio-group--horizontal"
+      ],
       "partials": [
         "core-components/forms/_checkboxes-radios.scss"
       ],
@@ -559,6 +691,7 @@
       "elements": [
         "pa-checkbox-list__actions",
         "pa-checkbox-list__checkbox",
+        "pa-checkbox-list__description",
         "pa-checkbox-list__item",
         "pa-checkbox-list__label",
         "pa-checkbox-list__text"
@@ -680,9 +813,28 @@
         "pa-inline-query-token",
         "pa-search-highlight"
       ],
-      "elements": [],
+      "elements": [
+        "pa-inline-query-autocomplete__item",
+        "pa-inline-query-autocomplete__item-badge",
+        "pa-inline-query-autocomplete__item-content",
+        "pa-inline-query-autocomplete__item-icon",
+        "pa-inline-query-autocomplete__item-name",
+        "pa-inline-query-autocomplete__item-type",
+        "pa-inline-query-editor__highlights",
+        "pa-inline-query-editor__input",
+        "pa-inline-query-editor__layers",
+        "pa-search-highlight__field",
+        "pa-search-highlight__input",
+        "pa-search-highlight__operator",
+        "pa-search-highlight__overlay"
+      ],
       "modifiers": [
-        "pa-inline-query-token--invalid"
+        "pa-inline-query-autocomplete__item--active",
+        "pa-inline-query-token--field",
+        "pa-inline-query-token--invalid",
+        "pa-inline-query-token--keyword",
+        "pa-inline-query-token--operator",
+        "pa-inline-query-token--value"
       ],
       "partials": [
         "core-components/forms/_query-editor.scss"
@@ -738,22 +890,51 @@
         "pa-btn-split__chevron",
         "pa-btn-split__group-label",
         "pa-btn-split__item",
+        "pa-btn-split__item-icon",
+        "pa-btn-split__item-row",
         "pa-btn-split__menu",
         "pa-btn-split__menu-inner",
         "pa-btn-split__toggle",
         "pa-btn__icon",
         "pa-btn__label",
-        "pa-btn__spinner",
-        "pa-overflow__trigger"
+        "pa-btn__spinner"
       ],
       "modifiers": [
+        "pa-btn--align-center",
+        "pa-btn--align-end",
+        "pa-btn--align-justify",
+        "pa-btn--align-start",
+        "pa-btn--block",
+        "pa-btn--danger",
+        "pa-btn--dark",
         "pa-btn--disabled",
+        "pa-btn--ghost",
+        "pa-btn--icon-only",
+        "pa-btn--info",
         "pa-btn--lg",
+        "pa-btn--light",
+        "pa-btn--loading",
+        "pa-btn--outline-danger",
+        "pa-btn--outline-info",
+        "pa-btn--outline-primary",
+        "pa-btn--outline-secondary",
+        "pa-btn--outline-success",
+        "pa-btn--outline-warning",
+        "pa-btn--primary",
+        "pa-btn--ripple",
         "pa-btn--ripple-active",
+        "pa-btn--secondary",
         "pa-btn--sm",
+        "pa-btn--success",
+        "pa-btn--warning",
         "pa-btn--xl",
         "pa-btn--xs",
-        "pa-btn-split--in-overflow"
+        "pa-btn-group--nowrap",
+        "pa-btn-group--vertical",
+        "pa-btn-split--in-overflow",
+        "pa-btn-split--open",
+        "pa-btn-split__item--danger",
+        "pa-btn-split__menu--open"
       ],
       "partials": [
         "core-components/_buttons.scss",
@@ -783,9 +964,25 @@
         "pa-pager"
       ],
       "elements": [
-        "pa-load-more__spinner"
+        "pa-load-more__button",
+        "pa-load-more__count",
+        "pa-load-more__spinner",
+        "pa-load-more__text",
+        "pa-pager__container",
+        "pa-pager__controls",
+        "pa-pager__info",
+        "pa-pager__input",
+        "pa-pager__text"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-load-more--center",
+        "pa-load-more--end",
+        "pa-load-more--start",
+        "pa-load-more__button--loading",
+        "pa-pager--center",
+        "pa-pager--end",
+        "pa-pager--start"
+      ],
       "partials": [
         "core-components/_pagers.scss"
       ],
@@ -818,7 +1015,10 @@
         "pa-popconfirm--compact",
         "pa-popconfirm--end",
         "pa-popconfirm--start",
-        "pa-popconfirm--top"
+        "pa-popconfirm--top",
+        "pa-popconfirm__icon--danger",
+        "pa-popconfirm__icon--info",
+        "pa-popconfirm__icon--warning"
       ],
       "partials": [
         "core-components/_popconfirm.scss"
@@ -843,7 +1043,12 @@
         "pa-virtual-table"
       ],
       "elements": [
+        "pa-table-container__actions",
+        "pa-table-container__header",
+        "pa-table-container__title",
         "pa-table__checkbox-col",
+        "pa-table__item-desc",
+        "pa-table__item-title",
         "pa-virtual-table__body",
         "pa-virtual-table__cell",
         "pa-virtual-table__header",
@@ -851,9 +1056,15 @@
         "pa-virtual-table__row"
       ],
       "modifiers": [
+        "pa-table--bordered",
+        "pa-table--lg",
+        "pa-table--plain",
         "pa-table--responsive",
         "pa-table--responsive-grid",
+        "pa-table--sm",
         "pa-table--striped",
+        "pa-table--xl",
+        "pa-table--xs",
         "pa-table-container--panel",
         "pa-table__row--selected"
       ],
@@ -885,8 +1096,18 @@
       "blocks": [
         "pa-comparison-table"
       ],
-      "elements": [],
-      "modifiers": [],
+      "elements": [
+        "pa-comparison-table__changed",
+        "pa-comparison-table__conflict",
+        "pa-comparison-table__copy",
+        "pa-comparison-table__label",
+        "pa-comparison-table__section",
+        "pa-comparison-table__value"
+      ],
+      "modifiers": [
+        "pa-comparison-table__changed--solid",
+        "pa-comparison-table__conflict--solid"
+      ],
       "partials": [
         "core-components/_comparison.scss"
       ],
@@ -910,11 +1131,28 @@
         "pa-list-definition",
         "pa-list-ordered"
       ],
-      "elements": [],
+      "elements": [
+        "pa-list__avatar",
+        "pa-list__content",
+        "pa-list__item",
+        "pa-list__meta",
+        "pa-list__subtitle",
+        "pa-list__title"
+      ],
       "modifiers": [
+        "pa-list-basic--bordered",
+        "pa-list-basic--compact",
         "pa-list-basic--danger",
+        "pa-list-basic--icon",
         "pa-list-basic--info",
-        "pa-list-basic--warning"
+        "pa-list-basic--inline",
+        "pa-list-basic--spacious",
+        "pa-list-basic--striped",
+        "pa-list-basic--unstyled",
+        "pa-list-basic--warning",
+        "pa-list-definition--inline",
+        "pa-list-ordered--alpha",
+        "pa-list-ordered--roman"
       ],
       "partials": [
         "core-components/_lists.scss"
@@ -939,10 +1177,13 @@
       "elements": [
         "pa-document__heading",
         "pa-document__number",
-        "pa-document__section"
+        "pa-document__section",
+        "pa-document__text"
       ],
       "modifiers": [
-        "pa-document--manual"
+        "pa-document--compact",
+        "pa-document--flush",
+        "pa-document--spacious"
       ],
       "partials": [
         "core-components/_document.scss"
@@ -966,16 +1207,50 @@
         "pa-sheet"
       ],
       "elements": [
+        "pa-sheet__barcode",
+        "pa-sheet__brand",
+        "pa-sheet__docmeta",
+        "pa-sheet__doctitle",
+        "pa-sheet__footer",
+        "pa-sheet__legal",
+        "pa-sheet__logo",
         "pa-sheet__masthead",
+        "pa-sheet__meta",
+        "pa-sheet__meta-label",
+        "pa-sheet__meta-value",
+        "pa-sheet__notes",
+        "pa-sheet__pageno",
+        "pa-sheet__parties",
         "pa-sheet__party",
+        "pa-sheet__party-body",
+        "pa-sheet__party-label",
+        "pa-sheet__party-name",
+        "pa-sheet__qr",
+        "pa-sheet__qr-label",
         "pa-sheet__sign",
-        "pa-sheet__total-row"
+        "pa-sheet__signatures",
+        "pa-sheet__title",
+        "pa-sheet__total-label",
+        "pa-sheet__total-row",
+        "pa-sheet__total-value",
+        "pa-sheet__totals"
       ],
       "modifiers": [
+        "pa-sheet--compact",
         "pa-sheet--fill",
+        "pa-sheet--fluid",
+        "pa-sheet--framed",
         "pa-sheet--landscape",
         "pa-sheet--print-color",
-        "pa-sheet--print-grayscale"
+        "pa-sheet--print-grayscale",
+        "pa-sheet--spacious",
+        "pa-sheet__masthead--ruled",
+        "pa-sheet__meta--boxed",
+        "pa-sheet__parties--cols-3",
+        "pa-sheet__party--boxed",
+        "pa-sheet__party--strong",
+        "pa-sheet__total-row--grand",
+        "pa-sheet__totals--start"
       ],
       "partials": [
         "core-components/_sheet.scss"
@@ -1004,8 +1279,22 @@
         "pa-code-property",
         "pa-code-string"
       ],
-      "elements": [],
-      "modifiers": [],
+      "elements": [
+        "pa-code-block__body",
+        "pa-code-block__header",
+        "pa-code-block__title"
+      ],
+      "modifiers": [
+        "pa-code--bash",
+        "pa-code--compact",
+        "pa-code--css",
+        "pa-code--html",
+        "pa-code--javascript",
+        "pa-code--json",
+        "pa-code--numbered",
+        "pa-code--python",
+        "pa-code--sql"
+      ],
       "partials": [
         "core-components/_code.scss"
       ],
@@ -1038,19 +1327,93 @@
       ],
       "elements": [
         "pa-accent-grid__copy",
+        "pa-accent-grid__item",
+        "pa-accent-grid__label",
+        "pa-accent-grid__value",
         "pa-banded__copy",
+        "pa-banded__label",
+        "pa-banded__row",
+        "pa-banded__value",
         "pa-desc-table__copy",
         "pa-desc-table__label",
         "pa-desc-table__value",
+        "pa-dot-leaders__item",
+        "pa-dot-leaders__label",
+        "pa-dot-leaders__leader",
+        "pa-dot-leaders__value",
+        "pa-field-group__title",
         "pa-field__copy",
         "pa-field__label",
         "pa-field__value",
-        "pa-prop-card__copy"
+        "pa-prop-card__copy",
+        "pa-prop-card__header",
+        "pa-prop-card__label",
+        "pa-prop-card__row",
+        "pa-prop-card__value"
       ],
       "modifiers": [
+        "pa-accent-grid__item--copied",
+        "pa-accent-grid__item--copy-btn",
+        "pa-accent-grid__item--copy-click",
+        "pa-accent-grid__item--copy-hover",
+        "pa-accent-grid__item--danger",
+        "pa-accent-grid__item--info",
+        "pa-accent-grid__item--success",
+        "pa-accent-grid__item--warning",
+        "pa-banded--label-center",
+        "pa-banded--label-end",
+        "pa-banded--middle",
+        "pa-banded--narrow",
+        "pa-banded--truncate",
+        "pa-banded--value-center",
+        "pa-banded--value-end",
+        "pa-banded--wide",
+        "pa-banded__row--copied",
+        "pa-banded__row--copy-btn",
+        "pa-banded__row--copy-click",
+        "pa-banded__row--copy-hover",
         "pa-desc-table--cols-2",
+        "pa-desc-table--fixed",
+        "pa-desc-table--label-center",
+        "pa-desc-table--label-end",
+        "pa-desc-table--middle",
+        "pa-desc-table--truncate",
+        "pa-desc-table--value-center",
+        "pa-desc-table--value-end",
+        "pa-desc-table__value--copied",
+        "pa-desc-table__value--copy-btn",
+        "pa-desc-table__value--copy-click",
+        "pa-desc-table__value--copy-hover",
         "pa-desc-table__value--full",
-        "pa-fields--filled"
+        "pa-dot-leaders__item--total",
+        "pa-field--copied",
+        "pa-field--copy-btn",
+        "pa-field--copy-click",
+        "pa-field--copy-hover",
+        "pa-field--full",
+        "pa-field__value--danger",
+        "pa-field__value--info",
+        "pa-field__value--success",
+        "pa-field__value--warning",
+        "pa-fields--bordered",
+        "pa-fields--chips",
+        "pa-fields--cols-2",
+        "pa-fields--cols-3",
+        "pa-fields--cols-4",
+        "pa-fields--compact",
+        "pa-fields--filled",
+        "pa-fields--horizontal",
+        "pa-fields--inline",
+        "pa-fields--linear",
+        "pa-fields--no-border",
+        "pa-fields--relaxed",
+        "pa-fields--row",
+        "pa-fields--striped",
+        "pa-fields--table",
+        "pa-prop-card__row--copy-btn",
+        "pa-prop-card__row--copy-click",
+        "pa-prop-card__row--copy-hover",
+        "pa-prop-card__value--bold"
       ],
       "partials": [
         "core-components/_data-display.scss"
@@ -1076,8 +1439,10 @@
       ],
       "elements": [
         "pa-stat__change",
+        "pa-stat__content",
         "pa-stat__context",
         "pa-stat__group",
+        "pa-stat__icon",
         "pa-stat__label",
         "pa-stat__meta",
         "pa-stat__number",
@@ -1088,11 +1453,24 @@
       "modifiers": [
         "pa-stat--danger",
         "pa-stat--fit-wide",
+        "pa-stat--hero",
+        "pa-stat--hero-compact",
         "pa-stat--info",
         "pa-stat--primary",
         "pa-stat--secondary",
+        "pa-stat--square",
         "pa-stat--success",
-        "pa-stat--warning"
+        "pa-stat--warning",
+        "pa-stat__change--negative",
+        "pa-stat__change--neutral",
+        "pa-stat__change--positive",
+        "pa-stat__change--very-negative",
+        "pa-stat__change--very-positive",
+        "pa-stat__icon--danger",
+        "pa-stat__icon--info",
+        "pa-stat__icon--primary",
+        "pa-stat__icon--success",
+        "pa-stat__icon--warning"
       ],
       "partials": [
         "core-components/_statistics.scss"
@@ -1125,17 +1503,89 @@
       ],
       "elements": [
         "pa-bar-list__bar",
+        "pa-bar-list__header",
         "pa-bar-list__item",
         "pa-bar-list__label",
         "pa-bar-list__value",
         "pa-data-bar__fill",
+        "pa-data-bar__track",
+        "pa-data-bar__value",
+        "pa-gauge__inner",
+        "pa-gauge__label",
+        "pa-gauge__max",
+        "pa-gauge__min",
+        "pa-gauge__value",
         "pa-heatmap__cell",
+        "pa-heatmap__legend",
+        "pa-heatmap__legend-cell",
+        "pa-progress-ring__inner",
         "pa-progress-ring__label",
         "pa-progress-ring__value",
         "pa-progress__fill",
-        "pa-sparkline__bar"
+        "pa-progress__label",
+        "pa-progress__label-value",
+        "pa-sparkline__bar",
+        "pa-stacked-bar__legend",
+        "pa-stacked-bar__legend-item",
+        "pa-stacked-bar__legend-swatch",
+        "pa-stacked-bar__segment"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-bar-list--compact",
+        "pa-bar-list--danger",
+        "pa-bar-list--info",
+        "pa-bar-list--success",
+        "pa-bar-list--warning",
+        "pa-data-bar--danger",
+        "pa-data-bar--info",
+        "pa-data-bar--negative",
+        "pa-data-bar--success",
+        "pa-data-bar--warning",
+        "pa-gauge--danger",
+        "pa-gauge--info",
+        "pa-gauge--success",
+        "pa-gauge--warning",
+        "pa-gauge--zones",
+        "pa-heatmap--compact",
+        "pa-heatmap--danger",
+        "pa-heatmap--success",
+        "pa-progress--animated",
+        "pa-progress--danger",
+        "pa-progress--info",
+        "pa-progress--lg",
+        "pa-progress--rounded",
+        "pa-progress--sm",
+        "pa-progress--striped",
+        "pa-progress--success",
+        "pa-progress--warning",
+        "pa-progress--xs",
+        "pa-progress-ring--danger",
+        "pa-progress-ring--info",
+        "pa-progress-ring--lg",
+        "pa-progress-ring--sm",
+        "pa-progress-ring--success",
+        "pa-progress-ring--warning",
+        "pa-sparkline--danger",
+        "pa-sparkline--info",
+        "pa-sparkline--lg",
+        "pa-sparkline--sm",
+        "pa-sparkline--success",
+        "pa-sparkline--warning",
+        "pa-stacked-bar--lg",
+        "pa-stacked-bar--rounded",
+        "pa-stacked-bar--sm",
+        "pa-stacked-bar__legend-swatch--danger",
+        "pa-stacked-bar__legend-swatch--info",
+        "pa-stacked-bar__legend-swatch--primary",
+        "pa-stacked-bar__legend-swatch--secondary",
+        "pa-stacked-bar__legend-swatch--success",
+        "pa-stacked-bar__legend-swatch--warning",
+        "pa-stacked-bar__segment--danger",
+        "pa-stacked-bar__segment--info",
+        "pa-stacked-bar__segment--secondary",
+        "pa-stacked-bar__segment--success",
+        "pa-stacked-bar__segment--warning"
+      ],
       "partials": [
         "core-components/_data-viz.scss"
       ],
@@ -1158,7 +1608,10 @@
         "pa-kpi-live",
         "pa-kpi-sectionhead"
       ],
-      "elements": [],
+      "elements": [
+        "pa-kpi-detail__title",
+        "pa-kpi-live__dot"
+      ],
       "modifiers": [],
       "partials": [
         "core-components/_kpi-base.scss"
@@ -1200,7 +1653,26 @@
         "pa-kpi-tile__values"
       ],
       "modifiers": [
-        "pa-kpi-terminal__grid--2col"
+        "pa-kpi-terminal__grid--2col",
+        "pa-kpi-tile--down",
+        "pa-kpi-tile--down-strong",
+        "pa-kpi-tile--flat",
+        "pa-kpi-tile--standalone",
+        "pa-kpi-tile--up",
+        "pa-kpi-tile--up-strong",
+        "pa-kpi-tile__delta--negative",
+        "pa-kpi-tile__delta--neutral",
+        "pa-kpi-tile__delta--positive",
+        "pa-kpi-tile__delta--very-negative",
+        "pa-kpi-tile__delta--very-positive",
+        "pa-kpi-tile__status--good",
+        "pa-kpi-tile__status--neutral",
+        "pa-kpi-tile__status--warn",
+        "pa-kpi-tile__value--negative",
+        "pa-kpi-tile__value--neutral",
+        "pa-kpi-tile__value--positive",
+        "pa-kpi-tile__value--very-negative",
+        "pa-kpi-tile__value--very-positive"
       ],
       "partials": [
         "core-components/_kpi-terminal.scss"
@@ -1236,7 +1708,17 @@
       ],
       "modifiers": [
         "pa-kpi-spark-list--chart-first",
-        "pa-kpi-spark-list--no-delta"
+        "pa-kpi-spark-list--no-delta",
+        "pa-kpi-spark-row--down",
+        "pa-kpi-spark-row--down-strong",
+        "pa-kpi-spark-row--flat",
+        "pa-kpi-spark-row--up",
+        "pa-kpi-spark-row--up-strong",
+        "pa-kpi-spark-row__delta--negative",
+        "pa-kpi-spark-row__delta--neutral",
+        "pa-kpi-spark-row__delta--positive",
+        "pa-kpi-spark-row__delta--very-negative",
+        "pa-kpi-spark-row__delta--very-positive"
       ],
       "partials": [
         "core-components/_kpi-base.scss",
@@ -1272,6 +1754,10 @@
         "pa-kpi-gauge__value"
       ],
       "modifiers": [
+        "pa-kpi-gauge--negative",
+        "pa-kpi-gauge--neutral",
+        "pa-kpi-gauge--positive",
+        "pa-kpi-gauge--warning",
         "pa-kpi-gauge-list__grid--2col",
         "pa-kpi-gauge-list__grid--max-2",
         "pa-kpi-gauge-list__grid--max-3",
@@ -1323,7 +1809,15 @@
       ],
       "modifiers": [
         "pa-kpi-hero-list__layout--hero-2-3",
-        "pa-kpi-hero-list__layout--hero-3-4"
+        "pa-kpi-hero-list__layout--hero-3-4",
+        "pa-kpi-hero-main--negative",
+        "pa-kpi-hero-main--neutral",
+        "pa-kpi-hero-main--positive",
+        "pa-kpi-hero-main--up-strong",
+        "pa-kpi-hero-side--negative",
+        "pa-kpi-hero-side--neutral",
+        "pa-kpi-hero-side--positive",
+        "pa-kpi-hero-side--up-strong"
       ],
       "partials": [
         "core-components/_kpi-hero-supporting.scss"
@@ -1358,7 +1852,12 @@
         "pa-kpi-bento__grid"
       ],
       "modifiers": [
+        "pa-kpi-bento-tile--down-strong",
         "pa-kpi-bento-tile--hero",
+        "pa-kpi-bento-tile--negative",
+        "pa-kpi-bento-tile--neutral",
+        "pa-kpi-bento-tile--positive",
+        "pa-kpi-bento-tile--up-strong",
         "pa-kpi-bento__grid--5-tile",
         "pa-kpi-bento__grid--hero-right"
       ],
@@ -1400,7 +1899,13 @@
         "pa-kpi-strip--no-delta",
         "pa-kpi-strip--no-prev",
         "pa-kpi-strip--no-target",
+        "pa-kpi-strip__delta--down-strong",
+        "pa-kpi-strip__delta--negative",
+        "pa-kpi-strip__delta--neutral",
+        "pa-kpi-strip__delta--positive",
+        "pa-kpi-strip__delta--up-strong",
         "pa-kpi-strip__head--delta",
+        "pa-kpi-strip__head--num",
         "pa-kpi-strip__head--prev",
         "pa-kpi-strip__head--target"
       ],
@@ -1435,6 +1940,11 @@
         "pa-kpi-edit__value"
       ],
       "modifiers": [
+        "pa-kpi-edit__delta--down-strong",
+        "pa-kpi-edit__delta--negative",
+        "pa-kpi-edit__delta--neutral",
+        "pa-kpi-edit__delta--positive",
+        "pa-kpi-edit__delta--up-strong",
         "pa-kpi-edit__grid--2col",
         "pa-kpi-edit__grid--max-2",
         "pa-kpi-edit__grid--max-3",
@@ -1463,11 +1973,32 @@
         "pa-alert"
       ],
       "elements": [
+        "pa-alert__actions",
+        "pa-alert__close",
         "pa-alert__content",
-        "pa-alert__icon"
+        "pa-alert__heading",
+        "pa-alert__icon",
+        "pa-alert__list"
       ],
       "modifiers": [
-        "pa-alert--multiline"
+        "pa-alert--danger",
+        "pa-alert--dark",
+        "pa-alert--dismissible",
+        "pa-alert--info",
+        "pa-alert--lg",
+        "pa-alert--light",
+        "pa-alert--multiline",
+        "pa-alert--outline-danger",
+        "pa-alert--outline-info",
+        "pa-alert--outline-primary",
+        "pa-alert--outline-success",
+        "pa-alert--outline-warning",
+        "pa-alert--primary",
+        "pa-alert--secondary",
+        "pa-alert--sm",
+        "pa-alert--success",
+        "pa-alert--warning",
+        "pa-alert__heading--lg"
       ],
       "partials": [
         "core-components/_alerts.scss"
@@ -1490,9 +2021,20 @@
         "pa-callout"
       ],
       "elements": [
+        "pa-callout__content",
+        "pa-callout__heading",
         "pa-callout__icon"
       ],
-      "modifiers": [],
+      "modifiers": [
+        "pa-callout--danger",
+        "pa-callout--info",
+        "pa-callout--lg",
+        "pa-callout--primary",
+        "pa-callout--secondary",
+        "pa-callout--sm",
+        "pa-callout--success",
+        "pa-callout--warning"
+      ],
       "partials": [
         "core-components/_callouts.scss"
       ],
@@ -1524,9 +2066,7 @@
         "pa-toast__title"
       ],
       "modifiers": [
-        "pa-toast--color",
         "pa-toast--danger",
-        "pa-toast--filled-color",
         "pa-toast--filled-danger",
         "pa-toast--filled-info",
         "pa-toast--filled-primary",
@@ -1582,6 +2122,12 @@
         "pa-notifications__time"
       ],
       "modifiers": [
+        "pa-notifications__icon-wrapper--danger",
+        "pa-notifications__icon-wrapper--primary",
+        "pa-notifications__icon-wrapper--secondary",
+        "pa-notifications__icon-wrapper--success",
+        "pa-notifications__icon-wrapper--warning",
+        "pa-notifications__item--unread",
         "pa-notifications__list--page"
       ],
       "partials": [
@@ -1607,10 +2153,16 @@
       ],
       "elements": [],
       "modifiers": [
+        "pa-tooltip--auto-flip-bottom",
+        "pa-tooltip--auto-flip-end",
+        "pa-tooltip--auto-flip-start",
+        "pa-tooltip--auto-flip-top",
         "pa-tooltip--bottom",
-        "pa-tooltip--color",
         "pa-tooltip--danger",
         "pa-tooltip--end",
+        "pa-tooltip--floating",
+        "pa-tooltip--help",
+        "pa-tooltip--keyword",
         "pa-tooltip--multiline",
         "pa-tooltip--primary",
         "pa-tooltip--start",
@@ -1638,10 +2190,17 @@
         "pa-popover"
       ],
       "elements": [
-        "pa-popover__body"
+        "pa-popover__body",
+        "pa-popover__close",
+        "pa-popover__content",
+        "pa-popover__header",
+        "pa-popover__trigger"
       ],
       "modifiers": [
-        "pa-popover--end"
+        "pa-popover--center",
+        "pa-popover--end",
+        "pa-popover--lg",
+        "pa-popover--sm"
       ],
       "partials": [
         "core-components/_tooltips.scss"
@@ -1669,7 +2228,20 @@
         "pa-spinner"
       ],
       "elements": [],
-      "modifiers": [],
+      "modifiers": [
+        "pa-loader-bars--lg",
+        "pa-loader-dots--lg",
+        "pa-loader-pulse--lg",
+        "pa-loader-ring--lg",
+        "pa-loader-wave--lg",
+        "pa-spinner--danger",
+        "pa-spinner--info",
+        "pa-spinner--primary",
+        "pa-spinner--secondary",
+        "pa-spinner--success",
+        "pa-spinner--warning",
+        "pa-spinner--xs"
+      ],
       "partials": [
         "core-components/_command-palette.scss",
         "core-components/_loaders.scss"
@@ -1700,15 +2272,23 @@
         "pa-timeline__date-label",
         "pa-timeline__icon",
         "pa-timeline__item",
+        "pa-timeline__load-more-wrapper",
+        "pa-timeline__loader",
+        "pa-timeline__loader-text",
+        "pa-timeline__scroll-container",
         "pa-timeline__time"
       ],
       "modifiers": [
+        "pa-timeline--alternating",
         "pa-timeline--end",
+        "pa-timeline--feed",
         "pa-timeline--keep-layout",
+        "pa-timeline--simple",
         "pa-timeline--single-column",
         "pa-timeline--start",
         "pa-timeline__item--danger",
         "pa-timeline__item--date-header",
+        "pa-timeline__item--filled",
         "pa-timeline__item--info",
         "pa-timeline__item--primary",
         "pa-timeline__item--secondary",
@@ -1738,8 +2318,27 @@
         "pa-badge",
         "pa-badge-group"
       ],
-      "elements": [],
-      "modifiers": [],
+      "elements": [
+        "pa-badge__icon",
+        "pa-badge__remove"
+      ],
+      "modifiers": [
+        "pa-badge--danger",
+        "pa-badge--dark",
+        "pa-badge--ellipsis-start",
+        "pa-badge--info",
+        "pa-badge--lg",
+        "pa-badge--light",
+        "pa-badge--pill",
+        "pa-badge--primary",
+        "pa-badge--secondary",
+        "pa-badge--sm",
+        "pa-badge--success",
+        "pa-badge--warning",
+        "pa-badge--xl",
+        "pa-badge--xs",
+        "pa-badge-group--show-all"
+      ],
       "partials": [
         "core-components/_command-palette.scss",
         "core-components/badges/_badge-base.scss",
@@ -1766,7 +2365,17 @@
       ],
       "elements": [],
       "modifiers": [
-        "pa-label--outline"
+        "pa-label--danger",
+        "pa-label--info",
+        "pa-label--lg",
+        "pa-label--outline",
+        "pa-label--primary",
+        "pa-label--secondary",
+        "pa-label--sm",
+        "pa-label--success",
+        "pa-label--warning",
+        "pa-label--xl",
+        "pa-label--xs"
       ],
       "partials": [
         "core-components/badges/_labels.scss"
@@ -1815,11 +2424,39 @@
       ],
       "elements": [
         "pa-command-palette__backdrop",
+        "pa-command-palette__close",
         "pa-command-palette__container",
+        "pa-command-palette__context",
+        "pa-command-palette__empty",
         "pa-command-palette__footer",
         "pa-command-palette__fullscreen-bar",
+        "pa-command-palette__fullscreen-title",
+        "pa-command-palette__hint",
+        "pa-command-palette__home",
+        "pa-command-palette__home-heading",
+        "pa-command-palette__home-section",
+        "pa-command-palette__input",
+        "pa-command-palette__input-wrapper",
+        "pa-command-palette__item",
+        "pa-command-palette__item-content",
+        "pa-command-palette__item-icon",
+        "pa-command-palette__item-meta",
+        "pa-command-palette__item-title",
+        "pa-command-palette__key",
+        "pa-command-palette__loader",
+        "pa-command-palette__pagination",
         "pa-command-palette__results",
         "pa-command-palette__search",
+        "pa-command-palette__section",
+        "pa-command-palette__shortcut",
+        "pa-command-palette__token-prompt",
+        "pa-command-palette__tokens",
+        "pa-search-autocomplete__empty",
+        "pa-search-autocomplete__item",
+        "pa-search-autocomplete__item-icon",
+        "pa-search-autocomplete__item-name",
+        "pa-search-autocomplete__item-type",
+        "pa-search-autocomplete__section",
         "pa-shortcut-help__category",
         "pa-shortcut-help__category-title",
         "pa-shortcut-help__description",
@@ -1831,7 +2468,15 @@
         "pa-shortcut-help__separator"
       ],
       "modifiers": [
-        "pa-command-palette--fullscreen"
+        "pa-command-palette--active",
+        "pa-command-palette--fullscreen",
+        "pa-command-palette--lg",
+        "pa-command-palette--sm",
+        "pa-command-palette--xl",
+        "pa-command-palette__context--visible",
+        "pa-command-palette__item--active",
+        "pa-command-palette__results--loading",
+        "pa-search-autocomplete__item--active"
       ],
       "partials": [
         "core-components/_command-palette.scss",
@@ -1858,10 +2503,13 @@
       ],
       "elements": [
         "pa-search-results__content",
+        "pa-search-results__group",
         "pa-search-results__group-title",
         "pa-search-results__icon",
         "pa-search-results__item",
+        "pa-search-results__mark",
         "pa-search-results__meta",
+        "pa-search-results__meta-item",
         "pa-search-results__snippet",
         "pa-search-results__title",
         "pa-search-results__type"
@@ -1870,7 +2518,8 @@
         "pa-search-results--cards",
         "pa-search-results--compact",
         "pa-search-results--detailed",
-        "pa-search-results--grouped"
+        "pa-search-results--grouped",
+        "pa-search-results__item--active"
       ],
       "partials": [
         "core-components/_search-results.scss"
@@ -1894,10 +2543,31 @@
       ],
       "elements": [
         "pa-logic-tree__block",
-        "pa-logic-tree__node"
+        "pa-logic-tree__block-content",
+        "pa-logic-tree__empty",
+        "pa-logic-tree__empty-branch",
+        "pa-logic-tree__group-content",
+        "pa-logic-tree__group-label",
+        "pa-logic-tree__node",
+        "pa-logic-tree__token",
+        "pa-logic-tree__tree-branch",
+        "pa-logic-tree__tree-operator",
+        "pa-logic-tree__tree-structure"
       ],
       "modifiers": [
-        "pa-logic-tree__token--logical"
+        "pa-logic-tree--animated",
+        "pa-logic-tree__block--and",
+        "pa-logic-tree__block--condition",
+        "pa-logic-tree__block--group",
+        "pa-logic-tree__block--logical",
+        "pa-logic-tree__block--or",
+        "pa-logic-tree__token--field",
+        "pa-logic-tree__token--logical",
+        "pa-logic-tree__token--operator",
+        "pa-logic-tree__token--paren",
+        "pa-logic-tree__token--value",
+        "pa-logic-tree__tree-branch--left",
+        "pa-logic-tree__tree-branch--right"
       ],
       "partials": [
         "core-components/_logic-tree.scss"
@@ -1924,8 +2594,85 @@
         "pa-file-preview-grid",
         "pa-file-progress"
       ],
-      "elements": [],
-      "modifiers": [],
+      "elements": [
+        "pa-file-dropzone-overlay__content",
+        "pa-file-dropzone-overlay__icon",
+        "pa-file-dropzone-overlay__text",
+        "pa-file-dropzone__content",
+        "pa-file-dropzone__drop-prompt",
+        "pa-file-dropzone__drop-prompt-icon",
+        "pa-file-dropzone__file-card",
+        "pa-file-dropzone__file-card-icon",
+        "pa-file-dropzone__file-card-name",
+        "pa-file-dropzone__file-card-remove",
+        "pa-file-dropzone__file-card-size",
+        "pa-file-dropzone__files-grid",
+        "pa-file-dropzone__hint",
+        "pa-file-dropzone__icon",
+        "pa-file-dropzone__image-card",
+        "pa-file-dropzone__image-card-remove",
+        "pa-file-dropzone__input",
+        "pa-file-dropzone__summary",
+        "pa-file-dropzone__summary-count",
+        "pa-file-dropzone__summary-current",
+        "pa-file-dropzone__summary-icon",
+        "pa-file-dropzone__summary-line",
+        "pa-file-dropzone__summary-progress",
+        "pa-file-dropzone__summary-size",
+        "pa-file-dropzone__text",
+        "pa-file-input__button",
+        "pa-file-input__filename",
+        "pa-file-input__native",
+        "pa-file-item__icon",
+        "pa-file-item__info",
+        "pa-file-item__meta",
+        "pa-file-item__name",
+        "pa-file-item__remove",
+        "pa-file-popover__arrow",
+        "pa-file-popover__body",
+        "pa-file-popover__close",
+        "pa-file-popover__file-name",
+        "pa-file-popover__file-size",
+        "pa-file-popover__header",
+        "pa-file-popover__progress-bar",
+        "pa-file-popover__progress-cell",
+        "pa-file-popover__progress-fill",
+        "pa-file-popover__progress-text",
+        "pa-file-popover__remove-btn",
+        "pa-file-popover__remove-cell",
+        "pa-file-popover__status",
+        "pa-file-popover__table",
+        "pa-file-popover__title",
+        "pa-file-preview__image",
+        "pa-file-preview__overlay",
+        "pa-file-preview__remove",
+        "pa-file-progress__bar",
+        "pa-file-progress__fill",
+        "pa-file-progress__status",
+        "pa-file-progress__text"
+      ],
+      "modifiers": [
+        "pa-file-dropzone--active",
+        "pa-file-icon--audio",
+        "pa-file-icon--default",
+        "pa-file-icon--doc",
+        "pa-file-icon--docx",
+        "pa-file-icon--image",
+        "pa-file-icon--pdf",
+        "pa-file-icon--rar",
+        "pa-file-icon--txt",
+        "pa-file-icon--video",
+        "pa-file-icon--xls",
+        "pa-file-icon--xlsx",
+        "pa-file-icon--zip",
+        "pa-file-list--detailed",
+        "pa-file-popover__status--complete",
+        "pa-file-popover__status--error",
+        "pa-file-popover__status--pending",
+        "pa-file-popover__status--uploading",
+        "pa-file-progress__status--complete",
+        "pa-file-progress__status--error"
+      ],
       "partials": [
         "core-components/_file-selector.scss"
       ],
@@ -1980,7 +2727,6 @@
         "pa-icon--save",
         "pa-icon--search",
         "pa-icon--settings",
-        "pa-icon--star",
         "pa-icon--success",
         "pa-icon--user",
         "pa-icon--warning",
@@ -2003,10 +2749,8 @@
       "category": "Utilities & state hooks",
       "description": "Standalone helper classes (not components): link helpers, responsive font hooks. The palette colour helpers are now unprefixed (text-color-N / bg-color-N / border-color-N / text-on-color-N / surface-color-N) and live outside the pa- namespace. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).",
       "status": "stable",
-      "block": "pa-font-base",
+      "block": "pa-font-responsive",
       "blocks": [
-        "pa-font-base",
-        "pa-font-mobile",
         "pa-font-responsive",
         "pa-link"
       ],

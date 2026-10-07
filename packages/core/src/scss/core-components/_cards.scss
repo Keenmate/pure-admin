@@ -7,7 +7,9 @@
 // Cards
 .pa-card {
   background: var(--pa-card-bg);
-  border: $card-border-width solid var(--pc-border-color);
+  // Colour variants (--primary/--success/…/--color-N) set --pa-card-border-color;
+  // it falls back to the neutral hairline for a plain card.
+  border: $card-border-width solid var(--pa-card-border-color, var(--pc-border-color));
   border-radius: var(--pc-border-radius-lg);
   margin-bottom: $spacing-base;
   box-shadow: $shadow-sm;
@@ -30,8 +32,9 @@
     // wedge of card background visible at each top corner — most obvious
     // on coloured variants (--primary/--success/--warning/--danger/--color-*)
     // where the wedge shows as a white sliver against the variant colour.
-    border-bottom: $border-width-base solid var(--pc-border-color);
+    border-bottom: $border-width-base solid var(--pa-card-border-color, var(--pc-border-color));
     background: var(--pa-card-header-bg);
+    color: var(--pa-card-header-text, var(--pc-text-color-1));
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -59,14 +62,15 @@
       border-bottom: none;
     }
 
-    // Specific heading styles
+    // Specific heading styles — colour inherits the header's
+    // --pa-card-header-text (neutral by default; set by colour variants).
     h1,
     h2,
     h3,
     h4,
     h5,
     h6 {
-      color: var(--pc-text-color-1);
+      color: inherit;
       font-size: $font-size-base;
     }
 
@@ -151,60 +155,24 @@
       }
     }
 
-    // Underline modifier - accent border under heading inside card header
+    // Underline modifier — a coloured border under the heading. The colour is
+    // driven by --pa-card-underline-color (default accent); each colour variant
+    // below just sets that variable, so there's ONE underline rule instead of a
+    // per-colour block per heading tag. Tokens are the shared --pc-* role/slot
+    // colours (same ones the surface-{role}/surface-color-N utilities use).
     &--underlined {
       h1, h2, h3, h4, h5, h6 {
-        border-bottom: $border-width-medium solid var(--pc-accent);
+        border-bottom: $border-width-medium solid var(--pa-card-underline-color, var(--pc-accent));
         padding-bottom: $spacing-sm;
       }
 
-      // Semantic color variants
-      &.pa-card__header--underline-success h1,
-      &.pa-card__header--underline-success h2,
-      &.pa-card__header--underline-success h3,
-      &.pa-card__header--underline-success h4,
-      &.pa-card__header--underline-success h5,
-      &.pa-card__header--underline-success h6 {
-        border-bottom-color: var(--pa-success-bg);
-      }
+      &.pa-card__header--underline-success { --pa-card-underline-color: var(--pc-success); }
+      &.pa-card__header--underline-warning { --pa-card-underline-color: var(--pc-warning); }
+      &.pa-card__header--underline-danger  { --pa-card-underline-color: var(--pc-danger); }
+      &.pa-card__header--underline-info    { --pa-card-underline-color: var(--pc-info); }
 
-      &.pa-card__header--underline-warning h1,
-      &.pa-card__header--underline-warning h2,
-      &.pa-card__header--underline-warning h3,
-      &.pa-card__header--underline-warning h4,
-      &.pa-card__header--underline-warning h5,
-      &.pa-card__header--underline-warning h6 {
-        border-bottom-color: var(--pa-warning-bg);
-      }
-
-      &.pa-card__header--underline-danger h1,
-      &.pa-card__header--underline-danger h2,
-      &.pa-card__header--underline-danger h3,
-      &.pa-card__header--underline-danger h4,
-      &.pa-card__header--underline-danger h5,
-      &.pa-card__header--underline-danger h6 {
-        border-bottom-color: var(--pa-danger-bg);
-      }
-
-      &.pa-card__header--underline-info h1,
-      &.pa-card__header--underline-info h2,
-      &.pa-card__header--underline-info h3,
-      &.pa-card__header--underline-info h4,
-      &.pa-card__header--underline-info h5,
-      &.pa-card__header--underline-info h6 {
-        border-bottom-color: var(--pa-info-bg);
-      }
-
-      // Theme color slots (1-9)
       @for $i from 1 through 9 {
-        &.pa-card__header--underline-color-#{$i} h1,
-        &.pa-card__header--underline-color-#{$i} h2,
-        &.pa-card__header--underline-color-#{$i} h3,
-        &.pa-card__header--underline-color-#{$i} h4,
-        &.pa-card__header--underline-color-#{$i} h5,
-        &.pa-card__header--underline-color-#{$i} h6 {
-          border-bottom-color: var(--pc-color-#{$i});
-        }
+        &.pa-card__header--underline-color-#{$i} { --pa-card-underline-color: var(--pc-color-#{$i}); }
       }
     }
 
@@ -254,7 +222,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       margin: 0;
-      color: var(--pc-text-color-1);
+      color: inherit; // follows the header's --pa-card-header-text
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
       // Not `1` — line-height 1 clips glyph descenders (g, y, p) under
@@ -377,80 +345,32 @@
   // Coloured variants override the header's border-bottom-color to match the
   // variant — otherwise the default light-gray hairline shows as a visible
   // strip against the coloured surroundings (header bg + card border above).
+  // Colour variants just set the header's three CSS vars — the header rule
+  // (bg/text/border above) and the card border read them. Fill + on-text are the
+  // shared --pc-{role} / --base-text-on-{role} tokens (same ones .surface-{role}
+  // uses), so cards, utilities, and the underline all paint from one set.
   &--primary {
-    border-color: var(--pc-accent);
-
-    .pa-card__header {
-      background-color: var(--pc-accent);
-      border-bottom-color: var(--pc-accent);
-      color: var(--pa-btn-primary-text);
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        color: var(--pa-btn-primary-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-accent);
+    --pa-card-header-text: var(--base-text-on-primary);
+    --pa-card-border-color: var(--pc-accent);
   }
 
   &--success {
-    border-color: var(--pa-success-bg);
-
-    .pa-card__header {
-      background-color: var(--pa-success-bg);
-      border-bottom-color: var(--pa-success-bg);
-      color: var(--pa-btn-success-text);
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        color: var(--pa-btn-success-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-success);
+    --pa-card-header-text: var(--base-text-on-success);
+    --pa-card-border-color: var(--pc-success);
   }
 
   &--warning {
-    border-color: var(--pa-warning-bg);
-
-    .pa-card__header {
-      background-color: var(--pa-warning-bg);
-      border-bottom-color: var(--pa-warning-bg);
-      color: var(--pa-btn-warning-text);
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        color: var(--pa-btn-warning-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-warning);
+    --pa-card-header-text: var(--base-text-on-warning);
+    --pa-card-border-color: var(--pc-warning);
   }
 
   &--danger {
-    border-color: var(--pa-danger-bg);
-
-    .pa-card__header {
-      background-color: var(--pa-danger-bg);
-      border-bottom-color: var(--pa-danger-bg);
-      color: var(--pa-btn-danger-text);
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        color: var(--pa-btn-danger-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-danger);
+    --pa-card-header-text: var(--base-text-on-danger);
+    --pa-card-border-color: var(--pc-danger);
   }
 
   &--stat {
@@ -499,26 +419,14 @@
     transition: background-color 0.3s ease;
   }
 
-  // Theme color variants (color-1 through color-9)
-  // These use theme-customizable colors from --pc-color-* CSS variables
+  // Theme color variants (color-1 through color-9) — same var-setter pattern as
+  // the role variants above, using the slot's --pc-color-N fill + its paired
+  // --pc-color-N-text contrast.
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      border-color: var(--pc-color-#{$i});
-
-      .pa-card__header {
-        background-color: var(--pc-color-#{$i});
-        border-bottom-color: var(--pc-color-#{$i});
-        color: var(--pc-color-#{$i}-text);
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-          color: var(--pc-color-#{$i}-text);
-        }
-      }
+      --pa-card-header-bg: var(--pc-color-#{$i});
+      --pa-card-header-text: var(--pc-color-#{$i}-text);
+      --pa-card-border-color: var(--pc-color-#{$i});
     }
   }
 

@@ -516,6 +516,12 @@ OUTLINE VARIANTS (transparent bg, fills on hover):
   / --outline-warning / --outline-danger / --outline-info
   (No --outline-light / --outline-dark — SCSS doesn't define them.)
 
+GHOST VARIANT (transparent bg + border, muted text):
+- .pa-btn--ghost          Chrome-free inline affordance for dense surfaces
+                          (card-header actions, toast/notification close,
+                          splitter minimize) where a full button would
+                          compete with the content. Tints on hover.
+
 THEME COLOUR SLOT VARIANTS (1-9):
 - .pa-btn--color-{1..9}            filled theme slot
 - .pa-btn--outline-color-{1..9}    outline theme slot
@@ -528,6 +534,12 @@ SIZES:
 STATES:
 - :disabled attribute     50% opacity, not-allowed cursor, no transform
                           (opt-in disable state — no class needed)
+- .pa-btn--disabled       Class-form disabled marker for elements that can't
+                          carry the :disabled attribute (e.g. an <a> styled as
+                          a button). The framework honours it to suppress the
+                          icon hover-fill; pair with aria-disabled="true" for
+                          semantics. (No own opacity rule — add visual disable
+                          via :disabled where the element supports it.)
 - .pa-btn--loading        hides text (text-fill transparent) and
                           positions a .pa-btn__spinner centred in the
                           button; keep the label text so the width

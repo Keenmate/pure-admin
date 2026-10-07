@@ -53,7 +53,7 @@ test.describe('mobile drawers', () => {
         await expect(page.locator('body')).toHaveClass(/sidebar-visible/);
 
         // ~90vw of 390 = 351px (allow border/sub-pixel slack).
-        const box = (await page.locator('.pa-layout__sidebar').boundingBox())!;
+        const box = (await page.locator('.pc-layout__sidebar').boundingBox())!;
         expect(box.width).toBeGreaterThan(340);
         expect(box.width).toBeLessThan(362);
 
@@ -73,7 +73,7 @@ test.describe('mobile drawers', () => {
         expect(await bodyPosition(page)).toBe('fixed');
 
         // Tap in the dim strip to the right of the ~351px drawer. This is the
-        // exact spot that used to report `.pa-layout` (not body) as the target
+        // exact spot that used to report `.pc-layout` (not body) as the target
         // and leave the drawer stuck open.
         await page.mouse.click(380, 420);
 
@@ -82,7 +82,7 @@ test.describe('mobile drawers', () => {
     });
 
     test('profile panel opens as a full ~90vw drawer with a scrim over the viewport and locks scroll', async ({ page }) => {
-        await page.locator('.pa-navbar__profile-btn').click();
+        await page.locator('.pc-navbar__profile-btn').click();
         await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
         // Panel content matches the sidebar drawer width (~90vw), not the
@@ -117,7 +117,7 @@ test.describe('mobile drawers', () => {
                 };
             });
 
-        const sidebar = await readTiming('.pa-layout__sidebar');
+        const sidebar = await readTiming('.pc-layout__sidebar');
         const profile = await readTiming('.pa-profile-panel__content');
 
         // The drawer is parked off-canvas (a real transform), so opening slides
@@ -131,7 +131,7 @@ test.describe('mobile drawers', () => {
     });
 
     test('tapping the profile scrim closes the panel and releases the scroll lock', async ({ page }) => {
-        await page.locator('.pa-navbar__profile-btn').click();
+        await page.locator('.pc-navbar__profile-btn').click();
         await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
         expect(await bodyPosition(page)).toBe('fixed');
 
@@ -151,7 +151,7 @@ test.describe('desktop: panels are not modal overlays', () => {
     });
 
     test('profile panel is a narrow side sheet with no page scrim and no scroll-lock', async ({ page }) => {
-        await page.locator('.pa-navbar__profile-btn').click();
+        await page.locator('.pc-navbar__profile-btn').click();
         await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
         // 20vw with a 480px cap — nowhere near a full-width drawer.

@@ -75,7 +75,9 @@
 // ============================================================================
 .pa-table-card {
   background: var(--pa-card-bg);
-  border: $card-border-width solid var(--pc-border-color);
+  // Colour variants set --pa-card-border-color (shared with .pa-card); falls
+  // back to the neutral hairline for a plain table-card.
+  border: $card-border-width solid var(--pa-card-border-color, var(--pc-border-color));
   border-radius: var(--pc-border-radius-lg);
   margin-bottom: $spacing-base;
   box-shadow: $shadow-sm;
@@ -113,23 +115,17 @@
     // leaving a thin wedge of card background visible at each top corner —
     // most obvious on the coloured `--primary`/`--success`/… header variants.
     // (Mirrors the same fix on `.pa-card__header`; see _cards.scss.)
-    border-bottom: $border-width-base solid var(--pc-border-color);
+    border-bottom: $border-width-base solid var(--pa-card-border-color, var(--pc-border-color));
     background: var(--pa-card-header-bg);
+    color: var(--pa-card-header-text, var(--pc-text-color-1));
     display: flex;
     justify-content: space-between;
     align-items: center;
     min-width: 0;
 
-    h1, h2, h3, h4, h5, h6, p {
-      margin: 0;
-      padding: 0;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      color: var(--pc-text-color-1);
-      font-size: $font-size-base;
-      font-weight: $font-weight-semibold;
-    }
+    // Title + description are the canonical header elements (.pa-table-card__title
+    // > .pa-table-card__title-text, and .pa-table-card__description). Each sets
+    // its own type + margin reset below — there is no bare-heading fallback.
 
     .pa-btn {
       margin-top: -0.25rem;
@@ -151,7 +147,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       margin: 0;
-      color: var(--pc-text-color-1);
+      color: inherit; // follows the header's --pa-card-header-text
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
       line-height: 1;
@@ -260,72 +256,40 @@
     align-items: center;
   }
 
-  // Color variants
+  // Colour variants set the shared --pa-card-* header vars (same ones .pa-card
+  // uses) — the header rule + card border read them. Fill + on-text are the
+  // shared --pc-{role} / --base-text-on-{role} tokens (= the .surface-{role}
+  // utilities).
   &--primary {
-    border-color: var(--pc-accent);
-
-    .pa-table-card__header {
-      background-color: var(--pc-accent);
-      color: var(--pa-btn-primary-text);
-
-      h1, h2, h3, h4, h5, h6 {
-        color: var(--pa-btn-primary-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-accent);
+    --pa-card-header-text: var(--base-text-on-primary);
+    --pa-card-border-color: var(--pc-accent);
   }
 
   &--success {
-    border-color: var(--pa-success-bg);
-
-    .pa-table-card__header {
-      background-color: var(--pa-success-bg);
-      color: var(--pa-btn-success-text);
-
-      h1, h2, h3, h4, h5, h6 {
-        color: var(--pa-btn-success-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-success);
+    --pa-card-header-text: var(--base-text-on-success);
+    --pa-card-border-color: var(--pc-success);
   }
 
   &--warning {
-    border-color: var(--pa-warning-bg);
-
-    .pa-table-card__header {
-      background-color: var(--pa-warning-bg);
-      color: var(--pa-btn-warning-text);
-
-      h1, h2, h3, h4, h5, h6 {
-        color: var(--pa-btn-warning-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-warning);
+    --pa-card-header-text: var(--base-text-on-warning);
+    --pa-card-border-color: var(--pc-warning);
   }
 
   &--danger {
-    border-color: var(--pa-danger-bg);
-
-    .pa-table-card__header {
-      background-color: var(--pa-danger-bg);
-      color: var(--pa-btn-danger-text);
-
-      h1, h2, h3, h4, h5, h6 {
-        color: var(--pa-btn-danger-text);
-      }
-    }
+    --pa-card-header-bg: var(--pc-danger);
+    --pa-card-header-text: var(--base-text-on-danger);
+    --pa-card-border-color: var(--pc-danger);
   }
 
   // Theme color variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      border-color: var(--pc-color-#{$i});
-
-      .pa-table-card__header {
-        background-color: var(--pc-color-#{$i});
-        color: var(--pc-color-#{$i}-text);
-
-        h1, h2, h3, h4, h5, h6 {
-          color: var(--pc-color-#{$i}-text);
-        }
-      }
+      --pa-card-header-bg: var(--pc-color-#{$i});
+      --pa-card-header-text: var(--pc-color-#{$i}-text);
+      --pa-card-border-color: var(--pc-color-#{$i});
     }
   }
 

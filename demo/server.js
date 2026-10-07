@@ -342,155 +342,155 @@ app.get('/design/layouts', (req, res) => {
 });
 
 // Components
-app.get('/components/overview', (req, res) => {
+app.get('/components', (req, res) => {
     renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components', isComponents: true });
 });
 
-app.get('/components/buttons', (req, res) => {
+app.get('/buttons', (req, res) => {
     renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons', isButtons: true });
 });
 
-app.get('/components/inputs', (req, res) => {
+app.get('/forms/inputs', (req, res) => {
     renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
 });
 
-app.get('/components/validations', (req, res) => {
+app.get('/forms/validations', (req, res) => {
     renderWithLayout(res, 'validations', { pageTitle: 'Form Validations', currentPage: 'validations', isValidations: true });
 });
 
-app.get('/components/date-picker', (req, res) => {
+app.get('/forms/date-picker', (req, res) => {
     renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
 });
 
-app.get('/components/multiselect', (req, res) => {
+app.get('/forms/multiselect', (req, res) => {
     renderWithLayout(res, 'multiselect', { pageTitle: 'Multiselect', currentPage: 'multiselect', isMultiselect: true });
 });
 
-app.get('/components/data-grid', (req, res) => {
+app.get('/data-display/data-grid', (req, res) => {
     renderWithLayout(res, 'data-grid', { pageTitle: 'Data Grid', currentPage: 'data-grid', isDataGrid: true });
 });
 
-app.get('/components/svelte-treeview', (req, res) => {
+app.get('/data-display/svelte-treeview', (req, res) => {
     renderWithLayout(res, 'svelte-treeview', { pageTitle: 'Svelte Treeview', currentPage: 'svelte-treeview', isSvelteTreeview: true });
 });
 
-app.get('/components/file-selector', (req, res) => {
+app.get('/forms/file-selector', (req, res) => {
     renderWithLayout(res, 'file-selector', { pageTitle: 'File Upload', currentPage: 'file-selector', isFileSelector: true });
 });
 
-app.get('/components/checkbox-lists', (req, res) => {
+app.get('/forms/checkbox-lists', (req, res) => {
     renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
 });
 
-app.get('/components/cards', (req, res) => {
+app.get('/surfaces/cards', (req, res) => {
     renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
 });
 
-app.get('/components/sizing', (req, res) => {
+app.get('/layout/sizing', (req, res) => {
     renderWithLayout(res, 'sizing', { pageTitle: 'Sizing & Layout', currentPage: 'sizing', isSizing: true });
 });
 
-app.get('/components/fit-to-size', (req, res) => {
+app.get('/layout/fit-to-size', (req, res) => {
     renderWithLayout(res, 'fit-to-size', { pageTitle: 'Fit to Size', currentPage: 'fit-to-size', isFitToSize: true });
 });
 
-app.get('/responsivity', (req, res) => {
+app.get('/layout/responsivity', (req, res) => {
     renderWithLayout(res, 'responsivity', { pageTitle: 'Responsivity — How It Works', currentPage: 'responsivity', isResponsivity: true });
 });
 
-app.get('/components/grid', (req, res) => {
+app.get('/layout/grid', (req, res) => {
     renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
 });
 
-app.get('/components/tabs', (req, res) => {
+app.get('/surfaces/tabs', (req, res) => {
     renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs', isTabs: true });
 });
 
-app.get('/components/badges', (req, res) => {
+app.get('/interactive/badges', (req, res) => {
     renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges', isBadges: true });
 });
 
-app.get('/components/lists', (req, res) => {
+app.get('/data-display/lists', (req, res) => {
     renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists', isLists: true });
 });
 
-app.get('/components/document', (req, res) => {
+app.get('/data-display/document', (req, res) => {
     renderWithLayout(res, 'document', { pageTitle: 'Document', currentPage: 'document', isDocument: true });
 });
 
-app.get('/components/sheet', (req, res) => {
+app.get('/data-display/sheet', (req, res) => {
     renderWithLayout(res, 'sheet', { pageTitle: 'Sheet (Invoice)', currentPage: 'sheet', isSheet: true });
 });
 
-app.get('/components/code', (req, res) => {
+app.get('/data-display/code', (req, res) => {
     renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
 });
 
-app.get('/components/alerts', (req, res) => {
+app.get('/feedback/alerts', (req, res) => {
     renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts', isAlerts: true });
 });
 
-app.get('/components/callouts', (req, res) => {
+app.get('/feedback/callouts', (req, res) => {
     renderWithLayout(res, 'callouts', { pageTitle: 'Callouts', currentPage: 'callouts', isCallouts: true });
 });
 
-app.get('/components/toasts', (req, res) => {
+app.get('/feedback/toasts', (req, res) => {
     renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts', isToasts: true });
 });
 
-app.get('/components/loaders', (req, res) => {
+app.get('/feedback/loaders', (req, res) => {
     renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders', isLoaders: true });
 });
 
-app.get('/components/pagers', (req, res) => {
+app.get('/buttons/pagers', (req, res) => {
     renderWithLayout(res, 'pagers', { pageTitle: 'Pagers', currentPage: 'pagers', isPagers: true });
 });
 
-app.get('/components/tooltips', (req, res) => {
+app.get('/feedback/tooltips', (req, res) => {
     renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips', isTooltips: true });
 });
 
-app.get('/components/modals', (req, res) => {
+app.get('/surfaces/modals', (req, res) => {
     renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals', isModals: true });
 });
 
-app.get('/components/modal-dialogs', (req, res) => {
+app.get('/surfaces/modal-dialogs', (req, res) => {
     renderWithLayout(res, 'modal-dialogs', { pageTitle: 'Modal Dialogs', currentPage: 'modal-dialogs', isModalDialogs: true });
 });
 
-app.get('/components/popconfirm', (req, res) => {
+app.get('/buttons/popconfirm', (req, res) => {
     renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm', isPopconfirm: true });
 });
 
-app.get('/components/command-palette', (req, res) => {
+app.get('/interactive/command-palette', (req, res) => {
     renderWithLayout(res, 'command-palette', { pageTitle: 'Command Palette', currentPage: 'command-palette', isCommandPalette: true });
 });
 
-app.get('/components/detail-panel', (req, res) => {
+app.get('/surfaces/detail-panel', (req, res) => {
     renderWithLayout(res, 'detail-panel', { pageTitle: 'Detail Panel', currentPage: 'detail-panel', isDetailPanel: true });
 });
 
-app.get('/components/splitter', (req, res) => {
+app.get('/surfaces/splitter', (req, res) => {
     renderWithLayout(res, 'splitter', { pageTitle: 'Splitter', currentPage: 'splitter', isSplitter: true });
 });
 
-app.get('/components/overflow', (req, res) => {
+app.get('/layout/overflow', (req, res) => {
     renderWithLayout(res, 'overflow', { pageTitle: 'Overflow', currentPage: 'overflow', isOverflow: true });
 });
 
-app.get('/components/range-group', (req, res) => {
+app.get('/forms/range-group', (req, res) => {
     renderWithLayout(res, 'range-group', { pageTitle: 'Range Group', currentPage: 'range-group', isRangeGroup: true });
 });
 
-app.get('/components/data-display', (req, res) => {
+app.get('/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });
 
-app.get('/components/data-display-2', (req, res) => {
+app.get('/data-display/data-display-2', (req, res) => {
     renderWithLayout(res, 'data-display-2', { pageTitle: 'Data Display v2', currentPage: 'data-display-2', isDataDisplay2: true });
 });
 
-app.get('/components/data-visualization', (req, res) => {
+app.get('/data-viz', (req, res) => {
     renderWithLayout(res, 'data-visualization', { pageTitle: 'Data Visualization', currentPage: 'data-visualization', isDataVisualization: true });
 });
 
@@ -523,7 +523,7 @@ app.get('/kpi/editorial-minimal', (req, res) => {
     renderWithLayout(res, 'kpi-editorial-minimal', { pageTitle: 'KPI · Editorial minimal', currentPage: 'kpi-editorial-minimal', isKpiEditorialMinimal: true });
 });
 
-app.get('/components/notifications', (req, res) => {
+app.get('/feedback/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
 

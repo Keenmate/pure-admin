@@ -175,31 +175,10 @@ $_font-base-sizes: (9, 10, 11, 12);
 .text-3xl { font-size: $font-size-3xl; }   // 2.8rem = 28px
 .text-4xl { font-size: $font-size-4xl; }   // 3.2rem = 32px
 
-// Text colour — neutral hierarchy (text consolidation — see
-// docs/text-consolidation-plan.md). `.text-secondary` is the flat muted/subdued
-// text utility that was missing: the only muted token used to live INSIDE the
-// `pa-text--secondary` component modifier, so inline subdued text had no flat
-// utility (people reached for the then-undefined `text-secondary`). The name
-// matches the component `--secondary` role vocabulary (a `pa-btn--secondary` /
-// `pa-stat--secondary` is the subdued variant). Mirrors the role-colour
-// utilities (.text-primary/.text-success/… in pure-css), which also use
-// !important so the colour wins when composed onto a component (e.g. a paragraph
-// that otherwise carries its own colour).
-// NOTE: `.text-color-N` (palette) maps to --pc-color-N (data colours); the
-// neutral hierarchy below maps to --pc-text-color-N — a DIFFERENT scale.
-.text-body      { color: var(--pc-text-color-1) !important; } // default body text (explicit)
-.text-secondary { color: var(--pc-text-color-2) !important; } // muted / subdued body text
-
-// Semantic text shorthands (migrated from `pa-text--caption` / `--lead`).
-.text-caption {
-  font-size: $font-size-xs;
-  color: var(--pc-text-color-2);
-  margin-bottom: $spacing-sm;
-}
-.text-lead {
-  font-size: $font-size-base;
-  line-height: $line-height-relaxed;
-}
+// Text colour — neutral hierarchy (.text-body / .text-secondary) and the semantic
+// shorthands (.text-caption / .text-lead) now live in @keenmate/pure-css
+// (utilities.scss, beside the role colours) and reach core via the
+// `utilities.scss` @forward shim. See docs/text-consolidation-plan.md.
 
 // Font-weight utilities. Named verbosely as font-weight-* to match the
 // font-family-* utilities (NOT Bootstrap's fw-*), and kept distinct from the
@@ -274,30 +253,10 @@ $_font-base-sizes: (9, 10, 11, 12);
   }
 }
 
-// Theme palette colour utilities (color-1 through color-9)
-// Apply a data-palette slot to a property. Two token layers per slot:
-//   --pc-color-N       the slot colour itself
-//   --pc-color-N-text  its guaranteed-contrasting text colour
-//
-// The colour form, `.text-color-N`, lives in pure-css beside the role colours
-// (`.text-primary`/`.text-success`/…); the remaining property forms live here
-// until the coordinated pure-css relocation. All emit `!important` for cascade
-// parity with `.text-color-N` + the role colours, so they win when composed onto
-// a component. `text-on` / `surface` use the contrast token so a coloured
-// surface never lands unreadable (white-on-light):
-//   .bg-color-N       slot colour as background
-//   .border-color-N   slot colour as border
-//   .text-on-color-N  contrast text only (pair with .bg-color-N yourself)
-//   .surface-color-N  slot background + contrast text in one class (composite)
-@for $i from 1 through 9 {
-  .bg-color-#{$i} { background-color: var(--pc-color-#{$i}) !important; }
-  .border-color-#{$i} { border-color: var(--pc-color-#{$i}) !important; }
-  .text-on-color-#{$i} { color: var(--pc-color-#{$i}-text) !important; }
-  .surface-color-#{$i} {
-    background-color: var(--pc-color-#{$i}) !important;
-    color: var(--pc-color-#{$i}-text) !important;
-  }
-}
+// Theme palette colour utilities (.text-color-N / .bg-color-N / .border-color-N /
+// .text-on-color-N / .surface-color-N, slots 1–9) now live in @keenmate/pure-css
+// (utilities.scss, beside the role colours) and reach core via the
+// `utilities.scss` @forward shim. See docs/text-consolidation-plan.md (Initiative 2).
 
 // ========================================
 // Logical Spacing Utilities (RTL-aware)

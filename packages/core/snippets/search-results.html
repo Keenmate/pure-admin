@@ -167,6 +167,8 @@ CONTAINER + PRESETS (one modifier picks the layout; the item tree never changes)
 
 CANONICAL ITEM (rendered the same across every preset):
 - .pa-search-results__item       The row/card. Use an <a> for navigable results.
+- .pa-search-results__item--active  Keyboard-highlighted result (set by JS as the
+                                 arrow-key cursor moves); paints the hover state.
 - .pa-search-results__icon       Leading glyph / tinted icon tile (aria-hidden).
 - .pa-search-results__content    Wraps title + snippet + meta.
 - .pa-search-results__title      Primary result label.

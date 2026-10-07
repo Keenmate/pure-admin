@@ -192,7 +192,12 @@
             const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
 
             // Apply sidebar-hidden state (works for both 'hide' and 'icon-collapse' behaviors)
-            if (!isMobile && sidebarHidden) {
+            if (!isMobile && sidebarBehavior === 'overlay') {
+                // Overlay behaviour: paint the sidebar as a fixed drawer from the
+                // first frame (else it flashes in-flow, then snaps to fixed). The
+                // drawer starts closed, so no .sidebar-visible here.
+                document.body.classList.add('sidebar-overlay');
+            } else if (!isMobile && sidebarHidden) {
                 document.body.classList.add('sidebar-hidden');
             }
 
@@ -536,7 +541,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="pa-profile-panel__favorite-item" data-href="/components/data-grid">
+                                <div class="pa-profile-panel__favorite-item" data-href="/data-display/data-grid">
                                     <span class="pa-profile-panel__favorite-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M3 15h18" /><path d="M9 3v18" /><path d="M15 3v18" /></svg></span>
                                     <span class="pa-profile-panel__favorite-label">Data Grid</span>
                                     <button class="pa-profile-panel__favorite-remove" title="Remove from favorites" aria-label="Remove from favorites"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
@@ -642,6 +647,19 @@
                 } else {
                     unlockBodyScroll();
                 }
+            } else if (sidebarBehavior === 'overlay') {
+                // Desktop overlay: the sidebar is a temporary floating drawer
+                // (body.sidebar-overlay sets the fixed-drawer CSS). Toggle the
+                // same .sidebar-visible open state the mobile drawer uses, so
+                // tap-outside close + scroll-lock come along for free. Open
+                // state is NOT persisted — the drawer always starts closed.
+                body.classList.toggle('sidebar-visible');
+                if (burgerMenu) burgerMenu.classList.toggle('active');
+                if (body.classList.contains('sidebar-visible')) {
+                    lockBodyScroll();
+                } else {
+                    unlockBodyScroll();
+                }
             } else {
                 // Desktop: Check sidebar behavior mode
                 if (sidebarBehavior === 'icon-collapse') {
@@ -687,8 +705,20 @@
                 const mobileBurger = document.querySelector('.burger-menu');
                 if (mobileBurger) mobileBurger.classList.remove('active'); // absent in the sidebar-less simple layout
                 unlockBodyScroll(); // drawer forced closed → release the scroll lock
+            } else if ((localStorage.getItem('sidebar-behavior') || 'hide') === 'overlay') {
+                // Desktop overlay: the drawer is temporary and always starts
+                // closed. Keep body.sidebar-overlay (the fixed-drawer CSS), drop
+                // any push-mode state, and release the scroll lock. Crossing the
+                // breakpoint also lands here, closing the drawer.
+                body.classList.add('sidebar-overlay');
+                body.classList.remove('sidebar-visible');
+                body.classList.remove('sidebar-hidden');
+                unlockBodyScroll();
+                const overlayBurger = document.querySelector('.burger-menu');
+                if (overlayBurger) overlayBurger.classList.remove('active'); // closed → hamburger
             } else {
                 // Desktop: Use saved state (works for both 'hide' and 'icon-collapse' behaviors)
+                body.classList.remove('sidebar-overlay'); // not in overlay mode
                 body.classList.remove('sidebar-visible');
                 unlockBodyScroll(); // crossing to desktop closes the mobile drawer
                 const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
@@ -749,7 +779,22 @@
                 wasMobileLayout = isMobileLayout;
                 checkMobileLayout();
             });
-            document.body.addEventListener('click', closeMobileSidebar);
+            // Bind on document, not body: while the drawer is open the body is
+            // scroll-locked (position:fixed + scrollbar-compensation padding), so
+            // its box can be a few px narrower than the viewport. A tap in that
+            // rightmost strip (or on the scrim there) targets <html> — body's
+            // PARENT — which never bubbles to a body-level listener, leaving the
+            // drawer stuck open. document catches it regardless.
+            document.addEventListener('click', closeMobileSidebar);
+            // Esc closes the overlay drawer (mobile or desktop overlay mode).
+            document.addEventListener('keydown', function (e) {
+                if (e.key !== 'Escape') return;
+                if (!document.body.classList.contains('sidebar-visible')) return;
+                document.body.classList.remove('sidebar-visible');
+                var burger = document.querySelector('.burger-menu');
+                if (burger) burger.classList.remove('active');
+                unlockBodyScroll();
+            });
         });
 
         // Notification Panel Functions

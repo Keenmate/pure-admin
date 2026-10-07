@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Query — CodeMirror 6 prototype</title>
+
+  <!-- CodeMirror 6 via esm.sh. The `?external=` flags force every package to
+       resolve @codemirror/state + @codemirror/view through the import map, so
+       there is ONE shared instance (the classic "multiple instances of
+       @codemirror/state" bug otherwise breaks extensions). -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@codemirror/state": "https://esm.sh/@codemirror/state@6",
+      "@codemirror/view": "https://esm.sh/@codemirror/view@6?external=@codemirror/state",
+      "@codemirror/autocomplete": "https://esm.sh/@codemirror/autocomplete@6?external=@codemirror/state,@codemirror/view",
+      "@codemirror/commands": "https://esm.sh/@codemirror/commands@6?external=@codemirror/state,@codemirror/view"
+    }
+  }
+  </script>
+
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; margin: 0; background: #f4f6f9; color: #111827; }
+    .wrap { max-width: 920px; margin: 2rem auto; padding: 0 1rem; }
+  </style>
+
+  <!-- Real theme CSS, copied into scripts/themes/ so the prototype is
+       self-contained (loads regardless of serve root). A theme is a superset of
+       core (it @imports the components) AND emits the --base-* contract at
+       :root / .pc-mode-light + overrides at .pc-mode-dark. Swapping this <link>
+       (see the theme switcher) re-themes the editor purely through --base-*.
+       These are build artifacts — refresh with:
+         for t in cobalt2 cafeindustrial gruvbox; do \
+           cp ../pure-admin-themes/$t/dist/$t.css scripts/themes/$t.css; done -->
+  <link rel="stylesheet" id="pa-theme-css" href="./themes/cobalt2.css" />
+
+  <style>
+    /* ----------------------------------------------------------------------
+       --base-* theming layer. This block is the whole public theming surface:
+       every editor colour/metric chains to a --base-* token with a hard
+       fallback, mirroring @keenmate/web-multiselect's --ms-* → --base-* pattern.
+       When this becomes a web component, this `.pa-query-editor { … }` block
+       moves verbatim to `:host { … }` inside the shadow root — nothing else
+       changes. Override any --base-* at :root (or .pc-mode-dark, [data-*]) and
+       the editor re-themes at runtime.
+       ---------------------------------------------------------------------- */
+    .pa-query-editor {
+      /* role colours */
+      --qe-accent:       var(--base-accent-color, #3b82f6);
+      --qe-text:         var(--base-text-color-1, #111827);
+      --qe-text-muted:   var(--base-text-color-2, #6b7280);
+      --qe-success:      var(--base-success-color, #10b981);
+      --qe-danger:       var(--base-danger-color, #ef4444);
+      --qe-warning:      var(--base-warning-color, #f59e0b);
+      /* input surface */
+      --qe-bg:           var(--base-input-bg, #fff);
+      --qe-input-text:   var(--base-input-color, var(--qe-text));
+      --qe-placeholder:  var(--base-input-placeholder-color, var(--qe-text-muted));
+      --qe-border:       var(--base-input-border-color, #d1d5db);
+      --qe-border-focus: var(--base-input-border-focus, var(--qe-accent));
+      --qe-radius:       var(--base-border-radius-md, 6px);
+      --qe-ring-color:   var(--base-focus-ring-color, color-mix(in srgb, var(--qe-accent) 25%, transparent));
+      --qe-ring-width:   var(--base-focus-ring-width, 3px);
+      /* dropdown */
+      --qe-dropdown-bg:     var(--base-dropdown-bg, var(--qe-bg));
+      --qe-dropdown-border: var(--base-dropdown-border, var(--qe-border));
+      --qe-dropdown-shadow: var(--base-dropdown-box-shadow, 0 8px 24px rgba(0,0,0,.12));
+      --qe-hover-bg:        var(--base-hover-bg, color-mix(in srgb, var(--qe-accent) 12%, transparent));
+      /* typography */
+      --qe-font:      var(--base-font-family, inherit);
+      --qe-font-size: var(--base-font-size-sm, 1.4rem);
+    }
+
+    /* editor chrome — reads as a .pa-input field */
+    .pa-query-editor .cm-editor {
+      border: 1px solid var(--qe-border);
+      border-radius: var(--qe-radius);
+      background: var(--qe-bg);
+      font-size: var(--qe-font-size);
+      font-family: var(--qe-font);
+    }
+    .pa-query-editor .cm-editor.cm-focused {
+      outline: none;
+      border-color: var(--qe-border-focus);
+      box-shadow: 0 0 0 var(--qe-ring-width) var(--qe-ring-color);
+    }
+    .pa-query-editor .cm-content { padding: 0.9rem 1.2rem; color: var(--qe-input-text); caret-color: var(--qe-input-text); font-family: var(--qe-font); }
+    .pa-query-editor .cm-line { padding: 0; }
+    .pa-query-editor .cm-placeholder { color: var(--qe-placeholder); }
+
+    /* syntax tokens */
+    .pa-query-editor .pa-inline-query-token { font-weight: 500; border-radius: .3rem; padding: 0 .15em; }
+    .pa-query-editor .pa-inline-query-token--field    { background: color-mix(in srgb, var(--qe-accent) 15%, transparent); color: var(--qe-text); }
+    .pa-query-editor .pa-inline-query-token--field.pa-inline-query-token--invalid { background: color-mix(in srgb, var(--qe-danger) 15%, transparent); text-decoration: wavy underline var(--qe-danger); }
+    .pa-query-editor .pa-inline-query-token--operator { background: color-mix(in srgb, var(--qe-text-muted) 15%, transparent); color: var(--qe-text); }
+    .pa-query-editor .pa-inline-query-token--value    { background: color-mix(in srgb, var(--qe-success) 15%, transparent); color: var(--qe-text); }
+    .pa-query-editor .pa-inline-query-token--keyword  { background: color-mix(in srgb, var(--qe-warning) 15%, transparent); color: var(--qe-text); font-style: italic; }
+
+    /* autocomplete popup (CM appends .cm-tooltip inside .cm-editor by default) */
+    .pa-query-editor .cm-tooltip.cm-tooltip-autocomplete { background: var(--qe-dropdown-bg); border: 1px solid var(--qe-dropdown-border); border-radius: var(--qe-radius); box-shadow: var(--qe-dropdown-shadow); overflow: hidden; }
+    .pa-query-editor .cm-tooltip-autocomplete > ul { font-family: var(--qe-font); font-size: 1.3rem; max-height: 24rem; }
+    .pa-query-editor .cm-tooltip-autocomplete ul li { color: var(--qe-text); padding: .4rem .9rem; }
+    .pa-query-editor .cm-tooltip-autocomplete ul li[aria-selected] { background: var(--qe-hover-bg); color: var(--qe-text); }
+    .pa-query-editor .cm-completionDetail { color: var(--qe-text-muted); font-style: normal; margin-inline-start: 1rem; }
+
+    pre.pa-code { white-space: pre-wrap; }
+
+    /* demo-only controls: theme switch, mode toggle, accent override */
+    .qe-controls { margin-top: 1rem; display: flex; flex-direction: column; gap: .6rem; }
+    .qe-control-row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    .qe-control-label { color: var(--base-text-color-2, #6b7280); min-width: 16rem; }
+    .qe-swatches { display: flex; gap: .5rem; align-items: center; }
+    .qe-swatches button { width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 2px solid rgba(128,128,128,.4); cursor: pointer; padding: 0; background: transparent; }
+    .pa-btn.is-active { outline: 2px solid var(--base-accent-color, #3b82f6); outline-offset: 1px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="pa-card">
+      <div class="pa-card__header">
+        <div class="pa-card__title">
+          <h3 class="pa-card__title-text">Smart Query — CodeMirror&nbsp;6 prototype</h3>
+        </div>
+        <p>Same query language as the hand-rolled editor, driven by CodeMirror&nbsp;6: regex-decoration highlighting + a context-aware completion source. Type <strong>:</strong> for fields; after a field, operators suggest automatically.</p>
+        <p class="pa-text mt-2"><strong>Try:</strong> <code>:name startswith John :price between 10 to 100</code></p>
+      </div>
+    </div>
+
+    <div class="pa-card">
+      <div class="pa-card__body">
+        <div id="editor" class="pa-query-editor"></div>
+
+        <div class="qe-controls">
+          <div class="qe-control-row">
+            <span class="text-sm qe-control-label">Theme (<code>--base-*</code> source):</span>
+            <div class="pa-btn-group" id="themeSwitch">
+              <button class="pa-btn pa-btn--sm" data-theme="cobalt2">Cobalt2</button>
+              <button class="pa-btn pa-btn--sm" data-theme="cafeindustrial">Café Industrial</button>
+              <button class="pa-btn pa-btn--sm" data-theme="gruvbox">Gruvbox</button>
+            </div>
+            <span id="themeStatus" class="text-sm" style="font-family: monospace;"></span>
+          </div>
+          <div class="qe-control-row">
+            <span class="text-sm qe-control-label">Mode:</span>
+            <div class="pa-btn-group" id="modeSwitch">
+              <button class="pa-btn pa-btn--sm" data-mode="light">Light</button>
+              <button class="pa-btn pa-btn--sm" data-mode="dark">Dark</button>
+            </div>
+          </div>
+          <div class="qe-control-row">
+            <span class="text-sm qe-control-label">Override <code>--base-accent-color</code>:</span>
+            <div class="qe-swatches">
+              <button title="theme default" data-accent=""></button>
+              <button title="violet"  data-accent="#7c3aed" style="background:#7c3aed;"></button>
+              <button title="emerald" data-accent="#059669" style="background:#059669;"></button>
+              <button title="rose"    data-accent="#e11d48" style="background:#e11d48;"></button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <strong class="text-sm d-block mb-2" style="color: var(--pc-text-color-2);">Server Query Format (JSON):</strong>
+          <pre id="out" class="pa-code">Start typing to see the server query format</pre>
+        </div>
+
+        <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--pc-border-color);">
+          <div class="pc-row">
+            <div class="pc-col-100 pc-col-md-50">
+              <strong class="text-sm" style="color: var(--pc-text-color-2);">Available Fields:</strong>
+              <div class="d-flex gap-5 mt-2 flex-wrap" id="fieldChips"></div>
+            </div>
+            <div class="pc-col-100 pc-col-md-50">
+              <strong class="text-sm" style="color: var(--pc-text-color-2);">Syntax:</strong>
+              <div class="text-sm mt-2">
+                <div><span class="pa-inline-query-token pa-inline-query-token--field">:field</span> field &nbsp;
+                     <span class="pa-inline-query-token pa-inline-query-token--operator">op</span> operator &nbsp;
+                     <span class="pa-inline-query-token pa-inline-query-token--value">value</span> value &nbsp;
+                     <span class="pa-inline-query-token pa-inline-query-token--keyword">to</span> keyword</div>
+                <div style="margin-top:.5rem; color: var(--pc-text-color-2);">
+                  <strong>Shortcuts:</strong> sw, c, gt, lt, bw &nbsp; <strong>Aliases:</strong> under, over, from, atleast, atmost &nbsp; <strong>Time:</strong> 30days, 5weeks, 2months, 1year
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { EditorView, keymap, Decoration, ViewPlugin, placeholder } from "@codemirror/view";
+    import { EditorState, RangeSetBuilder } from "@codemirror/state";
+    import { autocompletion, completionKeymap, startCompletion, acceptCompletion } from "@codemirror/autocomplete";
+    import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+
+    /* ---------- query language (ported from search-autocomplete-v2.js) ---------- */
+
+    const fields = [
+      { name: 'name', type: 'text' }, { name: 'email', type: 'text' }, { name: 'code', type: 'text' },
+      { name: 'price', type: 'number' }, { name: 'status', type: 'text' }, { name: 'category', type: 'text' },
+      { name: 'created_at', type: 'date' }, { name: 'updated_at', type: 'date' }, { name: 'quantity', type: 'number' }
+    ];
+
+    const operators = {
+      text: [
+        { value: 'equals', label: 'Equals', shortcuts: ['eq','=','is'], description: 'Exact match' },
+        { value: 'not_equals', label: 'Not Equals', shortcuts: ['neq','ne','!=','not'], description: 'Does not match' },
+        { value: 'starts_with', label: 'Starts With', shortcuts: ['sw','startswith','begins'], description: 'Starts with text' },
+        { value: 'ends_with', label: 'Ends With', shortcuts: ['ew','endswith'], description: 'Ends with text' },
+        { value: 'contains', label: 'Contains', shortcuts: ['c','has','includes'], description: 'Contains text' },
+        { value: 'not_contains', label: 'Not Contains', shortcuts: ['nc','notcontains'], description: 'Does not contain' }
+      ],
+      number: [
+        { value: '=', label: 'Equals', shortcuts: ['eq','==','is'], description: 'Exact value' },
+        { value: '!=', label: 'Not Equals', shortcuts: ['neq','ne','not'], description: 'Different value' },
+        { value: '>', label: 'Greater Than', shortcuts: ['gt','over','above'], description: 'Greater than value' },
+        { value: '<', label: 'Less Than', shortcuts: ['lt','under','below'], description: 'Less than value' },
+        { value: 'between', label: 'Between', shortcuts: ['bw','btw','from'], description: 'Between two values' },
+        { value: '>=', label: 'Greater or Equal', shortcuts: ['gte','ge','atleast','min'], description: 'Greater or equal' },
+        { value: '<=', label: 'Less or Equal', shortcuts: ['lte','le','atmost','max'], description: 'Less or equal' }
+      ],
+      date: [
+        { value: 'equals', label: 'On Date', shortcuts: ['eq','=','on','is'], description: 'Exact date' },
+        { value: 'before', label: 'Before', shortcuts: ['bf','<','until'], description: 'Before date' },
+        { value: 'after', label: 'After', shortcuts: ['af','>','since','from'], description: 'After date' },
+        { value: 'between', label: 'Between', shortcuts: ['bw','btw'], description: 'Date range' },
+        { value: 'in_last', label: 'In Last', shortcuts: ['last','past','recent'], description: 'In last X days' },
+        { value: 'in_next', label: 'In Next', shortcuts: ['next','future','upcoming'], description: 'In next X days' }
+      ]
+    };
+
+    const fieldNames = fields.map(f => f.name);
+    const allOperators = [];
+    Object.values(operators).forEach(ops => ops.forEach(op => {
+      allOperators.push(op.value);
+      (op.shortcuts || []).forEach(s => allOperators.push(s));
+    }));
+    allOperators.sort((a, b) => b.length - a.length); // longest first
+
+    const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    function parseQuery(text) {
+      const tokens = [];
+      let i = 0;
+      while (i < text.length) {
+        const rest = text.substring(i);
+        const prev = i > 0 ? text[i - 1] : ' ';
+        const fieldStart = prev === ' ' || prev === '(' || i === 0;
+
+        if (fieldStart) {
+          const m = rest.match(/^:([a-zA-Z_][a-zA-Z0-9_]*)/);
+          if (m) {
+            tokens.push({ type: 'field', value: m[0], start: i, end: i + m[0].length, valid: fieldNames.includes(m[1]) });
+            i += m[0].length; continue;
+          }
+        }
+        let opHit = false;
+        for (const op of allOperators) {
+          const m = rest.match(new RegExp('^' + escapeRegex(op) + '(?=\\s|\\)|$)', 'i'));
+          if (m) { tokens.push({ type: 'operator', value: m[0], start: i, end: i + m[0].length }); i += m[0].length; opHit = true; break; }
+        }
+        if (opHit) continue;
+
+        let m;
+        if ((m = rest.match(/^(\(|\))/)))                     { tokens.push({ type: 'keyword', value: m[0], start: i, end: i + m[0].length }); i += m[0].length; continue; }
+        if ((m = rest.match(/^(to|and|or)(?=\s|$)/i)))        { tokens.push({ type: 'keyword', value: m[0], start: i, end: i + m[0].length }); i += m[0].length; continue; }
+        if ((m = rest.match(/^\s+/)))                          { tokens.push({ type: 'whitespace', value: m[0], start: i, end: i + m[0].length }); i += m[0].length; continue; }
+        if ((m = rest.match(/^(\d+)(days?|weeks?|months?|years?)(?=\s|\)|$)/i))) { tokens.push({ type: 'value', value: m[0], start: i, end: i + m[0].length }); i += m[0].length; continue; }
+        if ((m = rest.match(/^[^\s()]+/)))                     { tokens.push({ type: 'value', value: m[0], start: i, end: i + m[0].length }); i += m[0].length; continue; }
+        i++;
+      }
+      return tokens;
+    }
+
+    const TOKEN_CLASS = {
+      operator: 'pa-inline-query-token pa-inline-query-token--operator',
+      value:    'pa-inline-query-token pa-inline-query-token--value',
+      keyword:  'pa-inline-query-token pa-inline-query-token--keyword'
+    };
+    function tokenClass(t) {
+      if (t.type === 'field') return 'pa-inline-query-token pa-inline-query-token--field' + (t.valid ? '' : ' pa-inline-query-token--invalid');
+      return TOKEN_CLASS[t.type] || null;
+    }
+
+    /* context at cursor → what to suggest, and where the completion replaces from */
+    function getCursorContext(text, pos) {
+      const tokens = parseQuery(text);
+      const current = tokens.find(t => pos >= t.start && pos <= t.end);
+
+      if (current && current.type === 'field') return { type: 'field', partial: current.value, from: current.start };
+
+      const before = text.substring(0, pos);
+      if (before.endsWith(':')) {
+        const beforeColon = pos > 1 ? text[pos - 2] : ' ';
+        if (beforeColon === ' ' || beforeColon === '(' || pos === 1) return { type: 'field', partial: ':', from: pos - 1 };
+      }
+
+      // find the nearest valid field to the left (stopping at an operator/value)
+      let field = null;
+      for (let k = tokens.length - 1; k >= 0; k--) {
+        const t = tokens[k];
+        if (current && t.start >= current.start) continue;
+        if (t.type === 'field' && t.valid) { field = t; break; }
+        if (t.type === 'operator' || t.type === 'value') break;
+      }
+      if (field) {
+        const def = fields.find(f => f.name === field.value.substring(1));
+        if (current && (current.type === 'operator' || current.type === 'value'))
+          return { type: 'operator', fieldType: def.type, partial: current.value, from: current.start };
+        if (!current || current.type === 'whitespace')
+          return { type: 'operator', fieldType: def.type, partial: '', from: pos };
+      }
+      return { type: 'none' };
+    }
+
+    /* ---------- CodeMirror wiring ---------- */
+
+    // Syntax highlighting: tokenize the (single-line) doc, emit mark decorations.
+    const highlighter = ViewPlugin.fromClass(class {
+      constructor(view) { this.decorations = this.build(view); }
+      update(u) { if (u.docChanged || u.viewportChanged) this.decorations = this.build(u.view); }
+      build(view) {
+        const b = new RangeSetBuilder();
+        for (const t of parseQuery(view.state.doc.toString())) {
+          const cls = tokenClass(t);
+          if (cls && t.end > t.start) b.add(t.start, t.end, Decoration.mark({ class: cls }));
+        }
+        return b.finish();
+      }
+    }, { decorations: v => v.decorations });
+
+    // Context-aware completion source. filter:false — we filter against shortcuts
+    // ourselves (CM's fuzzy match wouldn't map "sw" → starts_with reliably), and
+    // the source re-runs on every keystroke.
+    function completions(context) {
+      const text = context.state.doc.toString();
+      const c = getCursorContext(text, context.pos);
+      if (c.type === 'none') return null;
+
+      let options = [];
+      if (c.type === 'field') {
+        const term = c.partial.replace(/^:/, '').toLowerCase();
+        options = fields
+          .filter(f => f.name.toLowerCase().includes(term))
+          .map((f, i) => ({
+            label: ':' + f.name, detail: f.type, type: 'variable', boost: 99 - i,
+            apply: (view, _c, from, to) => {
+              const ins = ':' + f.name + ' ';
+              view.dispatch({ changes: { from, to, insert: ins }, selection: { anchor: from + ins.length } });
+              setTimeout(() => startCompletion(view), 0); // chain → operator suggestions
+            }
+          }));
+      } else {
+        const p = c.partial.toLowerCase();
+        options = (operators[c.fieldType] || [])
+          .filter(op => p === '' || op.value.toLowerCase().includes(p) || op.label.toLowerCase().includes(p) || (op.shortcuts || []).some(s => s.toLowerCase().includes(p)))
+          .map((op, i) => ({ label: op.value, detail: (op.shortcuts || []).slice(0, 3).join(' '), info: op.description, type: 'keyword', boost: 99 - i, apply: op.value + ' ' }));
+      }
+      if (!options.length) return null;
+      return { from: c.from, to: context.pos, options, filter: false };
+    }
+
+    /* ---------- server query (ported toServerQuery) ---------- */
+
+    const OP_MAP = {
+      '=':'eq','==':'eq','is':'eq','equals':'eq','!=':'ne','not_equals':'ne','not':'ne','neq':'ne',
+      '>':'gt','greater_than':'gt','over':'gt','above':'gt','<':'lt','less_than':'lt','under':'lt','below':'lt',
+      '>=':'gte','greater_or_equal':'gte','atleast':'gte','min':'gte','<=':'lte','less_or_equal':'lte','atmost':'lte','max':'lte',
+      'starts_with':'startswith','sw':'startswith','begins':'startswith','ends_with':'endswith','ew':'endswith',
+      'contains':'contains','c':'contains','has':'contains','includes':'contains','not_contains':'notcontains','nc':'notcontains',
+      'between':'between','bw':'between','btw':'between','from':'between','before':'before','bf':'before','until':'before',
+      'after':'after','af':'after','since':'after','in_last':'inlast','last':'inlast','past':'inlast','recent':'inlast',
+      'in_next':'innext','next':'innext','future':'innext','upcoming':'innext'
+    };
+    const normOp = (o) => OP_MAP[o.toLowerCase()] || o.toLowerCase();
+    const combine = (conds, logic) => conds.length === 0 ? {} : conds.length === 1 ? conds[0] : { [logic || 'and']: conds };
+
+    function buildTree(tokens, start) {
+      const conds = []; let logic = null; let i = start;
+      while (i < tokens.length) {
+        const t = tokens[i];
+        if (t.type === 'whitespace') { i++; continue; }
+        if (t.type === 'keyword' && t.value === '(') { const r = buildTree(tokens, i + 1); conds.push(r.filter); i = r.endIndex + 1; continue; }
+        if (t.type === 'keyword' && t.value === ')') return { filter: combine(conds, logic), endIndex: i };
+        if (t.type === 'keyword' && /^(and|or)$/i.test(t.value)) {
+          const l = t.value.toLowerCase();
+          if (logic === null) logic = l;
+          else if (logic !== l) { const c = combine(conds, logic); conds.length = 0; conds.push(c); logic = l; }
+          i++; continue;
+        }
+        if (t.type === 'field' && t.valid) {
+          const field = t.value.substring(1); i++;
+          while (i < tokens.length && tokens[i].type === 'whitespace') i++;
+          if (i < tokens.length && tokens[i].type === 'operator') {
+            const op = normOp(tokens[i].value); i++;
+            while (i < tokens.length && tokens[i].type === 'whitespace') i++;
+            const values = [];
+            while (i < tokens.length && (tokens[i].type === 'value' || tokens[i].type === 'keyword')) {
+              if (tokens[i].type === 'value') {
+                let v = tokens[i].value;
+                if ((v.startsWith("'") && v.endsWith("'")) || (v.startsWith('"') && v.endsWith('"'))) v = v.slice(1, -1);
+                values.push(v);
+              } else if (tokens[i].type === 'keyword' && tokens[i].value.toLowerCase() === 'to') {
+                i++; while (i < tokens.length && tokens[i].type === 'whitespace') i++; continue;
+              } else break;
+              i++;
+              while (i < tokens.length && tokens[i].type === 'whitespace') i++;
+              if (i < tokens.length && (tokens[i].type === 'field' || tokens[i].type === 'operator' ||
+                  (tokens[i].type === 'keyword' && (/^(and|or)$/i.test(tokens[i].value) || tokens[i].value === ')')))) break;
+            }
+            conds.push({ [field]: { [op]: values.length === 1 ? values[0] : values } });
+            continue;
+          }
+        }
+        i++;
+      }
+      return { filter: combine(conds, logic), endIndex: i };
+    }
+
+    function toServerQuery(text) {
+      return { filter: buildTree(parseQuery(text), 0).filter, raw: text };
+    }
+
+    /* ---------- mount ---------- */
+
+    const out = document.getElementById('out');
+    function refresh(text) {
+      const q = toServerQuery(text);
+      out.textContent = q.filter && Object.keys(q.filter).length
+        ? JSON.stringify(q, null, 2)
+        : 'Start typing to see the server query format';
+    }
+
+    const singleLine = EditorState.transactionFilter.of(tr => tr.newDoc.lines > 1 ? [] : tr);
+
+    const view = new EditorView({
+      parent: document.getElementById('editor'),
+      state: EditorState.create({
+        doc: '',
+        extensions: [
+          history(),
+          highlighter,
+          placeholder('Type : to search fields…'),
+          EditorView.lineWrapping,
+          singleLine,
+          autocompletion({ override: [completions], icons: false, activateOnTyping: true }),
+          // Tab accepts the highlighted completion when the popup is open;
+          // acceptCompletion returns false when it's closed, so Tab falls
+          // through to whatever you bind after it. (Enter still accepts too.)
+          keymap.of([{ key: 'Tab', run: acceptCompletion }, ...completionKeymap, ...historyKeymap, ...defaultKeymap]),
+          EditorView.updateListener.of(u => { if (u.docChanged) refresh(u.state.doc.toString()); })
+        ]
+      })
+    });
+
+    // field chips
+    const chips = document.getElementById('fieldChips');
+    chips.innerHTML = fields.map(f => `<span class="pa-badge pa-badge--sm">${f.name} (${f.type})</span>`).join('');
+
+    // ---- demo controls ----
+    const root = document.documentElement;
+    const themeLink = document.getElementById('pa-theme-css');
+    const status = document.getElementById('themeStatus');
+    const themePath = (t) => `./themes/${t}.css`;
+
+    function setActive(groupSel, predicate) {
+      document.querySelectorAll(groupSel + ' .pa-btn').forEach(b => b.classList.toggle('is-active', predicate(b)));
+    }
+
+    // Read the themed value the editor actually resolves right now.
+    const resolvedAccent = () => getComputedStyle(root).getPropertyValue('--base-accent-color').trim() || '(unset → using --qe fallback)';
+
+    // Theme switch — swaps the stylesheet whose :root emits the --base-* palette.
+    // onload/onerror report whether the file actually loaded (the usual failure is
+    // a serve root that can't reach ../../pure-admin-themes).
+    function applyTheme(t) {
+      status.textContent = 'loading ' + t + '.css …';
+      status.style.color = 'var(--base-text-color-2, #888)';
+      themeLink.onload = () => {
+        const a = resolvedAccent();
+        status.textContent = '✓ ' + t + '.css  →  --base-accent-color: ' + a;
+        status.style.color = 'var(--base-success-color, #2a2)';
+        console.log('[query-editor] theme loaded:', themeLink.href, '→ --base-accent-color =', a);
+      };
+      themeLink.onerror = () => {
+        status.textContent = '✗ failed to load ' + themeLink.href + '  (check scripts/themes/ exists)';
+        status.style.color = 'var(--base-danger-color, #c22)';
+        console.error('[query-editor] theme FAILED to load:', themeLink.href);
+      };
+      themeLink.href = themePath(t);
+    }
+
+    document.querySelectorAll('#themeSwitch .pa-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyTheme(btn.dataset.theme);
+        setActive('#themeSwitch', b => b === btn);
+        view.focus();
+      });
+    });
+
+    // Mode toggle — themes override --base-* under .pc-mode-dark / .pc-mode-light.
+    document.querySelectorAll('#modeSwitch .pa-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        root.classList.remove('pc-mode-light', 'pc-mode-dark');
+        root.classList.add('pc-mode-' + btn.dataset.mode);
+        setActive('#modeSwitch', b => b === btn);
+        view.focus();
+      });
+    });
+
+    // Accent override — one --base-* token set at :root, layered over the theme.
+    document.querySelectorAll('.qe-swatches button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const c = btn.dataset.accent;
+        if (c) root.style.setProperty('--base-accent-color', c);
+        else root.style.removeProperty('--base-accent-color');
+        view.focus();
+      });
+    });
+
+    // initial active states (cobalt2 is dark-only → start in dark)
+    root.classList.add('pc-mode-dark');
+    setActive('#themeSwitch', b => b.dataset.theme === 'cobalt2');
+    setActive('#modeSwitch', b => b.dataset.mode === 'dark');
+
+    // report status for the statically-linked initial theme
+    if (themeLink.sheet) {
+      const a = resolvedAccent();
+      status.textContent = '✓ cobalt2.css  →  --base-accent-color: ' + a;
+      status.style.color = 'var(--base-success-color, #2a2)';
+      console.log('[query-editor] initial theme already loaded →', a);
+    } else {
+      applyTheme('cobalt2'); // re-sets href + wires onload/onerror
+    }
+
+    view.focus();
+  </script>
+</body>
+</html>

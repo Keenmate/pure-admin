@@ -268,7 +268,10 @@ preset (they fall back to the SCSS defaults, so no recompile needed):
      ================================ -->
 
 <div class="pa-search-autocomplete">
-    <div class="pa-search-autocomplete__item">
+    <!-- Optional group header -->
+    <div class="pa-search-autocomplete__section">Products</div>
+    <!-- Keyboard-highlighted row (JS toggles --active as the cursor moves) -->
+    <div class="pa-search-autocomplete__item pa-search-autocomplete__item--active">
         <span class="pa-search-autocomplete__item-icon">💻</span>
         <span class="pa-search-autocomplete__item-name">MacBook Pro 16"</span>
         <span class="pa-search-autocomplete__item-type">Product</span>
@@ -278,6 +281,11 @@ preset (they fall back to the SCSS defaults, so no recompile needed):
         <span class="pa-search-autocomplete__item-name">Order #1024</span>
         <span class="pa-search-autocomplete__item-type">Order</span>
     </div>
+</div>
+
+<!-- No-results state -->
+<div class="pa-search-autocomplete">
+    <div class="pa-search-autocomplete__empty">No matches</div>
 </div>
 
 

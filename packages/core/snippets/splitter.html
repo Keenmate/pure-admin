@@ -11,9 +11,10 @@
      [data-pa-splitter] at DOMContentLoaded.
 
      Markup model: panes and gutters alternate (pane, gutter, pane, gutter,
-     …, pane). Each pane carries its own sizing attributes — there's no
-     "start" / "end" shorthand, every pane is generic. Works for any
-     N ≥ 2.
+     …, pane). In the JS-driven splitter each pane carries its own sizing
+     attributes and splitter.js sets its flex inline — every pane is generic.
+     Works for any N ≥ 2. (A static two-pane split with NO JS can instead use
+     the CSS-only pa-splitter__pane--start / --end pair — see the reference.)
 
      Orientation modifiers (match flexbox direction of the panes):
        --horizontal   panes side-by-side, vertical gutter (default)
@@ -153,8 +154,15 @@
      ELEMENT + STATE CLASSES
        pa-splitter                  Root container. Orientation modifier
                                     required: --horizontal (default) / --vertical.
-       pa-splitter__pane            A content pane (generic; every pane is the
-                                    same — no start/end shorthand).
+       pa-splitter__pane            A content pane. In the JS-driven splitter
+                                    every pane is generic — splitter.js sets each
+                                    one's flex inline, so no start/end class is
+                                    needed. For a STATIC two-pane split with no
+                                    JS, the --start / --end pair below sizes them.
+       pa-splitter__pane--start     CSS-only static split: fixed-size pane
+                                    (flex: 0 0 auto; give it an inline width).
+       pa-splitter__pane--end       CSS-only static split: fills the remaining
+                                    space (flex: 1 1 0). Pairs with --start.
        pa-splitter__gutter          The drag handle between two panes
                                     (role="separator", tabindex="0").
      JS-toggled states (added/removed by splitter.js — never hand-author):

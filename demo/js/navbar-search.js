@@ -27,9 +27,9 @@
     const DATA = [
       { name: 'Dashboard', type: 'Page', icon: '📊', href: '/' },
       { name: 'Getting Started', type: 'Page', icon: '🚀', href: '/getting-started' },
-      { name: 'Command Palette', type: 'Page', icon: '⌨️', href: '/components/command-palette' },
+      { name: 'Command Palette', type: 'Page', icon: '⌨️', href: '/interactive/command-palette' },
       { name: 'Tables', type: 'Page', icon: '📋', href: '/tables/standard' },
-      { name: 'Alerts', type: 'Page', icon: '🔔', href: '/components/alerts' },
+      { name: 'Alerts', type: 'Page', icon: '🔔', href: '/feedback/alerts' },
       { name: 'MacBook Pro 16"', type: 'Product', icon: '💻', href: '#' },
       { name: 'iPhone 15 Pro', type: 'Product', icon: '📱', href: '#' },
       { name: 'AirPods Pro', type: 'Product', icon: '🎧', href: '#' },

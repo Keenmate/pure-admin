@@ -270,10 +270,19 @@ ELLIPSIS / TRUNCATION:
 - minwr-{n} / maxwr-{n} / wr-{n}  separate width utilities in 1rem
                                   increments; combine with text-truncate.
 
-ELEMENT:
+ELEMENTS:
 - .pa-badge__icon     inline icon — font-size-2xs (10px) so it stays
                       proportional. Any child element works since the
                       badge is flex + gap.
+- .pa-badge__remove   trailing dismiss button for a removable badge / token
+                      (e.g. query-builder pills, command-palette tokens).
+                      Canonical shape — a bare button wrapping the masked x:
+                        <span class="pa-badge pa-badge--secondary">
+                          Filter
+                          <button class="pa-badge__remove" aria-label="Remove">
+                            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+                          </button>
+                        </span>
 
 AUTOMATIC BEHAVIOURS:
 - .pa-badge.text-truncate flips display to inline-block (see above).

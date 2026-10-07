@@ -438,7 +438,8 @@ COMPONENT INVENTORY:
 LAYOUT MODIFIERS ON .pa-fields:
 
   Grid / column count
-    --cols-2, --cols-3, --cols-4    CSS grid; collapses to 1 col on
+    .pa-fields--cols-2 .pa-fields--cols-3 .pa-fields--cols-4
+                                     CSS grid; collapses to 1 col on
                                      mobile (container or media query).
   Per-axis layout
     --horizontal      label inline-start, value inline-end
@@ -447,9 +448,9 @@ LAYOUT MODIFIERS ON .pa-fields:
     --row             equal-width columns, stack on mobile
     --linear          ultra-clean side-by-side, weight + color
                        contrast only (no uppercase, no border)
-    --chips           inline flow, value as a coloured pill
-                       (chip colour: __value--success / -warning
-                       / -danger)
+    --chips           inline flow, value as a coloured pill. Chip colours:
+                       .pa-field__value--success .pa-field__value--warning
+                       .pa-field__value--danger .pa-field__value--info
   Spacing
     --bordered        bottom-border between fields
     --striped         alternating background rows
@@ -477,8 +478,8 @@ DESC-TABLE MODIFIERS:
   Vertical
     --middle          centre cell content vertically
   Horizontal alignment
-    --label-end / --label-center
-    --value-end / --value-center
+    .pa-desc-table--label-end .pa-desc-table--label-center
+    .pa-desc-table--value-end .pa-desc-table--value-center
   Truncation
     --truncate        single-line + ellipsis on labels and values
   Span:
@@ -487,7 +488,9 @@ DESC-TABLE MODIFIERS:
 BANDED MODIFIERS:
   --narrow / --wide      label column width preset
   --middle               vertical centring
-  --label-end / --label-center / --value-end / --value-center
+  Horizontal alignment:
+    .pa-banded--label-end .pa-banded--label-center
+    .pa-banded--value-end .pa-banded--value-center
   --truncate             single-line ellipsis
   Stacks label-above-value below the mobile breakpoint
   (container query — wrap in .pa-banded-container for it to fire on
@@ -510,11 +513,16 @@ COPY PATTERN — SHARED ACROSS COMPONENTS:
   Modifier placement (inconsistent across components — match the
   one for the pattern you're using):
 
-    .pa-field--copy-btn / --copy-hover / --copy-click / --copied
-    .pa-desc-table__value--copy-btn / --copy-hover / --copy-click / --copied
-    .pa-prop-card__row--copy-btn / --copy-hover / --copy-click / (no --copied)
-    .pa-banded__row--copy-btn / --copy-hover / --copy-click / --copied
-    .pa-accent-grid__item--copy-btn / --copy-hover / --copy-click / --copied
+    .pa-field--copy-btn .pa-field--copy-hover
+    .pa-field--copy-click .pa-field--copied
+    .pa-desc-table__value--copy-btn .pa-desc-table__value--copy-hover
+    .pa-desc-table__value--copy-click .pa-desc-table__value--copied
+    .pa-prop-card__row--copy-btn .pa-prop-card__row--copy-hover
+    .pa-prop-card__row--copy-click            (no --copied for prop-card)
+    .pa-banded__row--copy-btn .pa-banded__row--copy-hover
+    .pa-banded__row--copy-click .pa-banded__row--copied
+    .pa-accent-grid__item--copy-btn .pa-accent-grid__item--copy-hover
+    .pa-accent-grid__item--copy-click .pa-accent-grid__item--copied
 
   Markup pattern (regardless of component):
 

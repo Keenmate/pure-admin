@@ -307,7 +307,11 @@
      ================================ -->
 <div class="pa-table-card">
   <div class="pa-table-card__header">
-    <h3>Orders</h3>
+    <!-- Title: the .pa-table-card__title wrapper holding .pa-table-card__title-text.
+         Mirrors .pa-card__title — the one header title shape. -->
+    <div class="pa-table-card__title">
+      <h3 class="pa-table-card__title-text">Orders</h3>
+    </div>
     <!-- Optional subtitle. Sits between title and actions, flexes into the
          free space and truncates. Same contract as .pa-card__description. -->
     <p class="pa-table-card__description">Recent customer orders</p>
@@ -340,7 +344,9 @@
 <!-- Table card with semantic color variant (coloured header) -->
 <div class="pa-table-card pa-table-card--primary">
   <div class="pa-table-card__header">
-    <h3>Primary Table</h3>
+    <div class="pa-table-card__title">
+      <h3 class="pa-table-card__title-text">Primary Table</h3>
+    </div>
   </div>
   <div class="pa-table-card__body">
     <table class="pa-table">
@@ -354,7 +360,9 @@
      the card itself is already framed by a parent layout -->
 <div class="pa-table-card pa-table-card--plain">
   <div class="pa-table-card__header">
-    <h3>Inline Section Table</h3>
+    <div class="pa-table-card__title">
+      <h3 class="pa-table-card__title-text">Inline Section Table</h3>
+    </div>
   </div>
   <div class="pa-table-card__body">
     <table class="pa-table">
@@ -501,7 +509,9 @@ pa-table-container — SIMPLE WRAPPER (no header):
 DEPRECATED — do not use in new markup (kept only as legacy tolerance,
 slated for removal in a future major). Use pa-table-card instead:
 - .pa-table-container--panel
-- .pa-table-container__header / __title / __actions
+- .pa-table-container__header
+- .pa-table-container__title
+- .pa-table-container__actions
 
 pa-table-card — FULL CARD CONTAINER:
 - .pa-table-card                Card with overflow: hidden (so the
@@ -510,13 +520,18 @@ pa-table-card — FULL CARD CONTAINER:
 Structure:
   .pa-table-card
     .pa-table-card__header
-      h1..h6                        (title text; styled automatically)
+      .pa-table-card__title               (title wrapper — mirrors .pa-card__title)
+        .pa-table-card__title-text        (the heading inside the wrapper)
       .pa-table-card__description   (optional subtitle; flexes + truncates)
       .pa-table-card__actions
         .pa-btn / .pa-badge / etc.
     .pa-table-card__body                (padding: 0 — table meets card edges)
       table.pa-table    (first/last cells auto-inset by card padding)
     .pa-table-card__footer              (optional)
+
+  The .pa-table-card__title > .pa-table-card__title-text wrapper is the one
+  header title shape — a true mirror of .pa-card. (A bare heading is not a
+  supported alternative; core only styles the wrapper.)
 
 Body modifier:
 - .pa-table-card__body--scrollable      Enables overflow-x: auto.
@@ -553,6 +568,7 @@ WHEN TO USE WHICH WRAPPER (two blessed shapes):
 pa-pager — PAGINATION CONTROLS:
 - .pa-pager                  flex container, centre-aligned by default
 - .pa-pager--start           flex-start
+- .pa-pager--center          flex centre (explicit form of the default)
 - .pa-pager--end             flex-end
 
 Sub-elements:
@@ -564,7 +580,9 @@ Sub-elements:
 
 pa-load-more — SINGLE-ACTION ALTERNATIVE:
 - .pa-load-more              flex container, centre-aligned by default
-- .pa-load-more--start / --end
+- .pa-load-more--start       flex-start
+- .pa-load-more--center      flex centre (explicit form of the default)
+- .pa-load-more--end         flex-end
 - .pa-load-more__button      button styling; sits independent of pa-btn
   .pa-load-more__button--loading  adds spinner rotation + reduced opacity
 - .pa-load-more__spinner     circular spinner (rotates when --loading)
@@ -597,7 +615,9 @@ Responsive table (mobile → stacked cards):
 Table card with scrollable body:
 <div class="pa-table-card">
   <div class="pa-table-card__header">
-    <h3>Orders</h3>
+    <div class="pa-table-card__title">
+      <h3 class="pa-table-card__title-text">Orders</h3>
+    </div>
     <div class="pa-table-card__actions">
       <button class="pa-btn pa-btn--sm pa-btn--primary">Add</button>
     </div>
