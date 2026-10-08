@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **`pureAdmin.confirm/alert/prompt/custom` gain an `isBanded` option** — the
+  programmatic dialog service (`src/js/modal-dialogs.js`) can now render banded
+  dialogs (filled header + footer bands); pair with a role `variant`
+  (success/warning/danger/info) for the colour. Matches the `isBanded` option in
+  keen's `modal_dialogs.js` and svelte's `dialogService`, so all three
+  programmatic dialog services share the key.
 - **Flat neutral text-colour + semantic utilities — `.text-secondary`,
   `.text-body`, `.text-caption`, `.text-lead`.** Fill the gap that forced the
   undefined `text-secondary` class people kept reaching for: muted / subdued body

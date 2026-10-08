@@ -71,6 +71,9 @@
     let modalClass = 'pa-modal pa-modal--show';
     if (position === 'top') modalClass += ' pa-modal--top';
     if (variant) modalClass += ` pa-modal--${variant}`;
+    // Banded header + footer bands — pair with a role variant (success/warning/
+    // danger/info) for the colour, like the declarative modal.
+    if (options.isBanded) modalClass += ' pa-modal--banded';
     modal.className = modalClass;
     modal.id = id;
     modal.setAttribute('role', 'dialog');
@@ -247,7 +250,8 @@
       position,
       title,
       message,
-      footer
+      footer,
+      isBanded: options.isBanded
     });
 
     // Attach button handlers
@@ -303,7 +307,8 @@
       position,
       title,
       message,
-      footer
+      footer,
+      isBanded: options.isBanded
     });
 
     // Attach button handler
@@ -383,7 +388,8 @@
       title,
       message,
       inputHtml,
-      footer
+      footer,
+      isBanded: options.isBanded
     });
 
     // Get elements
@@ -469,6 +475,9 @@
     let modalClass = 'pa-modal pa-modal--show';
     if (position === 'top') modalClass += ' pa-modal--top';
     if (variant) modalClass += ` pa-modal--${variant}`;
+    // Banded header + footer bands — pair with a role variant (success/warning/
+    // danger/info) for the colour, like the declarative modal.
+    if (options.isBanded) modalClass += ' pa-modal--banded';
     modal.className = modalClass;
     modal.id = id;
     modal.setAttribute('role', 'dialog');
