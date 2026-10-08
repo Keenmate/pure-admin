@@ -167,3 +167,64 @@ test.describe('desktop: panels are not modal overlays', () => {
         expect(await bodyPosition(page)).not.toBe('fixed');
     });
 });
+
+test.describe('desktop: overlay sidebar behaviour', () => {
+    test.use({ viewport: DESKTOP });
+
+    test.beforeEach(async ({ page }) => {
+        // Opt into the "overlay" sidebar behaviour BEFORE any page script runs,
+        // so the FOUC init paints the sidebar as a fixed drawer from the first
+        // frame (body.sidebar-overlay) instead of flashing in-flow.
+        await page.addInitScript(() => localStorage.setItem('sidebar-behavior', 'overlay'));
+        await gotoShell(page);
+    });
+
+    test('burger opens a temporary floating drawer; outside click and Esc close it', async ({ page }) => {
+        const body = page.locator('body');
+        const sidebar = page.locator('.pc-layout__sidebar');
+        const scrim = () => page.evaluate(() => {
+            const be = getComputedStyle(document.body, '::before');
+            return { opacity: be.opacity, pointer: be.pointerEvents };
+        });
+
+        // Armed + closed: the drawer is a fixed, off-canvas sheet with no scrim,
+        // and the background is NOT scroll-locked.
+        await expect(body).toHaveClass(/sidebar-overlay/);
+        await expect(body).not.toHaveClass(/sidebar-visible/);
+        expect(await sidebar.evaluate((el) => getComputedStyle(el).position)).toBe('fixed');
+        expect(await sidebar.evaluate((el) => getComputedStyle(el).visibility)).toBe('hidden');
+        expect(await bodyPosition(page)).toBe('');
+
+        // Burger opens it.
+        await page.locator('.burger-menu').click();
+        await expect(body).toHaveClass(/sidebar-visible/);
+        await page.waitForTimeout(350); // slide-in settles
+
+        // Floats at the normal sidebar width (~288px), flush to the inline-start
+        // edge — NOT a near-full-width 90vw mobile sheet.
+        const box = (await sidebar.boundingBox())!;
+        expect(box.width).toBeGreaterThan(270);
+        expect(box.width).toBeLessThan(300);
+        expect(box.x).toBeLessThanOrEqual(1);
+        expect(await sidebar.evaluate((el) => getComputedStyle(el).visibility)).toBe('visible');
+
+        // Scrim is up and dismissable, and the background is scroll-locked.
+        const s = await scrim();
+        expect(s.opacity).toBe('1');
+        expect(s.pointer).toBe('auto');
+        expect(await bodyPosition(page)).toBe('fixed');
+
+        // Clicking outside the 288px drawer (far right) dismisses it and releases
+        // the scroll lock.
+        await page.mouse.click(1200, 512);
+        await expect(body).not.toHaveClass(/sidebar-visible/);
+        expect(await bodyPosition(page)).toBe('');
+
+        // Re-open, then Esc closes it too.
+        await page.locator('.burger-menu').click();
+        await expect(body).toHaveClass(/sidebar-visible/);
+        await page.keyboard.press('Escape');
+        await expect(body).not.toHaveClass(/sidebar-visible/);
+        expect(await bodyPosition(page)).toBe('');
+    });
+});
