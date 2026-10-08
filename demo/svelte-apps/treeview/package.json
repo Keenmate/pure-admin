@@ -8,7 +8,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@keenmate/svelte-treeview": "5.0.0-rc10",
+    "@keenmate/svelte-treeview": "5.0.0-rc14",
     "svelte": "^5.0.0"
   },
   "devDependencies": {

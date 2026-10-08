@@ -39,7 +39,7 @@
 
   let clickBehavior = $state<ClickBehavior>('expand-and-focus');
   let selectionMode = $state<SelectionMode>('multi');
-  let highlightedNodeClass = $state('ltree-selected-bold');
+  let highlightedNodeClass = $state('stv__node-content--highlight-bold');
   let showCheckboxes = $state(false);
 
   let focusedNode = $state<LTreeNode<Item> | null>(null);
@@ -71,10 +71,11 @@
     <div class="pa-form-group">
       <label>Highlight Style</label>
       <select class="pa-select" bind:value={highlightedNodeClass}>
-        <option value="ltree-selected-bold">Bold</option>
-        <option value="ltree-selected-border">Border</option>
-        <option value="ltree-selected-brackets">Brackets</option>
-        <option value="ltree-selected-highlight">Highlight</option>
+        <option value="stv__node-content--highlight-bold">Bold</option>
+        <option value="stv__node-content--highlight-border">Border</option>
+        <option value="stv__node-content--highlight-brackets">Brackets</option>
+        <option value="stv__node-content--highlight-fill">Highlight</option>
+        <option value="stv__node-content--highlight-glow">Glow</option>
       </select>
     </div>
   </div>
@@ -112,7 +113,7 @@
         {highlightedNodeClass}
         {clickBehavior}
         {selectionMode}
-        {showCheckboxes}
+        shouldShowCheckboxes={showCheckboxes}
         bind:focusedNode
         bind:highlightedPaths
         bind:selectedPaths
