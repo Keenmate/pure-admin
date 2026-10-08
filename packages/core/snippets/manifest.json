@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-07T16:30:21.838Z",
+  "generated": "2026-10-08T14:58:31.403Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -73,9 +73,9 @@
       "modified": "2026-09-15T16:31:47.365Z"
     },
     "forms.html": {
-      "hash": "02903e0c86d2a7a38dc470d2f03778b32bc94399f30ffe44457026a40dff1f45",
-      "size": 30479,
-      "modified": "2026-10-06T18:31:11.907Z"
+      "hash": "96672ab3cfce25beb73e993e7ee75d1e650548aca5a0b5d04a7910050ff730ad",
+      "size": 30614,
+      "modified": "2026-10-07T20:07:40.572Z"
     },
     "grid.html": {
       "hash": "26be1ae131fc2493750fc759cf641213c7cb302a03822fc64a5c75ae89ef8107",
@@ -108,9 +108,9 @@
       "modified": "2026-09-10T19:55:53.503Z"
     },
     "modal-dialogs.html": {
-      "hash": "e288e7949cb12b2a70de9b3250c6b6544ee7f7c4bf510b7b411e0d48d19950fd",
-      "size": 15229,
-      "modified": "2026-09-10T19:55:53.526Z"
+      "hash": "833e240662625c49b2dd0cf78f4263c173a05c94fa61d7f303c49f55439c67c9",
+      "size": 15586,
+      "modified": "2026-10-08T14:58:15.845Z"
     },
     "modals.html": {
       "hash": "3245e64c205fc723d0949d13af462a2bcf455704a18ede5f65737ce383b7f397",

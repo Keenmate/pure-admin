@@ -1,5 +1,5 @@
 {
-  "//": "Markup-fidelity fixture for the TABS CONTAINER — the `.pa-tabs` block (keen `PureAdmin.Components.Navigation.tabs/1`, svelte `navigation/Tabs.svelte`). SCOPE = CONTAINER ONLY. A tabs component's buttons + panels come from SEPARATE sub-components (keen tab_item/tab_panel/tabs_content/tabs_container/tabs_vertical_layout, svelte TabItem/TabPanel/TabsContent/TabsContainer) fed through the slot. The harness slot receives plain TEXT (the dumper HTML-escapes it), so item/panel markup can't flow through; the body area is a bare text token. This fixture proves ONLY what the `.pa-tabs` container itself emits: its tag, its base class, every style/size/align/overflow/border-top/wrap-labels MODIFIER, and class passthrough. Per-ITEM (__item/__item--active), per-PANEL (__content/__panel), LAYOUT-WRAPPER (__container--*/__vertical-layout--*) and OVERFLOW-MENU (__overflow*) element classes are DEFERRED (prose — their defining sub-components are out of scope). The scrollable overflow variant is capability-covered (the enum option is declared + the pa-tabs--scrollable modifier is claimed) but has NO strict scenario: keen's scrollable SSR shell wraps the slot in .pa-tabs__scroll-container + start/end .pa-tabs__scroll-btn arrows, while svelte's Tabs.svelte emits the slot flat — an irreconcilable-by-design SSR shell, so the __scroll-* element classes are listed in cssStateElements. See README 'container-only' + 'absorbed API divergence'.",
+  "//": "Markup-fidelity fixture for the TABS CONTAINER — the `.pa-tabs` block (keen `PureAdmin.Components.Navigation.tabs/1`, svelte `navigation/Tabs.svelte`). SCOPE = CONTAINER ONLY. A tabs component's buttons + panels come from SEPARATE sub-components (keen tab_item/tab_panel/tabs_content/tabs_container/tabs_vertical_layout, svelte TabItem/TabPanel/TabsContent/TabsContainer) fed through the slot. The harness slot receives plain TEXT (the dumper HTML-escapes it), so item/panel markup can't flow through; the body area is a bare text token. This fixture proves ONLY what the `.pa-tabs` container itself emits: its tag, its base class, every style/size/align/overflow/border-top/wrap-labels MODIFIER, and class passthrough. Per-ITEM (__item/__item--active), per-PANEL (__content/__panel), and LAYOUT-WRAPPER (__container--*/__vertical-layout--*) element classes are DEFERRED (prose — their defining sub-components are out of scope). The OVERFLOW dropdown (__overflow*) and the scrollable SCAFFOLD (__scroll-btn/__scroll-container) are NO LONGER prose-parked: they are VERIFIED fixture-refs to the dedicated `tabs-overflow` / `tabs-scrollable` compare-only fixtures, which strict-compare that markup across BOTH wrappers. (Earlier this fixture called scrollable 'irreconcilable' because its container-only slice is keyed to keen `tabs` / svelte `Tabs`, and svelte's `Tabs` doesn't own scrollable — svelte splits it into `TabsScrollable`. That is a component-DECOMPOSITION difference, not a DOM one: both wrappers emit the identical canonical scaffold, and tabs-scrollable.json keys each wrapper to the component that owns it, reconciling them. Only the genuinely JS-toggled --visible / --open states stay in cssStateElements.) See README 'container-only' + 'absorbed API divergence'.",
   "component": "tabs",
   "block": "pa-tabs",
   "propsVocabulary": {
@@ -35,19 +35,19 @@
     "pa-tabs__container--card":             "card-header layout wrapper — keen tabs_container/1 (deferred sibling), svelte TabsContainer.svelte.",
     "pa-tabs__vertical-layout":             "vertical layout wrapper — keen tabs_vertical_layout/1 (deferred sibling), svelte TabsContainer.svelte.",
     "pa-tabs__vertical-layout--bordered":   "bordered vertical layout wrapper — keen tabs_vertical_layout/1 (deferred sibling).",
-    "pa-tabs__overflow":                    "card-header overflow wrapper — author/JS-supplied inside the card-header layout; not emitted by tabs/1 itself (deferred).",
-    "pa-tabs__overflow-menu":               "overflow dropdown — JS-toggled, author-supplied (deferred).",
-    "pa-tabs__overflow-menu--open":         "overflow dropdown open state — JS-toggled (deferred).",
-    "pa-tabs__overflow-toggle":             "overflow toggle button — author-supplied (deferred).",
-    "pa-tabs__overflow-toggle--has-active": "overflow toggle active-hidden indicator — JS/author (deferred)."
+    "pa-tabs__overflow":                    { "fixture": "tabs-overflow" },
+    "pa-tabs__overflow-menu":               { "fixture": "tabs-overflow" },
+    "pa-tabs__overflow-toggle":             { "fixture": "tabs-overflow" },
+    "pa-tabs__overflow-toggle--has-active": { "fixture": "tabs-overflow" },
+    "pa-tabs__scroll-btn":                  { "fixture": "tabs-scrollable" },
+    "pa-tabs__scroll-btn--start":           { "fixture": "tabs-scrollable" },
+    "pa-tabs__scroll-btn--end":             { "fixture": "tabs-scrollable" },
+    "pa-tabs__scroll-container":            { "fixture": "tabs-scrollable" }
   },
   "cssStateElements": {
-    "//": "The scrollable-overflow SSR scaffold. keen's tabs/1 emits these inline when overflow=scrollable (wrapping the slot in a scroll-container between start/end arrow buttons whose --visible state is JS-driven); svelte's Tabs.svelte emits the slot flat with no scaffold. Because the two SSR shells diverge BY DESIGN there is no shared strict golden for scrollable — these elements are therefore out of the strict-compare surface, listed here rather than left as blind spots. The pa-tabs--scrollable BLOCK modifier is still claimed by the overflow enum feature (axis-1) and declared by both maps (axis-2).",
-    "pa-tabs__scroll-btn":          "start/end scroll arrow button (keen scrollable SSR; svelte omits)",
-    "pa-tabs__scroll-btn--start":   "start arrow (keen scrollable SSR)",
-    "pa-tabs__scroll-btn--end":     "end arrow (keen scrollable SSR)",
+    "//": "JS-TOGGLED element states — not in any SSR golden, so out of the strict-compare surface (listed here rather than left as blind spots). The scrollable SCAFFOLD (__scroll-btn/__scroll-container) and the overflow DROPDOWN (__overflow*) are no longer parked here: they moved to `deferred` as VERIFIED fixture-refs (tabs-scrollable / tabs-overflow), which strict-compare them across both wrappers. Only the genuinely runtime-only states remain: the arrow's --visible class (toggled by scroll position) and the menu's --open class (toggled by the dropdown).",
     "pa-tabs__scroll-btn--visible": "arrow visibility — JS-driven at runtime",
-    "pa-tabs__scroll-container":    "horizontal scroll wrapper around the items (keen scrollable SSR; svelte omits)"
+    "pa-tabs__overflow-menu--open": "overflow dropdown open state — JS-toggled at runtime"
   },
   "scenarios": [
     {

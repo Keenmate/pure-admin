@@ -1,0 +1,37 @@
+{
+  "//": "COMPARE-ONLY fixture for the SCROLLABLE TABS scaffold — the `.pa-tabs.pa-tabs--scrollable` shell: start/end `.pa-tabs__scroll-btn` arrows flanking a `.pa-tabs__scroll-container` that wraps the items (snippets/tabs.html L480-491). This exists to RECONCILE what tabs.json could not: the scrollable capability lives in DIFFERENT components per wrapper — keen folds it into `tabs/1` (overflow=\"scrollable\" emits the scaffold inline), svelte splits it into a dedicated `TabsScrollable`. The container-only tabs.json is keyed to keen `tabs` / svelte `Tabs`, so svelte's `Tabs` (which no longer accepts overflow=scrollable at all — the scaffold-less foot-gun was removed) can't produce the scaffold there; this fixture keys each wrapper to the component that OWNS scrollable (keen `tabs overflow=scrollable`, svelte `TabsScrollable`) and asserts the SINGLE canonical scaffold core blesses. Both wrappers emit identical DOM; the only divergence was WHICH component wraps it — reconciled here. `compareOnly: true` so check-all SKIPS the per-block capability reverse-check (tabs.json owns the `pa-tabs` block contract; a second pa-tabs fixture would double-run the modifier/element reverse-checks) — but UNLIKE `composite`, this is a single self-contained component (no parent/child tree), so the dumpers render it normally. It is coverage-REQUIRED for both wrappers by default. The arrow-visibility state class `pa-tabs__scroll-btn--visible` is JS-driven (not in SSR) and stays in tabs.json cssStateElements; the structural `__scroll-btn`/`__scroll-container` classes are deferred FROM tabs.json TO this fixture (verified fixture-ref). Wiring trimmed via normalize: keen's `data-pa-tab-scroll` button handles, both wrappers' `data-tabs-scroll` hook flag, and the a11y `aria-label` (keen literal / svelte i18n — same English, not a class contract).",
+  "compareOnly": true,
+  "component": "tabs-scrollable",
+  "block": "pa-tabs",
+  "parentComponent": "tabs",
+  "normalize": {
+    "ignoreAttrs": ["data-pa-tab-scroll", "data-tabs-scroll", "aria-label"]
+  },
+  "goldenConventions": "Golden = the canonical scrollable scaffold from snippets/tabs.html: `.pa-tabs.pa-tabs--scrollable` wrapping start-arrow button + `.pa-tabs__scroll-container` (holding the items — plain text token here) + end-arrow button, each arrow carrying a `.pa-icon.pa-icon--chevron-{left,right}` glyph span. Attribute + class-token order and whitespace normalized away; wiring attrs trimmed per the `normalize` block. keen's `overflow=\"scrollable\"` is forced by the dump task's render clause (it IS the scrollable variant); svelte's TabsScrollable is intrinsically scrollable.",
+  "features": {
+    "//": "Shared capability surface both wrappers expose on the scrollable tabs. scrollable-ness itself is INTRINSIC to the fixture (keen: const overflow=scrollable via the render clause; svelte: TabsScrollable is always scrollable), so it is not a feature. Per-item/panel markup is the deferred sub-components (see tabs.json).",
+    "style":      { "prop": "style", "kind": "enum", "values": ["pills", "boxed"], "produces": "pa-tabs--{value}" },
+    "size":       { "prop": "size",  "kind": "enum", "values": ["sm", "lg"], "produces": "pa-tabs--{value}" },
+    "body":       { "prop": "body",  "kind": "slot", "produces": null },
+    "extraClass": { "prop": "class", "kind": "string", "produces": null }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--scrollable\"><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--start\"><span class=\"pa-icon pa-icon--chevron-left\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__scroll-container\">Body</div><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--end\"><span class=\"pa-icon pa-icon--chevron-right\" aria-hidden=\"true\"></span></button></div>",
+      "note": "The blessed scrollable scaffold: scroll-container between start/end arrows. Both wrappers emit this identically (wiring attrs trimmed)."
+    },
+    {
+      "name": "style-pills",
+      "props": { "style": "pills", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--scrollable pa-tabs--pills\"><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--start\"><span class=\"pa-icon pa-icon--chevron-left\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__scroll-container\">Body</div><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--end\"><span class=\"pa-icon pa-icon--chevron-right\" aria-hidden=\"true\"></span></button></div>",
+      "note": "Style modifier composes with the scrollable scaffold; class-token order normalized away."
+    },
+    {
+      "name": "size-sm",
+      "props": { "size": "sm", "body": "Body" },
+      "golden": "<div class=\"pa-tabs pa-tabs--scrollable pa-tabs--sm\"><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--start\"><span class=\"pa-icon pa-icon--chevron-left\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__scroll-container\">Body</div><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--end\"><span class=\"pa-icon pa-icon--chevron-right\" aria-hidden=\"true\"></span></button></div>"
+    }
+  ]
+}

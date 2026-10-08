@@ -97,8 +97,9 @@ VALIDATION STATES
 Two ways to apply a validation style — pick the one that fits your
 framework wrapper:
 
-  1. Standalone modifier on the control:
-     <input class="pa-input pa-input--error">
+  1. Standalone modifier on the control (the error state also carries
+     aria-invalid="true" for assistive tech):
+     <input class="pa-input pa-input--error" aria-invalid="true">
 
   2. Wrapper class on the form-group:
      <div class="pa-form-group pa-form-group--error">
@@ -138,10 +139,10 @@ just stays neutral.
      --warning / --error. -->
 <input type="text" class="pa-input pa-input--success" value="Inline success">
 <input type="text" class="pa-input pa-input--warning" value="Inline warning">
-<input type="text" class="pa-input pa-input--error"   value="Inline error">
+<input type="text" class="pa-input pa-input--error"   value="Inline error" aria-invalid="true">
 <select class="pa-select pa-select--success"><option>Success</option></select>
 <select class="pa-select pa-select--warning"><option>Warning</option></select>
-<select class="pa-select pa-select--error"><option>Error</option></select>
+<select class="pa-select pa-select--error" aria-invalid="true"><option>Error</option></select>
 
 
 <!-- THEME COLOR SLOTS (1-9) -->

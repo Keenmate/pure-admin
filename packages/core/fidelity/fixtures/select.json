@@ -84,7 +84,8 @@
     {
       "name": "state-error",
       "props": { "state": "error" },
-      "golden": "<select class=\"pa-select pa-select--error\"></select>"
+      "golden": "<select aria-invalid=\"true\" class=\"pa-select pa-select--error\"></select>",
+      "note": "The error state also emits aria-invalid=\"true\" (a11y contract — pairs with pa-select--error)."
     },
     {
       "name": "theme-color-1",
@@ -163,8 +164,8 @@
     {
       "name": "combined",
       "props": { "size": "sm", "state": "error", "themeColor": "3", "name": "role", "id": "role", "required": true },
-      "golden": "<select name=\"role\" id=\"role\" required class=\"pa-select pa-select--sm pa-select--error pa-select--color-3\"></select>",
-      "note": "Stacks size + state + themeColor + native attrs to exercise class ordering + attribute passthrough together."
+      "golden": "<select name=\"role\" id=\"role\" required aria-invalid=\"true\" class=\"pa-select pa-select--sm pa-select--error pa-select--color-3\"></select>",
+      "note": "Stacks size + state + themeColor + native attrs to exercise class ordering + attribute passthrough together; the error state carries aria-invalid=\"true\"."
     }
   ]
 }

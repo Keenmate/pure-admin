@@ -1,5 +1,5 @@
 {
-  "//": "Markup-fidelity fixture for the TABLE CARD — the `.pa-table-card` block (keen `PureAdmin.Components.Table.table_card/1`, svelte `display/TableCard.svelte`). A pa-table-card is a card-like chrome purpose-built to HOST a table: a header (bare <h1..h6> title + optional `.pa-table-card__description` subtitle + `.pa-table-card__actions`), a body that holds the table (`.pa-table-card__body`, optionally `--scrollable`), and an optional footer (`.pa-table-card__footer`). SCOPE = the pa-table-card block + the __* elements the component EMITS INLINE (header/title/description/actions/body/footer) + its block modifiers. The inner table is a TEXT slot: the body region's child `.pa-table`/thead/tbody are native consumer markup the component wraps but does not author (styled by DESCENDANT selectors `.pa-table-card__body .pa-table`, NOT via __element classes) — so that table region is CONTAINER-ONLY and its child classes are DEFERRED as prose, exactly as table.json defers thead/tbody and card.json defers its body slot's content. The harness slot carries plain TEXT (the dumper HTML-escapes it), so a real <table> can't flow through; `body` is a bare text token and the diff proves only the body wrapper + header/footer structure. TITLE SHAPE: the blessed title is a BARE heading (<h3>Orders</h3>), styled by the `.pa-table-card__header h1..h6` element selector — NOT the deprecated `.pa-table-card__title`/`__title-text` wrapper (snippets/tables.html L308-338). Both wrappers emit the bare <h3>.",
+  "//": "Markup-fidelity fixture for the TABLE CARD — the `.pa-table-card` block (keen `PureAdmin.Components.Table.table_card/1`, svelte `display/TableCard.svelte`). A pa-table-card is a card-like chrome purpose-built to HOST a table: a header (`.pa-table-card__title` > `.pa-table-card__title-text` + optional `.pa-table-card__description` subtitle + `.pa-table-card__actions`), a body that holds the table (`.pa-table-card__body`, optionally `--scrollable`), and an optional footer (`.pa-table-card__footer`). SCOPE = the pa-table-card block + the __* elements the component EMITS INLINE (header/title/title-text/description/actions/body/footer) + its block modifiers. The inner table is a TEXT slot: the body region's child `.pa-table`/thead/tbody are native consumer markup the component wraps but does not author (styled by DESCENDANT selectors `.pa-table-card__body .pa-table`, NOT via __element classes) — so that table region is CONTAINER-ONLY and its child classes are DEFERRED as prose, exactly as table.json defers thead/tbody and card.json defers its body slot's content. The harness slot carries plain TEXT (the dumper HTML-escapes it), so a real <table> can't flow through; `body` is a bare text token and the diff proves only the body wrapper + header/footer structure. TITLE SHAPE: the blessed title is the `.pa-table-card__title` > `.pa-table-card__title-text` WRAPPER (mirrors `.pa-card__title`; `_tables.scss` makes `__title-text` inherit the header colour and no longer ships a bare `.pa-table-card__header h1..h6` rule). A bare <h3> is legacy tolerance only, NOT the documented shape. Both wrappers emit the wrapper (svelte TableCard, keen table_card).",
   "component": "table-card",
   "block": "pa-table-card",
   "propsVocabulary": {
@@ -7,21 +7,21 @@
     "color": "theme-slot header colour (1..9) — pa-table-card--color-{n}. svelte color (number); keen color (string).",
     "plain": "pa-table-card--plain — strips card chrome (no border/shadow/bg/radius); header/body/footer lose their fills. svelte isPlain; keen is_plain.",
     "scrollable": "pa-table-card__body--scrollable — enables overflow-x:auto on the body for wide tables. svelte isScrollable; keen is_scrollable.",
-    "title": "header title text — rendered as a BARE <h3> inside the header (blessed shape; the header's h1..h6 element selector styles it). svelte titleText; keen title_text.",
+    "title": "header title text — rendered as `.pa-table-card__title` > `.pa-table-card__title-text` (blessed wrapper, mirrors .pa-card__title). svelte titleText; keen title_text.",
     "description": "header subtitle — flexes into the free middle of the header row and truncates (pa-table-card__description). svelte descriptionText; keen subtitle_text.",
     "actions": "header actions slot (buttons/controls), wrapped in pa-table-card__actions. svelte headerActions; keen actions.",
     "body": "the table region — filled with plain slot text in this container-only slice (a real <table class=\"pa-table\"> is a native child the consumer writes inside the slot, styled by `.pa-table-card__body .pa-table`, not a sub-component). svelte children; keen inner_block.",
     "footer": "footer slot (pagination/summary), wrapped in pa-table-card__footer. svelte footer; keen footer.",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature."
   },
-  "goldenConventions": "Structural only — the table card adds no attribute conventions. Slot content (body/actions/footer) is a plain text token (Body/Actions/Footer) so the diff checks the wrapper's structural nesting, not rich content. The header renders ONLY when a header-ish prop (title/description/actions) is present; the body wrapper ALWAYS renders; the footer renders ONLY when footer is present. Title is a bare <h3> (blessed shape). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
+  "goldenConventions": "Structural only — the table card adds no attribute conventions. Slot content (body/actions/footer) is a plain text token (Body/Actions/Footer) so the diff checks the wrapper's structural nesting, not rich content. The header renders ONLY when a header-ish prop (title/description/actions) is present; the body wrapper ALWAYS renders; the footer renders ONLY when footer is present. Title is `.pa-table-card__title` > `.pa-table-card__title-text` (blessed shape). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
   "features": {
-    "//": "Feature→class contract authored from dist/css/main.css. capability.mjs axis-1 reverse-check is scoped to the pa-table-card--* BLOCK modifiers. Real authored block modifiers: --primary/--success/--warning/--danger (one `variant` enum), --color-1..9 (one `color` enum), --plain. The only element modifier is pa-table-card__body--scrollable (verified forward via `scrollable`). title/description/actions/body/footer are structural/slot; extraClass is passthrough. The `.pa-table-card__title`/`__title-text` element classes are DEPRECATED (rc10) and NOT emitted by either wrapper — the blessed title is a bare heading styled by the header's h1..h6 selector — so they are deferred as prose. The inner `.pa-table` + thead/tbody in the body are native consumer markup (deferred).",
+    "//": "Feature→class contract authored from dist/css/main.css. capability.mjs axis-1 reverse-check is scoped to the pa-table-card--* BLOCK modifiers. Real authored block modifiers: --primary/--success/--warning/--danger (one `variant` enum), --color-1..9 (one `color` enum), --plain. The only element modifier is pa-table-card__body--scrollable (verified forward via `scrollable`). description/actions/body/footer are structural/slot; extraClass is passthrough. The title is the `.pa-table-card__title` > `.pa-table-card__title-text` wrapper, exercised directly by the title/description/actions/header-full/variant-primary/plain/full goldens. The inner `.pa-table` + thead/tbody in the body are native consumer markup (deferred).",
     "variant":     { "kind": "enum",   "produces": "pa-table-card--{value}", "options": ["primary", "success", "warning", "danger"], "note": "coloured header; svelte/keen variant" },
     "color":       { "kind": "enum",   "produces": "pa-table-card--color-{value}", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "note": "theme-slot coloured header; svelte color (number), keen color (string)" },
     "plain":       { "kind": "bool",   "produces": "pa-table-card--plain", "note": "svelte isPlain; keen is_plain" },
     "scrollable":  { "kind": "bool",   "produces": "pa-table-card__body--scrollable", "note": "body element modifier; svelte isScrollable; keen is_scrollable" },
-    "title":       { "kind": "string", "produces": null, "note": "structural — bare <h3> in the header (blessed shape, NOT __title/__title-text)" },
+    "title":       { "kind": "string", "produces": null, "note": "structural — rendered as .pa-table-card__title > .pa-table-card__title-text (exercised by the title goldens)" },
     "description": { "kind": "string", "produces": "pa-table-card__description", "note": "header subtitle; flexes + truncates" },
     "actions":     { "kind": "slot",   "produces": "pa-table-card__actions", "note": "header actions slot" },
     "body":        { "kind": "slot",   "produces": "pa-table-card__body", "note": "structural — the table region; the inner <table class=\"pa-table\"> is a native child written inside the slot" },
@@ -29,9 +29,7 @@
     "extraClass":  { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
   "deferred": {
-    "//": "Element classes acknowledged out-of-scope (prose). The __title/__title-text pair is DEPRECATED (rc10) legacy tolerance — the blessed title is a bare heading (snippets/tables.html L310), so no wrapper emits these. The body's inner table (`.pa-table-card__body .pa-table` + its thead/tbody) is native consumer markup wrapped by the body — it's styled by DESCENDANT selectors, carries no __element classes of this block, and the harness slot carries only plain text so it can't be exercised here (same deferral table.json makes for thead/tbody and card.json makes for body content).",
-    "pa-table-card__title":      "DEPRECATED (rc10): legacy title wrapper; the blessed title is a bare <h3> styled by the `.pa-table-card__header h1..h6` selector — no wrapper emits this.",
-    "pa-table-card__title-text": "DEPRECATED (rc10): legacy title-text span inside __title — see pa-table-card__title.",
+    "//": "Element classes acknowledged out-of-scope (prose). The body's inner table (`.pa-table-card__body .pa-table` + its thead/tbody) is native consumer markup wrapped by the body — it's styled by DESCENDANT selectors, carries no __element classes of this block, and the harness slot carries only plain text so it can't be exercised here (same deferral table.json makes for thead/tbody and card.json makes for body content). (The `.pa-table-card__title` / `__title-text` wrapper is NO LONGER deferred — it is the blessed title shape, exercised directly by the title goldens below.)",
     "pa-table .in .__body":      "the inner <table class=\"pa-table\"> + its native thead/tbody/tr/th/td are consumer markup written inside the body slot, styled by the `.pa-table-card__body .pa-table` descendant selector — not a child class of this block (see table.json for the pa-table container contract)."
   },
   "scenarios": [
@@ -44,26 +42,26 @@
     {
       "name": "title",
       "props": { "title": "Orders", "body": "Body" },
-      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><h3>Orders</h3></div><div class=\"pa-table-card__body\">Body</div></div>",
-      "note": "Blessed title shape = bare <h3> (snippets/tables.html L310), NOT __title/__title-text."
+      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Orders</h3></div></div><div class=\"pa-table-card__body\">Body</div></div>",
+      "note": "Blessed title shape = .pa-table-card__title > .pa-table-card__title-text (mirrors .pa-card__title; snippets/tables.html)."
     },
     {
       "name": "description",
       "props": { "title": "Orders", "description": "Recent customer orders", "body": "Body" },
-      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><h3>Orders</h3><p class=\"pa-table-card__description\">Recent customer orders</p></div><div class=\"pa-table-card__body\">Body</div></div>",
-      "note": "Description is a <p class=\"pa-table-card__description\"> between title and actions (snippets/tables.html L313)."
+      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Orders</h3></div><p class=\"pa-table-card__description\">Recent customer orders</p></div><div class=\"pa-table-card__body\">Body</div></div>",
+      "note": "Description is a <p class=\"pa-table-card__description\"> after the title wrapper."
     },
     {
       "name": "actions",
       "props": { "title": "Orders", "actions": "Actions", "body": "Body" },
-      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><h3>Orders</h3><div class=\"pa-table-card__actions\">Actions</div></div><div class=\"pa-table-card__body\">Body</div></div>",
-      "note": "Header actions wrapped in pa-table-card__actions (snippets/tables.html L314)."
+      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Orders</h3></div><div class=\"pa-table-card__actions\">Actions</div></div><div class=\"pa-table-card__body\">Body</div></div>",
+      "note": "Header actions wrapped in pa-table-card__actions, after the title wrapper."
     },
     {
       "name": "header-full",
       "props": { "title": "Orders", "description": "Recent customer orders", "actions": "Actions", "body": "Body" },
-      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><h3>Orders</h3><p class=\"pa-table-card__description\">Recent customer orders</p><div class=\"pa-table-card__actions\">Actions</div></div><div class=\"pa-table-card__body\">Body</div></div>",
-      "note": "Full header: title + description + actions, in document order (snippets/tables.html L308-318)."
+      "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Orders</h3></div><p class=\"pa-table-card__description\">Recent customer orders</p><div class=\"pa-table-card__actions\">Actions</div></div><div class=\"pa-table-card__body\">Body</div></div>",
+      "note": "Full header: title wrapper + description + actions, in document order."
     },
     {
       "name": "actions-only",
@@ -75,19 +73,19 @@
       "name": "scrollable",
       "props": { "scrollable": true, "body": "Body" },
       "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__body pa-table-card__body--scrollable\">Body</div></div>",
-      "note": "Body element modifier for wide tables (snippets/tables.html L319)."
+      "note": "Body element modifier for wide tables (snippets/tables.html)."
     },
     {
       "name": "footer",
       "props": { "body": "Body", "footer": "Footer" },
       "golden": "<div class=\"pa-table-card\"><div class=\"pa-table-card__body\">Body</div><div class=\"pa-table-card__footer\">Footer</div></div>",
-      "note": "Footer renders only when footer content is present (snippets/tables.html L334)."
+      "note": "Footer renders only when footer content is present (snippets/tables.html)."
     },
     {
       "name": "variant-primary",
       "props": { "variant": "primary", "title": "Primary Table", "body": "Body" },
-      "golden": "<div class=\"pa-table-card pa-table-card--primary\"><div class=\"pa-table-card__header\"><h3>Primary Table</h3></div><div class=\"pa-table-card__body\">Body</div></div>",
-      "note": "Semantic coloured header (snippets/tables.html L341)."
+      "golden": "<div class=\"pa-table-card pa-table-card--primary\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Primary Table</h3></div></div><div class=\"pa-table-card__body\">Body</div></div>",
+      "note": "Semantic coloured header (snippets/tables.html)."
     },
     {
       "name": "variant-success",
@@ -109,14 +107,14 @@
     {
       "name": "plain",
       "props": { "plain": true, "title": "Inline Section Table", "body": "Body" },
-      "golden": "<div class=\"pa-table-card pa-table-card--plain\"><div class=\"pa-table-card__header\"><h3>Inline Section Table</h3></div><div class=\"pa-table-card__body\">Body</div></div>",
-      "note": "Strips card chrome (snippets/tables.html L355)."
+      "golden": "<div class=\"pa-table-card pa-table-card--plain\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Inline Section Table</h3></div></div><div class=\"pa-table-card__body\">Body</div></div>",
+      "note": "Strips card chrome (snippets/tables.html)."
     },
     {
       "name": "full",
       "props": { "variant": "primary", "scrollable": true, "title": "Orders", "description": "Recent customer orders", "actions": "Actions", "body": "Body", "footer": "Footer" },
-      "golden": "<div class=\"pa-table-card pa-table-card--primary\"><div class=\"pa-table-card__header\"><h3>Orders</h3><p class=\"pa-table-card__description\">Recent customer orders</p><div class=\"pa-table-card__actions\">Actions</div></div><div class=\"pa-table-card__body pa-table-card__body--scrollable\">Body</div><div class=\"pa-table-card__footer\">Footer</div></div>",
-      "note": "Everything at once: variant + full header + scrollable body + footer (the snippets/tables.html L308-338 shape)."
+      "golden": "<div class=\"pa-table-card pa-table-card--primary\"><div class=\"pa-table-card__header\"><div class=\"pa-table-card__title\"><h3 class=\"pa-table-card__title-text\">Orders</h3></div><p class=\"pa-table-card__description\">Recent customer orders</p><div class=\"pa-table-card__actions\">Actions</div></div><div class=\"pa-table-card__body pa-table-card__body--scrollable\">Body</div><div class=\"pa-table-card__footer\">Footer</div></div>",
+      "note": "Everything at once: variant + full header (title wrapper + description + actions) + scrollable body + footer."
     },
     {
       "name": "extra-class",

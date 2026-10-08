@@ -137,7 +137,8 @@
     {
       "name": "state-error",
       "props": { "state": "error", "value": "Invalid value" },
-      "golden": "<input type=\"text\" value=\"Invalid value\" class=\"pa-input pa-input--error\">"
+      "golden": "<input type=\"text\" value=\"Invalid value\" aria-invalid=\"true\" class=\"pa-input pa-input--error\">",
+      "note": "The error state also emits aria-invalid=\"true\" (a11y contract — pairs with pa-input--error). Both wrappers emit it when the resolved state is error."
     },
     {
       "name": "theme-color-1",
@@ -210,8 +211,8 @@
     {
       "name": "size-and-state",
       "props": { "size": "lg", "state": "error", "value": "x" },
-      "golden": "<input type=\"text\" value=\"x\" class=\"pa-input pa-input--lg pa-input--error\">",
-      "note": "size + state compose — class-token order is normalized away."
+      "golden": "<input type=\"text\" value=\"x\" aria-invalid=\"true\" class=\"pa-input pa-input--lg pa-input--error\">",
+      "note": "size + state compose — class-token order is normalized away; the error state carries aria-invalid=\"true\"."
     },
     {
       "name": "combined",

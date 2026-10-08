@@ -1,19 +1,29 @@
 #!/usr/bin/env node
-// Cross-wrapper compare SWEEP.
+// Cross-wrapper compare SWEEP + COVERAGE gate.
 //
-// For every fixture, diff each wrapper's dump against the golden (applying the
-// fixture's per-component `normalize` trims). Prints a per-fixture matrix +
-// totals, and surfaces the gaps — components a wrapper never dumped (a missing
-// map), and scenarios present in the golden but absent from a dump.
+// Two things in one pass:
+//   CORRECTNESS — for every fixture, diff each wrapper's dump against the golden
+//     (applying the fixture's per-component `normalize` trims). Real divergences
+//     gate (exit code).
+//   COVERAGE — does every wrapper actually IMPLEMENT every core capability? A
+//     fixture is a capability; a wrapper "covers" it by shipping a current dump.
+//     A REQUIRED capability with no dump is a hard coverage failure that gates —
+//     so "wrapper silently doesn't implement X" can no longer hide as a quiet
+//     "not dumped" line. A capability a wrapper legitimately can't/shouldn't
+//     implement must say so in the fixture's `coverage` block, with a reason:
 //
-//   node compare-all.mjs            # sweep both wrappers
+//        "coverage": { "svelte": { "exempt": "no standalone component — drawn inside the list" } }
+//
+//     Absent/true → required for that wrapper. `{ "exempt": "<reason>" }` (or
+//     false) → acknowledged out-of-scope: reported, not gated. Composites are
+//     compare-only, so they're not coverage-required unless a fixture opts in.
+//
+//   node compare-all.mjs            # sweep both wrappers (gates on divergences + required-missing)
 //   node compare-all.mjs --wrapper keen
+//   node compare-all.mjs --strict   # ALSO gate missing scenarios + exempt gaps (no-exceptions run)
 //
-// Exit code = total failing scenarios (real divergences) across all wrappers,
-// so it drops into CI. Missing dumps/scenarios are reported but don't gate
-// (a wrapper legitimately may not map every component yet) unless --strict.
-//
-// Requires the wrapper dumps to exist first:
+// Requires the wrapper dumps to exist first (a missing dump reads as "not
+// implemented" — regenerate before trusting a red):
 //   svelte:  node scripts/fidelity/dump.mjs --all
 //   keen:    mix pa.fidelity.dump --all
 
@@ -42,6 +52,18 @@ function readJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf-8'));
 }
 
+// Is this fixture a REQUIRED capability for wrapper `w`? Default = required.
+// `coverage[w]` of `{exempt:"reason"}` or `false` opts out (reported, not gated).
+// Composites are compare-only seams → not required unless the fixture says true.
+function coverageFor(fixture, w) {
+  const v = (fixture.coverage || {})[w];
+  if (v && typeof v === 'object' && v.exempt) return { required: false, reason: v.exempt };
+  if (v === false) return { required: false, reason: 'declared out-of-scope' };
+  if (v === true) return { required: true };
+  if (fixture.composite) return { required: false, reason: 'composite (compare-only)' };
+  return { required: true };
+}
+
 function main() {
   const args = process.argv.slice(2);
   let only = null, strict = false;
@@ -57,7 +79,8 @@ function main() {
     .sort();
 
   let totalFail = 0, totalPass = 0, totalMissScenarios = 0;
-  const missingDumps = []; // `${component} [${wrapper}]`
+  const requiredMissing = []; // `${component} [${wrapper}]` — REQUIRED capability, no dump → gates
+  const exemptMissing = [];   // `${component} [${wrapper}]: reason` — acknowledged, reported
   const failedFixtures = [];
   const knownFixtures = []; // acknowledged divergences — reported, not gated
   let totalKnown = 0;
@@ -79,8 +102,15 @@ function main() {
     for (const w of wrappers) {
       const dumpPath = WRAPPERS[w](component);
       if (!fs.existsSync(dumpPath)) {
-        cells.push(`${w} ${paint('gray', '—')}`);
-        missingDumps.push(`${component} [${w}]`);
+        const { required, reason } = coverageFor(fixture, w);
+        if (required) {
+          cells.push(`${w} ${paint('red', 'MISSING')}`);
+          requiredMissing.push(`${component} [${w}]`);
+          fixtureHasFail = true;
+        } else {
+          cells.push(`${w} ${paint('gray', 'exempt')}`);
+          exemptMissing.push(`${component} [${w}]: ${reason}`);
+        }
         continue;
       }
       const byName = new Map(readJson(dumpPath).map((d) => [d.name, d.html]));
@@ -131,18 +161,27 @@ function main() {
     for (const f of knownFixtures) console.log('  ' + paint('gray', f));
     console.log('');
   }
-  if (missingDumps.length) {
-    console.log(paint('yellow', `Not dumped (no wrapper map / stale dump) — ${missingDumps.length}:`));
-    console.log('  ' + paint('gray', missingDumps.join('  ')));
+  if (requiredMissing.length) {
+    console.log(paint('red', `Coverage gaps — REQUIRED capability not implemented/dumped (gates) — ${requiredMissing.length}:`));
+    console.log('  ' + paint('red', requiredMissing.join('  ')));
+    console.log(paint('gray', '  → implement + dump the component, or add a `coverage` exemption (with reason) to the fixture.'));
+    console.log('');
+  }
+  if (exemptMissing.length) {
+    console.log(paint('gray', `Coverage exemptions (documented out-of-scope, not gated) — ${exemptMissing.length}:`));
+    for (const e of exemptMissing) console.log('  ' + paint('gray', e));
     console.log('');
   }
 
+  const coverageFail = requiredMissing.length;
   const summary =
     `${totalPass} pass, ${totalFail} fail, ${totalMissScenarios} missing-scenario` +
-    `  ·  ${totalKnown} known-divergent  ·  ${missingDumps.length} not-dumped`;
-  console.log(paint(totalFail === 0 ? 'green' : 'red', summary) + '\n');
+    `  ·  ${totalKnown} known-divergent  ·  ${coverageFail} coverage-gap, ${exemptMissing.length} exempt`;
+  console.log(paint(totalFail === 0 && coverageFail === 0 ? 'green' : 'red', summary) + '\n');
 
-  const exit = totalFail + (strict ? totalMissScenarios + missingDumps.length : 0);
+  // Default gate: real divergences + REQUIRED capabilities with no dump.
+  // --strict additionally gates missing scenarios and exempt gaps.
+  const exit = totalFail + coverageFail + (strict ? totalMissScenarios + exemptMissing.length : 0);
   process.exit(exit);
 }
 

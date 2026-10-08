@@ -1,0 +1,36 @@
+{
+  "//": "COMPARE-ONLY fixture for the TABS OVERFLOW DROPDOWN — `.pa-tabs__overflow` wrapping a `.pa-tabs__overflow-toggle` (ellipsis trigger; `--has-active` when the hidden-overflow tab is the active one) + a `.pa-tabs__overflow-menu` (`--open` when expanded, JS-driven). Lives in a card-header tabs layout for tabs that don't fit. Both wrappers ship it: svelte `TabsOverflow` (toggle snippet + children → menu), keen `tabs_overflow/1` (added 2026-10-07 for parity — `:toggle` slot + inner_block → menu, requires `id`). Like tabs-scrollable this is `compareOnly` — a single component SHARING the `pa-tabs` block that tabs.json owns, so check-all skips the per-block capability reverse-check but the dumpers render it normally. The `--open` menu state is JS-toggled (not SSR) so it's not exercised; `__overflow*` element classes are deferred FROM tabs.json TO this fixture (verified fixture-ref). Wiring trimmed via normalize: keen's wrapper/menu `id` (+ the JS phx-click-away/phx-click handled globally), svelte's `aria-label` (i18n) + `aria-expanded` (reactive). `aria-haspopup=\"menu\"` is a real a11y contract both emit → kept.",
+  "compareOnly": true,
+  "component": "tabs-overflow",
+  "block": "pa-tabs",
+  "parentComponent": "tabs",
+  "normalize": {
+    "ignoreAttrs": ["id", "aria-label", "aria-expanded"]
+  },
+  "goldenConventions": "Golden = the overflow wrapper → toggle button (bearing the ellipsis `.pa-icon--ellipsis` glyph by default) → menu, with the menu items as a plain text token. keen requires a wrapper `id` (forced by the dump task's render clause; menu id = `{id}-menu`) — both ids are trimmed by the `normalize` block as wiring. Attribute + class-token order and whitespace normalized away.",
+  "features": {
+    "hasActive":  { "prop": "hasActive", "kind": "bool", "produces": "pa-tabs__overflow-toggle--has-active" },
+    "body":       { "prop": "body",  "kind": "slot", "produces": null, "note": "overflow menu items (plain text token here)" },
+    "extraClass": { "prop": "class", "kind": "string", "produces": null }
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "body": "Items" },
+      "golden": "<div class=\"pa-tabs__overflow\"><button type=\"button\" class=\"pa-tabs__overflow-toggle\" aria-haspopup=\"menu\"><span class=\"pa-icon pa-icon--ellipsis\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__overflow-menu\">Items</div></div>",
+      "note": "The blessed overflow shape: wrapper > ellipsis toggle + closed menu. Default toggle glyph is .pa-icon--ellipsis."
+    },
+    {
+      "name": "has-active",
+      "props": { "hasActive": true, "body": "Items" },
+      "golden": "<div class=\"pa-tabs__overflow\"><button type=\"button\" class=\"pa-tabs__overflow-toggle pa-tabs__overflow-toggle--has-active\" aria-haspopup=\"menu\"><span class=\"pa-icon pa-icon--ellipsis\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__overflow-menu\">Items</div></div>",
+      "note": "The active tab is hidden in the overflow → toggle carries --has-active."
+    },
+    {
+      "name": "extra-class",
+      "props": { "body": "Items", "extraClass": "ms-auto" },
+      "golden": "<div class=\"pa-tabs__overflow ms-auto\"><button type=\"button\" class=\"pa-tabs__overflow-toggle\" aria-haspopup=\"menu\"><span class=\"pa-icon pa-icon--ellipsis\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__overflow-menu\">Items</div></div>",
+      "note": "Class passthrough on the wrapper; token order normalized away."
+    }
+  ]
+}

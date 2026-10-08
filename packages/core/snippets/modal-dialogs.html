@@ -213,6 +213,11 @@ Shared enum-like options (same across all four methods):
              Default: 'sm' for confirm/alert/prompt, 'md' for custom.
   position →  'center' | 'top'
              Default: 'center'. 'top' adds pa-modal--top (5vh offset).
+  isBanded →  true | false (default false)
+             Adds pa-modal--banded (filled header + footer bands). Pair with a
+             role variant (success/warning/danger/info) for the band colour, like
+             the declarative modal. (Same key as svelte dialogService / keen
+             modal_dialogs.js — the three programmatic services match.)
 
 
 CONFIRM OPTIONS:

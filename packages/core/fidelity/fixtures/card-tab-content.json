@@ -1,5 +1,5 @@
 {
-  "//": "FRAGMENT fixture for a Card sub-component — the tab panel (pa-card__tab-content). SVELTE-ONLY: svelte has CardTabContent.svelte, but keen has NO card_tab_content function (keen authors tab panels inline inside the card body), so there is no keen map/dump — capability runs with --map svelte only. This is the fragment↔component-asymmetry case. Authored from snippets/cards.html (lines 495-497) + _cards.scss.",
+  "//": "FRAGMENT fixture for a Card sub-component — the tab panel (pa-card__tab-content). Both wrappers implement it: svelte CardTabContent.svelte + keen card_tab_content/1 (added 2026-10-07 for wrapper parity — keen previously authored tab panels inline; both now ship the helper + a dump). Authored from snippets/cards.html (lines 495-497) + _cards.scss.",
   "component": "card-tab-content",
   "block": "pa-card__tab-content",
   "propsVocabulary": {

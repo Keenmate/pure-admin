@@ -43,12 +43,19 @@ const failingNames = [];
 for (const f of fixtures) {
   const fixturePath = path.join(fixturesDir, f);
   const name = f.replace(/\.json$/, '');
-  // Composite (tree) fixtures are COMPARE-only — they prove the parent↔child
-  // seam against a wrapper dump; their per-class contract lives in the component
-  // fixtures. capability (CSS contract) doesn't apply, so skip them here.
+  // COMPARE-ONLY fixtures don't own a block's CSS contract, so the capability
+  // axis (CSS reverse-check) doesn't apply — skip them here:
+  //   - `composite`   — a parent↔child tree seam (per-class contract lives in
+  //                     the component fixtures).
+  //   - `compareOnly` — a single component that SHARES a block another fixture
+  //                     already owns (e.g. tabs-scrollable / tabs-overflow share
+  //                     `pa-tabs` with tabs.json); running the per-block reverse
+  //                     check again would double-count every pa-tabs--* / __*.
   try {
-    if (JSON.parse(fs.readFileSync(fixturePath, 'utf-8')).composite) {
-      console.log(paint('gray', `– ${name} (composite — compare-only, skipped)`));
+    const fx = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
+    if (fx.composite || fx.compareOnly) {
+      const kind = fx.composite ? 'composite' : 'compare-only';
+      console.log(paint('gray', `– ${name} (${kind} — skipped)`));
       skipped++;
       continue;
     }
