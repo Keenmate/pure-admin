@@ -6,6 +6,17 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc06
+
+Two breaking cleanups, a fully modernized command palette, and banded programmatic dialogs.
+
+- **BREAKING — `.pa-text` is gone; use the flat `text-*` utilities.** The pseudo-component collapsed to the same `font-size-*` tokens, so move to `text-sm` / `text-2xs` / … plus the new `.text-secondary` (muted body text), `.text-body`, `.text-caption`, and `.text-lead`. Wrapper `<Paragraph>` / `<Text>` / `<Heading>` APIs are unchanged.
+- **BREAKING — palette colour utilities dropped the `pa-` prefix.** `.bg-color-N`, `.text-color-N`, `.border-color-N`, `.text-on-color-N`, and the renamed composite `.surface-color-N` (tinted surface + guaranteed-readable text). Component `--color-N` BEM modifiers (`pa-btn--color-N`, …) keep the `pa-` prefix.
+- **Command palette modernized in the shipped JS** — it now matches the svelte + keen wrappers: a home screen, `/command` multi-step wizards, `:context` scoped search, global search, and modifier-free `g <letter>` shortcuts (e.g. `g g` → Go to Page, idiomatic where `Alt+<letter>` breaks on macOS). The demo dogfoods this file directly.
+- **Richer palette keyboard nav + real icons** — `PgUp`/`PgDn` and `Home`/`End` join `↑↓`, the idle home screen is arrow-navigable, and the icon slot now sizes a rendered icon child (inline SVG / masked `.pa-icon` / FA `<i>`) so the palette can mirror the sidebar's glyphs instead of an emoji fallback.
+- **Banded programmatic dialogs** — `pureAdmin.confirm/alert/prompt/custom` gain an `isBanded` option (filled header + footer bands, paired with a role `variant`), matching the keen and svelte dialog services.
+- **pure-css `^1.2.0`** — pulls in the role surface utilities (`bg-/surface-/text-on-{primary|success|warning|danger|info}`) that the card / table-card colour system consumes.
+
 ## What's New in 3.3.0-rc05
 
 Readable colour utilities and the last of the emoji swept out of the snippets.
@@ -13,14 +24,6 @@ Readable colour utilities and the last of the emoji swept out of the snippets.
 - **Unprefixed palette colour utilities** — the theme-slot helpers dropped the `pa-` prefix to join the flat utility namespace: `.bg-color-N`, `.text-color-N`, `.border-color-N`, `.text-on-color-N` (contrast text only), and the new composite `.surface-color-N` (slot background *and* its guaranteed-contrasting text in one class, Bootstrap `text-bg-*` shape). So a coloured chip or surface no longer needs a hardcoded `color: white` that goes unreadable on the light slots.
 - **Three new masked icon primitives** — `.pa-icon--lock`, `.pa-icon--help`, and `.pa-icon--logout` finish the profile-panel nav glyph set (alongside `--user` / `--bell` / `--settings`), drawing the shared Lucide shape in `currentColor` with the same theme re-skin path as the rest.
 - **Snippets off emoji** — the profile-panel and sidebar reference snippets now show the blessed masked `.pa-icon--*` / inline-SVG icon shapes with the hover-highlight contract, so wrappers copying them get the current markup instead of raw emoji.
-
-## What's New in 3.3.0-rc04
-
-Icons that react on hover, a snappier sidebar, and the pure-css 1.1.1 foundation.
-
-- **Icons fill / highlight on hover** — inside an enabled button, tab, or sidebar link, an icon now reacts on hover with zero JS: Font Awesome glyphs flip regular → solid (`.pc-icon-hover-fill`), outline sets like Lucide recolour to the accent (`.pc-icon-hover-highlight`), and masked `.pa-icon` glyphs swap to a filled source when one is declared. Opt in per icon.
-- **Snappier sidebar hover** — the sidebar link / submenu-toggle hover no longer fades its colour in; it snaps (colour transitions are motion-only now). Real motion — the chevron rotate and the icon-collapse label — is kept.
-- **pure-css `^1.1.1`** — brings the shared icon-hover foundation, the expanded `--base-icon-*` glyph set (settings / bell / user / download / link / external-link), and the runtime list-marker knob.
 
 ## Installation
 

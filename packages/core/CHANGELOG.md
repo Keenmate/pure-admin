@@ -5,7 +5,7 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.3.0-rc06] - 2026-10-04
+## [3.3.0-rc06] - 2026-10-08 [PUBLISHED]
 
 ### Added
 
@@ -29,6 +29,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Shipped command-palette JS (`src/js/command-palette.js`) modernized** to the
+  current canonical design — it had drifted ~several iterations behind the demo. It now
+  ships the home screen, `/command` multi-step wizards, `:context` scoped search, global
+  search, `g <letter>` leading-key shortcuts, and a keyboard-navigable idle home
+  (↑↓/Enter, first item pre-selected). Previously it was a stale older design
+  (`/p /o /u /i` contexts, pagination arrows, no home/wizard). The demo's own forked
+  copy was removed so the demo now dogfoods this shipped file directly; it matches the
+  svelte + keen wrappers.
+- **Command-palette list navigation gains `PgUp`/`PgDn` (jump a page of 8) and
+  `Home`/`End` (first/last item)** on top of `↑↓` — in the shipped JS and both wrappers.
+- **`.pa-command-palette__item-icon` now sizes a rendered icon child** — an inline
+  SVG (Lucide/Heroicon), a masked `.pa-icon`, or a Font Awesome `<i>` — to the new
+  `$command-palette-item-icon-glyph` (1.8rem), so the palette's icon slot can carry a
+  real icon (routed through a wrapper's icon component/system, mirroring the sidebar)
+  instead of only a unicode glyph. The demo palette's Go-to-Page list now renders the
+  **actual sidebar icon** (it scrapes the icon markup, not `textContent`) rather than
+  the `📄` fallback.
+- **`snippets/command-palette.html` keyboard-integration reference** now documents
+  the `g <letter>` leading-key command convention (e.g. `g g` → Go to Page) — the
+  idiomatic, modifier-free pattern preferred over `Alt+<letter>` (which types a glyph
+  on macOS) — and notes that `↑ ↓` also navigate the idle home screen. Convention prose
+  only (no class contract change); manifest hash regenerated.
 - **Depend on the published `@keenmate/pure-css` `^1.2.0`** (was a local
   `file:` link). 1.2.0 ships the new role surface utilities
   (`bg-/surface-/text-on-{primary|success|warning|danger|info}`) — the role

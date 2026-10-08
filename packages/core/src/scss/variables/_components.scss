@@ -609,6 +609,7 @@ $command-palette-item-padding-v: $spacing-sm !default;
 $command-palette-item-hover-bg: rgba($accent-color, 0.05) !default;
 $command-palette-item-active-bg: rgba($accent-color, 0.1) !default;
 $command-palette-item-icon-size: 3.2rem !default;  // 32px (was 2rem)
+$command-palette-item-icon-glyph: 1.8rem !default; // rendered SVG/.pa-icon/<i> size inside the icon box
 $command-palette-highlight-bg: rgba($accent-color, 0.2) !default;
 $command-palette-highlight-text: $accent-color !default;
 

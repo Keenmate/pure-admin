@@ -259,6 +259,25 @@
     color: var(--pc-accent);
     border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-sm;
+
+    // The icon slot accepts a plain glyph (emoji, sized by font-size above) OR a
+    // real rendered icon — an inline SVG (Lucide/Heroicon), a masked `.pa-icon`,
+    // or a Font Awesome `<i>`. Size those child forms to the box so the wrapper
+    // libraries can route the palette through their own icon component/system
+    // (mirroring the sidebar) instead of unicode fallbacks.
+    svg {
+      width: $command-palette-item-icon-glyph;
+      height: $command-palette-item-icon-glyph;
+    }
+
+    .pa-icon {
+      --pa-icon-size: #{$command-palette-item-icon-glyph};
+    }
+
+    i {
+      font-size: $command-palette-item-icon-glyph;
+      line-height: 1;
+    }
   }
 
   // Item content

@@ -505,10 +505,18 @@ KEYBOARD INTEGRATION (app conventions — NOT framework classes):
 The demo uses these patterns on top of the CSS; they're conventions,
 not CSS rules:
 - Ctrl/Cmd + K           open/close the palette
+- g <letter>             leading-key command shortcut (e.g. "g g" → Go to
+                         Page) — modifier-free, idiomatic (Gmail/Linear), only
+                         when NOT typing in a field and the palette is closed.
+                         Preferred over Alt+<letter>, which on macOS types a
+                         glyph (Option+G = "©") and is non-idiomatic there.
 - /p  /o  /u  /i         enter contexts (Products / Orders / Users /
                          Invoices) — flip --visible on __context and
                          render badges in __tokens
-- ↑ ↓                    navigate items (toggle __item--active)
+- ↑ ↓                    navigate items, incl. the idle home screen
+                         (toggle __item--active)
+- PgUp / PgDn            jump by a page (8 items, clamped)
+- Home / End             jump to the first / last item
 - ← →                    page between result pages
 - Enter                  commit the --active item's action
 - Esc                    close the palette

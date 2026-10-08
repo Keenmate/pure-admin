@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-08T14:58:31.403Z",
+  "generated": "2026-10-08T19:00:56.843Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -38,9 +38,9 @@
       "modified": "2026-09-10T19:55:53.154Z"
     },
     "command-palette.html": {
-      "hash": "f8d2f31c41660a94be734b78f754867f7820d968ea01324a7e65efc4517e6ab8",
-      "size": 25322,
-      "modified": "2026-10-06T18:46:06.091Z"
+      "hash": "7b94f030cc15ab7c911cfe1356c36e1a01e38db2ddb34a15c068876f51691282",
+      "size": 25879,
+      "modified": "2026-10-08T19:00:49.821Z"
     },
     "comparison.html": {
       "hash": "9dfebfd808d7754fa7721a9dc12c75e8c30f4def806b360105132daa2e75dd4a",

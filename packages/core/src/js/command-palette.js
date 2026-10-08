@@ -1,537 +1,1262 @@
 /**
- * Command Palette - macOS Spotlight-style search
- * Keyboard shortcut: Ctrl+K / Cmd+K
- * Context switching: /p (products), /o (orders), /u (users), /i (invoices)
- * Navigation: ↑↓ (items), ←→ (pages), Enter (select), Esc (close)
+ * Command Palette — Spotlight-style search with commands and context search
+ *
+ * Keyboard: Ctrl+K / Cmd+K to open
+ * Prefixes:
+ *   /  — Commands (multi-step wizards, instant actions)
+ *   :  — Context search (search within a category)
+ *   (none) — Global search across all categories
+ *
+ * Navigation: ↑↓ items, Enter/Tab select, Esc close
  */
 
-(function() {
-    'use strict';
+(function () {
+  'use strict';
 
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  function init() {
+    // ── DOM ──
+    const palette = document.getElementById('commandPalette');
+    const backdrop = document.getElementById('commandPaletteBackdrop');
+    const input = document.getElementById('commandPaletteInput');
+    const contextLabel = document.getElementById('commandPaletteContext');
+    const resultsEl = document.getElementById('commandPaletteResults');
+
+    if (!palette || !backdrop || !input || !contextLabel || !resultsEl) {
+      console.warn('Command palette elements not found');
+      return;
     }
 
-    function init() {
-        // DOM elements
-        const palette = document.getElementById('commandPalette');
-        const backdrop = document.getElementById('commandPaletteBackdrop');
-        const input = document.getElementById('commandPaletteInput');
-        const contextLabel = document.getElementById('commandPaletteContext');
-        const results = document.getElementById('commandPaletteResults');
+    const tokensEl = document.getElementById('commandPaletteTokens');
 
-        // Check if elements exist
-        if (!palette || !backdrop || !input || !contextLabel || !results) {
-            console.warn('Command palette elements not found');
-            return;
+    // ── State ──
+    let isOpen = false;
+    let mode = 'idle'; // idle | command-list | command-step | context-list | context-search | global-search
+    let displayStyle = 'inline'; // inline | tokens
+    let displayItems = [];
+    let homeEntries = []; // idle home list (commands + contexts), for ↑↓/Enter
+    let activeIndex = -1;
+    let searchTimer = null;
+    let currentQuery = ''; // tracks the active search query for highlights
+
+    // Command wizard state
+    let activeCommand = null;
+    let currentStepIndex = 0;
+    let selections = [];
+    let preview = null;
+
+    // Context search state
+    let activeContext = null;
+
+    // ── Demo data ──
+    const products = [
+      { id: 1, name: 'MacBook Pro 16"', sku: 'MBP-16-001', price: '$2,499.00', icon: '💻', status: 'In Stock' },
+      { id: 2, name: 'iPhone 15 Pro', sku: 'IP15P-256', price: '$999.00', icon: '📱', status: 'New' },
+      { id: 3, name: 'AirPods Pro', sku: 'APP-GEN2', price: '$249.00', icon: '🎧', status: 'Popular' },
+      { id: 4, name: 'iPad Air', sku: 'IPAD-AIR-5', price: '$599.00', icon: '📱', status: 'In Stock' },
+      { id: 5, name: 'Apple Watch Ultra', sku: 'AW-ULTRA', price: '$799.00', icon: '⌚', status: 'Limited' },
+      { id: 6, name: 'Magic Keyboard', sku: 'MK-US', price: '$99.00', icon: '⌨️', status: 'In Stock' },
+      { id: 7, name: 'Magic Mouse', sku: 'MM-BLK', price: '$79.00', icon: '🖱️', status: 'In Stock' },
+      { id: 8, name: 'HomePod mini', sku: 'HPM-WHT', price: '$99.00', icon: '🔊', status: 'New' },
+      { id: 9, name: 'Apple TV 4K', sku: 'ATV-4K-128', price: '$149.00', icon: '📺', status: 'In Stock' },
+      { id: 10, name: 'AirTag 4 Pack', sku: 'AT-4PK', price: '$99.00', icon: '📍', status: 'Popular' },
+      { id: 11, name: 'Studio Display', sku: 'SD-27-STD', price: '$1,599.00', icon: '🖥️', status: 'Premium' },
+      { id: 12, name: 'Mac Studio', sku: 'MS-M2-MAX', price: '$1,999.00', icon: '💻', status: 'Pro' },
+    ];
+
+    const users = [
+      { id: 1, name: 'John Doe', email: 'john.doe@example.com', role: 'Customer', status: 'Active' },
+      { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', role: 'Admin', status: 'Active' },
+      { id: 3, name: 'Bob Johnson', email: 'bob.johnson@example.com', role: 'Customer', status: 'Inactive' },
+      { id: 4, name: 'Alice Williams', email: 'alice.w@example.com', role: 'Manager', status: 'Active' },
+      { id: 5, name: 'Charlie Brown', email: 'charlie.b@example.com', role: 'Customer', status: 'Active' },
+      { id: 6, name: 'Diana Prince', email: 'diana.p@example.com', role: 'VIP', status: 'Premium' },
+      { id: 7, name: 'Eve Davis', email: 'eve.davis@example.com', role: 'Customer', status: 'Active' },
+      { id: 8, name: 'Frank Miller', email: 'frank.m@example.com', role: 'Support', status: 'Active' },
+      { id: 9, name: 'Grace Lee', email: 'grace.lee@example.com', role: 'Customer', status: 'New' },
+      { id: 10, name: 'Henry Ford', email: 'henry.f@example.com', role: 'Customer', status: 'Active' },
+    ];
+
+    const orders = [
+      { id: 1001, customer: 'John Doe', total: '$1,234.56', items: 2, status: 'Shipped' },
+      { id: 1002, customer: 'Jane Smith', total: '$567.89', items: 1, status: 'Processing' },
+      { id: 1003, customer: 'Bob Johnson', total: '$2,345.67', items: 5, status: 'Delivered' },
+      { id: 1004, customer: 'Alice Williams', total: '$890.12', items: 3, status: 'Pending' },
+      { id: 1005, customer: 'Charlie Brown', total: '$456.78', items: 2, status: 'Shipped' },
+      { id: 1006, customer: 'Diana Prince', total: '$3,456.89', items: 7, status: 'Processing' },
+      { id: 1007, customer: 'Eve Davis', total: '$123.45', items: 1, status: 'Cancelled' },
+      { id: 1008, customer: 'Frank Miller', total: '$678.90', items: 4, status: 'Delivered' },
+    ];
+
+    const reports = [
+      { id: 'sales', name: 'Product Sales', needsTimeRange: true },
+      { id: 'revenue', name: 'Revenue Summary', needsTimeRange: true },
+      { id: 'inventory', name: 'Inventory Status', needsTimeRange: false },
+      { id: 'customers', name: 'Customer Activity', needsTimeRange: true },
+      { id: 'returns', name: 'Returns & Refunds', needsTimeRange: true },
+    ];
+
+    // ── Badge variant mapping ──
+    const badgeVariants = {
+      'Active': 'success', 'In Stock': 'success', 'Delivered': 'success', 'Paid': 'success',
+      'New': 'info', 'Shipped': 'info', 'Popular': 'info',
+      'Premium': 'primary', 'Pro': 'primary',
+      'Processing': 'warning', 'Limited': 'warning', 'Inactive': 'warning', 'Unpaid': 'warning', 'Pending': 'warning',
+      'Cancelled': 'danger', 'Overdue': 'danger', 'Void': 'danger',
+    };
+
+    // ── Commands (/ prefix) ──
+    const filterOpts = (opts, query) => {
+      if (!query) return opts;
+      const q = query.toLowerCase();
+      return opts.filter((o) =>
+        (o.label || '').toLowerCase().includes(q) ||
+        (o.description || '').toLowerCase().includes(q) ||
+        (o.code || '') === q
+      );
+    };
+
+    // ── Go-to-page list — derived from the sidebar nav so it never drifts ──
+    // The sidebar (rendered on every page) is the canonical navigation, so
+    // scraping it here means new / renamed / removed routes show up in the
+    // palette automatically — no hand-maintained list, no build step. Hash-only
+    // demo links (#test1, Level 1.x placeholders) and duplicates are skipped.
+    let pageListCache = null;
+    function getPages() {
+      if (pageListCache) return pageListCache;
+
+      const pages = [];
+      const seen = new Set();
+      const links = document.querySelectorAll('.pc-layout__sidebar .pc-sidebar__link[href]');
+
+      links.forEach((link) => {
+        const href = (link.getAttribute('href') || '').trim();
+        if (!href || href.charAt(0) === '#') return; // skip anchor-only demo items
+        const path = href.split('?')[0].split('#')[0]; // normalise for dedupe
+        if (seen.has(path)) return;
+        seen.add(path);
+
+        const labelEl = link.querySelector('.pc-sidebar__label');
+        const label = labelEl ? labelEl.textContent.trim() : '';
+        if (!label) return;
+
+        // Section name + icon come from the nearest ancestor submenu's toggle.
+        // Icons are captured as MARKUP (innerHTML), not text — the sidebar renders
+        // each glyph as an inline SVG (Lucide) or a masked `.pa-icon` span, whose
+        // textContent is empty; grabbing innerHTML lets the palette render the SAME
+        // icon the sidebar shows (sized by `.pa-command-palette__item-icon svg/.pa-icon`)
+        // instead of falling back to a generic glyph.
+        let group = '';
+        let groupIcon = '';
+        const submenu = link.closest('.pc-sidebar__submenu');
+        const toggle = submenu && submenu.previousElementSibling;
+        if (toggle && toggle.classList.contains('pc-sidebar__toggle')) {
+          const gl = toggle.querySelector('.pc-sidebar__label');
+          const gi = toggle.querySelector('.pc-sidebar__icon');
+          group = gl ? gl.textContent.trim() : '';
+          groupIcon = gi ? gi.innerHTML.trim() : '';
         }
 
-    // State
-    let isOpen = false;
-    let currentContext = null;
-    let currentResults = [];
-    let activeIndex = -1;
-    let currentPage = 1;
-    let totalPages = 1;
-    const resultsPerPage = 8;
+        // Prefer the item's own rendered icon; fall back to the section icon, then
+        // a generic page glyph. (A bare bullet placeholder has no icon markup.)
+        const iconEl = link.querySelector('.pc-sidebar__icon');
+        let icon = iconEl ? iconEl.innerHTML.trim() : '';
+        if (!icon || icon === '•') icon = groupIcon || '📄';
 
-    // Context definitions
-    const contexts = {
-        p: { name: 'Products', label: 'Searching in Products' },
-        o: { name: 'Orders', label: 'Searching in Orders' },
-        u: { name: 'Users', label: 'Searching in Users' },
-        i: { name: 'Invoices', label: 'Searching in Invoices' }
-    };
+        pages.push({ id: 'page-' + path, label: label, description: group, icon: icon, value: href });
+      });
 
-    // Dummy data
-    const dummyData = {
-        products: [
-            { id: 1, title: 'MacBook Pro 16"', meta: 'SKU: MBP-16-001 • $2,499.00', icon: '💻', badge: 'In Stock' },
-            { id: 2, title: 'iPhone 15 Pro', meta: 'SKU: IP15P-256 • $999.00', icon: '📱', badge: 'New' },
-            { id: 3, title: 'AirPods Pro', meta: 'SKU: APP-GEN2 • $249.00', icon: '🎧', badge: 'Popular' },
-            { id: 4, title: 'iPad Air', meta: 'SKU: IPAD-AIR-5 • $599.00', icon: '📱', badge: 'In Stock' },
-            { id: 5, title: 'Apple Watch Ultra', meta: 'SKU: AW-ULTRA • $799.00', icon: '⌚', badge: 'Limited' },
-            { id: 6, title: 'Magic Keyboard', meta: 'SKU: MK-US • $99.00', icon: '⌨️', badge: 'In Stock' },
-            { id: 7, title: 'Magic Mouse', meta: 'SKU: MM-BLK • $79.00', icon: '🖱️', badge: 'In Stock' },
-            { id: 8, title: 'HomePod mini', meta: 'SKU: HPM-WHT • $99.00', icon: '🔊', badge: 'New' },
-            { id: 9, title: 'Apple TV 4K', meta: 'SKU: ATV-4K-128 • $149.00', icon: '📺', badge: 'In Stock' },
-            { id: 10, title: 'AirTag 4 Pack', meta: 'SKU: AT-4PK • $99.00', icon: '📍', badge: 'Popular' },
-            { id: 11, title: 'Studio Display', meta: 'SKU: SD-27-STD • $1,599.00', icon: '🖥️', badge: 'Premium' },
-            { id: 12, title: 'Mac Studio', meta: 'SKU: MS-M2-MAX • $1,999.00', icon: '💻', badge: 'Pro' }
-        ],
-        orders: [
-            { id: 1001, title: 'Order #1001', meta: 'John Doe • $1,234.56 • 2 items', icon: '📦', badge: 'Shipped' },
-            { id: 1002, title: 'Order #1002', meta: 'Jane Smith • $567.89 • 1 item', icon: '📦', badge: 'Processing' },
-            { id: 1003, title: 'Order #1003', meta: 'Bob Johnson • $2,345.67 • 5 items', icon: '📦', badge: 'Delivered' },
-            { id: 1004, title: 'Order #1004', meta: 'Alice Williams • $890.12 • 3 items', icon: '📦', badge: 'Pending' },
-            { id: 1005, title: 'Order #1005', meta: 'Charlie Brown • $456.78 • 2 items', icon: '📦', badge: 'Shipped' },
-            { id: 1006, title: 'Order #1006', meta: 'Diana Prince • $3,456.89 • 7 items', icon: '📦', badge: 'Processing' },
-            { id: 1007, title: 'Order #1007', meta: 'Eve Davis • $123.45 • 1 item', icon: '📦', badge: 'Cancelled' },
-            { id: 1008, title: 'Order #1008', meta: 'Frank Miller • $678.90 • 4 items', icon: '📦', badge: 'Delivered' },
-            { id: 1009, title: 'Order #1009', meta: 'Grace Lee • $1,890.23 • 6 items', icon: '📦', badge: 'Shipped' },
-            { id: 1010, title: 'Order #1010', meta: 'Henry Ford • $234.56 • 2 items', icon: '📦', badge: 'Pending' }
-        ],
-        users: [
-            { id: 1, title: 'John Doe', meta: 'john.doe@example.com • Customer', icon: '👤', badge: 'Active' },
-            { id: 2, title: 'Jane Smith', meta: 'jane.smith@example.com • Admin', icon: '👤', badge: 'Active' },
-            { id: 3, title: 'Bob Johnson', meta: 'bob.johnson@example.com • Customer', icon: '👤', badge: 'Inactive' },
-            { id: 4, title: 'Alice Williams', meta: 'alice.w@example.com • Manager', icon: '👤', badge: 'Active' },
-            { id: 5, title: 'Charlie Brown', meta: 'charlie.b@example.com • Customer', icon: '👤', badge: 'Active' },
-            { id: 6, title: 'Diana Prince', meta: 'diana.p@example.com • VIP', icon: '👤', badge: 'Premium' },
-            { id: 7, title: 'Eve Davis', meta: 'eve.davis@example.com • Customer', icon: '👤', badge: 'Active' },
-            { id: 8, title: 'Frank Miller', meta: 'frank.m@example.com • Support', icon: '👤', badge: 'Active' },
-            { id: 9, title: 'Grace Lee', meta: 'grace.lee@example.com • Customer', icon: '👤', badge: 'New' },
-            { id: 10, title: 'Henry Ford', meta: 'henry.f@example.com • Customer', icon: '👤', badge: 'Active' }
-        ],
-        invoices: [
-            { id: 501, title: 'Invoice #INV-501', meta: 'Order #1001 • $1,234.56 • Due in 5 days', icon: '📄', badge: 'Unpaid' },
-            { id: 502, title: 'Invoice #INV-502', meta: 'Order #1002 • $567.89 • Paid 2 days ago', icon: '📄', badge: 'Paid' },
-            { id: 503, title: 'Invoice #INV-503', meta: 'Order #1003 • $2,345.67 • Paid 1 week ago', icon: '📄', badge: 'Paid' },
-            { id: 504, title: 'Invoice #INV-504', meta: 'Order #1004 • $890.12 • Due today', icon: '📄', badge: 'Overdue' },
-            { id: 505, title: 'Invoice #INV-505', meta: 'Order #1005 • $456.78 • Due in 3 days', icon: '📄', badge: 'Unpaid' },
-            { id: 506, title: 'Invoice #INV-506', meta: 'Order #1006 • $3,456.89 • Due in 7 days', icon: '📄', badge: 'Unpaid' },
-            { id: 507, title: 'Invoice #INV-507', meta: 'Order #1007 • $123.45 • Cancelled', icon: '📄', badge: 'Void' },
-            { id: 508, title: 'Invoice #INV-508', meta: 'Order #1008 • $678.90 • Paid 3 days ago', icon: '📄', badge: 'Paid' },
-            { id: 509, title: 'Invoice #INV-509', meta: 'Order #1009 • $1,890.23 • Due in 10 days', icon: '📄', badge: 'Unpaid' },
-            { id: 510, title: 'Invoice #INV-510', meta: 'Order #1010 • $234.56 • Due in 2 days', icon: '📄', badge: 'Unpaid' }
-        ]
-    };
+      pageListCache = pages;
+      return pages;
+    }
 
-    // Mobile fullscreen sheet: on a touch phone the palette opens as a
-    // full-viewport sheet instead of a floating dialog (same pattern as the KM
-    // web components — see @keenmate/web-multiselect). Capability-first device
-    // decision via pureAdmin.device (mirrors web-components-core's
-    // classifyDevice): a narrowed DESKTOP window keeps the floating dialog; only
-    // a touch-primary phone (short side < 600px) gets the sheet. Falls back to a
-    // local matchMedia check if the pureAdmin namespace hasn't loaded.
+    const commands = [
+      {
+        shortcut: '/deploy',
+        aliases: ['/d'],
+        hotkey: 'g d',
+        name: 'Deploy to Environment',
+        description: 'Deploy a branch to an environment',
+        icon: '🚀',
+        steps: [
+          {
+            id: 'environment',
+            prompt: ' in ',
+            placeholder: 'Select environment...',
+            getOptions: (query) => filterOpts([
+              { id: 'prod', label: 'Production', description: 'Live servers', icon: '🔴', value: 'production' },
+              { id: 'staging', label: 'Staging', description: 'Pre-production', icon: '🟡', value: 'staging' },
+              { id: 'dev', label: 'Development', description: 'Dev servers', icon: '🟢', value: 'development' },
+            ], query),
+          },
+          {
+            id: 'branch',
+            prompt: ' branch ',
+            placeholder: 'Select or type branch...',
+            freeText: true,
+            getOptions: (query) => filterOpts([
+              { id: 'main', label: 'main', description: 'Default branch', icon: '🌿', value: 'main' },
+              { id: 'develop', label: 'develop', description: 'Development branch', icon: '🌱', value: 'develop' },
+              { id: 'feature', label: 'feature/new-ui', description: 'Feature branch', icon: '🔧', value: 'feature/new-ui' },
+            ], query),
+          },
+        ],
+        getPreview: (sel) => {
+          const env = sel[0]?.option?.label || '...';
+          const branch = sel[1]?.option?.label || sel[1]?.freeText;
+          return branch ? `Deploy ${branch} to ${env}` : `Deploy to ${env}`;
+        },
+        onComplete: (sel) => {
+          const env = sel[0]?.option?.value;
+          const branch = sel[1]?.option?.value || sel[1]?.freeText;
+          alert(`Deploying ${branch} to ${env}`);
+        },
+      },
+      {
+        shortcut: '/assign',
+        aliases: ['/a'],
+        hotkey: 'g a',
+        name: 'Assign to User',
+        description: 'Assign an item to a team member',
+        icon: '👤',
+        steps: [
+          {
+            id: 'item',
+            placeholder: 'Select item...',
+            getOptions: (query) => filterOpts(
+              products.map((p) => ({ id: 'p-' + p.id, label: p.name, description: `SKU: ${p.sku}`, icon: p.icon, value: p })),
+              query
+            ),
+          },
+          {
+            id: 'user',
+            prompt: ' to ',
+            placeholder: 'Select user...',
+            getOptions: (query) => filterOpts(
+              users.map((u) => ({ id: 'u-' + u.id, label: u.name, description: u.email, icon: '👤', value: u })),
+              query
+            ),
+          },
+        ],
+        getPreview: (sel) => {
+          const item = sel[0]?.option?.label || '...';
+          const user = sel[1]?.option?.label;
+          return user ? `Assign "${item}" to ${user}` : `Assign "${item}"`;
+        },
+        onComplete: (sel) => {
+          const item = sel[0]?.option?.label;
+          const user = sel[1]?.option?.label;
+          alert(`Assigned "${item}" to ${user}`);
+        },
+      },
+      {
+        shortcut: '/go',
+        aliases: ['/g', '/nav'],
+        hotkey: 'g g',
+        name: 'Go to Page',
+        description: 'Navigate to a page',
+        icon: '🧭',
+        steps: [
+          {
+            id: 'page',
+            placeholder: 'Type page name...',
+            freeText: true,
+            getOptions: (query) => filterOpts(getPages(), query),
+          },
+        ],
+        onComplete: (sel) => {
+          const page = sel[0]?.option?.value || sel[0]?.freeText || '/';
+          window.location.href = page;
+        },
+      },
+      {
+        shortcut: '/theme',
+        aliases: ['/t'],
+        hotkey: 'g t',
+        name: 'Switch Theme',
+        description: 'Change the visual theme',
+        icon: '🎨',
+        steps: [
+          {
+            id: 'theme',
+            placeholder: 'Select theme...',
+            getOptions: (query) => filterOpts([
+              { id: 'audi', label: 'Audi', description: 'Premium dark theme', icon: '🔴', value: 'audi' },
+              { id: 'dark', label: 'Dark', description: 'Clean dark theme', icon: '🌑', value: 'dark' },
+              { id: 'corporate', label: 'Corporate', description: 'Business theme', icon: '🏢', value: 'corporate' },
+              { id: 'dracula', label: 'Dracula', description: 'Purple accents', icon: '🧛', value: 'dracula' },
+              { id: 'tokyo-night', label: 'Tokyo Night', description: 'VS Code inspired', icon: '🌃', value: 'tokyo-night' },
+              { id: 'minimal', label: 'Minimal', description: 'Clean minimal', icon: '⚪', value: 'minimal' },
+              { id: 'gruvbox', label: 'Gruvbox', description: 'Retro groove', icon: '🟤', value: 'gruvbox' },
+            ], query),
+          },
+        ],
+        onComplete: (sel) => {
+          const t = sel[0]?.option?.value;
+          if (t) window.location.search = '?theme=' + t;
+        },
+      },
+    ];
+
+    // ── Contexts (: prefix) ──
+    const contexts = [
+      {
+        shortcut: ':p',
+        aliases: [':products', ':prod'],
+        name: 'Products',
+        description: 'Search products by name or SKU',
+        icon: '📦',
+        onSearch: (query) => {
+          const q = query.toLowerCase();
+          return products
+            .filter((p) => p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q))
+            .map((p) => ({
+              id: 'product-' + p.id, title: p.name,
+              subtitle: `SKU: ${p.sku} • ${p.price}`,
+              icon: p.icon, badge: p.status, data: p,
+            }));
+        },
+        onSelect: (r) => alert(`Navigate to: /products/${r.data.id}`),
+      },
+      {
+        shortcut: ':u',
+        aliases: [':users', ':user'],
+        name: 'Users',
+        description: 'Search users by name or email',
+        icon: '👤',
+        onSearch: (query) => {
+          const q = query.toLowerCase();
+          return users
+            .filter((u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q))
+            .map((u) => ({
+              id: 'user-' + u.id, title: u.name,
+              subtitle: `${u.email} • ${u.role}`,
+              icon: '👤', badge: u.status, data: u,
+            }));
+        },
+        onSelect: (r) => alert(`Navigate to: /users/${r.data.id}`),
+      },
+      {
+        shortcut: ':o',
+        aliases: [':orders', ':order'],
+        name: 'Orders',
+        description: 'Search orders by number or customer',
+        icon: '📦',
+        onSearch: (query) => {
+          const q = query.toLowerCase();
+          return orders
+            .filter((o) => o.customer.toLowerCase().includes(q) || String(o.id).includes(q))
+            .map((o) => ({
+              id: 'order-' + o.id, title: `Order #${o.id}`,
+              subtitle: `${o.customer} • ${o.total} • ${o.items} items`,
+              icon: '📦', badge: o.status, data: o,
+            }));
+        },
+        onSelect: (r) => alert(`Navigate to: /orders/${r.data.id}`),
+      },
+    ];
+
+    // ── Helpers ──
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function highlightText(text, query) {
+      if (!query) return escapeHtml(text);
+      const escaped = escapeHtml(text);
+      const regex = new RegExp(`(${escapeHtml(query)})`, 'gi');
+      return escaped.replace(regex, '<mark>$1</mark>');
+    }
+
+    function getTitle(item) {
+      return item.label || item.title || item.name || '';
+    }
+
+    function getSubtitle(item) {
+      const sub = item.subtitle || item.description || '';
+      if (item.code) return sub ? `[${item.code}] ${sub}` : `[${item.code}]`;
+      return sub;
+    }
+
+    function getIcon(item) {
+      return item.icon || '';
+    }
+
+    function getBadge(item) {
+      if (item.badge) return item.badge;
+      if (item.shortcut) return item.shortcut;
+      return '';
+    }
+
+    function getBadgeVariant(item) {
+      const badge = getBadge(item);
+      return badgeVariants[badge] || '';
+    }
+
+    // ── Mobile fullscreen sheet ──
+    // On a touch phone the palette opens as a full-viewport sheet instead of a
+    // floating dialog — the same pattern the KM web components use (see
+    // @keenmate/web-multiselect). The device decision is capability-first via
+    // pureAdmin.device (mirrors web-components-core's classifyDevice): a narrowed
+    // DESKTOP window keeps the floating dialog; only a touch-primary phone
+    // (short side < 600px) gets the sheet. Falls back to a local matchMedia
+    // check if the pureAdmin namespace hasn't loaded.
     const container = palette.querySelector('.pa-command-palette__container');
-    let fullscreenBar = null;
-    let keyboardInsetCleanup = null;
-    let scrollLockRelease = null;
+    let fullscreenBar = null;        // injected [title + close] row, null when floating
+    let keyboardInsetCleanup = null; // visualViewport listener detach
+    let scrollLockRelease = null;    // ref-counted body-scroll-lock release
 
     function isMobileDevice() {
-        const pa = window.pureAdmin;
-        if (pa && pa.device) return pa.device.class === 'mobile';
-        const touchPrimary =
-            window.matchMedia('(pointer: coarse)').matches &&
-            !window.matchMedia('(hover: hover)').matches;
-        if (!touchPrimary) return false;
-        const line = (pa && pa.config && pa.config.tabletMinShortSide) || 600;
-        return Math.min(window.innerWidth, window.innerHeight) < line;
+      const pa = window.pureAdmin;
+      if (pa && pa.device) return pa.device.class === 'mobile';
+      const touchPrimary =
+        window.matchMedia('(pointer: coarse)').matches &&
+        !window.matchMedia('(hover: hover)').matches;
+      if (!touchPrimary) return false;
+      const line = (pa && pa.config && pa.config.tabletMinShortSide) || 600;
+      return Math.min(window.innerWidth, window.innerHeight) < line;
     }
 
     function enterFullscreen() {
-        if (fullscreenBar || !container) return;
-        palette.classList.add('pa-command-palette--fullscreen');
-        // Pinned title + close row (CSS shows it only in fullscreen) — the touch
-        // close affordance, since there's no visible backdrop or Esc key.
-        fullscreenBar = document.createElement('div');
-        fullscreenBar.className = 'pa-command-palette__fullscreen-bar';
-        fullscreenBar.innerHTML =
-            '<span class="pa-command-palette__fullscreen-title">Search</span>' +
-            '<button type="button" class="pa-command-palette__close" aria-label="Close search">' +
-            '<span class="pa-icon pa-icon--x"></span></button>';
-        fullscreenBar.querySelector('.pa-command-palette__close').addEventListener('click', closePalette);
-        container.insertBefore(fullscreenBar, container.firstChild);
-        if (window.pureAdmin && window.pureAdmin.overlay) {
-            keyboardInsetCleanup = window.pureAdmin.overlay.observeKeyboardInset(container);
-        }
+      if (fullscreenBar || !container) return;
+      palette.classList.add('pa-command-palette--fullscreen');
+
+      // Pinned title + close row (CSS reveals it only in fullscreen). Inserted
+      // as the first child of the container so it survives result re-renders
+      // (which only rewrite the results list), and gives touch users a close
+      // affordance since there's no visible backdrop or Esc key.
+      fullscreenBar = document.createElement('div');
+      fullscreenBar.className = 'pa-command-palette__fullscreen-bar';
+      fullscreenBar.innerHTML =
+        '<span class="pa-command-palette__fullscreen-title">Search</span>' +
+        '<button type="button" class="pa-command-palette__close" aria-label="Close search">' +
+        '<span class="pa-icon pa-icon--x"></span></button>';
+      fullscreenBar.querySelector('.pa-command-palette__close').addEventListener('click', close);
+      container.insertBefore(fullscreenBar, container.firstChild);
+
+      // Keep the sheet above the soft keyboard (visualViewport). No-op if the
+      // overlay helper / visualViewport is unavailable.
+      if (window.pureAdmin && window.pureAdmin.overlay) {
+        keyboardInsetCleanup = window.pureAdmin.overlay.observeKeyboardInset(container);
+      }
     }
 
     function exitFullscreen() {
-        palette.classList.remove('pa-command-palette--fullscreen');
-        if (keyboardInsetCleanup) { keyboardInsetCleanup(); keyboardInsetCleanup = null; }
-        if (fullscreenBar) { fullscreenBar.remove(); fullscreenBar = null; }
+      palette.classList.remove('pa-command-palette--fullscreen');
+      if (keyboardInsetCleanup) { keyboardInsetCleanup(); keyboardInsetCleanup = null; }
+      if (fullscreenBar) { fullscreenBar.remove(); fullscreenBar = null; }
     }
 
-    /**
-     * Open command palette
-     */
-    function openPalette() {
-        isOpen = true;
-        palette.classList.add('pa-command-palette--active');
-        if (isMobileDevice()) enterFullscreen();
-        if (window.pureAdmin && window.pureAdmin.overlay) {
-            scrollLockRelease = window.pureAdmin.overlay.lockBodyScroll();
+    // ── Open / Close ──
+    function open() {
+      isOpen = true;
+      palette.classList.add('pa-command-palette--active');
+      if (isMobileDevice()) enterFullscreen();
+      // Lock page scroll via the shared ref-counted helper (so a drawer + the
+      // palette don't unbalance each other); fall back to a direct lock.
+      if (window.pureAdmin && window.pureAdmin.overlay) {
+        scrollLockRelease = window.pureAdmin.overlay.lockBodyScroll();
+      } else {
+        document.body.style.overflow = 'hidden';
+      }
+      input.focus();
+      renderIdle();
+    }
+
+    function close() {
+      isOpen = false;
+      palette.classList.remove('pa-command-palette--active');
+      exitFullscreen();
+      if (scrollLockRelease) { scrollLockRelease(); scrollLockRelease = null; }
+      else document.body.style.overflow = '';
+      reset();
+    }
+
+    function reset() {
+      input.value = '';
+      input.placeholder = 'Type / for commands, : to search, or just start typing...';
+      mode = 'idle';
+      displayItems = [];
+      activeIndex = -1;
+      activeCommand = null;
+      currentStepIndex = 0;
+      selections = [];
+      preview = null;
+      activeContext = null;
+      contextLabel.textContent = '';
+      contextLabel.classList.remove('pa-command-palette__context--visible');
+      tokensEl.innerHTML = '';
+      currentQuery = '';
+      if (searchTimer) clearTimeout(searchTimer);
+      renderIdle();
+    }
+
+    // ── Rendering ──
+    function renderIdle() {
+      // The idle home list is navigable with ↑↓ / Enter like any result list.
+      // It renders its own markup (section headings), so the entries live here
+      // rather than in displayItems; navigation falls back to homeEntries.
+      homeEntries = [
+        ...commands.map((c) => ({ kind: 'cmd', obj: c })),
+        ...contexts.map((c) => ({ kind: 'ctx', obj: c })),
+      ];
+      if (activeIndex < 0 || activeIndex >= homeEntries.length) activeIndex = 0;
+
+      let gi = 0;
+      let html = '<div class="pa-command-palette__home">';
+
+      // Commands section
+      html += '<div class="pa-command-palette__home-section">';
+      html += '<div class="pa-command-palette__home-heading">Commands</div>';
+      commands.forEach((cmd) => {
+        const active = gi === activeIndex ? ' pa-command-palette__item--active' : '';
+        html += `<div class="pa-command-palette__item${active}" data-index="${gi}" data-home-cmd="${cmd.shortcut}">`;
+        if (cmd.icon) html += `<div class="pa-command-palette__item-icon">${cmd.icon}</div>`;
+        html += `<div class="pa-command-palette__item-content">`;
+        html += `<div class="pa-command-palette__item-title">${escapeHtml(cmd.name)}</div>`;
+        html += `<div class="pa-command-palette__item-meta">${escapeHtml(cmd.description)}</div>`;
+        html += `</div>`;
+        if (cmd.hotkey) {
+          // Sequence ("g d") or chord ("Ctrl+K") — one keycap per token.
+          const keys = cmd.hotkey.split(/[+\s]+/);
+          html += `<div class="pa-command-palette__shortcut">`;
+          keys.forEach((k, i) => { html += `<span class="pa-command-palette__key">${escapeHtml(k)}</span>`; if (i < keys.length - 1) html += ' '; });
+          html += `</div>`;
         } else {
-            document.body.style.overflow = 'hidden';
+          html += `<span class="pa-command-palette__key">${escapeHtml(cmd.shortcut)}</span>`;
         }
-        input.focus();
+        html += `</div>`;
+        gi++;
+      });
+      html += '</div>';
+
+      // Search contexts section
+      html += '<div class="pa-command-palette__home-section">';
+      html += '<div class="pa-command-palette__home-heading">Search</div>';
+      contexts.forEach((ctx) => {
+        const active = gi === activeIndex ? ' pa-command-palette__item--active' : '';
+        html += `<div class="pa-command-palette__item${active}" data-index="${gi}" data-home-ctx="${ctx.shortcut}">`;
+        if (ctx.icon) html += `<div class="pa-command-palette__item-icon">${ctx.icon}</div>`;
+        html += `<div class="pa-command-palette__item-content">`;
+        html += `<div class="pa-command-palette__item-title">${escapeHtml(ctx.name)}</div>`;
+        html += `<div class="pa-command-palette__item-meta">${escapeHtml(ctx.description)}</div>`;
+        html += `</div>`;
+        html += `<span class="pa-command-palette__key">${escapeHtml(ctx.shortcut)}</span>`;
+        html += `</div>`;
+        gi++;
+      });
+      html += '</div>';
+
+      html += '</div>';
+      resultsEl.innerHTML = html;
+
+      // Click handlers for home items — select by index so mouse + keyboard
+      // share one path.
+      resultsEl.querySelectorAll('[data-index]').forEach((el) => {
+        el.addEventListener('click', () => selectItem(parseInt(el.dataset.index)));
+      });
+
+      // Keep the highlighted home item in view.
+      const activeEl = resultsEl.querySelector('.pa-command-palette__item--active');
+      if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
     }
 
-    /**
-     * Close command palette
-     */
-    function closePalette() {
-        isOpen = false;
-        palette.classList.remove('pa-command-palette--active');
-        exitFullscreen();
-        input.value = '';
+    function renderEmpty(message) {
+      resultsEl.innerHTML = `<div class="pa-command-palette__empty">${message || 'No results found'}</div>`;
+    }
+
+    function renderLoading() {
+      resultsEl.innerHTML = `
+        <div class="pa-command-palette__loader">
+          <div class="pa-spinner pa-spinner--sm pa-spinner--primary"></div>
+          <span>Searching...</span>
+        </div>`;
+    }
+
+    function renderItems(query) {
+      if (query !== undefined) currentQuery = query || '';
+      if (displayItems.length === 0) {
+        renderEmpty();
+        return;
+      }
+
+      let html = '';
+      displayItems.forEach((item, index) => {
+        const isActive = index === activeIndex;
+        const title = currentQuery ? highlightText(getTitle(item), currentQuery) : escapeHtml(getTitle(item));
+        const subtitle = getSubtitle(item);
+        const icon = getIcon(item);
+        const badge = getBadge(item);
+        const variant = getBadgeVariant(item);
+
+        html += `<div class="pa-command-palette__item${isActive ? ' pa-command-palette__item--active' : ''}" data-index="${index}">`;
+        if (icon) html += `<div class="pa-command-palette__item-icon">${icon}</div>`;
+        html += `<div class="pa-command-palette__item-content">`;
+        html += `<div class="pa-command-palette__item-title">${title}</div>`;
+        if (subtitle) html += `<div class="pa-command-palette__item-meta">${escapeHtml(subtitle)}</div>`;
+        html += `</div>`;
+        if (badge) html += `<span class="pa-badge${variant ? ' pa-badge--' + variant : ''}">${escapeHtml(badge)}</span>`;
+        html += `</div>`;
+      });
+
+      // Preview for command steps
+      if (preview && mode === 'command-step') {
+        html += `<div class="pa-command-palette__preview"><span class="pa-command-palette__preview-label">Preview:</span> ${escapeHtml(preview)}</div>`;
+      }
+
+      resultsEl.innerHTML = html;
+
+      // Click handlers
+      resultsEl.querySelectorAll('.pa-command-palette__item').forEach((el) => {
+        el.addEventListener('click', () => selectItem(parseInt(el.dataset.index)));
+      });
+
+      // Scroll active item into view
+      const activeEl = resultsEl.querySelector('.pa-command-palette__item--active');
+      if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+    }
+
+    function updateContextLabel(text) {
+      if (text) {
+        contextLabel.textContent = text;
+        contextLabel.classList.add('pa-command-palette__context--visible');
+      } else {
         contextLabel.textContent = '';
         contextLabel.classList.remove('pa-command-palette__context--visible');
-        currentContext = null;
-        currentResults = [];
+      }
+    }
+
+    // ── Input processing ──
+    function processInput() {
+      if (searchTimer) clearTimeout(searchTimer);
+      preview = null;
+
+      const value = input.value.trim();
+
+      // In command-step mode, always handle as step input (don't reset on empty)
+      if (mode === 'command-step' && activeCommand) {
+        handleStepInput();
+        return;
+      }
+
+      if (!value) {
+        mode = 'idle';
+        displayItems = [];
         activeIndex = -1;
-        currentPage = 1;
-        if (scrollLockRelease) { scrollLockRelease(); scrollLockRelease = null; }
-        else document.body.style.overflow = '';
-        renderEmptyState();
+        updateContextLabel(null);
+        renderIdle();
+        return;
+      }
+
+      if (value.startsWith('/')) return handleCommandInput(value);
+      if (value.startsWith(':')) return handleContextInput(value);
+      handleGlobalSearch(value);
     }
 
-    /**
-     * Detect context from search query
-     */
-    function detectContext(query) {
-        const match = query.match(/^\/([poui])\s*/);
-        if (match) {
-            const contextKey = match[1];
-            return contexts[contextKey] || null;
-        }
-        return null;
+    // ── Commands (/) ──
+    function handleCommandInput(value) {
+      const parts = value.split(' ');
+      const cmdPart = parts[0];
+      const queryPart = parts.slice(1).join(' ');
+
+      // If we're already in a command step, handle step input
+      if (mode === 'command-step' && activeCommand) {
+        handleStepInput();
+        return;
+      }
+
+      // Find matching commands
+      const matching = commands.filter((cmd) => {
+        const all = [cmd.shortcut, ...(cmd.aliases || [])];
+        return all.some(
+          (s) => s.toLowerCase().startsWith(cmdPart.toLowerCase()) || cmdPart.toLowerCase().startsWith(s.toLowerCase())
+        );
+      });
+
+      // Exact match + space = enter command mode
+      const exact = commands.find((cmd) => {
+        const all = [cmd.shortcut, ...(cmd.aliases || [])];
+        return all.some((s) => s.toLowerCase() === cmdPart.toLowerCase());
+      });
+
+      if (exact && (queryPart || value.endsWith(' '))) {
+        enterCommandMode(exact, queryPart);
+      } else if (cmdPart === '/') {
+        mode = 'command-list';
+        displayItems = commands;
+        activeIndex = 0;
+        updateContextLabel('Commands');
+        renderItems();
+      } else {
+        mode = 'command-list';
+        displayItems = matching;
+        activeIndex = matching.length > 0 ? 0 : -1;
+        updateContextLabel('Commands');
+        renderItems();
+      }
     }
 
-    /**
-     * Get search query without context prefix
-     */
-    function getSearchQuery(query) {
-        return query.replace(/^\/[poui]\s*/, '').trim();
+    function enterCommandMode(command, initialQuery) {
+      activeCommand = command;
+      currentStepIndex = 0;
+      selections = [];
+      mode = 'command-step';
+      updateContextLabel(command.name);
+
+      if (command.steps.length === 0) {
+        command.onComplete([]);
+        close();
+        return;
+      }
+
+      if (displayStyle === 'tokens') {
+        input.value = '';
+        renderTokens();
+      }
+
+      loadStepOptions(initialQuery || '');
     }
 
-    /**
-     * Filter results based on search query
-     */
-    function filterResults(data, query) {
-        if (!query) return data;
+    function loadStepOptions(query) {
+      const step = activeCommand.steps[currentStepIndex];
+      if (!step) return;
 
-        const lowerQuery = query.toLowerCase();
-        return data.filter(item => {
-            return item.title.toLowerCase().includes(lowerQuery) ||
-                   item.meta.toLowerCase().includes(lowerQuery);
+      input.placeholder = step.placeholder || 'Select...';
+
+      const options = step.getOptions(query, selections);
+      if (options instanceof Promise) {
+        renderLoading();
+        options.then((opts) => {
+          displayItems = opts;
+          activeIndex = opts.length > 0 ? 0 : -1;
+          updatePreview();
+          renderItems(query);
         });
+      } else {
+        displayItems = options;
+        activeIndex = options.length > 0 ? 0 : -1;
+        updatePreview();
+        renderItems(query);
+      }
     }
 
-    /**
-     * Highlight matching text
-     */
-    function highlightText(text, query) {
-        if (!query) return text;
-
-        const regex = new RegExp(`(${query})`, 'gi');
-        return text.replace(regex, '<mark>$1</mark>');
+    function handleStepInput() {
+      const query = getStepQuery();
+      loadStepOptions(query);
     }
 
-    /**
-     * Render empty state
-     */
-    function renderEmptyState() {
-        results.innerHTML = '<div class="pa-command-palette__empty">Type to search or use /p for products, /o for orders, /u for users, /i for invoices</div>';
+    function getStepQuery() {
+      if (displayStyle === 'tokens') return input.value.trim();
+      const display = buildSelectionsDisplay();
+      const val = input.value;
+      return val.substring(display.length).trim();
     }
 
-    /**
-     * Show loader (inline in results area)
-     */
-    function showLoader() {
-        // Add loading class to results container
-        results.classList.add('pa-command-palette__results--loading');
-
-        // If there are no existing results, show loader message
-        if (currentResults.length === 0) {
-            results.innerHTML = `
-                <div class="pa-command-palette__loader">
-                    <div class="pa-spinner pa-spinner--sm pa-spinner--primary"></div>
-                    <span>Searching...</span>
-                </div>
-            `;
-        }
+    function buildSelectionsDisplay() {
+      if (!activeCommand) return '';
+      let display = activeCommand.shortcut;
+      for (let i = 0; i < selections.length; i++) {
+        const step = activeCommand.steps[i];
+        const sel = selections[i];
+        display += step?.prompt || ' ';
+        display += sel.option?.label || sel.freeText || '';
+      }
+      const step = activeCommand.steps[currentStepIndex];
+      if (step && selections.length === currentStepIndex) {
+        display += step.prompt || ' ';
+      }
+      return display;
     }
 
-    /**
-     * Hide loader
-     */
-    function hideLoader() {
-        results.classList.remove('pa-command-palette__results--loading');
-    }
+    function renderTokens() {
+      if (displayStyle !== 'tokens' || mode !== 'command-step' || !activeCommand) {
+        tokensEl.innerHTML = '';
+        return;
+      }
 
-    /**
-     * Render results
-     */
-    function renderResults(items, query, page = 1) {
-        const startIndex = (page - 1) * resultsPerPage;
-        const endIndex = startIndex + resultsPerPage;
-        const pageItems = items.slice(startIndex, endIndex);
+      let html = `<span class="pa-badge pa-badge--primary">${escapeHtml(activeCommand.shortcut)}</span>`;
+      for (let i = 0; i < selections.length; i++) {
+        const step = activeCommand.steps[i];
+        const sel = selections[i];
+        const prompt = step?.prompt?.trim();
+        if (prompt) html += `<span class="pa-command-palette__token-prompt">${escapeHtml(prompt)}</span>`;
+        const label = sel.option?.label || sel.freeText || '';
+        html += `<span class="pa-badge"><span>${escapeHtml(label)}</span><button class="pa-badge__remove" data-step="${i}"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button></span>`;
+      }
+      const currentStep = activeCommand.steps[currentStepIndex];
+      if (currentStep?.prompt?.trim() && selections.length === currentStepIndex) {
+        html += `<span class="pa-command-palette__token-prompt">${escapeHtml(currentStep.prompt.trim())}</span>`;
+      }
+      tokensEl.innerHTML = html;
 
-        totalPages = Math.ceil(items.length / resultsPerPage);
-
-        if (pageItems.length === 0) {
-            results.innerHTML = '<div class="pa-command-palette__empty">No results found</div>';
-            return;
-        }
-
-        let html = '';
-
-        pageItems.forEach((item, index) => {
-            const globalIndex = startIndex + index;
-            const isActive = globalIndex === activeIndex;
-            const highlightedTitle = highlightText(item.title, query);
-
-            html += `
-                <div class="pa-command-palette__item ${isActive ? 'pa-command-palette__item--active' : ''}" data-index="${globalIndex}">
-                    <div class="pa-command-palette__item-icon">${item.icon}</div>
-                    <div class="pa-command-palette__item-content">
-                        <div class="pa-command-palette__item-title">${highlightedTitle}</div>
-                        <div class="pa-command-palette__item-meta">${item.meta}</div>
-                    </div>
-                    <div class="pa-command-palette__item-badge">${item.badge}</div>
-                </div>
-            `;
+      // Remove handlers on badges
+      tokensEl.querySelectorAll('.pa-badge__remove').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const stepIdx = parseInt(btn.dataset.step);
+          // Rewind to that step
+          selections = selections.slice(0, stepIdx);
+          currentStepIndex = stepIdx;
+          input.value = '';
+          renderTokens();
+          loadStepOptions('');
+          input.focus();
         });
-
-        // Add pagination indicator if multiple pages
-        if (totalPages > 1) {
-            html += `
-                <div class="pa-command-palette__pagination">
-                    Page ${page} of ${totalPages} • ${items.length} results
-                </div>
-            `;
-        }
-
-        results.innerHTML = html;
-
-        // Add click handlers to items
-        document.querySelectorAll('.pa-command-palette__item').forEach(item => {
-            item.addEventListener('click', () => {
-                const index = parseInt(item.dataset.index);
-                selectItem(currentResults[index]);
-            });
-        });
+      });
     }
 
-    /**
-     * Perform search
-     */
-    function performSearch(query) {
-        const context = detectContext(query);
-        const searchQuery = getSearchQuery(query);
+    function selectStepOption(option) {
+      selections.push({ stepId: activeCommand.steps[currentStepIndex].id, option });
+      moveToNextStep();
+    }
 
-        // Update context label
-        if (context) {
-            currentContext = context;
-            contextLabel.textContent = context.label;
-            contextLabel.classList.add('pa-command-palette__context--visible');
+    function submitFreeText() {
+      const step = activeCommand.steps[currentStepIndex];
+      if (!step?.freeText) return;
+      const text = getStepQuery();
+      if (!text) return;
+      selections.push({ stepId: step.id, freeText: text });
+      moveToNextStep();
+    }
+
+    function moveToNextStep() {
+      let nextIndex = currentStepIndex + 1;
+      while (nextIndex < activeCommand.steps.length) {
+        const step = activeCommand.steps[nextIndex];
+        if (!step.shouldShow || step.shouldShow(selections)) break;
+        nextIndex++;
+      }
+
+      if (nextIndex >= activeCommand.steps.length) {
+        activeCommand.onComplete(selections);
+        close();
+      } else {
+        currentStepIndex = nextIndex;
+        if (displayStyle === 'tokens') {
+          input.value = '';
+          renderTokens();
         } else {
-            currentContext = null;
-            contextLabel.classList.remove('pa-command-palette__context--visible');
+          input.value = buildSelectionsDisplay();
         }
-
-        // If no query, show empty state
-        if (!searchQuery && !context) {
-            renderEmptyState();
-            currentResults = [];
-            activeIndex = -1;
-            hideLoader();
-            return;
-        }
-
-        // Show loader
-        showLoader();
-
-        // Simulate search delay
-        setTimeout(() => {
-            // Get data based on context
-            let data = [];
-            if (context) {
-                switch (context.name) {
-                    case 'Products':
-                        data = dummyData.products;
-                        break;
-                    case 'Orders':
-                        data = dummyData.orders;
-                        break;
-                    case 'Users':
-                        data = dummyData.users;
-                        break;
-                    case 'Invoices':
-                        data = dummyData.invoices;
-                        break;
-                }
-            } else {
-                // Search all categories
-                data = [
-                    ...dummyData.products,
-                    ...dummyData.orders,
-                    ...dummyData.users,
-                    ...dummyData.invoices
-                ];
-            }
-
-            // Filter results
-            currentResults = filterResults(data, searchQuery);
-            activeIndex = currentResults.length > 0 ? 0 : -1;
-            currentPage = 1;
-
-            // Hide loader and render results
-            hideLoader();
-            renderResults(currentResults, searchQuery, currentPage);
-        }, 300);
+        loadStepOptions('');
+      }
     }
 
-    /**
-     * Navigate to previous item
-     */
-    function navigatePrevious() {
-        if (currentResults.length === 0) return;
+    function updatePreview() {
+      preview = null;
+    }
 
-        const startIndex = (currentPage - 1) * resultsPerPage;
+    // ── Contexts (:) ──
+    function handleContextInput(value) {
+      const parts = value.split(' ');
+      const ctxPart = parts[0];
+      const queryPart = parts.slice(1).join(' ');
 
-        if (activeIndex > startIndex) {
-            activeIndex--;
-        } else if (currentPage > 1) {
-            // Go to previous page, last item
-            currentPage--;
-            activeIndex = Math.min((currentPage * resultsPerPage) - 1, currentResults.length - 1);
+      // If already in context search, handle search
+      if (mode === 'context-search' && activeContext) {
+        const query = value.substring(activeContext.shortcut.length).trim();
+        performContextSearch(query);
+        return;
+      }
+
+      const matching = contexts.filter((ctx) => {
+        const all = [ctx.shortcut, ...(ctx.aliases || [])];
+        return all.some(
+          (s) => s.toLowerCase().startsWith(ctxPart.toLowerCase()) || ctxPart.toLowerCase().startsWith(s.toLowerCase())
+        );
+      });
+
+      const exact = contexts.find((ctx) => {
+        const all = [ctx.shortcut, ...(ctx.aliases || [])];
+        return all.some((s) => s.toLowerCase() === ctxPart.toLowerCase());
+      });
+
+      if (exact && (queryPart || value.endsWith(' '))) {
+        activeContext = exact;
+        mode = 'context-search';
+        updateContextLabel('Searching in ' + exact.name);
+        if (queryPart) performContextSearch(queryPart);
+        else { displayItems = []; renderEmpty('Type to search ' + exact.name.toLowerCase()); }
+      } else if (ctxPart === ':') {
+        mode = 'context-list';
+        displayItems = contexts;
+        activeIndex = 0;
+        updateContextLabel('Search contexts');
+        renderItems();
+      } else {
+        mode = 'context-list';
+        displayItems = matching;
+        activeIndex = matching.length > 0 ? 0 : -1;
+        updateContextLabel('Search contexts');
+        renderItems();
+      }
+    }
+
+    function performContextSearch(query) {
+      if (!activeContext) return;
+      if (searchTimer) clearTimeout(searchTimer);
+
+      searchTimer = setTimeout(() => {
+        const results = activeContext.onSearch(query);
+        if (results instanceof Promise) {
+          renderLoading();
+          results.then((r) => {
+            displayItems = r;
+            activeIndex = r.length > 0 ? 0 : -1;
+            renderItems(query);
+          });
         } else {
-            // Wrap to last page, last item
-            currentPage = totalPages;
-            activeIndex = currentResults.length - 1;
+          displayItems = results;
+          activeIndex = results.length > 0 ? 0 : -1;
+          renderItems(query);
         }
-
-        renderResults(currentResults, getSearchQuery(input.value), currentPage);
+      }, 150);
     }
 
-    /**
-     * Navigate to next item
-     */
-    function navigateNext() {
-        if (currentResults.length === 0) return;
+    // ── Global search ──
+    function handleGlobalSearch(query) {
+      mode = 'global-search';
+      updateContextLabel(null);
+      if (searchTimer) clearTimeout(searchTimer);
 
-        const endIndex = Math.min(currentPage * resultsPerPage, currentResults.length);
+      searchTimer = setTimeout(() => {
+        const q = query.toLowerCase();
+        const results = [];
 
-        if (activeIndex < endIndex - 1) {
-            activeIndex++;
-        } else if (currentPage < totalPages) {
-            // Go to next page, first item
-            currentPage++;
-            activeIndex = (currentPage - 1) * resultsPerPage;
-        } else {
-            // Wrap to first page, first item
-            currentPage = 1;
-            activeIndex = 0;
-        }
+        // Commands matching query
+        commands
+          .filter((c) => c.name.toLowerCase().includes(q) || c.shortcut.toLowerCase().includes(q) ||
+            (c.aliases || []).some((a) => a.toLowerCase().includes(q)))
+          .forEach((c) => results.push({
+            id: 'cmd-' + c.shortcut, title: c.name,
+            subtitle: c.description, icon: c.icon,
+            badge: c.shortcut, badgeVariant: '',
+            _type: 'command', _command: c,
+          }));
 
-        renderResults(currentResults, getSearchQuery(input.value), currentPage);
+        // Contexts matching query
+        contexts
+          .filter((c) => c.name.toLowerCase().includes(q) || c.shortcut.toLowerCase().includes(q) ||
+            (c.aliases || []).some((a) => a.toLowerCase().includes(q)))
+          .forEach((c) => results.push({
+            id: 'ctx-' + c.shortcut, title: c.name,
+            subtitle: c.description, icon: c.icon,
+            badge: c.shortcut, badgeVariant: '',
+            _type: 'context', _context: c,
+          }));
+
+        // Products (max 3)
+        products
+          .filter((p) => p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q))
+          .slice(0, 3)
+          .forEach((p) => results.push({
+            id: 'product-' + p.id, title: p.name,
+            subtitle: `SKU: ${p.sku} • ${p.price}`,
+            icon: p.icon, badge: 'Product', badgeVariant: '',
+            _type: 'product', data: p,
+          }));
+
+        // Users (max 3)
+        users
+          .filter((u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q))
+          .slice(0, 3)
+          .forEach((u) => results.push({
+            id: 'user-' + u.id, title: u.name,
+            subtitle: `${u.email} • ${u.role}`,
+            icon: '👤', badge: 'User', badgeVariant: '',
+            _type: 'user', data: u,
+          }));
+
+        // Orders (max 3)
+        orders
+          .filter((o) => o.customer.toLowerCase().includes(q) || String(o.id).includes(q))
+          .slice(0, 3)
+          .forEach((o) => results.push({
+            id: 'order-' + o.id, title: `Order #${o.id}`,
+            subtitle: `${o.customer} • ${o.total}`,
+            icon: '📦', badge: 'Order', badgeVariant: '',
+            _type: 'order', data: o,
+          }));
+
+        displayItems = results;
+        activeIndex = results.length > 0 ? 0 : -1;
+        renderItems(query);
+      }, 150);
     }
 
-    /**
-     * Navigate to previous page
-     */
-    function navigatePreviousPage() {
-        if (currentResults.length === 0 || totalPages <= 1) return;
-
-        currentPage = currentPage > 1 ? currentPage - 1 : totalPages;
-        activeIndex = (currentPage - 1) * resultsPerPage;
-
-        renderResults(currentResults, getSearchQuery(input.value), currentPage);
+    // ── Selection ──
+    function selectHome(index) {
+      const entry = homeEntries[index];
+      if (!entry) return;
+      if (entry.kind === 'cmd') {
+        input.value = entry.obj.shortcut + ' ';
+        enterCommandMode(entry.obj, '');
+      } else {
+        activeContext = entry.obj;
+        mode = 'context-search';
+        input.value = entry.obj.shortcut + ' ';
+        updateContextLabel('Searching in ' + entry.obj.name);
+        displayItems = [];
+        renderEmpty('Type to search ' + entry.obj.name.toLowerCase());
+      }
     }
 
-    /**
-     * Navigate to next page
-     */
-    function navigateNextPage() {
-        if (currentResults.length === 0 || totalPages <= 1) return;
+    function selectItem(index) {
+      if (mode === 'idle') { selectHome(index); return; }
+      if (index < 0 || index >= displayItems.length) return;
+      const item = displayItems[index];
 
-        currentPage = currentPage < totalPages ? currentPage + 1 : 1;
-        activeIndex = (currentPage - 1) * resultsPerPage;
+      switch (mode) {
+        case 'command-list':
+          // Selected a command — enter it
+          input.value = item.shortcut + ' ';
+          enterCommandMode(item, '');
+          break;
 
-        renderResults(currentResults, getSearchQuery(input.value), currentPage);
+        case 'command-step':
+          selectStepOption(item);
+          break;
+
+        case 'context-list':
+          // Selected a context — enter it
+          activeContext = item;
+          mode = 'context-search';
+          input.value = item.shortcut + ' ';
+          updateContextLabel('Searching in ' + item.name);
+          displayItems = [];
+          renderEmpty('Type to search ' + item.name.toLowerCase());
+          break;
+
+        case 'context-search':
+          if (activeContext?.onSelect) activeContext.onSelect(item);
+          close();
+          break;
+
+        case 'global-search':
+          if (item._type === 'command') {
+            input.value = item._command.shortcut + ' ';
+            enterCommandMode(item._command, '');
+          } else if (item._type === 'context') {
+            activeContext = item._context;
+            mode = 'context-search';
+            input.value = item._context.shortcut + ' ';
+            updateContextLabel('Searching in ' + item._context.name);
+            displayItems = [];
+            renderEmpty('Type to search ' + item._context.name.toLowerCase());
+          } else {
+            alert(`Selected: ${item.title} (${item._type})`);
+            close();
+          }
+          break;
+      }
     }
 
-    /**
-     * Select item
-     */
-    function selectItem(item) {
-        console.log('Selected:', item);
-        // In real app, navigate to item or trigger action
-        alert(`Selected: ${item.title}\n${item.meta}`);
-        closePalette();
+    // ── Keyboard navigation ──
+    // In idle mode the navigable list is the home entries; everything else walks
+    // displayItems. Re-render through the matching path so the highlight moves.
+    function navLength() {
+      return mode === 'idle' ? homeEntries.length : displayItems.length;
+    }
+    function rerenderActive() {
+      if (mode === 'idle') renderIdle(); else renderItems();
     }
 
-    /**
-     * Global keyboard shortcut (Ctrl+K / Cmd+K)
-     */
+    function navigateDown() {
+      const len = navLength();
+      if (len === 0) return;
+      activeIndex = activeIndex >= len - 1 ? 0 : activeIndex + 1;
+      rerenderActive();
+    }
+
+    function navigateUp() {
+      const len = navLength();
+      if (len === 0) return;
+      activeIndex = activeIndex <= 0 ? len - 1 : activeIndex - 1;
+      rerenderActive();
+    }
+
+    // PageUp/PageDown jump by a page; Home/End go to the ends. These clamp (no
+    // wrap, unlike the single-step arrows) — the conventional list behaviour.
+    const PAGE_STEP = 8;
+    function navigatePage(dir) {
+      const len = navLength();
+      if (len === 0) return;
+      const from = activeIndex < 0 ? 0 : activeIndex;
+      activeIndex = Math.max(0, Math.min(len - 1, from + dir * PAGE_STEP));
+      rerenderActive();
+    }
+
+    function navigateEdge(toEnd) {
+      const len = navLength();
+      if (len === 0) return;
+      activeIndex = toEnd ? len - 1 : 0;
+      rerenderActive();
+    }
+
+    function handleEnter() {
+      if (mode === 'idle') {
+        selectItem(activeIndex);
+      } else if (activeIndex >= 0 && activeIndex < displayItems.length) {
+        selectItem(activeIndex);
+      } else if (mode === 'command-step') {
+        submitFreeText();
+      }
+    }
+
+    // Leading-key command sequences ("g" then a letter) — the idiomatic,
+    // glyph-free, cross-platform pattern (Gmail / Linear / GitHub). Chosen over
+    // Alt+letter, which on macOS is a text-composition modifier (Option+G types
+    // "©", Option+T "†", …) — non-idiomatic there and it inserts glyphs in fields.
+    // A command's `hotkey` holds its full sequence, e.g. "g d"; the last token is
+    // the second key. Modifier-free and only active when NOT typing in a field,
+    // so it never fights text entry. ⌘K / Ctrl+K still opens the full palette.
+    let seqActive = false;
+    let seqTimer = null;
+    function endSequence() { seqActive = false; clearTimeout(seqTimer); }
+    function isTypingTarget(t) {
+      return !!t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+    }
+
+    // ── Event listeners ──
     document.addEventListener('keydown', (e) => {
-        // Ctrl+K or Cmd+K
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            if (isOpen) {
-                closePalette();
-            } else {
-                openPalette();
-            }
+      // Ctrl+K / ⌘K — toggle palette
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        isOpen ? close() : open();
+        return;
+      }
+
+      // Sequences are modifier-free and inert while typing or with the palette open.
+      if (e.ctrlKey || e.metaKey || e.altKey || isTypingTarget(e.target) || isOpen) {
+        endSequence();
+        return;
+      }
+
+      if (!seqActive) {
+        // Arm on the leader key ("g"); wait a short window for the second key.
+        if (e.key.toLowerCase() === 'g') {
+          seqActive = true;
+          clearTimeout(seqTimer);
+          seqTimer = setTimeout(endSequence, 1200);
         }
+        return;
+      }
+
+      // Second key — resolve against each command's sequence (last token).
+      endSequence();
+      const letter = e.key.toLowerCase();
+      const cmd = commands.find((c) => c.hotkey && c.hotkey.toLowerCase().split(/\s+/).pop() === letter);
+      if (cmd) {
+        e.preventDefault();
+        open();
+        input.value = cmd.shortcut + ' ';
+        enterCommandMode(cmd, '');
+      }
     });
 
-    /**
-     * Backdrop click to close
-     */
-    backdrop.addEventListener('click', closePalette);
+    backdrop.addEventListener('click', close);
 
-    /**
-     * Input events
-     */
-    input.addEventListener('input', (e) => {
-        performSearch(e.target.value);
-    });
+    // Display style toggle
+    const displayToggle = document.getElementById('commandPaletteDisplayToggle');
+    const displayLabel = document.getElementById('commandPaletteDisplayLabel');
+    if (displayToggle) {
+      displayToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        displayStyle = displayStyle === 'inline' ? 'tokens' : 'inline';
+        displayLabel.textContent = displayStyle;
+        // Re-render current state
+        if (mode === 'command-step') {
+          if (displayStyle === 'tokens') {
+            input.value = '';
+            renderTokens();
+          } else {
+            tokensEl.innerHTML = '';
+            input.value = buildSelectionsDisplay();
+          }
+        }
+        input.focus();
+      });
+    }
+
+    input.addEventListener('input', processInput);
 
     input.addEventListener('keydown', (e) => {
-        switch (e.key) {
-            case 'Escape':
-                e.preventDefault();
-                closePalette();
-                break;
-
-            case 'ArrowUp':
-                e.preventDefault();
-                navigatePrevious();
-                break;
-
-            case 'ArrowDown':
-                e.preventDefault();
-                navigateNext();
-                break;
-
-            case 'ArrowLeft':
-                e.preventDefault();
-                navigatePreviousPage();
-                break;
-
-            case 'ArrowRight':
-                e.preventDefault();
-                navigateNextPage();
-                break;
-
-            case 'Enter':
-                e.preventDefault();
-                if (activeIndex >= 0 && currentResults[activeIndex]) {
-                    selectItem(currentResults[activeIndex]);
-                }
-                break;
-        }
+      switch (e.key) {
+        case 'Escape':
+          e.preventDefault();
+          close();
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          navigateDown();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          navigateUp();
+          break;
+        case 'PageDown':
+          e.preventDefault();
+          navigatePage(1);
+          break;
+        case 'PageUp':
+          e.preventDefault();
+          navigatePage(-1);
+          break;
+        case 'Home':
+          e.preventDefault();
+          navigateEdge(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          navigateEdge(1);
+          break;
+        case 'Enter':
+        case 'Tab':
+          e.preventDefault();
+          handleEnter();
+          break;
+      }
     });
 
-    // Public API — expose open/close so external triggers (a navbar pill, a
-    // sidebar item) can open the palette, which then picks floating vs.
-    // fullscreen from pureAdmin.device. Mirrored onto the shared namespace.
-    var api = {
-        open: function () { if (!isOpen) openPalette(); },
-        close: function () { if (isOpen) closePalette(); },
-        isOpen: function () { return isOpen; }
+    // ── Public API ──
+    // Exposed so any trigger (a navbar pill, a sidebar item, a button) can open
+    // the palette — which then picks floating vs. fullscreen from the device.
+    // Also mirrored onto the shared pureAdmin namespace.
+    const api = {
+      open() { if (!isOpen) open(); },
+      close() { if (isOpen) close(); },
+      isOpen() { return isOpen; },
+      // Open pre-filled with a query (e.g. a '/command' or ':context'), running
+      // the same input pipeline as typing it. Used by the demo's example buttons.
+      openWithQuery(query) {
+        if (!isOpen) open();
+        input.value = query || '';
+        processInput();
+        input.focus();
+      },
+      setDisplayStyle(style) {
+        if (style !== 'inline' && style !== 'tokens') return;
+        displayStyle = style;
+        if (displayLabel) displayLabel.textContent = style;
+        if (mode === 'command-step') {
+          if (style === 'tokens') {
+            input.value = '';
+            renderTokens();
+          } else {
+            tokensEl.innerHTML = '';
+            input.value = buildSelectionsDisplay();
+          }
+        }
+      },
+      getDisplayStyle() { return displayStyle; },
     };
     window.commandPalette = api;
     if (window.pureAdmin) window.pureAdmin.commandPalette = api;
 
-    } // end init()
-
+  } // end init
 })();
