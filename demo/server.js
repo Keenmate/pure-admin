@@ -274,6 +274,11 @@ const renderWithLayout = (res, viewName, data) => {
     };
     const finalHtml = Mustache.render(layoutTemplate, finalData);
 
+    // Never cache the HTML document. It carries the cache-busted asset URLs
+    // (e.g. command-palette.js?v=<coreVersion>); if the document itself is
+    // cached, the browser keeps requesting the OLD asset URLs and the bust
+    // never reaches it. no-store guarantees each navigation re-reads the doc.
+    res.set('Cache-Control', 'no-store');
     res.send(finalHtml);
 };
 

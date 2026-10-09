@@ -90,8 +90,9 @@
     <script src="/pure-css-js/pure-css.js"></script>
     <!-- Pure Admin runtime facade (window.pureAdmin adopts pureCss buses by reference) — load after pure-css -->
     <script src="/src/js/pure-admin.js"></script>
-    <!-- Command Palette -->
-    <script src="/src/js/command-palette.js"></script>
+    <!-- Command Palette — ?v=<coreVersion> cache-busts a browser that cached the
+         old (now-deleted) demo/js fork and won't revalidate the bare URL. -->
+    <script src="/src/js/command-palette.js?v={{coreVersion}}"></script>
     <!-- Navbar inline search (search position "A") — demo-only behavior -->
     <script src="/src/js/navbar-search.js"></script>
     <!-- Fit — priority-driven container degradation (data-pc-fit / -auto / -ignore) — moved to pure-css -->
