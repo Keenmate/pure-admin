@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-08T19:00:56.843Z",
+  "generated": "2026-10-10T15:05:40.699Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -58,9 +58,9 @@
       "modified": "2026-10-06T18:48:49.903Z"
     },
     "detail-panel.html": {
-      "hash": "81c72f6cfa1e58995f5069b9dbd808401be59abb0abc845121db8ec4d5dfb7ef",
-      "size": 19313,
-      "modified": "2026-09-15T16:31:32.811Z"
+      "hash": "f61fbb601da3b52a5517da48ec188df86f1c3f79279faa834491ec53a6273fdd",
+      "size": 20752,
+      "modified": "2026-10-10T15:05:31.529Z"
     },
     "document.html": {
       "hash": "7d83d21f8072263ed7ed1ad3162dd8111868e71c1c96b5bc58e246e4266b9956",
@@ -360,9 +360,9 @@
       "modified": "2026-09-12T15:29:15.143Z"
     },
     "core-components/_command-palette.scss": {
-      "hash": "1388cf4889bbc78f3c6ecae83be51d9e0ba5cb2bce572e4b16840562695d6a9d",
-      "size": 22324,
-      "modified": "2026-09-24T19:10:46.400Z"
+      "hash": "69424ff406f1fff10f9929f9c9e9370f58df5e492dd0260a0aef8779ecff7855",
+      "size": 22992,
+      "modified": "2026-10-08T19:26:27.511Z"
     },
     "core-components/_comparison.scss": {
       "hash": "691c5518958e79c08309e97b6058238aa5cf3dda32ae7ad80ba9074b6a6f21ed",
@@ -380,9 +380,9 @@
       "modified": "2026-09-12T15:25:37.455Z"
     },
     "core-components/_detail-panel.scss": {
-      "hash": "47fd9be1378157e2917871b385181c99f9872eb8863b872d26bc673f121fc40e",
-      "size": 9424,
-      "modified": "2026-09-12T15:25:37.459Z"
+      "hash": "efa49ef8f1123777bcdcadb563d0075eb9b87ca02853b93584c555168911a133",
+      "size": 9737,
+      "modified": "2026-10-10T15:05:13.578Z"
     },
     "core-components/_document.scss": {
       "hash": "aa27331d7997de1a100e80be0d8eac5acc0c07a1d8bc6a1ab8a888d3dd88f304",
@@ -595,9 +595,9 @@
       "modified": "2026-09-10T19:55:52.850Z"
     },
     "variables/_components.scss": {
-      "hash": "9730fd41d4c3789743539f2ef27b292374851088c0ea61627bd2a6e2f28d96ff",
-      "size": 47101,
-      "modified": "2026-09-24T20:15:44.340Z"
+      "hash": "64ae7f2709cb9e3d15eb4bba54fcfbe53f1da0fe72cf775fcfb444b27c5c41dc",
+      "size": 47206,
+      "modified": "2026-10-08T19:26:33.885Z"
     },
     "variables/_index.scss": {
       "hash": "571ac8b22945e0bc1918638ad5df011b894167d944636d84fd38c7a1689520e1",

@@ -121,6 +121,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: $spacing-base; // Gap between header elements (title, description, actions) — mirrors `.pa-card__header`.
     min-width: 0;
 
     // Title + description are the canonical header elements (.pa-table-card__title
@@ -150,7 +151,9 @@
       color: inherit; // follows the header's --pa-card-header-text
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
-      line-height: 1;
+      // Not `1` — line-height 1 clips glyph descenders (g, y, p) under
+      // `overflow: hidden`. Mirrors `.pa-card__title-text`.
+      line-height: 1.4;
     }
   }
 

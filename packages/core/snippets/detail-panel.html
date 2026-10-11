@@ -3,7 +3,8 @@
      Pure Admin Visual Framework
 
      Three display modes, all sharing the same inner __content /
-     __header / __title / __close / __body / __footer structure:
+     __header (__title + optional __actions + __close) / optional
+     __tabs / __body / __footer structure:
 
        1. Inline split-view    .pa-detail-view (wraps main + panel)
        2. Card overlay         .pa-detail-view.pa-detail-view--overlay
@@ -176,6 +177,37 @@
         <div class="pa-tabs__panel" data-detail-panel="activity">
             <p>Activity feed…</p>
         </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     HEADER ACTIONS
+     Optional .pa-detail-panel__actions sits in the header between the
+     __title and the __close button (the title's flex:1 pushes it to the
+     inline-end). Mirrors .pa-card__actions — use it for panel-level
+     buttons (edit / bookmark / delete) that should stay visible while the
+     body scrolls. Footer actions (__footer) remain the place for the
+     primary confirm/cancel buttons.
+     ================================ -->
+
+<div class="pa-detail-panel__content">
+    <div class="pa-detail-panel__header">
+        <h4 class="pa-detail-panel__title">User Details</h4>
+        <div class="pa-detail-panel__actions">
+            <button class="pa-btn pa-btn--secondary pa-btn--sm pa-btn--icon" aria-label="Edit">
+                <span class="pa-icon pa-icon--edit" aria-hidden="true"></span>
+            </button>
+            <button class="pa-btn pa-btn--secondary pa-btn--sm pa-btn--icon" aria-label="Bookmark">
+                <span class="pa-icon pa-icon--star" aria-hidden="true"></span>
+            </button>
+        </div>
+        <button class="pa-detail-panel__close" aria-label="Close">
+            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="pa-detail-panel__body">
+        <p>Header actions stay pinned while this body scrolls.</p>
     </div>
 </div>
 

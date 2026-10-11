@@ -5,6 +5,40 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **`.pa-detail-panel__actions`** — a header actions slot on the detail-panel content
+  shell, sitting between the title and the close button (mirrors `.pa-card__actions`).
+  Lets a panel put icon buttons in the header without needing a footer.
+
+### Fixed
+
+- **`.pa-table-card__header` was missing the `gap` that `.pa-card__header` has.** A
+  table-card header carrying both a title and a `.pa-table-card__description` rendered the
+  two strings butted directly together. Added `gap: $spacing-base` so the table-card
+  header truly mirrors the card header (the fix affects every table-card that uses a
+  description, not just one demo).
+- **`.pa-table-card__title-text` clipped glyph descenders.** It still used
+  `line-height: 1`, which under `overflow: hidden` (needed for the ellipsis) cuts the
+  descenders of `g` / `y` / `p` — e.g. the "g" in a title like *Min-Height*. Bumped to
+  `line-height: 1.4`, matching the fix already on `.pa-card__title-text`. Both were
+  card-header fixes that had never been propagated to the table-card.
+
+### Internal
+
+- Added a markup-fidelity fixture for the detail-panel content shell
+  (`fidelity/fixtures/detail-panel.json`, 6 scenarios) and documented the new
+  `__actions` element in the snippet + component catalog, so the shared shell is guarded
+  against drift across the svelte and keen wrappers.
+- **Demo card headers canonicalized repo-wide.** Swept every `demo/views/*.mustache`
+  page so all `.pa-card__header` / `.pa-table-card__header` blocks use the one blessed
+  shape — `.pa-card__title` › `.pa-card__title-text` (+ optional `.pa-card__title-icon`)
+  and `.pa-card__description` — with no bare `<h3>` titles or bare `<p>` descriptions
+  (123 occurrences across 20 pages). The demo HTML had predated the card-header
+  canonicalization; it now matches the snippet contract the wrappers validate against.
+
 ## [3.3.0-rc06] - 2026-10-08 [PUBLISHED]
 
 ### Added

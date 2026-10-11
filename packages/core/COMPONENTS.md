@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc06** · **60** components · **145** blocks · **1375** class selectors.
+Framework version **3.3.0-rc06** · **60** components · **145** blocks · **1376** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -146,7 +146,7 @@ Tabbed panels with vertical, scrollable and overflow-menu overflow handling, plu
 Slide-in / docked detail panel (with mobile overlay + drag-resize) and its detail-view master/panel layout.
 
 - **Blocks:** `pa-detail-panel-resize`, `pa-detail-panel-resizing`, `pa-detail-view`
-- **Elements:** `pa-detail-panel__body`, `pa-detail-panel__close`, `pa-detail-panel__content`, `pa-detail-panel__footer`, `pa-detail-panel__header`, `pa-detail-panel__overlay`, `pa-detail-panel__tabs`, `pa-detail-panel__title`, `pa-detail-view__main`, `pa-detail-view__overlay`, `pa-detail-view__panel`
+- **Elements:** `pa-detail-panel__actions`, `pa-detail-panel__body`, `pa-detail-panel__close`, `pa-detail-panel__content`, `pa-detail-panel__footer`, `pa-detail-panel__header`, `pa-detail-panel__overlay`, `pa-detail-panel__tabs`, `pa-detail-panel__title`, `pa-detail-view__main`, `pa-detail-view__overlay`, `pa-detail-view__panel`
 - **Modifiers / states:** `pa-detail-panel--mobile-overlay`, `pa-detail-panel--open`, `pa-detail-panel--overlay`, `pa-detail-panel-resize--active`, `pa-detail-panel__content--bordered`, `pa-detail-view--overlay`, `pa-detail-view__overlay--visible`, `pa-detail-view__panel--open`
 - **SCSS:** `core-components/_detail-panel.scss`, `core-components/_tables.scss`
 - **Snippet:** `detail-panel.html`
@@ -724,7 +724,7 @@ Mask-based icon element (pa-icon--x etc.).
 
 - **Blocks:** `pa-icon`
 - **Modifiers / states:** `pa-icon--add`, `pa-icon--bell`, `pa-icon--caret`, `pa-icon--caret-down`, `pa-icon--caret-up`, `pa-icon--check`, `pa-icon--chevron`, `pa-icon--chevron-down`, `pa-icon--chevron-left`, `pa-icon--chevron-right`, `pa-icon--chevron-up`, `pa-icon--clear`, `pa-icon--collapse`, `pa-icon--copy`, `pa-icon--danger`, `pa-icon--delete`, `pa-icon--download`, `pa-icon--edit`, `pa-icon--ellipsis`, `pa-icon--ellipsis-vertical`, `pa-icon--expand`, `pa-icon--external-link`, `pa-icon--favorites`, `pa-icon--filter`, `pa-icon--help`, `pa-icon--info`, `pa-icon--link`, `pa-icon--lock`, `pa-icon--logout`, `pa-icon--refresh`, `pa-icon--remove`, `pa-icon--save`, `pa-icon--search`, `pa-icon--settings`, `pa-icon--success`, `pa-icon--user`, `pa-icon--warning`, `pa-icon--x`
-- **SCSS:** `core-components/_icons.scss`, `core-components/_modals.scss`
+- **SCSS:** `core-components/_command-palette.scss`, `core-components/_icons.scss`, `core-components/_modals.scss`
 - **Snippet:** `icon.html`
 - **Demo:** `icons.mustache`
 

@@ -6,7 +6,7 @@
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">Multi-Select Across Different Filters</h3>
         </div>
-        <p>Demonstration of maintaining selection state when switching between filters</p>
+        <p class="pa-card__description">Demonstration of maintaining selection state when switching between filters</p>
     </div>
     <div class="pa-card__body">
         <div class="pa-alert pa-alert--info">
@@ -110,11 +110,11 @@
 
 <!-- Data Table -->
 <div class="pa-card">
-    <div class="pa-card__header" style="display: flex; align-items: center; justify-content: space-between;">
-        <h4 style="margin: 0;">
-            <span id="current-filter-label">Active Users</span>
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h4 class="pa-card__title-text"><span id="current-filter-label">Active Users</span></h4>
             <span class="pa-badge pa-badge--secondary" id="visible-count">3 items</span>
-        </h4>
+        </div>
         <div class="d-flex gap-5">
             <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="selectAllVisible()">
                 <span class="pa-btn__icon"><i class="fas fa-check-square"></i></span>

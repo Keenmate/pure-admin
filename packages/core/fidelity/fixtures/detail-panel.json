@@ -1,0 +1,73 @@
+{
+  "//": "Markup-fidelity fixture for the DETAIL PANEL content shell — `.pa-detail-panel__content` (keen `PureAdmin.Components.DetailPanel.detail_panel/1`, svelte `display/DetailPanel.svelte`). SCOPE = the CONTENT SHELL ONLY (the inner tree shared by all three display modes: __header [__title + optional __actions + __close] → optional __tabs → __body → optional __footer, with an optional .pa-detail-panel-resize handle). The three OUTER mode wrappers — inline/card-overlay `.pa-detail-view` (svelte `DetailView`, keen `detail_view/1`) and the fixed `.pa-detail-panel--overlay` (keen `detail_panel_overlay/1`, svelte `SlidePanel`) — are OUT OF SCOPE here (their classes are listed under `deferred`); add `detail-view` as its own fixture key later if desired. The shells reconcile into real goldens: both wrappers emit `h4.pa-detail-panel__title` (NOT h3), a `.pa-detail-panel__close` whose only child is the masked `<span class=\"pa-icon pa-icon--x\">` affordance (aria-label \"Close\" in both — svelte via pureAdmin.buttons.close, keen via pureAdmin.a11y.close), and the optional __actions/__tabs/__footer are `:if`-gated on their slot in both. The resize handle renders as a bare `<div class=\"pa-detail-panel-resize\">` in both (svelte's drag event handlers + bind:this are not serialized in SSR; keen renders it inert — the PureAdminDetailPanel hook lives on the outer `.pa-detail-view__panel`, out of scope). Canonical shape: packages/core/snippets/detail-panel.html + _detail-panel.scss.",
+  "component": "detail-panel",
+  "block": "pa-detail-panel",
+  "propsVocabulary": {
+    "title": "Panel title → the canonical `<h4 class=\"pa-detail-panel__title\">` (svelte `titleText`, keen `title_text`). h4, not h3 — detail-panel titles are smaller than card/modal.",
+    "bordered": "Top + bottom borders on the content wrapper → `pa-detail-panel__content--bordered` (svelte `isBordered`, keen `is_bordered`).",
+    "resizable": "Render the drag-resize handle `.pa-detail-panel-resize` inside the content (svelte `isResizable`, keen `is_resizable`; default TRUE). The handle is inert markup here — the drag behaviour (PureAdminDetailPanel hook) binds on the outer `.pa-detail-view__panel`, which is out of this fixture's scope.",
+    "actions": "Header action buttons → `.pa-detail-panel__actions`, between the title and the close button (mirrors `.pa-card__actions`). `:if`-gated on the slot.",
+    "tabs": "Tabs region between header and body → `.pa-detail-panel__tabs` (hosts `.pa-tabs`). `:if`-gated on the slot.",
+    "body": "Panel body → `.pa-detail-panel__body` (always rendered).",
+    "footer": "Footer actions → `.pa-detail-panel__footer` (primary confirm/cancel). `:if`-gated on the slot."
+  },
+  "goldenConventions": "Full-tree goldens — the content shell reconciles between the wrappers (verified by dumping both). The close-button aria-label is \"Close\" in both (different i18n keys, identical text — the modal-close convention). svelte's legacy `header` slot override (raw replacement of the h4) is out of the fixture's scope: scenarios always drive the blessed `titleText` → `h4.pa-detail-panel__title` path. Framework event wiring (svelte resize-handle handlers, keen phx-click on the close) is not part of the contract (SSR-omitted / phx-* stripped by the normalizer).",
+  "features": {
+    "title":     { "kind": "string", "produces": "pa-detail-panel__title" },
+    "bordered":  { "kind": "bool",   "produces": "pa-detail-panel__content--bordered" },
+    "resizable": { "kind": "bool",   "produces": "pa-detail-panel-resize" },
+    "actions":   { "kind": "slot",   "produces": "pa-detail-panel__actions" },
+    "tabs":      { "kind": "slot",   "produces": "pa-detail-panel__tabs" },
+    "body":      { "kind": "slot",   "produces": "pa-detail-panel__body" },
+    "footer":    { "kind": "slot",   "produces": "pa-detail-panel__footer" }
+  },
+  "cssStateClasses": {
+    "pa-detail-panel--open": "JS/state toggle that slides the fixed-overlay panel in (mode wrapper, out of scope).",
+    "pa-detail-panel-resize--active": "Added to the handle while a drag is in progress (runtime, by the PureAdminDetailPanel hook).",
+    "pa-detail-view__overlay--visible": "Fades in the card-overlay backdrop while the panel is open (mode wrapper, out of scope).",
+    "pa-detail-view__panel--open": "Expands the inline/card panel to its width while open (mode wrapper, out of scope)."
+  },
+  "deferred": {
+    "//": "Classes belonging to the OUTER mode wrappers (detail-view + fixed overlay), not this content-shell fixture. Each exists in _detail-panel.scss; a future `detail-view` fixture key can guard them.",
+    "pa-detail-view": "Inline/card master-detail layout root.",
+    "pa-detail-view--overlay": "Card-overlay mode on the layout root.",
+    "pa-detail-view__main": "Main (table/content) area of the layout.",
+    "pa-detail-view__panel": "Sliding detail panel column (carries the resize hook).",
+    "pa-detail-view__overlay": "Card-overlay backdrop.",
+    "pa-detail-panel--overlay": "Fixed-viewport overlay root (mode 3).",
+    "pa-detail-panel--mobile-overlay": "Mobile variant of the fixed overlay.",
+    "pa-detail-panel__overlay": "Backdrop of the fixed overlay."
+  },
+  "scenarios": [
+    {
+      "name": "basic",
+      "props": { "resizable": false, "title": "User Details", "body": "Content" },
+      "golden": "<div class=\"pa-detail-panel__content\"><div class=\"pa-detail-panel__header\"><h4 class=\"pa-detail-panel__title\">User Details</h4><button class=\"pa-detail-panel__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-detail-panel__body\">Content</div></div>"
+    },
+    {
+      "name": "resizable",
+      "props": { "resizable": true, "title": "User Details", "body": "Content" },
+      "golden": "<div class=\"pa-detail-panel__content\"><div class=\"pa-detail-panel-resize\"></div><div class=\"pa-detail-panel__header\"><h4 class=\"pa-detail-panel__title\">User Details</h4><button class=\"pa-detail-panel__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-detail-panel__body\">Content</div></div>"
+    },
+    {
+      "name": "bordered",
+      "props": { "resizable": false, "bordered": true, "title": "User Details", "body": "Content" },
+      "golden": "<div class=\"pa-detail-panel__content pa-detail-panel__content--bordered\"><div class=\"pa-detail-panel__header\"><h4 class=\"pa-detail-panel__title\">User Details</h4><button class=\"pa-detail-panel__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-detail-panel__body\">Content</div></div>"
+    },
+    {
+      "name": "header-actions",
+      "props": { "resizable": false, "title": "User Details", "actions": "Actions", "body": "Content" },
+      "golden": "<div class=\"pa-detail-panel__content\"><div class=\"pa-detail-panel__header\"><h4 class=\"pa-detail-panel__title\">User Details</h4><div class=\"pa-detail-panel__actions\">Actions</div><button class=\"pa-detail-panel__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-detail-panel__body\">Content</div></div>"
+    },
+    {
+      "name": "tabs",
+      "props": { "resizable": false, "title": "User Details", "tabs": "Tabs", "body": "Content" },
+      "golden": "<div class=\"pa-detail-panel__content\"><div class=\"pa-detail-panel__header\"><h4 class=\"pa-detail-panel__title\">User Details</h4><button class=\"pa-detail-panel__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-detail-panel__tabs\">Tabs</div><div class=\"pa-detail-panel__body\">Content</div></div>"
+    },
+    {
+      "name": "footer",
+      "props": { "resizable": false, "title": "User Details", "body": "Content", "footer": "Footer" },
+      "golden": "<div class=\"pa-detail-panel__content\"><div class=\"pa-detail-panel__header\"><h4 class=\"pa-detail-panel__title\">User Details</h4><button class=\"pa-detail-panel__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-detail-panel__body\">Content</div><div class=\"pa-detail-panel__footer\">Footer</div></div>"
+    }
+  ]
+}
