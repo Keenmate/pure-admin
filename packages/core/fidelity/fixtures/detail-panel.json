@@ -22,6 +22,8 @@
     "footer":    { "kind": "slot",   "produces": "pa-detail-panel__footer" }
   },
   "cssStateClasses": {
+    "pa-detail-panel--overlay": "Fixed full-screen overlay MODE wrapper (like the profile panel); the wrapper/mode owns it, not the SSR panel shell (out of scope).",
+    "pa-detail-panel--mobile-overlay": "Responsive modifier that turns the inline panel into a fixed full-viewport overlay at mobile widths (mode wrapper, out of scope).",
     "pa-detail-panel--open": "JS/state toggle that slides the fixed-overlay panel in (mode wrapper, out of scope).",
     "pa-detail-panel-resize--active": "Added to the handle while a drag is in progress (runtime, by the PureAdminDetailPanel hook).",
     "pa-detail-view__overlay--visible": "Fades in the card-overlay backdrop while the panel is open (mode wrapper, out of scope).",
