@@ -6,6 +6,17 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc07
+
+Collapsed-sidebar flyouts become genuinely usable, a detail-panel header actions slot, and table-card header polish.
+
+- **Collapsed icon-rail submenu flyouts overhauled** — in icon-collapse mode the hover flyouts no longer shrink their text per nesting level (it was dropping to 12px), linger briefly when the cursor leaves so you can travel back to them, and read as an elevated floating card instead of a muted panel. Ships via pure-css `^1.3.0-rc01`.
+- **Flyouts are viewport-aware** — the new `js/sidebar-flyout.js` shifts a flyout up, caps-and-scrolls, or flips it (RTL-aware) so one on an item low in a tall menu no longer opens off the bottom edge. Event-delegated and self-initialising.
+- **New desktop "overlay" sidebar behaviour** — `body.sidebar-overlay` turns the sidebar into a temporary floating drawer the burger opens and closes, alongside the existing hide / icon-collapse modes.
+- **`.pa-detail-panel__actions`** — a header actions slot on the detail-panel content shell, between the title and close button (mirrors `.pa-card__actions`), so a panel can put icon buttons in its header without a footer.
+- **Table-card header fixes** — the header now carries the same `gap` as `.pa-card__header` (title and description no longer butt together), and `.pa-table-card__title-text` stopped clipping glyph descenders (the "g"/"y"/"p" tails) under its ellipsis.
+- **pure-css `^1.3.0-rc01`** — the foundation bump that carries the sidebar flyout work above.
+
 ## What's New in 3.3.0-rc06
 
 Two breaking cleanups, a fully modernized command palette, and banded programmatic dialogs.
@@ -16,14 +27,6 @@ Two breaking cleanups, a fully modernized command palette, and banded programmat
 - **Richer palette keyboard nav + real icons** — `PgUp`/`PgDn` and `Home`/`End` join `↑↓`, the idle home screen is arrow-navigable, and the icon slot now sizes a rendered icon child (inline SVG / masked `.pa-icon` / FA `<i>`) so the palette can mirror the sidebar's glyphs instead of an emoji fallback.
 - **Banded programmatic dialogs** — `pureAdmin.confirm/alert/prompt/custom` gain an `isBanded` option (filled header + footer bands, paired with a role `variant`), matching the keen and svelte dialog services.
 - **pure-css `^1.2.0`** — pulls in the role surface utilities (`bg-/surface-/text-on-{primary|success|warning|danger|info}`) that the card / table-card colour system consumes.
-
-## What's New in 3.3.0-rc05
-
-Readable colour utilities and the last of the emoji swept out of the snippets.
-
-- **Unprefixed palette colour utilities** — the theme-slot helpers dropped the `pa-` prefix to join the flat utility namespace: `.bg-color-N`, `.text-color-N`, `.border-color-N`, `.text-on-color-N` (contrast text only), and the new composite `.surface-color-N` (slot background *and* its guaranteed-contrasting text in one class, Bootstrap `text-bg-*` shape). So a coloured chip or surface no longer needs a hardcoded `color: white` that goes unreadable on the light slots.
-- **Three new masked icon primitives** — `.pa-icon--lock`, `.pa-icon--help`, and `.pa-icon--logout` finish the profile-panel nav glyph set (alongside `--user` / `--bell` / `--settings`), drawing the shared Lucide shape in `currentColor` with the same theme re-skin path as the rest.
-- **Snippets off emoji** — the profile-panel and sidebar reference snippets now show the blessed masked `.pa-icon--*` / inline-SVG icon shapes with the hover-highlight contract, so wrappers copying them get the current markup instead of raw emoji.
 
 ## Installation
 

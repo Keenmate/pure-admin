@@ -5,13 +5,27 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.3.0-rc07] - 2026-10-12 [PUBLISHED]
 
 ### Added
 
 - **`.pa-detail-panel__actions`** — a header actions slot on the detail-panel content
   shell, sitting between the title and the close button (mirrors `.pa-card__actions`).
   Lets a panel put icon buttons in the header without needing a footer.
+- **`js/sidebar-flyout.js`** — re-export of the pure-css collapsed-rail submenu flyout
+  positioner. In icon-collapse mode the hover flyouts are now viewport-aware (shift up /
+  cap-and-scroll / flip to the start side, RTL-aware), so a flyout on an item low in a
+  tall menu no longer opens off the bottom edge. Event-delegated, self-initialising.
+
+### Changed
+
+- **Bumped `@keenmate/pure-css` to `^1.3.0-rc01`**, which overhauls the collapsed
+  icon-rail sidebar flyouts: submenu text no longer shrinks per nesting level (it was
+  stepping down to 12px), a hover-intent grace delay keeps a flyout from vanishing the
+  instant the cursor leaves it, and the flyout now reads as an elevated floating card
+  (lifted surface + paired readable text + stronger shadow) instead of a muted panel. It
+  also adds a desktop **"overlay" sidebar behaviour** (`body.sidebar-overlay`) that turns
+  the sidebar into a temporary floating drawer.
 
 ### Fixed
 
