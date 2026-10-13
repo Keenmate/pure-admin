@@ -693,6 +693,7 @@ $timeline-block-responsive-icon-left: 146px !default;
 // --start, --end). Full-width content with a narrow rail on one side: the
 // vertical line, the icon circle centred on it, and a vertically-rotated date
 // label beside it. Replaces the old drifted per-block pixel offsets above.
+$timeline-block-collapse-width: 600px !default;    // container width below which alternating collapses to one column
 $timeline-block-rail-x: 50px !default;             // vertical line x within the gutter
 $timeline-block-sc-icon-inset: 30px !default;      // icon leading edge (= rail-x − icon-size/2)
 $timeline-block-sc-gutter: 84px !default;          // content gutter on the rail side (clears the 40px icon)

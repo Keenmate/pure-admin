@@ -12,20 +12,17 @@
 // near-identical blocks of hardcoded pixel offsets that drifted out of sync when
 // the spacing scale changed (e.g. $spacing-xl 20px → 32px).
 @mixin pa-timeline-single-column($side) {
-  // Centre line → moved to the rail position on the chosen side.
+  // Hide the two-column centre line. (Applied directly for --start/--end/
+  // --single-column this works; under the @container collapse it can't re-target
+  // the container's own ::after, so the content box covers it via z-index.)
   &::after {
-    @if $side == start {
-      left: $timeline-block-rail-x;
-      right: auto;
-    } @else {
-      left: auto;
-      right: $timeline-block-rail-x;
-    }
+    display: none;
   }
 
   .pa-timeline__item {
     width: 100%;
     left: 0 !important; // override the two-column even/odd left:50%
+    margin: 0; // drop the <li> reboot margin so the rail line has no gaps between items
     padding: 0 0 $timeline-block-sc-item-gap 0;
 
     @if $side == start {
@@ -38,11 +35,29 @@
       padding-bottom: 0;
     }
 
-    // The icon circle on the rail is the only marker here — drop the
-    // two-column dot + connector pseudo-elements.
-    &::before,
+    // Drop the two-column dot; repurpose ::before as the continuous vertical rail.
     &::after {
       display: none;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: auto; // reset the two-column connector's fixed height so top/bottom stretch it
+      width: $timeline-block-line-width;
+      background: var(--pc-accent);
+      z-index: 0;
+
+      @if $side == start {
+        left: $timeline-block-rail-x;
+        right: auto;
+      } @else {
+        left: auto;
+        right: $timeline-block-rail-x;
+      }
     }
 
     .pa-timeline__date {
@@ -69,6 +84,7 @@
 
     .pa-timeline__icon {
       top: $timeline-block-icon-top-offset; // vertically centred on the item
+      z-index: 1; // above the rail line
 
       @if $side == start {
         left: $timeline-block-sc-icon-inset;
@@ -80,7 +96,11 @@
     }
 
     .pa-timeline__content {
-      padding: $timeline-block-content-padding-v $timeline-block-content-padding-h;
+      position: relative;
+      z-index: 1; // cover the two-column centre line behind the full-width box
+      // Compact padding — the rail already eats a fixed gutter, so keep the text
+      // column roomy in narrow containers (otherwise long words 1-char wrap).
+      padding: $spacing-base;
       border-radius: var(--pc-border-radius);
     }
   }
@@ -218,6 +238,9 @@
     max-width: $timeline-block-max-width;
     margin: 0 auto;
     padding: $timeline-block-padding;
+    // Query the timeline's OWN width (not the viewport) so it collapses to a
+    // single column inside a narrow card/column, not just on a small screen.
+    container: pa-timeline-alt / inline-size;
 
     // Center line
     &::after {
@@ -376,8 +399,10 @@
       }
     }
 
-    // Responsive: stack on mobile (unless --keep-layout is used)
-    @media (max-width: $timeline-block-responsive-breakpoint) {
+    // Collapse to a single column when the CONTAINER is too narrow for two
+    // columns (unless --keep-layout). Container-based so it triggers inside narrow
+    // cards/columns regardless of viewport — the old viewport @media missed those.
+    @container pa-timeline-alt (max-width: #{$timeline-block-collapse-width}) {
       &:not(.pa-timeline--keep-layout) {
         @include pa-timeline-single-column(start);
       }
