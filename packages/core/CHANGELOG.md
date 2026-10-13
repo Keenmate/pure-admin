@@ -38,8 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   title. They are now one shared `pa-timeline-single-column($side)` mixin: a compact rail (the
   line + the icon circle centred on it + a **vertically-rotated date label** — start side
   reads bottom-to-top, end side top-to-bottom) in a fixed gutter the content clears via
-  padding, so markers can't collide with text. The rail renders as one continuous line
-  (`<li>` reboot margin reset so segments don't gap).
+  padding, so markers can't collide with text. The rail is one continuous line (inter-card
+  gap is a margin the line bridges), the icon + date centre on the card (not card+gap), and
+  the date stays a single vertical line (`white-space: nowrap`).
 - **Alternating timeline now collapses by CONTAINER width, not viewport.** It establishes a
   `container-type: inline-size` context and collapses to the single-column rail below
   `$timeline-block-collapse-width` (600px) via `@container`. Previously the collapse was a

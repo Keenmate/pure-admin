@@ -22,8 +22,11 @@
   .pa-timeline__item {
     width: 100%;
     left: 0 !important; // override the two-column even/odd left:50%
-    margin: 0; // drop the <li> reboot margin so the rail line has no gaps between items
-    padding: 0 0 $timeline-block-sc-item-gap 0;
+    // Inter-card gap is a MARGIN (not padding) so the item box == the card — that
+    // lets the icon + date centre on the CARD, not on card+gap. The rail line
+    // bridges the margin via bottom:-gap so it stays continuous.
+    margin: 0 0 $timeline-block-sc-item-gap 0;
+    padding: 0;
 
     @if $side == start {
       padding-left: $timeline-block-sc-gutter;
@@ -32,7 +35,11 @@
     }
 
     &:last-child {
-      padding-bottom: 0;
+      margin-bottom: 0;
+
+      &::before {
+        bottom: 0; // last item: don't let the rail dangle past the card
+      }
     }
 
     // Drop the two-column dot; repurpose ::before as the continuous vertical rail.
@@ -45,7 +52,7 @@
       display: block;
       position: absolute;
       top: 0;
-      bottom: 0;
+      bottom: -$timeline-block-sc-item-gap; // bridge the inter-card margin so the rail is continuous
       height: auto; // reset the two-column connector's fixed height so top/bottom stretch it
       width: $timeline-block-line-width;
       background: var(--pc-accent);
@@ -64,6 +71,7 @@
       // Rotated to a narrow vertical label so the rail stays compact.
       writing-mode: vertical-rl;
       text-orientation: mixed;
+      white-space: nowrap; // keep "Q1 2024" as one vertical line (no wrap behind the icon)
       top: 50%;
       bottom: auto;
 
