@@ -15,6 +15,7 @@
     "title":      { "kind": "string", "produces": "pa-list__title" },
     "subtitle":   { "kind": "string", "produces": "pa-list__subtitle" },
     "meta":       { "kind": "string", "produces": "pa-list__meta" },
+    "highlighted": { "kind": "bool", "produces": "pa-list__item--highlighted", "note": "highlighted/unread row (accent-tinted bg). svelte isHighlighted, keen is_highlighted." },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough, not a core feature" }
   },
   "scenarios": [
@@ -22,6 +23,8 @@
       "golden": "<div class=\"pa-list__item\"><div class=\"pa-list__avatar\">A</div><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div><div class=\"pa-list__subtitle\">PM</div><div class=\"pa-list__meta\">2h ago</div></div></div>" },
     { "name": "title-only", "props": { "title": "Sarah" },
       "golden": "<div class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" },
+    { "name": "highlighted", "props": { "title": "Sarah", "highlighted": true },
+      "golden": "<div class=\"pa-list__item pa-list__item--highlighted\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" },
     { "name": "extra-class", "props": { "title": "Sarah", "extraClass": "custom" },
       "golden": "<div class=\"pa-list__item custom\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" }
   ]

@@ -2,6 +2,10 @@
   "//": "Markup-fidelity fixture for the tooltip component. See ../README.md and button.json/card.json for the model. Tooltip is ATTRIBUTE-DRIVEN: a trigger element (both wrappers use <span>) carries class=\"pa-tooltip [modifiers]\" and data-tooltip=\"<text>\"; the bubble is a CSS ::before/::after pseudo-element (no static markup) OR a JS-portaled .pa-tooltip-floating <div> built on hover (OUT OF SCOPE — pre-JS-hook SSR only). Goldens capture ONLY the static trigger element.",
   "component": "tooltip",
   "block": "pa-tooltip",
+  "normalize": {
+    "//": "data-tooltip-init is a svelte-only, structurally-inert JS-init guard: svelte's native <Tooltip> sets it so the global tooltips-popovers.js enhancer skips the trigger (the component manages its own Floating-UI bubble), preventing a double tooltip. keen emits none — its canonical tooltip IS the global [data-tooltip] enhancer, so its --floating triggers are meant to be enhanced. The attribute is invisible to CSS, so it's dropped from the compare (same mechanism as keen tab_item's data-tab-target).",
+    "ignoreAttrs": ["data-tooltip-init"]
+  },
   "propsVocabulary": {
     "text": "tooltip text — rendered into the data-tooltip attribute on the trigger",
     "content": "trigger content (the hoverable element's children)",

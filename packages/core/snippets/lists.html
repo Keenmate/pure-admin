@@ -263,6 +263,11 @@ COMPLEX LISTS (.pa-list — container + sub-elements):
         .pa-list__subtitle (muted, font-size-sm)
         .pa-list__meta     (muted, font-size-xs — smallest)
 
+Item state:
+- .pa-list__item--highlighted  Persistent accent-tinted background for a
+                               highlighted / unread row (distinct from the
+                               neutral :hover feedback). Background-only, RTL-safe.
+
 Automatic behaviour:
 - .pa-list__item has flex, gap: $spacing-md, card-footer padding, and
   a bottom border between items (last-child has none).

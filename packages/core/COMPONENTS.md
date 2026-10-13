@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc06** · **60** components · **145** blocks · **1376** class selectors.
+Framework version **3.3.0-rc07** · **60** components · **145** blocks · **1377** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -391,7 +391,7 @@ Styled basic / ordered / definition lists with severity variants.
 
 - **Blocks:** `pa-list`, `pa-list-basic`, `pa-list-definition`, `pa-list-ordered`
 - **Elements:** `pa-list__avatar`, `pa-list__content`, `pa-list__item`, `pa-list__meta`, `pa-list__subtitle`, `pa-list__title`
-- **Modifiers / states:** `pa-list-basic--bordered`, `pa-list-basic--compact`, `pa-list-basic--danger`, `pa-list-basic--icon`, `pa-list-basic--info`, `pa-list-basic--inline`, `pa-list-basic--spacious`, `pa-list-basic--striped`, `pa-list-basic--unstyled`, `pa-list-basic--warning`, `pa-list-definition--inline`, `pa-list-ordered--alpha`, `pa-list-ordered--roman`
+- **Modifiers / states:** `pa-list-basic--bordered`, `pa-list-basic--compact`, `pa-list-basic--danger`, `pa-list-basic--icon`, `pa-list-basic--info`, `pa-list-basic--inline`, `pa-list-basic--spacious`, `pa-list-basic--striped`, `pa-list-basic--unstyled`, `pa-list-basic--warning`, `pa-list-definition--inline`, `pa-list-ordered--alpha`, `pa-list-ordered--roman`, `pa-list__item--highlighted`
 - **SCSS:** `core-components/_lists.scss`
 - **Snippet:** `lists.html`
 - **Demo:** `lists.mustache`

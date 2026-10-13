@@ -5,6 +5,51 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc08] - 2026-10-12
+
+### Added
+
+- **`.pa-list__item--highlighted`** — a modifier for the complex-list item giving it a
+  persistent accent-tinted background (a highlighted / unread row), visually distinct
+  from the neutral `:hover` feedback. Background-only, so it stays RTL-safe with no
+  layout shift. Exposed by both wrappers as `isHighlighted` (svelte) / `is_highlighted`
+  (keen) so consumers never hand-write the class.
+
+### Changed
+
+- **Timeline canonical markup is now `<ul>` + `<li>` for every variant** (simple,
+  alternating, feed). The SCSS keys off `:nth-child` so a `<div>`/`<div>` tree still
+  renders identically, but that is now explicitly **legacy tolerance, not a second
+  documented shape** — a timeline is a list of events. `snippets/timeline.html` says so,
+  and the alternating demo (`demo/views/timeline-block.mustache`) was migrated from
+  `<div>`/`<div>` to `<ul>`/`<li>` so docs and demo agree. Both wrappers emit `<li>`
+  items (keen's `timeline_item/1` dropped its old `<div>`-for-icon branch).
+
+### Fixed
+
+- **Timeline content no longer overflows its box with long words.** `.pa-timeline__content`
+  now sets `overflow-wrap: break-word` (inherited, so it covers the title + body across all
+  variants). In the alternating layout inside a narrow column, long words
+  ("implementation", a URL) previously spilled out past the coloured content box.
+- **Single-column timeline layouts no longer overlap their markers with the content.** The
+  mobile collapse, `--single-column`, `--start` and `--end` layouts were built from four
+  near-identical blocks of hardcoded pixel offsets that drifted out of sync when the spacing
+  scale changed (`$spacing-xl` 20px → 32px), leaving the dot/icon/date sitting on top of the
+  title. They are now one shared `pa-timeline-single-column($side)` mixin: a compact rail (the
+  line + the icon circle centred on it + a **vertically-rotated date label** — start side
+  reads bottom-to-top, end side top-to-bottom) in a fixed gutter the content clears via
+  padding, so markers can't collide with text. The two-column alternating layout is unchanged.
+
+### Internal
+
+- **fidelity: `tooltip.json` gained a `normalize.ignoreAttrs` rule for `data-tooltip-init`.**
+  svelte's native `<Tooltip>` sets that attribute so the global `tooltips-popovers.js`
+  enhancer skips the trigger (the component drives its own Floating-UI bubble), while keen
+  emits none — a structurally-inert, svelte-only JS-init guard the shared golden can't
+  carry. The comparator now drops it (same mechanism as keen `tab_item`'s `data-tab-target`).
+  This un-hid a silently-red svelte tooltip comparison (a stale committed dump had been
+  masking it). Harness-only; no CSS/output change.
+
 ## [3.3.0-rc07] - 2026-10-12 [PUBLISHED]
 
 ### Added

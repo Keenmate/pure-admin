@@ -689,6 +689,16 @@ $timeline-block-responsive-connector-left: 100px !default;
 $timeline-block-responsive-date-left: 15px !default;
 $timeline-block-responsive-icon-left: 146px !default;
 
+// Timeline Block — compact single-column rail (mobile collapse, --single-column,
+// --start, --end). Full-width content with a narrow rail on one side: the
+// vertical line, the icon circle centred on it, and a vertically-rotated date
+// label beside it. Replaces the old drifted per-block pixel offsets above.
+$timeline-block-rail-x: 50px !default;             // vertical line x within the gutter
+$timeline-block-sc-icon-inset: 30px !default;      // icon leading edge (= rail-x − icon-size/2)
+$timeline-block-sc-gutter: 84px !default;          // content gutter on the rail side (clears the 40px icon)
+$timeline-block-sc-date-inset: 2px !default;       // rotated date inset from the rail-side edge
+$timeline-block-sc-item-gap: $spacing-lg !default; // vertical gap between stacked items
+
 // Timeline - Feed variant (10px base)
 $timeline-feed-gap: $spacing-base !default;
 $timeline-feed-item-padding-bottom: $spacing-sm !default;

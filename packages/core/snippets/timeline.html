@@ -8,10 +8,15 @@
        --feed         activity-feed layout (avatar + text + time)
 
      The base .pa-timeline class has zero visual styling on its own;
-     each variant adds its own rules. Items can be <li> inside a <ul>
-     (semantic) or <div> inside a <div> (non-semantic) — the SCSS uses
-     :nth-child so either tag works. Use <ul>/<li> when the timeline
-     is a genuine list of events; otherwise <div> is fine.
+     each variant adds its own rules.
+
+     CANONICAL MARKUP: a <ul class="pa-timeline"> container with
+     <li class="pa-timeline__item"> items — for EVERY variant, including
+     --alternating and --feed. The SCSS keys off :nth-child (tag-agnostic),
+     so a <div>/<div> tree still renders identically — but that's legacy
+     tolerance, NOT a second documented shape. A timeline is a list of
+     events: use the semantic <ul>/<li> everywhere, and the wrappers
+     (svelte TimelineItem, keen timeline_item/1) emit exactly that.
      ================================ -->
 
 <!-- ========================================

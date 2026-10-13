@@ -3,6 +3,89 @@
    ======================================== */
 @use '../variables' as *;
 
+// Compact single-column timeline layout — shared by the mobile collapse,
+// --single-column, --start and --end. Full-width content with a narrow rail on
+// one side: the vertical line, the icon circle centred on it, and a
+// vertically-rotated date label beside it. All markers live inside the gutter
+// ($timeline-block-sc-gutter), which the content clears via padding, so they can
+// never overlap the text. $side is `start` or `end`. This replaces four
+// near-identical blocks of hardcoded pixel offsets that drifted out of sync when
+// the spacing scale changed (e.g. $spacing-xl 20px → 32px).
+@mixin pa-timeline-single-column($side) {
+  // Centre line → moved to the rail position on the chosen side.
+  &::after {
+    @if $side == start {
+      left: $timeline-block-rail-x;
+      right: auto;
+    } @else {
+      left: auto;
+      right: $timeline-block-rail-x;
+    }
+  }
+
+  .pa-timeline__item {
+    width: 100%;
+    left: 0 !important; // override the two-column even/odd left:50%
+    padding: 0 0 $timeline-block-sc-item-gap 0;
+
+    @if $side == start {
+      padding-left: $timeline-block-sc-gutter;
+    } @else {
+      padding-right: $timeline-block-sc-gutter;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    // The icon circle on the rail is the only marker here — drop the
+    // two-column dot + connector pseudo-elements.
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    .pa-timeline__date {
+      // Rotated to a narrow vertical label so the rail stays compact.
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      top: 50%;
+      bottom: auto;
+
+      @if $side == start {
+        // Start side: read bottom-to-top (y-axis style) — rotate(180deg) flips
+        // the vertical-rl text so the first glyph sits at the bottom. (sideways-lr
+        // would do this natively but Chromium/Vivaldi don't support it.)
+        transform: translateY(-50%) rotate(180deg);
+        left: $timeline-block-sc-date-inset;
+        right: auto;
+      } @else {
+        // End side: the mirror — read top-to-bottom.
+        transform: translateY(-50%);
+        left: auto;
+        right: $timeline-block-sc-date-inset;
+      }
+    }
+
+    .pa-timeline__icon {
+      top: $timeline-block-icon-top-offset; // vertically centred on the item
+
+      @if $side == start {
+        left: $timeline-block-sc-icon-inset;
+        right: auto;
+      } @else {
+        left: auto;
+        right: $timeline-block-sc-icon-inset;
+      }
+    }
+
+    .pa-timeline__content {
+      padding: $timeline-block-content-padding-v $timeline-block-content-padding-h;
+      border-radius: var(--pc-border-radius);
+    }
+  }
+}
+
 .pa-timeline {
   position: relative;
   padding: 0;
@@ -11,6 +94,16 @@
 
   &__item {
     position: relative;
+  }
+
+  // Long words must break rather than spill out of the content box. The
+  // alternating layout in a narrow column (e.g. a half-width card) squeezes the
+  // content column small, and a long word ("implementation", a URL) would
+  // otherwise overflow the coloured box. overflow-wrap is inherited, so this
+  // one rule covers the title + body across all variants; it only breaks a
+  // word when it genuinely can't fit.
+  &__content {
+    overflow-wrap: break-word;
   }
 
   // Variant 1: Simple start-aligned timeline (like Timeline #1)
@@ -286,170 +379,23 @@
     // Responsive: stack on mobile (unless --keep-layout is used)
     @media (max-width: $timeline-block-responsive-breakpoint) {
       &:not(.pa-timeline--keep-layout) {
-        &::after {
-          left: $timeline-block-responsive-line-left;
-        }
-
-        .pa-timeline__item {
-          width: 100%;
-          padding-left: $timeline-block-responsive-padding-left;
-          padding-right: $timeline-block-responsive-padding-right;
-
-          &:nth-child(even) {
-            left: 0;
-          }
-
-          &:nth-child(odd)::after,
-          &:nth-child(even)::after {
-            left: $timeline-block-responsive-dot-left;
-          }
-
-          &:nth-child(odd)::before,
-          &:nth-child(even)::before {
-            left: $timeline-block-responsive-connector-left;
-          }
-
-          &:nth-child(odd) .pa-timeline__date,
-          &:nth-child(even) .pa-timeline__date {
-            right: auto;
-            left: $timeline-block-responsive-date-left;
-          }
-
-          &:nth-child(odd) .pa-timeline__icon,
-          &:nth-child(even) .pa-timeline__icon {
-            right: auto;
-            left: $timeline-block-responsive-icon-left;
-          }
-
-          &:nth-child(odd) .pa-timeline__content,
-          &:nth-child(even) .pa-timeline__content {
-            padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
-            border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
-          }
-        }
+        @include pa-timeline-single-column(start);
       }
     }
 
     // Modifier: Force single column at any screen width
     &.pa-timeline--single-column {
-      &::after {
-        left: $timeline-block-responsive-line-left;
-      }
-
-      .pa-timeline__item {
-        width: 100%;
-        padding-left: $timeline-block-responsive-padding-left;
-        padding-right: $timeline-block-responsive-padding-right;
-
-        &:nth-child(even) {
-          left: 0;
-        }
-
-        &:nth-child(odd)::after,
-        &:nth-child(even)::after {
-          left: $timeline-block-responsive-dot-left;
-        }
-
-        &:nth-child(odd)::before,
-        &:nth-child(even)::before {
-          left: $timeline-block-responsive-connector-left;
-        }
-
-        &:nth-child(odd) .pa-timeline__date,
-        &:nth-child(even) .pa-timeline__date {
-          right: auto;
-          left: $timeline-block-responsive-date-left;
-        }
-
-        &:nth-child(odd) .pa-timeline__icon,
-        &:nth-child(even) .pa-timeline__icon {
-          right: auto;
-          left: $timeline-block-responsive-icon-left;
-        }
-
-        &:nth-child(odd) .pa-timeline__content,
-        &:nth-child(even) .pa-timeline__content {
-          padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
-          border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
-        }
-      }
+      @include pa-timeline-single-column(start);
     }
 
     // Modifier: All items on start side
     &.pa-timeline--start {
-      &::after {
-        left: $timeline-block-responsive-line-left;
-      }
-
-      .pa-timeline__item {
-        width: 100%;
-        padding-left: $timeline-block-responsive-padding-left;
-        padding-right: 0;
-        left: 0 !important; // Override even/odd positioning
-
-        &::after {
-          left: $timeline-block-responsive-dot-left;
-        }
-
-        &::before {
-          left: $timeline-block-responsive-connector-left;
-        }
-
-        .pa-timeline__date {
-          right: auto;
-          left: $timeline-block-responsive-date-left;
-        }
-
-        .pa-timeline__icon {
-          right: auto;
-          left: $timeline-block-responsive-icon-left;
-        }
-
-        .pa-timeline__content {
-          padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
-          border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
-        }
-      }
+      @include pa-timeline-single-column(start);
     }
 
     // Modifier: All items on end side
     &.pa-timeline--end {
-      &::after {
-        right: $timeline-block-responsive-line-left;
-        left: auto;
-      }
-
-      .pa-timeline__item {
-        width: 100%;
-        padding-left: 0;
-        padding-right: $timeline-block-responsive-padding-left;
-        left: 0 !important; // Override even/odd positioning
-
-        &::after {
-          right: $timeline-block-responsive-dot-left;
-          left: auto;
-        }
-
-        &::before {
-          right: $timeline-block-responsive-connector-left;
-          left: auto;
-        }
-
-        .pa-timeline__date {
-          left: auto;
-          right: $timeline-block-responsive-date-left;
-        }
-
-        .pa-timeline__icon {
-          left: auto;
-          right: $timeline-block-responsive-icon-left;
-        }
-
-        .pa-timeline__content {
-          padding: $spacing-xl calc($spacing-xl * 2 + 40px) $spacing-xl $spacing-xl;
-          border-radius: 0 var(--pc-border-radius) var(--pc-border-radius) 0;
-        }
-      }
+      @include pa-timeline-single-column(end);
     }
   }
 

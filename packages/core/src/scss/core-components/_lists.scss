@@ -191,6 +191,14 @@
     &:hover {
       background-color: var(--pc-hover-bg);
     }
+
+    // Highlighted / unread row — a persistent accent-tinted background, visually
+    // distinct from the neutral :hover feedback (same accent tint the
+    // settings-panel uses for an active row). Background-only so it stays
+    // RTL-safe with no layout shift.
+    &--highlighted {
+      background-color: var(--pc-accent-hover);
+    }
   }
 
   &__avatar {
