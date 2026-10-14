@@ -539,3 +539,44 @@ function loadVirtualScrollBlockItems() {
         </div>
     </div>
 </div>
+
+<!-- Variant 5: Usage Examples -->
+<div class="pa-card mt-12">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Usage Examples</h3>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <h4>Basic Alternating Timeline</h4>
+        <pre class="pa-code pa-code--html mb-4">&lt;ul class="pa-timeline pa-timeline--alternating"&gt;
+  &lt;li class="pa-timeline__item"&gt;
+    &lt;div class="pa-timeline__date"&gt;15 Dec&lt;/div&gt;
+    &lt;div class="pa-timeline__icon"&gt;&lt;svg ...&gt;&lt;/svg&gt;&lt;/div&gt;
+    &lt;div class="pa-timeline__content"&gt;
+      &lt;h3&gt;Project Started&lt;/h3&gt;
+      &lt;p&gt;Description here&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</pre>
+
+        <h4>Layout Modifiers</h4>
+        <pre class="pa-code pa-code--html mb-4">&lt;!-- Force all items to start side --&gt;
+&lt;ul class="pa-timeline pa-timeline--alternating pa-timeline--start"&gt;...&lt;/ul&gt;
+
+&lt;!-- Force all items to end side --&gt;
+&lt;ul class="pa-timeline pa-timeline--alternating pa-timeline--end"&gt;...&lt;/ul&gt;
+
+&lt;!-- Preserve zig-zag layout on mobile --&gt;
+&lt;ul class="pa-timeline pa-timeline--alternating pa-timeline--keep-layout"&gt;...&lt;/ul&gt;</pre>
+
+        <h4>Best Practices</h4>
+        <ul class="pa-list-basic">
+            <li>Use <code>pa-timeline--alternating</code> for project roadmaps and milestone timelines</li>
+            <li>Add icons to timeline items for visual interest</li>
+            <li>Use <code>pa-timeline--start</code>/<code>--end</code> for narrow cards where zig-zag would feel cramped</li>
+            <li>Use <code>pa-timeline--keep-layout</code> when the design must hold its alternating shape across breakpoints</li>
+            <li>For long lists, pair <code>pa-timeline__scroll-container</code> with an IntersectionObserver for lazy loading</li>
+        </ul>
+    </div>
+</div>
