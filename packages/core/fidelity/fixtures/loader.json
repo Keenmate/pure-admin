@@ -1,20 +1,20 @@
 {
   "//": "Markup-fidelity fixture for the LOADER component (animated loaders). See ../README.md and button.json for the model. SCOPE: this covers the advanced-loader family only — the `loader/1` (keen) / <Loader> (svelte) wrappers, i.e. `pa-loader-{type}` where type ∈ dots|bars|pulse|ring|wave. The rotating `pa-spinner` is a SEPARATE component (keen `spinner/1`, svelte <Spinner>) and is NOT in scope here. Authored from dist/css/main.css + snippets/loaders.html + _loaders.scss.",
   "component": "loader",
-  "blocks": ["pa-loader-dots", "pa-loader-bars", "pa-loader-pulse", "pa-loader-ring", "pa-loader-wave"],
+  "blocks": ["pa-loader-dots", "pa-loader-bars", "pa-loader-pulse", "pa-loader-ring", "pa-loader-wave", "pa-loader-grid", "pa-loader-ripple", "pa-loader-dual-ring"],
   "propsVocabulary": {
-    "type": "loader animation type: dots|bars|pulse|ring|wave — selects the block class pa-loader-{type} AND the child-span shape (dots=3 spans, bars/wave=5 spans, pulse/ring=no children)",
+    "type": "loader animation type: dots|bars|pulse|ring|wave|grid|ripple|dual-ring — selects the block class pa-loader-{type} AND the child-span shape (dots=3 spans, bars/wave=5 spans, grid=9 spans, pulse/ring/ripple/dual-ring=no children)",
     "size": "lg — the only size modifier; emits the type-coupled class pa-loader-{type}--lg",
     "color": "primary|secondary|success|danger|warning|info — loaders paint from currentColor, so colour is set on the wrapper (see colorConvention), NOT via a pa-loader-{type}--{color} modifier (none exist in core)",
     "class": "extra classes appended verbatim (passthrough, not a core feature)"
   },
-  "goldenConventions": "Structural: the block class is pa-loader-{type}; dots emits exactly 3 empty <span> children, bars/wave emit exactly 5, pulse/ring emit none (CSS-only — pulse via background, ring via ::after). Attribute + class-token order and whitespace are normalized away.",
+  "goldenConventions": "Structural: the block class is pa-loader-{type}; dots emits exactly 3 empty <span> children, bars/wave emit exactly 5, grid emits exactly 9, and pulse/ring/ripple/dual-ring emit none (CSS-only — pulse via background, ring/ripple/dual-ring via ::before/::after). Attribute + class-token order and whitespace are normalized away.",
   "colorConvention": "Core blesses NO pa-loader-{type}--{color} class — loaders theme via `currentColor`, set on the wrapper. The core snippet (snippets/loaders.html) documents this as an inline `style=\"color: var(--…)\"`. Both wrappers therefore set colour off-class: keen via inline `style=\"color: var(--pc-accent | --pc-text-color-2 | --pa-{color}-bg)\"`, svelte likewise (aligned in this slice — previously svelte emitted a `text-{color}` utility class, a divergent shape). The colour→variable map: primary→--pc-accent, secondary→--pc-text-color-2, success/danger/warning/info→--pa-{color}-bg (there is no --pa-primary-bg/--pa-secondary-bg, hence the two special cases). Colour scenarios below assert the inline-style form.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. NOTE on blocks: there is no `pa-loader` base class nor `pa-loader--*` modifier — each type is its own block `pa-loader-{type}`, so this fixture uses the multi-block form `blocks: [pa-loader-dots … pa-loader-wave]`. Axis-1's reverse check then verifies each family block's only modifier, the type-coupled `pa-loader-{type}--lg` (claimed via cssStateClasses below). `size` is type-coupled (pa-loader-{type}--{size}) which the single-template expander can't express, so its produces is null and it is verified through scenarios + goldens. `color` produces null (off-class, currentColor — see colorConvention).",
     "type": {
       "kind": "enum",
-      "options": ["dots", "bars", "pulse", "ring", "wave"],
+      "options": ["dots", "bars", "pulse", "ring", "wave", "grid", "ripple", "dual-ring"],
       "produces": "pa-loader-{value}"
     },
     "size": {
@@ -41,7 +41,10 @@
     "pa-loader-bars--lg": "size=lg on type=bars",
     "pa-loader-pulse--lg": "size=lg on type=pulse",
     "pa-loader-ring--lg": "size=lg on type=ring",
-    "pa-loader-wave--lg": "size=lg on type=wave"
+    "pa-loader-wave--lg": "size=lg on type=wave",
+    "pa-loader-grid--lg": "size=lg on type=grid",
+    "pa-loader-ripple--lg": "size=lg on type=ripple",
+    "pa-loader-dual-ring--lg": "size=lg on type=dual-ring"
   },
   "scenarios": [
     {
@@ -73,6 +76,36 @@
       "name": "wave-lg",
       "props": { "type": "wave", "size": "lg" },
       "golden": "<div class=\"pa-loader-wave pa-loader-wave--lg\"><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "grid",
+      "props": { "type": "grid" },
+      "golden": "<div class=\"pa-loader-grid\"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "grid-lg",
+      "props": { "type": "grid", "size": "lg" },
+      "golden": "<div class=\"pa-loader-grid pa-loader-grid--lg\"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>"
+    },
+    {
+      "name": "ripple",
+      "props": { "type": "ripple" },
+      "golden": "<div class=\"pa-loader-ripple\"></div>"
+    },
+    {
+      "name": "ripple-lg",
+      "props": { "type": "ripple", "size": "lg" },
+      "golden": "<div class=\"pa-loader-ripple pa-loader-ripple--lg\"></div>"
+    },
+    {
+      "name": "dual-ring",
+      "props": { "type": "dual-ring" },
+      "golden": "<div class=\"pa-loader-dual-ring\"></div>"
+    },
+    {
+      "name": "dual-ring-lg",
+      "props": { "type": "dual-ring", "size": "lg" },
+      "golden": "<div class=\"pa-loader-dual-ring pa-loader-dual-ring--lg\"></div>"
     },
     {
       "name": "pulse",

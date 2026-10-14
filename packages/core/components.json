@@ -3,8 +3,8 @@
   "frameworkVersion": "3.3.0-rc07",
   "totals": {
     "components": 60,
-    "blocks": 145,
-    "selectors": 1377,
+    "blocks": 148,
+    "selectors": 1383,
     "experimental": 1
   },
   "categories": [
@@ -2216,16 +2216,19 @@
     "loaders": {
       "name": "Loaders / spinners",
       "category": "Feedback",
-      "description": "Loading indicators: ring, dots, bars, pulse, wave, centered + overlay wrappers, and a generic spinner.",
+      "description": "Loading indicators: ring, dots, bars, pulse, wave, grid, ripple, dual-ring, centered + overlay wrappers, and a generic spinner.",
       "status": "stable",
       "block": "pa-loader-bars",
       "blocks": [
         "pa-loader-bars",
         "pa-loader-center",
         "pa-loader-dots",
+        "pa-loader-dual-ring",
+        "pa-loader-grid",
         "pa-loader-overlay",
         "pa-loader-pulse",
         "pa-loader-ring",
+        "pa-loader-ripple",
         "pa-loader-wave",
         "pa-spinner"
       ],
@@ -2233,8 +2236,11 @@
       "modifiers": [
         "pa-loader-bars--lg",
         "pa-loader-dots--lg",
+        "pa-loader-dual-ring--lg",
+        "pa-loader-grid--lg",
         "pa-loader-pulse--lg",
         "pa-loader-ring--lg",
+        "pa-loader-ripple--lg",
         "pa-loader-wave--lg",
         "pa-spinner--danger",
         "pa-spinner--info",

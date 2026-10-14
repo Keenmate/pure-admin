@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc07** · **60** components · **145** blocks · **1377** class selectors.
+Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1383** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -622,10 +622,10 @@ Generic anchored popover surface.
 
 ### Loaders / spinners — `pa-loader-bars`
 
-Loading indicators: ring, dots, bars, pulse, wave, centered + overlay wrappers, and a generic spinner.
+Loading indicators: ring, dots, bars, pulse, wave, grid, ripple, dual-ring, centered + overlay wrappers, and a generic spinner.
 
-- **Blocks:** `pa-loader-bars`, `pa-loader-center`, `pa-loader-dots`, `pa-loader-overlay`, `pa-loader-pulse`, `pa-loader-ring`, `pa-loader-wave`, `pa-spinner`
-- **Modifiers / states:** `pa-loader-bars--lg`, `pa-loader-dots--lg`, `pa-loader-pulse--lg`, `pa-loader-ring--lg`, `pa-loader-wave--lg`, `pa-spinner--danger`, `pa-spinner--info`, `pa-spinner--primary`, `pa-spinner--secondary`, `pa-spinner--success`, `pa-spinner--warning`, `pa-spinner--xs`
+- **Blocks:** `pa-loader-bars`, `pa-loader-center`, `pa-loader-dots`, `pa-loader-dual-ring`, `pa-loader-grid`, `pa-loader-overlay`, `pa-loader-pulse`, `pa-loader-ring`, `pa-loader-ripple`, `pa-loader-wave`, `pa-spinner`
+- **Modifiers / states:** `pa-loader-bars--lg`, `pa-loader-dots--lg`, `pa-loader-dual-ring--lg`, `pa-loader-grid--lg`, `pa-loader-pulse--lg`, `pa-loader-ring--lg`, `pa-loader-ripple--lg`, `pa-loader-wave--lg`, `pa-spinner--danger`, `pa-spinner--info`, `pa-spinner--primary`, `pa-spinner--secondary`, `pa-spinner--success`, `pa-spinner--warning`, `pa-spinner--xs`
 - **SCSS:** `core-components/_command-palette.scss`, `core-components/_loaders.scss`
 - **Snippet:** `loaders.html`
 - **Demo:** `loaders.mustache`

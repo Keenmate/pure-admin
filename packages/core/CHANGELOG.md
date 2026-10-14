@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Three new animated loaders: `.pa-loader-grid`, `.pa-loader-ripple`, `.pa-loader-dual-ring`.**
+  Grid is a 3×3 of dots pulsing on a diagonal wave (9 `<span>`); ripple is concentric rings
+  expanding from the centre (CSS-only via `::before`/`::after`); dual-ring is two arcs
+  counter-rotating at different speeds (CSS-only). All follow the loader family convention —
+  monochrome from `currentColor`, with a `--lg` size modifier — and are exposed by both
+  wrappers as `type="grid" | "ripple" | "dual-ring"`.
+
 - **`.pa-list__item--highlighted`** — a modifier for the complex-list item giving it a
   persistent accent-tinted background (a highlighted / unread row), visually distinct
   from the neutral `:hover` feedback. Background-only, so it stays RTL-safe with no
@@ -17,6 +24,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`.pa-loader-wave` is now a distinct animation, not a clone of `.pa-loader-bars`.**
+  The two shared byte-identical keyframes (both `scaleY` stretch on the same 5-span
+  stagger), differing only by inter-bar gap — so `type="wave"` looked the same as
+  `type="bars"`. Wave now renders **rounded pills that bob up and down** (`translateY`
+  via the new `pa-wave` keyframes) so the stagger reads as a travelling sine wave, while
+  bars keeps the in-place vertical equalizer stretch. Markup is unchanged (still 5
+  `<span>`), so both wrappers' `type="wave"` keep working; new tokens
+  `$loader-wave-pill-height` / `$loader-wave-radius` / `$loader-wave-amplitude` tune it.
 - **Timeline canonical markup is now `<ul>` + `<li>` for every variant** (simple,
   alternating, feed). The SCSS keys off `:nth-child` so a `<div>`/`<div>` tree still
   renders identically, but that is now explicitly **legacy tolerance, not a second

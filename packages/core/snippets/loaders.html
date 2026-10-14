@@ -79,7 +79,7 @@ nth-child(1) through (5) explicitly.
 <!-- Ring Loader - Large -->
 <div class="pa-loader-ring pa-loader-ring--lg"></div>
 
-<!-- Wave Loader — 5 <span> children (same stagger as bars) -->
+<!-- Wave Loader — 5 <span> children; rounded pills bob up/down (travelling sine) -->
 <div class="pa-loader-wave">
   <span></span>
   <span></span>
@@ -90,6 +90,44 @@ nth-child(1) through (5) explicitly.
 
 <!-- Wave Loader - Large -->
 <div class="pa-loader-wave pa-loader-wave--lg">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Ripple Loader (CSS-only, uses ::before/::after — concentric expanding rings) -->
+<div class="pa-loader-ripple"></div>
+
+<!-- Ripple Loader - Large -->
+<div class="pa-loader-ripple pa-loader-ripple--lg"></div>
+
+<!-- Dual Ring Loader (CSS-only, two counter-rotating arcs via ::before/::after) -->
+<div class="pa-loader-dual-ring"></div>
+
+<!-- Dual Ring Loader - Large -->
+<div class="pa-loader-dual-ring pa-loader-dual-ring--lg"></div>
+
+<!-- Grid Loader — requires 9 <span> children (3×3), pulsing on a diagonal -->
+<div class="pa-loader-grid">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Grid Loader - Large -->
+<div class="pa-loader-grid pa-loader-grid--lg">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
   <span></span>
   <span></span>
   <span></span>
@@ -176,11 +214,14 @@ SPINNERS:
 
 ADVANCED LOADERS (child <span> count matters):
 - .pa-loader-dots   — 3 <span>s (only 2 delays defined; 3rd sits in phase)
-- .pa-loader-bars   — 5 <span>s (delays on nth-child 1..5)
-- .pa-loader-wave   — 5 <span>s (same stagger as bars)
-- .pa-loader-pulse  — CSS-only, no children
-- .pa-loader-ring   — CSS-only, animates via ::after
-- All five support the --lg size modifier.
+- .pa-loader-bars      — 5 <span>s (delays on nth-child 1..5); in-place vertical stretch (equalizer)
+- .pa-loader-wave      — 5 <span>s (same stagger); rounded pills bob up/down (travelling sine)
+- .pa-loader-grid      — 9 <span>s (3×3); dots pulse on a diagonal wave
+- .pa-loader-pulse     — CSS-only, no children
+- .pa-loader-ring      — CSS-only, animates via ::after
+- .pa-loader-ripple    — CSS-only, no children; concentric rings expand from the centre
+- .pa-loader-dual-ring — CSS-only, no children; two arcs counter-rotate via ::before/::after
+- All eight support the --lg size modifier.
 
 COLOR:
 - All loaders paint from `currentColor` — set color on the wrapper to

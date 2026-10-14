@@ -508,6 +508,9 @@ $loader-border-width: 3px !default;
 $loader-dot-size: 1.2rem !default;         // 12px (was 0.75rem)
 $loader-bar-width: $spacing-xs !default;
 $loader-bar-height: $spacing-lg !default;
+$loader-wave-pill-height: 60% !default;    // wave span height; leaves room to bob
+$loader-wave-radius: 50rem !default;        // fully-rounded wave pills
+$loader-wave-amplitude: 35% !default;       // translateY bob distance (of span height)
 $loader-animation-opacity-min: $opacity-muted !default;
 $loader-overlay-bg: rgba(255, 255, 255, 0.8) !default;
 
@@ -523,6 +526,31 @@ $loader-bars-delay-5: -0.8s !default;
 // Loader animation properties
 $loader-pulse-duration: 1.2s !default;
 $loader-pulse-easing: cubic-bezier(0.5, 0, 0.5, 1) !default;
+
+// Ripple loader — concentric rings expanding from the centre
+$loader-ripple-size: 3.2rem !default;              // 32px
+$loader-ripple-size-lg: 4.8rem !default;           // 48px
+$loader-ripple-border-width: $loader-border-width !default;
+$loader-ripple-duration: 1.5s !default;
+$loader-ripple-easing: cubic-bezier(0, 0.2, 0.8, 1) !default;
+
+// Dual-ring loader — two counter-rotating arcs
+$loader-dual-ring-size: 3.2rem !default;           // 32px
+$loader-dual-ring-size-lg: 4.8rem !default;        // 48px
+$loader-dual-ring-gap: $spacing-sm !default;       // inner-arc inset (8px)
+$loader-dual-ring-duration-inner: 1.4s !default;
+
+// Grid loader — 3×3 dots pulsing on a diagonal wave
+$loader-grid-dot-size: $spacing-sm !default;       // 8px
+$loader-grid-dot-size-lg: $loader-dot-size !default; // 12px
+$loader-grid-gap: $spacing-xs !default;            // 4px
+$loader-grid-gap-lg: $spacing-sm !default;         // 8px
+$loader-grid-pulse-duration: 1.4s !default;
+$loader-grid-delay-1: 0s !default;
+$loader-grid-delay-2: 0.1s !default;
+$loader-grid-delay-3: 0.2s !default;
+$loader-grid-delay-4: 0.3s !default;
+$loader-grid-delay-5: 0.4s !default;
 
 // ============================================================================
 // TABS SYSTEM
