@@ -1,6 +1,6 @@
 ---
 description: Audit & align one pa-* component's emitted markup across core (oracle), svelte-pure-admin, and keen-pure-admin — run the fidelity harness, classify every divergence, resolve the common questions against the core snippet/SCSS BEFORE asking, fix the odd wrapper out
-argument-hint: <component> [check|fix]
+argument-hint: <component> [check|fix] [note — what to look at / what might be wrong]
 ---
 
 # /align-component — cross-repo markup alignment for one component
@@ -26,13 +26,37 @@ The three repos:
 
 ## Argument
 
-**$ARGUMENTS** — `<component> [check|fix]`.
+**$ARGUMENTS** — `<component> [check|fix] [note]`.
 - `<component>` — the component key, e.g. `modal`, `card`, `badge`, `tabs`. This is
   the fixture key (`packages/core/fidelity/fixtures/<component>.json`) and the key the
   dumpers take. Required — if missing, list the available fixture keys and stop.
 - mode — `check` (default) or `fix`:
   - `check` — audit + classify divergences, resolve each against core, report. Change nothing.
   - `fix` — same audit, then apply the alignment to the odd-wrapper-out and re-verify.
+- **note** — OPTIONAL free text, everything after the component (and the optional
+  `check`/`fix` mode word). This is the user flagging something specific — "the title
+  icon looks off in the coloured variants", "svelte drops the footer divider", "check the
+  close button on mobile", "I think keen wraps the subtitle differently". Parse it as
+  follows: strip a leading `check`/`fix` mode word if present, and treat the rest as the
+  note. If the first word isn't a mode word, mode stays `check` (default) and the whole
+  remainder is the note. The note is a HINT, not a mode — it never changes whether you
+  write files (only `fix` does that).
+
+### How to use the note
+
+- **Prioritise it.** Still do the full three-bucket audit (Steps 1–3), but investigate
+  whatever the note points at FIRST and in extra depth — it's the user telling you where
+  they suspect drift the harness may be blind to (usually a bucket (c) uncovered case).
+- **Resolve it against core like any divergence** (Step 3 order: snippet → SCSS → prose →
+  Card precedent → rigidity). The note tells you WHERE to look; core still tells you which
+  shape is right. Don't treat the note as the answer — treat it as the question.
+- **If the note describes real drift**, fix it (in `fix` mode) or report the concrete
+  finding + proposed fix (in `check` mode).
+- **If the note's concern turns out to be a false alarm** — the behaviour is actually a
+  bucket (b) fixture-accepted divergence, or both wrappers already match core — say so
+  explicitly in the report, cite the source that settles it, and don't churn it.
+- **Always address the note head-on in the Report**, as its own line: what the user
+  flagged, what you found, and what you did (or why nothing was needed).
 
 ## The oracle — what to read, in this order
 
@@ -176,7 +200,11 @@ title content, don't wrap your own `<h3>`." No user question needed — core set
 
 ## Report
 
-Lay out the three buckets explicitly:
+If a **note** was supplied, open the report with it: quote what the user flagged, state
+what you found, and what you did (fixed it / reported a proposed fix / confirmed it's a
+fixture-accepted divergence or already aligned, citing the source that settles it).
+
+Then lay out the three buckets explicitly:
 - **(a) covered** — N/N per wrapper; any failing scenario fixed (what changed).
 - **(b) accepted** — the intentional divergences left alone (one line each, cite the
   fixture note).
