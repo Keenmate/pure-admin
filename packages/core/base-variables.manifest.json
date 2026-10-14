@@ -107,11 +107,6 @@
     { "name": "base-info-text-light", "category": "contextual", "required": false, "usage": "Light info text" },
     { "name": "base-text-on-info", "category": "contextual", "required": true, "usage": "Text on info backgrounds" },
 
-    { "name": "base-hover-overlay", "category": "interactive", "required": false, "usage": "Hover state overlay color" },
-    { "name": "base-active-overlay", "category": "interactive", "required": false, "usage": "Active/pressed state overlay color" },
-    { "name": "base-focus-ring-color", "category": "interactive", "required": true, "usage": "Focus outline color" },
-    { "name": "base-focus-ring-width", "category": "interactive", "required": false, "usage": "Focus outline width" },
-
     { "name": "base-font-family", "category": "typography", "required": true, "usage": "Primary font family" },
     { "name": "base-font-family-mono", "category": "typography", "required": false, "usage": "Monospace font family" },
     { "name": "base-font-size-2xs", "category": "typography", "required": false, "usage": "Extra extra small font (10px)" },

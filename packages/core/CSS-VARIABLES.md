@@ -78,10 +78,6 @@ These variables are designed for web component integration and follow a semantic
 | | `--base-info-text` | Info text |
 | | `--base-info-text-light` | Light info text |
 | | `--base-text-on-info` | Text on info background |
-| **Interactive** | `--base-hover-overlay` | Hover overlay opacity |
-| | `--base-active-overlay` | Active overlay opacity |
-| | `--base-focus-ring-color` | Focus ring color |
-| | `--base-focus-ring-width` | Focus ring width |
 | **Typography** | `--base-font-family` | Primary font stack |
 | | `--base-font-family-mono` | Monospace font stack |
 | | `--base-font-size-2xs` | 10px |

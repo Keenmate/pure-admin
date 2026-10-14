@@ -469,36 +469,6 @@
       "cssProperty": "--base-text-on-info"
     },
 
-    "base-hover-overlay": {
-      "type": "color",
-      "category": "interactive",
-      "description": "Generic hover overlay color",
-      "default": "rgba(0, 0, 0, 0.04)",
-      "cssProperty": "--base-hover-overlay"
-    },
-    "base-active-overlay": {
-      "type": "color",
-      "category": "interactive",
-      "description": "Generic active/pressed overlay color",
-      "default": "rgba(0, 0, 0, 0.08)",
-      "cssProperty": "--base-active-overlay"
-    },
-    "base-focus-ring-color": {
-      "type": "color",
-      "category": "interactive",
-      "description": "Focus ring/outline color",
-      "default": "#007bff",
-      "cssProperty": "--base-focus-ring-color",
-      "derivedFrom": "base-accent-color"
-    },
-    "base-focus-ring-width": {
-      "type": "dimension",
-      "category": "interactive",
-      "description": "Focus ring width",
-      "default": "3px",
-      "cssProperty": "--base-focus-ring-width"
-    },
-
     "base-font-family": {
       "type": "font-family",
       "category": "typography",
