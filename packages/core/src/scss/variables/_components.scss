@@ -84,7 +84,7 @@ $popover-code-bg-opacity: 0.1 !default;
 $modal-warning-hover-bg-opacity: $opacity-light !default;
 
 // Profile-panel shadow
-$shadow-profile-panel: -4px 0 20px rgba(0, 0, 0, 0.15) !default;
+$shadow-profile-panel: -4px 0 20px var(--base-shadow-color) !default;
 
 // Background-pattern geometry (decorative backdrop)
 $bg-pattern-circle-1-x: 20% !default;
@@ -206,7 +206,7 @@ $modal-fw-margin: 1.6rem !default;         // 16px (was 1rem)
 $modal-border-radius: 4px !default;
 $modal-close-font-size: $font-size-lg !default;
 $modal-title-font-size: $font-size-lg !default;
-$modal-box-shadow: 0 0.4rem $spacing-sm rgba(0, 0, 0, 0.1) !default;
+$modal-box-shadow: 0 0.4rem $spacing-sm var(--base-shadow-color) !default;
 $modal-close-size: 4rem !default;            // 40px (was 2.5rem)
 $modal-body-scrollable-max-height: 60vh !default;
 $modal-mobile-margin: $spacing-sm !default;
@@ -618,7 +618,7 @@ $command-palette-offset-top: 12.8rem !default;  // 128px (was 8rem)
 $command-palette-border-radius: $border-radius !default;
 $command-palette-backdrop-bg: rgba(0, 0, 0, 0.5) !default;
 $command-palette-backdrop-blur: 4px !default;
-$command-palette-shadow: 0 1.6rem 4.8rem rgba(0, 0, 0, 0.3) !default;  // 16px 48px (was 1rem 3rem)
+$command-palette-shadow: 0 1.6rem 4.8rem var(--base-shadow-color) !default;  // 16px 48px (was 1rem 3rem)
 $command-palette-input-padding-v: $input-padding-v !default;
 $command-palette-input-padding-h: $input-padding-h !default;
 $command-palette-input-font-size: $font-size-base !default;

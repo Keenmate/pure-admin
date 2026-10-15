@@ -129,7 +129,7 @@
 
     &:hover {
       border-color: var(--pc-primary);
-      box-shadow: 0 1.6px 4.8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1.6px 4.8px var(--base-shadow-color);
     }
 
     &-icon {
@@ -300,7 +300,7 @@
   background: var(--pa-card-bg);
   border: $border-width-base solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
-  box-shadow: 0 6.4px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6.4px 32px var(--base-shadow-color);
   max-width: 80rem;
   width: 90vw;
   max-height: 70vh;

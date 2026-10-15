@@ -115,6 +115,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `$command-palette-item-hover-bg` / `-active-bg` / `-highlight-bg`, `$splitter-gutter-active-bg`,
   `$splitter-focus-ring-color` → `color-mix(in srgb, var(--pc-primary) N%, transparent)` (same
   percentages as the old `rgba($primary-color, …)`). Themes overriding these Sass vars still win.
+- **Shadows share one tone: `--base-shadow-color`.** The fixed black shadows (modal, command
+  palette + its key caps, profile panel, detail panel, sheet, file selector, logic tree) now use
+  the theme's shadow colour; sizes are unchanged. Text shadows on coloured stat cards stay (legibility).
 
 ### Internal
 

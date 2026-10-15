@@ -146,7 +146,7 @@
   --pa-detail-text:      #ffffff;
   --pa-detail-row-label: rgba(255, 255, 255, 0.75);
   --pa-detail-title:     rgba(255, 255, 255, 0.55);
-  --pa-detail-shadow:    0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
+  --pa-detail-shadow:    0 1.4rem 3.6rem var(--base-shadow-color);
 
   // =========================================================================
   // LAYOUT COLORS

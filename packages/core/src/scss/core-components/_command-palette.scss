@@ -642,7 +642,7 @@
       background-color: var(--pc-main-bg);
       border: $border-width-base solid var(--pc-border-color);
       border-radius: var(--pc-border-radius-sm);
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 1px var(--base-shadow-color);
     }
   }
 }
@@ -778,7 +778,7 @@
   background-color: var(--pc-main-bg);
   border: $border-width-base solid var(--pc-border-color);
   border-radius: var(--pc-border-radius-sm);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px var(--base-shadow-color);
 }
 
 .pa-shortcut-help__separator {

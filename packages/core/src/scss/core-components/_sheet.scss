@@ -38,7 +38,7 @@
   color: var(--pc-text-color-2);
   font-size: $font-size-sm;
   line-height: $line-height-base;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 8px 24px rgb(0 0 0 / 8%);
+  box-shadow: 0 1px 3px var(--base-shadow-color), 0 8px 24px var(--base-shadow-color);
 
   // Space direct-child regions apart with a consistent rhythm.
   > * + * {
