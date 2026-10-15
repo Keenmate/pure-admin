@@ -137,7 +137,7 @@
 </div>
 
 <!-- Theme-coloured start border (and tinted bg with --filled).
-     --color-1 through --color-9 read from --pc-color-{N}. -->
+     --color-1 through --color-9 read from --pc-palette-{N}. -->
 <div class="pa-fields pa-fields--color-3">…</div>          <!-- accent border -->
 <div class="pa-fields pa-fields--filled pa-fields--color-7">…</div>  <!-- tinted background -->
 
@@ -460,7 +460,7 @@ LAYOUT MODIFIERS ON .pa-fields:
                        for a tinted background
   Border tweaks
     --no-border       drop the inline-start accent border
-    --color-1..9      inline-start border tinted from --pc-color-N;
+    --color-1..9      inline-start border tinted from --pc-palette-N;
                        with --filled also tints the panel background
 
   Single-field modifier:
@@ -500,7 +500,7 @@ PROP-CARD VALUE EMPHASIS:
   __value--bold      bolded value (e.g. price / total).
 
 ACCENT-GRID ITEM COLOURS:
-  (default)          accent (--pc-accent)
+  (default)          accent (--pc-primary)
   --success          --pc-success-color
   --warning          --pc-warning-color
   --danger           --pc-danger-color

@@ -26,7 +26,7 @@ $table-hover-bg: $base-hover-bg !default;     // shared hover surface
 
 // Table row hover accent (border)
 $table-hover-accent-width: 0 !default;
-$table-hover-accent-color: $base-accent-color !default;
+$table-hover-accent-color: $base-primary-color !default;
 $table-hover-accent-position: left !default;
 
 // CODE LANGUAGE COLORS (standalone - not themed)
@@ -116,15 +116,6 @@ $composite-badge-min-label-width: 4.8rem !default; // 48px (was 3rem)
 $badge-group-gap: 0.8rem !default;         // 8px (was 0.5rem)
 $badge-group-visible-limit: 5 !default;
 
-// Badge colors
-$badge-success-bg: $success-text-light !default;
-$badge-success-text: $success-text !default;
-$badge-warning-bg: $warning-text-light !default;
-$badge-warning-text: $warning-text !default;
-$badge-info-bg: $info-text-light !default;
-$badge-info-text: $info-text !default;
-$badge-danger-bg: $danger-text-light !default;
-$badge-danger-text: $danger-text !default;
 $badge-pill-radius: 50rem !default;
 
 // Composite badge colors
@@ -260,7 +251,7 @@ $detail-panel-z-index: 4500 !default;
 $detail-panel-shadow: $shadow-profile-panel !default;
 $detail-panel-close-size: 3.2rem !default;
 $detail-panel-resize-handle-width: 6px !default;
-$detail-panel-selected-bg: rgba($accent-color, 0.08) !default;
+$detail-panel-selected-bg: rgba($primary-color, 0.08) !default;
 
 // ============================================================================
 // CARD SYSTEM
@@ -354,9 +345,9 @@ $select-padding-v: 0.7rem !default;           // 7px
 $select-padding-h: 0.5rem !default;           // 5px - aligns options with inputs
 $textarea-min-height: 9.6rem !default;        // 96px (was 6rem)
 $input-focus-ring-opacity: 0.1 !default;
-$input-focus-border-color: $accent-color !default;
-$select-focus-border-color: $accent-color !default;
-$textarea-focus-border-color: $accent-color !default;
+$input-focus-border-color: $primary-color !default;
+$select-focus-border-color: $primary-color !default;
+$textarea-focus-border-color: $primary-color !default;
 $input-group-prepend-bg: $secondary-bg !default;
 $input-group-prepend-text: $text-color-1 !default;
 $input-group-append-bg: $secondary-bg !default;
@@ -373,13 +364,13 @@ $form-group-margin-compact: 1.2rem !default;  // 12px (was 0.75rem)
 $checkbox-border-radius: $border-radius !default;         // Match input border-radius
 $checkbox-border-width: $border-width-base !default;      // 1px
 $checkbox-border-color: $base-checkbox-border-color !default;  // reconciled: shared checkbox-border knob (= border-color default)
-$checkbox-border-color-hover: $accent-color !default;     // Hover border
-$checkbox-border-color-checked: $accent-color !default;   // Checked border
+$checkbox-border-color-hover: $primary-color !default;     // Hover border
+$checkbox-border-color-checked: $primary-color !default;   // Checked border
 $checkbox-bg: $card-bg !default;                          // Unchecked background
-$checkbox-bg-checked: $accent-color !default;             // Checked background
-$checkbox-bg-indeterminate: $accent-color !default;       // Indeterminate background
+$checkbox-bg-checked: $primary-color !default;             // Checked background
+$checkbox-bg-indeterminate: $primary-color !default;       // Indeterminate background
 $checkbox-checkmark-color: white !default;                // Checkmark/dash color
-$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25) !default;
+$checkbox-focus-shadow: 0 0 0 2px rgba($primary-color, 0.25) !default;
 $checkbox-transition: $transition-fast !default;
 
 // NOTE: the $multiselect-* $-vars were removed — dead vocabulary. web-multiselect
@@ -634,12 +625,12 @@ $command-palette-input-font-size: $font-size-base !default;
 $command-palette-results-max-height: 38.4rem !default;  // 384px (was 24rem)
 $command-palette-empty-padding-v: $spacing-2xl !default;
 $command-palette-item-padding-v: $spacing-sm !default;
-$command-palette-item-hover-bg: rgba($accent-color, 0.05) !default;
-$command-palette-item-active-bg: rgba($accent-color, 0.1) !default;
+$command-palette-item-hover-bg: rgba($primary-color, 0.05) !default;
+$command-palette-item-active-bg: rgba($primary-color, 0.1) !default;
 $command-palette-item-icon-size: 3.2rem !default;  // 32px (was 2rem)
 $command-palette-item-icon-glyph: 1.8rem !default; // rendered SVG/.pa-icon/<i> size inside the icon box
-$command-palette-highlight-bg: rgba($accent-color, 0.2) !default;
-$command-palette-highlight-text: $accent-color !default;
+$command-palette-highlight-bg: rgba($primary-color, 0.2) !default;
+$command-palette-highlight-text: $primary-color !default;
 
 // ============================================================================
 // SETTINGS PANEL SYSTEM
@@ -776,7 +767,7 @@ $fields-bordered-padding: $spacing-sm !default;
 $fields-bordered-border-color: $border-color !default;
 $fields-striped-bg: $table-stripe !default;
 $fields-cols-gap: $spacing-base !default;
-$fields-border-left: 3px solid $accent-color !default;
+$fields-border-left: 3px solid $primary-color !default;
 $fields-padding-left: $spacing-base !default;
 $fields-filled-bg: rgba(128, 128, 128, 0.06) !default;
 $fields-filled-padding: $spacing-base !default;
@@ -946,12 +937,12 @@ $bar-list-value-font-weight: $font-weight-semibold !default;
 $splitter-gutter-size: 0.6rem !default;                        // 6px gutter thickness
 $splitter-gutter-bg: rgba(128, 128, 128, 0.08) !default;
 $splitter-gutter-hover-bg: rgba(128, 128, 128, 0.18) !default;
-$splitter-gutter-active-bg: rgba($accent-color, 0.35) !default; // mid-drag
+$splitter-gutter-active-bg: rgba($primary-color, 0.35) !default; // mid-drag
 $splitter-gutter-grip-length: 2.4rem !default;                 // 24px grip indicator
 $splitter-gutter-grip-thickness: 2px !default;
 $splitter-gutter-grip-color: rgba(128, 128, 128, 0.45) !default;
-$splitter-gutter-grip-hover-color: $accent-color !default;
-$splitter-focus-ring-color: rgba($accent-color, 0.4) !default;
+$splitter-gutter-grip-hover-color: $primary-color !default;
+$splitter-focus-ring-color: rgba($primary-color, 0.4) !default;
 $splitter-focus-ring-width: 2px !default;
 $splitter-transition: background-color 0.15s ease !default;
 $splitter-pane-min-size: 0 !default;                           // absolute floor regardless of constraints

@@ -36,8 +36,8 @@
 
   &__field {
     display: inline;
-    background-color: color-mix(in srgb, var(--pc-accent) 15%, transparent);
-    color: var(--pc-accent);
+    background-color: color-mix(in srgb, var(--pc-primary) 15%, transparent);
+    color: var(--pc-primary);
     padding: 0.2rem 0.4rem;
     border-radius: var(--pc-border-radius-sm);
     font-weight: $font-weight-medium;
@@ -81,7 +81,7 @@
 
     &-name {
       font-weight: $font-weight-medium;
-      color: var(--pc-accent);
+      color: var(--pc-primary);
     }
 
     &-type {
@@ -118,7 +118,7 @@
     padding: 0 0.15em;
     border-radius: 0.2rem;
     background-color: var(--pa-search-mark-bg,
-      color-mix(in srgb, var(--pc-accent) 15%, transparent));
+      color-mix(in srgb, var(--pc-primary) 15%, transparent));
     color: var(--pa-search-mark-color, inherit);
     font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
   }
@@ -143,7 +143,7 @@
   &:focus {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
   }
 
   &:empty::before {
@@ -218,7 +218,7 @@
     &:focus {
       outline: none;
       border-color: var(--pa-input-focus-border-color);
-      box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+      box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
     }
 
     &::placeholder {
@@ -234,7 +234,7 @@
   font-weight: $font-weight-medium;
 
   &--field {
-    background-color: color-mix(in srgb, var(--pc-accent) 15%, transparent);
+    background-color: color-mix(in srgb, var(--pc-primary) 15%, transparent);
     color: var(--pc-text-color-1);
 
     &.pa-inline-query-token--invalid {
@@ -301,7 +301,7 @@
     &-name {
       display: block;
       font-weight: $font-weight-medium;
-      color: var(--pc-accent);
+      color: var(--pc-primary);
       line-height: 1.3;
     }
 

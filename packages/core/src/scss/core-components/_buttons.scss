@@ -47,12 +47,12 @@
 
 
   &--primary {
-    background-color: var(--pc-accent);
-    border-color: var(--pc-accent);
+    background-color: var(--pc-primary);
+    border-color: var(--pc-primary);
     color: var(--pa-btn-primary-text);
 
     &:hover {
-      background-color: var(--pc-accent);
+      background-color: var(--pc-primary);
       filter: brightness($btn-hover-brightness);
     }
   }
@@ -64,7 +64,7 @@
 
     &:hover {
       background-color: var(--pc-hover-bg);
-      border-color: var(--pc-accent);
+      border-color: var(--pc-primary);
     }
   }
 
@@ -177,13 +177,13 @@
   // Outline variants
   &--outline-primary {
     background-color: transparent;
-    border-color: var(--pc-accent);
+    border-color: var(--pc-primary);
     // mix the vivid fill toward primary text so the label stays readable on the
     // surface in BOTH modes (text-color-1 is dark in light mode, light in dark)
-    color: color-mix(in srgb, var(--pc-accent) 50%, var(--base-text-color-1));
+    color: color-mix(in srgb, var(--pc-primary) 50%, var(--base-text-color-1));
 
     &:hover {
-      background-color: var(--pc-accent);
+      background-color: var(--pc-primary);
       color: var(--pa-btn-primary-text);
     }
   }
@@ -246,9 +246,9 @@
   // Theme color slot variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      background-color: var(--pc-color-#{$i});
-      border-color: var(--pc-color-#{$i});
-      color: var(--pc-color-#{$i}-text);
+      background-color: var(--pc-palette-#{$i});
+      border-color: var(--pc-palette-#{$i});
+      color: var(--pc-on-palette-#{$i}-text-color);
 
       &:hover {
         filter: brightness($btn-hover-brightness);
@@ -257,12 +257,12 @@
 
     &--outline-color-#{$i} {
       background-color: transparent;
-      border-color: var(--pc-color-#{$i});
-      color: color-mix(in srgb, var(--pc-color-#{$i}) 50%, var(--base-text-color-1));
+      border-color: var(--pc-palette-#{$i});
+      color: color-mix(in srgb, var(--pc-palette-#{$i}) 50%, var(--base-text-color-1));
 
       &:hover {
-        background-color: var(--pc-color-#{$i});
-        color: var(--pc-color-#{$i}-text);
+        background-color: var(--pc-palette-#{$i});
+        color: var(--pc-on-palette-#{$i}-text-color);
       }
     }
   }
@@ -581,7 +581,7 @@
     white-space: nowrap;
 
     &:hover {
-      background-color: var(--pc-accent-hover);
+      background-color: var(--pc-primary-bg-subtle-hover);
     }
 
     &--danger {

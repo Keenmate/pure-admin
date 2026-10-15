@@ -433,7 +433,7 @@
 <script>
 // Horizontal Bar Chart for Top Sales Products using D3.js.
 // Theme-aware: pulls colors and font from Pure Admin CSS custom properties
-// (--pc-accent, --pc-text-color-1/2, --pc-border-color) and inherits the
+// (--pc-primary, --pc-text-color-1/2, --pc-border-color) and inherits the
 // body font so it tracks every theme automatically.
 //
 // CSS vars are snapshotted at draw time, so re-render on `pa:theme-change`
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // inherits the resolved values, so reading from either works. Read :root.
         const rootStyle = getComputedStyle(document.documentElement);
         const cssVar = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
-        const accentColor  = cssVar('--pc-accent',         '#3b82f6');
+        const accentColor  = cssVar('--pc-primary',         '#3b82f6');
         const textPrimary  = cssVar('--pc-text-color-1',   '#1f2937');
         const textMuted    = cssVar('--pc-text-color-2',   '#6b7280');
         const borderColor  = cssVar('--pc-border-color',   '#e5e7eb');

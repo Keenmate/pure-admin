@@ -85,7 +85,7 @@ Two pa- clusters are really utilities-in-disguise:
 2. **`pa-*-color-N` palette cluster (45 classes):** `pa-text-color`,
    `pa-bg-color`, `pa-border-color`, `pa-text-on-color`, `pa-text-bg-color`
    (5 families × 9). `.text-color-N` (unprefixed, 9) is a **literal duplicate**
-   of `.pa-text-color-N` (both → `var(--pc-color-N)`; unprefixed just adds
+   of `.pa-text-color-N` (both → `var(--pc-palette-N)`; unprefixed just adds
    `!important`). **This is a SEPARATE, larger follow-up** — documented here so
    it isn't forgotten, but intentionally OUT OF SCOPE for the `pa-text`
    migration to avoid scope-creep.
@@ -124,7 +124,7 @@ COLOUR
   role:     text-primary(=accent) · text-success · text-danger · text-warning · text-info
   neutral:  (default = body) · text-muted (NEW → --pc-text-color-2) · text-body (NEW → --pc-text-color-1)
             text-secondary (NEW, provisional alias of text-muted)
-  palette:  text-color-1 … text-color-9   (= --pc-color-N; dup of pa-text-color-N — separate follow-up)
+  palette:  text-color-1 … text-color-9   (= --pc-palette-N; dup of pa-text-color-N — separate follow-up)
 
 ALIGN     text-start · text-center · text-end
 SEMANTIC  text-caption (NEW) · text-lead (NEW)
@@ -193,7 +193,7 @@ drop `color="primary"` (body is default).
 # Initiative 2 — palette colour utilities (`pa-*-color-N` → unprefixed)
 
 Separate from the `pa-text` work above; **same de-oscillation rule.** The 9-step
-data palette (`--pc-color-N` + contrast `--pc-color-N-text`, both emitted in
+data palette (`--pc-palette-N` + contrast `--pc-on-palette-N-text-color`, both emitted in
 pure-css `_base-css-variables.scss`) is exposed through 5 utility families, 4 of
 them stuck in `pa-`. All are atomic colour utilities → they belong unprefixed.
 
@@ -213,11 +213,11 @@ them stuck in `pa-`. All are atomic colour utilities → they belong unprefixed.
 
 | today | → target | declaration |
 |---|---|---|
-| `pa-text-color-N` + `text-color-N` | **`text-color-N`** | `color: var(--pc-color-N)` |
-| `pa-bg-color-N` | **`bg-color-N`** | `background-color: var(--pc-color-N)` |
-| `pa-border-color-N` | **`border-color-N`** | `border-color: var(--pc-color-N)` |
-| `pa-text-on-color-N` | **`text-on-color-N`** | `color: var(--pc-color-N-text)` (contrast text; kept despite 0 current uses) |
-| `pa-text-bg-color-N` | **`surface-color-N`** | `background: var(--pc-color-N)` + `color: var(--pc-color-N-text)` |
+| `pa-text-color-N` + `text-color-N` | **`text-color-N`** | `color: var(--pc-palette-N)` |
+| `pa-bg-color-N` | **`bg-color-N`** | `background-color: var(--pc-palette-N)` |
+| `pa-border-color-N` | **`border-color-N`** | `border-color: var(--pc-palette-N)` |
+| `pa-text-on-color-N` | **`text-on-color-N`** | `color: var(--pc-on-palette-N-text-color)` (contrast text; kept despite 0 current uses) |
+| `pa-text-bg-color-N` | **`surface-color-N`** | `background: var(--pc-palette-N)` + `color: var(--pc-on-palette-N-text-color)` |
 
 Naming logic: **`{property}-color-N` = palette slot N applied to that property**;
 `surface-color-N` = palette-tinted surface with guaranteed-readable text (the only
@@ -242,7 +242,7 @@ palette-tinted *component variants*, correctly `pa-`-scoped (part of a component
 BEM), so they **stay** and are out of scope.
 
 ### Known naming wart (accepted)
-`text-color-N` → `--pc-color-N` (data PALETTE, e.g. pink) while
+`text-color-N` → `--pc-palette-N` (data PALETTE, e.g. pink) while
 `text-muted`/`text-body` → `--pc-text-color-N` (text HIERARCHY). Mental model:
 **numbered `-color-N` = palette; named (`muted`/`body`) = hierarchy.** Tolerable,
 not renaming.
@@ -267,7 +267,7 @@ Initiative 1, and independent of it (can run in parallel or after).
 ## Risks / notes
 - **Suffix shift is not a blind find/replace** (`pa-text--sm`=12 ≠ `text-sm`=14;
   `pa-text--lg`=16 = `text-base`). Use the token table above.
-- **`.text-color-2` (palette, pink `--pc-color-2`) ≠ muted text
+- **`.text-color-2` (palette, pink `--pc-palette-2`) ≠ muted text
   (`--pc-text-color-2`, slate).** Naming collision to keep in mind; `.text-muted`
   sidesteps it.
 - Demo loads theme CSS, so **themes must be rebuilt** after any core utility add.

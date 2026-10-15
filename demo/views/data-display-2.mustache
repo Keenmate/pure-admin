@@ -1269,7 +1269,7 @@ function copyValue(btn) {
     navigator.clipboard.writeText(text).then(() => {
         const originalIcon = btn.innerHTML;
         btn.innerHTML = '<span class="pa-icon pa-icon--check" aria-hidden="true"></span>';
-        btn.style.color = 'var(--pc-color-4, #28a745)';
+        btn.style.color = 'var(--pc-palette-4, #28a745)';
 
         setTimeout(() => {
             btn.innerHTML = originalIcon;

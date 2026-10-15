@@ -10,7 +10,7 @@
   align-items: center;
   gap: $spacing-xs;
   padding: 0.4rem 0.8rem;         // Match badge default
-  background-color: var(--pc-accent-light);
+  background-color: var(--pc-primary-bg-subtle);
   color: var(--pc-text-color-1);
   font-size: $font-size-xs;       // 1.2rem (12px) - match badge default
   font-weight: $font-weight-medium;
@@ -21,7 +21,7 @@
   transition: all $transition-fast $easing-snappy;
 
   &:hover {
-    background-color: var(--pc-accent-hover);
+    background-color: var(--pc-primary-bg-subtle-hover);
     text-decoration: none;
   }
 
@@ -52,23 +52,23 @@
     border: $border-width-base solid var(--pc-border-color);
 
     &:hover {
-      background-color: var(--pc-accent-light);
+      background-color: var(--pc-primary-bg-subtle);
     }
   }
 
   // Color variations
   &--primary {
-    background-color: var(--pc-accent-light);
-    color: var(--pc-accent);
-    border-color: var(--pc-accent);
+    background-color: var(--pc-primary-bg-subtle);
+    color: var(--pc-primary);
+    border-color: var(--pc-primary);
 
     &.pa-label--outline {
       background-color: transparent;
-      color: var(--pc-accent);
-      border-color: var(--pc-accent);
+      color: var(--pc-primary);
+      border-color: var(--pc-primary);
 
       &:hover {
-        background-color: var(--pc-accent-light);
+        background-color: var(--pc-primary-bg-subtle);
       }
     }
   }

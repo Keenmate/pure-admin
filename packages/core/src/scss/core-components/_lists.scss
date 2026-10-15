@@ -197,7 +197,7 @@
     // settings-panel uses for an active row). Background-only so it stays
     // RTL-safe with no layout shift.
     &--highlighted {
-      background-color: var(--pc-accent-hover);
+      background-color: var(--pc-primary-bg-subtle-hover);
     }
   }
 

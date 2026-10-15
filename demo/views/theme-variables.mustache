@@ -35,15 +35,15 @@
         <h3 class="mb-2">Data Flow</h3>
         <pre class="pa-code mb-3"><code>_variables.scss          themes/express.scss           Output CSS
 ────────────────        ─────────────────────        ─────────────
-$base-accent-color:     $base-accent-color:          :root {
-  #3b82f6 !default;  →    #dc2626;               →    --base-accent-color: #dc2626;
+$base-primary-color:     $base-primary-color:          :root {
+  #3b82f6 !default;  →    #dc2626;               →    --base-primary-color: #dc2626;
                         @include output-base-vars;     ...
                                                      }</code></pre>
 
         <h3 class="mb-2">Web Component Consumption</h3>
         <pre class="pa-code"><code>/* In web component CSS */
 :host {
-    --ms-accent-color: var(--base-accent-color, #3b82f6);
+    --ms-accent-color: var(--base-primary-color, #3b82f6);
     --ms-text-color: var(--base-text-color-1, #333);
     --ms-input-bg: var(--base-input-background, #fff);
 }</code></pre>
@@ -70,13 +70,13 @@ $base-accent-color:     $base-accent-color:          :root {
                     <td><strong>Colors</strong></td>
                     <td>11</td>
                     <td>
-                        <code>--base-accent-color</code>,
-                        <code>--base-accent-color-hover</code>,
-                        <code>--base-accent-color-active</code>,
-                        <code>--base-primary-bg</code>,
-                        <code>--base-primary-bg-hover</code>,
+                        <code>--base-primary-color</code>,
+                        <code>--base-primary-color-hover</code>,
+                        <code>--base-primary-color-active</code>,
+                        <code>--base-primary-bg-subtle</code>,
+                        <code>--base-primary-bg-subtle-hover</code>,
                         <code>--base-text-color-1</code> to <code>--base-text-color-4</code>,
-                        <code>--base-text-on-accent</code>,
+                        <code>--base-on-primary-text-color</code>,
                         <code>--base-border-color</code>
                     </td>
                 </tr>
@@ -85,7 +85,7 @@ $base-accent-color:     $base-accent-color:          :root {
                     <td>7</td>
                     <td>
                         <code>--base-input-background</code>,
-                        <code>--base-input-color</code>,
+                        <code>--base-input-text-color</code>,
                         <code>--base-input-border</code>,
                         <code>--base-input-border-hover</code>,
                         <code>--base-input-border-focus</code>,
@@ -171,12 +171,12 @@ $base-accent-color:     $base-accent-color:          :root {
             <div class="pc-col-50 pc-col-md-25">
                 <h4 class="mb-1">Colors</h4>
                 <div class="d-flex align-items-center gap-8 mb-2">
-                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-accent-color); border: 1px solid var(--base-border-color);"></div>
-                    <code>--base-accent-color</code>
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-primary-color); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-primary-color</code>
                 </div>
                 <div class="d-flex align-items-center gap-8 mb-2">
-                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-accent-color-hover); border: 1px solid var(--base-border-color);"></div>
-                    <code>--base-accent-color-hover</code>
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-primary-color-hover); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-primary-color-hover</code>
                 </div>
                 <div class="d-flex align-items-center gap-8 mb-2">
                     <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-primary-bg); border: 1px solid var(--base-border-color);"></div>
@@ -246,12 +246,12 @@ $base-accent-color:     $base-accent-color:          :root {
 @import '../variables';
 
 // Override accent color for theme
-$accent-color: $express-red;
+$primary-color: $express-red;
 
 // Sync base variables with theme colors
-$base-accent-color: $accent-color;
-$base-accent-color-hover: $express-red-hover;
-$base-accent-color-active: lighten($express-red, 15%);
+$base-primary-color: $primary-color;
+$base-primary-color-hover: $express-red-hover;
+$base-primary-color-active: lighten($express-red, 15%);
 
 // ... other theme overrides ...
 

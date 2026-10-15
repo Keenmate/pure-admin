@@ -162,7 +162,7 @@
     // colours (same ones the surface-{role}/surface-color-N utilities use).
     &--underlined {
       h1, h2, h3, h4, h5, h6 {
-        border-bottom: $border-width-medium solid var(--pa-card-underline-color, var(--pc-accent));
+        border-bottom: $border-width-medium solid var(--pa-card-underline-color, var(--pc-primary));
         padding-bottom: $spacing-sm;
       }
 
@@ -172,7 +172,7 @@
       &.pa-card__header--underline-info    { --pa-card-underline-color: var(--pc-info); }
 
       @for $i from 1 through 9 {
-        &.pa-card__header--underline-color-#{$i} { --pa-card-underline-color: var(--pc-color-#{$i}); }
+        &.pa-card__header--underline-color-#{$i} { --pa-card-underline-color: var(--pc-palette-#{$i}); }
       }
     }
 
@@ -350,26 +350,26 @@
   // shared --pc-{role} / --base-text-on-{role} tokens (same ones .surface-{role}
   // uses), so cards, utilities, and the underline all paint from one set.
   &--primary {
-    --pa-card-header-bg: var(--pc-accent);
-    --pa-card-header-text: var(--base-text-on-primary);
-    --pa-card-border-color: var(--pc-accent);
+    --pa-card-header-bg: var(--pc-primary);
+    --pa-card-header-text: var(--base-on-primary-text-color);
+    --pa-card-border-color: var(--pc-primary);
   }
 
   &--success {
     --pa-card-header-bg: var(--pc-success);
-    --pa-card-header-text: var(--base-text-on-success);
+    --pa-card-header-text: var(--base-on-success-text-color);
     --pa-card-border-color: var(--pc-success);
   }
 
   &--warning {
     --pa-card-header-bg: var(--pc-warning);
-    --pa-card-header-text: var(--base-text-on-warning);
+    --pa-card-header-text: var(--base-on-warning-text-color);
     --pa-card-border-color: var(--pc-warning);
   }
 
   &--danger {
     --pa-card-header-bg: var(--pc-danger);
-    --pa-card-header-text: var(--base-text-on-danger);
+    --pa-card-header-text: var(--base-on-danger-text-color);
     --pa-card-border-color: var(--pc-danger);
   }
 
@@ -420,13 +420,13 @@
   }
 
   // Theme color variants (color-1 through color-9) — same var-setter pattern as
-  // the role variants above, using the slot's --pc-color-N fill + its paired
-  // --pc-color-N-text contrast.
+  // the role variants above, using the slot's --pc-palette-N fill + its paired
+  // --pc-on-palette-N-text-color contrast.
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      --pa-card-header-bg: var(--pc-color-#{$i});
-      --pa-card-header-text: var(--pc-color-#{$i}-text);
-      --pa-card-border-color: var(--pc-color-#{$i});
+      --pa-card-header-bg: var(--pc-palette-#{$i});
+      --pa-card-header-text: var(--pc-on-palette-#{$i}-text-color);
+      --pa-card-border-color: var(--pc-palette-#{$i});
     }
   }
 
@@ -448,12 +448,12 @@
 
     &:hover {
       color: var(--pc-text-color-1);
-      background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+      background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
     }
 
     &--active {
-      color: var(--pc-accent);
-      border-bottom-color: var(--pc-accent);
+      color: var(--pc-primary);
+      border-bottom-color: var(--pc-primary);
     }
   }
 
@@ -484,12 +484,12 @@
       transition: all $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+        background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
         color: var(--pc-text-color-1);
       }
 
       &--active {
-        background: var(--pc-accent);
+        background: var(--pc-primary);
         color: var(--pa-btn-primary-text);
       }
     }
@@ -524,7 +524,7 @@ a.pa-card {
   > h3 {
     color: var(--pc-text-color-1);
     margin-bottom: $spacing-base;
-    border-bottom: $border-width-medium solid var(--pc-accent);
+    border-bottom: $border-width-medium solid var(--pc-primary);
     padding-bottom: $spacing-sm;
   }
 }
@@ -533,7 +533,7 @@ a.pa-card {
 .pa-section-title {
   color: var(--pc-text-color-1);
   margin-bottom: $spacing-base;
-  border-bottom: $border-width-medium solid var(--pc-accent);
+  border-bottom: $border-width-medium solid var(--pc-primary);
   padding-bottom: $spacing-sm;
 }
 

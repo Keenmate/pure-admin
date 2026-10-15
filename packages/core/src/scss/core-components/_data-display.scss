@@ -360,15 +360,15 @@
 
   // ------------------------------------------------------------------
   // COLOR VARIANTS: theme colors for border and filled background
-  // Uses --pc-color-{1-9} CSS variables
+  // Uses --pc-palette-{1-9} CSS variables
   // ------------------------------------------------------------------
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      border-left-color: var(--pc-color-#{$i});
+      border-left-color: var(--pc-palette-#{$i});
 
       // When combined with --filled, tint the background
       &.pa-fields--filled {
-        background: color-mix(in srgb, var(--pc-color-#{$i}) 10%, transparent);
+        background: color-mix(in srgb, var(--pc-palette-#{$i}) 10%, transparent);
       }
     }
   }
@@ -1036,7 +1036,7 @@
   &__item {
     padding: $accent-grid-item-padding-v $accent-grid-item-padding-h;
     padding-inline-start: $accent-grid-item-padding-start;
-    border-inline-start: $accent-grid-border-width solid var(--pc-accent);
+    border-inline-start: $accent-grid-border-width solid var(--pc-primary);
 
     &--success { border-inline-start-color: var(--pc-success); }
     &--warning { border-inline-start-color: var(--pc-warning); }

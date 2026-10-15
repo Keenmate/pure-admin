@@ -8,20 +8,19 @@ These variables are designed for web component integration and follow a semantic
 
 | Category | Variable | Purpose |
 |----------|----------|---------|
-| **Accent** | `--base-accent-color` | Primary accent color |
-| | `--base-accent-color-hover` | Accent hover state |
-| | `--base-accent-color-active` | Accent active state |
-| | `--base-accent-color-light` | Light accent background |
-| | `--base-accent-color-light-hover` | Light accent hover |
+| **Primary** | `--base-primary-color` | Primary brand / action color |
+| | `--base-primary-color-hover` | Darker hover step |
+| | `--base-primary-color-active` | Active / pressed step |
+| | `--base-primary-bg-subtle` | Selected-row tint (5%) |
+| | `--base-primary-bg-subtle-hover` | Selected-row tint on hover (8%) |
 | **Text** | `--base-text-color-1` | Primary text (highest contrast) |
 | | `--base-text-color-2` | Secondary text |
 | | `--base-text-color-3` | Tertiary text |
 | | `--base-text-color-4` | Disabled/muted text |
-| | `--base-text-color-on-accent` | Text on accent backgrounds |
+| | `--base-on-primary-text-color` | Text on the primary fill |
 | **Background** | `--base-main-bg` | Cards, modals, content areas |
 | | `--base-page-bg` | Page background, subtle sections |
 | | `--base-subtle-bg` | Muted areas, dividers |
-| | `--base-inverse-bg` | Inverse backgrounds (tooltips) |
 | | `--base-overlay-bg` | Modal/popover overlays |
 | | `--base-shadow-color` | Box shadow color |
 | | `--base-hover-bg` | Hover state background |
@@ -30,7 +29,7 @@ These variables are designed for web component integration and follow a semantic
 | **Border** | `--base-border-color` | Standard border color |
 | | `--base-border` | Full border shorthand |
 | **Input** | `--base-input-bg` | Input background |
-| | `--base-input-color` | Input text color |
+| | `--base-input-text-color` | Input text color |
 | | `--base-input-border` | Input border |
 | | `--base-input-border-hover` | Input border on hover |
 | | `--base-input-border-focus` | Input border on focus |
@@ -48,36 +47,24 @@ These variables are designed for web component integration and follow a semantic
 | | `--base-tooltip-text-color` | Tooltip text |
 | **Success** | `--base-success-color` | Success color |
 | | `--base-success-color-hover` | Success hover |
-| | `--base-success-bg-light` | Light success background |
-| | `--base-success-bg-subtle` | Subtle success background |
-| | `--base-success-border` | Success border |
-| | `--base-success-text` | Success text |
-| | `--base-success-text-light` | Light success text |
-| | `--base-text-on-success` | Text on success background |
+| | `--base-success-bg-subtle` | Success tint (10% light / 20% dark) |
+| | `--base-success-text-color` | Success text |
+| | `--base-on-success-text-color` | Text on success background |
 | **Danger** | `--base-danger-color` | Danger color |
 | | `--base-danger-color-hover` | Danger hover |
-| | `--base-danger-bg-light` | Light danger background |
-| | `--base-danger-bg-subtle` | Subtle danger background |
-| | `--base-danger-border` | Danger border |
-| | `--base-danger-text` | Danger text |
-| | `--base-danger-text-light` | Light danger text |
-| | `--base-text-on-danger` | Text on danger background |
+| | `--base-danger-bg-subtle` | Danger tint (10% light / 20% dark) |
+| | `--base-danger-text-color` | Danger text |
+| | `--base-on-danger-text-color` | Text on danger background |
 | **Warning** | `--base-warning-color` | Warning color |
 | | `--base-warning-color-hover` | Warning hover |
-| | `--base-warning-bg-light` | Light warning background |
-| | `--base-warning-bg-subtle` | Subtle warning background |
-| | `--base-warning-border` | Warning border |
-| | `--base-warning-text` | Warning text |
-| | `--base-warning-text-light` | Light warning text |
-| | `--base-text-on-warning` | Text on warning background |
+| | `--base-warning-bg-subtle` | Warning tint (10% light / 20% dark) |
+| | `--base-warning-text-color` | Warning text |
+| | `--base-on-warning-text-color` | Text on warning background |
 | **Info** | `--base-info-color` | Info color |
 | | `--base-info-color-hover` | Info hover |
-| | `--base-info-bg-light` | Light info background |
-| | `--base-info-bg-subtle` | Subtle info background |
-| | `--base-info-border` | Info border |
-| | `--base-info-text` | Info text |
-| | `--base-info-text-light` | Light info text |
-| | `--base-text-on-info` | Text on info background |
+| | `--base-info-bg-subtle` | Info tint (10% light / 20% dark) |
+| | `--base-info-text-color` | Info text |
+| | `--base-on-info-text-color` | Text on info background |
 | **Typography** | `--base-font-family` | Primary font stack |
 | | `--base-font-family-mono` | Monospace font stack |
 | | `--base-font-size-2xs` | 10px |
@@ -123,9 +110,9 @@ Set/override a token by role: foundation → `--pc-`, component → `--pa-`.
 | `--pc-subtle-bg` | Subtle/muted area background |
 | `--pc-text-color-1` | Primary text color |
 | `--pc-text-color-2` | Secondary text color |
-| `--pc-accent` | Accent color |
-| `--pc-accent-hover` | Accent hover |
-| `--pc-accent-light` | Light accent background |
+| `--pc-primary` | Accent color |
+| `--pc-primary-bg-subtle-hover` | Accent hover |
+| `--pc-primary-bg-subtle` | Light accent background |
 | `--pc-border-color` | Border color |
 
 ### Layout - Navbar
@@ -173,10 +160,10 @@ Set/override a token by role: foundation → `--pc-`, component → `--pa-`.
 
 | Variant | Variables |
 |---------|-----------|
-| **Success** | `--pa-success-bg`, `--pa-success-bg-hover`, `--pa-success-bg-light`, `--pa-success-bg-subtle`, `--pa-success-border`, `--pc-success-text`, `--pa-success-text-light` |
-| **Danger** | `--pa-danger-bg`, `--pa-danger-bg-hover`, `--pa-danger-bg-light`, `--pa-danger-bg-subtle`, `--pa-danger-border`, `--pc-danger-text`, `--pa-danger-text-light` |
-| **Warning** | `--pa-warning-bg`, `--pa-warning-bg-hover`, `--pa-warning-bg-light`, `--pa-warning-bg-subtle`, `--pa-warning-border`, `--pc-warning-text`, `--pa-warning-text-light` |
-| **Info** | `--pa-info-bg`, `--pa-info-bg-hover`, `--pa-info-bg-light`, `--pa-info-bg-subtle`, `--pa-info-border`, `--pc-info-text`, `--pa-info-text-light` |
+| **Success** | `--pa-success-bg`, `--pa-success-bg-hover`, `--pa-success-bg-light`, `--pc-success-text-color` |
+| **Danger** | `--pa-danger-bg`, `--pa-danger-bg-hover`, `--pa-danger-bg-light`, `--pc-danger-text-color` |
+| **Warning** | `--pa-warning-bg`, `--pa-warning-bg-hover`, `--pa-warning-bg-light`, `--pc-warning-text-color` |
+| **Info** | `--pa-info-bg`, `--pa-info-bg-hover`, `--pa-info-bg-light`, `--pc-info-text-color` |
 
 ### Cards
 
@@ -338,7 +325,7 @@ without a recompile:
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `--pa-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pc-accent) 15%, transparent)` |
+| `--pa-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pc-primary) 15%, transparent)` |
 | `--pa-search-mark-color` | Highlight text colour | `inherit` |
 | `--pa-search-mark-weight` | Highlight font weight | `500` (medium) |
 
@@ -375,11 +362,11 @@ to the framework default shown, so a `var()` reference never collapses to nothin
 | Variable | Purpose | Falls back to |
 |----------|---------|---------------|
 | `--pa-range-track` | Slider track colour | `--pc-surface-track` |
-| `--pa-range-fill` | Selected-range fill (and value readout) | `--pc-accent` |
+| `--pa-range-fill` | Selected-range fill (and value readout) | `--pc-primary` |
 | `--pa-range-thumb-bg` | Handle interior | `--pa-card-bg` |
-| `--pa-range-thumb-border` | Handle ring / bar / chevron colour | `--pc-accent` |
-| `--pa-range-thumb-border-hover` | Handle colour on hover | `--pc-accent-hover` |
-| `--pa-range-focus-ring` | Thumb focus / active ring | `--pc-accent-light` |
+| `--pa-range-thumb-border` | Handle ring / bar / chevron colour | `--pc-primary` |
+| `--pa-range-thumb-border-hover` | Handle colour on hover | `--pc-primary-bg-subtle-hover` |
+| `--pa-range-focus-ring` | Thumb focus / active ring | `--pc-primary-bg-subtle` |
 | `--pa-range-tick` | Minor tick-mark colour | `--pc-border-color` |
 | `--pa-range-tick-major` | Major tick-mark colour | `--pc-text-tertiary` |
 | `--pa-range-track-height` | Track / fill thickness | `0.4rem` |
@@ -390,15 +377,15 @@ to the framework default shown, so a `var()` reference never collapses to nothin
 
 | Variable | Purpose |
 |----------|---------|
-| `--pc-color-1` | Theme-defined branded color 1 |
-| `--pc-color-2` | Theme-defined branded color 2 |
-| `--pc-color-3` | Theme-defined branded color 3 |
-| `--pc-color-4` | Theme-defined branded color 4 |
-| `--pc-color-5` | Theme-defined branded color 5 |
-| `--pc-color-6` | Theme-defined branded color 6 |
-| `--pc-color-7` | Theme-defined branded color 7 |
-| `--pc-color-8` | Theme-defined branded color 8 |
-| `--pc-color-9` | Theme-defined branded color 9 |
+| `--pc-palette-1` | Theme-defined branded color 1 |
+| `--pc-palette-2` | Theme-defined branded color 2 |
+| `--pc-palette-3` | Theme-defined branded color 3 |
+| `--pc-palette-4` | Theme-defined branded color 4 |
+| `--pc-palette-5` | Theme-defined branded color 5 |
+| `--pc-palette-6` | Theme-defined branded color 6 |
+| `--pc-palette-7` | Theme-defined branded color 7 |
+| `--pc-palette-8` | Theme-defined branded color 8 |
+| `--pc-palette-9` | Theme-defined branded color 9 |
 
 ### Data Display — Copy Hint (i18n)
 

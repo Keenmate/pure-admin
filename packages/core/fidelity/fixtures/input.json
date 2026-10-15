@@ -5,7 +5,7 @@
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md input). Shared scale with pa-select/pa-textarea; this slice only exercises pa-input--{size}.",
     "state": "success|warning|error — standalone validation border (pa-input--{state}). Core defines these three for pa-input (and pa-select); pa-textarea has none.",
-    "themeColor": "1..9 theme colour slot — pa-input--color-N (paints the border with --pc-color-N). Orthogonal to state/size.",
+    "themeColor": "1..9 theme colour slot — pa-input--color-N (paints the border with --pc-palette-N). Orthogonal to state/size.",
     "type": "native input type (text|email|password|tel|url|search) — text-like inputs only. Structural: a native `type` attr, not a class. Both wrappers default to text.",
     "placeholder": "native placeholder attribute",
     "value": "native value attribute — emitted only when supplied (the blessed empty shape carries no value)",

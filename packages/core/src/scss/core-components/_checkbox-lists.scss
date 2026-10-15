@@ -131,10 +131,10 @@
 
 // Selected state styling
 .pa-checkbox-list__item--selected {
-  background-color: var(--pc-accent-light);
+  background-color: var(--pc-primary-bg-subtle);
 
   &:hover {
-    background-color: var(--pc-accent-light);
+    background-color: var(--pc-primary-bg-subtle);
   }
 }
 
@@ -194,8 +194,8 @@
     flex: 0 1 auto;
 
     &:hover {
-      border-color: var(--pc-accent);
-      background-color: var(--pc-accent-light);
+      border-color: var(--pc-primary);
+      background-color: var(--pc-primary-bg-subtle);
     }
   }
 
@@ -215,8 +215,8 @@
     border-radius: var(--pc-border-radius);
 
     &:hover {
-      border-color: var(--pc-accent);
-      background-color: var(--pc-accent-light);
+      border-color: var(--pc-primary);
+      background-color: var(--pc-primary-bg-subtle);
     }
   }
 }
@@ -284,6 +284,6 @@
 
   // Row selection styling
   tr.pa-table__row--selected {
-    background-color: var(--pc-accent-light);
+    background-color: var(--pc-primary-bg-subtle);
   }
 }

@@ -273,23 +273,23 @@
   // These use theme-customizable colors from --pc-color-* CSS variables
   @for $i from 1 through 9 {
     &--color-#{$i}::before {
-      background-color: var(--pc-color-#{$i});
-      color: var(--pc-color-#{$i}-text);
+      background-color: var(--pc-palette-#{$i});
+      color: var(--pc-on-palette-#{$i}-text-color);
     }
     &--color-#{$i}::after {
-      border-top-color: var(--pc-color-#{$i});
+      border-top-color: var(--pc-palette-#{$i});
     }
     &--color-#{$i}.pa-tooltip--end::after {
       border-top-color: transparent;
-      border-inline-end-color: var(--pc-color-#{$i});
+      border-inline-end-color: var(--pc-palette-#{$i});
     }
     &--color-#{$i}.pa-tooltip--bottom::after {
       border-top-color: transparent;
-      border-bottom-color: var(--pc-color-#{$i});
+      border-bottom-color: var(--pc-palette-#{$i});
     }
     &--color-#{$i}.pa-tooltip--start::after {
       border-top-color: transparent;
-      border-inline-start-color: var(--pc-color-#{$i});
+      border-inline-start-color: var(--pc-palette-#{$i});
     }
   }
 
@@ -427,9 +427,9 @@
     transition: all $transition-fast $easing-smooth;
 
     &:hover {
-      background-color: var(--pc-accent);
+      background-color: var(--pc-primary);
       color: var(--pa-modal-content-bg);
-      border-color: var(--pc-accent);
+      border-color: var(--pc-primary);
     }
   }
 
@@ -483,11 +483,11 @@
     }
 
     a {
-      color: var(--pc-accent);
+      color: var(--pc-primary);
       text-decoration: underline;
 
       &:hover {
-        color: var(--pc-accent-hover);
+        color: var(--pc-primary-hover);
       }
     }
 
@@ -602,8 +602,8 @@
   // Numbered color variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &.pa-tooltip--color-#{$i} {
-      background-color: var(--pc-color-#{$i});
-      color: var(--pc-color-#{$i}-text);
+      background-color: var(--pc-palette-#{$i});
+      color: var(--pc-on-palette-#{$i}-text-color);
     }
   }
 }

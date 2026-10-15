@@ -4,7 +4,7 @@
   "block": "pa-badge",
   "propsVocabulary": {
     "variant": "colour variant (primary|secondary|success|warning|danger|info|light|dark) — the 8 btn-style colour pairs",
-    "themeColor": "1..9 theme colour slot — emits pa-badge--color-N (paints --pc-color-N + contrasting text); overrides variant",
+    "themeColor": "1..9 theme colour slot — emits pa-badge--color-N (paints --pc-palette-N + contrasting text); overrides variant",
     "size": "xs|sm|lg|xl (default is the unmodified 12px badge)",
     "pill": "boolean — full-round ends (pa-badge--pill)",
     "ellipsisStart": "boolean — truncate from the start (pa-badge--ellipsis-start)",

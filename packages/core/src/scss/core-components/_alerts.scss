@@ -31,9 +31,9 @@
 
   // Basic alert variants - using theme colors with subtle backgrounds
   &--primary {
-    color: var(--pc-accent);
-    background-color: color-mix(in srgb, var(--pc-accent) #{$opacity-subtle * 100%}, transparent);
-    border-color: color-mix(in srgb, var(--pc-accent) #{$opacity-border * 100%}, transparent);
+    color: var(--pc-primary);
+    background-color: color-mix(in srgb, var(--pc-primary) #{$opacity-subtle * 100%}, transparent);
+    border-color: color-mix(in srgb, var(--pc-primary) #{$opacity-border * 100%}, transparent);
   }
 
   &--secondary {
@@ -81,8 +81,8 @@
 
   // Outline variants
   &--outline-primary {
-    color: var(--pc-accent);
-    border-color: var(--pc-accent);
+    color: var(--pc-primary);
+    border-color: var(--pc-primary);
     background-color: transparent;
   }
 
@@ -113,14 +113,14 @@
   // Theme color slot variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      color: var(--pc-color-#{$i}-text);
-      background-color: var(--pc-color-#{$i});
-      border-color: var(--pc-color-#{$i});
+      color: var(--pc-on-palette-#{$i}-text-color);
+      background-color: var(--pc-palette-#{$i});
+      border-color: var(--pc-palette-#{$i});
     }
 
     &--outline-color-#{$i} {
-      color: var(--pc-color-#{$i});
-      border-color: var(--pc-color-#{$i});
+      color: var(--pc-palette-#{$i});
+      border-color: var(--pc-palette-#{$i});
       background-color: transparent;
     }
   }

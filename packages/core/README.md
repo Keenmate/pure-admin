@@ -284,8 +284,8 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
 - `.pa-card__footer` - Card footer
 - **Semantic variants:** `.pa-card--primary/success/danger/warning`
 - **Theme color variants:** `.pa-card--color-1` through `.pa-card--color-9`
-  - Uses `--pc-color-N` for header background and border
-  - Text color automatically adjusts via `--pc-color-N-text` for readability
+  - Uses `--pc-palette-N` for header background and border
+  - Text color automatically adjusts via `--pc-on-palette-N-text-color` for readability
 - `.pa-card--ghost` - Invisible container (no background, border, or shadow) — layout wrapper only
 - `.pa-card--stat` - Compact padding for stat cards
 - **Live-data states** (persistent tinted background for real-time dashboards):
@@ -459,7 +459,7 @@ macOS Spotlight-style search with multi-step commands, context search, and globa
 - `.pa-tooltip--top/end/bottom/start` - Positioning (RTL-aware: end = right in LTR, left in RTL)
 - `.pa-tooltip--primary/success/warning/danger` - Semantic variants
 - `.pa-tooltip--color-1` through `.pa-tooltip--color-9` - Theme color variants
-  - Text color automatically adjusts via `--pc-color-N-text` for readability
+  - Text color automatically adjusts via `--pc-on-palette-N-text-color` for readability
 - `.pa-tooltip--multiline` - Multiline tooltips
 - `.pa-popover` - Base popover (requires JavaScript)
 - `.pa-popover--sm/md/lg` - Sizes
@@ -689,15 +689,15 @@ Unprefixed palette utilities (slots 1–9) — apply a data-palette slot to a pr
 - `.text-on-color-1` through `.text-on-color-9` - Contrast text only (pair with `.bg-color-N`)
 - `.surface-color-1` through `.surface-color-9` - Slot background + contrast text in one class
 - **CSS Variables:**
-  - `--pc-color-1` through `--pc-color-9` - Background colors (theme-defined)
-  - `--pc-color-1-text` through `--pc-color-9-text` - Contrast text colors for readability on colored backgrounds
+  - `--pc-palette-1` through `--pc-palette-9` - Background colors (theme-defined)
+  - `--pc-on-palette-1-text-color` through `--pc-on-palette-9-text-color` - Contrast text colors for readability on colored backgrounds
 
 ## SCSS Variables
 
 All components use SCSS variables with `!default` flags, making them fully customizable:
 
-- **Colors**: `$main-bg`, `$page-bg`, `$subtle-bg`, `$accent-color`, `$text-color-1`, `$text-color-2`, etc.
-- **Theme Color Slots**: `$color-1` through `$color-9` (background colors), `$color-1-text` through `$color-9-text` (contrast text colors)
+- **Colors**: `$main-bg`, `$page-bg`, `$subtle-bg`, `$primary-color`, `$text-color-1`, `$text-color-2`, etc.
+- **Theme Color Slots**: `$palette-1` through `$palette-9` (background colors), `$on-palette-1-text-color` through `$on-palette-9-text-color` (contrast text colors)
 - **Spacing**: `$spacing-xs` through `$spacing-2xl`
 - **Typography**: `$font-size-*`, `$line-height-*`, `$font-weight-*`
 - **Components**: `$btn-*`, `$card-*`, `$table-*`, etc.
@@ -714,7 +714,6 @@ Pure Admin exports `--base-*` CSS custom properties for theming web components (
 | `--base-main-bg` | `#ffffff` | Cards, modals, primary content |
 | `--base-page-bg` | `#f8f9fa` | Page background, subtle sections |
 | `--base-subtle-bg` | `#e9ecef` | Muted areas, dividers |
-| `--base-inverse-bg` | `#2c3e50` | Tooltips, dark elements |
 | `--base-overlay-bg` | `rgba(0,0,0,0.5)` | Modal overlays, backdrops |
 | `--base-hover-bg` | (subtle-bg) | Hover state background |
 | `--base-active-bg` | (darker) | Active/pressed state |
@@ -723,10 +722,10 @@ Pure Admin exports `--base-*` CSS custom properties for theming web components (
 ### Accent Colors
 | Variable | Default | Usage |
 |----------|---------|-------|
-| `--base-accent-color` | `#3b82f6` | Primary accent |
-| `--base-accent-color-hover` | (lighter) | Hover state |
-| `--base-accent-color-active` | (darker) | Active state |
-| `--base-accent-color-light` | (10% opacity) | Subtle highlights |
+| `--base-primary-color` | `#3b82f6` | Primary accent |
+| `--base-primary-color-hover` | (lighter) | Hover state |
+| `--base-primary-color-active` | (darker) | Active state |
+| `--base-primary-bg-subtle` | (10% opacity) | Subtle highlights |
 
 ### Text Colors
 | Variable | Default | Usage |
@@ -735,24 +734,17 @@ Pure Admin exports `--base-*` CSS custom properties for theming web components (
 | `--base-text-color-2` | `#4b5563` | Secondary text |
 | `--base-text-color-3` | `#6b7280` | Tertiary/muted text |
 | `--base-text-color-4` | `#a3b1bf` | Disabled text |
-| `--base-text-color-on-accent` | `#ffffff` | Text on accent backgrounds |
+| `--base-on-primary-text-color` | `#ffffff` | Text on accent backgrounds |
 
 ### Input Fields
 | Variable | Usage |
 |----------|-------|
 | `--base-input-background` | Input background |
-| `--base-input-color` | Input text color |
+| `--base-input-text-color` | Input text color |
 | `--base-input-border` | Border shorthand |
 | `--base-input-border-hover` | Hover border |
 | `--base-input-border-focus` | Focus border |
 | `--base-input-placeholder-color` | Placeholder text |
-
-### Legacy Aliases (Backward Compatibility)
-The following legacy variables are still exported for backward compatibility:
-- `--base-surface-1` → `--base-main-bg`
-- `--base-surface-2` → `--base-page-bg`
-- `--base-surface-3` → `--base-subtle-bg`
-- `--base-surface-inverse` → `--base-inverse-bg`
 
 ### Usage in Web Components
 ```css

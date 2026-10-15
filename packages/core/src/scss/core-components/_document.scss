@@ -73,7 +73,7 @@ $document-heading-sizes: (
 
     // The generated number (auto mode).
     &::before {
-      color: var(--pa-document-number-color, var(--pc-accent));
+      color: var(--pa-document-number-color, var(--pc-primary));
       font-weight: $font-weight-bold;
       margin-inline-end: var(--pa-document-number-gap, #{$spacing-sm});
       font-variant-numeric: tabular-nums;
@@ -82,7 +82,7 @@ $document-heading-sizes: (
 
   // Manual number span (author-written) mirrors the generated number's look.
   &__number {
-    color: var(--pa-document-number-color, var(--pc-accent));
+    color: var(--pa-document-number-color, var(--pc-primary));
     font-weight: $font-weight-bold;
     margin-inline-end: var(--pa-document-number-gap, #{$spacing-sm});
     font-variant-numeric: tabular-nums;

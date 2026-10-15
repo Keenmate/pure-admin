@@ -6,7 +6,7 @@
     "value": "0-100 — sets the inline style `--value: N` (UNITLESS) on the ring AND is shown as `N%` inside pa-progress-ring__value",
     "valueText": "the text shown in pa-progress-ring__value. For a shared golden both wrappers render `N%`: keen auto-derives it from `value` (`<%= @value %>%`), svelte takes it via `valueText`. Scenarios set valueText to the matching `N%` string so the two wrappers agree; keen ignores this prop (not in its map) and auto-derives.",
     "label": "optional caption shown below the value in pa-progress-ring__label",
-    "variant": "colour variant success|warning|danger|info — emits pa-progress-ring--{variant} (changes the conic fill colour). primary is the BASE (var(--pc-accent)) and emits NO modifier — there is NO pa-progress-ring--primary in core.",
+    "variant": "colour variant success|warning|danger|info — emits pa-progress-ring--{variant} (changes the conic fill colour). primary is the BASE (var(--pc-primary)) and emits NO modifier — there is NO pa-progress-ring--primary in core.",
     "size": "sm|lg ring diameter — emits pa-progress-ring--{size}",
     "extraClass": "extra classes appended verbatim — class passthrough, not a core feature"
   },

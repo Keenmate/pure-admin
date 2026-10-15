@@ -6,7 +6,7 @@
  *
  * NOTE: Both components use the --base-* CSS variable system with built-in fallback chains:
  *   1. External override: --ms-accent-color: #custom
- *   2. Theme base value: var(--base-accent-color)
+ *   2. Theme base value: var(--base-primary-color)
  *   3. Hardcoded default: #3b82f6
  *
  * This means Pure Admin only needs to set --base-* variables (via the

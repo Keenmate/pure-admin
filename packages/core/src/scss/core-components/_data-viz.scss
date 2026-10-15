@@ -20,7 +20,7 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: var(--pc-accent);
+    background: var(--pc-primary);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
@@ -116,7 +116,7 @@
     transition: width $transition-medium $easing-smooth;
 
     // Default color
-    background: var(--pc-accent);
+    background: var(--pc-primary);
 
     &--success { background: var(--pc-success); }
     &--warning { background: var(--pc-warning); }
@@ -147,7 +147,7 @@
     border-radius: var(--pc-border-radius-sm);
     flex-shrink: 0;
 
-    &--primary   { background: var(--pc-accent); }
+    &--primary   { background: var(--pc-primary); }
     &--success   { background: var(--pc-success); }
     &--warning   { background: var(--pc-warning); }
     &--danger    { background: var(--pc-danger); }
@@ -173,7 +173,7 @@
   height: $progress-ring-size;
   border-radius: 50%;
   background: conic-gradient(
-    var(--pc-accent) calc(var(--value, 0) * 3.6deg),
+    var(--pc-primary) calc(var(--value, 0) * 3.6deg),
     var(--pc-surface-track) 0deg
   );
   display: flex;
@@ -269,7 +269,7 @@
 
 .pa-gauge {
   // Single token controls the active fill; colour variants override just this.
-  --pa-gauge-fill: var(--pc-accent);
+  --pa-gauge-fill: var(--pc-primary);
   // Total width of the gauge. Height auto-derives at half the width (the
   // gauge is a top semi-circle, so aspect ratio is fixed 2:1). Override
   // per instance via style="--pa-gauge-size: 16rem".
@@ -406,7 +406,7 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: var(--pc-accent);
+    background: var(--pc-primary);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
@@ -439,10 +439,10 @@
     border-radius: var(--pc-border-radius-sm);
     background: var(--pc-surface-track);
 
-    &[data-level="1"] { background: color-mix(in srgb, var(--pc-accent) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pc-accent) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pc-accent) 65%, transparent); }
-    &[data-level="4"] { background: var(--pc-accent); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-primary) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-primary) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-primary) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-primary); }
   }
 
   // Color variants
@@ -476,10 +476,10 @@
     border-radius: var(--pc-border-radius-sm);
     background: var(--pc-surface-track);
 
-    &[data-level="1"] { background: color-mix(in srgb, var(--pc-accent) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pc-accent) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pc-accent) 65%, transparent); }
-    &[data-level="4"] { background: var(--pc-accent); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-primary) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-primary) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-primary) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-primary); }
   }
 
   // Compact variant (smaller cells, for inline use)
@@ -508,7 +508,7 @@
   &__bar {
     width: $sparkline-bar-width;
     height: var(--value, 50%);
-    background: var(--pc-accent);
+    background: var(--pc-primary);
     border-radius: var(--pc-border-radius-sm) var(--pc-border-radius-sm) 0 0;
     transition: height $transition-medium $easing-smooth;
     min-height: 1px;
@@ -584,7 +584,7 @@
       display: block;
       height: 100%;
       width: var(--value, 0%);
-      background: var(--pc-accent);
+      background: var(--pc-primary);
       border-radius: inherit;
       transition: width $transition-medium $easing-smooth;
     }

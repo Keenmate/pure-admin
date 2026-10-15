@@ -36,6 +36,7 @@
       "items": {
         "type": "string",
         "enum": [
+          "primary",
           "accent",
           "text",
           "surface",
@@ -59,7 +60,7 @@
         "name": {
           "type": "string",
           "pattern": "^base-[a-z0-9-]+$",
-          "description": "Base variable name without $ prefix (e.g., base-accent-color)"
+          "description": "Base variable name without $ prefix (e.g., base-primary-color)"
         },
         "required": {
           "type": "boolean",

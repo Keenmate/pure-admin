@@ -25,7 +25,7 @@
         "category": {
           "type": "string",
           "enum": [
-            "accent",
+            "primary",
             "text",
             "surface",
             "border",
@@ -59,43 +59,43 @@
     }
   },
   "variables": {
-    "base-accent-color": {
+    "base-primary-color": {
       "type": "color",
-      "category": "accent",
+      "category": "primary",
       "description": "Primary interactive/brand color",
       "default": "#007bff",
-      "cssProperty": "--base-accent-color"
+      "cssProperty": "--base-primary-color"
     },
-    "base-accent-color-hover": {
+    "base-primary-color-hover": {
       "type": "color",
-      "category": "accent",
+      "category": "primary",
       "description": "Accent color hover state (10% lighter)",
       "default": "#3395ff",
-      "cssProperty": "--base-accent-color-hover",
-      "derivedFrom": "base-accent-color"
+      "cssProperty": "--base-primary-color-hover",
+      "derivedFrom": "base-primary-color"
     },
-    "base-accent-color-active": {
+    "base-primary-color-active": {
       "type": "color",
-      "category": "accent",
+      "category": "primary",
       "description": "Accent color active state (20% lighter)",
       "default": "#66b0ff",
-      "cssProperty": "--base-accent-color-active",
-      "derivedFrom": "base-accent-color"
+      "cssProperty": "--base-primary-color-active",
+      "derivedFrom": "base-primary-color"
     },
-    "base-accent-color-light": {
+    "base-primary-bg-subtle": {
       "type": "color",
-      "category": "accent",
+      "category": "primary",
       "description": "Light accent for subtle backgrounds",
       "default": "rgba(0, 123, 255, 0.05)",
-      "cssProperty": "--base-accent-color-light"
+      "cssProperty": "--base-primary-bg-subtle"
     },
-    "base-accent-color-light-hover": {
+    "base-primary-bg-subtle-hover": {
       "type": "color",
-      "category": "accent",
+      "category": "primary",
       "description": "Light accent hover state",
       "default": "rgba(0, 123, 255, 0.12)",
-      "cssProperty": "--base-accent-color-light-hover",
-      "derivedFrom": "base-accent-color"
+      "cssProperty": "--base-primary-bg-subtle-hover",
+      "derivedFrom": "base-primary-color"
     },
 
     "base-text-color-1": {
@@ -128,12 +128,12 @@
       "cssProperty": "--base-text-color-4",
       "derivedFrom": "base-text-color-1"
     },
-    "base-text-color-on-accent": {
+    "base-on-primary-text-color": {
       "type": "color",
       "category": "text",
       "description": "Text color on accent backgrounds",
       "default": "#ffffff",
-      "cssProperty": "--base-text-color-on-accent"
+      "cssProperty": "--base-on-primary-text-color"
     },
 
     "base-surface-1": {
@@ -201,12 +201,12 @@
       "default": "#ffffff",
       "cssProperty": "--base-input-bg"
     },
-    "base-input-color": {
+    "base-input-text-color": {
       "type": "color",
       "category": "input",
       "description": "Input field text color",
       "default": "#495057",
-      "cssProperty": "--base-input-color"
+      "cssProperty": "--base-input-text-color"
     },
     "base-input-border": {
       "type": "border",
@@ -228,7 +228,7 @@
       "description": "Input field border on focus",
       "default": "1px solid #007bff",
       "cssProperty": "--base-input-border-focus",
-      "derivedFrom": "base-accent-color"
+      "derivedFrom": "base-primary-color"
     },
     "base-input-placeholder-color": {
       "type": "color",
@@ -332,27 +332,27 @@
       "cssProperty": "--base-success-color-hover",
       "derivedFrom": "base-success-color"
     },
-    "base-success-bg-light": {
+    "base-success-bg-subtle": {
       "type": "color",
       "category": "contextual",
-      "description": "Light success background",
+      "description": "Success tint background (10% light / 20% dark)",
       "default": "rgba(40, 167, 69, 0.1)",
-      "cssProperty": "--base-success-bg-light",
+      "cssProperty": "--base-success-bg-subtle",
       "derivedFrom": "base-success-color"
     },
-    "base-success-text": {
+    "base-success-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Success text color (for light backgrounds)",
       "default": "#155724",
-      "cssProperty": "--base-success-text"
+      "cssProperty": "--base-success-text-color"
     },
-    "base-text-on-success": {
+    "base-on-success-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Text color on success backgrounds",
       "default": "#ffffff",
-      "cssProperty": "--base-text-on-success"
+      "cssProperty": "--base-on-success-text-color"
     },
 
     "base-danger-color": {
@@ -370,27 +370,27 @@
       "cssProperty": "--base-danger-color-hover",
       "derivedFrom": "base-danger-color"
     },
-    "base-danger-bg-light": {
+    "base-danger-bg-subtle": {
       "type": "color",
       "category": "contextual",
-      "description": "Light danger background",
+      "description": "Danger tint background (10% light / 20% dark)",
       "default": "rgba(220, 53, 69, 0.1)",
-      "cssProperty": "--base-danger-bg-light",
+      "cssProperty": "--base-danger-bg-subtle",
       "derivedFrom": "base-danger-color"
     },
-    "base-danger-text": {
+    "base-danger-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Danger text color (for light backgrounds)",
       "default": "#721c24",
-      "cssProperty": "--base-danger-text"
+      "cssProperty": "--base-danger-text-color"
     },
-    "base-text-on-danger": {
+    "base-on-danger-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Text color on danger backgrounds",
       "default": "#ffffff",
-      "cssProperty": "--base-text-on-danger"
+      "cssProperty": "--base-on-danger-text-color"
     },
 
     "base-warning-color": {
@@ -408,27 +408,27 @@
       "cssProperty": "--base-warning-color-hover",
       "derivedFrom": "base-warning-color"
     },
-    "base-warning-bg-light": {
+    "base-warning-bg-subtle": {
       "type": "color",
       "category": "contextual",
-      "description": "Light warning background",
+      "description": "Warning tint background (10% light / 20% dark)",
       "default": "rgba(255, 193, 7, 0.1)",
-      "cssProperty": "--base-warning-bg-light",
+      "cssProperty": "--base-warning-bg-subtle",
       "derivedFrom": "base-warning-color"
     },
-    "base-warning-text": {
+    "base-warning-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Warning text color (for light backgrounds)",
       "default": "#856404",
-      "cssProperty": "--base-warning-text"
+      "cssProperty": "--base-warning-text-color"
     },
-    "base-text-on-warning": {
+    "base-on-warning-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Text color on warning backgrounds (dark for yellow)",
       "default": "#212529",
-      "cssProperty": "--base-text-on-warning"
+      "cssProperty": "--base-on-warning-text-color"
     },
 
     "base-info-color": {
@@ -446,27 +446,27 @@
       "cssProperty": "--base-info-color-hover",
       "derivedFrom": "base-info-color"
     },
-    "base-info-bg-light": {
+    "base-info-bg-subtle": {
       "type": "color",
       "category": "contextual",
-      "description": "Light info background",
+      "description": "Info tint background (10% light / 20% dark)",
       "default": "rgba(23, 162, 184, 0.1)",
-      "cssProperty": "--base-info-bg-light",
+      "cssProperty": "--base-info-bg-subtle",
       "derivedFrom": "base-info-color"
     },
-    "base-info-text": {
+    "base-info-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Info text color (for light backgrounds)",
       "default": "#0c5460",
-      "cssProperty": "--base-info-text"
+      "cssProperty": "--base-info-text-color"
     },
-    "base-text-on-info": {
+    "base-on-info-text-color": {
       "type": "color",
       "category": "contextual",
       "description": "Text color on info backgrounds",
       "default": "#ffffff",
-      "cssProperty": "--base-text-on-info"
+      "cssProperty": "--base-on-info-text-color"
     },
 
     "base-font-family": {

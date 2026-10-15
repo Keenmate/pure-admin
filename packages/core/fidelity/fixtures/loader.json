@@ -9,7 +9,7 @@
     "class": "extra classes appended verbatim (passthrough, not a core feature)"
   },
   "goldenConventions": "Structural: the block class is pa-loader-{type}; dots emits exactly 3 empty <span> children, bars/wave emit exactly 5, grid emits exactly 9, and pulse/ring/ripple/dual-ring emit none (CSS-only — pulse via background, ring/ripple/dual-ring via ::before/::after). Attribute + class-token order and whitespace are normalized away.",
-  "colorConvention": "Core blesses NO pa-loader-{type}--{color} class — loaders theme via `currentColor`, set on the wrapper. The core snippet (snippets/loaders.html) documents this as an inline `style=\"color: var(--…)\"`. Both wrappers therefore set colour off-class: keen via inline `style=\"color: var(--pc-accent | --pc-text-color-2 | --pa-{color}-bg)\"`, svelte likewise (aligned in this slice — previously svelte emitted a `text-{color}` utility class, a divergent shape). The colour→variable map: primary→--pc-accent, secondary→--pc-text-color-2, success/danger/warning/info→--pa-{color}-bg (there is no --pa-primary-bg/--pa-secondary-bg, hence the two special cases). Colour scenarios below assert the inline-style form.",
+  "colorConvention": "Core blesses NO pa-loader-{type}--{color} class — loaders theme via `currentColor`, set on the wrapper. The core snippet (snippets/loaders.html) documents this as an inline `style=\"color: var(--…)\"`. Both wrappers therefore set colour off-class: keen via inline `style=\"color: var(--pc-primary | --pc-text-color-2 | --pa-{color}-bg)\"`, svelte likewise (aligned in this slice — previously svelte emitted a `text-{color}` utility class, a divergent shape). The colour→variable map: primary→--pc-primary, secondary→--pc-text-color-2, success/danger/warning/info→--pa-{color}-bg (there is no --pa-primary-bg/--pa-secondary-bg, hence the two special cases). Colour scenarios below assert the inline-style form.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. NOTE on blocks: there is no `pa-loader` base class nor `pa-loader--*` modifier — each type is its own block `pa-loader-{type}`, so this fixture uses the multi-block form `blocks: [pa-loader-dots … pa-loader-wave]`. Axis-1's reverse check then verifies each family block's only modifier, the type-coupled `pa-loader-{type}--lg` (claimed via cssStateClasses below). `size` is type-coupled (pa-loader-{type}--{size}) which the single-template expander can't express, so its produces is null and it is verified through scenarios + goldens. `color` produces null (off-class, currentColor — see colorConvention).",
     "type": {
@@ -130,8 +130,8 @@
     {
       "name": "color-primary",
       "props": { "type": "dots", "color": "primary" },
-      "golden": "<div class=\"pa-loader-dots\" style=\"color: var(--pc-accent)\"><span></span><span></span><span></span></div>",
-      "note": "primary → --pc-accent (there is no --pa-primary-bg)."
+      "golden": "<div class=\"pa-loader-dots\" style=\"color: var(--pc-primary)\"><span></span><span></span><span></span></div>",
+      "note": "primary → --pc-primary (there is no --pa-primary-bg)."
     },
     {
       "name": "color-secondary",
@@ -162,7 +162,7 @@
     {
       "name": "combined",
       "props": { "type": "dots", "size": "lg", "color": "primary" },
-      "golden": "<div class=\"pa-loader-dots pa-loader-dots--lg\" style=\"color: var(--pc-accent)\"><span></span><span></span><span></span></div>",
+      "golden": "<div class=\"pa-loader-dots pa-loader-dots--lg\" style=\"color: var(--pc-primary)\"><span></span><span></span><span></span></div>",
       "note": "type + size + color together."
     }
   ]

@@ -4,7 +4,7 @@
   "block": "pa-textarea",
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md textarea). Shared scale with pa-input/pa-select; pa-textarea--{size} sets both height and min-height so it grows but can't collapse.",
-    "themeColor": "1..9 theme colour slot — pa-textarea--color-N (paints the border with --pc-color-N). The ONLY colour axis; textarea has no validation-state border.",
+    "themeColor": "1..9 theme colour slot — pa-textarea--color-N (paints the border with --pc-palette-N). The ONLY colour axis; textarea has no validation-state border.",
     "value": "textarea VALUE — rendered as the element's text content, not an attribute. Emitted only when supplied.",
     "placeholder": "native placeholder attribute",
     "name": "native name attribute",

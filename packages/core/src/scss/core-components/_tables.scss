@@ -264,35 +264,35 @@
   // shared --pc-{role} / --base-text-on-{role} tokens (= the .surface-{role}
   // utilities).
   &--primary {
-    --pa-card-header-bg: var(--pc-accent);
-    --pa-card-header-text: var(--base-text-on-primary);
-    --pa-card-border-color: var(--pc-accent);
+    --pa-card-header-bg: var(--pc-primary);
+    --pa-card-header-text: var(--base-on-primary-text-color);
+    --pa-card-border-color: var(--pc-primary);
   }
 
   &--success {
     --pa-card-header-bg: var(--pc-success);
-    --pa-card-header-text: var(--base-text-on-success);
+    --pa-card-header-text: var(--base-on-success-text-color);
     --pa-card-border-color: var(--pc-success);
   }
 
   &--warning {
     --pa-card-header-bg: var(--pc-warning);
-    --pa-card-header-text: var(--base-text-on-warning);
+    --pa-card-header-text: var(--base-on-warning-text-color);
     --pa-card-border-color: var(--pc-warning);
   }
 
   &--danger {
     --pa-card-header-bg: var(--pc-danger);
-    --pa-card-header-text: var(--base-text-on-danger);
+    --pa-card-header-text: var(--base-on-danger-text-color);
     --pa-card-border-color: var(--pc-danger);
   }
 
   // Theme color variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      --pa-card-header-bg: var(--pc-color-#{$i});
-      --pa-card-header-text: var(--pc-color-#{$i}-text);
-      --pa-card-border-color: var(--pc-color-#{$i});
+      --pa-card-header-bg: var(--pc-palette-#{$i});
+      --pa-card-header-text: var(--pc-on-palette-#{$i}-text-color);
+      --pa-card-border-color: var(--pc-palette-#{$i});
     }
   }
 

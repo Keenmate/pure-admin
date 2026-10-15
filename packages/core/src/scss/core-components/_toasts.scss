@@ -223,12 +223,12 @@
   transition: background-color $transition-fast ease, color $transition-fast ease;
 
   &:hover {
-    background-color: var(--pc-accent-hover);
+    background-color: var(--pc-primary-bg-subtle-hover);
     color: var(--pc-text-color-1);
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pc-accent);
+    outline: $focus-outline-width solid var(--pc-primary);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -319,15 +319,15 @@
 // Theme color slot variants (color-1 through color-9)
 @for $i from 1 through 9 {
   .pa-toast--color-#{$i} {
-    border-color: var(--pc-color-#{$i});
+    border-color: var(--pc-palette-#{$i});
 
     .pa-toast__icon {
-      background-color: color-mix(in srgb, var(--pc-color-#{$i}) 15%, transparent);
-      color: var(--pc-color-#{$i});
+      background-color: color-mix(in srgb, var(--pc-palette-#{$i}) 15%, transparent);
+      color: var(--pc-palette-#{$i});
     }
 
     .pa-toast__progress {
-      color: var(--pc-color-#{$i});
+      color: var(--pc-palette-#{$i});
     }
   }
 }
@@ -402,9 +402,9 @@
 // Filled theme color slot variants (color-1 through color-9)
 @for $i from 1 through 9 {
   .pa-toast--filled-color-#{$i} {
-    background-color: var(--pc-color-#{$i});
-    border-color: var(--pc-color-#{$i});
-    color: var(--pc-color-#{$i}-text);
+    background-color: var(--pc-palette-#{$i});
+    border-color: var(--pc-palette-#{$i});
+    color: var(--pc-on-palette-#{$i}-text-color);
 
     .pa-toast__title,
     .pa-toast__message { color: inherit; }

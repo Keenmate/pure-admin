@@ -8,7 +8,7 @@
      The component reads them via fallback chains:
 
        1. Page override   :  web-multiselect { --ms-accent-color: … }
-       2. Theme base value:  var(--base-accent-color)
+       2. Theme base value:  var(--base-primary-color)
        3. Hardcoded default: built into the component
 
      So in a Pure Admin app you usually do NOT override --ms-* — the
@@ -363,7 +363,7 @@ document.getElementById('myForm').addEventListener('submit', (e) => {
    via --base-* and the component falls back from --ms-* → var(--base-*,
    hardcoded). Override only for one-off instance tweaks. */
 web-multiselect {
-  --ms-accent-color:         var(--pc-accent);
+  --ms-accent-color:         var(--pc-primary);
   --ms-input-bg:             var(--pa-input-bg);
   --ms-text-color-1:         var(--pc-text-color-1);
   --ms-text-color-3:         var(--pc-text-color-2);

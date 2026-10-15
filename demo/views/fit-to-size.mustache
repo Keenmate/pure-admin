@@ -607,7 +607,7 @@
         // re-fits it when the container query shows it again after a narrow spell.
         if (window.Chart) {
             var accent = (getComputedStyle(document.documentElement)
-                .getPropertyValue('--pc-accent') || '#3b82f6').trim();
+                .getPropertyValue('--pc-primary') || '#3b82f6').trim();
             // Both cards (slider-driven and window-driven) get the same sparkline.
             ['ex2-chart', 'ex2b-chart'].forEach(function (id) {
                 var canvas = document.getElementById(id);
@@ -658,7 +658,7 @@
             var canvas = document.getElementById('ex4-chart');
             if (!canvas || !window.Chart) return null;
             var accent = (getComputedStyle(document.documentElement)
-                .getPropertyValue('--pc-accent') || '#3b82f6').trim();
+                .getPropertyValue('--pc-primary') || '#3b82f6').trim();
             return new Chart(canvas, {
                 type: 'line',
                 data: {

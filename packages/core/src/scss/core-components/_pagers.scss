@@ -105,9 +105,9 @@
     transition: all $transition-fast $easing-snappy;
 
     &:hover {
-      border-color: var(--pc-accent);
-      color: var(--pc-accent);
-      background-color: var(--pc-accent-light);
+      border-color: var(--pc-primary);
+      color: var(--pc-primary);
+      background-color: var(--pc-primary-bg-subtle);
     }
 
     &--loading {
@@ -124,7 +124,7 @@
     width: $spinner-size;
     height: $spinner-size;
     border: $spinner-border-width solid var(--pc-border-color);
-    border-top: $spinner-border-width solid var(--pc-accent);
+    border-top: $spinner-border-width solid var(--pc-primary);
     border-radius: 50%;
   }
 

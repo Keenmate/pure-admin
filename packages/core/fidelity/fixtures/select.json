@@ -5,7 +5,7 @@
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md select). Shared scale with pa-input/pa-textarea; emits pa-select--{size}.",
     "state": "success|warning|error — validation border (pa-select--{state}). Core defines all three for pa-select (same set as pa-input).",
-    "themeColor": "1..9 theme colour slot — pa-select--color-N (paints the border with --pc-color-N). Orthogonal to state/size.",
+    "themeColor": "1..9 theme colour slot — pa-select--color-N (paints the border with --pc-palette-N). Orthogonal to state/size.",
     "name": "native name attribute",
     "id": "native id attribute (hand-set — the normalizer keeps real ids)",
     "disabled": "native boolean attribute (there is NO pa-select--disabled class)",

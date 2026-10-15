@@ -39,6 +39,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and the alternating demo (`demo/views/timeline-block.mustache`) was migrated from
   `<div>`/`<div>` to `<ul>`/`<li>` so docs and demo agree. Both wrappers emit `<li>`
   items (keen's `timeline_item/1` dropped its old `<div>`-for-icon branch).
+- **Docs/manifest:** dropped `base-inverse-bg` / `base-inverse-text-color` (removed from the contract)
+  and the stale `base-surface-1/2/3/-inverse` "legacy aliases" — nothing has emitted them for a long
+  time, despite the README saying they were still exported.
+- **Primary tint is now the theme's.** Everything reading `--pc-primary-bg-subtle[-hover]` (labels,
+  profile, checkbox lists, range group, command palette, inputs, sidebar, …) now gets the
+  `--base-primary-bg-subtle` value — default 10% light / 20% dark (was a fixed 5%), or the theme's own.
+- **BREAKING (tokens only): names state their type** (pure-css / base-css-variables 2.0.0):
+  core reads `--base-outline-width` / `--base-focused-outline` / `--base-highlighted-outline` (were
+  `-ring`), `--base-*-text-color` (was `-text`), `--base-on-<role>-text-color` (was
+  `--base-text-on-<role>`), `--pc-<role>-text-color`, `--base-input-icon-color` /
+  `--base-input-icon-bg-hover` (were `--base-input-clear-*`). `--pa-<role>-border` is removed —
+  nothing read it.
+- **BREAKING (tokens only): `accent` → `primary`.** Core reads `--pc-primary` /
+  `--pc-primary-bg-subtle` / `--pc-primary-bg-subtle-hover` / `--base-primary-color[-hover|-active]` /
+  `--base-on-primary-text-color` (was `--pc-accent`, `--pc-accent-light`, `--pc-accent-hover`,
+  `--base-accent-color*`, `--base-text-color-on-accent`) and `$primary-color` (was `$accent-color`).
+  The manifest / schema category `accent` is now `primary`; the stale `base-primary-bg[-hover]`
+  entries (a long-removed surface alias) are dropped. Class names are unchanged.
+- **Fixed: hover colors that used the tint.** `--pc-accent-hover` is a 10–25% alpha tint, but the
+  notification action / link hover, the tooltip link hover and the range-slider thumb hover used it
+  as a *text / border / fill* color, so hovering faded them out. They now use the new darker
+  `--pc-primary-hover` (pure-css). The print sheet's ink override sets `--pc-primary-hover: #000`.
+- **Removed: `--pa-<role>-text-light` and `$badge-<role>-bg` / `$badge-<role>-text`** — nothing
+  read them (the badge colors come from the button role tokens); they were the last readers of the
+  removed `--base-<role>-text-light`.
+- **Palette text pair reads `--pc-on-palette-N-text-color`** (was `--pc-palette-N-text`).
+- **Demo:** inline styles that read the non-existent `--base-primary-bg` now read
+  `--base-elevated-bg`; getting-started shows `$base-primary-color` as the override example.
+- **Role tints now come from the base contract.** `--pa-<role>-bg-light` reads
+  `--base-<role>-bg-subtle` (fallback: the previous `color-mix` of `--pc-<role>`), so a theme's tint override finally takes effect and dark
+  mode gets the contract's stronger 20% tint. `--pa-<role>-bg-subtle` is removed — callouts use
+  `--pa-<role>-bg-light` (8% → 10%).
+- **BREAKING (tokens only): palette slots read `--pc-palette-N` / `--pc-palette-N-text`**
+  instead of `--pc-color-N` / `--pc-color-N-text`, following the pure-css rename
+  (`$color-N` → `$palette-N`, `--base-color-N` → `--base-palette-N`). Every `--color-N`
+  modifier (`.pa-btn--color-N`, `.pa-badge--color-N`, `.pa-card--color-N`, `.pa-alert--color-N`,
+  `.pa-tooltip--color-N`, `.pa-input--color-N`, …) keeps its class name — markup is
+  unaffected; only themes / overrides that set the palette variables must rename. Requires
+  the matching pure-css release.
 
 ### Fixed
 

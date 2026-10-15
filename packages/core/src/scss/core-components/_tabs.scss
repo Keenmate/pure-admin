@@ -29,12 +29,12 @@
 
     &:hover {
       color: var(--pc-text-color-1);
-      background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+      background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
     }
 
     &--active {
-      color: var(--pc-accent);
-      border-bottom-color: var(--pc-accent);
+      color: var(--pc-primary);
+      border-bottom-color: var(--pc-primary);
       font-weight: $font-weight-semibold;
     }
 
@@ -75,15 +75,15 @@
       background-color: var(--pc-subtle-bg);
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-pill-hover-opacity * 100%}, transparent);
-        border-color: color-mix(in srgb, var(--pc-accent) #{$tabs-pill-border-opacity * 100%}, transparent);
+        background-color: color-mix(in srgb, var(--pc-primary) #{$tabs-pill-hover-opacity * 100%}, transparent);
+        border-color: color-mix(in srgb, var(--pc-primary) #{$tabs-pill-border-opacity * 100%}, transparent);
         color: var(--pc-text-color-1);
       }
 
       &--active {
-        background-color: var(--pc-accent);
+        background-color: var(--pc-primary);
         color: white;
-        border-color: var(--pc-accent);
+        border-color: var(--pc-primary);
       }
     }
   }
@@ -103,7 +103,7 @@
       padding: $spacing-sm $spacing-md;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-boxed-hover-opacity * 100%}, transparent);
+        background-color: color-mix(in srgb, var(--pc-primary) #{$tabs-boxed-hover-opacity * 100%}, transparent);
         color: var(--pc-text-color-1);
       }
 
@@ -140,12 +140,12 @@
       min-height: 4rem; // Default height for vertical tabs
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-vertical-hover-opacity * 100%}, transparent);
+        background-color: color-mix(in srgb, var(--pc-primary) #{$tabs-vertical-hover-opacity * 100%}, transparent);
       }
 
       &--active {
-        border-inline-end-color: var(--pc-accent); // RTL: flips to border-left-color
-        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-vertical-active-opacity * 100%}, transparent);
+        border-inline-end-color: var(--pc-primary); // RTL: flips to border-left-color
+        background-color: color-mix(in srgb, var(--pc-primary) #{$tabs-vertical-active-opacity * 100%}, transparent);
       }
 
       // Icon with fixed width (follows sidebar pattern)
@@ -311,7 +311,7 @@
       border-top: $border-width-medium solid transparent;
 
       &--active {
-        border-top-color: var(--pc-accent);
+        border-top-color: var(--pc-primary);
         border-bottom-color: transparent;
       }
     }
@@ -422,13 +422,13 @@
         height: $card-header-min-height;
 
         &:hover {
-          background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+          background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
           color: var(--pc-text-color-1);
         }
 
         // When overflow contains the active tab
         &--has-active {
-          color: var(--pc-accent);
+          color: var(--pc-primary);
 
           &::after {
             content: '';
@@ -437,7 +437,7 @@
             left: 0;
             right: 0;
             height: $border-width-medium;
-            background: var(--pc-accent);
+            background: var(--pc-primary);
           }
         }
 
@@ -473,11 +473,11 @@
           white-space: nowrap;
 
           &:hover {
-            background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+            background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
           }
 
           &--active {
-            background-color: color-mix(in srgb, var(--pc-accent) 10%, transparent);
+            background-color: color-mix(in srgb, var(--pc-primary) 10%, transparent);
             border-bottom: none;
           }
         }

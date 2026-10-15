@@ -119,7 +119,7 @@
 
     &:focus {
       border-color: var(--pa-input-focus-border-color);
-      box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+      box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
     }
 
     &::placeholder {
@@ -135,10 +135,10 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: $font-size-xs;
-    color: var(--pc-accent);
+    color: var(--pc-primary);
     font-weight: $font-weight-medium;
     padding: $spacing-xs $spacing-sm;
-    background-color: var(--pc-accent-light);
+    background-color: var(--pc-primary-bg-subtle);
     border-radius: var(--pc-border-radius-sm);
     opacity: 0;
     transition: opacity $transition-fast $easing-smooth;
@@ -255,8 +255,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--pc-accent-light);
-    color: var(--pc-accent);
+    background-color: var(--pc-primary-bg-subtle);
+    color: var(--pc-primary);
     border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-sm;
 
@@ -543,7 +543,7 @@
   &:focus {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
   }
 
   // Size modifiers (matching input sizes)

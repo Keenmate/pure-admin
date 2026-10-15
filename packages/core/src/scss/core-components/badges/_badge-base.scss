@@ -103,8 +103,8 @@
   }
 
   // Theme color slot variants (color-1 through color-9).
-  // Mirrors the alert / button / card --color-N pairs: --pc-color-N paints the
-  // background while --pc-color-N-text supplies a guaranteed-contrasting label,
+  // Mirrors the alert / button / card --color-N pairs: --pc-palette-N paints the
+  // background while --pc-on-palette-N-text-color supplies a guaranteed-contrasting label,
   // so a theme-slot badge can never land dark-text-on-dark. This is the blessed
   // element for a numeric theme-colour badge — before it existed, wrappers
   // (svelte-pure-admin, keen-pure-admin) improvised with the generic
@@ -113,9 +113,9 @@
   // the filled half of the alert pattern is mirrored.
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      background-color: var(--pc-color-#{$i});
-      color: var(--pc-color-#{$i}-text);
-      border-color: var(--pc-color-#{$i});
+      background-color: var(--pc-palette-#{$i});
+      color: var(--pc-on-palette-#{$i}-text-color);
+      border-color: var(--pc-palette-#{$i});
     }
   }
 

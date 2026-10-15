@@ -17,7 +17,7 @@
 // pure-css 1.1.1 switched its own base-css-variables to `@import 'variables/index'`
 // (so themes can override $base-* via !default), which flattens $base-* into this
 // shim's shared global scope BEFORE this line runs — a `@use ... as *` here then
-// fails with "both define $base-accent-color". `@import` shares that one scope.
+// fails with "both define $base-primary-color". `@import` shares that one scope.
 //
 // Emitted by pure-admin's main.scss + every theme (alongside the base pair
 // output-base-css-variables + output-pc-css-variables, which come from
@@ -31,34 +31,30 @@
 
 @mixin output-pc-component-mode-variables {
   // Buttons — primary (accent), per-role hover/text, and the light button
-  --pa-btn-primary-bg: var(--base-accent-color, #{$btn-primary-bg});
-  --pa-btn-primary-bg-hover: var(--base-accent-color-hover, #{$btn-primary-bg-hover});
+  --pa-btn-primary-bg: var(--base-primary-color, #{$btn-primary-bg});
+  --pa-btn-primary-bg-hover: var(--base-primary-color-hover, #{$btn-primary-bg-hover});
   --pa-btn-primary-bg-light: color-mix(in srgb, var(--pa-btn-primary-bg) 5%, transparent);
-  --pa-btn-primary-text: var(--base-text-color-on-accent, #{$btn-primary-text});
+  --pa-btn-primary-text: var(--base-on-primary-text-color, #{$btn-primary-text});
 
   --pa-btn-success-bg-hover: var(--base-success-color-hover, #{$btn-success-bg-hover});
-  --pa-btn-success-text: var(--base-text-on-success, #{$btn-success-text});
+  --pa-btn-success-text: var(--base-on-success-text-color, #{$btn-success-text});
   --pa-btn-danger-bg-hover: var(--base-danger-color-hover, #{$btn-danger-bg-hover});
-  --pa-btn-danger-text: var(--base-text-on-danger, #{$btn-danger-text});
+  --pa-btn-danger-text: var(--base-on-danger-text-color, #{$btn-danger-text});
   --pa-btn-warning-bg-hover: var(--base-warning-color-hover, #{$btn-warning-bg-hover});
-  --pa-btn-warning-text: var(--base-text-on-warning, #{$btn-warning-text});
+  --pa-btn-warning-text: var(--base-on-warning-text-color, #{$btn-warning-text});
   --pa-btn-info-bg-hover: var(--base-info-color-hover, #{$btn-info-bg-hover});
-  --pa-btn-info-text: var(--base-text-on-info, #{$btn-info-text});
+  --pa-btn-info-text: var(--base-on-info-text-color, #{$btn-info-text});
 
   --pa-btn-light-bg: var(--base-page-bg, #{$btn-light-bg});
   // Hover is a STATE — track --base-hover-bg, not the recessed-surface token. (subtle de-conflation)
   --pa-btn-light-bg-hover: var(--base-hover-bg, #{$btn-light-bg-hover});
   --pa-btn-light-text: var(--base-text-color-1, #{$btn-light-text});
 
-  // Contextual surfaces — the hover + text-light of each role
+  // Contextual surfaces — the hover of each role
   --pa-success-bg-hover: var(--base-success-color-hover, #{$success-bg-hover});
-  --pa-success-text-light: var(--base-success-text-light, #{$success-text-light});
   --pa-danger-bg-hover: var(--base-danger-color-hover, #{$danger-bg-hover});
-  --pa-danger-text-light: var(--base-danger-text-light, #{$danger-text-light});
   --pa-warning-bg-hover: var(--base-warning-color-hover, #{$warning-bg-hover});
-  --pa-warning-text-light: var(--base-warning-text-light, #{$warning-text-light});
   --pa-info-bg-hover: var(--base-info-color-hover, #{$info-bg-hover});
-  --pa-info-text-light: var(--base-info-text-light, #{$info-text-light});
 
   // Cards
   --pa-card-bg: var(--base-main-bg, #{$card-bg});
@@ -69,17 +65,17 @@
   // Inputs / forms
   --pa-input-bg: var(--base-input-bg, #{$input-bg});
   --pa-input-border: var(--base-input-border-color, #{$input-border});
-  --pa-input-text: var(--base-input-color, #{$input-text});
-  --pa-input-focus-border-color: var(--base-accent-color, #{$input-focus-border-color});
-  --pa-select-focus-border-color: var(--base-accent-color, #{$select-focus-border-color});
-  --pa-textarea-focus-border-color: var(--base-accent-color, #{$textarea-focus-border-color});
+  --pa-input-text: var(--base-input-text-color, #{$input-text});
+  --pa-input-focus-border-color: var(--base-primary-color, #{$input-focus-border-color});
+  --pa-select-focus-border-color: var(--base-primary-color, #{$select-focus-border-color});
+  --pa-textarea-focus-border-color: var(--base-primary-color, #{$textarea-focus-border-color});
 
   --pa-checkbox-border-color: var(--base-checkbox-border-color, #{$checkbox-border-color});
-  --pa-checkbox-border-color-hover: var(--base-accent-color, #{$checkbox-border-color-hover});
-  --pa-checkbox-border-color-checked: var(--base-accent-color, #{$checkbox-border-color-checked});
+  --pa-checkbox-border-color-hover: var(--base-primary-color, #{$checkbox-border-color-hover});
+  --pa-checkbox-border-color-checked: var(--base-primary-color, #{$checkbox-border-color-checked});
   --pa-checkbox-bg: var(--base-input-bg, #{$checkbox-bg});
-  --pa-checkbox-bg-checked: var(--base-accent-color, #{$checkbox-bg-checked});
-  --pa-checkbox-bg-indeterminate: var(--base-accent-color, #{$checkbox-bg-indeterminate});
+  --pa-checkbox-bg-checked: var(--base-primary-color, #{$checkbox-bg-checked});
+  --pa-checkbox-bg-indeterminate: var(--base-primary-color, #{$checkbox-bg-indeterminate});
 
   // Addon text tracks PRIMARY text (not secondary) — the addon fill is
   // $secondary-bg, and in dark themes the muted --base-text-color-2 sits too
@@ -92,7 +88,7 @@
   --pa-table-header-bg: var(--base-elevated-bg, #{$table-header-bg});
   --pa-table-stripe: var(--base-elevated-bg, #{$table-stripe});
   --pa-table-hover-bg: var(--base-hover-bg, #{$table-hover-bg});
-  --pa-table-hover-accent-color: var(--base-accent-color, #{$table-hover-accent-color});
+  --pa-table-hover-accent-color: var(--base-primary-color, #{$table-hover-accent-color});
 
   // Modal
   --pa-modal-overlay-bg: var(--base-overlay-bg, #{$modal-overlay-bg});
@@ -119,7 +115,7 @@
   --pa-code-property: #{$code-syntax-property-dark};
 
   // NOTE: the --pc-multiselect-* tokens were removed — web-multiselect themes
-  // directly off --base-* (--base-dropdown-bg, --base-accent-color-light, …) and
+  // directly off --base-* (--base-dropdown-bg, --base-primary-bg-subtle, …) and
   // nothing ever read the --pc- mirror. The stray $multiselect-* $-vars were
   // likewise pruned from variables/_components.scss.
 }
@@ -215,24 +211,16 @@
   // --pc-{success,danger,warning,info}-text live in the base contract.)
   // =========================================================================
   --pa-success-bg: var(--pc-success);
-  --pa-success-bg-light: color-mix(in srgb, var(--pc-success) 10%, transparent);
-  --pa-success-bg-subtle: color-mix(in srgb, var(--pc-success) 8%, transparent);
-  --pa-success-border: color-mix(in srgb, var(--pc-success) 20%, transparent);
+  --pa-success-bg-light: var(--base-success-bg-subtle, color-mix(in srgb, var(--pc-success) 10%, transparent));
 
   --pa-danger-bg: var(--pc-danger);
-  --pa-danger-bg-light: color-mix(in srgb, var(--pc-danger) 10%, transparent);
-  --pa-danger-bg-subtle: color-mix(in srgb, var(--pc-danger) 8%, transparent);
-  --pa-danger-border: color-mix(in srgb, var(--pc-danger) 20%, transparent);
+  --pa-danger-bg-light: var(--base-danger-bg-subtle, color-mix(in srgb, var(--pc-danger) 10%, transparent));
 
   --pa-warning-bg: var(--pc-warning);
-  --pa-warning-bg-light: color-mix(in srgb, var(--pc-warning) 10%, transparent);
-  --pa-warning-bg-subtle: color-mix(in srgb, var(--pc-warning) 8%, transparent);
-  --pa-warning-border: color-mix(in srgb, var(--pc-warning) 20%, transparent);
+  --pa-warning-bg-light: var(--base-warning-bg-subtle, color-mix(in srgb, var(--pc-warning) 10%, transparent));
 
   --pa-info-bg: var(--pc-info);
-  --pa-info-bg-light: color-mix(in srgb, var(--pc-info) 10%, transparent);
-  --pa-info-bg-subtle: color-mix(in srgb, var(--pc-info) 8%, transparent);
-  --pa-info-border: color-mix(in srgb, var(--pc-info) 20%, transparent);
+  --pa-info-bg-light: var(--base-info-bg-subtle, color-mix(in srgb, var(--pc-info) 10%, transparent));
 
   // =========================================================================
   // INPUT/FORM COLORS — the mode-aware input surface/border/text, the checkbox
@@ -242,9 +230,9 @@
   // Checkbox (focus shadow stays compile-time). The checkmark colour follows the
   // theme's on-accent token so the tick contrasts with the accent-filled box
   // (e.g. cobalt2's yellow box gets a dark tick). Mirrors web-multiselect's
-  // --ms-checkbox-checkmark-color → --base-text-color-on-accent chain. The white
+  // --ms-checkbox-checkmark-color → --base-on-primary-text-color chain. The white
   // $-default is the compile-time fallback for themes with no on-accent set.
-  --pa-checkbox-checkmark-color: var(--base-text-color-on-accent, #{$checkbox-checkmark-color});
+  --pa-checkbox-checkmark-color: var(--base-on-primary-text-color, #{$checkbox-checkmark-color});
   --pa-checkbox-focus-shadow: #{$checkbox-focus-shadow};
 
   // Input group (prepend/append bg are the secondary grey — compile-time)

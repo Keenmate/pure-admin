@@ -21,7 +21,7 @@ Make Pure Admin the authoritative source of truth for `--base-*` CSS custom prop
 - No CSS custom properties exported
 
 ### Web Components
-- Reference `--base-*` via: `var(--base-accent-color, #3b82f6)`
+- Reference `--base-*` via: `var(--base-primary-color, #3b82f6)`
 - Use unitless multipliers for font sizes
 - Expect ~40 base variables
 
@@ -33,8 +33,8 @@ Make Pure Admin the authoritative source of truth for `--base-*` CSS custom prop
 ```
 _variables.scss          themes/express.scss           Output CSS
 ────────────────        ─────────────────────        ─────────────
-$base-accent-color:     $base-accent-color:          :root {
-  #3b82f6 !default;  →    #dc2626;               →    --base-accent-color: #dc2626;
+$base-primary-color:     $base-primary-color:          :root {
+  #3b82f6 !default;  →    #dc2626;               →    --base-primary-color: #dc2626;
                         @include output-base-vars;     ...
                                                      }
 ```
@@ -58,9 +58,9 @@ src/scss/
 ### Colors (add to _variables.scss)
 ```scss
 // Base theme variables (source of truth for web components)
-$base-accent-color: $accent-color !default;
-$base-accent-color-hover: lighten($base-accent-color, 10%) !default;
-$base-accent-color-active: lighten($base-accent-color, 20%) !default;
+$base-primary-color: $primary-color !default;
+$base-primary-color-hover: lighten($base-primary-color, 10%) !default;
+$base-primary-color-active: lighten($base-primary-color, 20%) !default;
 $base-primary-bg: $card-bg !default;
 $base-primary-bg-hover: darken($base-primary-bg, 5%) !default;
 $base-text-color-1: $text-primary !default;
@@ -74,10 +74,10 @@ $base-border-color: $border-color !default;
 ### Input Fields
 ```scss
 $base-input-background: $input-bg !default;
-$base-input-color: $input-text !default;
+$base-input-text-color: $input-text !default;
 $base-input-border: 1px solid $input-border !default;
 $base-input-border-hover: 1px solid darken($input-border, 10%) !default;
-$base-input-border-focus: 1px solid $base-accent-color !default;
+$base-input-border-focus: 1px solid $base-primary-color !default;
 $base-input-placeholder-color: $text-placeholder !default;
 $base-input-background-disabled: rgba($input-bg, 0.5) !default;
 ```
@@ -139,9 +139,9 @@ $base-border-radius-lg: 0.8 !default;  // × 10px = 8px
 
 @mixin output-base-css-variables {
   // Colors
-  --base-accent-color: #{$base-accent-color};
-  --base-accent-color-hover: #{$base-accent-color-hover};
-  --base-accent-color-active: #{$base-accent-color-active};
+  --base-primary-color: #{$base-primary-color};
+  --base-primary-color-hover: #{$base-primary-color-hover};
+  --base-primary-color-active: #{$base-primary-color-active};
   --base-primary-bg: #{$base-primary-bg};
   --base-primary-bg-hover: #{$base-primary-bg-hover};
   --base-text-color-1: #{$base-text-color-1};
@@ -153,7 +153,7 @@ $base-border-radius-lg: 0.8 !default;  // × 10px = 8px
 
   // Input fields
   --base-input-background: #{$base-input-background};
-  --base-input-color: #{$base-input-color};
+  --base-input-text-color: #{$base-input-text-color};
   --base-input-border: #{$base-input-border};
   --base-input-border-hover: #{$base-input-border-hover};
   --base-input-border-focus: #{$base-input-border-focus};
@@ -208,14 +208,14 @@ $base-border-radius-lg: 0.8 !default;  // × 10px = 8px
 @import '../variables';
 
 // Override base variables for Express theme
-$base-accent-color: #dc2626;           // Express red
-$base-accent-color-hover: #ef4444;
+$base-primary-color: #dc2626;           // Express red
+$base-primary-color-hover: #ef4444;
 $base-primary-bg: #fef3c7;             // Express yellow tint
 $base-text-on-accent: #ffffff;
 
 // Also override existing Pure Admin variables
 $header-bg: #fbbf24;
-$accent-color: $base-accent-color;
+$primary-color: $base-primary-color;
 // ...
 
 @import '../core';
@@ -276,9 +276,9 @@ After building corporate theme:
 /* ... existing Pure Admin CSS ... */
 
 :root {
-  --base-accent-color: #0ea5e9;
-  --base-accent-color-hover: #38bdf8;
-  --base-accent-color-active: #7dd3fc;
+  --base-primary-color: #0ea5e9;
+  --base-primary-color-hover: #38bdf8;
+  --base-primary-color-active: #7dd3fc;
   --base-primary-bg: #ffffff;
   --base-primary-bg-hover: #f2f2f2;
   --base-text-color-1: #111827;
@@ -288,7 +288,7 @@ After building corporate theme:
   --base-text-on-accent: #ffffff;
   --base-border-color: #e5e7eb;
   --base-input-background: #ffffff;
-  --base-input-color: #111827;
+  --base-input-text-color: #111827;
   --base-input-border: 1px solid #d1d5db;
   /* ... all 40 variables ... */
 }

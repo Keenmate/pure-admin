@@ -36,11 +36,11 @@
 // SCSS values. Overridable at :root, on .pc-mode-*, or on any .pa-range /
 // .pa-range-group ancestor. Runtime tokens:
 //   --pa-range-track                track colour            (→ --pc-surface-track)
-//   --pa-range-fill                 selected-range fill     (→ --pc-accent)
+//   --pa-range-fill                 selected-range fill     (→ --pc-primary)
 //   --pa-range-thumb-bg             handle interior         (→ --pa-card-bg)
-//   --pa-range-thumb-border         handle ring/bar/chevron (→ --pc-accent)
-//   --pa-range-thumb-border-hover   handle on hover         (→ --pc-accent-hover)
-//   --pa-range-focus-ring           thumb focus/active ring (→ --pc-accent-light)
+//   --pa-range-thumb-border         handle ring/bar/chevron (→ --pc-primary)
+//   --pa-range-thumb-border-hover   handle on hover         (→ --pc-primary-hover)
+//   --pa-range-focus-ring           thumb focus/active ring (→ --pc-primary-bg-subtle)
 //   --pa-range-tick                 minor tick-mark colour  (→ --pc-border-color)
 //   --pa-range-tick-major           major tick-mark colour  (→ --pc-text-tertiary)
 //   --pa-range-track-height         track/fill thickness    (→ 0.4rem)
@@ -122,7 +122,7 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   bottom: 0;
   height: var(--pa-range-track-height, #{$range-fill-height});
   border-radius: 999px;
-  background-color: var(--pa-range-fill, var(--pc-accent));
+  background-color: var(--pa-range-fill, var(--pc-primary));
   // JS sets these as 0–100% — logical, so RTL flips automatically.
   inset-inline-start: var(--_fill-start, 0%);
   inset-inline-end: var(--_fill-end, 0%);
@@ -199,7 +199,7 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   width: var(--_thumb-w);
   height: var(--_thumb-h);
   padding: 0;
-  border: $range-thumb-border solid var(--pa-range-thumb-border, var(--pc-accent));
+  border: $range-thumb-border solid var(--pa-range-thumb-border, var(--pc-primary));
   border-radius: 50%;
   background-color: var(--pa-range-thumb-bg, var(--pa-card-bg));
   cursor: grab;
@@ -207,18 +207,18 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 
   &:hover {
-    border-color: var(--pa-range-thumb-border-hover, var(--pc-accent-hover));
+    border-color: var(--pa-range-thumb-border-hover, var(--pc-primary-hover));
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pc-accent-light));
+    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pc-primary-bg-subtle));
   }
 
   &:active,
   &.pa-range__thumb--grabbing {
     cursor: grabbing;
-    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pc-accent-light));
+    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pc-primary-bg-subtle));
   }
 }
 
@@ -239,9 +239,9 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   --_thumb-w: 0.35rem;
   --_thumb-h: 2.2rem;
   border-radius: 999px;
-  background-color: var(--pa-range-thumb-border, var(--pc-accent));
+  background-color: var(--pa-range-thumb-border, var(--pc-primary));
 
-  &:hover { background-color: var(--pa-range-thumb-border-hover, var(--pc-accent-hover)); }
+  &:hover { background-color: var(--pa-range-thumb-border-hover, var(--pc-primary-hover)); }
 }
 
 // Chevron handles ("‹ ›"). A rounded-rect grip with a CSS chevron drawn on
@@ -267,8 +267,8 @@ $range-chevron-nudge: $range-chevron-size * 0.354;   // ≈ size / (2√2)
     width: $range-chevron-size;
     height: $range-chevron-size;
     // top+end borders rotated 45° form a "›" (points toward inline-end).
-    border-block-start: $range-thumb-border solid var(--pa-range-thumb-border, var(--pc-accent));
-    border-inline-end: $range-thumb-border solid var(--pa-range-thumb-border, var(--pc-accent));
+    border-block-start: $range-thumb-border solid var(--pa-range-thumb-border, var(--pc-primary));
+    border-inline-end: $range-thumb-border solid var(--pa-range-thumb-border, var(--pc-primary));
     transform: translateX(#{-$range-chevron-nudge}) translate(-50%, -50%) rotate(45deg);
   }
 }
@@ -300,13 +300,13 @@ $range-needle-height: 1.1rem;   // fits above the track centre within the row
     width: $range-needle-width;
     height: $range-needle-height;
     margin-inline-start: calc(#{$range-needle-width} / -2);
-    background-color: var(--pa-range-thumb-border, var(--pc-accent));
+    background-color: var(--pa-range-thumb-border, var(--pc-primary));
     clip-path: polygon(50% 100%, 0 0, 100% 0);  // flat top, point down
     transition: background-color 0.15s ease;
   }
 
   &:hover::before {
-    background-color: var(--pa-range-thumb-border-hover, var(--pc-accent-hover));
+    background-color: var(--pa-range-thumb-border-hover, var(--pc-primary-hover));
   }
 }
 
@@ -355,13 +355,13 @@ $range-group-panel-row-gap:    $spacing-lg;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
   &:hover {
-    border-color: var(--pc-accent-hover);
+    border-color: var(--pc-primary-hover);
   }
 
   &:focus-visible {
     outline: none;
-    border-color: var(--pc-accent);
-    box-shadow: 0 0 0 0.3rem var(--pc-accent-light);
+    border-color: var(--pc-primary);
+    box-shadow: 0 0 0 0.3rem var(--pc-primary-bg-subtle);
   }
 }
 
@@ -463,7 +463,7 @@ $range-group-panel-row-gap:    $spacing-lg;
   font-weight: $font-weight-medium;
   font-variant-numeric: tabular-nums;
   // Tracks the fill colour so retinting the slider retints its readout too.
-  color: var(--pa-range-fill, var(--pc-accent));
+  color: var(--pa-range-fill, var(--pc-primary));
 
   &.pa-range-group__row-value--empty {
     color: var(--pc-text-tertiary);

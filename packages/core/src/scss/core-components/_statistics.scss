@@ -23,8 +23,8 @@
     // (--pa-success-bg, --pa-warning-bg, etc.) cascade at runtime instead of
     // baking at SCSS compile time.
     &--primary {
-      background-color: var(--pc-accent-light);
-      color: var(--pc-accent);
+      background-color: var(--pc-primary-bg-subtle);
+      color: var(--pc-primary);
     }
 
     &--success {
@@ -167,7 +167,7 @@
 
     // Color variants — use CSS vars so theme overrides apply at runtime
     &.pa-stat--primary {
-      background-color: var(--pc-accent);
+      background-color: var(--pc-primary);
       color: var(--pa-btn-primary-text);
     }
 

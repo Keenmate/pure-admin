@@ -215,12 +215,12 @@
   border-radius: var(--pc-border-radius);
 
   &:hover {
-    background-color: var(--pc-accent-light);
-    color: var(--pc-accent);
+    background-color: var(--pc-primary-bg-subtle);
+    color: var(--pc-primary);
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pc-accent);
+    outline: $focus-outline-width solid var(--pc-primary);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -238,12 +238,12 @@
 
     &:hover {
       color: var(--pc-text-color-1);
-      background-color: var(--pc-accent-light);
+      background-color: var(--pc-primary-bg-subtle);
     }
 
     &--active {
       color: var(--pc-text-color-1);
-      border-bottom-color: var(--pc-accent);
+      border-bottom-color: var(--pc-primary);
     }
   }
 }
@@ -282,7 +282,7 @@
 
   &:hover,
   &--active {
-    background-color: var(--pc-accent);
+    background-color: var(--pc-primary);
     opacity: 0.3;
   }
 }

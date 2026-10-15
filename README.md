@@ -66,7 +66,7 @@ npm install @keenmate/pure-admin-theme-audi
 
 ```scss
 // Override variables before importing
-$accent-color: #your-color;
+$primary-color: #your-color;
 $sidebar-width: 280px;
 
 // Import the framework

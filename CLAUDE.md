@@ -134,7 +134,7 @@ block in every theme build. Full rationale/history: `packages/core/CLAUDE.md`.
 // theme.scss — e.g. ../pure-admin-themes/corporate/src/scss/corporate.scss
 
 // 1. Override $base-* SCSS variables (single source of truth)
-$base-accent-color: #0ea5e9;
+$base-primary-color: #0ea5e9;
 $base-success-color: #10b981;
 // ... other $base-* overrides
 
@@ -243,7 +243,7 @@ Wrappers emit these from props: svelte `<Column size="100" md="50">` and keen
 `@keenmate/web-multiselect` and `@keenmate/web-daterangepicker` web
 components (shadow-DOM children outside the SCSS compile boundary), which
 consume them via fallback chains
-(`--ms-accent-color: var(--base-accent-color, #3b82f6);`).
+(`--ms-accent-color: var(--base-primary-color, #3b82f6);`).
 Authoritative list and emit mixin: `_base-css-variables.scss`.
 
 ---

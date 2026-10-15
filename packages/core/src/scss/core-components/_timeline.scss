@@ -55,7 +55,7 @@
       bottom: -$timeline-block-sc-item-gap; // bridge the inter-card margin so the rail is continuous
       height: auto; // reset the two-column connector's fixed height so top/bottom stretch it
       width: $timeline-block-line-width;
-      background: var(--pc-accent);
+      background: var(--pc-primary);
       z-index: 0;
 
       @if $side == start {
@@ -158,9 +158,9 @@
         width: $timeline-simple-dot-size;
         height: $timeline-simple-dot-size;
         background: var(--pc-main-bg);
-        border: $timeline-simple-dot-border solid var(--pc-accent);
+        border: $timeline-simple-dot-border solid var(--pc-primary);
         border-radius: $timeline-simple-dot-border-radius;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-accent) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-primary) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       // Marker color modifiers
@@ -196,7 +196,7 @@
 
       // Filled/solid bullet modifier
       &--filled::before {
-        background: var(--pc-accent);
+        background: var(--pc-primary);
       }
 
       &--filled.pa-timeline__item--primary::before {
@@ -255,7 +255,7 @@
       content: '';
       position: absolute;
       width: $timeline-block-line-width;
-      background: var(--pc-accent);
+      background: var(--pc-primary);
       top: 0;
       bottom: 0;
       left: 50%;
@@ -295,7 +295,7 @@
           top: $timeline-block-dot-top-offset;
           right: $timeline-block-dot-horizontal-offset;
           background: var(--pc-main-bg);
-          border: $timeline-block-dot-border solid var(--pc-accent);
+          border: $timeline-block-dot-border solid var(--pc-primary);
           border-radius: 50%;
           z-index: 1;
         }
@@ -308,7 +308,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           right: $timeline-block-connector-horizontal-offset;
-          background: var(--pc-accent);
+          background: var(--pc-primary);
           z-index: 1;
         }
       }
@@ -340,7 +340,7 @@
           top: $timeline-block-dot-top-offset;
           left: $timeline-block-dot-horizontal-offset;
           background: var(--pc-main-bg);
-          border: $timeline-block-dot-border solid var(--pc-accent);
+          border: $timeline-block-dot-border solid var(--pc-primary);
           border-radius: 50%;
           z-index: 1;
         }
@@ -353,7 +353,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           left: $timeline-block-connector-horizontal-offset;
-          background: var(--pc-accent);
+          background: var(--pc-primary);
           z-index: 1;
         }
       }
@@ -366,7 +366,7 @@
       text-align: center;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
-      color: var(--pc-accent);
+      color: var(--pc-primary);
       text-transform: uppercase;
       letter-spacing: $timeline-block-date-letter-spacing;
       z-index: 1;
@@ -381,10 +381,10 @@
       height: $timeline-block-icon-size;
       top: $timeline-block-icon-top-offset;
       background: var(--pc-warning);
-      border: $timeline-block-icon-border solid var(--pc-accent);
+      border: $timeline-block-icon-border solid var(--pc-primary);
       border-radius: 50%;
       font-size: $font-size-lg;
-      color: var(--pc-accent);
+      color: var(--pc-primary);
       z-index: 1;
     }
 
@@ -403,7 +403,7 @@
         margin: 0;
         font-size: $font-size-base;
         line-height: $line-height-relaxed;
-        color: var(--pc-warning-text);
+        color: var(--pc-warning-text-color);
       }
     }
 
@@ -454,7 +454,7 @@
       line-height: $line-height-relaxed;
 
       a {
-        color: var(--pc-accent);
+        color: var(--pc-primary);
         text-decoration: none;
         font-weight: $font-weight-medium;
 

@@ -47,7 +47,7 @@
        ---------------------------------------------------------------------- */
     .pa-query-editor {
       /* role colours */
-      --qe-accent:       var(--base-accent-color, #3b82f6);
+      --qe-accent:       var(--base-primary-color, #3b82f6);
       --qe-text:         var(--base-text-color-1, #111827);
       --qe-text-muted:   var(--base-text-color-2, #6b7280);
       --qe-success:      var(--base-success-color, #10b981);
@@ -55,7 +55,7 @@
       --qe-warning:      var(--base-warning-color, #f59e0b);
       /* input surface */
       --qe-bg:           var(--base-input-bg, #fff);
-      --qe-input-text:   var(--base-input-color, var(--qe-text));
+      --qe-input-text:   var(--base-input-text-color, var(--qe-text));
       --qe-placeholder:  var(--base-input-placeholder-color, var(--qe-text-muted));
       --qe-border:       var(--base-input-border-color, #d1d5db);
       --qe-border-focus: var(--base-input-border-focus, var(--qe-accent));
@@ -112,7 +112,7 @@
     .qe-control-label { color: var(--base-text-color-2, #6b7280); min-width: 16rem; }
     .qe-swatches { display: flex; gap: .5rem; align-items: center; }
     .qe-swatches button { width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 2px solid rgba(128,128,128,.4); cursor: pointer; padding: 0; background: transparent; }
-    .pa-btn.is-active { outline: 2px solid var(--base-accent-color, #3b82f6); outline-offset: 1px; }
+    .pa-btn.is-active { outline: 2px solid var(--base-primary-color, #3b82f6); outline-offset: 1px; }
   </style>
 </head>
 <body>
@@ -149,7 +149,7 @@
             </div>
           </div>
           <div class="qe-control-row">
-            <span class="text-sm qe-control-label">Override <code>--base-accent-color</code>:</span>
+            <span class="text-sm qe-control-label">Override <code>--base-primary-color</code>:</span>
             <div class="qe-swatches">
               <button title="theme default" data-accent=""></button>
               <button title="violet"  data-accent="#7c3aed" style="background:#7c3aed;"></button>
@@ -469,7 +469,7 @@
     }
 
     // Read the themed value the editor actually resolves right now.
-    const resolvedAccent = () => getComputedStyle(root).getPropertyValue('--base-accent-color').trim() || '(unset → using --qe fallback)';
+    const resolvedAccent = () => getComputedStyle(root).getPropertyValue('--base-primary-color').trim() || '(unset → using --qe fallback)';
 
     // Theme switch — swaps the stylesheet whose :root emits the --base-* palette.
     // onload/onerror report whether the file actually loaded (the usual failure is
@@ -479,9 +479,9 @@
       status.style.color = 'var(--base-text-color-2, #888)';
       themeLink.onload = () => {
         const a = resolvedAccent();
-        status.textContent = '✓ ' + t + '.css  →  --base-accent-color: ' + a;
+        status.textContent = '✓ ' + t + '.css  →  --base-primary-color: ' + a;
         status.style.color = 'var(--base-success-color, #2a2)';
-        console.log('[query-editor] theme loaded:', themeLink.href, '→ --base-accent-color =', a);
+        console.log('[query-editor] theme loaded:', themeLink.href, '→ --base-primary-color =', a);
       };
       themeLink.onerror = () => {
         status.textContent = '✗ failed to load ' + themeLink.href + '  (check scripts/themes/ exists)';
@@ -513,8 +513,8 @@
     document.querySelectorAll('.qe-swatches button').forEach(btn => {
       btn.addEventListener('click', () => {
         const c = btn.dataset.accent;
-        if (c) root.style.setProperty('--base-accent-color', c);
-        else root.style.removeProperty('--base-accent-color');
+        if (c) root.style.setProperty('--base-primary-color', c);
+        else root.style.removeProperty('--base-primary-color');
         view.focus();
       });
     });
@@ -527,7 +527,7 @@
     // report status for the statically-linked initial theme
     if (themeLink.sheet) {
       const a = resolvedAccent();
-      status.textContent = '✓ cobalt2.css  →  --base-accent-color: ' + a;
+      status.textContent = '✓ cobalt2.css  →  --base-primary-color: ' + a;
       status.style.color = 'var(--base-success-color, #2a2)';
       console.log('[query-editor] initial theme already loaded →', a);
     } else {

@@ -147,7 +147,7 @@ list and the Floating UI dependency note.
 Override any `!default` SCSS variable *before* importing the framework:
 
 ```scss
-$accent-color: #7c3aed;
+$primary-color: #7c3aed;
 $main-bg: #fafafa;
 
 @import '@keenmate/pure-admin-core/src/scss/main';

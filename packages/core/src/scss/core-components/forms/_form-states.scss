@@ -96,7 +96,7 @@
 // Theme Color Variants for Help Text (color-1 through color-9)
 @for $i from 1 through 9 {
   .pa-form-help--color-#{$i} {
-    color: var(--pc-color-#{$i});
+    color: var(--pc-palette-#{$i});
   }
 }
 
@@ -106,11 +106,11 @@
   .pa-input--color-#{$i},
   .pa-select--color-#{$i},
   .pa-textarea--color-#{$i} {
-    border-color: var(--pc-color-#{$i});
+    border-color: var(--pc-palette-#{$i});
 
     &:focus {
-      border-color: var(--pc-color-#{$i});
-      box-shadow: 0 0 0 $focus-ring-width color-mix(in srgb, var(--pc-color-#{$i}) 25%, transparent);
+      border-color: var(--pc-palette-#{$i});
+      box-shadow: 0 0 0 $focus-ring-width color-mix(in srgb, var(--pc-palette-#{$i}) 25%, transparent);
     }
   }
 }

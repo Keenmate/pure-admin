@@ -13,7 +13,7 @@
   font-size: $font-size-sm;
   background-color: var(--pa-input-bg);
   // Text on the input surface must use the input text token (--pa-input-text →
-  // --base-input-color), NOT the global primary text (--pc-text-color-1). They
+  // --base-input-text-color), NOT the global primary text (--pc-text-color-1). They
   // coincide on most themes, but pairing surface-text keeps the field legible on
   // any theme that gives inputs a distinct text colour (same class of bug as the
   // sidebar search that used the sidebar-surface text token on an input bg).
@@ -23,7 +23,7 @@
   &:focus {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
   }
 }
 
@@ -42,7 +42,7 @@
   &:focus {
     outline: none;
     border-color: var(--pa-select-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
   }
 }
 
@@ -61,7 +61,7 @@
   &:focus {
     outline: none;
     border-color: var(--pa-textarea-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
   }
 
   &::placeholder {

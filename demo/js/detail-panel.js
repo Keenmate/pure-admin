@@ -391,7 +391,7 @@
             <div class="pc-row gap-sm" style="margin-bottom: 1.6rem;">
                 <div class="pc-col-100">
                     <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">
-                        <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-accent-light); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-accent); flex-shrink: 0;">
+                        <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary); flex-shrink: 0;">
                             ${user.name.charAt(0)}
                         </div>
                         <div>

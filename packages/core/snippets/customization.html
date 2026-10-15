@@ -27,14 +27,14 @@
 <!--
 --pc-*       Framework runtime tokens (the bulk of the surface).
               Each theme sets these on :root. Examples:
-                --pc-accent             accent / brand colour
+                --pc-primary             accent / brand colour
                 --pc-text-color-1       primary text
                 --pc-text-color-2       secondary / muted text
                 --pa-card-bg            card surface
                 --pc-border-color       borders
                 --pa-input-bg           input background
                 --pa-success-bg / --pa-danger-bg / --pa-warning-bg / --pa-info-bg
-                --pc-color-1 ... --pc-color-9 + --pc-color-N-text
+                --pc-palette-1 ... --pc-palette-9 + --pc-on-palette-N-text-color
                                         nine theme palette slots
               Override at :root for app-wide change, or on a section /
               element for localised changes.
@@ -62,20 +62,20 @@
 <style>
 /* App-wide accent + main background override */
 :root {
-    --pc-accent: #ff6b35;
+    --pc-primary: #ff6b35;
     --pc-main-bg: #fafafa;
 }
 
 /* Scope to a single section without affecting the rest of the app */
 .special-section {
-    --pc-accent: #6b46c1;
+    --pc-primary: #6b46c1;
     --pa-card-bg: #ffffff;
 }
 </style>
 
 
 <!-- ================================
-     COLOR-SLOT SYSTEM (--pc-color-1 .. --pc-color-9)
+     COLOR-SLOT SYSTEM (--pc-palette-1 .. --pc-palette-9)
      Themes pick nine palette colours. Most theme-coloured component
      variants (pa-btn--color-3, pa-badge--color-5, pa-table-card--
      color-7, pa-card--color-9, etc.) read directly from these slots,
@@ -83,21 +83,21 @@
      overrides.
 
      Each slot has a paired text colour for legibility:
-       --pc-color-N            (background / fill / border)
-       --pc-color-N-text       (text on top of the fill)
+       --pc-palette-N            (background / fill / border)
+       --pc-on-palette-N-text-color       (text on top of the fill)
      ================================ -->
 
 <style>
 :root {
-    --pc-color-1: #ef4444; --pc-color-1-text: #ffffff;
-    --pc-color-2: #f97316; --pc-color-2-text: #ffffff;
-    --pc-color-3: #f59e0b; --pc-color-3-text: #1f2937;
-    --pc-color-4: #84cc16; --pc-color-4-text: #1f2937;
-    --pc-color-5: #10b981; --pc-color-5-text: #ffffff;
-    --pc-color-6: #14b8a6; --pc-color-6-text: #ffffff;
-    --pc-color-7: #3b82f6; --pc-color-7-text: #ffffff;
-    --pc-color-8: #8b5cf6; --pc-color-8-text: #ffffff;
-    --pc-color-9: #ec4899; --pc-color-9-text: #ffffff;
+    --pc-palette-1: #ef4444; --pc-on-palette-1-text-color: #ffffff;
+    --pc-palette-2: #f97316; --pc-on-palette-2-text-color: #ffffff;
+    --pc-palette-3: #f59e0b; --pc-on-palette-3-text-color: #1f2937;
+    --pc-palette-4: #84cc16; --pc-on-palette-4-text-color: #1f2937;
+    --pc-palette-5: #10b981; --pc-on-palette-5-text-color: #ffffff;
+    --pc-palette-6: #14b8a6; --pc-on-palette-6-text-color: #ffffff;
+    --pc-palette-7: #3b82f6; --pc-on-palette-7-text-color: #ffffff;
+    --pc-palette-8: #8b5cf6; --pc-on-palette-8-text-color: #ffffff;
+    --pc-palette-9: #ec4899; --pc-on-palette-9-text-color: #ffffff;
 }
 </style>
 
@@ -185,7 +185,7 @@ function setColorVariant(name /* e.g. 'red', 'green' */) {
 
 <!--
   // your-app.scss
-  $base-accent-color: #ff6b35;   // accent colour everywhere
+  $base-primary-color: #ff6b35;   // accent colour everywhere
   $body-font-family: 'Inter', sans-serif;
   $card-border-radius: 0;        // square cards across the whole app
   $sidebar-width: 32rem;         // wider default sidebar
@@ -264,8 +264,8 @@ CSS VARIABLE NAMESPACES:
                        Consumers override at :root for app-wide
                        changes, or scoped for sections.
 
-  --pc-color-{1..9}    Theme palette slots. Each has a paired
-  --pc-color-{1..9}-text   text colour for legible foregrounds.
+  --pc-palette-{1..9}    Theme palette slots. Each has a paired
+  --pc-on-palette-{1..9}-text-color   text colour for legible foregrounds.
                        Most theme-colour component variants read
                        from these slots (pa-btn--color-3,
                        pa-badge--color-5, pa-table-card--color-7…).
@@ -310,13 +310,13 @@ STRUCTURE PATTERNS:
 
 App-wide accent override:
 <style>
-  :root { --pc-accent: #ff6b35; }
+  :root { --pc-primary: #ff6b35; }
 </style>
 
 Section-scoped theme tweak:
 <style>
   .marketing-section {
-    --pc-accent: #6b46c1;
+    --pc-primary: #6b46c1;
     --pa-card-bg: #ffffff;
   }
 </style>
@@ -334,7 +334,7 @@ Theme swap at runtime:
 
 Build-time SCSS override:
 // in your-app.scss
-$base-accent-color: #ff6b35;
+$base-primary-color: #ff6b35;
 $card-border-radius: 0;
 @import '@keenmate/pure-admin-core/scss/main';
 

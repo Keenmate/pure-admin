@@ -240,9 +240,9 @@
 
         // Paren token (purple)
         &--paren {
-            background: color-mix(in srgb, var(--pc-color-5, #8b5cf6) 15%, var(--pa-card-bg));
-            color: var(--pc-color-5, #8b5cf6);
-            border: 1.6px solid color-mix(in srgb, var(--pc-color-5, #8b5cf6) 35%, transparent);
+            background: color-mix(in srgb, var(--pc-palette-5, #8b5cf6) 15%, var(--pa-card-bg));
+            color: var(--pc-palette-5, #8b5cf6);
+            border: 1.6px solid color-mix(in srgb, var(--pc-palette-5, #8b5cf6) 35%, transparent);
         }
     }
 

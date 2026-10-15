@@ -446,12 +446,12 @@
   // --print-color / --print-grayscale are excluded, so they KEEP these theme
   // colours (grayscale then desaturates them via the filter below).
   .pa-sheet:not(.pa-sheet--print-color):not(.pa-sheet--print-grayscale) {
-    --pc-accent: #000;
-    --pc-accent-hover: #000;
-    --pc-danger-text: #000;
-    --pc-success-text: #000;
-    --pc-warning-text: #000;
-    --pc-info-text: #000;
+    --pc-primary: #000;
+    --pc-primary-hover: #000;
+    --pc-danger-text-color: #000;
+    --pc-success-text-color: #000;
+    --pc-warning-text-color: #000;
+    --pc-info-text-color: #000;
   }
 
   // Print in GREYSCALE: the coloured invoice (accent/brand kept from the theme),

@@ -4,7 +4,7 @@
   "block": "pa-progress",
   "propsVocabulary": {
     "value": "progress percentage 0-100 — sets inline style --value: N% on the fill, plus aria-valuenow on the bar",
-    "variant": "colour variant (success|warning|danger|info) — primary is the BASE fill (var(--pc-accent)), emits NO modifier class",
+    "variant": "colour variant (success|warning|danger|info) — primary is the BASE fill (var(--pc-primary)), emits NO modifier class",
     "size": "xs|sm|lg bar height",
     "rounded": "boolean — pill shape (pa-progress--rounded)",
     "striped": "boolean — diagonal stripe fill (pa-progress--striped)",

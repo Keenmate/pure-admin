@@ -8,7 +8,7 @@
     "label": "gauge caption (CPU / Memory / Temp …) rendered below the baseline in pa-gauge__label, centred between the min/max endpoints. Omitted when falsy.",
     "min": "left endpoint label in pa-gauge__min (default conceptually \"0\").",
     "max": "right endpoint label in pa-gauge__max (default conceptually \"100\").",
-    "variant": "colour variant (success|warning|danger|info) — overrides only --pa-gauge-fill. primary is the BASE fill (var(--pc-accent)) and emits NO modifier class.",
+    "variant": "colour variant (success|warning|danger|info) — overrides only --pa-gauge-fill. primary is the BASE fill (var(--pc-primary)) and emits NO modifier class.",
     "zones": "boolean — multi-zone gauge (pa-gauge--zones): replaces the single-colour arc with a fixed green/yellow/red band gradient. Independent of variant (zones wins the fill).",
     "size": "optional CSS length override for --pa-gauge-size (default upstream 12rem). Appended to the inline style after --value. Structural, no class.",
     "extraClass": "extra classes appended verbatim"
