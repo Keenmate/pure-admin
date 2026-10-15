@@ -101,6 +101,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   viewport `@media`, so an alternating timeline inside a narrow card/column (wide viewport)
   stayed two-column and its text column shrank to a negative width — wrapping every character
   onto its own line. (Note the Sass gotcha: `@container` needs `#{$var}` interpolation.)
+- **Fixed: the inline navbar search (`.pc-navbar-search--field` / `--input`) showed no focus
+  border.** The focus style was on `:focus`, which only the plain pill (a button) gets; in the
+  field variants focus lands on the inner `__field`. Now also on `:focus-within`, matching
+  `.pa-form-control:focus`.
+- **Borders and primary tints follow the theme at runtime.** Ten rules wrote a Sass colour
+  straight into CSS, so a theme's dark-mode (or runtime) value never reached them and they kept
+  the build-time light colour — e.g. ayu dark showed light `#e2e8f0` lines. Now `var()`:
+  query-editor input / autocomplete / dropdowns, file-dropzone + drop prompt, popover header
+  (`$popover-header-border`), field-group title (`$field-group-title-border-color`), bordered
+  fields (`$fields-bordered-border-color`) → `var(--pc-border-color)`; `$fields-border-left`
+  → `var(--pc-primary)`; `$detail-panel-selected-bg`, `$checkbox-focus-shadow`,
+  `$command-palette-item-hover-bg` / `-active-bg` / `-highlight-bg`, `$splitter-gutter-active-bg`,
+  `$splitter-focus-ring-color` → `color-mix(in srgb, var(--pc-primary) N%, transparent)` (same
+  percentages as the old `rgba($primary-color, …)`). Themes overriding these Sass vars still win.
 
 ### Internal
 

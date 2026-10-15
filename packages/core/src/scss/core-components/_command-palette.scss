@@ -540,7 +540,10 @@
     border-color: var(--pa-input-focus-border-color);
   }
 
-  &:focus {
+  // :focus = the plain pill (a button); :focus-within = the --field / --input
+  // variants, where focus lands on the inner __field, not the frame.
+  &:focus,
+  &:focus-within {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
     box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);

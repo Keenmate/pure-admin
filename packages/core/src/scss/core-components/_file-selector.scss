@@ -37,7 +37,7 @@
 // Drag & Drop Zone
 .pa-file-dropzone {
   position: relative;
-  border: 3.2px dashed $border-color;
+  border: 3.2px dashed var(--pc-border-color);
   border-radius: var(--pc-border-radius);
   padding: $spacing-xl;
   text-align: center;
@@ -95,7 +95,7 @@
   // Compact mode: Files inside dropzone
   &__drop-prompt {
     padding: $spacing-md;
-    border-bottom: 1.6px dashed $border-color;
+    border-bottom: 1.6px dashed var(--pc-border-color);
     margin: (-$spacing-xl) (-$spacing-xl) $spacing-md (-$spacing-xl);
     text-align: center;
     font-size: $font-size-sm;
