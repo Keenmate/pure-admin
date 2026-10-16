@@ -287,11 +287,10 @@
     }
 
     &--fw {
-      --modal-fw-margin: $modal-mobile-margin;
-      max-width: calc(100vw - ($modal-fw-margin * 2));
-      width: calc(100vw - ($modal-fw-margin * 2));
-      max-height: calc(100vh - ($modal-fw-margin * 2));
-      margin: $modal-fw-margin;
+      max-width: calc(100vw - ($modal-mobile-margin * 2));
+      width: calc(100vw - ($modal-mobile-margin * 2));
+      max-height: calc(100vh - ($modal-mobile-margin * 2));
+      margin: $modal-mobile-margin;
     }
   }
 

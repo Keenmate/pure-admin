@@ -9,15 +9,10 @@
 //
 // They read the component `$`-vocabulary (core's variables/_components.scss)
 // which derives from the $base-* source of truth single-sourced in pure-css.
-// `@import 'variables/index'` pulls BOTH into scope: a Sass mixin resolves
-// its globals from its definition site, and the @import-flattened index places
-// pure-css's foundation + core's component vars into that scope, with theme
-// overrides already applied (themes set $base-*/component vars before importing,
-// and the !default flags skip them). MUST be `@import`, not `@use ... as *`:
-// pure-css 1.1.1 switched its own base-css-variables to `@import 'variables/index'`
-// (so themes can override $base-* via !default), which flattens $base-* into this
-// shim's shared global scope BEFORE this line runs — a `@use ... as *` here then
-// fails with "both define $base-primary-color". `@import` shares that one scope.
+// `@use 'variables/index' as *` pulls BOTH in: core's index forwards the
+// foundation + component vocabulary as one module, and a theme that configured
+// it (`@use '…/variables' with (…)`) before loading this file gets its
+// overrides here — modules are singletons, configured once.
 //
 // Emitted by pure-admin's main.scss + every theme (alongside the base pair
 // output-base-css-variables + output-pc-css-variables, which come from
@@ -27,7 +22,7 @@
 // through var(--base-*); emit it at `:root, .pc-mode-light, .pc-mode-dark` so
 // each mode re-resolves against its own --base-*. The rest are mode-invariant.
 // ============================================================================
-@import 'variables/index';
+@use 'variables/index' as *;
 
 @mixin output-pc-component-mode-variables {
   // Buttons — primary (accent), per-role hover/text, and the light button
@@ -67,6 +62,9 @@
   --pa-input-border: var(--base-input-border-color, #{$input-border});
   --pa-input-text: var(--base-input-text-color, #{$input-text});
   --pa-input-focus-border-color: var(--base-primary-color, #{$input-focus-border-color});
+  // Focus halo tone — its own contract token (not the --pc-primary-bg-subtle fill
+  // tint, which themes set far stronger). Each halo keeps its own size.
+  --pa-input-focus-shadow-color: var(--base-input-shadow-color-focus, #{$base-input-shadow-color-focus});
   --pa-select-focus-border-color: var(--base-primary-color, #{$select-focus-border-color});
   --pa-textarea-focus-border-color: var(--base-primary-color, #{$textarea-focus-border-color});
 

@@ -21,6 +21,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
     testDir: './e2e',
+    testIgnore: /theme-matrix.spec.ts/,   // run via playwright.themes.config.ts
     timeout: 30_000,
     expect: { timeout: 5_000 },
 

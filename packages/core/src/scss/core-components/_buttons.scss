@@ -59,7 +59,7 @@
 
   &--secondary {
     background-color: transparent;
-    border-color: var(--pc-border-color);
+    border-color: var(--pa-input-border);  // an outline button is a control: control outline, not the divider
     color: var(--pc-text-color-1);
 
     &:hover {

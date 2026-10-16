@@ -103,7 +103,7 @@
     &:focus {
       outline: none;
       border-color: var(--pc-primary);
-      box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
+      box-shadow: 0 0 0 $focus-ring-width var(--pa-input-focus-shadow-color);
     }
   }
 

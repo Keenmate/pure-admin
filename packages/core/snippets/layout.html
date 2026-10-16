@@ -65,8 +65,8 @@
 
 <!-- Footer end with vertical stack (for many small items) -->
 <div class="pc-footer__end pc-footer__end--vertical">
-    <span>Version 1.2.1</span>
-    <span>Build 2341</span>
+    <span class="pc-footer__muted">Version 1.2.1</span>
+    <span class="pc-footer__muted">Build 2341</span>
     <a href="#">Licenses</a>
 </div>
 
@@ -740,6 +740,11 @@ FOOTER SECTIONS:
 - .pc-footer__center           Flexible middle
 - .pc-footer__end              Anchored to inline-end (version info, links)
 - .pc-footer__end--vertical    Stack end items vertically (flex-column)
+- .pc-footer__muted            Secondary footer text (version, build). 70% of the
+                               footer's text colour — readable on any footer
+                               background; don't use page utilities (.text-muted /
+                               .text-secondary) here, they're tuned for the page.
+                               Tokens: --pc-footer-text, --pc-footer-text-secondary.
 
 BODY-LEVEL FLAGS (orthogonal — any combination is valid):
 - .pc-layout--sticky           Fixed-viewport mode: body overflow: hidden;

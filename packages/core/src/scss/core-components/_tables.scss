@@ -3,6 +3,7 @@
    Tables, virtual tables, with striped, hover, and spacing variants
    ======================================== */
 @use '../variables' as *;
+@use '../rtl-helpers' as *;
 
 // Duplicate alert definition removed - consolidated above with theme-aware colors
 
@@ -459,24 +460,21 @@
   }
 
   // Hover effects
-  @if $table-hover-accent-width > 0 {
-    // Header alignment - add padding to match hover accent border
-    th:first-child {
-      padding-inline-start: $table-hover-accent-width + $table-padding-base-h; // RTL: flips to padding-right
-    }
-
-    tbody tr {
-      border-inline-start: #{$table-hover-accent-width} solid transparent; // RTL: flips to border-right
-      transition: border-color $transition-normal $easing-smooth;
-    }
-  }
-
   tbody tr:hover {
     background-color: var(--pa-table-hover-bg);
+  }
 
-    // Apply hover accent if enabled
-    @if $table-hover-accent-width > 0 {
-      border-inline-start-color: var(--pa-table-hover-accent-color); // RTL: flips to border-right-color
+  // Hover accent stripe — an inset shadow painted over the first cell, so it
+  // takes no layout space: no reserved border on every row, no header offset.
+  @if $table-hover-accent-width > 0 {
+    tbody tr > td:first-child {
+      transition: box-shadow $transition-normal $easing-smooth;
+    }
+
+    tbody tr:hover > td:first-child {
+      @include rtl-value(box-shadow,
+        inset $table-hover-accent-width 0 0 var(--pa-table-hover-accent-color),
+        inset (-$table-hover-accent-width) 0 0 var(--pa-table-hover-accent-color));
     }
   }
 
@@ -567,10 +565,9 @@
   border-bottom: $border-width-base solid var(--pc-border-color);
   background: var(--pa-table-bg);
 
-  // Setup for hover accent border (same as pa-table)
+  // Hover accent stripe (same as pa-table) — inset shadow, takes no layout space
   @if $table-hover-accent-width > 0 {
-    border-inline-start: #{$table-hover-accent-width} solid transparent; // RTL: flips to border-right
-    transition: border-color $transition-normal $easing-smooth;
+    transition: box-shadow $transition-normal $easing-smooth;
   }
 }
 
@@ -581,9 +578,10 @@
 .pa-virtual-table__row:hover {
   background: var(--pa-table-hover-bg);
 
-  // Apply hover accent if enabled (same as pa-table)
   @if $table-hover-accent-width > 0 {
-    border-inline-start-color: var(--pa-table-hover-accent-color); // RTL: flips to border-right-color
+    @include rtl-value(box-shadow,
+      inset $table-hover-accent-width 0 0 var(--pa-table-hover-accent-color),
+      inset (-$table-hover-accent-width) 0 0 var(--pa-table-hover-accent-color));
   }
 }
 
@@ -628,9 +626,11 @@
       border-radius: var(--pc-border-radius);
       overflow: hidden;
 
-      // Reset hover accent border for mobile
+      // Card mode: the first cell is only the card's top line — no hover stripe
       @if $table-hover-accent-width > 0 {
-        border-inline-start: $border-width-base solid var(--pc-border-color) !important; // RTL: flips
+        > td:first-child {
+          box-shadow: none !important;
+        }
       }
 
       &:last-child {

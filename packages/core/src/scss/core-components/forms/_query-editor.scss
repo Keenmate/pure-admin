@@ -129,7 +129,7 @@
 .pa-virtual-textbox {
   width: 100%;
   padding: $input-padding-v $input-padding-h;
-  border: $border-width-base solid var(--pc-border-color);
+  border: $border-width-base solid var(--pa-input-border);
   border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
   background-color: var(--pa-input-bg);
@@ -143,7 +143,7 @@
   &:focus {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-input-focus-shadow-color);
   }
 
   &:empty::before {
@@ -202,7 +202,7 @@
     z-index: 2;
     width: 100%;
     padding: $input-padding-v $input-padding-h;
-    border: $border-width-base solid var(--pc-border-color);
+    border: $border-width-base solid var(--pa-input-border);
     border-radius: var(--pc-border-radius);
     font-size: $font-size-sm;
     font-family: $body-font-family;
@@ -218,7 +218,7 @@
     &:focus {
       outline: none;
       border-color: var(--pa-input-focus-border-color);
-      box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
+      box-shadow: 0 0 0 $focus-ring-width var(--pa-input-focus-shadow-color);
     }
 
     &::placeholder {

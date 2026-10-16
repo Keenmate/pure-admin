@@ -119,7 +119,7 @@
 
     &:focus {
       border-color: var(--pa-input-focus-border-color);
-      box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
+      box-shadow: 0 0 0 $focus-ring-width var(--pa-input-focus-shadow-color);
     }
 
     &::placeholder {
@@ -546,7 +546,7 @@
   &:focus-within {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
-    box-shadow: 0 0 0 $focus-ring-width var(--pc-primary-bg-subtle);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-input-focus-shadow-color);
   }
 
   // Size modifiers (matching input sizes)

@@ -16,18 +16,10 @@
 // _pc-component-variables.scss. pure-admin's main.scss + every theme call
 // output-pc-component-variables + output-pc-alert-* alongside the base pair.
 //
-// MUST use `@import`, not `@use`/`@forward`. The emit mixins reference the
-// `$base-*`/component SCSS variables; a theme sets those BEFORE `@import`-ing
-// this file, so the mixin must be defined in the theme's GLOBAL scope (where
-// the override lives) to read the overridden value. `@forward` would load these
-// as hermetic modules whose internal `@use variables/index` only ever sees the
-// `!default` values — silently dropping every theme override. `@import`
-// flattens the files (mixins + their `@use … as *`) into the caller's global
-// scope, exactly as the pre-extraction file did.
-//
-// `main.scss`'s `@use 'base-css-variables' as bcv` still resolves `bcv.output-*`:
-// `@import`ed mixins are public members of this shim module. Resolved via the
-// `--load-path=node_modules` passed to sass.
+// Both halves are `@forward`ed, so `@use 'base-css-variables' as bcv` exposes
+// every mixin (`bcv.output-*`). The mixins read the variables module, so a theme
+// configures that first (`@use '…/variables' with (…)`) and the emitted tokens
+// carry its overrides. Resolved via the `--load-path=node_modules` passed to sass.
 //
 // ── How the layers fit (why there's no $pc-* source here) ───────────────────
 // `--base-*` is the single canonical theming knob, owned by
@@ -42,5 +34,5 @@
 //   https://github.com/keenmate/base-css-variables  — README § "The layer pipeline"
 // ============================================================================
 
-@import '@keenmate/pure-css/src/scss/base-css-variables';
-@import 'pc-component-variables';
+@forward '@keenmate/pure-css/src/scss/base-css-variables';
+@forward 'pc-component-variables';

@@ -212,13 +212,13 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pc-primary-bg-subtle));
+    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pa-input-focus-shadow-color));
   }
 
   &:active,
   &.pa-range__thumb--grabbing {
     cursor: grabbing;
-    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pc-primary-bg-subtle));
+    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pa-input-focus-shadow-color));
   }
 }
 
@@ -361,7 +361,7 @@ $range-group-panel-row-gap:    $spacing-lg;
   &:focus-visible {
     outline: none;
     border-color: var(--pc-primary);
-    box-shadow: 0 0 0 0.3rem var(--pc-primary-bg-subtle);
+    box-shadow: 0 0 0 0.3rem var(--pa-input-focus-shadow-color);
   }
 }
 

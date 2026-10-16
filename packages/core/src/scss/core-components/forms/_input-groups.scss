@@ -4,6 +4,7 @@
    RTL-aware using CSS logical properties
    ======================================== */
 @use '../../variables' as *;
+@use '../../rtl-helpers' as *;
 
 .pa-input-group {
   display: flex;
@@ -39,7 +40,7 @@
     height: #{$base-input-size-md-height}rem;
     line-height: #{$base-input-size-md-height}rem;
     padding: 0 $input-padding-h;
-    border: $border-width-base solid var(--pc-border-color);
+    border: $border-width-base solid var(--pa-input-border);  // same control outline as the field, so the group reads as one box
     font-size: $font-size-sm;
     white-space: nowrap;
     border-radius: 0;
@@ -48,7 +49,6 @@
   &__prepend {
     background-color: var(--pa-input-group-prepend-bg);
     color: var(--pa-input-group-prepend-text);
-    border-color: var(--pa-input-group-prepend-bg);
     border-inline-end: none; // RTL: flips to border-left
 
     &:first-child {
@@ -60,7 +60,6 @@
   &__append {
     background-color: var(--pa-input-group-append-bg);
     color: var(--pa-input-group-append-text);
-    border-color: var(--pa-input-group-append-bg);
     border-inline-start: none; // RTL: flips to border-right
 
     &:last-child {
@@ -70,34 +69,26 @@
   }
 
   // Adjacent prepends/appends need borders between them
-  &__prepend + &__prepend {
-    border-inline-start: $border-width-base solid var(--pa-input-group-prepend-bg); // RTL: flips
-  }
-
+  &__prepend + &__prepend,
   &__append + &__append {
-    border-inline-start: $border-width-base solid var(--pa-input-group-append-bg); // RTL: flips
+    border-inline-start: $border-width-base solid var(--pa-input-border); // RTL: flips
   }
 
-  // When input is focused, show focus border on adjacent prepend/append
+  // When the input is focused, the add-on edge touching it takes the focus colour.
+  // Drawn as an inset shadow (not a border), so it takes no space and nothing shifts.
   &:has(.pa-input:focus) {
-    // Last prepend (one before input) gets focus border
-    .pa-input-group__prepend {
-      border-inline-end: $border-width-base solid var(--pa-input-focus-border-color); // RTL: flips
+    // Last prepend (the one before the input): its end edge
+    .pa-input-group__prepend:not(:has(+ .pa-input-group__prepend)) {
+      @include rtl-value(box-shadow,
+        inset (-$border-width-base) 0 0 var(--pa-input-focus-border-color),
+        inset $border-width-base 0 0 var(--pa-input-focus-border-color));
     }
 
-    // But prepends followed by another prepend keep normal border
-    .pa-input-group__prepend:has(+ .pa-input-group__prepend) {
-      border-inline-end: none; // RTL: flips
-    }
-
-    // First append (one after input) gets focus border
-    .pa-input-group__append {
-      border-inline-start: $border-width-base solid var(--pa-input-focus-border-color); // RTL: flips
-    }
-
-    // But appends following another append keep normal border
-    .pa-input-group__append + .pa-input-group__append {
-      border-inline-start: $border-width-base solid var(--pc-border-color); // RTL: flips
+    // First append (the one after the input): its start edge
+    .pa-input + .pa-input-group__append {
+      @include rtl-value(box-shadow,
+        inset $border-width-base 0 0 var(--pa-input-focus-border-color),
+        inset (-$border-width-base) 0 0 var(--pa-input-focus-border-color));
     }
   }
 
