@@ -390,8 +390,8 @@
 <div class="pa-pager">
   <div class="pa-pager__container">
     <div class="pa-pager__controls">
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">‹ Previous</button>
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">Next ›</button>
+      <button class="pa-btn pa-btn--sm pa-btn--secondary"><span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>Previous</button>
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Next<span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></button>
     </div>
     <div class="pa-pager__info">
       <span class="pa-pager__text">Page</span>
@@ -405,10 +405,10 @@
 <div class="pa-pager pa-pager--start">
   <div class="pa-pager__container">
     <div class="pa-pager__controls">
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">« First</button>
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">‹ Prev</button>
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">Next ›</button>
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">Last »</button>
+      <button class="pa-btn pa-btn--sm pa-btn--secondary"><span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></span>First</button>
+      <button class="pa-btn pa-btn--sm pa-btn--secondary"><span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>Prev</button>
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Next<span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></button>
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Last<span class="pa-btn__icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg></span></button>
     </div>
   </div>
 </div>
@@ -418,8 +418,43 @@
   <div class="pa-pager__container">
     <span class="pa-pager__text">Showing 1-25 of 250</span>
     <div class="pa-pager__controls">
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">‹</button>
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">›</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" title="Previous Page"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" title="Next Page"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- Slider pager — a thick pa-range--lg scrubber for long result sets.
+     .pa-pager__slider takes the free width (the container grows to fill the
+     pager). range-group.js drives standalone sliders and emits on the
+     .pa-range: pa-range:change (live) / pa-range:commit (on release — fetch
+     here). Sync from the input/buttons with
+     pureAdmin.components.range.setValue(rangeEl, page).
+     data-bound="lte" anchors the fill at the start (pages 1 → current).
+     Narrow space: pureCss.components.fit.init(containerEl) — Fit sheds the
+     data-pc-fit slots lowest-priority first ("/ N" total 20, prev/next 30 — data-pc-fit-group pairs them)
+     down to slider + page input. Add First/Last at priority 10 if you use them. -->
+<div class="pa-pager">
+  <div class="pa-pager__container">
+    <div class="pa-pager__controls">
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" title="Previous Page" data-pc-fit="hide" data-pc-fit-priority="30" data-pc-fit-group="steps"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    </div>
+    <div class="pa-range pa-range--lg pa-range--single pa-pager__slider" data-range
+         data-min="1" data-max="50" data-step="1"
+         data-mode="single" data-bound="lte" data-value="1">
+      <div class="pa-range__rail">
+        <div class="pa-range__track"></div>
+        <div class="pa-range__fill" data-range-fill></div>
+        <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+        <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Page"></button>
+      </div>
+    </div>
+    <div class="pa-pager__controls">
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" title="Next Page" data-pc-fit="hide" data-pc-fit-priority="30" data-pc-fit-group="steps"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+    <div class="pa-pager__info">
+      <input type="number" class="pa-input pa-input--sm pa-pager__input" value="1" min="1" max="50" aria-label="Page">
+      <span class="pa-pager__text" data-pc-fit="hide" data-pc-fit-priority="20">/ 50</span>
     </div>
   </div>
 </div>
@@ -574,9 +609,16 @@ pa-pager — PAGINATION CONTROLS:
 Sub-elements:
 - .pa-pager__container       inner wrapper (flex row, gap: $spacing-sm)
 - .pa-pager__controls        button group (gap: $pager-controls-gap)
+                             Buttons carry Lucide SVG icons (chevrons-left /
+                             chevron-left / chevron-right / chevrons-right):
+                             labelled → <span class="pa-btn__icon"><svg/></span> + text,
+                             icon-only → pa-btn--icon-only + title. No Unicode
+                             glyphs (‹ « sit below centre). SVGs mirror under [dir="rtl"].
 - .pa-pager__info            input + text wrapper
 - .pa-pager__input           narrow number input ($pager-input-width)
-- .pa-pager__text            muted caption text
+- .pa-pager__text            muted caption text (also the "…" gap in a numbered pager)
+- .pa-pager__slider          pa-range--lg scrubber between the controls; flex-fills
+                             (min $pager-slider-min-width), container grows to fit
 
 pa-load-more — SINGLE-ACTION ALTERNATIVE:
 - .pa-load-more              flex container, centre-aligned by default

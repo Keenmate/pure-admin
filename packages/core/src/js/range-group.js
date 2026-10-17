@@ -191,6 +191,13 @@
         row.group.onChange();
     }
 
+    // A settled value: drag released or a key step. Groups ignore it (they
+    // have Apply); standalone sliders emit pa-range:commit so a consumer can
+    // do the expensive work (fetch a page) once instead of on every move.
+    function commit(row) {
+        if (row.group.onCommit) row.group.onCommit();
+    }
+
     // Pointer x → value, honouring RTL (rail measured from the inline-start).
     function pointerToValue(row, clientX) {
         var rail = row.el.querySelector('.pa-range__rail');
@@ -255,6 +262,7 @@
         wireTrackSeek(row);
         renderTicks(row);
         render(row);
+        el._range = row;
         return row;
     }
 
@@ -356,6 +364,7 @@
             if (row._drag == null) return;
             thumb.classList.remove('pa-range__thumb--grabbing');
             row._drag = null;
+            commit(row);
             document.removeEventListener('pointermove', move);
             document.removeEventListener('pointerup', up);
             document.removeEventListener('pointercancel', up);
@@ -413,6 +422,7 @@
                 }
                 e.preventDefault();
                 setThumb(row, which, next);
+                commit(row);
                 return;
             }
 
@@ -430,6 +440,7 @@
             }
             e.preventDefault();
             setThumb(row, which, next);
+            commit(row);
         });
     }
 
@@ -651,6 +662,50 @@
 
     function initAll(scope) {
         (scope || document).querySelectorAll('[data-range-group]').forEach(buildGroup);
+        initStandalone(scope);
+    }
+
+    // ---- standalone sliders --------------------------------------------------
+    // A .pa-range outside any .pa-range-group (e.g. a pager scrubber). Same row
+    // engine; events go to the .pa-range element itself:
+    //   pa-range:change   live while dragging / stepping   detail = { value } | { min, max }
+    //   pa-range:commit   on release / key step            detail = same
+
+    function standaloneDetail(row) {
+        return row.mode === 'single'
+            ? { value: row.value }
+            : { min: row.valueMin, max: row.valueMax };
+    }
+
+    function initStandalone(scope) {
+        (scope || document).querySelectorAll('[data-range]').forEach(function (el) {
+            if (el._range || el.closest('[data-range-group]')) return;
+            var row;
+            var emit = function (name) {
+                el.dispatchEvent(new CustomEvent('pa-range:' + name, {
+                    bubbles: true,
+                    detail: standaloneDetail(row)
+                }));
+            };
+            row = buildRow(el, {
+                onChange: function () { emit('change'); },
+                onCommit: function () { emit('commit'); }
+            });
+        });
+    }
+
+    // Programmatic set (no events — the caller already knows the value).
+    // Single: setValue(el, v). Range: setValue(el, [min, max]).
+    function setValue(el, v) {
+        var row = el && el._range;
+        if (!row) return;
+        if (row.mode === 'single') {
+            row.value = snap(row, v);
+        } else {
+            row.valueMin = snap(row, v[0]);
+            row.valueMax = Math.max(row.valueMin, snap(row, v[1]));
+        }
+        render(row);
     }
 
     if (document.readyState === 'loading') {
@@ -661,4 +716,5 @@
 
     var pa = (window.pureAdmin = window.pureAdmin || {});
     (pa.components = pa.components || {}).rangeGroup = { init: initAll };
+    pa.components.range = { init: initStandalone, setValue: setValue };
 })();

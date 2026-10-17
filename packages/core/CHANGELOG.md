@@ -22,7 +22,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   layout shift. Exposed by both wrappers as `isHighlighted` (svelte) / `is_highlighted`
   (keen) so consumers never hand-write the class.
 
+- **Slider pager: `.pa-pager__slider` + `.pa-range--lg`.** A thick scrubber for long
+  result sets, sitting between the pager controls. `.pa-range--lg` is a new size for
+  the range slider (fat track, wide ridged grip handle); `.pa-pager__slider` lets it
+  fill the free width and grows the pager container to fit (min
+  `$pager-slider-min-width`, 12rem). In narrow space, run the pure-css Fit engine on
+  the container (`pureCss.components.fit.init(el)`) and it sheds `data-pc-fit` slots —
+  First/Last, the "/ N" total, Prev/Next (paired via `data-pc-fit-group`) — down to the
+  slider. A `.pa-pager__controls` whose buttons are all fit-hidden collapses with them.
+  Needs pure-css 2.0.0-rc01 (Fit group + growing-section measurement fix).
+
+- **Standalone `.pa-range` sliders.** `range-group.js` now also wires a `.pa-range`
+  that sits outside a `.pa-range-group`, emitting `pa-range:change` (live) and
+  `pa-range:commit` (on release / key step — do the fetch here) on the element, and
+  exposes `pureAdmin.components.range.setValue(el, v | [min, max])` for silent
+  programmatic sync.
+
 ### Changed
+
+- **BREAKING (utilities): `.border-left`, `.border-right`, `.border-left-0`,
+  `.border-right-0`, `.rounded-left`, `.rounded-right` are gone** (removed in pure-css
+  2.0.0-rc02). Core's `utilities.scss` forwards pure-css's utilities, so every theme stops
+  shipping them. They didn't mirror under `dir="rtl"`. Rename `-left` → `-start` and
+  `-right` → `-end` (`.border-start`, `.border-end-0`, `.rounded-start`, …); in LTR they
+  render identically. Top / bottom variants are unchanged. Core's own components never
+  used these classes, and the utilities snippet now shows the logical forms. Requires
+  `@keenmate/pure-css` `^2.0.0-rc02`.
+
+- **Pager snippets use Lucide SVG icons instead of Unicode glyphs.** `‹ › « »` sit
+  below the button centre (they're x-height punctuation); SVG chevrons centre exactly.
+  Labelled buttons use `.pa-btn__icon` + text, icon-only ones `.pa-btn--icon-only` +
+  `title`. Pager SVGs mirror under `[dir="rtl"]`.
 
 - **`.pa-loader-wave` is now a distinct animation, not a clone of `.pa-loader-bars`.**
   The two shared byte-identical keyframes (both `scaleY` stretch on the same 5-span
@@ -78,27 +108,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `.pa-tooltip--color-N`, `.pa-input--color-N`, …) keeps its class name — markup is
   unaffected; only themes / overrides that set the palette variables must rename. Requires
   the matching pure-css release.
-
-### Fixed
-
-- **Timeline content no longer overflows its box with long words.** `.pa-timeline__content`
-  now sets `overflow-wrap: break-word` (inherited, so it covers the title + body across all
-  variants). In the alternating layout inside a narrow column, long words
-  ("implementation", a URL) previously spilled out past the coloured content box.
-- **Single-column timeline layouts no longer overlap their markers with the content.** The
-  mobile collapse, `--single-column`, `--start` and `--end` layouts were built from four
-  near-identical blocks of hardcoded pixel offsets that drifted out of sync when the spacing
-  scale changed (`$spacing-xl` 20px → 32px), leaving the dot/icon/date sitting on top of the
-  title. They are now one shared `pa-timeline-single-column($side)` mixin: a compact rail (the
-  line + the icon circle centred on it + a **vertically-rotated date label** — start side
-  reads bottom-to-top, end side top-to-bottom) in a fixed gutter the content clears via
-  padding, so markers can't collide with text. The rail is one continuous line (inter-card
-  gap is a margin the line bridges), the icon + date centre on the card (not card+gap), and
-  the date stays a single vertical line (`white-space: nowrap`).
-- **Alternating timeline now collapses by CONTAINER width, not viewport.** It establishes a
-  `container-type: inline-size` context and collapses to the single-column rail below
-  `$timeline-block-collapse-width` (600px) via `@container`. Previously the collapse was a
-  viewport `@media`, so an alternating timeline inside a narrow card/column (wide viewport)
 - **BREAKING (Sass): the variable layer is a configurable module — no more `@import`.**
   `variables/_index.scss`, `_variables.scss`, `_base-css-variables.scss` and
   `_pc-component-variables.scss` use `@use` / `@forward` (Sass deprecated `@import`; Dart Sass 3
@@ -126,6 +135,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   padded to match — a visible gap and a content shift. The stripe is now painted over the hovered
   row's first cell (`.pa-table`, `.pa-virtual-table__row`), taking no space; RTL-aware, and off in
   the responsive card layout.
+
+### Fixed
+
+- **Split-button menu items read `--pc-text-color-1`** (was `--pc-text-color`, a token nothing
+  defines, so the declaration was dropped and the items only inherited their colour). Found by the
+  new unresolved-token check in `pureadmin themes validate`.
+
+- **Text between pager buttons is vertically centred.** `.pa-pager__controls` stretched
+  its items, so a `.pa-pager__text` "…" in a numbered pager filled the button height
+  and sat at its top. Controls now `align-items: center`.
+
+- **Timeline content no longer overflows its box with long words.** `.pa-timeline__content`
+  now sets `overflow-wrap: break-word` (inherited, so it covers the title + body across all
+  variants). In the alternating layout inside a narrow column, long words
+  ("implementation", a URL) previously spilled out past the coloured content box.
+- **Single-column timeline layouts no longer overlap their markers with the content.** The
+  mobile collapse, `--single-column`, `--start` and `--end` layouts were built from four
+  near-identical blocks of hardcoded pixel offsets that drifted out of sync when the spacing
+  scale changed (`$spacing-xl` 20px → 32px), leaving the dot/icon/date sitting on top of the
+  title. They are now one shared `pa-timeline-single-column($side)` mixin: a compact rail (the
+  line + the icon circle centred on it + a **vertically-rotated date label** — start side
+  reads bottom-to-top, end side top-to-bottom) in a fixed gutter the content clears via
+  padding, so markers can't collide with text. The rail is one continuous line (inter-card
+  gap is a margin the line bridges), the icon + date centre on the card (not card+gap), and
+  the date stays a single vertical line (`white-space: nowrap`).
+- **Alternating timeline now collapses by CONTAINER width, not viewport.** It establishes a
+  `container-type: inline-size` context and collapses to the single-column rail below
+  `$timeline-block-collapse-width` (600px) via `@container`. Previously the collapse was a
+  viewport `@media`, so an alternating timeline inside a narrow card/column (wide viewport)
   stayed two-column and its text column shrank to a negative width — wrapping every character
   onto its own line. (Note the Sass gotcha: `@container` needs `#{$var}` interpolation.)
 - **Fixed: the inline navbar search (`.pc-navbar-search--field` / `--input`) showed no focus
@@ -145,8 +183,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Shadows share one tone: `--base-shadow-color`.** The fixed black shadows (modal, command
   palette + its key caps, profile panel, detail panel, sheet, file selector, logic tree) now use
   the theme's shadow colour; sizes are unchanged. Text shadows on coloured stat cards stay (legibility).
+- **Input-group add-ons are boxed with the field.** Prepend / append add-ons set their border to
+  their own fill colour, so with a visible field outline the group's box broke at the add-on.
+  They now take the same control outline (`--pa-input-border`), as do the separators between
+  stacked add-ons.
+- **Focusing an input in an input group no longer shifts the add-on.** The focus edge on the
+  adjacent add-on was a 1px border added on focus (the edge has none at rest), pushing the
+  content by a pixel. It is now an inset shadow — same look, no layout change, RTL-aware.
+- **Full-width modal on mobile uses the mobile margin.** `.pa-modal--fw` under the mobile
+  breakpoint declared `--modal-fw-margin: $modal-mobile-margin` — an un-interpolated Sass
+  variable, emitted literally (invalid CSS) and read by nothing — while its size rules kept the
+  16px desktop margin. They now use `$modal-mobile-margin` (8px).
+- **Footer version lines are readable on coloured footers.** The demo layout and the layout
+  snippet used `.text-secondary` (a page-surface grey) for "App version / Database version",
+  e.g. 1.3:1 grey on nato's blue footer. They now use pure-css's new `.pc-footer__muted`
+  (80% of the footer's text colour; 3.7–10:1 across the 16 themes).
 
 ### Internal
+
+- **Theme matrix: `e2e/theme-matrix.spec.ts` + `playwright.themes.config.ts`.** Every theme ×
+  light/dark: a snapshot of every resolved custom property plus full-page screenshots of 8 demo
+  pages (`<web-grid>` masked — randomised data). Run with
+  `THEME_SNAPSHOTS=<dir> npx playwright test -c playwright.themes.config.ts` (`--update-snapshots`
+  to record); excluded from the default `playwright test` run.
+- Dropped the transitional `$form-gap: $form-scale !default` from `variables/_index.scss` — a
+  no-op since pure-css rc04 owns `$form-gap`, and a duplicate member under `@forward`.
 
 - **fidelity: `tooltip.json` gained a `normalize.ignoreAttrs` rule for `data-tooltip-init`.**
   svelte's native `<Tooltip>` sets that attribute so the global `tooltips-popovers.js`
@@ -170,32 +231,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Input-group add-ons are boxed with the field.** Prepend / append add-ons set their border to
-  their own fill colour, so with a visible field outline the group's box broke at the add-on.
-  They now take the same control outline (`--pa-input-border`), as do the separators between
-  stacked add-ons.
-- **Focusing an input in an input group no longer shifts the add-on.** The focus edge on the
-  adjacent add-on was a 1px border added on focus (the edge has none at rest), pushing the
-  content by a pixel. It is now an inset shadow — same look, no layout change, RTL-aware.
-- **Full-width modal on mobile uses the mobile margin.** `.pa-modal--fw` under the mobile
-  breakpoint declared `--modal-fw-margin: $modal-mobile-margin` — an un-interpolated Sass
-  variable, emitted literally (invalid CSS) and read by nothing — while its size rules kept the
-  16px desktop margin. They now use `$modal-mobile-margin` (8px).
-- **Footer version lines are readable on coloured footers.** The demo layout and the layout
-  snippet used `.text-secondary` (a page-surface grey) for "App version / Database version",
-  e.g. 1.3:1 grey on nato's blue footer. They now use pure-css's new `.pc-footer__muted`
-  (80% of the footer's text colour; 3.7–10:1 across the 16 themes).
 - **Bumped `@keenmate/pure-css` to `^1.3.0-rc01`**, which overhauls the collapsed
   icon-rail sidebar flyouts: submenu text no longer shrinks per nesting level (it was
   stepping down to 12px), a hover-intent grace delay keeps a flyout from vanishing the
-- **Theme matrix: `e2e/theme-matrix.spec.ts` + `playwright.themes.config.ts`.** Every theme ×
-  light/dark: a snapshot of every resolved custom property plus full-page screenshots of 8 demo
-  pages (`<web-grid>` masked — randomised data). Run with
-  `THEME_SNAPSHOTS=<dir> npx playwright test -c playwright.themes.config.ts` (`--update-snapshots`
-  to record); excluded from the default `playwright test` run.
-- Dropped the transitional `$form-gap: $form-scale !default` from `variables/_index.scss` — a
-  no-op since pure-css rc04 owns `$form-gap`, and a duplicate member under `@forward`.
-
   instant the cursor leaves it, and the flyout now reads as an elevated floating card
   (lifted surface + paired readable text + stronger shadow) instead of a muted panel. It
   also adds a desktop **"overlay" sidebar behaviour** (`body.sidebar-overlay`) that turns

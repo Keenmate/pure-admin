@@ -649,6 +649,7 @@ $settings-panel-transition-easing: ease !default;
 $pager-input-width: 6.4rem !default;         // 64px (was 4rem)
 $pager-controls-gap: $spacing-xs !default;
 $pager-button-margin: $spacing-base !default;
+$pager-slider-min-width: 12rem !default;     // slider pager scrubber never collapses below this
 
 // ============================================================================
 // TIMELINE SYSTEM

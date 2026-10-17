@@ -310,6 +310,48 @@ $range-needle-height: 1.1rem;   // fits above the track centre within the row
   }
 }
 
+// Large — a thick, easy-to-grab slider for standalone use (e.g. a pager
+// scrubber). Taller row, fat track, and a wide grip handle with three ridges.
+// It's a size, not a shape: it owns the handle, so don't combine it with a
+// --handle-* modifier. Declared after the shapes so it wins at equal
+// specificity. Setting --pa-range-thumb-size to the grip WIDTH keeps the rail
+// inset at half a handle, so the grip stays on the track at 0% / 100%.
+$range-lg-height:       3.2rem;
+$range-lg-track-height: 0.8rem;
+$range-lg-thumb-w:      3.6rem;
+$range-lg-thumb-h:      2.8rem;
+$range-lg-ridge-w:      0.2rem;
+$range-lg-ridge-gap:    0.3rem;
+$range-lg-ridge-h:      1.2rem;
+
+.pa-range--lg {
+  --pa-range-track-height: #{$range-lg-track-height};
+  --pa-range-thumb-size: #{$range-lg-thumb-w};
+  height: $range-lg-height;
+
+  .pa-range__thumb {
+    --_thumb-w: #{$range-lg-thumb-w};
+    --_thumb-h: #{$range-lg-thumb-h};
+    border-radius: var(--pc-border-radius);
+
+    // Grip ridges: three short vertical bars, centred.
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      inset-inline-start: 50%;
+      width: calc(#{$range-lg-ridge-w} * 3 + #{$range-lg-ridge-gap} * 2);
+      height: $range-lg-ridge-h;
+      transform: translate(-50%, -50%);
+      background: repeating-linear-gradient(
+        to right,
+        var(--pa-range-thumb-border, var(--pc-primary)) 0 #{$range-lg-ridge-w},
+        transparent #{$range-lg-ridge-w} calc(#{$range-lg-ridge-w} + #{$range-lg-ridge-gap})
+      );
+    }
+  }
+}
+
 // Single-thumb variant — hide the unused min thumb. JS reads the modifier
 // to decide how many handles to wire up and how the fill is anchored.
 .pa-range--single {

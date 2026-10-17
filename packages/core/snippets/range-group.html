@@ -35,6 +35,15 @@
        pa-range--handle-arrow    chevron handles "‹ ›"
        pa-range--handle-needle   downward-triangle needles "▽"
 
+     SIZE: pa-range--lg — thick track + wide ridged grip (owns the handle;
+     don't combine with a --handle-* shape). For standalone scrubbers.
+
+     STANDALONE (.pa-range outside a .pa-range-group, e.g. the slider pager in
+     tables.html): range-group.js wires it too; events fire on the .pa-range:
+       pa-range:change  live    detail = { value } | { min, max }
+       pa-range:commit  release / key step (same detail)
+     pureAdmin.components.range.setValue(el, v | [min, max]) sets it silently.
+
      THEMING — runtime tokens (fall back to the shared cascade; override at
      :root, on .pc-mode-*, or per-instance). NB: the __panel reparents to
      <body> while open, so a per-instance override belongs on the __panel or
@@ -249,6 +258,8 @@ STRUCTURE (you author this; JS drives positions via inline custom props):
 MODIFIERS:
   .pa-range--single         one thumb (hides --min); pair with data-mode="single"
   .pa-range--disabled       0.5 opacity + pointer-events:none
+  .pa-range--lg             thick size: fat track + wide ridged grip handle
+                            (owns the handle — no --handle-* shape with it)
   Handle shapes (cosmetic, mix per row, no JS — inner markup identical):
     (none)                    round handle (default)
     .pa-range--handle-rect    rounded rectangle

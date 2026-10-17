@@ -40,9 +40,40 @@
     white-space: nowrap;
   }
 
+  // Slider pager: a .pa-range scrubber between the controls. It takes the
+  // free width, and its container grows to the full pager width to give it some.
+  // min-width:0 lets the container report the width it's GIVEN (not its
+  // content), so the Fit engine (pureCss.components.fit.init on the container)
+  // can see the overflow and shed data-pc-fit slots — first/last, the "/ N"
+  // total, prev/next — down to slider + page input.
+  &__container:has(> .pa-pager__slider) {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__slider {
+    flex: 1 1 auto;
+    min-width: $pager-slider-min-width;
+  }
+
   &__controls {
     display: flex;
+    // Centre, don't stretch: a text item between the buttons (the "…" of a
+    // numbered pager) would otherwise fill the button height and sit at its top.
+    align-items: center;
     gap: $pager-controls-gap;
+
+    // Every button folded away by Fit → drop the group too, so it doesn't
+    // leave an empty flex item (and its gap) in the row.
+    &:not(:has(> :not(.pc-fit-hidden))) {
+      display: none;
+    }
+
+    // Pager icons are physical left/right chevrons; mirror them in RTL so
+    // "previous" still points toward the start of the reading direction.
+    [dir="rtl"] & svg {
+      transform: scaleX(-1);
+    }
   }
 
   &__info {

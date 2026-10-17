@@ -4,7 +4,7 @@
   "totals": {
     "components": 60,
     "blocks": 148,
-    "selectors": 1383,
+    "selectors": 1385,
     "experimental": 1
   },
   "categories": [
@@ -745,6 +745,7 @@
         "pa-range--handle-bar",
         "pa-range--handle-needle",
         "pa-range--handle-rect",
+        "pa-range--lg",
         "pa-range--single",
         "pa-range--ticks-labeled",
         "pa-range__thumb--grabbing",
@@ -973,6 +974,7 @@
         "pa-pager__controls",
         "pa-pager__info",
         "pa-pager__input",
+        "pa-pager__slider",
         "pa-pager__text"
       ],
       "modifiers": [

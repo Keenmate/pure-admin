@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1383** class selectors.
+Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1385** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -288,7 +288,7 @@ Single/dual-thumb range slider with configurable handle styles, ticks and labels
 
 - **Blocks:** `pa-range`
 - **Elements:** `pa-range__fill`, `pa-range__rail`, `pa-range__thumb`, `pa-range__tick`, `pa-range__tick-label`, `pa-range__tick-labels`, `pa-range__ticks`, `pa-range__track`
-- **Modifiers / states:** `pa-range--disabled`, `pa-range--handle-arrow`, `pa-range--handle-bar`, `pa-range--handle-needle`, `pa-range--handle-rect`, `pa-range--single`, `pa-range--ticks-labeled`, `pa-range__thumb--grabbing`, `pa-range__thumb--min`, `pa-range__tick--major`
+- **Modifiers / states:** `pa-range--disabled`, `pa-range--handle-arrow`, `pa-range--handle-bar`, `pa-range--handle-needle`, `pa-range--handle-rect`, `pa-range--lg`, `pa-range--single`, `pa-range--ticks-labeled`, `pa-range__thumb--grabbing`, `pa-range__thumb--min`, `pa-range__tick--major`
 - **SCSS:** `core-components/_range-group.scss`
 - **Snippet:** `range-group.html`
 - **Demo:** `range-group.mustache`
@@ -344,7 +344,7 @@ Buttons (icon/label/spinner, xs–xl, ripple), button groups, split buttons with
 Pagination controls and a load-more button with spinner.
 
 - **Blocks:** `pa-load-more`, `pa-pager`
-- **Elements:** `pa-load-more__button`, `pa-load-more__count`, `pa-load-more__spinner`, `pa-load-more__text`, `pa-pager__container`, `pa-pager__controls`, `pa-pager__info`, `pa-pager__input`, `pa-pager__text`
+- **Elements:** `pa-load-more__button`, `pa-load-more__count`, `pa-load-more__spinner`, `pa-load-more__text`, `pa-pager__container`, `pa-pager__controls`, `pa-pager__info`, `pa-pager__input`, `pa-pager__slider`, `pa-pager__text`
 - **Modifiers / states:** `pa-load-more--center`, `pa-load-more--end`, `pa-load-more--start`, `pa-load-more__button--loading`, `pa-pager--center`, `pa-pager--end`, `pa-pager--start`
 - **SCSS:** `core-components/_pagers.scss`
 - **Snippet:** `tables.html`
