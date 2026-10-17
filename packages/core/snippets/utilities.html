@@ -419,11 +419,14 @@ localStorage.setItem('font-size', 'large');
 <div class="border">border on all sides (1px, theme-border-colour)</div>
 <div class="border-top">top only</div>
 <div class="border-bottom">bottom only</div>
-<div class="border-right">right only</div>
-<div class="border-left">left only</div>
+<!-- Inline sides are logical: start = left in LTR / right in RTL (mirrors
+     under dir="rtl"). There are no -left / -right variants. -->
+<div class="border-start">start only</div>
+<div class="border-end">end only</div>
 
 <div class="border-0">no border</div>
 <div class="border-top-0">no top border</div>
+<div class="border-start-0">no start border</div>
 
 <!-- Border style -->
 <div class="border border-solid">solid (default)</div>
@@ -442,8 +445,8 @@ localStorage.setItem('font-size', 'large');
 <div class="rounded-0">no radius</div>
 <div class="rounded-top">top corners</div>
 <div class="rounded-bottom">bottom corners</div>
-<div class="rounded-left">left corners</div>
-<div class="rounded-right">right corners</div>
+<div class="rounded-start">start corners (left in LTR, right in RTL)</div>
+<div class="rounded-end">end corners</div>
 
 
 <!-- ================================
@@ -698,13 +701,14 @@ POSITION:
 - position-static / -relative / -absolute / -fixed / -sticky
 
 BORDER:
-- border / border-top / -right / -bottom / -left       1px solid theme border
-- border-0 / border-top-0 / -right-0 / -bottom-0 / -left-0
+- border / border-top / -bottom / -start / -end        1px solid theme border
+- border-0 / border-top-0 / -bottom-0 / -start-0 / -end-0
+  (inline sides are logical only — no -left / -right)
 - border-solid / -dashed / -dotted / -none             border-style only
 
 ROUNDED:
 - rounded / rounded-lg / rounded-circle / rounded-0
-- rounded-top / -bottom / -left / -right                paired-corner radius
+- rounded-top / -bottom / -start / -end                 paired-corner radius (logical)
 
 SHADOW:
 - shadow-none / shadow-sm / shadow / shadow-lg
