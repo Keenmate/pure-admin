@@ -164,6 +164,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Radios are drawn from the checkbox tokens.** `.pa-radio input` was a native radio styled
+  only for size, so the browser painted it in its own blue (cobalt2: blue radios next to yellow
+  checkboxes). It now uses `appearance: none` with the same `--pa-checkbox-*` border, fill,
+  hover, focus and disabled treatment as `.pa-checkbox`; the selected dot is a radial gradient
+  of `--pa-checkbox-checkmark-color` on `--pa-checkbox-bg-checked`, so it scales with the size
+  modifiers. Markup is unchanged.
+
 - **Logic tree mirrors under `dir="rtl"`.** `.pa-logic-tree` used physical `padding-left`,
   `left: 0` connector lines and a `border-left` accent; now `padding-inline-start`,
   `inset-inline-start` and `border-inline-start-width`, so the indent, connectors and accent

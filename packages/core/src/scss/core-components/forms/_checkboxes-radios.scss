@@ -223,7 +223,7 @@
 }
 
 // ============================================================================
-// Radio Buttons (Native styling)
+// Radio Buttons (drawn from the checkbox tokens)
 // ============================================================================
 .pa-radio {
   display: flex;
@@ -235,12 +235,49 @@
   font-size: $font-size-sm;
   color: var(--pc-text-color-1);
 
+  // The native input stays (keyboard, form value, accessible name) but is
+  // drawn like .pa-checkbox__box from the same --pa-checkbox-* tokens, so a
+  // theme's checkbox colours re-skin radios too. The dot is a radial gradient
+  // (checkmark colour on the checked fill), so it scales with the size modifiers.
   input {
+    appearance: none;
     margin: 0;
     width: $checkbox-size;
     height: $checkbox-size;
+    border: $checkbox-border-width solid var(--pa-checkbox-border-color);
+    border-radius: 50%;
+    background-color: var(--pa-checkbox-bg);
+    transition: all $checkbox-transition $easing-snappy;
     cursor: pointer;
     flex-shrink: 0;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--pa-checkbox-focus-shadow);
+      border-color: var(--pa-checkbox-border-color-checked);
+    }
+
+    &:checked {
+      border-color: var(--pa-checkbox-border-color-checked);
+      background: radial-gradient(circle,
+        var(--pa-checkbox-checkmark-color) 0 32%,
+        var(--pa-checkbox-bg-checked) 36%);
+    }
+  }
+
+  &:hover input:not(:checked):not(:disabled) {
+    border-color: var(--pa-checkbox-border-color-hover);
+  }
+
+  // Disabled state (matches .pa-checkbox)
+  &--disabled,
+  &:has(input:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    input {
+      cursor: not-allowed;
+    }
   }
 
   // Size modifiers
