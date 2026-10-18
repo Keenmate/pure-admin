@@ -84,8 +84,8 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-orientation="horizontal"
                              tabindex="0"
                              aria-label="Resize editor"></div>
-                        <div class="pa-splitter__pane"
-                             style="background: var(--pc-subtle-bg); padding: 1.6rem; font-family: var(--pc-font-mono, monospace); font-size: 1.3rem;">
+                        <div class="pa-splitter__pane text-sm font-family-mono"
+                             style="background: var(--pc-subtle-bg); padding: 1.6rem">
                             <div class="mb-2" style="opacity: 0.6;">$ node demo.js</div>
                             <div>Hello, Pure Admin!</div>
                             <div class="mb-2" style="opacity: 0.6;">$ npm test</div>
@@ -105,12 +105,12 @@ console.log(greet('Pure Admin'));</code></pre>
                     </div>
                 </div>
                 <div class="pa-card__body">
-                    <p class="mb-3">Use native <code>gap</code> on the splitter root to add space between the panes and the gutter — the JS subtracts it from the available space so percent constraints stay accurate. A thicker gutter is opt-in via <code>--pc-splitter-gutter-size</code>.</p>
+                    <p class="mb-3">Use native <code>gap</code> on the splitter root to add space between the panes and the gutter — the JS subtracts it from the available space so percent constraints stay accurate. A thicker gutter is opt-in via <code>--pa-splitter-gutter-size</code>.</p>
 
                     <div class="pa-splitter pa-splitter--horizontal"
                          data-pa-splitter
                          data-pa-splitter-id="demo-spaced"
-                         style="height: 280px; gap: 1.6rem; --pc-splitter-gutter-size: 1rem;">
+                         style="height: 280px; gap: 1.6rem; --pa-splitter-gutter-size: 1rem;">
                         <div class="pa-splitter__pane"
                              data-pa-splitter-size="40%"
                              data-pa-splitter-min="25%"
@@ -132,7 +132,7 @@ console.log(greet('Pure Admin'));</code></pre>
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header"><div class="pa-card__title"><h4 style="margin: 0;" class="pa-card__title-text">Right card</h4></div></div>
                                 <div class="pa-card__body">
-                                    <p class="mb-0">Drag the gutter — both cards reflow. The 10px gutter is set inline via <code>--pc-splitter-gutter-size</code>; the default is 6px.</p>
+                                    <p class="mb-0">Drag the gutter — both cards reflow. The 10px gutter is set inline via <code>--pa-splitter-gutter-size</code>; the default is 6px.</p>
                                 </div>
                             </div>
                         </div>

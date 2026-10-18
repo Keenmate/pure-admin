@@ -21,10 +21,10 @@
     overflow:hidden;                /* required for resize handle + clipping */
   }
   .sfl-tile--primary  { background:var(--pc-primary-color); }
-  .sfl-tile--success  { background:var(--pc-success-bg); }
-  .sfl-tile--info     { background:var(--pc-info-bg); }
+  .sfl-tile--success  { background:var(--pc-success-color); }
+  .sfl-tile--info     { background:var(--pc-info-color); }
   .sfl-tile--secondary{ background:var(--pc-text-color-2); }
-  .sfl-tile--danger   { background:var(--pc-danger-bg); }
+  .sfl-tile--danger   { background:var(--pc-danger-color); }
 
   /* slot = space the number may fill. flex:1 → grows when the label hides.
      The ResizeObserver watches THIS element. */
@@ -85,7 +85,7 @@
   .sfl-playground{ display:flex; gap:2.4rem; flex-wrap:wrap; align-items:flex-start; }
   .sfl-resizable{ resize:both; overflow:hidden; min-width:4.8rem; min-height:4rem; width:40rem; height:22rem; }
   .sfl-tiers{ margin-top:.4rem; font-size:1.2rem; }
-  .sfl-tiers .on{ color:var(--pc-success-bg); font-weight:700; }
+  .sfl-tiers .on{ color:var(--pc-success-color); font-weight:700; }
   .sfl-tiers .off{ color:var(--pc-text-color-2); text-decoration:line-through; opacity:.6; }
   .sfl-dims{ font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--pc-text-color-2); margin-top:.8rem; }
   .sfl-controls{ margin-top:1rem; display:flex; gap:.8rem; flex-wrap:wrap; }

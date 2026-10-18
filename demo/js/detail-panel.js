@@ -565,7 +565,7 @@
             const diff = startX - currentX;
             const newWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, startWidth + diff));
             const remWidth = newWidth / 10;
-            document.documentElement.style.setProperty('--pc-local-detail-panel-width', remWidth + 'rem');
+            document.documentElement.style.setProperty('--pa-local-detail-panel-width', remWidth + 'rem');
         });
     }
 
@@ -599,7 +599,7 @@
     }
 
     function resetPanelWidth() {
-        document.documentElement.style.setProperty('--pc-local-detail-panel-width', '40rem');
+        document.documentElement.style.setProperty('--pa-local-detail-panel-width', '40rem');
         localStorage.removeItem(STORAGE_KEY_INLINE);
         localStorage.removeItem(STORAGE_KEY_OVERLAY);
     }
@@ -614,7 +614,7 @@
             const width = parseInt(saved, 10);
             if (width >= MIN_WIDTH && width <= MAX_WIDTH) {
                 const remWidth = width / 10;
-                document.documentElement.style.setProperty('--pc-local-detail-panel-width', remWidth + 'rem');
+                document.documentElement.style.setProperty('--pa-local-detail-panel-width', remWidth + 'rem');
             }
         }
     }

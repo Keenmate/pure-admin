@@ -20,7 +20,6 @@
         align-items: center;
         gap: 0.75rem;
         margin-top: 1rem;
-        font-size: var(--pc-font-size-sm, 1.4rem);
         color: var(--pc-text-color-2);
     }
     .resp-slider-row input[type="range"] { flex: 1; min-width: 0; }
@@ -43,16 +42,14 @@
     .resp-code {
         margin: 0.5rem 0 1.25rem;
         padding: 1rem 1.25rem;
-        background: var(--pc-code-bg, var(--pc-main-bg));
+        background: var(--pc-subtle-bg);
         border: 1px solid var(--pc-border-color);
         border-radius: 8px;
         overflow-x: auto;
-        font-family: var(--pc-font-family-mono, ui-monospace, monospace);
-        font-size: 1.3rem;
         line-height: 1.6;
-        color: var(--pc-text-color);
+        color: var(--pc-text-color-1);
     }
-    .resp-legend { font-size: var(--pc-font-size-sm, 1.4rem); color: var(--pc-text-color-2); }
+    .resp-legend {  color: var(--pc-text-color-2); }
 
     /* ---- Fallback mirror of core _fit-flyout.scss (see note above) ---------- */
     .pc-fit-flyout__trigger {
@@ -76,7 +73,7 @@
     .pc-fit-flyout__panel {
         position: fixed; z-index: 4010; display: none;
         min-width: 20rem; max-width: 32rem; padding: 0.5rem;
-        background: var(--pc-card-bg); border: 1px solid var(--pc-border-color);
+        background: var(--pa-card-bg); border: 1px solid var(--pc-border-color);
         border-radius: var(--pc-border-radius); box-shadow: 0 4px 12px rgba(0,0,0,.15);
     }
     .pc-fit-flyout__panel--open { display: block; }
@@ -85,7 +82,7 @@
 </style>
 
 <h1 class="mb-2">Responsivity — how it works</h1>
-<p class="resp-legend mb-4">
+<p class="resp-legend mb-4 text-sm">
     Two small JavaScript engines let a component react to <strong>the space it is
     actually given</strong> — not the size of the window. That is the difference
     between a media query (asks the viewport) and a <em>container</em> query (asks
@@ -151,7 +148,7 @@
     attributes:
 </p>
 
-<pre class="resp-code">&lt;div class="toolbar" data-pc-fit-default-priority="20"&gt;
+<pre class="resp-code text-sm font-family-mono">&lt;div class="toolbar" data-pc-fit-default-priority="20"&gt;
   &lt;span data-pc-fit="steps" data-pc-fit-priority="30"&gt;   &lt;!-- full → smaller → gone --&gt;
     &lt;span data-pc-fit-step="0"&gt;Pure Admin&lt;/span&gt;
     &lt;span data-pc-fit-step="1"&gt;PA&lt;/span&gt;
@@ -160,7 +157,7 @@
   &lt;button data-pc-fit-ignore&gt;Save&lt;/button&gt;                 &lt;!-- pinned, never yields --&gt;
 &lt;/div&gt;</pre>
 
-<ul class="resp-legend mb-4">
+<ul class="resp-legend mb-4 text-sm">
     <li><code>data-pc-fit="hide"</code> — remove the slot when it must yield.</li>
     <li><code>data-pc-fit="steps"</code> — show the largest ranked variant that fits (logo → wordmark → monogram).</li>
     <li><code>data-pc-fit="relocate"</code> — move the slot somewhere else entirely (next section).</li>
@@ -178,18 +175,18 @@
     goes is a pluggable <strong>sink</strong> named by
     <code>data-pc-fit-target</code>. Two sinks ship built-in:
 </p>
-<ul class="resp-legend mb-3">
+<ul class="resp-legend mb-3 text-sm">
     <li><code>target="floating-menu"</code> — folds into a "•••" flyout panel. Self-contained; needs no sidebar.</li>
     <li><code>target="sidebar"</code> — rebuilds the slot as a sidebar list item.</li>
     <li><em>your own</em> — <code>pureAdmin.components.fit.registerSink('name', { out, in })</code>.</li>
 </ul>
 
-<p class="resp-legend"><strong>Live — drag to narrow the bar.</strong> The badge
+<p class="resp-legend text-sm"><strong>Live — drag to narrow the bar.</strong> The badge
     cluster is one <code>relocate</code> slot targeting <code>floating-menu</code>;
     when the bar runs out of room it folds into the "•••" panel, and returns when
     you widen. "New" is pinned with <code>data-pc-fit-ignore</code>.</p>
 
-<div class="resp-slider-row">
+<div class="resp-slider-row text-sm">
     <span>Bar width</span>
     <input type="range" min="240" max="720" value="720"
            oninput="respSetWidth(this.value)" aria-label="Relocate demo width">
@@ -210,7 +207,7 @@
     </div>
 </div>
 
-<pre class="resp-code">&lt;span data-pc-fit="relocate" data-pc-fit-target="floating-menu"&gt;
+<pre class="resp-code text-sm font-family-mono">&lt;span data-pc-fit="relocate" data-pc-fit-target="floating-menu"&gt;
   &lt;span class="pa-badge"&gt;Users 123&lt;/span&gt; …
 &lt;/span&gt;</pre>
 
@@ -242,11 +239,11 @@
     store, so the relocated copy is always fresh.
 </p>
 
-<pre class="resp-code">// fit fires a DOM CustomEvent on the slot. In managed mode NO node is moved —
+<pre class="resp-code text-sm font-family-mono">// fit fires a DOM CustomEvent on the slot. In managed mode NO node is moved —
 // you attach the listener the way your framework attaches DOM listeners.
 // Plain JS (works everywhere):
 el.addEventListener('pc:fit-relocate', (e) =&gt; {
-  relocated = (e.detail.action === 'out');   // then RE-RENDER the block from state
+  relocated = (e.detail.action === 'out'); // then RE-RENDER the block from state
 });
 
 // In Svelte you'd wire that in an action / onMount (NOT an `onpa:...` attribute —
@@ -276,13 +273,13 @@ el.addEventListener('pc:fit-relocate', (e) =&gt; {
     push to the server).
 </p>
 
-<pre class="resp-code">&lt;div phx-hook="…" data-pc-breakpoints='{"icons":0,"tabs":34,"grid":64}'
+<pre class="resp-code text-sm font-family-mono">&lt;div phx-hook="…" data-pc-breakpoints='{"icons":0,"tabs":34,"grid":64}'
      data-pc-breakpoint-initial="tabs"&gt;
   &lt;div data-pc-show="grid"&gt;…rich grid…&lt;/div&gt;        &lt;!-- .d-none unless mode = grid --&gt;
   &lt;div data-pc-show="tabs icons"&gt;…compact…&lt;/div&gt;
 &lt;/div&gt;</pre>
 
-<ul class="resp-legend mb-3">
+<ul class="resp-legend mb-3 text-sm">
     <li>Thresholds are <strong>rem</strong> by default (root font is 10px, so <code>34</code> = 340px, <code>64</code> = 640px); add <code>data-pc-breakpoint-unit="px"</code> for pixels.</li>
     <li>The engine reflects the band to <code>[data-mode]</code> (CSS can key off it) and toggles <code>.d-none</code> on <code>data-pc-show</code> pieces.</li>
     <li>It fires <code>pc:breakpoint</code> only on a flip — the hook for "mount on demand" (build the chart in <code>grid</code>, destroy it otherwise).</li>
@@ -309,7 +306,7 @@ el.addEventListener('pc:fit-relocate', (e) =&gt; {
     move needs JavaScript: relocating a node, or mounting/destroying on demand.
 </div>
 
-<p class="resp-legend">
+<p class="resp-legend text-sm">
     Ready to see Fit degrade real cards and toolbars across several strategies?
     Head to <a href="/layout/fit-to-size">Fit to Size</a> for the worked,
     slider-driven examples.

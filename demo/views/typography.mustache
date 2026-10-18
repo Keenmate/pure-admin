@@ -1,4 +1,4 @@
-<p>Typography — headings, paragraphs, colours, alignment, and compound semantic styles. The size scale is absolute: one name, one size, everywhere.</p>
+<p>Typography — headings, sizes, colours, weights, families, alignment, wrapping, and compound semantic styles. The size scale is absolute: one name, one size, everywhere.</p>
 
 <!-- Headings -->
 <div class="pa-card">
@@ -17,57 +17,200 @@
     </div>
 </div>
 
-<!-- Paragraph Sizes -->
+<!-- Font Sizes -->
 <div class="pa-card">
     <div class="pa-card__header">
         <div class="pa-card__title">
-            <h3 class="pa-card__title-text">Paragraph Sizes</h3>
+            <h3 class="pa-card__title-text">Font Sizes</h3>
+        </div>
+        <p class="pa-card__description">No class = the 16px body default. Each <code>text-*</code> is one fixed size.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="d-flex flex-column gap-xs">
+            <p class="text-2xs m-0"><code>text-2xs</code> — 10px</p>
+            <p class="text-xs m-0"><code>text-xs</code> — 12px (badges, labels, captions)</p>
+            <p class="text-sm m-0"><code>text-sm</code> — 14px (buttons, inputs, tables, tabs)</p>
+            <p class="text-md m-0"><code>text-md</code> — 15px (sidebar / nav items)</p>
+            <p class="text-base m-0"><code>text-base</code> — 16px (body default; same as no class)</p>
+            <p class="text-lg m-0"><code>text-lg</code> — 18px</p>
+            <p class="text-xl m-0"><code>text-xl</code> — 20px</p>
+            <p class="text-2xl m-0"><code>text-2xl</code> — 24px</p>
+            <p class="text-3xl m-0"><code>text-3xl</code> — 28px</p>
+            <p class="text-4xl m-0"><code>text-4xl</code> — 32px</p>
+        </div>
+    </div>
+</div>
+
+<!-- Text Colour -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Text Colour</h3>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="text-muted mb-4">No size is the body default (16px). Each size maps directly to the same-named text-* utility.</p>
-        <div class="d-flex flex-column gap-xs">
-            <p class="text-xs m-0">text-xs — 12px</p>
-            <p class="text-sm m-0">text-sm — 14px (UI-control size)</p>
-            <p class="m-0">no size — body default (16px)</p>
-            <p class="text-lg m-0">text-lg — 18px</p>
-            <p class="text-xl m-0">text-xl — 20px</p>
+        <div class="pc-row">
+            <div class="pc-col-100 pc-col-md-1-3">
+                <h4>Neutral</h4>
+                <div class="d-flex flex-column gap-xs">
+                    <p class="text-body m-0">The quick brown fox — main text <code class="text-nowrap">text-body</code></p>
+                    <p class="text-muted m-0">The quick brown fox — subdued text <code class="text-nowrap">text-muted</code></p>
+                </div>
+            </div>
+            <div class="pc-col-100 pc-col-md-1-3">
+                <h4>Roles</h4>
+                <div class="d-flex flex-column gap-xs">
+                    <p class="text-primary m-0">The quick brown fox <code class="text-nowrap">text-primary</code></p>
+                    <p class="text-secondary m-0">The quick brown fox — the secondary role, not muted <code class="text-nowrap">text-secondary</code></p>
+                    <p class="text-success m-0">The quick brown fox <code class="text-nowrap">text-success</code></p>
+                    <p class="text-danger m-0">The quick brown fox <code class="text-nowrap">text-danger</code></p>
+                    <p class="text-warning m-0">The quick brown fox <code class="text-nowrap">text-warning</code></p>
+                    <p class="text-info m-0">The quick brown fox <code class="text-nowrap">text-info</code></p>
+                </div>
+            </div>
+            <div class="pc-col-100 pc-col-md-1-3">
+                <h4>Colour slots</h4>
+                <div class="d-flex flex-column gap-xs">
+                    <p class="text-color-1 m-0">Colour slot 1 <code class="text-nowrap">text-color-1</code></p>
+                    <p class="text-color-2 m-0">Colour slot 2 <code class="text-nowrap">text-color-2</code></p>
+                    <p class="text-color-3 m-0">Colour slot 3 <code class="text-nowrap">text-color-3</code></p>
+                    <p class="text-color-4 m-0">Colour slot 4 <code class="text-nowrap">text-color-4</code></p>
+                    <p class="text-color-5 m-0">Colour slot 5 <code class="text-nowrap">text-color-5</code></p>
+                    <p class="text-color-6 m-0">Colour slot 6 <code class="text-nowrap">text-color-6</code></p>
+                    <p class="text-color-7 m-0">Colour slot 7 <code class="text-nowrap">text-color-7</code></p>
+                    <p class="text-color-8 m-0">Colour slot 8 <code class="text-nowrap">text-color-8</code></p>
+                    <p class="text-color-9 m-0">Colour slot 9 <code class="text-nowrap">text-color-9</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Text on Colour -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Text on Colour</h3>
+        </div>
+        <p class="pa-card__description"><code>text-on-*</code> is the readable text colour <em>on</em> that background. <code>surface-*</code> sets both at once.</p>
+    </div>
+    <div class="pa-card__body">
+        <h4>Roles — <code>bg-{role}</code> + <code>text-on-{role}</code></h4>
+        <div class="d-flex flex-wrap gap-sm mb-4">
+            <span class="bg-primary text-on-primary p-sm rounded">text-on-primary</span>
+            <span class="bg-secondary text-on-secondary p-sm rounded">text-on-secondary</span>
+            <span class="bg-success text-on-success p-sm rounded">text-on-success</span>
+            <span class="bg-danger text-on-danger p-sm rounded">text-on-danger</span>
+            <span class="bg-warning text-on-warning p-sm rounded">text-on-warning</span>
+            <span class="bg-info text-on-info p-sm rounded">text-on-info</span>
+        </div>
+        <h4>Colour slots — <code>bg-color-N</code> + <code>text-on-color-N</code></h4>
+        <div class="d-flex flex-wrap gap-sm">
+            <span class="bg-color-1 text-on-color-1 p-sm rounded">text-on-color-1</span>
+            <span class="bg-color-2 text-on-color-2 p-sm rounded">text-on-color-2</span>
+            <span class="bg-color-3 text-on-color-3 p-sm rounded">text-on-color-3</span>
+            <span class="bg-color-4 text-on-color-4 p-sm rounded">text-on-color-4</span>
+            <span class="bg-color-5 text-on-color-5 p-sm rounded">text-on-color-5</span>
+            <span class="bg-color-6 text-on-color-6 p-sm rounded">text-on-color-6</span>
+            <span class="bg-color-7 text-on-color-7 p-sm rounded">text-on-color-7</span>
+            <span class="bg-color-8 text-on-color-8 p-sm rounded">text-on-color-8</span>
+            <span class="bg-color-9 text-on-color-9 p-sm rounded">text-on-color-9</span>
         </div>
     </div>
 </div>
 
 <div class="pc-row">
-    <div class="pc-col-100 pc-col-md-50">
-        <!-- Text Colour -->
+    <div class="pc-col-100 pc-col-md-1-3">
+        <!-- Weight & Style -->
         <div class="pa-card">
             <div class="pa-card__header">
                 <div class="pa-card__title">
-                    <h3 class="pa-card__title-text">Text Colour</h3>
+                    <h3 class="pa-card__title-text">Weight &amp; Style</h3>
                 </div>
             </div>
             <div class="pa-card__body">
-                <p class="text-muted mb-2">Neutral text hierarchy. Role colours are in the Inline Text section.</p>
                 <div class="d-flex flex-column gap-xs">
-                    <p class="text-body m-0">Body text — the default (--pc-text-color-1)</p>
-                    <p class="text-muted m-0">Muted — subdued (--pc-text-color-2)</p>
+                    <p class="font-weight-normal m-0">The quick brown fox — 400 <code class="text-nowrap">font-weight-normal</code></p>
+                    <p class="font-weight-medium m-0">The quick brown fox — 500 <code class="text-nowrap">font-weight-medium</code></p>
+                    <p class="font-weight-semibold m-0">The quick brown fox — 600 <code class="text-nowrap">font-weight-semibold</code></p>
+                    <p class="font-weight-bold m-0">The quick brown fox — 700 <code class="text-nowrap">font-weight-bold</code></p>
+                    <p class="font-style-italic m-0">The quick brown fox <code class="text-nowrap">font-style-italic</code></p>
+                    <p class="font-style-normal m-0">The quick brown fox <code class="text-nowrap">font-style-normal</code></p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="pc-col-100 pc-col-md-50">
+    <div class="pc-col-100 pc-col-md-1-3">
+        <!-- Font Family -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Font Family</h3>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <div class="d-flex flex-column gap-xs">
+                    <p class="font-family-system m-0">The quick brown fox — OS UI font <code class="text-nowrap">font-family-system</code></p>
+                    <p class="font-family-sans m-0">The quick brown fox — Helvetica / Arial <code class="text-nowrap">font-family-sans</code></p>
+                    <p class="font-family-serif m-0">The quick brown fox — Georgia / Times <code class="text-nowrap">font-family-serif</code></p>
+                    <p class="font-family-mono m-0">The quick brown fox — monospace <code class="text-nowrap">font-family-mono</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pc-col-100 pc-col-md-1-3">
         <!-- Alignment -->
         <div class="pa-card">
             <div class="pa-card__header">
                 <div class="pa-card__title">
                     <h3 class="pa-card__title-text">Alignment</h3>
                 </div>
+                <p class="pa-card__description">Logical, RTL-aware.</p>
             </div>
             <div class="pa-card__body">
-                <p class="text-muted mb-2">Logical, RTL-aware.</p>
                 <div class="d-flex flex-column gap-xs">
-                    <p class="text-start m-0">Start — leading edge</p>
-                    <p class="text-center m-0">Center</p>
-                    <p class="text-end m-0">End — trailing edge</p>
+                    <p class="text-start m-0">Aligned text — leading edge <code class="text-nowrap">text-start</code></p>
+                    <p class="text-center m-0">Aligned text <code class="text-nowrap">text-center</code></p>
+                    <p class="text-end m-0">Aligned text — trailing edge <code class="text-nowrap">text-end</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pc-row">
+    <div class="pc-col-100 pc-col-md-2-3">
+        <!-- Wrapping -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Wrapping</h3>
+                </div>
+                <p class="pa-card__description">Each box is 25rem wide (<code>wr-25</code>).</p>
+            </div>
+            <div class="pa-card__body">
+                <p class="text-sm text-muted mb-1">Default — wraps</p>
+                <div class="wr-25 p-xs mb-3" style="background: var(--pc-subtle-bg);">A long line of text that is too wide for its box, so it wraps onto the next line.</div>
+                <p class="text-sm text-muted mb-1"><code>text-nowrap</code> — stays on one line and overflows</p>
+                <div class="wr-25 p-xs mb-3 text-nowrap overflow-hidden" style="background: var(--pc-subtle-bg);">A long line of text that is too wide for its box, so it is cut off at the edge.</div>
+                <p class="text-sm text-muted mb-1"><code>text-truncate</code> — one line, ends with …</p>
+                <div class="wr-25 p-xs text-truncate" style="background: var(--pc-subtle-bg);">A long line of text that is too wide for its box, so it ends with an ellipsis.</div>
+            </div>
+        </div>
+    </div>
+    <div class="pc-col-100 pc-col-md-1-3">
+        <!-- Vertical Text -->
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <h3 class="pa-card__title-text">Vertical Text</h3>
+                </div>
+                <p class="pa-card__description">For narrow column headers and spine labels.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="d-flex gap-lg">
+                    <span class="text-vertical p-xs" style="background: var(--pc-subtle-bg);"><code>text-vertical</code></span>
+                    <span class="text-vertical-up p-xs" style="background: var(--pc-subtle-bg);"><code>text-vertical-up</code></span>
                 </div>
             </div>
         </div>
@@ -80,12 +223,12 @@
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">Semantic Text</h3>
         </div>
+        <p class="pa-card__description">Compound shorthands.</p>
     </div>
     <div class="pa-card__body">
-        <p class="text-muted mb-2">Compound shorthands.</p>
         <div class="d-flex flex-column gap-sm">
-            <p class="text-lead m-0">Lead — an introductory paragraph at 16px with relaxed line-height, for the opening sentence of a section.</p>
-            <p class="text-caption m-0">Caption — small muted text at 12px, for figure captions and fine print.</p>
+            <p class="text-lead m-0"><code>text-lead</code> — an introductory paragraph at 16px with relaxed line-height, for the opening sentence of a section.</p>
+            <p class="text-caption m-0"><code>text-caption</code> — small muted text at 12px, for figure captions and fine print.</p>
         </div>
     </div>
 </div>
@@ -101,7 +244,7 @@
             </div>
             <div class="pa-card__body">
                 <p>Inline spans: <span class="text-muted">muted</span>, <span class="text-primary">primary</span>, <span class="text-secondary">secondary</span>, <span class="text-success">success</span>, <span class="text-danger">danger</span>, <span class="text-warning">warning</span>, <span class="text-info">info</span>.</p>
-                <p class="m-0">Emphasis: <strong>strong</strong> and <em>em</em>.</p>
+                <p class="m-0">Emphasis: <strong>strong</strong>, <em>em</em>, <span class="font-weight-semibold">semibold</span>, <span class="font-family-mono">mono</span>.</p>
             </div>
         </div>
     </div>
@@ -141,11 +284,35 @@
             <tbody>
                 <tr>
                     <td>Font size</td>
-                    <td><code>text-2xs</code>, <code>text-xs</code>, <code>text-sm</code>, <code>text-base</code>, <code>text-lg</code>, <code>text-xl</code>, <code>text-2xl</code></td>
+                    <td><code>text-{2xs|xs|sm|md|base|lg|xl|2xl|3xl|4xl}</code> (10 / 12 / 14 / 15 / 16 / 18 / 20 / 24 / 28 / 32px)</td>
                 </tr>
                 <tr>
-                    <td>Colour</td>
-                    <td><code>text-body</code>, <code>text-muted</code>, <code>text-primary</code>, <code>text-secondary</code>, <code>text-success</code>, <code>text-danger</code>, <code>text-warning</code>, <code>text-info</code></td>
+                    <td>Colour — neutral</td>
+                    <td><code>text-body</code>, <code>text-muted</code></td>
+                </tr>
+                <tr>
+                    <td>Colour — roles</td>
+                    <td><code>text-{primary|secondary|success|danger|warning|info}</code></td>
+                </tr>
+                <tr>
+                    <td>Colour — slots</td>
+                    <td><code>text-color-{1-9}</code></td>
+                </tr>
+                <tr>
+                    <td>Text on colour</td>
+                    <td><code>text-on-{role}</code>, <code>text-on-color-{1-9}</code> (pair with <code>bg-*</code>; or use <code>surface-*</code> for both)</td>
+                </tr>
+                <tr>
+                    <td>Weight</td>
+                    <td><code>font-weight-{normal|medium|semibold|bold}</code></td>
+                </tr>
+                <tr>
+                    <td>Style</td>
+                    <td><code>font-style-{normal|italic}</code></td>
+                </tr>
+                <tr>
+                    <td>Family</td>
+                    <td><code>font-family-{system|sans|serif|mono}</code></td>
                 </tr>
                 <tr>
                     <td>Alignment</td>
@@ -156,8 +323,16 @@
                     <td><code>text-nowrap</code>, <code>text-truncate</code></td>
                 </tr>
                 <tr>
+                    <td>Vertical</td>
+                    <td><code>text-vertical</code>, <code>text-vertical-up</code></td>
+                </tr>
+                <tr>
                     <td>Semantic</td>
                     <td><code>text-caption</code>, <code>text-lead</code></td>
+                </tr>
+                <tr>
+                    <td>Whole-page scale</td>
+                    <td><code>font-size-{small|default|large|xlarge}</code> on <code>&lt;html&gt;</code> — see <a href="/getting-started">Getting Started</a></td>
                 </tr>
             </tbody>
         </table>

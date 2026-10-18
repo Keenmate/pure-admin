@@ -217,7 +217,7 @@
             var diff = isRTL ? (e.clientX - startX) : (startX - e.clientX);
             var newWidth = startWidth + diff;
             newWidth = Math.max(280, Math.min(640, newWidth));
-            actorPanel.style.setProperty('--pc-local-detail-panel-width', newWidth + 'px');
+            actorPanel.style.setProperty('--pa-local-detail-panel-width', newWidth + 'px');
         });
 
         document.addEventListener('mouseup', function () {
