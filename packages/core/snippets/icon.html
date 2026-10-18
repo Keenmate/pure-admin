@@ -5,7 +5,7 @@
      pa-icon is a MASK-BASED icon primitive: it paints an SVG glyph in
      currentColor via mask-image, so the icon inherits its parent's text /
      button colour and scales with font-size. It is the framework's
-     provider-agnostic icon hook — each glyph is a --pc-icon-* CSS variable you
+     provider-agnostic icon hook — each glyph is a --base-icon-* CSS variable you
      override to swap icon sets (Lucide is the default). It replaced the
      inconsistent ✕ / × TEXT glyphs used for close / remove affordances.
 
@@ -52,7 +52,7 @@
 
 <!-- ================================
      GLYPH MODIFIERS — the shipped set
-     Each modifier points --pa-icon-src at a --pc-icon-* glyph variable (Lucide
+     Each modifier points --pa-icon-src at a --pa-icon-* glyph (--base-icon-* override, Lucide
      by default), so it inherits currentColor + --pa-icon-size like any pa-icon.
      Two families: DISMISS (share the "x" / clear marks) and ACTION (distinct
      verbs). Disclosure: --chevron ROTATES one glyph (nav/expanders), while

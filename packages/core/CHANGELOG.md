@@ -40,6 +40,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Snippets: the actions column is the FIRST column.** `tables.html` "Table with actions",
+  `checkbox-lists.html`, `popconfirm.html` and `tooltips.html` put `th/td.col-auto` actions last,
+  contradicting every demo and both wrappers (keen `:action` renders first). They now lead with it
+  (after the row-checkbox column when there is one).
+- **Snippet `filter-card.html`: button order is toggle → custom → clear → refresh** (was clear,
+  refresh, toggle last) — the order both wrappers emit; the `__actions` reference note states it.
+- **One monospace font: the theme's `--base-font-family-mono`.** Inline `code`, `.pa-code`
+  blocks and the logic tree's tokens hard-coded `'Courier New', Courier, monospace` while the
+  KPI numbers already used the token — so code text looked different across components and
+  ignored a theme's font. All now read `var(--base-font-family-mono)` (default
+  `SFMono-Regular, Menlo, Consolas, …`). Visible: code text switches from Courier New.
+  Inline `code` size uses the `$font-size-md` token (unchanged 15px).
 - **BREAKING: `--pc-*` role colours end in `-color`** (pure-css 2.0.0-rc02): `--pc-primary[-hover|-active]`
   → `--pc-primary-color[-hover|-active]`, `--pc-secondary|success|warning|danger|info` →
   `--pc-<role>-color`, matching `--base-<role>-color`. Every core component, snippet, doc and fidelity
@@ -180,6 +192,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   of `--pa-checkbox-checkmark-color` on `--pa-checkbox-bg-checked`, so it scales with the size
   modifiers. Markup is unchanged.
 
+- **Splitter: the JS ignored theme / inline rail-size overrides.** `splitter.js` read
+  `--pc-splitter-rail-size`, but the stylesheet emits `--pa-splitter-rail-size` (the JS string
+  was missed in the rc21 `--pc-*` → `--pa-*` component-token rename). Overriding the rail size
+  changed the CSS while the JS kept snapping collapsed panes to its 40px fallback. It now reads
+  `--pa-splitter-rail-size`. (`data-pa-splitter-rail-size` was unaffected.)
+- **Snippet comments named tokens that don't exist** — `--pc-range-*`, `--pc-detail-*`,
+  `--pc-local-profile-panel-*`, `--pc-icon-*`, `--pc-btn-*-text`, `--pc-color-*` in
+  range-group / kpi / profile / icon / statistics / tooltips. Now the real names
+  (`--pa-range-*`, `--pa-detail-*`, `--pa-local-profile-panel-*`, `--base-icon-*`,
+  `--pa-btn-*-text`, `--pc-palette-*`).
 - **Logic tree mirrors under `dir="rtl"`.** `.pa-logic-tree` used physical `padding-left`,
   `left: 0` connector lines and a `border-left` accent; now `padding-inline-start`,
   `inset-inline-start` and `border-inline-start-width`, so the indent, connectors and accent

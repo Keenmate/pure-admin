@@ -13,7 +13,7 @@
   align-items: flex-start;
   justify-content: center;
   // Runtime-overridable size (fallback = the compile-time SCSS default). Set
-  // --pc-command-palette-* at :root, inline, or per-instance to resize without
+  // --pa-command-palette-* at :root, inline, or per-instance to resize without
   // a recompile; the --sm/--lg/--xl modifiers below are presets that set width.
   padding-top: var(--pa-command-palette-offset-top, #{$command-palette-offset-top});
 

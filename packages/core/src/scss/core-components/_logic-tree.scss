@@ -204,7 +204,7 @@
         border-radius: var(--pc-border-radius-sm);
         font-size: $font-size-xs;
         font-weight: $font-weight-medium;
-        font-family: $font-stack-mono;
+        font-family: var(--base-font-family-mono);
         white-space: nowrap;
 
         // Field token (blue)

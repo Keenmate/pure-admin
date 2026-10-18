@@ -50,15 +50,17 @@
         </div>
       </div>
 
+      <!-- Button order: advanced toggle FIRST, then any custom actions,
+           then clear, then refresh (same order the svelte/keen wrappers emit). -->
       <div class="pa-filter-card__actions">
+        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters">
+          <span class="pa-icon pa-icon--chevron-down" aria-hidden="true"></span>
+        </button>
         <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all">
           <span class="pa-icon pa-icon--clear" aria-hidden="true"></span>
         </button>
         <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh">
           <span class="pa-icon pa-icon--refresh" aria-hidden="true"></span>
-        </button>
-        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters">
-          <span class="pa-icon pa-icon--chevron-down" aria-hidden="true"></span>
         </button>
       </div>
 
@@ -184,8 +186,9 @@ SUB-ELEMENTS:
                                     200px, so inputs wrap to a new
                                     line gracefully.
   .pa-filter-card__actions          flex-shrink: 0 region for the
-                                    action buttons (clear, refresh,
-                                    expand, etc.). Smaller gap than
+                                    action buttons — order: expand
+                                    toggle, custom, clear, refresh.
+                                    Smaller gap than
                                     __filters to group icons tightly.
   .pa-filter-card__advanced         Collapsible block under __row.
                                     Top border + spacing already set;

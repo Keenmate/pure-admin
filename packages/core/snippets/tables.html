@@ -57,19 +57,20 @@
 </table>
 
 
-<!-- TABLE WITH ACTIONS (col-auto keeps actions column narrow) -->
+<!-- TABLE WITH ACTIONS
+     The actions column is the FIRST column (the convention across the demos
+     and both wrappers); col-auto keeps it narrow. Omit it when a table has no
+     row actions. -->
 <table class="pa-table pa-table--striped">
   <thead>
     <tr>
+      <th class="col-auto">Actions</th>
       <th>Name</th>
       <th>Email</th>
-      <th class="col-auto">Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>John Doe</td>
-      <td>john@example.com</td>
       <td class="col-auto">
         <div class="pa-btn-group">
           <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
@@ -77,6 +78,8 @@
           <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger" title="Delete">🗑️</button>
         </div>
       </td>
+      <td>John Doe</td>
+      <td>john@example.com</td>
     </tr>
   </tbody>
 </table>

@@ -189,9 +189,9 @@
 // filled source is supplied. To activate it, point --pa-icon-src-hover at a
 // filled glyph from a set that has one (Tabler, Fluent, Material, …), e.g.:
 //
-//   .pa-icon--star {
-//     --pa-icon-src:       var(--pa-icon-star);          // outline (resting)
-//     --pa-icon-src-hover: url("…filled star…");         // filled (hover)
+//   .pa-icon--bell {
+//     --pa-icon-src:       var(--pa-icon-bell);          // outline (resting)
+//     --pa-icon-src-hover: url("…filled bell…");         // filled (hover)
 //   }
 //
 // Disabled controls are excluded (:disabled + class / aria opt-outs) so only

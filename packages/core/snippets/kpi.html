@@ -11,7 +11,7 @@
      JS:     demo kpi-showcases.js (sparkline dot conversion + hover popovers)
 
      These pieces are theme-aware via --pc-* runtime tokens (--pa-positive,
-     --pc-detail-*, etc.) — theme swaps re-tint them without a recompile.
+     --pa-detail-*, etc.) — theme swaps re-tint them without a recompile.
      ================================ -->
 
 
@@ -65,7 +65,7 @@
 
      role="tooltip" for a11y. Body is a <dl> of dt/dd pairs. Add a sentiment
      class to a <dd> to tint the value: .pos (green), .neg (red), .warn (amber).
-     Override the --pc-detail-* tokens for a light / theme-aware variant.
+     Override the --pa-detail-* tokens for a light / theme-aware variant.
      ================================ -->
 
 <div class="pa-kpi-detail" role="tooltip">
@@ -157,7 +157,7 @@ HOVER DETAIL POPOVER:
 - .pa-kpi-detail           Popover root. role="tooltip". Authored inside the
                            tile; kpi-showcases.js relocates it to <body> and
                            positions it at the cursor (Floating UI). Dark by
-                           default — override --pc-detail-* for a light variant.
+                           default — override --pa-detail-* for a light variant.
 - .pa-kpi-detail__title    Uppercase mono header line.
 - .pa-kpi-detail dl/dt/dd  Definition list of metric rows.
 - dd.pos / dd.neg / dd.warn  Sentiment tint on a value cell
