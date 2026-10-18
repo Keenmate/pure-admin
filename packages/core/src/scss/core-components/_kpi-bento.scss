@@ -2,15 +2,18 @@
    KPI · Bento layout
    Magazine-style asymmetric tile sizing with sparklines as soft background
    fills behind the values. Default 6-tile layout on a 6-col × 3-row grid
-   (hero left-half × 2 rows, two stacked right-half × 2 rows, three equal
+   (hero start-half × 2 rows, two stacked end-half × 2 rows, three equal
    tiles bottom row). Tile placement is by source order via :nth-child, so
    markup stays identical across layout modifiers.
 
    Layout modifiers (below) swap `grid-template-areas` to provide
    alternative compositions:
-     · default (no modifier) — 6 tiles, hero on the left
-     · `--hero-right`         — 6 tiles, mirror of default (hero on right)
+     · default (no modifier) — 6 tiles, hero at the start
+     · `--hero-end`           — 6 tiles, mirror of default (hero at the end)
      · `--5-tile`             — 5 tiles, hero + 4 supporting
+   Grid columns follow the writing direction, so under dir="rtl" every
+   layout mirrors: "start" is the right side, "end" the left. (The modifier
+   was --hero-right until 3.3.0, a name that was wrong in RTL.)
    Row height is a CSS variable (`--pa-kpi-bento-row-height`, default
    `12rem`) so authors can dial tile height per instance.
    ======================================== */
@@ -41,11 +44,11 @@
   > :nth-child(6) { grid-area: e; }
 }
 
-/* Modifier: --hero-right — mirror of default. Hero on the right half,
-   two stacked tiles on the left of rows 1-2, three equal tiles below.
+/* Modifier: --hero-end — mirror of default. Hero on the end half (right in
+   LTR), two stacked tiles on the start side of rows 1-2, three equal tiles below.
    Same 6-tile contract as default; only the template flips. Source
    order stays unchanged (1st = hero, 2nd = a, …). */
-.pa-kpi-bento__grid--hero-right {
+.pa-kpi-bento__grid--hero-end {
   grid-template-areas:
     "a    a    a    hero hero hero"
     "b    b    b    hero hero hero"

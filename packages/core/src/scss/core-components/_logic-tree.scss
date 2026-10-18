@@ -56,7 +56,7 @@
         &--condition {
             background: linear-gradient(135deg, var(--pc-subtle-bg) 0%, var(--pa-card-bg) 100%);
             border-color: var(--pc-page-bg);
-            border-left-width: 6.4px;
+            border-inline-start-width: 6.4px;
         }
 
         // Logical operator blocks
@@ -94,19 +94,19 @@
     // Tree structure container
     &__tree-structure {
         position: relative;
-        padding-left: 3.2rem;
+        padding-inline-start: 3.2rem;
     }
 
     // Tree branch (left or right operand)
     &__tree-branch {
         position: relative;
-        padding-left: 2.4rem;
+        padding-inline-start: 2.4rem;
 
         // Vertical line connector
         &::before {
             content: '';
             position: absolute;
-            left: 0;
+            inset-inline-start: 0;
             top: 0;
             bottom: 50%;
             width: 3.2px;
@@ -117,7 +117,7 @@
         &::after {
             content: '';
             position: absolute;
-            left: 0;
+            inset-inline-start: 0;
             top: 1.6rem;
             width: 1.6rem;
             height: 3.2px;
@@ -142,14 +142,14 @@
     // Operator node in tree
     &__tree-operator {
         position: relative;
-        padding-left: 2.4rem;
+        padding-inline-start: 2.4rem;
         margin: 0.8rem 0;
 
         // Vertical line through operator
         &::before {
             content: '';
             position: absolute;
-            left: 0;
+            inset-inline-start: 0;
             top: -0.8rem;
             bottom: -0.8rem;
             width: 3.2px;
@@ -160,7 +160,7 @@
         &::after {
             content: '';
             position: absolute;
-            left: 0;
+            inset-inline-start: 0;
             top: 50%;
             transform: translateY(-50%);
             width: 1.6rem;
@@ -194,7 +194,7 @@
 
     // Group content (indented)
     &__group-content {
-        padding-left: $spacing-md;
+        padding-inline-start: $spacing-md;
     }
 
     // Token representation (colored badges)
@@ -248,6 +248,13 @@
 
     // Animation for tree building
     &--animated {
+        // Nodes slide in from the start side: -16px in LTR, +16px in RTL.
+        --_lt-slide-from: -16px;
+
+        [dir="rtl"] & {
+            --_lt-slide-from: 16px;
+        }
+
         .pa-logic-tree__node {
             animation: slideIn 0.48s $easing-smooth;
         }
@@ -262,7 +269,7 @@
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateX(-16px);
+        transform: translateX(var(--_lt-slide-from, -16px));
     }
     to {
         opacity: 1;

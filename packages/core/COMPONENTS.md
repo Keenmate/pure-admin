@@ -526,7 +526,7 @@ Bento-grid arrangement of KPI tiles with a hero tile.
 
 - **Blocks:** `pa-kpi-bento`, `pa-kpi-bento-tile`
 - **Elements:** `pa-kpi-bento-tile__chart`, `pa-kpi-bento-tile__chart-svg`, `pa-kpi-bento-tile__delta`, `pa-kpi-bento-tile__label`, `pa-kpi-bento-tile__num`, `pa-kpi-bento-tile__unit`, `pa-kpi-bento-tile__value`, `pa-kpi-bento__body`, `pa-kpi-bento__grid`
-- **Modifiers / states:** `pa-kpi-bento-tile--down-strong`, `pa-kpi-bento-tile--hero`, `pa-kpi-bento-tile--negative`, `pa-kpi-bento-tile--neutral`, `pa-kpi-bento-tile--positive`, `pa-kpi-bento-tile--up-strong`, `pa-kpi-bento__grid--5-tile`, `pa-kpi-bento__grid--hero-right`
+- **Modifiers / states:** `pa-kpi-bento-tile--down-strong`, `pa-kpi-bento-tile--hero`, `pa-kpi-bento-tile--negative`, `pa-kpi-bento-tile--neutral`, `pa-kpi-bento-tile--positive`, `pa-kpi-bento-tile--up-strong`, `pa-kpi-bento__grid--5-tile`, `pa-kpi-bento__grid--hero-end`
 - **SCSS:** `core-components/_kpi-bento.scss`
 - **Snippet:** `kpi.html`
 - **Demo:** `kpi-bento.mustache`

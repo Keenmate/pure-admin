@@ -20,7 +20,8 @@
     "pa-list__content":  { "fixture": "list-item" },
     "pa-list__title":    { "fixture": "list-item" },
     "pa-list__subtitle": { "fixture": "list-item" },
-    "pa-list__meta":     { "fixture": "list-item" }
+    "pa-list__meta":     { "fixture": "list-item" },
+    "pa-list__item--highlighted": { "fixture": "list-item" }
   },
   "scenarios": [
     {

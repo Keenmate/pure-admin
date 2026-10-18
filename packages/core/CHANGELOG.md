@@ -40,14 +40,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **BREAKING (utilities): `.border-left`, `.border-right`, `.border-left-0`,
-  `.border-right-0`, `.rounded-left`, `.rounded-right` are gone** (removed in pure-css
-  2.0.0-rc02). Core's `utilities.scss` forwards pure-css's utilities, so every theme stops
-  shipping them. They didn't mirror under `dir="rtl"`. Rename `-left` → `-start` and
-  `-right` → `-end` (`.border-start`, `.border-end-0`, `.rounded-start`, …); in LTR they
-  render identically. Top / bottom variants are unchanged. Core's own components never
-  used these classes, and the utilities snippet now shows the logical forms. Requires
+- **BREAKING (utilities): all physical left / right utilities are gone** (removed in
+  pure-css 2.0.0-rc02) — they didn't mirror under `dir="rtl"`. Core's `utilities.scss`
+  forwards pure-css's utilities, so every theme stops shipping them. Renames (identical in
+  LTR):
+
+  | Removed | Use |
+  |---|---|
+  | `.ml-*` / `.mr-*` (incl. `-auto`) | `.ms-*` / `.me-*` |
+  | `.pl-*` / `.pr-*` | `.ps-*` / `.pe-*` |
+  | `.border-left` / `-right`, `.border-left-0` / `-right-0` | `.border-start` / `-end`, `.border-start-0` / `-end-0` |
+  | `.rounded-left` / `-right` | `.rounded-start` / `-end` |
+
+  `.ms/.me/.ps/.pe` now come in **both** scales (numeric `ms-2` as well as semantic
+  `ms-sm`) — core's own semantic-only block is gone in favour of pure-css's — and they now
+  carry `!important` like every other spacing utility. `.mx-*` / `.px-*` use
+  `margin-inline` / `padding-inline` (same result). Core's components never used the
+  removed classes; snippets, README and demos now show the logical forms. Requires
   `@keenmate/pure-css` `^2.0.0-rc02`.
+
+- **BREAKING: `.pa-kpi-bento__grid--hero-right` → `.pa-kpi-bento__grid--hero-end`.** The
+  layout uses `grid-template-areas`, which follow the writing direction, so in RTL the
+  "hero-right" tile actually rendered on the left. Same layout, honest name: the default
+  puts the hero at the start, `--hero-end` at the end. Wrappers' layout option renames
+  with it (`hero-right` → `hero-end`).
 
 - **Pager snippets use Lucide SVG icons instead of Unicode glyphs.** `‹ › « »` sit
   below the button centre (they're x-height punctuation); SVG chevrons centre exactly.
@@ -137,6 +153,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the responsive card layout.
 
 ### Fixed
+
+- **Logic tree mirrors under `dir="rtl"`.** `.pa-logic-tree` used physical `padding-left`,
+  `left: 0` connector lines and a `border-left` accent; now `padding-inline-start`,
+  `inset-inline-start` and `border-inline-start-width`, so the indent, connectors and accent
+  move to the right in RTL. The `--animated` slide-in also enters from the start side.
 
 - **Split-button menu items read `--pc-text-color-1`** (was `--pc-text-color`, a token nothing
   defines, so the declaration was dropped and the items only inherited their colour). Found by the

@@ -668,13 +668,13 @@ Wrap data display components in these containers to enable responsive behavior b
 
 ### Spacing (Margin & Padding)
 - **Semantic:** `.m-xs`, `.m-sm`, `.m-md`, `.m-base`, `.m-lg`, `.m-xl`, `.m-2xl`
-- **Directional:** `.mt-*`, `.mr-*`, `.mb-*`, `.ml-*`, `.mx-*`, `.my-*`
+- **Directional:** `.mt-*`, `.mb-*`, `.ms-*` (start), `.me-*` (end), `.mx-*`, `.my-*` — inline sides are logical only, they mirror under `dir="rtl"` (no `.ml-*` / `.mr-*`)
 - **Padding:** `.p-xs`, `.p-sm`, `.p-md`, `.p-base`, `.p-lg`, `.p-xl`, `.p-2xl` (and directional variants)
-- **Numeric:** `.m-0` through `.m-20`, `.p-0` through `.p-20` (in px-equivalent rem units)
+- **Numeric:** `.m-{0-6|8|10|12|16|20}`, `.p-*` the same (0.25rem steps; no 7, 9, 11…)
 
 ### Spacing (Gap)
 - **Semantic:** `.gap-0`, `.gap-xs`, `.gap-sm`, `.gap-md`, `.gap-base`, `.gap-lg`, `.gap-xl`, `.gap-2xl`
-- **Numeric:** `.gap-1` through `.gap-20` (in px-equivalent rem units)
+- **Numeric:** `.gap-{0-6|8|10|12|16|20}`, `.gap-x-*` / `.gap-y-*` (same steps)
 - **Row gap:** `.row-gap-0` through `.row-gap-2xl`
 - **Column gap:** `.column-gap-0` through `.column-gap-2xl`
 

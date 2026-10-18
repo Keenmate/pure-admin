@@ -1863,7 +1863,7 @@
         "pa-kpi-bento-tile--positive",
         "pa-kpi-bento-tile--up-strong",
         "pa-kpi-bento__grid--5-tile",
-        "pa-kpi-bento__grid--hero-right"
+        "pa-kpi-bento__grid--hero-end"
       ],
       "partials": [
         "core-components/_kpi-bento.scss"

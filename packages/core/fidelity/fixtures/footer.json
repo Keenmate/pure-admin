@@ -19,7 +19,8 @@
   },
   "deferred": {
     "//": "The one element-modifier class under ^pc-footer__ that no shared feature produces: pc-footer__end--vertical. It is svelte-only (the `endVertical` prop toggles it; keen's footer/1 has no such attr), so it can't be a shared oracle feature. Acknowledged as PROSE — out of the shared strict-compare surface — so the axis-1 element-class reverse check accounts for it.",
-    "pc-footer__end--vertical": "stacks the end-section items vertically (flex-column). svelte `endVertical` prop → class; keen has NO counterpart attr, so it is wrapper-asymmetric and not a shared feature. Exercised by neither scenario."
+    "pc-footer__end--vertical": "stacks the end-section items vertically (flex-column). svelte `endVertical` prop → class; keen has NO counterpart attr, so it is wrapper-asymmetric and not a shared feature. Exercised by neither scenario.",
+    "pc-footer__muted": "secondary footer text (version, build, small print) — pure-css 2.0.0-rc01. A content class the AUTHOR puts on their own text inside a footer slot; no wrapper prop generates it, so it is not a shared feature. Documented in the layout snippet."
   },
   "scenarios": [
     {

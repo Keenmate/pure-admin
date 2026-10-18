@@ -59,31 +59,26 @@
                     <td>numeric + semantic</td>
                 </tr>
                 <tr>
-                    <td><strong>Start / end</strong> (logical &mdash; preferred)</td>
+                    <td>Start / end</td>
                     <td><code>ms-*</code>, <code>me-*</code></td>
                     <td><code>ps-*</code>, <code>pe-*</code></td>
-                    <td>semantic only (+ <code>ms-auto</code> / <code>me-auto</code>)</td>
-                </tr>
-                <tr>
-                    <td>Left / right (physical)</td>
-                    <td><code>ml-*</code>, <code>mr-*</code></td>
-                    <td><code>pl-*</code>, <code>pr-*</code></td>
                     <td>numeric + semantic</td>
                 </tr>
             </tbody>
         </table>
         <div class="pa-callout pa-callout--info mb-4">
             <div class="pa-callout__content">
-                <p>Use <strong>start / end</strong> for anything horizontal: they follow the writing
-                    direction, so under <code>dir="rtl"</code> the spacing mirrors with the layout.
-                    <code>ml-*</code> / <code>mr-*</code> stay on the physical left / right.</p>
+                <p>Horizontal sides are <strong>start / end</strong>: they follow the writing
+                    direction, so under <code>dir="rtl"</code> the spacing mirrors with the layout
+                    (<code>ms-*</code> is the left in LTR, the right in RTL). There are no
+                    <code>ml-*</code> / <code>mr-*</code> / <code>pl-*</code> / <code>pr-*</code> classes.</p>
             </div>
         </div>
 
         <h4>Auto Margins</h4>
         <p class="text-sm mb-4">
             <code>m-auto</code>, <code>mx-auto</code>, <code>my-auto</code>, <code>mt-auto</code>, <code>mb-auto</code>,
-            <code>ms-auto</code>, <code>me-auto</code> (and the physical <code>ml-auto</code> / <code>mr-auto</code>)
+            <code>ms-auto</code>, <code>me-auto</code>
         </p>
 
         <h4>Live Examples</h4>
@@ -602,10 +597,10 @@
             Classes: <code>shadow-none</code>, <code>shadow-sm</code>, <code>shadow</code>, <code>shadow-lg</code>
         </p>
         <div class="d-flex gap-lg flex-wrap">
-            <div class="p-lg shadow-none" style="background: var(--pc-card-bg);">shadow-none</div>
-            <div class="p-lg shadow-sm" style="background: var(--pc-card-bg);">shadow-sm</div>
-            <div class="p-lg shadow" style="background: var(--pc-card-bg);">shadow</div>
-            <div class="p-lg shadow-lg" style="background: var(--pc-card-bg);">shadow-lg</div>
+            <div class="p-lg shadow-none" style="background: var(--pa-card-bg);">shadow-none</div>
+            <div class="p-lg shadow-sm" style="background: var(--pa-card-bg);">shadow-sm</div>
+            <div class="p-lg shadow" style="background: var(--pa-card-bg);">shadow</div>
+            <div class="p-lg shadow-lg" style="background: var(--pa-card-bg);">shadow-lg</div>
         </div>
     </div>
 </div>
@@ -674,8 +669,7 @@
             <li><code>m-{0-6|8|10|12|16|20}</code>, <code>p-*</code> &mdash; Numeric scale (0.25rem steps, rem)</li>
             <li><code>m-{0|xs|sm|md|base|lg|xl|2xl}</code>, <code>p-*</code> &mdash; Semantic scale</li>
             <li><code>mt-*</code>, <code>mb-*</code>, <code>mx-*</code>, <code>my-*</code> (and <code>p</code> equivalents) &mdash; Sides / axes, both scales</li>
-            <li><code>ms-*</code>, <code>me-*</code>, <code>ps-*</code>, <code>pe-*</code> &mdash; Logical start / end, semantic scale (preferred for horizontal)</li>
-            <li><code>ml-*</code>, <code>mr-*</code>, <code>pl-*</code>, <code>pr-*</code> &mdash; Physical left / right</li>
+            <li><code>ms-*</code>, <code>me-*</code>, <code>ps-*</code>, <code>pe-*</code> &mdash; Start / end (mirror under RTL), both scales</li>
             <li><code>m-auto</code>, <code>mx-auto</code>, <code>my-auto</code>, <code>mt-auto</code>, <code>mb-auto</code>, <code>ms-auto</code>, <code>me-auto</code> &mdash; Auto margins</li>
         </ul>
 

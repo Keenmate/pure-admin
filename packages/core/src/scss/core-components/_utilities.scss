@@ -258,33 +258,9 @@ $_font-base-sizes: (9, 10, 11, 12);
 // (utilities.scss, beside the role colours) and reach core via the
 // `utilities.scss` @forward shim. See docs/text-consolidation-plan.md (Initiative 2).
 
-// ========================================
-// Logical Spacing Utilities (RTL-aware)
-// ms = margin-inline-start, me = margin-inline-end
-// ps = padding-inline-start, pe = padding-inline-end
-// ========================================
-
-// Margin inline-start (ms-*) - RTL: flips to margin-right
-@each $name, $value in $semantic-spacers {
-  .ms-#{$name} { margin-inline-start: #{$value}; }
-}
-.ms-auto { margin-inline-start: auto; }
-
-// Margin inline-end (me-*) - RTL: flips to margin-left
-@each $name, $value in $semantic-spacers {
-  .me-#{$name} { margin-inline-end: #{$value}; }
-}
-.me-auto { margin-inline-end: auto; }
-
-// Padding inline-start (ps-*) - RTL: flips to padding-right
-@each $name, $value in $semantic-spacers {
-  .ps-#{$name} { padding-inline-start: #{$value}; }
-}
-
-// Padding inline-end (pe-*) - RTL: flips to padding-left
-@each $name, $value in $semantic-spacers {
-  .pe-#{$name} { padding-inline-end: #{$value}; }
-}
+// Logical spacing (ms/me/ps/pe, numeric + semantic scales, + ms/me-auto) is
+// single-sourced from @keenmate/pure-css's utilities.scss — the only inline-side
+// spacing; the physical ml/mr/pl/pr were removed in pure-css 2.0.0-rc02.
 
 // Text alignment utilities (RTL-aware)
 .text-start { text-align: start; } // RTL: flips to right

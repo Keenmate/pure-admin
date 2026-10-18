@@ -41,7 +41,8 @@
     "//": "The __info section elements are pager's OWN markup and blessed by the snippet (snippets/tables.html:388-392), but the two wrappers diverge on functional/i18n attrs that a single shared golden can't reconcile, so they're acknowledged out-of-scope for strict compare (prose, not a fixture ref). Svelte matches the snippet shape EXACTLY ('Page' __text → numeric __input → 'of N' __text) — verified by hand against svelte-pager.dump.json with showInfo+showPageInput on. Keen diverges on two unavoidable points: (1) its __input carries name=\"page\", functionally REQUIRED for the LiveView phx-change form param (the static snippet has no name because it is not interactive); and (2) its labels come from keen's own i18n (t(\"pureAdmin.pagination.pages\") = '/ N pages') rather than the snippet's literal 'Page'/'of N'. Both are legitimate per-wrapper concerns the harness's name-agnostic render diff isn't meant to force-converge. The controls surface (the strict-compared part) IS covered by the four scenarios below.",
     "pa-pager__info":  "Info group — wrappers diverge on LiveView-required name attr + i18n label text; svelte matches the snippet, keen is functionally-divergent. Acknowledged out-of-scope.",
     "pa-pager__input": "Numeric page input inside __info — keen adds name=\"page\" (LiveView phx-change param), the static snippet has none. Acknowledged out-of-scope.",
-    "pa-pager__text":  "Info text labels ('Page'/'of N') — keen renders its own i18n string. Acknowledged out-of-scope."
+    "pa-pager__text":  "Info text labels ('Page'/'of N') — keen renders its own i18n string. Acknowledged out-of-scope.",
+    "pa-pager__slider": "Slider pager (a .pa-range--lg scrubber, snippets/tables.html) — new in core 3.3.0; no wrapper exposes it yet. Add a feature + golden when svelte/keen ship a slider pager."
   },
   "scenarios": [
     {

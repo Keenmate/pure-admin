@@ -138,14 +138,16 @@ localStorage.setItem('font-size', 'large');
      SPACING — MARGIN & PADDING
      Two scales:
        Numeric (0-20)    $spacers: 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20
-       Semantic          $semantic-spacers: xs, sm, md, base, lg, xl, 2xl, 3xl
-     Each gives m/mt/mr/mb/ml/mx/my and p/pt/pr/pb/pl/px/py variants.
+       Semantic          $semantic-spacers: xs, sm, md, base, lg, xl, 2xl
+     Each gives m/mt/mb/ms/me/mx/my and p/pt/pb/ps/pe/px/py variants.
 
-     For RTL-aware spacing, prefer the logical versions:
-       ms-{name}  margin-inline-start   (left in LTR, right in RTL)
-       me-{name}  margin-inline-end     (right in LTR, left in RTL)
-       ps-{name}  padding-inline-start
-       pe-{name}  padding-inline-end
+     Inline sides are logical only — they mirror under dir="rtl":
+       ms-*  margin-inline-start   (left in LTR, right in RTL)
+       me-*  margin-inline-end     (right in LTR, left in RTL)
+       ps-*  padding-inline-start
+       pe-*  padding-inline-end
+       mx-* / px-*  both inline sides
+     There are no ml/mr/pl/pr classes.
      ================================ -->
 
 <!-- Numeric scale (0.25rem step from 1→6, then 2x jumps to 20) -->
@@ -612,21 +614,21 @@ ROTATION / VERTICAL TEXT:
 
 SPACING — numeric scale 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20
 (rem values: 0, .25, .5, .75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5):
-- m-{n} · mt-{n} · mr-{n} · mb-{n} · ml-{n} · mx-{n} · my-{n}
-- p-{n} · pt-{n} · pr-{n} · pb-{n} · pl-{n} · px-{n} · py-{n}
-- m-auto / mt-auto / mr-auto / mb-auto / ml-auto / mx-auto / my-auto
+- m-{n} · mt-{n} · mb-{n} · ms-{n} · me-{n} · mx-{n} · my-{n}
+- p-{n} · pt-{n} · pb-{n} · ps-{n} · pe-{n} · px-{n} · py-{n}
+- m-auto / mt-auto / mb-auto / ms-auto / me-auto / mx-auto / my-auto
 
-SPACING — semantic scale (xs, sm, md, base, lg, xl, 2xl, 3xl):
+SPACING — semantic scale (xs, sm, md, base, lg, xl, 2xl):
 - m-{name} · mt-{name} · ... / p-{name} · pt-{name} · ...
 
-SPACING — logical (RTL-aware; preferred for new code):
-- ms-{name}  margin-inline-start    ms-auto (push to end)
-- me-{name}  margin-inline-end      me-auto (push to start)
-- ps-{name}  padding-inline-start
-- pe-{name}  padding-inline-end
+SPACING — inline sides are logical only (both scales; mirror under RTL):
+- ms-*  margin-inline-start    ms-auto (push to end)
+- me-*  margin-inline-end      me-auto (push to start)
+- ps-*  padding-inline-start
+- pe-*  padding-inline-end
 
 GAP (on flex / grid containers):
-- gap-{name}      semantic: xs, sm, md, base, lg, xl, 2xl, 3xl
+- gap-{name}      semantic: xs, sm, md, base, lg, xl, 2xl
 - row-gap-{name} / column-gap-{name}   same names, axis-specific
 - gap-{n}         numeric 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20 (in 0.1rem units)
 
@@ -734,10 +736,10 @@ CONTAINER QUERIES:
                                 responsive column classes (pc-col-sm-*,
                                 etc.) outside of .pc-layout__main.
 
-LOGICAL vs PHYSICAL:
-The framework ships both. Logical classes (ms-*, me-*, ps-*, pe-*,
-text-start/end — also .pa-text--start/--end) flip automatically under
-[dir="rtl"].
-Physical classes (ml-*, mr-*, pl-*, pr-*, text-left/right — where they
-exist) do NOT flip. Prefer logical for new code.
+LOGICAL ONLY:
+Inline-side utilities are logical and flip automatically under
+[dir="rtl"]: ms-*, me-*, ps-*, pe-*, border-start/-end, rounded-start/-end,
+text-start/-end. There are no physical left/right versions (ml-*, mr-*,
+pl-*, pr-*, border-left/-right, rounded-left/-right were removed in
+pure-css 2.0.0-rc02).
 -->

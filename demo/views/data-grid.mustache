@@ -49,7 +49,7 @@
 
     <div class="mt-lg">
       <strong>Current Sort:</strong>
-      <span id="sortState" class="text-color-2 ml-sm">No sorting applied</span>
+      <span id="sortState" class="text-color-2 ms-sm">No sorting applied</span>
       <small class="d-block text-color-3 mt-sm">Click column header to sort. Ctrl+Click to add columns (cascading sort).</small>
     </div>
   </div>
@@ -113,7 +113,7 @@
 
     <div class="mt-base">
       <strong>Current Sort:</strong>
-      <span id="pagingSortState" class="text-color-2 ml-xs">No sorting applied</span>
+      <span id="pagingSortState" class="text-color-2 ms-xs">No sorting applied</span>
     </div>
   </div>
 </div>
@@ -346,7 +346,7 @@ mainGrid.ondatarequest = ({ sort }) => {
     sortStateEl.textContent = 'No sorting applied'
   } else {
     sortStateEl.innerHTML = sort.map((s, i) =>
-      `<span class="pa-badge pa-badge--primary pa-badge--sm mr-xs">
+      `<span class="pa-badge pa-badge--primary pa-badge--sm me-xs">
         <sup style="opacity: 0.7;">${i + 1}</sup> ${s.column} ${s.direction === 'asc' ? '▲' : '▼'}
       </span>`
     ).join('')
@@ -389,7 +389,7 @@ pagingGrid.ondatarequest = ({ sort }) => {
     pagingSortStateEl.textContent = 'No sorting applied'
   } else {
     pagingSortStateEl.innerHTML = sort.map((s, i) =>
-      `<span class="pa-badge pa-badge--primary pa-badge--sm mr-xs">
+      `<span class="pa-badge pa-badge--primary pa-badge--sm me-xs">
         <sup style="opacity: 0.7;">${i + 1}</sup> ${s.column} ${s.direction === 'asc' ? '▲' : '▼'}
       </span>`
     ).join('')

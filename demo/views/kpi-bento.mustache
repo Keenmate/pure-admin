@@ -1,5 +1,5 @@
 <p>"Bento layout" KPI indicator. <strong>Asymmetric tile sizes, sparkline as a low-opacity background</strong> on each tile, big numerals layered over the chart in the lower-left corner. Hero (Monthly Revenue) spans two rows on the left; two stacked tiles on the right (top); three equal tiles below — magazine-style mixed sizes rather than a uniform grid. Card-level container query collapses the whole bento to a single-column stack when the host card narrows below 700px so the same markup works in narrow page-grid cells.</p>
-<p>Layout modifiers on <code>.pa-kpi-bento__grid</code> swap the named-area template without changing markup: default (no modifier) puts the hero on the left, <code>--hero-right</code> mirrors it, <code>--5-tile</code> drops to 5 tiles (hero + 4 supporting). Row height is a CSS variable (<code>--pc-kpi-bento-row-height</code>, default <code>12rem</code>) for taller/shorter tile rows per instance.</p>
+<p>Layout modifiers on <code>.pa-kpi-bento__grid</code> swap the named-area template without changing markup: default (no modifier) puts the hero on the left, <code>--hero-end</code> mirrors it, <code>--5-tile</code> drops to 5 tiles (hero + 4 supporting). Row height is a CSS variable (<code>--pa-kpi-bento-row-height</code>, default <code>12rem</code>) for taller/shorter tile rows per instance.</p>
 
 
 
@@ -181,10 +181,10 @@
 <br>
 
 <!-- ============================================================
-     2. Layout variant: hero on the right (--hero-right)
+     2. Layout variant: hero at the end — right in LTR, left in RTL (--hero-end)
      ============================================================ -->
 
-<h3>Layout variant · <code>pa-kpi-bento__grid--hero-right</code></h3>
+<h3>Layout variant · <code>pa-kpi-bento__grid--hero-end</code></h3>
 <p>Mirror of the default layout — hero spans the right half × 2 rows, two stacked supporting tiles on the left of rows 1-2, three equal tiles below. Same 6-tile contract; source order is unchanged (1st = hero, 2nd–3rd = upper supporting, 4th–6th = bottom row). Only the named-area template flips.</p>
 
 <div class="pa-card pa-kpi-bento">
@@ -196,7 +196,7 @@
     </div>
 
     <div class="pa-card__body pa-kpi-bento__body">
-        <div class="pa-kpi-bento__grid pa-kpi-bento__grid--hero-right">
+        <div class="pa-kpi-bento__grid pa-kpi-bento__grid--hero-end">
 
             <!-- HERO: Monthly Revenue -->
             <div class="pa-kpi-bento-tile pa-kpi-bento-tile--hero pa-kpi-bento-tile--positive">
@@ -352,7 +352,7 @@
     </div>
 
     <div class="pa-card__footer pa-kpi-footer">
-        <span><strong>Bento layout · <code>--hero-right</code></strong> — Hero on the right, mirror of the default 6-tile composition.</span>
+        <span><strong>Bento layout · <code>--hero-end</code></strong> — Hero at the end (right in LTR), mirror of the default 6-tile composition.</span>
         <span>Hover any KPI for detail</span>
     </div>
 </div>
@@ -1146,13 +1146,13 @@
         <p>The grid uses CSS <code>grid-template-areas</code> on a 6-col × 3-row layout. Tile placement is by <em>source order</em> via <code>:nth-child</code> rules, so the markup stays identical across layout modifiers — authors only list tiles in reading order and pick a modifier. Three layouts ship today:</p>
         <ul>
             <li><strong>Default</strong> (no modifier): 6 tiles — hero spans the left half × 2 rows, two stacked tiles on the right of rows 1-2, three equal tiles on the bottom row.</li>
-            <li><strong><code>--hero-right</code></strong>: mirror of default — hero on the right half, two stacked tiles on the left of rows 1-2, three equal tiles below. Same 6-tile contract.</li>
+            <li><strong><code>--hero-end</code></strong>: mirror of default — hero on the end half (right in LTR, left in RTL), two stacked tiles on the left of rows 1-2, three equal tiles below. Same 6-tile contract.</li>
             <li><strong><code>--5-tile</code></strong>: hero + 4 supporting — hero spans the left half × 2 rows, two stacked tiles on the right of rows 1-2, two equal halves on the bottom row. Requires exactly 5 source-order tiles; a 6th would auto-place into a new row.</li>
         </ul>
         <p>To add a new layout, declare a sibling modifier with a different <code>grid-template-areas</code> using the same area names (<code>hero</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>) and the existing nth-child assignments map source order to those areas automatically.</p>
 
         <h4 class="mt-4">Row height as a CSS variable</h4>
-        <p>The grid's row height is exposed as <code>--pc-kpi-bento-row-height</code> (default <code>12rem</code>) on <code>.pa-kpi-bento</code>. Override per instance for taller or shorter tiles: <code>style="--pc-kpi-bento-row-height: 14rem"</code>. The three rows of the default layout share the same height (= total grid height is 3× the row variable), so the variable controls both the per-row tile height and the overall card body height.</p>
+        <p>The grid's row height is exposed as <code>--pa-kpi-bento-row-height</code> (default <code>12rem</code>) on <code>.pa-kpi-bento</code>. Override per instance for taller or shorter tiles: <code>style="--pa-kpi-bento-row-height: 14rem"</code>. The three rows of the default layout share the same height (= total grid height is 3× the row variable), so the variable controls both the per-row tile height and the overall card body height.</p>
 
         <h4 class="mt-4">Sparkline-behind-value layering</h4>
         <p>Each tile is an internal 2-row grid (<code>"label delta" / "value value"</code>). The value sits at the bottom-left layered over an absolutely-positioned chart underneath it (<code>z-index: 1</code> on the value, <code>z-index: 0</code> on the chart). The sparkline reads <em>through</em> behind the digits rather than living in its own column. Polygon fill is <code>opacity: 0.10</code> and polyline is <code>stroke-opacity: 0.55</code> so the chart doesn't compete with the headline number.</p>
@@ -1180,7 +1180,7 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-bento</code> — page-namespace class on <code>.pa-card</code>. Declares <code>--pc-kpi-bento-row-height</code> (default <code>12rem</code>).</li>
+            <li><code>pa-kpi-bento</code> — page-namespace class on <code>.pa-card</code>. Declares <code>--pa-kpi-bento-row-height</code> (default <code>12rem</code>).</li>
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-bento__body</code> — card body with internal padding (the bento's outer breathing room).</li>
@@ -1190,13 +1190,13 @@
 
         <h4 class="mt-4">Layout modifiers</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-bento__grid--hero-right</code> — mirror of default; hero on the right half. Same 6-tile contract.</li>
+            <li><code>pa-kpi-bento__grid--hero-end</code> — mirror of default; hero on the end half (right in LTR, left in RTL). Same 6-tile contract.</li>
             <li><code>pa-kpi-bento__grid--5-tile</code> — 5-tile variant (hero + 4 supporting; two equal halves on bottom row). Requires exactly 5 tiles.</li>
         </ul>
 
         <h4 class="mt-4">Layout CSS variables</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pc-kpi-bento-row-height</code> — row height for all three rows of the grid (default <code>12rem</code>). Override per instance via <code>style="--pc-kpi-bento-row-height: 14rem"</code>.</li>
+            <li><code>--pa-kpi-bento-row-height</code> — row height for all three rows of the grid (default <code>12rem</code>). Override per instance via <code>style="--pa-kpi-bento-row-height: 14rem"</code>.</li>
         </ul>
 
         <h4 class="mt-4">Tiles</h4>
