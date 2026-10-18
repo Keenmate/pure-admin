@@ -7,7 +7,7 @@ import { test, expect, Page } from './fixtures';
  * raise no uncaught errors (the fixtures guard pageerror for us). It also
  * exercises the simulated upload driver end-to-end via addFiles().
  */
-const PAGE = '/components/file-selector';
+const PAGE = '/forms/file-selector';
 
 async function gotoShell(page: Page): Promise<void> {
     await page.goto(PAGE);

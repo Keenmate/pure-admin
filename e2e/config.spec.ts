@@ -2,10 +2,10 @@ import { test, expect, Page } from './fixtures';
 
 /**
  * pureAdmin.config — the shared UI-behavior baseline. First key: mobileBreakpoint,
- * single-sourced from SCSS `$mobile-breakpoint` via the `--pa-mobile-breakpoint`
+ * single-sourced from SCSS `$mobile-breakpoint` via the `--pc-mobile-breakpoint`
  * CSS variable (so JS and CSS can't drift). See docs/config-shared-ui-baseline.md.
  */
-const PAGE = '/components/buttons?theme=nato';
+const PAGE = '/buttons?theme=nato';
 
 async function gotoShell(page: Page): Promise<void> {
     await page.goto(PAGE);
@@ -17,11 +17,11 @@ test.describe('pureAdmin.config', () => {
         await gotoShell(page);
     });
 
-    test('mobileBreakpoint is derived from the --pa-mobile-breakpoint CSS variable', async ({ page }) => {
+    test('mobileBreakpoint is derived from the --pc-mobile-breakpoint CSS variable', async ({ page }) => {
         const { configValue, cssValue } = await page.evaluate(() => ({
             configValue: (window as any).pureAdmin?.config?.mobileBreakpoint,
             cssValue: getComputedStyle(document.documentElement)
-                .getPropertyValue('--pa-mobile-breakpoint')
+                .getPropertyValue('--pc-mobile-breakpoint')
                 .trim()
         }));
 
@@ -57,7 +57,7 @@ test.describe('pureAdmin.config', () => {
             debounce: 300,
             position: 'top-end', // logical, RTL-aware
             duration: 5000,
-            successIcon: '✓',
+            successIcon: undefined, // no text glyph — the masked .pa-icon--success is the default
             dangerTitle: 'Error'
         });
     });
@@ -79,7 +79,9 @@ test.describe('toast-service reads config.severity / config.toast', () => {
 
         const toast = page.locator('.pa-toast--success').first();
         await expect(toast).toBeVisible();
-        await expect(toast.locator('.pa-toast__icon')).toHaveText('✓');
+        // Default icon = the masked --pa-icon-* glyph for the variant (no text glyph).
+        await expect(toast.locator('.pa-toast__icon .pa-icon--success')).toHaveCount(1);
+        await expect(toast.locator('.pa-toast__icon')).toHaveText('');
         await expect(toast.locator('.pa-toast__title')).toHaveText('Success');
     });
 

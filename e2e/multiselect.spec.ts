@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 // including the new tree-of-options and ISCO-08 real-data examples.
 test.describe('Web Multiselect page', () => {
   test('renders web-multiselect components (shadow DOM upgraded)', async ({ page }) => {
-    await page.goto('/components/multiselect');
+    await page.goto('/forms/multiselect');
 
     // Wait for the custom element to be defined + upgraded.
     await page.waitForFunction(() => !!customElements.get('web-multiselect'));
@@ -23,7 +23,7 @@ test.describe('Web Multiselect page', () => {
   });
 
   test('basic tree renders indented branch/leaf rows when opened', async ({ page }) => {
-    await page.goto('/components/multiselect');
+    await page.goto('/forms/multiselect');
     await page.waitForFunction(() => !!customElements.get('web-multiselect'));
 
     const tree = page.locator('#tree-basic');
@@ -45,7 +45,7 @@ test.describe('Web Multiselect page', () => {
   });
 
   test('ISCO-08 real-data tree loads 619 options', async ({ page }) => {
-    await page.goto('/components/multiselect');
+    await page.goto('/forms/multiselect');
     await page.waitForFunction(() => !!customElements.get('web-multiselect'));
 
     await expect

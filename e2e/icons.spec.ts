@@ -6,7 +6,7 @@ import { test, expect, Page } from './fixtures';
  * verifies the mask actually resolves and paints (a wrong data-URI would leave
  * an invisible, zero-mask box that silently looks "fine" in the DOM).
  */
-const PAGE = '/components/buttons?theme=nato';
+const PAGE = '/buttons?theme=nato';
 
 async function gotoShell(page: Page): Promise<void> {
     await page.goto(PAGE);
@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('the profile close X renders as a masked .pa-icon--x (not a text glyph)', async ({ page }) => {
-    await page.locator('.pa-navbar__profile-btn').click();
+    await page.locator('.pc-navbar__profile-btn').click();
     await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
     const icon = page.locator('.pa-profile-panel__close .pa-icon--x');
@@ -51,8 +51,8 @@ test('component close/dismiss buttons render masked icons, not text glyphs', asy
     // literal ✕/× to the masked .pa-icon--x. Guard the two highest-traffic
     // demo surfaces so a stray text glyph can't creep back in.
     const routes: Array<[string, string]> = [
-        ['/components/modals', '.pa-modal__header .pa-btn--icon-only'],
-        ['/components/alerts', '.pa-alert__close']
+        ['/surfaces/modals', '.pa-modal__header .pa-btn--icon-only'],
+        ['/feedback/alerts', '.pa-alert__close']
     ];
     for (const [route, closeSelector] of routes) {
         await page.goto(route);
@@ -74,7 +74,7 @@ test('component close/dismiss buttons render masked icons, not text glyphs', asy
 });
 
 test('a JS-generated toast gets a masked close icon (not a text glyph)', async ({ page }) => {
-    await page.goto('/components/toasts');
+    await page.goto('/feedback/toasts');
     await page.locator('.page-loader').waitFor({ state: 'detached', timeout: 8_000 });
 
     // Toasts are created at runtime by toast-service — trigger one and inspect it.
@@ -86,7 +86,7 @@ test('a JS-generated toast gets a masked close icon (not a text glyph)', async (
 });
 
 test('the close icon uses a header-aware colour that contrasts the panel header', async ({ page }) => {
-    await page.locator('.pa-navbar__profile-btn').click();
+    await page.locator('.pc-navbar__profile-btn').click();
     await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
     const colors = await page.evaluate(() => {

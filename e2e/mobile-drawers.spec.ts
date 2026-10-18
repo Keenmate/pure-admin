@@ -16,7 +16,7 @@ import { test, expect, Page } from './fixtures';
  * keeps the run fast and CDN-independent. NATO is a crisp light theme where the
  * shared backdrop resolves to a known rgba().
  */
-const PAGE = '/components/buttons?theme=nato';
+const PAGE = '/buttons?theme=nato';
 
 const MOBILE = { width: 390, height: 844 };
 const DESKTOP = { width: 1440, height: 1024 };

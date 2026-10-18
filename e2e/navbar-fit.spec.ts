@@ -17,8 +17,8 @@ async function state(page) {
     };
     (window as any).pureAdmin?.components?.navFit?.relayoutAll();
     return {
-      version: vis('.pa-app-header__version'),
-      title: vis('.pa-page-header'),
+      version: vis('.pc-app-header__version'),
+      title: vis('.pc-page-header'),
       search: vis('#navbarSearchTrigger'),
       wordmarkFull: vis('[data-pc-fit-step="0"]'),
       monogram: vis('[data-pc-fit-step="1"]')
