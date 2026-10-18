@@ -164,6 +164,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Inputs and selects no longer clip text at `sm` / `lg` / `xl`.** Each size had a fixed height
+  (`$base-input-size-*-height`) **and** fixed vertical padding, leaving less room than the font
+  needs: 15px for a 14px font at `--sm` (worse because the size modifiers used the input padding,
+  8px, instead of the select padding, 7px), 1px short at `lg` / `xl`. Descenders were cut, more so
+  with taller theme fonts. `.pa-input` / `.pa-select` and their size modifiers keep the heights
+  but drop the vertical padding, so the browser centres the text in the full inner height (12px+
+  to spare in every theme). File inputs get a full-height line box so their button stays centred;
+  colour inputs now show a full-height swatch instead of a thin strip. Textareas are unchanged.
+
 - **Radios are drawn from the checkbox tokens.** `.pa-radio input` was a native radio styled
   only for size, so the browser painted it in its own blue (cobalt2: blue radios next to yellow
   checkboxes). It now uses `appearance: none` with the same `--pa-checkbox-*` border, fill,

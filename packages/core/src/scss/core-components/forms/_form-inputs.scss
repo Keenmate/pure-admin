@@ -4,10 +4,15 @@
    ======================================== */
 @use '../../variables' as *;
 
+// Inputs and selects have a FIXED height ($base-input-size-*-height, the shared
+// control-height contract) and NO vertical padding: the browser centres the text
+// in the full inner height. Vertical padding on top of a fixed height left less
+// room than the font's line box at sm / lg / xl (descenders clipped — worse with
+// the taller theme fonts), so only the inline padding is set.
 .pa-input {
   width: 100%;
   height: #{$base-input-size-md-height}rem;
-  padding: $input-padding-v $input-padding-h;
+  padding: 0 $input-padding-h;
   border: $border-width-base solid var(--pa-input-border);
   border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
@@ -30,7 +35,7 @@
 .pa-select {
   width: 100%;
   height: #{$base-input-size-md-height}rem;
-  padding: $select-padding-v $select-padding-h;
+  padding: 0 $select-padding-h;
   border: $border-width-base solid var(--pa-input-border);
   border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
@@ -73,30 +78,44 @@
 .pa-input--xs,
 .pa-select--xs {
   height: #{$base-input-size-xs-height}rem;
-  padding: $input-padding-xs-v $input-padding-h;
+  padding: 0 $input-padding-h;
   font-size: $font-size-xs;
 }
 
 .pa-input--sm,
 .pa-select--sm {
   height: #{$base-input-size-sm-height}rem;
-  padding: $input-padding-v $input-padding-h;
+  padding: 0 $input-padding-h;
   font-size: $font-size-sm;
 }
 
 .pa-input--lg,
 .pa-select--lg {
   height: #{$base-input-size-lg-height}rem;
-  padding: $input-padding-v $input-padding-h;
+  padding: 0 $input-padding-h;
   font-size: $font-size-base;
 }
 
 .pa-input--xl,
 .pa-select--xl {
   height: #{$base-input-size-xl-height}rem;
-  padding: $input-padding-v $input-padding-h;
+  padding: 0 $input-padding-h;
   font-size: $font-size-lg;
 }
+
+// File inputs don't centre their button + filename like text does: with no
+// vertical padding they'd sit at the top. A line box as tall as the inner height
+// (height − top/bottom border) centres them; the button aligns to its middle.
+.pa-input[type="file"] {
+  line-height: calc(#{$base-input-size-md-height}rem - #{2 * $border-width-base});
+
+  &::file-selector-button { vertical-align: middle; }
+}
+
+.pa-input--xs[type="file"] { line-height: calc(#{$base-input-size-xs-height}rem - #{2 * $border-width-base}); }
+.pa-input--sm[type="file"] { line-height: calc(#{$base-input-size-sm-height}rem - #{2 * $border-width-base}); }
+.pa-input--lg[type="file"] { line-height: calc(#{$base-input-size-lg-height}rem - #{2 * $border-width-base}); }
+.pa-input--xl[type="file"] { line-height: calc(#{$base-input-size-xl-height}rem - #{2 * $border-width-base}); }
 
 // Textarea Sizes - height sets initial size, min-height prevents shrinking below that
 .pa-textarea--xs {
