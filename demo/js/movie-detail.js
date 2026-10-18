@@ -142,7 +142,7 @@
                 var initial = actor.name.charAt(0);
                 actorPanelBody.innerHTML =
                     '<div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">' +
-                        '<div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle, #e8eaf6); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary, #3b82f6); flex-shrink: 0; font-weight: 600;">' +
+                        '<div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle, #e8eaf6); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary-color, #3b82f6); flex-shrink: 0; font-weight: 600;">' +
                             initial +
                         '</div>' +
                         '<div>' +

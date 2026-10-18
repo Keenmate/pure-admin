@@ -47,12 +47,12 @@
 
 
   &--primary {
-    background-color: var(--pc-primary);
-    border-color: var(--pc-primary);
+    background-color: var(--pc-primary-color);
+    border-color: var(--pc-primary-color);
     color: var(--pa-btn-primary-text);
 
     &:hover {
-      background-color: var(--pc-primary);
+      background-color: var(--pc-primary-color);
       filter: brightness($btn-hover-brightness);
     }
   }
@@ -64,7 +64,7 @@
 
     &:hover {
       background-color: var(--pc-hover-bg);
-      border-color: var(--pc-primary);
+      border-color: var(--pc-primary-color);
     }
   }
 
@@ -177,13 +177,13 @@
   // Outline variants
   &--outline-primary {
     background-color: transparent;
-    border-color: var(--pc-primary);
+    border-color: var(--pc-primary-color);
     // mix the vivid fill toward primary text so the label stays readable on the
     // surface in BOTH modes (text-color-1 is dark in light mode, light in dark)
-    color: color-mix(in srgb, var(--pc-primary) 50%, var(--base-text-color-1));
+    color: color-mix(in srgb, var(--pc-primary-color) 50%, var(--base-text-color-1));
 
     &:hover {
-      background-color: var(--pc-primary);
+      background-color: var(--pc-primary-color);
       color: var(--pa-btn-primary-text);
     }
   }

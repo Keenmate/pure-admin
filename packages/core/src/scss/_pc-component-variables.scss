@@ -121,13 +121,13 @@
 @mixin output-pc-component-variables {
   // =========================================================================
   // SENTIMENT SCALE — 5-step direction-of-change (KPI / data-display).
-  // Middle three alias the role colours so retuning --pc-success / --pc-danger
+  // Middle three alias the role colours so retuning --pc-success-color / --pc-danger-color
   // retunes the matching sentiment positions; outliers are explicit shades.
   // =========================================================================
   --pa-very-positive: #{$base-very-positive};
-  --pa-positive:      var(--pc-success);
+  --pa-positive:      var(--pc-success-color);
   --pa-neutral:       #{$base-neutral};
-  --pa-negative:      var(--pc-danger);
+  --pa-negative:      var(--pc-danger-color);
   --pa-very-negative: #{$base-very-negative};
 
   // =========================================================================
@@ -191,10 +191,10 @@
   // Role identities — -bg references the role colour (mode-invariant). The
   // mode-aware primary / light buttons and every per-role -bg-hover / -text
   // live in output-pc-component-mode-variables.
-  --pa-btn-success-bg: var(--pc-success);
-  --pa-btn-danger-bg: var(--pc-danger);
-  --pa-btn-warning-bg: var(--pc-warning);
-  --pa-btn-info-bg: var(--pc-info);
+  --pa-btn-success-bg: var(--pc-success-color);
+  --pa-btn-danger-bg: var(--pc-danger-color);
+  --pa-btn-warning-bg: var(--pc-warning-color);
+  --pa-btn-info-bg: var(--pc-info-color);
 
   // Dark
   --pa-btn-dark-bg: #{$btn-dark-bg};
@@ -208,17 +208,17 @@
   // output-pc-component-mode-variables. (The role text colours
   // --pc-{success,danger,warning,info}-text live in the base contract.)
   // =========================================================================
-  --pa-success-bg: var(--pc-success);
-  --pa-success-bg-light: var(--base-success-bg-subtle, color-mix(in srgb, var(--pc-success) 10%, transparent));
+  --pa-success-bg: var(--pc-success-color);
+  --pa-success-bg-light: var(--base-success-bg-subtle, color-mix(in srgb, var(--pc-success-color) 10%, transparent));
 
-  --pa-danger-bg: var(--pc-danger);
-  --pa-danger-bg-light: var(--base-danger-bg-subtle, color-mix(in srgb, var(--pc-danger) 10%, transparent));
+  --pa-danger-bg: var(--pc-danger-color);
+  --pa-danger-bg-light: var(--base-danger-bg-subtle, color-mix(in srgb, var(--pc-danger-color) 10%, transparent));
 
-  --pa-warning-bg: var(--pc-warning);
-  --pa-warning-bg-light: var(--base-warning-bg-subtle, color-mix(in srgb, var(--pc-warning) 10%, transparent));
+  --pa-warning-bg: var(--pc-warning-color);
+  --pa-warning-bg-light: var(--base-warning-bg-subtle, color-mix(in srgb, var(--pc-warning-color) 10%, transparent));
 
-  --pa-info-bg: var(--pc-info);
-  --pa-info-bg-light: var(--base-info-bg-subtle, color-mix(in srgb, var(--pc-info) 10%, transparent));
+  --pa-info-bg: var(--pc-info-color);
+  --pa-info-bg-light: var(--base-info-bg-subtle, color-mix(in srgb, var(--pc-info-color) 10%, transparent));
 
   // =========================================================================
   // INPUT/FORM COLORS — the mode-aware input surface/border/text, the checkbox

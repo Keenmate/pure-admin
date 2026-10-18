@@ -46,13 +46,13 @@
   cursor: pointer;
 
   &:hover {
-    border-color: var(--pc-primary);
-    background: color-mix(in srgb, var(--pc-primary) 5%, transparent);
+    border-color: var(--pc-primary-color);
+    background: color-mix(in srgb, var(--pc-primary-color) 5%, transparent);
   }
 
   &--active {
-    border-color: var(--pc-primary);
-    background: color-mix(in srgb, var(--pc-primary) 10%, transparent);
+    border-color: var(--pc-primary-color);
+    background: color-mix(in srgb, var(--pc-primary-color) 10%, transparent);
     border-style: solid;
   }
 
@@ -82,7 +82,7 @@
     margin-bottom: $spacing-xs;
 
     strong {
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       font-weight: $font-weight-semibold;
     }
   }
@@ -128,7 +128,7 @@
     transition: all $transition-fast $easing-snappy;
 
     &:hover {
-      border-color: var(--pc-primary);
+      border-color: var(--pc-primary-color);
       box-shadow: 0 1.6px 4.8px var(--base-shadow-color);
     }
 
@@ -160,7 +160,7 @@
       width: 2rem;
       height: 2rem;
       border: none;
-      background: var(--pc-danger);
+      background: var(--pc-danger-color);
       color: #ffffff;
       cursor: pointer;
       border-radius: 50%;
@@ -183,7 +183,7 @@
 
     &-remove:hover {
       transform: scale(1.1);
-      background: color-mix(in srgb, var(--pc-danger) 90%, transparent);
+      background: color-mix(in srgb, var(--pc-danger-color) 90%, transparent);
     }
   }
 
@@ -231,7 +231,7 @@
     }
 
     &-remove:hover {
-      background: var(--pc-danger);
+      background: var(--pc-danger-color);
       transform: scale(1.1);
     }
   }
@@ -253,7 +253,7 @@
       transition: background-color $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pc-primary) 10%, transparent);
+        background-color: color-mix(in srgb, var(--pc-primary-color) 10%, transparent);
       }
 
       &:not(:last-child)::after {
@@ -267,7 +267,7 @@
 
     &-count {
       font-weight: $font-weight-medium;
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &-size {
@@ -392,11 +392,11 @@
 
     tbody tr {
       &:hover {
-        background: color-mix(in srgb, var(--pc-primary) 5%, transparent);
+        background: color-mix(in srgb, var(--pc-primary-color) 5%, transparent);
       }
 
       &.uploading {
-        background: color-mix(in srgb, var(--pc-primary) 10%, transparent);
+        background: color-mix(in srgb, var(--pc-primary-color) 10%, transparent);
       }
     }
   }
@@ -419,7 +419,7 @@
 
   &__progress-bar {
     height: 6.4px;
-    background: color-mix(in srgb, var(--pc-primary) 20%, transparent);
+    background: color-mix(in srgb, var(--pc-primary-color) 20%, transparent);
     border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
     margin-bottom: $spacing-xs;
@@ -427,7 +427,7 @@
 
   &__progress-fill {
     height: 100%;
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
     border-radius: var(--pc-border-radius-sm);
     transition: width 0.48s ease;
   }
@@ -447,15 +447,15 @@
     }
 
     &--uploading {
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &--complete {
-      color: var(--pc-success);
+      color: var(--pc-success-color);
     }
 
     &--error {
-      color: var(--pc-danger);
+      color: var(--pc-danger-color);
     }
   }
 
@@ -470,7 +470,7 @@
     height: 3.2rem;
     border: $border-width-base solid var(--pc-border-color);
     background: var(--pa-card-bg);
-    color: var(--pc-danger);
+    color: var(--pc-danger-color);
     cursor: pointer;
     border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-2xl;
@@ -482,9 +482,9 @@
     font-weight: $font-weight-bold;
 
     &:hover {
-      background: var(--pc-danger);
+      background: var(--pc-danger-color);
       color: #ffffff;
-      border-color: var(--pc-danger);
+      border-color: var(--pc-danger-color);
       transform: scale(1.1);
     }
   }
@@ -530,9 +530,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: color-mix(in srgb, var(--pc-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--pc-primary-color) 10%, transparent);
     border-radius: var(--pc-border-radius);
-    color: var(--pc-primary);
+    color: var(--pc-primary-color);
   }
 
   &__info {
@@ -572,8 +572,8 @@
     justify-content: center;
 
     &:hover {
-      background: color-mix(in srgb, var(--pc-danger) 10%, transparent);
-      color: var(--pc-danger);
+      background: color-mix(in srgb, var(--pc-danger-color) 10%, transparent);
+      color: var(--pc-danger-color);
     }
 
     &::before {
@@ -627,7 +627,7 @@
     justify-content: center;
 
     &:hover {
-      background: var(--pc-danger);
+      background: var(--pc-danger-color);
       transform: scale(1.1);
     }
 
@@ -657,14 +657,14 @@
 
   &__bar {
     height: 6.4px;
-    background: color-mix(in srgb, var(--pc-primary) 20%, transparent);
+    background: color-mix(in srgb, var(--pc-primary-color) 20%, transparent);
     border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
   }
 
   &__fill {
     height: 100%;
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
     border-radius: var(--pc-border-radius-sm);
     transition: width 0.48s ease;
   }
@@ -683,11 +683,11 @@
     font-weight: $font-weight-semibold;
 
     &--complete {
-      color: var(--pc-success);
+      color: var(--pc-success-color);
     }
 
     &--error {
-      color: var(--pc-danger);
+      color: var(--pc-danger-color);
     }
   }
 }
@@ -754,9 +754,9 @@
 
 // Drag Overlay (for data-overlay-target feature)
 .pa-file-dropzone-overlay {
-  background: color-mix(in srgb, var(--pc-primary) 15%, transparent);
+  background: color-mix(in srgb, var(--pc-primary-color) 15%, transparent);
   backdrop-filter: blur(3.2px);
-  border: 4.8px dashed var(--pc-primary);
+  border: 4.8px dashed var(--pc-primary-color);
   border-radius: var(--pc-border-radius);
   display: flex;
   align-items: center;
@@ -776,6 +776,6 @@
   &__text {
     font-size: $font-size-xl;
     font-weight: $font-weight-semibold;
-    color: var(--pc-primary);
+    color: var(--pc-primary-color);
   }
 }

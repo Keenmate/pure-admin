@@ -446,8 +446,8 @@
   // --print-color / --print-grayscale are excluded, so they KEEP these theme
   // colours (grayscale then desaturates them via the filter below).
   .pa-sheet:not(.pa-sheet--print-color):not(.pa-sheet--print-grayscale) {
-    --pc-primary: #000;
-    --pc-primary-hover: #000;
+    --pc-primary-color: #000;
+    --pc-primary-color-hover: #000;
     --pc-danger-text-color: #000;
     --pc-success-text-color: #000;
     --pc-warning-text-color: #000;

@@ -153,7 +153,7 @@
   /* Inline sentiment hints for dd content (e.g. <dd>+12% <span class="pos">…</span></dd>) */
   .pos  { color: var(--pa-positive); }
   .neg  { color: var(--pa-negative); }
-  .warn { color: var(--pc-warning); }
+  .warn { color: var(--pc-warning-color); }
 }
 
 /* ----- Section heading strip used outside card chrome -------------------

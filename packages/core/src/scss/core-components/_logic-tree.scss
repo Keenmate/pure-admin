@@ -66,12 +66,12 @@
         }
 
         &--and {
-            border-color: var(--pc-warning);
+            border-color: var(--pc-warning-color);
             background: linear-gradient(135deg, var(--pa-alert-warning-bg) 0%, var(--pa-card-bg) 100%);
         }
 
         &--or {
-            border-color: var(--pc-info);
+            border-color: var(--pc-info-color);
             background: linear-gradient(135deg, var(--pa-alert-info-bg) 0%, var(--pa-card-bg) 100%);
         }
 
@@ -172,7 +172,7 @@
             display: inline-block;
             background: var(--pa-alert-warning-bg);
             color: var(--pa-alert-warning-text);
-            border: 3.2px solid var(--pc-warning);
+            border: 3.2px solid var(--pc-warning-color);
             padding: 0.4rem 1.2rem;
             border-radius: var(--pc-border-radius);
             font-weight: $font-weight-bold;
@@ -211,7 +211,7 @@
         &--field {
             background: var(--pa-alert-info-bg);
             color: var(--pa-alert-info-text);
-            border: 1.6px solid color-mix(in srgb, var(--pc-info) 35%, transparent);
+            border: 1.6px solid color-mix(in srgb, var(--pc-info-color) 35%, transparent);
         }
 
         // Operator token (gray)
@@ -225,14 +225,14 @@
         &--value {
             background: var(--pa-alert-success-bg);
             color: var(--pa-alert-success-text);
-            border: 1.6px solid color-mix(in srgb, var(--pc-success) 35%, transparent);
+            border: 1.6px solid color-mix(in srgb, var(--pc-success-color) 35%, transparent);
         }
 
         // Logical token (orange/blue)
         &--logical {
             background: var(--pa-alert-warning-bg);
             color: var(--pa-alert-warning-text);
-            border: 1.6px solid color-mix(in srgb, var(--pc-warning) 35%, transparent);
+            border: 1.6px solid color-mix(in srgb, var(--pc-warning-color) 35%, transparent);
             font-weight: $font-weight-bold;
             text-transform: uppercase;
             letter-spacing: 0.05em;

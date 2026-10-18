@@ -24,7 +24,7 @@
     // baking at SCSS compile time.
     &--primary {
       background-color: var(--pc-primary-bg-subtle);
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &--success {
@@ -167,7 +167,7 @@
 
     // Color variants — use CSS vars so theme overrides apply at runtime
     &.pa-stat--primary {
-      background-color: var(--pc-primary);
+      background-color: var(--pc-primary-color);
       color: var(--pa-btn-primary-text);
     }
 

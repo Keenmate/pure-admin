@@ -31,9 +31,9 @@
 
   // Basic alert variants - using theme colors with subtle backgrounds
   &--primary {
-    color: var(--pc-primary);
-    background-color: color-mix(in srgb, var(--pc-primary) #{$opacity-subtle * 100%}, transparent);
-    border-color: color-mix(in srgb, var(--pc-primary) #{$opacity-border * 100%}, transparent);
+    color: var(--pc-primary-color);
+    background-color: color-mix(in srgb, var(--pc-primary-color) #{$opacity-subtle * 100%}, transparent);
+    border-color: color-mix(in srgb, var(--pc-primary-color) #{$opacity-border * 100%}, transparent);
   }
 
   &--secondary {
@@ -81,8 +81,8 @@
 
   // Outline variants
   &--outline-primary {
-    color: var(--pc-primary);
-    border-color: var(--pc-primary);
+    color: var(--pc-primary-color);
+    border-color: var(--pc-primary-color);
     background-color: transparent;
   }
 

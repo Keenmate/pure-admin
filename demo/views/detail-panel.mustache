@@ -45,7 +45,7 @@
                         </button>
                     </div>
                     <div class="pa-detail-panel__body" id="minHeightBody">
-                        <p class="text-secondary">Click the row to view details here.</p>
+                        <p class="text-muted">Click the row to view details here.</p>
                     </div>
                 </div>
             </div>
@@ -220,7 +220,7 @@ document.addEventListener('keydown', function(e) {
                         </button>
                     </div>
                     <div class="pa-detail-panel__body" id="inlineDetailBody">
-                        <p class="text-secondary">Click a table row to view details here.</p>
+                        <p class="text-muted">Click a table row to view details here.</p>
                     </div>
                     <div class="pa-detail-panel__footer">
                         <button class="pa-btn pa-btn--primary pa-btn--sm">
@@ -340,7 +340,7 @@ document.addEventListener('keydown', function(e) {
                         </button>
                     </div>
                     <div class="pa-detail-panel__body" id="cardOverlayBody">
-                        <p class="text-secondary">Click a table row to view details here.</p>
+                        <p class="text-muted">Click a table row to view details here.</p>
                     </div>
                     <div class="pa-detail-panel__footer">
                         <button class="pa-btn pa-btn--primary pa-btn--sm">
@@ -459,7 +459,7 @@ document.addEventListener('keydown', function(e) {
                         </button>
                     </div>
                     <div class="pa-detail-panel__body" id="noBackdropBody">
-                        <p class="text-secondary">Click a table row to view details here.</p>
+                        <p class="text-muted">Click a table row to view details here.</p>
                     </div>
                     <div class="pa-detail-panel__footer">
                         <button class="pa-btn pa-btn--primary pa-btn--sm">
@@ -596,13 +596,13 @@ document.addEventListener('keydown', function(e) {
                     <!-- Tab Panels -->
                     <div class="pa-detail-panel__body" id="tabbedBody">
                         <div class="pa-tabs__panel pa-tabs__panel--active" data-detail-panel="details" id="tabbedDetailsContent">
-                            <p class="text-secondary">Click a table row to view details here.</p>
+                            <p class="text-muted">Click a table row to view details here.</p>
                         </div>
                         <div class="pa-tabs__panel" data-detail-panel="activity" id="tabbedActivityContent">
-                            <p class="text-secondary">Select a row to see activity.</p>
+                            <p class="text-muted">Select a row to see activity.</p>
                         </div>
                         <div class="pa-tabs__panel" data-detail-panel="notes" id="tabbedNotesContent">
-                            <p class="text-secondary">Select a row to see notes.</p>
+                            <p class="text-muted">Select a row to see notes.</p>
                         </div>
                     </div>
 
@@ -731,7 +731,7 @@ document.addEventListener('keydown', function(e) {
                         </button>
                     </div>
                     <div class="pa-detail-panel__body" id="headerActionsBody">
-                        <p class="text-secondary">Click a table row to view details here.</p>
+                        <p class="text-muted">Click a table row to view details here.</p>
                     </div>
                     <!-- No footer -->
                 </div>
@@ -783,7 +783,7 @@ document.addEventListener('keydown', function(e) {
                         </button>
                     </div>
                     <div class="pa-detail-panel__body" id="gridDetailBody">
-                        <p class="text-secondary">Click a grid row to view details here.</p>
+                        <p class="text-muted">Click a grid row to view details here.</p>
                     </div>
                     <!-- No footer -->
                 </div>
@@ -870,7 +870,7 @@ customElements.whenDefined('web-grid').then(() => {
 
         return `
             <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">
-                <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary); flex-shrink: 0;">
+                <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary-color); flex-shrink: 0;">
                     ${initial}
                 </div>
                 <div>
@@ -959,14 +959,14 @@ customElements.whenDefined('web-grid').then(() => {
                         <button class="pa-detail-panel__close" id="tablecardDetailClose" title="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
                     </div>
                     <div class="pa-detail-panel__body" id="tablecardDetailBody">
-                        <p class="text-secondary">Click a grid row to view details here.</p>
+                        <p class="text-muted">Click a grid row to view details here.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="pa-table-card__footer">
-        <span class="text-secondary text-sm">Using <code>pa-table-card</code> with <code>pa-detail-view</code></span>
+        <span class="text-muted text-sm">Using <code>pa-table-card</code> with <code>pa-detail-view</code></span>
     </div>
 </div>
 
@@ -1062,7 +1062,7 @@ customElements.whenDefined('web-grid').then(() => {
                                 </button>
                             </div>
                             <div class="pa-detail-panel__body" id="plainDetailBody1">
-                                <p class="text-secondary">Click a row to view details.</p>
+                                <p class="text-muted">Click a row to view details.</p>
                             </div>
                         </div>
                     </div>
@@ -1091,7 +1091,7 @@ customElements.whenDefined('web-grid').then(() => {
                                 </button>
                             </div>
                             <div class="pa-detail-panel__body" id="plainDetailBody2">
-                                <p class="text-secondary">Click a row to view details.</p>
+                                <p class="text-muted">Click a row to view details.</p>
                             </div>
                         </div>
                     </div>
@@ -1283,7 +1283,7 @@ customElements.whenDefined('web-grid').then(() => {
             </button>
         </div>
         <div class="pa-detail-panel__body" id="overlayDetailBody">
-            <p class="text-secondary">Click a table row to view details here.</p>
+            <p class="text-muted">Click a table row to view details here.</p>
         </div>
         <div class="pa-detail-panel__footer">
             <button class="pa-btn pa-btn--primary pa-btn--sm">

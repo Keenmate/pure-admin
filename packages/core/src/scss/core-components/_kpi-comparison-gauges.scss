@@ -84,7 +84,7 @@
   --pa-kpi-bar-color: var(--pa-positive);
 
   &--positive { --pa-kpi-bar-color: var(--pa-positive); }
-  &--warning  { --pa-kpi-bar-color: var(--pc-warning); }
+  &--warning  { --pa-kpi-bar-color: var(--pc-warning-color); }
   &--negative { --pa-kpi-bar-color: var(--pa-negative); }
   &--neutral  { --pa-kpi-bar-color: color-mix(in srgb, var(--pc-text-color-1) 70%, transparent); }
 }

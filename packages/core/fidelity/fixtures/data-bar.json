@@ -5,7 +5,7 @@
   "propsVocabulary": {
     "value": "bar percentage 0-100 — sets inline style --value: N% on the __fill (data-driven). Structural, no class.",
     "valueText": "optional text label rendered above the bar in pa-data-bar__value (a <div>); omitted entirely when falsy",
-    "variant": "colour variant (success|warning|danger|info|negative) — primary is the BASE fill (var(--pc-primary)) and emits NO modifier class",
+    "variant": "colour variant (success|warning|danger|info|negative) — primary is the BASE fill (var(--pc-primary-color)) and emits NO modifier class",
     "extraClass": "extra classes appended verbatim"
   },
   "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache). pa-data-bar is display:flex column: an optional pa-data-bar__value label stacked ABOVE a pa-data-bar__track that wraps a pa-data-bar__fill. The fill's percentage is a data-driven inline style (style=\"--value: {value}%\") treated as a scenario-provided value so both wrappers receive the same input. The value label is a block-level <div class=\"pa-data-bar__value\"> (column flow); it is omitted when valueText is falsy. primary is the DEFAULT variant and emits NO pa-data-bar--primary class (the base fill IS the accent; no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",

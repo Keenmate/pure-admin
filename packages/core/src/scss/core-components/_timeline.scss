@@ -55,7 +55,7 @@
       bottom: -$timeline-block-sc-item-gap; // bridge the inter-card margin so the rail is continuous
       height: auto; // reset the two-column connector's fixed height so top/bottom stretch it
       width: $timeline-block-line-width;
-      background: var(--pc-primary);
+      background: var(--pc-primary-color);
       z-index: 0;
 
       @if $side == start {
@@ -158,9 +158,9 @@
         width: $timeline-simple-dot-size;
         height: $timeline-simple-dot-size;
         background: var(--pc-main-bg);
-        border: $timeline-simple-dot-border solid var(--pc-primary);
+        border: $timeline-simple-dot-border solid var(--pc-primary-color);
         border-radius: $timeline-simple-dot-border-radius;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-primary) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-primary-color) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       // Marker color modifiers
@@ -170,23 +170,23 @@
       }
 
       &--success::before {
-        border-color: var(--pc-success);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-success) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-success-color);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-success-color) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--warning::before {
-        border-color: var(--pc-warning);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-warning) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-warning-color);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-warning-color) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--danger::before {
-        border-color: var(--pc-danger);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-danger) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-danger-color);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-danger-color) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--info::before {
-        border-color: var(--pc-info);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-info) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-info-color);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-info-color) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--secondary::before {
@@ -196,7 +196,7 @@
 
       // Filled/solid bullet modifier
       &--filled::before {
-        background: var(--pc-primary);
+        background: var(--pc-primary-color);
       }
 
       &--filled.pa-timeline__item--primary::before {
@@ -204,19 +204,19 @@
       }
 
       &--filled.pa-timeline__item--success::before {
-        background: var(--pc-success);
+        background: var(--pc-success-color);
       }
 
       &--filled.pa-timeline__item--warning::before {
-        background: var(--pc-warning);
+        background: var(--pc-warning-color);
       }
 
       &--filled.pa-timeline__item--danger::before {
-        background: var(--pc-danger);
+        background: var(--pc-danger-color);
       }
 
       &--filled.pa-timeline__item--info::before {
-        background: var(--pc-info);
+        background: var(--pc-info-color);
       }
 
       &--filled.pa-timeline__item--secondary::before {
@@ -255,7 +255,7 @@
       content: '';
       position: absolute;
       width: $timeline-block-line-width;
-      background: var(--pc-primary);
+      background: var(--pc-primary-color);
       top: 0;
       bottom: 0;
       left: 50%;
@@ -295,7 +295,7 @@
           top: $timeline-block-dot-top-offset;
           right: $timeline-block-dot-horizontal-offset;
           background: var(--pc-main-bg);
-          border: $timeline-block-dot-border solid var(--pc-primary);
+          border: $timeline-block-dot-border solid var(--pc-primary-color);
           border-radius: 50%;
           z-index: 1;
         }
@@ -308,7 +308,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           right: $timeline-block-connector-horizontal-offset;
-          background: var(--pc-primary);
+          background: var(--pc-primary-color);
           z-index: 1;
         }
       }
@@ -340,7 +340,7 @@
           top: $timeline-block-dot-top-offset;
           left: $timeline-block-dot-horizontal-offset;
           background: var(--pc-main-bg);
-          border: $timeline-block-dot-border solid var(--pc-primary);
+          border: $timeline-block-dot-border solid var(--pc-primary-color);
           border-radius: 50%;
           z-index: 1;
         }
@@ -353,7 +353,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           left: $timeline-block-connector-horizontal-offset;
-          background: var(--pc-primary);
+          background: var(--pc-primary-color);
           z-index: 1;
         }
       }
@@ -366,7 +366,7 @@
       text-align: center;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       text-transform: uppercase;
       letter-spacing: $timeline-block-date-letter-spacing;
       z-index: 1;
@@ -380,16 +380,16 @@
       width: $timeline-block-icon-size;
       height: $timeline-block-icon-size;
       top: $timeline-block-icon-top-offset;
-      background: var(--pc-warning);
-      border: $timeline-block-icon-border solid var(--pc-primary);
+      background: var(--pc-warning-color);
+      border: $timeline-block-icon-border solid var(--pc-primary-color);
       border-radius: 50%;
       font-size: $font-size-lg;
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       z-index: 1;
     }
 
     .pa-timeline__content {
-      background: var(--pc-warning);
+      background: var(--pc-warning-color);
       position: relative;
 
       h3 {
@@ -454,7 +454,7 @@
       line-height: $line-height-relaxed;
 
       a {
-        color: var(--pc-primary);
+        color: var(--pc-primary-color);
         text-decoration: none;
         font-weight: $font-weight-medium;
 

@@ -265,27 +265,27 @@
   // shared --pc-{role} / --base-text-on-{role} tokens (= the .surface-{role}
   // utilities).
   &--primary {
-    --pa-card-header-bg: var(--pc-primary);
+    --pa-card-header-bg: var(--pc-primary-color);
     --pa-card-header-text: var(--base-on-primary-text-color);
-    --pa-card-border-color: var(--pc-primary);
+    --pa-card-border-color: var(--pc-primary-color);
   }
 
   &--success {
-    --pa-card-header-bg: var(--pc-success);
+    --pa-card-header-bg: var(--pc-success-color);
     --pa-card-header-text: var(--base-on-success-text-color);
-    --pa-card-border-color: var(--pc-success);
+    --pa-card-border-color: var(--pc-success-color);
   }
 
   &--warning {
-    --pa-card-header-bg: var(--pc-warning);
+    --pa-card-header-bg: var(--pc-warning-color);
     --pa-card-header-text: var(--base-on-warning-text-color);
-    --pa-card-border-color: var(--pc-warning);
+    --pa-card-border-color: var(--pc-warning-color);
   }
 
   &--danger {
-    --pa-card-header-bg: var(--pc-danger);
+    --pa-card-header-bg: var(--pc-danger-color);
     --pa-card-header-text: var(--base-on-danger-text-color);
-    --pa-card-border-color: var(--pc-danger);
+    --pa-card-border-color: var(--pc-danger-color);
   }
 
   // Theme color variants (color-1 through color-9)

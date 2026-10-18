@@ -228,7 +228,7 @@
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pc-primary);
+    outline: $focus-outline-width solid var(--pc-primary-color);
     outline-offset: $focus-outline-offset;
   }
 }

@@ -1,10 +1,10 @@
 {
-  "//": "Markup-fidelity fixture for the PARAGRAPH typography component (svelte typography/Paragraph.svelte, keen Typography.paragraph/1). As of core 3.3.0-rc06 the old `.pa-text` BEM component is GONE — paragraphs now compose the flat `text-*` typography utilities (utilities.scss / snippets/typography.html) on a plain `<p>`. There is NO block/element/modifier structure: a paragraph with no props is a bare `<p>` at the body default (16px); each prop adds one flat utility class. Size/align/semantic map 1:1 to `text-{value}`; colour is irregular (primary → text-body = default body colour, secondary → text-secondary = muted). See label.json for a real BEM flat-element-with-modifiers component by contrast.",
+  "//": "Markup-fidelity fixture for the PARAGRAPH typography component (svelte typography/Paragraph.svelte, keen Typography.paragraph/1). As of core 3.3.0-rc06 the old `.pa-text` BEM component is GONE — paragraphs now compose the flat `text-*` typography utilities (utilities.scss / snippets/typography.html) on a plain `<p>`. There is NO block/element/modifier structure: a paragraph with no props is a bare `<p>` at the body default (16px); each prop adds one flat utility class. Size/align/semantic map 1:1 to `text-{value}`; colour is irregular (primary → text-body = default body colour, secondary → text-muted = muted). See label.json for a real BEM flat-element-with-modifiers component by contrast.",
   "component": "paragraph",
   "block": "text",
   "propsVocabulary": {
     "size": "size modifier xs|sm|lg|xl (default unset = 16px body default, bare <p>) → text-{value}",
-    "color": "colour modifier primary|secondary → text-body (primary = default body colour) | text-secondary (muted). Irregular map, so not a {value} template.",
+    "color": "colour modifier primary|secondary → text-body (primary = default body colour) | text-muted (muted). Irregular map, so not a {value} template.",
     "align": "logical text alignment start|center|end → text-{value} (RTL-aware)",
     "semantic": "compound semantic style caption|lead → text-{value}",
     "content": "inner text content (slot / inner_block)",
@@ -12,9 +12,9 @@
   },
   "goldenConventions": "Structural only. Base is a plain `<p>` with NO class when no prop is set; each set prop appends one flat `text-*` utility. Slot content is a plain text token so the diff checks tag + class + nesting, not rich content. Class-token order + whitespace are normalized away, so goldens are written for readability.",
   "features": {
-    "//": "Feature→class contract authored from dist/css/main.css. size/align/semantic use the uniform `text-{value}` template (capability.mjs expands + phantom-checks each against main.css). `color` produces null because its map is irregular (primary → text-body, NOT text-primary; secondary → text-secondary) — the two classes are instead exercised by the color-* scenario goldens. The `text` block matches no `text--*`/`text__*` in CSS (flat utilities, not BEM), so the capability gate emits a harmless advisory 'matched 0' note — expected for a utility-composed component.",
+    "//": "Feature→class contract authored from dist/css/main.css. size/align/semantic use the uniform `text-{value}` template (capability.mjs expands + phantom-checks each against main.css). `color` produces null because its map is irregular (primary → text-body, NOT text-primary; secondary → text-muted) — the two classes are instead exercised by the color-* scenario goldens. The `text` block matches no `text--*`/`text__*` in CSS (flat utilities, not BEM), so the capability gate emits a harmless advisory 'matched 0' note — expected for a utility-composed component.",
     "size":       { "kind": "enum",   "options": ["xs", "sm", "lg", "xl"], "produces": "text-{value}" },
-    "color":      { "kind": "enum",   "options": ["primary", "secondary"], "produces": null, "note": "primary → text-body (default body colour), secondary → text-secondary (muted); exercised by color-* goldens" },
+    "color":      { "kind": "enum",   "options": ["primary", "secondary"], "produces": null, "note": "primary → text-body (default body colour), secondary → text-muted (muted); exercised by color-* goldens" },
     "align":      { "kind": "enum",   "options": ["start", "center", "end"], "produces": "text-{value}" },
     "semantic":   { "kind": "enum",   "options": ["caption", "lead"], "produces": "text-{value}" },
     "content":    { "kind": "slot",   "produces": null, "note": "inner text of the paragraph" },
@@ -59,7 +59,7 @@
     {
       "name": "color-secondary",
       "props": { "color": "secondary", "content": "Muted" },
-      "golden": "<p class=\"text-secondary\">Muted</p>"
+      "golden": "<p class=\"text-muted\">Muted</p>"
     },
     {
       "name": "align-start",
@@ -89,7 +89,7 @@
     {
       "name": "combined",
       "props": { "size": "sm", "color": "secondary", "align": "center", "content": "Small muted centered" },
-      "golden": "<p class=\"text-center text-secondary text-sm\">Small muted centered</p>",
+      "golden": "<p class=\"text-center text-muted text-sm\">Small muted centered</p>",
       "note": "Stacks align + colour + size; class-token order is normalized away."
     },
     {

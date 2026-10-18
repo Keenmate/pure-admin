@@ -268,7 +268,7 @@
         // Apply a concrete mode class ('light'/'dark') to <html> (the :root element).
         // It MUST be on :root, not <body>: the token overrides in .pc-mode-* only
         // re-resolve the :root-declared --pa-* tokens (e.g. --pa-btn-info-bg:
-        // var(--pc-info)) when the override sits on the same element that declares
+        // var(--pc-info-color)) when the override sits on the same element that declares
         // them. On <body> those derived tokens freeze at the :root default.
         // No persistence — callers decide what value ('light'/'dark'/'auto') to store.
         const applyModeClass = (mode, manifest) => {

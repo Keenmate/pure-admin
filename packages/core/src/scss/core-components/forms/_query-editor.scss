@@ -36,8 +36,8 @@
 
   &__field {
     display: inline;
-    background-color: color-mix(in srgb, var(--pc-primary) 15%, transparent);
-    color: var(--pc-primary);
+    background-color: color-mix(in srgb, var(--pc-primary-color) 15%, transparent);
+    color: var(--pc-primary-color);
     padding: 0.2rem 0.4rem;
     border-radius: var(--pc-border-radius-sm);
     font-weight: $font-weight-medium;
@@ -45,8 +45,8 @@
 
   &__operator {
     display: inline;
-    background-color: color-mix(in srgb, var(--pc-success) 15%, transparent);
-    color: var(--pc-success);
+    background-color: color-mix(in srgb, var(--pc-success-color) 15%, transparent);
+    color: var(--pc-success-color);
     padding: 0.2rem 0.4rem;
     border-radius: var(--pc-border-radius-sm);
     font-weight: $font-weight-medium;
@@ -81,7 +81,7 @@
 
     &-name {
       font-weight: $font-weight-medium;
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &-type {
@@ -118,7 +118,7 @@
     padding: 0 0.15em;
     border-radius: 0.2rem;
     background-color: var(--pa-search-mark-bg,
-      color-mix(in srgb, var(--pc-primary) 15%, transparent));
+      color-mix(in srgb, var(--pc-primary-color) 15%, transparent));
     color: var(--pa-search-mark-color, inherit);
     font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
   }
@@ -234,11 +234,11 @@
   font-weight: $font-weight-medium;
 
   &--field {
-    background-color: color-mix(in srgb, var(--pc-primary) 15%, transparent);
+    background-color: color-mix(in srgb, var(--pc-primary-color) 15%, transparent);
     color: var(--pc-text-color-1);
 
     &.pa-inline-query-token--invalid {
-      background-color: color-mix(in srgb, var(--pc-danger) 15%, transparent);
+      background-color: color-mix(in srgb, var(--pc-danger-color) 15%, transparent);
       color: var(--pc-text-color-1);
       text-decoration: wavy underline;
     }
@@ -250,12 +250,12 @@
   }
 
   &--value {
-    background-color: color-mix(in srgb, var(--pc-success) 15%, transparent);
+    background-color: color-mix(in srgb, var(--pc-success-color) 15%, transparent);
     color: var(--pc-text-color-1);
   }
 
   &--keyword {
-    background-color: color-mix(in srgb, var(--pc-warning) 15%, transparent);
+    background-color: color-mix(in srgb, var(--pc-warning-color) 15%, transparent);
     color: var(--pc-text-color-1);
     font-style: italic;
   }
@@ -301,7 +301,7 @@
     &-name {
       display: block;
       font-weight: $font-weight-medium;
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       line-height: 1.3;
     }
 

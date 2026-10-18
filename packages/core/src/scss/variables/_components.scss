@@ -251,7 +251,7 @@ $detail-panel-z-index: 4500 !default;
 $detail-panel-shadow: $shadow-profile-panel !default;
 $detail-panel-close-size: 3.2rem !default;
 $detail-panel-resize-handle-width: 6px !default;
-$detail-panel-selected-bg: color-mix(in srgb, var(--pc-primary) 8%, transparent) !default;
+$detail-panel-selected-bg: color-mix(in srgb, var(--pc-primary-color) 8%, transparent) !default;
 
 // ============================================================================
 // CARD SYSTEM
@@ -370,7 +370,7 @@ $checkbox-bg: $card-bg !default;                          // Unchecked backgroun
 $checkbox-bg-checked: $primary-color !default;             // Checked background
 $checkbox-bg-indeterminate: $primary-color !default;       // Indeterminate background
 $checkbox-checkmark-color: white !default;                // Checkmark/dash color
-$checkbox-focus-shadow: 0 0 0 2px color-mix(in srgb, var(--pc-primary) 25%, transparent) !default;
+$checkbox-focus-shadow: 0 0 0 2px color-mix(in srgb, var(--pc-primary-color) 25%, transparent) !default;
 $checkbox-transition: $transition-fast !default;
 
 // NOTE: the $multiselect-* $-vars were removed — dead vocabulary. web-multiselect
@@ -625,11 +625,11 @@ $command-palette-input-font-size: $font-size-base !default;
 $command-palette-results-max-height: 38.4rem !default;  // 384px (was 24rem)
 $command-palette-empty-padding-v: $spacing-2xl !default;
 $command-palette-item-padding-v: $spacing-sm !default;
-$command-palette-item-hover-bg: color-mix(in srgb, var(--pc-primary) 5%, transparent) !default;
-$command-palette-item-active-bg: color-mix(in srgb, var(--pc-primary) 10%, transparent) !default;
+$command-palette-item-hover-bg: color-mix(in srgb, var(--pc-primary-color) 5%, transparent) !default;
+$command-palette-item-active-bg: color-mix(in srgb, var(--pc-primary-color) 10%, transparent) !default;
 $command-palette-item-icon-size: 3.2rem !default;  // 32px (was 2rem)
 $command-palette-item-icon-glyph: 1.8rem !default; // rendered SVG/.pa-icon/<i> size inside the icon box
-$command-palette-highlight-bg: color-mix(in srgb, var(--pc-primary) 20%, transparent) !default;
+$command-palette-highlight-bg: color-mix(in srgb, var(--pc-primary-color) 20%, transparent) !default;
 $command-palette-highlight-text: $primary-color !default;
 
 // ============================================================================
@@ -768,7 +768,7 @@ $fields-bordered-padding: $spacing-sm !default;
 $fields-bordered-border-color: var(--pc-border-color) !default;
 $fields-striped-bg: $table-stripe !default;
 $fields-cols-gap: $spacing-base !default;
-$fields-border-left: 3px solid var(--pc-primary) !default;
+$fields-border-left: 3px solid var(--pc-primary-color) !default;
 $fields-padding-left: $spacing-base !default;
 $fields-filled-bg: rgba(128, 128, 128, 0.06) !default;
 $fields-filled-padding: $spacing-base !default;
@@ -938,12 +938,12 @@ $bar-list-value-font-weight: $font-weight-semibold !default;
 $splitter-gutter-size: 0.6rem !default;                        // 6px gutter thickness
 $splitter-gutter-bg: rgba(128, 128, 128, 0.08) !default;
 $splitter-gutter-hover-bg: rgba(128, 128, 128, 0.18) !default;
-$splitter-gutter-active-bg: color-mix(in srgb, var(--pc-primary) 35%, transparent) !default; // mid-drag
+$splitter-gutter-active-bg: color-mix(in srgb, var(--pc-primary-color) 35%, transparent) !default; // mid-drag
 $splitter-gutter-grip-length: 2.4rem !default;                 // 24px grip indicator
 $splitter-gutter-grip-thickness: 2px !default;
 $splitter-gutter-grip-color: rgba(128, 128, 128, 0.45) !default;
 $splitter-gutter-grip-hover-color: $primary-color !default;
-$splitter-focus-ring-color: color-mix(in srgb, var(--pc-primary) 40%, transparent) !default;
+$splitter-focus-ring-color: color-mix(in srgb, var(--pc-primary-color) 40%, transparent) !default;
 $splitter-focus-ring-width: 2px !default;
 $splitter-transition: background-color 0.15s ease !default;
 $splitter-pane-min-size: 0 !default;                           // absolute floor regardless of constraints

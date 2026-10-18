@@ -162,14 +162,14 @@
     // colours (same ones the surface-{role}/surface-color-N utilities use).
     &--underlined {
       h1, h2, h3, h4, h5, h6 {
-        border-bottom: $border-width-medium solid var(--pa-card-underline-color, var(--pc-primary));
+        border-bottom: $border-width-medium solid var(--pa-card-underline-color, var(--pc-primary-color));
         padding-bottom: $spacing-sm;
       }
 
-      &.pa-card__header--underline-success { --pa-card-underline-color: var(--pc-success); }
-      &.pa-card__header--underline-warning { --pa-card-underline-color: var(--pc-warning); }
-      &.pa-card__header--underline-danger  { --pa-card-underline-color: var(--pc-danger); }
-      &.pa-card__header--underline-info    { --pa-card-underline-color: var(--pc-info); }
+      &.pa-card__header--underline-success { --pa-card-underline-color: var(--pc-success-color); }
+      &.pa-card__header--underline-warning { --pa-card-underline-color: var(--pc-warning-color); }
+      &.pa-card__header--underline-danger  { --pa-card-underline-color: var(--pc-danger-color); }
+      &.pa-card__header--underline-info    { --pa-card-underline-color: var(--pc-info-color); }
 
       @for $i from 1 through 9 {
         &.pa-card__header--underline-color-#{$i} { --pa-card-underline-color: var(--pc-palette-#{$i}); }
@@ -350,27 +350,27 @@
   // shared --pc-{role} / --base-text-on-{role} tokens (same ones .surface-{role}
   // uses), so cards, utilities, and the underline all paint from one set.
   &--primary {
-    --pa-card-header-bg: var(--pc-primary);
+    --pa-card-header-bg: var(--pc-primary-color);
     --pa-card-header-text: var(--base-on-primary-text-color);
-    --pa-card-border-color: var(--pc-primary);
+    --pa-card-border-color: var(--pc-primary-color);
   }
 
   &--success {
-    --pa-card-header-bg: var(--pc-success);
+    --pa-card-header-bg: var(--pc-success-color);
     --pa-card-header-text: var(--base-on-success-text-color);
-    --pa-card-border-color: var(--pc-success);
+    --pa-card-border-color: var(--pc-success-color);
   }
 
   &--warning {
-    --pa-card-header-bg: var(--pc-warning);
+    --pa-card-header-bg: var(--pc-warning-color);
     --pa-card-header-text: var(--base-on-warning-text-color);
-    --pa-card-border-color: var(--pc-warning);
+    --pa-card-border-color: var(--pc-warning-color);
   }
 
   &--danger {
-    --pa-card-header-bg: var(--pc-danger);
+    --pa-card-header-bg: var(--pc-danger-color);
     --pa-card-header-text: var(--base-on-danger-text-color);
-    --pa-card-border-color: var(--pc-danger);
+    --pa-card-border-color: var(--pc-danger-color);
   }
 
   &--stat {
@@ -448,12 +448,12 @@
 
     &:hover {
       color: var(--pc-text-color-1);
-      background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
+      background-color: color-mix(in srgb, var(--pc-primary-color) #{$card-tab-hover-opacity * 100%}, transparent);
     }
 
     &--active {
-      color: var(--pc-primary);
-      border-bottom-color: var(--pc-primary);
+      color: var(--pc-primary-color);
+      border-bottom-color: var(--pc-primary-color);
     }
   }
 
@@ -484,12 +484,12 @@
       transition: all $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pc-primary) #{$card-tab-hover-opacity * 100%}, transparent);
+        background-color: color-mix(in srgb, var(--pc-primary-color) #{$card-tab-hover-opacity * 100%}, transparent);
         color: var(--pc-text-color-1);
       }
 
       &--active {
-        background: var(--pc-primary);
+        background: var(--pc-primary-color);
         color: var(--pa-btn-primary-text);
       }
     }
@@ -524,7 +524,7 @@ a.pa-card {
   > h3 {
     color: var(--pc-text-color-1);
     margin-bottom: $spacing-base;
-    border-bottom: $border-width-medium solid var(--pc-primary);
+    border-bottom: $border-width-medium solid var(--pc-primary-color);
     padding-bottom: $spacing-sm;
   }
 }
@@ -533,7 +533,7 @@ a.pa-card {
 .pa-section-title {
   color: var(--pc-text-color-1);
   margin-bottom: $spacing-base;
-  border-bottom: $border-width-medium solid var(--pc-primary);
+  border-bottom: $border-width-medium solid var(--pc-primary-color);
   padding-bottom: $spacing-sm;
 }
 

@@ -427,9 +427,9 @@
     transition: all $transition-fast $easing-smooth;
 
     &:hover {
-      background-color: var(--pc-primary);
+      background-color: var(--pc-primary-color);
       color: var(--pa-modal-content-bg);
-      border-color: var(--pc-primary);
+      border-color: var(--pc-primary-color);
     }
   }
 
@@ -483,11 +483,11 @@
     }
 
     a {
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       text-decoration: underline;
 
       &:hover {
-        color: var(--pc-primary-hover);
+        color: var(--pc-primary-color-hover);
       }
     }
 

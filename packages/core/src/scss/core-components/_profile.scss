@@ -46,7 +46,7 @@
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pc-primary);
+    outline: $focus-outline-width solid var(--pc-primary-color);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -139,7 +139,7 @@
 
   &__avatar-icon {
     font-size: $font-size-4xl;
-    color: var(--pc-primary);
+    color: var(--pc-primary-color);
   }
 
   &__info {
@@ -202,11 +202,11 @@
 
     &:hover {
       background-color: var(--pc-primary-bg-subtle);
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &:focus {
-      outline: $focus-outline-width solid var(--pc-primary);
+      outline: $focus-outline-width solid var(--pc-primary-color);
       outline-offset: $focus-outline-offset;
     }
   }
@@ -246,11 +246,11 @@
 
     &:hover {
       background-color: var(--pc-primary-bg-subtle);
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &:focus {
-      outline: $focus-outline-width solid var(--pc-primary);
+      outline: $focus-outline-width solid var(--pc-primary-color);
       outline-offset: $focus-outline-offset;
     }
   }
@@ -310,7 +310,7 @@
 
       &--active {
         opacity: 1;
-        border-bottom-color: var(--pc-primary);
+        border-bottom-color: var(--pc-primary-color);
       }
     }
 
@@ -353,11 +353,11 @@
 
     &:hover {
       background-color: var(--pc-primary-bg-subtle);
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
 
     &:focus {
-      outline: $focus-outline-width solid var(--pc-primary);
+      outline: $focus-outline-width solid var(--pc-primary-color);
       outline-offset: $focus-outline-offset;
     }
   }

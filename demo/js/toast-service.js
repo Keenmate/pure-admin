@@ -298,7 +298,7 @@
 
     /**
      * Show a danger toast — alias of error(), named for the `danger` variant
-     * used everywhere else (pa-btn--danger, pa-toast--danger, --pc-danger).
+     * used everywhere else (pa-btn--danger, pa-toast--danger, --pc-danger-color).
      * @param {string} message - Toast message
      * @param {Object} options - Additional options
      * @returns {string} - Toast ID

@@ -30,7 +30,7 @@
 // KeenMate web components together. pure-admin defines NO parallel source of
 // truth and there is no `$pc-*` SCSS var — the `pc` layer is born at emission as
 // a CSS property pointing back at --base-*.
-// Full layered walk-through (the --pc-primary pipeline, LAYER 0→5):
+// Full layered walk-through (the --pc-primary-color pipeline, LAYER 0→5):
 //   https://github.com/keenmate/base-css-variables  — README § "The layer pipeline"
 // ============================================================================
 

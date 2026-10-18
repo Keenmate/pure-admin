@@ -64,7 +64,7 @@
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pc-danger) #{$btn-focus-ring-opacity * 100%}, transparent);
+      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pc-danger-color) #{$btn-focus-ring-opacity * 100%}, transparent);
     }
   }
 }

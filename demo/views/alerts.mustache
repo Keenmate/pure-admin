@@ -495,7 +495,7 @@
             <li><code>pa-alert--dismissible</code> &mdash; Adds inline-end padding so the absolutely-positioned close button doesn't overlap text</li>
             <li><code>pa-alert--multiline</code> &mdash; Opts out of the default <code>align-items: center</code> so an icon next to multi-line <code>pa-alert__content</code> stays top-aligned with the heading instead of centring against the content stack</li>
         </ul>
-        <p class="text-sm text-secondary mt-2">
+        <p class="text-sm text-muted mt-2">
             V steps <code>0.5 &rarr; 0.75 &rarr; 1rem</code>; H steps <code>1 &rarr; 1.25 &rarr; 1.5rem</code> &mdash; clean 0.25rem increments.
             Themes can retune the scale via the
             <code>$alert-padding-&#123;v,h&#125;</code>,
@@ -514,7 +514,7 @@
             <li><code>pa-alert__actions</code> &mdash; Action buttons row, sits below a thin divider with symmetric padding (same separator pattern as <code>pa-toast__actions</code>); always renders on its own row at the bottom</li>
             <li><code>pa-alert__close</code> &mdash; Close/dismiss button (absolutely positioned, inline-end &mdash; RTL-aware)</li>
         </ul>
-        <p class="text-sm text-secondary mt-2">
+        <p class="text-sm text-muted mt-2">
             <strong>Layout note:</strong> the alert is <code>display: flex; flex-wrap: wrap</code> with <code>gap: $spacing-sm</code>.
             Structural children (<code>__heading</code>, <code>__list</code>, <code>__actions</code>, top-level <code>&lt;p&gt;</code>, <code>&lt;hr&gt;</code>)
             get <code>flex-basis: 100%</code> so they take their own row; inline siblings (<code>__icon</code>, <code>__content</code>, bare text + <code>&lt;strong&gt;</code>) stay on the flex row.

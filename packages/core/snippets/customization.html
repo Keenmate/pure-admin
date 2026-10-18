@@ -27,7 +27,7 @@
 <!--
 --pc-*       Framework runtime tokens (the bulk of the surface).
               Each theme sets these on :root. Examples:
-                --pc-primary             accent / brand colour
+                --pc-primary-color             accent / brand colour
                 --pc-text-color-1       primary text
                 --pc-text-color-2       secondary / muted text
                 --pa-card-bg            card surface
@@ -62,13 +62,13 @@
 <style>
 /* App-wide accent + main background override */
 :root {
-    --pc-primary: #ff6b35;
+    --pc-primary-color: #ff6b35;
     --pc-main-bg: #fafafa;
 }
 
 /* Scope to a single section without affecting the rest of the app */
 .special-section {
-    --pc-primary: #6b46c1;
+    --pc-primary-color: #6b46c1;
     --pa-card-bg: #ffffff;
 }
 </style>
@@ -310,13 +310,13 @@ STRUCTURE PATTERNS:
 
 App-wide accent override:
 <style>
-  :root { --pc-primary: #ff6b35; }
+  :root { --pc-primary-color: #ff6b35; }
 </style>
 
 Section-scoped theme tweak:
 <style>
   .marketing-section {
-    --pc-primary: #6b46c1;
+    --pc-primary-color: #6b46c1;
     --pa-card-bg: #ffffff;
   }
 </style>

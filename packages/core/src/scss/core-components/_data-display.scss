@@ -139,7 +139,7 @@
     .pa-field__value::after {
       content: var(--pa-copied-text, 'Copied!') !important;
       opacity: 1 !important;
-      color: var(--pc-success);
+      color: var(--pc-success-color);
     }
   }
 }
@@ -458,22 +458,22 @@
       // exist, so chips silently used the hardcoded RGB fallbacks below.)
       &--success {
         background: var(--pa-success-bg-light);
-        color: var(--pc-success);
+        color: var(--pc-success-color);
       }
 
       &--warning {
         background: var(--pa-warning-bg-light);
-        color: var(--pc-warning);
+        color: var(--pc-warning-color);
       }
 
       &--danger {
         background: var(--pa-danger-bg-light);
-        color: var(--pc-danger);
+        color: var(--pc-danger-color);
       }
 
       &--info {
         background: var(--pa-info-bg-light);
-        color: var(--pc-info);
+        color: var(--pc-info-color);
       }
     }
   }
@@ -690,7 +690,7 @@
   &__value--copied::after {
     content: var(--pa-copied-text, 'Copied!') !important;
     opacity: 1 !important;
-    color: var(--pc-success);
+    color: var(--pc-success-color);
   }
 }
 
@@ -1019,7 +1019,7 @@
   &__row--copied &__value::after {
     content: var(--pa-copied-text, 'Copied!') !important;
     opacity: 1 !important;
-    color: var(--pc-success);
+    color: var(--pc-success-color);
   }
 }
 
@@ -1036,12 +1036,12 @@
   &__item {
     padding: $accent-grid-item-padding-v $accent-grid-item-padding-h;
     padding-inline-start: $accent-grid-item-padding-start;
-    border-inline-start: $accent-grid-border-width solid var(--pc-primary);
+    border-inline-start: $accent-grid-border-width solid var(--pc-primary-color);
 
-    &--success { border-inline-start-color: var(--pc-success); }
-    &--warning { border-inline-start-color: var(--pc-warning); }
-    &--danger  { border-inline-start-color: var(--pc-danger); }
-    &--info    { border-inline-start-color: var(--pc-info); }
+    &--success { border-inline-start-color: var(--pc-success-color); }
+    &--warning { border-inline-start-color: var(--pc-warning-color); }
+    &--danger  { border-inline-start-color: var(--pc-danger-color); }
+    &--info    { border-inline-start-color: var(--pc-info-color); }
   }
 
   &__label {
@@ -1116,6 +1116,6 @@
   &__item--copied &__value::after {
     content: var(--pa-copied-text, 'Copied!') !important;
     opacity: 1 !important;
-    color: var(--pc-success);
+    color: var(--pc-success-color);
   }
 }

@@ -110,7 +110,7 @@ Set/override a token by role: foundation → `--pc-`, component → `--pa-`.
 | `--pc-subtle-bg` | Subtle/muted area background |
 | `--pc-text-color-1` | Primary text color |
 | `--pc-text-color-2` | Secondary text color |
-| `--pc-primary` | Accent color |
+| `--pc-primary-color` | Accent color |
 | `--pc-primary-bg-subtle-hover` | Accent hover |
 | `--pc-primary-bg-subtle` | Light accent background |
 | `--pc-border-color` | Border color |
@@ -325,7 +325,7 @@ without a recompile:
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `--pa-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pc-primary) 15%, transparent)` |
+| `--pa-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pc-primary-color) 15%, transparent)` |
 | `--pa-search-mark-color` | Highlight text colour | `inherit` |
 | `--pa-search-mark-weight` | Highlight font weight | `500` (medium) |
 
@@ -362,9 +362,9 @@ to the framework default shown, so a `var()` reference never collapses to nothin
 | Variable | Purpose | Falls back to |
 |----------|---------|---------------|
 | `--pa-range-track` | Slider track colour | `--pc-surface-track` |
-| `--pa-range-fill` | Selected-range fill (and value readout) | `--pc-primary` |
+| `--pa-range-fill` | Selected-range fill (and value readout) | `--pc-primary-color` |
 | `--pa-range-thumb-bg` | Handle interior | `--pa-card-bg` |
-| `--pa-range-thumb-border` | Handle ring / bar / chevron colour | `--pc-primary` |
+| `--pa-range-thumb-border` | Handle ring / bar / chevron colour | `--pc-primary-color` |
 | `--pa-range-thumb-border-hover` | Handle colour on hover | `--pc-primary-bg-subtle-hover` |
 | `--pa-range-focus-ring` | Thumb focus / active ring | `--pc-primary-bg-subtle` |
 | `--pa-range-tick` | Minor tick-mark colour | `--pc-border-color` |

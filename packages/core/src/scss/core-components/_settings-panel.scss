@@ -19,7 +19,7 @@
     top: 0;
     width: $profile-panel-toggle-size;
     height: $profile-panel-toggle-size;
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
     color: white;
     border: none;
     border-start-start-radius: var(--pc-border-radius); // RTL: top-right in RTL
@@ -102,7 +102,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--pc-primary);
+      border-color: var(--pc-primary-color);
       box-shadow: 0 0 0 $focus-ring-width var(--pa-input-focus-shadow-color);
     }
   }
@@ -133,7 +133,7 @@
     }
 
     &:hover {
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
     }
   }
 

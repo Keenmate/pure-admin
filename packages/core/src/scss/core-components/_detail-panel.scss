@@ -216,11 +216,11 @@
 
   &:hover {
     background-color: var(--pc-primary-bg-subtle);
-    color: var(--pc-primary);
+    color: var(--pc-primary-color);
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pc-primary);
+    outline: $focus-outline-width solid var(--pc-primary-color);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -243,7 +243,7 @@
 
     &--active {
       color: var(--pc-text-color-1);
-      border-bottom-color: var(--pc-primary);
+      border-bottom-color: var(--pc-primary-color);
     }
   }
 }
@@ -282,7 +282,7 @@
 
   &:hover,
   &--active {
-    background-color: var(--pc-primary);
+    background-color: var(--pc-primary-color);
     opacity: 0.3;
   }
 }

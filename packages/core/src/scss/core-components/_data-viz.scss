@@ -20,7 +20,7 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
@@ -53,10 +53,10 @@
   }
 
   // Color variants
-  &--success > .pa-progress__fill { background: var(--pc-success); }
-  &--warning > .pa-progress__fill { background: var(--pc-warning); }
-  &--danger > .pa-progress__fill  { background: var(--pc-danger); }
-  &--info > .pa-progress__fill    { background: var(--pc-info); }
+  &--success > .pa-progress__fill { background: var(--pc-success-color); }
+  &--warning > .pa-progress__fill { background: var(--pc-warning-color); }
+  &--danger > .pa-progress__fill  { background: var(--pc-danger-color); }
+  &--info > .pa-progress__fill    { background: var(--pc-info-color); }
 
   // Rounded (pill shape)
   &--rounded {
@@ -116,12 +116,12 @@
     transition: width $transition-medium $easing-smooth;
 
     // Default color
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
 
-    &--success { background: var(--pc-success); }
-    &--warning { background: var(--pc-warning); }
-    &--danger  { background: var(--pc-danger); }
-    &--info    { background: var(--pc-info); }
+    &--success { background: var(--pc-success-color); }
+    &--warning { background: var(--pc-warning-color); }
+    &--danger  { background: var(--pc-danger-color); }
+    &--info    { background: var(--pc-info-color); }
     &--secondary { background: var(--pa-btn-secondary-bg); }
   }
 
@@ -147,11 +147,11 @@
     border-radius: var(--pc-border-radius-sm);
     flex-shrink: 0;
 
-    &--primary   { background: var(--pc-primary); }
-    &--success   { background: var(--pc-success); }
-    &--warning   { background: var(--pc-warning); }
-    &--danger    { background: var(--pc-danger); }
-    &--info      { background: var(--pc-info); }
+    &--primary   { background: var(--pc-primary-color); }
+    &--success   { background: var(--pc-success-color); }
+    &--warning   { background: var(--pc-warning-color); }
+    &--danger    { background: var(--pc-danger-color); }
+    &--info      { background: var(--pc-info-color); }
     &--secondary { background: var(--pa-btn-secondary-bg); }
   }
 
@@ -173,7 +173,7 @@
   height: $progress-ring-size;
   border-radius: 50%;
   background: conic-gradient(
-    var(--pc-primary) calc(var(--value, 0) * 3.6deg),
+    var(--pc-primary-color) calc(var(--value, 0) * 3.6deg),
     var(--pc-surface-track) 0deg
   );
   display: flex;
@@ -235,28 +235,28 @@
   // Color variants
   &--success {
     background: conic-gradient(
-      var(--pc-success) calc(var(--value, 0) * 3.6deg),
+      var(--pc-success-color) calc(var(--value, 0) * 3.6deg),
       var(--pc-surface-track) 0deg
     );
   }
 
   &--warning {
     background: conic-gradient(
-      var(--pc-warning) calc(var(--value, 0) * 3.6deg),
+      var(--pc-warning-color) calc(var(--value, 0) * 3.6deg),
       var(--pc-surface-track) 0deg
     );
   }
 
   &--danger {
     background: conic-gradient(
-      var(--pc-danger) calc(var(--value, 0) * 3.6deg),
+      var(--pc-danger-color) calc(var(--value, 0) * 3.6deg),
       var(--pc-surface-track) 0deg
     );
   }
 
   &--info {
     background: conic-gradient(
-      var(--pc-info) calc(var(--value, 0) * 3.6deg),
+      var(--pc-info-color) calc(var(--value, 0) * 3.6deg),
       var(--pc-surface-track) 0deg
     );
   }
@@ -269,7 +269,7 @@
 
 .pa-gauge {
   // Single token controls the active fill; colour variants override just this.
-  --pa-gauge-fill: var(--pc-primary);
+  --pa-gauge-fill: var(--pc-primary-color);
   // Total width of the gauge. Height auto-derives at half the width (the
   // gauge is a top semi-circle, so aspect ratio is fixed 2:1). Override
   // per instance via style="--pa-gauge-size: 16rem".
@@ -357,21 +357,21 @@
   &__max { right: 0; }
 
   // Colour variants override only the fill token.
-  &--success { --pa-gauge-fill: var(--pc-success); }
-  &--warning { --pa-gauge-fill: var(--pc-warning); }
-  &--danger  { --pa-gauge-fill: var(--pc-danger); }
-  &--info    { --pa-gauge-fill: var(--pc-info); }
+  &--success { --pa-gauge-fill: var(--pc-success-color); }
+  &--warning { --pa-gauge-fill: var(--pc-warning-color); }
+  &--danger  { --pa-gauge-fill: var(--pc-danger-color); }
+  &--info    { --pa-gauge-fill: var(--pc-info-color); }
 
   // Multi-zone gauge replaces the entire gradient on the pseudo.
   &--zones::before {
     background: conic-gradient(
       from 0.75turn at 50% 100%,
-      var(--pc-success) 0deg,
-      var(--pc-success) 90deg,
-      var(--pc-warning) 90deg,
-      var(--pc-warning) 135deg,
-      var(--pc-danger) 135deg,
-      var(--pc-danger) 180deg,
+      var(--pc-success-color) 0deg,
+      var(--pc-success-color) 90deg,
+      var(--pc-warning-color) 90deg,
+      var(--pc-warning-color) 135deg,
+      var(--pc-danger-color) 135deg,
+      var(--pc-danger-color) 180deg,
       var(--pc-surface-track) 180deg
     );
   }
@@ -406,20 +406,20 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
 
   // Color variants
-  &--success .pa-data-bar__fill { background: var(--pc-success); }
-  &--warning .pa-data-bar__fill { background: var(--pc-warning); }
-  &--danger .pa-data-bar__fill  { background: var(--pc-danger); }
-  &--info .pa-data-bar__fill    { background: var(--pc-info); }
+  &--success .pa-data-bar__fill { background: var(--pc-success-color); }
+  &--warning .pa-data-bar__fill { background: var(--pc-warning-color); }
+  &--danger .pa-data-bar__fill  { background: var(--pc-danger-color); }
+  &--info .pa-data-bar__fill    { background: var(--pc-info-color); }
 
   // Negative variant (red, right-aligned)
   &--negative .pa-data-bar__fill {
-    background: var(--pc-danger);
+    background: var(--pc-danger-color);
     margin-inline-start: auto;
   }
 }
@@ -439,25 +439,25 @@
     border-radius: var(--pc-border-radius-sm);
     background: var(--pc-surface-track);
 
-    &[data-level="1"] { background: color-mix(in srgb, var(--pc-primary) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pc-primary) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pc-primary) 65%, transparent); }
-    &[data-level="4"] { background: var(--pc-primary); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-primary-color) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-primary-color) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-primary-color) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-primary-color); }
   }
 
   // Color variants
   &--success .pa-heatmap__cell {
-    &[data-level="1"] { background: color-mix(in srgb, var(--pc-success) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pc-success) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pc-success) 65%, transparent); }
-    &[data-level="4"] { background: var(--pc-success); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-success-color) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-success-color) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-success-color) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-success-color); }
   }
 
   &--danger .pa-heatmap__cell {
-    &[data-level="1"] { background: color-mix(in srgb, var(--pc-danger) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pc-danger) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pc-danger) 65%, transparent); }
-    &[data-level="4"] { background: var(--pc-danger); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-danger-color) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-danger-color) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-danger-color) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-danger-color); }
   }
 
   // Legend
@@ -476,10 +476,10 @@
     border-radius: var(--pc-border-radius-sm);
     background: var(--pc-surface-track);
 
-    &[data-level="1"] { background: color-mix(in srgb, var(--pc-primary) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pc-primary) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pc-primary) 65%, transparent); }
-    &[data-level="4"] { background: var(--pc-primary); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-primary-color) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-primary-color) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-primary-color) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-primary-color); }
   }
 
   // Compact variant (smaller cells, for inline use)
@@ -508,17 +508,17 @@
   &__bar {
     width: $sparkline-bar-width;
     height: var(--value, 50%);
-    background: var(--pc-primary);
+    background: var(--pc-primary-color);
     border-radius: var(--pc-border-radius-sm) var(--pc-border-radius-sm) 0 0;
     transition: height $transition-medium $easing-smooth;
     min-height: 1px;
   }
 
   // Color variants
-  &--success .pa-sparkline__bar { background: var(--pc-success); }
-  &--warning .pa-sparkline__bar { background: var(--pc-warning); }
-  &--danger .pa-sparkline__bar  { background: var(--pc-danger); }
-  &--info .pa-sparkline__bar    { background: var(--pc-info); }
+  &--success .pa-sparkline__bar { background: var(--pc-success-color); }
+  &--warning .pa-sparkline__bar { background: var(--pc-warning-color); }
+  &--danger .pa-sparkline__bar  { background: var(--pc-danger-color); }
+  &--info .pa-sparkline__bar    { background: var(--pc-info-color); }
 
   // Size variants
   &--sm {
@@ -584,17 +584,17 @@
       display: block;
       height: 100%;
       width: var(--value, 0%);
-      background: var(--pc-primary);
+      background: var(--pc-primary-color);
       border-radius: inherit;
       transition: width $transition-medium $easing-smooth;
     }
   }
 
   // Color variants
-  &--success .pa-bar-list__bar::after { background: var(--pc-success); }
-  &--warning .pa-bar-list__bar::after { background: var(--pc-warning); }
-  &--danger .pa-bar-list__bar::after  { background: var(--pc-danger); }
-  &--info .pa-bar-list__bar::after    { background: var(--pc-info); }
+  &--success .pa-bar-list__bar::after { background: var(--pc-success-color); }
+  &--warning .pa-bar-list__bar::after { background: var(--pc-warning-color); }
+  &--danger .pa-bar-list__bar::after  { background: var(--pc-danger-color); }
+  &--info .pa-bar-list__bar::after    { background: var(--pc-info-color); }
 
   // Compact modifier (tighter spacing)
   &--compact {

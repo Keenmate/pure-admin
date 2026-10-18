@@ -125,7 +125,7 @@
     padding: 0 0.15em;
     border-radius: 0.2rem;
     background-color: var(--pa-search-mark-bg,
-      color-mix(in srgb, var(--pc-primary) 15%, transparent));
+      color-mix(in srgb, var(--pc-primary-color) 15%, transparent));
     color: var(--pa-search-mark-color, inherit);
     font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
   }
@@ -237,7 +237,7 @@
 
     &:hover,
     &--active {
-      border-color: var(--pc-primary);
+      border-color: var(--pc-primary-color);
       background-color: var(--pa-card-bg);
     }
   }

@@ -320,19 +320,19 @@
             return '<div class="pa-list">' +
                 '<div class="pa-list__item">' +
                     '<div><strong>' + user.name + '</strong> logged in</div>' +
-                    '<div class="text-secondary" style="font-size: 1.2rem;">2 minutes ago</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem;">2 minutes ago</div>' +
                 '</div>' +
                 '<div class="pa-list__item">' +
                     '<div><strong>' + user.name + '</strong> updated profile photo</div>' +
-                    '<div class="text-secondary" style="font-size: 1.2rem;">1 hour ago</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem;">1 hour ago</div>' +
                 '</div>' +
                 '<div class="pa-list__item">' +
                     '<div><strong>' + user.name + '</strong> changed role to <span class="pa-badge pa-badge--info">' + user.role + '</span></div>' +
-                    '<div class="text-secondary" style="font-size: 1.2rem;">3 hours ago</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem;">3 hours ago</div>' +
                 '</div>' +
                 '<div class="pa-list__item">' +
                     '<div><strong>' + user.name + '</strong> joined <strong>' + user.department + '</strong></div>' +
-                    '<div class="text-secondary" style="font-size: 1.2rem;">' + user.joined + '</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem;">' + user.joined + '</div>' +
                 '</div>' +
             '</div>';
         }
@@ -340,15 +340,15 @@
         if (tabId === 'notes') {
             return '<div class="pa-list">' +
                 '<div class="pa-list__item">' +
-                    '<div class="text-secondary" style="font-size: 1.2rem; margin-bottom: 0.4rem;">Jan 15, 2024</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem; margin-bottom: 0.4rem;">Jan 15, 2024</div>' +
                     '<div>Completed onboarding process. All access granted.</div>' +
                 '</div>' +
                 '<div class="pa-list__item">' +
-                    '<div class="text-secondary" style="font-size: 1.2rem; margin-bottom: 0.4rem;">Feb 2, 2024</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem; margin-bottom: 0.4rem;">Feb 2, 2024</div>' +
                     '<div>Requested additional permissions for ' + user.department + ' resources.</div>' +
                 '</div>' +
                 '<div class="pa-list__item">' +
-                    '<div class="text-secondary" style="font-size: 1.2rem; margin-bottom: 0.4rem;">Mar 10, 2024</div>' +
+                    '<div class="text-muted" style="font-size: 1.2rem; margin-bottom: 0.4rem;">Mar 10, 2024</div>' +
                     '<div>Performance review scheduled with manager.</div>' +
                 '</div>' +
             '</div>';
@@ -391,7 +391,7 @@
             <div class="pc-row gap-sm" style="margin-bottom: 1.6rem;">
                 <div class="pc-col-100">
                     <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">
-                        <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary); flex-shrink: 0;">
+                        <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-primary-bg-subtle); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-primary-color); flex-shrink: 0;">
                             ${user.name.charAt(0)}
                         </div>
                         <div>

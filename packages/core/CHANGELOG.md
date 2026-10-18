@@ -40,6 +40,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING: `--pc-*` role colours end in `-color`** (pure-css 2.0.0-rc02): `--pc-primary[-hover|-active]`
+  → `--pc-primary-color[-hover|-active]`, `--pc-secondary|success|warning|danger|info` →
+  `--pc-<role>-color`, matching `--base-<role>-color`. Every core component, snippet, doc and fidelity
+  fixture uses the new names. Themes that override `--pc-primary` in a mode block must rename it.
+
+- **Muted text uses `.text-muted`.** pure-css 2.0 made `.text-secondary` the secondary *role*
+  colour (a fixed `#6c757d`); the demo, snippets and docs still used it for muted text (~300
+  places), which painted the role grey instead of the theme's `--pc-text-color-2`. They now use
+  `.text-muted`. The paragraph fidelity fixture follows (`color="secondary"` → `text-muted`).
+
 - **BREAKING (utilities): all physical left / right utilities are gone** (removed in
   pure-css 2.0.0-rc02) — they didn't mirror under `dir="rtl"`. Core's `utilities.scss`
   forwards pure-css's utilities, so every theme stops shipping them. Renames (identical in

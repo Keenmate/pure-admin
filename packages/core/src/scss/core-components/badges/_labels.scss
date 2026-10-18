@@ -59,13 +59,13 @@
   // Color variations
   &--primary {
     background-color: var(--pc-primary-bg-subtle);
-    color: var(--pc-primary);
-    border-color: var(--pc-primary);
+    color: var(--pc-primary-color);
+    border-color: var(--pc-primary-color);
 
     &.pa-label--outline {
       background-color: transparent;
-      color: var(--pc-primary);
-      border-color: var(--pc-primary);
+      color: var(--pc-primary-color);
+      border-color: var(--pc-primary-color);
 
       &:hover {
         background-color: var(--pc-primary-bg-subtle);

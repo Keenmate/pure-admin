@@ -89,7 +89,7 @@
 
       &::before {
         content: '✓';
-        color: var(--pc-success);
+        color: var(--pc-success-color);
         font-weight: $font-weight-semibold;
         flex-shrink: 0;
       }
@@ -97,17 +97,17 @@
 
     &.pa-list-basic--danger li::before {
       content: '✗';
-      color: var(--pc-danger);
+      color: var(--pc-danger-color);
     }
 
     &.pa-list-basic--info li::before {
       content: '→';
-      color: var(--pc-info);
+      color: var(--pc-info-color);
     }
 
     &.pa-list-basic--warning li::before {
       content: '!';
-      color: var(--pc-warning);
+      color: var(--pc-warning-color);
     }
   }
 }

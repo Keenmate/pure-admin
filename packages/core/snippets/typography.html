@@ -72,7 +72,7 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 
 <!-- Neutral text hierarchy -->
 <p class="text-body">Body text — the default colour (--pc-text-color-1)</p>
-<p class="text-secondary">Secondary / muted text (--pc-text-color-2)</p>
+<p class="text-muted">Secondary / muted text (--pc-text-color-2)</p>
 
 <!-- Alignment (logical — mirror in RTL) -->
 <p class="text-start">Start-aligned text  (left in LTR, right in RTL)</p>
@@ -88,9 +88,9 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 <p class="text-lead">Lead text — larger font with relaxed line height for introductory paragraphs.</p>
 
 <!-- Combined utilities — compose freely -->
-<p class="text-sm text-secondary">Small secondary text</p>
+<p class="text-sm text-muted">Small secondary text</p>
 <p class="text-lg text-center">Large centred text</p>
-<p class="text-xs text-end text-secondary">Extra small, end-aligned, secondary</p>
+<p class="text-xs text-end text-muted">Extra small, end-aligned, secondary</p>
 
 
 <!-- ================================
@@ -107,7 +107,7 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
      ROLE / SEMANTIC TEXT COLOURS (utilities.scss)
      Colour-only utilities (applied with !important so they win over
      component-scoped colour rules). text-primary is the ACCENT colour —
-     use text-body / text-secondary for the neutral reading hierarchy.
+     use text-body / text-muted for the neutral reading hierarchy.
      ================================ -->
 
 <span class="text-primary">Primary (accent)</span>
@@ -129,12 +129,12 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 <!-- Card header with secondary description -->
 <div class="pa-card__header">
     <h3>Feature Title</h3>
-    <p class="text-secondary">Brief description of this feature or section.</p>
+    <p class="text-muted">Brief description of this feature or section.</p>
 </div>
 
 <!-- Form helper text -->
 <div class="pa-card__footer">
-    <p class="text-sm text-secondary" style="margin: 0;">
+    <p class="text-sm text-muted" style="margin: 0;">
         <strong>Note:</strong> Additional information about the form layout.
     </p>
 </div>
@@ -145,7 +145,7 @@ the active theme (<code>var(--base-font-family)</code>, <code>var(--pc-text-colo
 </div>
 
 <!-- Toast/notification helper -->
-<p class="text-secondary mt-4">
+<p class="text-muted mt-4">
     Progress bar shows time remaining before auto-dismiss (5 seconds).
 </p>
 
@@ -193,9 +193,9 @@ text-* — FLAT TYPOGRAPHY UTILITIES (_utilities.scss):
              text-md    15px      text-2xl   24px
 
   Colours    text-body           --pc-text-color-1  (default reading colour)
-             text-secondary      --pc-text-color-2  (muted / subdued)
-             text-primary        accent colour
-             text-success / -danger / -warning / -info   role colours
+             text-muted          --pc-text-color-2  (muted / subdued)
+             text-primary        primary colour
+             text-secondary / -success / -danger / -warning / -info   role colours
              text-color-{1..9}   theme palette slots
 
   Alignment  text-start          text-align: start   (RTL-aware)

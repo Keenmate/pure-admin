@@ -137,7 +137,7 @@ $_font-base-sizes: (9, 10, 11, 12);
 //   pa-text (14px)     → .text-sm            pa-text--xs → .text-2xs
 //   pa-text--sm        → .text-xs            pa-text--lg → .text-base
 //   pa-text--xl        → .text-lg            pa-text--primary → (body default) / .text-body
-//   pa-text--secondary → .text-secondary     pa-text--start/center/end → .text-start/center/end
+//   pa-text--secondary → .text-muted         pa-text--start/center/end → .text-start/center/end
 //   pa-text--caption   → .text-caption       pa-text--lead → .text-lead
 
 // Gap utilities.
@@ -175,7 +175,7 @@ $_font-base-sizes: (9, 10, 11, 12);
 .text-3xl { font-size: $font-size-3xl; }   // 2.8rem = 28px
 .text-4xl { font-size: $font-size-4xl; }   // 3.2rem = 32px
 
-// Text colour — neutral hierarchy (.text-body / .text-secondary) and the semantic
+// Text colour — neutral hierarchy (.text-body / .text-muted) and the semantic
 // shorthands (.text-caption / .text-lead) now live in @keenmate/pure-css
 // (utilities.scss, beside the role colours) and reach core via the
 // `utilities.scss` @forward shim. See docs/text-consolidation-plan.md.
@@ -201,7 +201,7 @@ $_font-base-sizes: (9, 10, 11, 12);
 
 // Link styling
 .pa-link {
-  color: var(--pc-primary);
+  color: var(--pc-primary-color);
   text-decoration: none;
 
   &:hover {

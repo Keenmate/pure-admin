@@ -18,7 +18,7 @@
     "pa-accent-grid__label":            "accent_grid_item sub-component — the uppercase label cell",
     "pa-accent-grid__value":            "accent_grid_item sub-component — the value cell",
     "pa-accent-grid__copy":             "accent_grid_item sub-component — copy-to-clipboard button (shared copy affordance)",
-    "pa-accent-grid__item--success":    "item semantic accent variant (keen variant='success') — flips the inline-start border to --pc-success; item sub-component modifier, out of container scope",
+    "pa-accent-grid__item--success":    "item semantic accent variant (keen variant='success') — flips the inline-start border to --pc-success-color; item sub-component modifier, out of container scope",
     "pa-accent-grid__item--warning":    "item semantic accent variant (keen variant='warning') — out of container scope",
     "pa-accent-grid__item--danger":     "item semantic accent variant (keen variant='danger') — out of container scope",
     "pa-accent-grid__item--info":       "item semantic accent variant (keen variant='info') — out of container scope",

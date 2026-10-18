@@ -32,7 +32,7 @@
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pc-primary);
+    outline: $focus-outline-width solid var(--pc-primary-color);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -106,14 +106,14 @@
   background: none;
   border: none;
   padding: 0;
-  color: var(--pc-primary);
+  color: var(--pc-primary-color);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: color $transition-fast $easing-snappy;
 
   &:hover {
-    color: var(--pc-primary-hover);
+    color: var(--pc-primary-color-hover);
   }
 }
 
@@ -145,10 +145,10 @@
 
   // Unread notification (darker background)
   &--unread {
-    background-color: color-mix(in srgb, var(--pc-primary) 5%, transparent);
+    background-color: color-mix(in srgb, var(--pc-primary-color) 5%, transparent);
 
     &:hover {
-      background-color: color-mix(in srgb, var(--pc-primary) 10%, transparent);
+      background-color: color-mix(in srgb, var(--pc-primary-color) 10%, transparent);
     }
   }
 }
@@ -162,7 +162,7 @@
   align-items: center;
   justify-content: center;
   font-size: $font-size-base;
-  color: var(--pc-primary);
+  color: var(--pc-primary-color);
   border: 1px solid transparent;
   border-radius: var(--pc-border-radius);
 
@@ -172,18 +172,18 @@
   }
 
   &--success {
-    border-color: var(--pc-success);
-    color: var(--pc-success);
+    border-color: var(--pc-success-color);
+    color: var(--pc-success-color);
   }
 
   &--warning {
-    border-color: var(--pc-warning);
-    color: var(--pc-warning);
+    border-color: var(--pc-warning-color);
+    color: var(--pc-warning-color);
   }
 
   &--danger {
-    border-color: var(--pc-danger);
-    color: var(--pc-danger);
+    border-color: var(--pc-danger-color);
+    color: var(--pc-danger-color);
   }
 
   &--secondary {
@@ -243,14 +243,14 @@
   text-align: center;
 
   a {
-    color: var(--pc-primary);
+    color: var(--pc-primary-color);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     text-decoration: none;
     transition: color $transition-fast $easing-snappy;
 
     &:hover {
-      color: var(--pc-primary-hover);
+      color: var(--pc-primary-color-hover);
     }
   }
 }

@@ -86,7 +86,7 @@
 .pa-form-group--required > label:not(.pa-checkbox):not(.pa-radio)::after {
   content: '*';
   margin-inline-start: 0.5rem;
-  color: var(--pc-danger);
+  color: var(--pc-danger-color);
   font-weight: $font-weight-medium;
 }
 

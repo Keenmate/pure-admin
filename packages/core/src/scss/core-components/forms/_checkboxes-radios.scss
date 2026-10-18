@@ -317,7 +317,7 @@
 .pa-radio:has(input:required) .pa-radio__label::after {
   content: '*';
   margin-inline-start: 0.5rem;
-  color: var(--pc-danger);
+  color: var(--pc-danger-color);
   font-weight: $font-weight-medium;
 }
 
@@ -340,6 +340,6 @@
 .pa-form-group--required > .pa-radio .pa-radio__label::after {
   content: '*';
   margin-inline-start: 0.5rem;
-  color: var(--pc-danger);
+  color: var(--pc-danger-color);
   font-weight: $font-weight-medium;
 }

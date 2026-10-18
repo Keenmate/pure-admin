@@ -25,8 +25,8 @@
 
   // Callout variants
   &--primary {
-    border-inline-start-color: var(--pc-primary);
-    background-color: color-mix(in srgb, var(--pc-primary) #{$opacity-subtle * 100%}, transparent);
+    border-inline-start-color: var(--pc-primary-color);
+    background-color: color-mix(in srgb, var(--pc-primary-color) #{$opacity-subtle * 100%}, transparent);
   }
 
   &--secondary {
