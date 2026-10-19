@@ -197,9 +197,9 @@ most common "toast in the upper-right" slot in LTR.
 
 <script>
 // Create a toast notification
-function createToast(position, variant, title, message, duration = 5000, showProgress = false, persistent = false) {
-  // position is one of: top-end, top-start, top-center, bottom-end, bottom-start, bottom-center
-  const container = document.getElementById(`toast-container-${position}`);
+function createToast(placement, variant, title, message, duration = 5000, showProgress = false, persistent = false) {
+  // placement is one of: top-end, top-start, top-center, bottom-end, bottom-start, bottom-center
+  const container = document.getElementById(`toast-container-${placement}`);
   if (!container) return;
 
   const toastId = `toast-${Date.now()}-${Math.random()}`;

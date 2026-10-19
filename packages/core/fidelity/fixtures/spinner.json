@@ -7,7 +7,7 @@
     "variant": "colour variant primary|secondary|success|danger|warning|info — emits pa-spinner--{variant}, which sets border-top-color from the $btn-*-bg theme tokens (a REAL class, unlike the advanced loaders which theme via currentColor)",
     "class": "extra classes appended verbatim (passthrough, not a core feature)"
   },
-  "goldenConventions": "Structural: the spinner is an empty self-closing-ish <div> with no children (CSS-only, animated via border-top + @keyframes pa-spin). The block class is pa-spinner; size emits pa-spinner--xs; variant emits pa-spinner--{variant}. Attribute + class-token order and whitespace are normalized away.",
+  "goldenConventions": "Structural: the spinner is an empty inline <span> with no children (a span, not a div, so it is valid inside text, buttons and <p> — the class already sets display:inline-block) (CSS-only, animated via border-top + @keyframes pa-spin). The block class is pa-spinner; size emits pa-spinner--xs; variant emits pa-spinner--{variant}. Attribute + class-token order and whitespace are normalized away.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-spinner(--)?'). Unlike the advanced loaders, the spinner HAS real colour modifier classes (pa-spinner--{variant}). The only size is --xs.",
     "size": {
@@ -30,47 +30,47 @@
     {
       "name": "basic",
       "props": {},
-      "golden": "<div class=\"pa-spinner\"></div>"
+      "golden": "<span class=\"pa-spinner\"></span>"
     },
     {
       "name": "xs",
       "props": { "size": "xs" },
-      "golden": "<div class=\"pa-spinner pa-spinner--xs\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--xs\"></span>"
     },
     {
       "name": "variant-primary",
       "props": { "variant": "primary" },
-      "golden": "<div class=\"pa-spinner pa-spinner--primary\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--primary\"></span>"
     },
     {
       "name": "variant-secondary",
       "props": { "variant": "secondary" },
-      "golden": "<div class=\"pa-spinner pa-spinner--secondary\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--secondary\"></span>"
     },
     {
       "name": "variant-success",
       "props": { "variant": "success" },
-      "golden": "<div class=\"pa-spinner pa-spinner--success\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--success\"></span>"
     },
     {
       "name": "variant-danger",
       "props": { "variant": "danger" },
-      "golden": "<div class=\"pa-spinner pa-spinner--danger\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--danger\"></span>"
     },
     {
       "name": "variant-warning",
       "props": { "variant": "warning" },
-      "golden": "<div class=\"pa-spinner pa-spinner--warning\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--warning\"></span>"
     },
     {
       "name": "variant-info",
       "props": { "variant": "info" },
-      "golden": "<div class=\"pa-spinner pa-spinner--info\"></div>"
+      "golden": "<span class=\"pa-spinner pa-spinner--info\"></span>"
     },
     {
       "name": "combined",
       "props": { "size": "xs", "variant": "primary", "class": "ms-sm" },
-      "golden": "<div class=\"pa-spinner pa-spinner--xs pa-spinner--primary ms-sm\"></div>",
+      "golden": "<span class=\"pa-spinner pa-spinner--xs pa-spinner--primary ms-sm\"></span>",
       "note": "size + variant + class passthrough together."
     }
   ]

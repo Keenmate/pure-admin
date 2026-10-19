@@ -6,13 +6,13 @@
     "size": "xs|sm|lg|xl — scales the box (default is the unmodified md checkbox). Shared scale with input/select; emits pa-checkbox--{size}.",
     "labelPosition": "end|start|top — label placement relative to the box → pa-checkbox--label-{pos}. `end` is the visual default but still emits the (redundant, valid) class when set explicitly; unset = classless.",
     "isXMark": "boolean — swap the checkmark for an X (pa-checkbox--x), for excluded/blocked selections.",
-    "disabled": "boolean — emits pa-checkbox--disabled on the label AND the native `disabled` attr on the input.",
+    "isDisabled": "boolean — emits pa-checkbox--disabled on the label AND the native `disabled` attr on the input.",
     "label": "label text — rendered inside <span class=\"pa-checkbox__label\">. When absent, no label span.",
     "name": "native name attribute on the <input>",
     "id": "native id attribute on the <input> (hand-set — normalizer keeps real ids)",
     "value": "native value attribute on the <input>",
-    "checked": "native boolean attribute on the <input>",
-    "required": "native boolean attribute on the <input>",
+    "isChecked": "boolean prop → the native `checked` attribute on the <input>",
+    "isRequired": "boolean prop → the native `required` attribute on the <input>",
     "extraClass": "extra classes appended verbatim to the label (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },
   "goldenConventions": "Goldens encode the <label class=\"pa-checkbox …\"> wrapper + <input type=\"checkbox\"> + <span class=\"pa-checkbox__box\"></span> + optional <span class=\"pa-checkbox__label\">. The box span is always present (empty). The input always carries type=\"checkbox\". Native attrs appear only when set; disabled additionally adds the pa-checkbox--disabled label class. DEFAULT-VALUE NOTE: keen's checkbox `value` attr defaults to \"true\" (standard Phoenix form-submission convention — a checked box submits value=\"true\") and is thus ALWAYS emitted; svelte omits `value` when unset. To keep the two wrappers' blessed shape identical under strict compare, EVERY scenario here sets `value` explicitly, so the golden always carries an explicit value=\"…\" and the default divergence never surfaces. Boolean attrs (checked/disabled/required) are canonicalized to bare presence. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
@@ -29,13 +29,13 @@
       "produces": "pa-checkbox--label-{value}"
     },
     "isXMark": { "kind": "bool", "produces": "pa-checkbox--x" },
-    "disabled": { "kind": "bool", "produces": "pa-checkbox--disabled", "note": "ALSO emits the native disabled attr on the input" },
+    "isDisabled": { "kind": "bool", "produces": "pa-checkbox--disabled", "note": "ALSO emits the native disabled attr on the input" },
     "label": { "kind": "string", "produces": null, "note": "label text in <span class=pa-checkbox__label>" },
     "name": { "kind": "string", "produces": null, "note": "native name attribute on the input" },
     "id": { "kind": "string", "produces": null, "note": "native id attribute on the input (hand-set)" },
     "value": { "kind": "string", "produces": null, "note": "native value attribute on the input" },
-    "checked": { "kind": "bool", "produces": null, "note": "native checked attribute on the input" },
-    "required": { "kind": "bool", "produces": null, "note": "native required attribute on the input" },
+    "isChecked": { "kind": "bool", "produces": null, "note": "boolean prop → native checked attribute on the input" },
+    "isRequired": { "kind": "bool", "produces": null, "note": "boolean prop → native required attribute on the input" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the label, not a core feature" }
   },
   "scenarios": [
@@ -47,7 +47,7 @@
     },
     {
       "name": "checked",
-      "props": { "id": "cb2", "label": "Checked option", "value": "v", "checked": true },
+      "props": { "id": "cb2", "label": "Checked option", "value": "v", "isChecked": true },
       "golden": "<label class=\"pa-checkbox\"><input type=\"checkbox\" id=\"cb2\" value=\"v\" checked><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Checked option</span></label>"
     },
     {
@@ -58,18 +58,18 @@
     },
     {
       "name": "disabled",
-      "props": { "id": "cb4", "label": "Disabled unchecked", "value": "v", "disabled": true },
+      "props": { "id": "cb4", "label": "Disabled unchecked", "value": "v", "isDisabled": true },
       "golden": "<label class=\"pa-checkbox pa-checkbox--disabled\"><input type=\"checkbox\" id=\"cb4\" value=\"v\" disabled><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Disabled unchecked</span></label>",
       "note": "disabled adds the --disabled label class AND the native disabled attr on the input."
     },
     {
       "name": "x-mark",
-      "props": { "id": "cb5", "label": "X-mark style when checked", "value": "v", "isXMark": true, "checked": true },
+      "props": { "id": "cb5", "label": "X-mark style when checked", "value": "v", "isXMark": true, "isChecked": true },
       "golden": "<label class=\"pa-checkbox pa-checkbox--x\"><input type=\"checkbox\" id=\"cb5\" value=\"v\" checked><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">X-mark style when checked</span></label>"
     },
     {
       "name": "size-xs",
-      "props": { "id": "cb6", "label": "Extra Small", "value": "v", "size": "xs", "checked": true },
+      "props": { "id": "cb6", "label": "Extra Small", "value": "v", "size": "xs", "isChecked": true },
       "golden": "<label class=\"pa-checkbox pa-checkbox--xs\"><input type=\"checkbox\" id=\"cb6\" value=\"v\" checked><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Extra Small</span></label>"
     },
     {
@@ -105,13 +105,13 @@
     },
     {
       "name": "name-value",
-      "props": { "id": "cb13", "label": "Option A", "name": "opts", "value": "a", "checked": true },
+      "props": { "id": "cb13", "label": "Option A", "name": "opts", "value": "a", "isChecked": true },
       "golden": "<label class=\"pa-checkbox\"><input type=\"checkbox\" name=\"opts\" id=\"cb13\" value=\"a\" checked><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Option A</span></label>",
       "note": "name + value are hand-set native attrs on the input."
     },
     {
       "name": "required",
-      "props": { "id": "cb14", "label": "I agree", "value": "v", "required": true },
+      "props": { "id": "cb14", "label": "I agree", "value": "v", "isRequired": true },
       "golden": "<label class=\"pa-checkbox\"><input type=\"checkbox\" id=\"cb14\" value=\"v\" required><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">I agree</span></label>"
     },
     {
@@ -122,7 +122,7 @@
     },
     {
       "name": "combined",
-      "props": { "id": "cb16", "label": "Featured", "size": "lg", "isXMark": true, "labelPosition": "start", "disabled": true, "name": "feat", "value": "yes", "checked": true },
+      "props": { "id": "cb16", "label": "Featured", "size": "lg", "isXMark": true, "labelPosition": "start", "isDisabled": true, "name": "feat", "value": "yes", "isChecked": true },
       "golden": "<label class=\"pa-checkbox pa-checkbox--lg pa-checkbox--x pa-checkbox--label-start pa-checkbox--disabled\"><input type=\"checkbox\" name=\"feat\" id=\"cb16\" value=\"yes\" checked disabled><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Featured</span></label>",
       "note": "Stacks size + x + label-start + disabled + native attrs to exercise full class ordering + the disabled double-emit together."
     }

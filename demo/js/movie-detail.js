@@ -130,7 +130,7 @@
         if (actorPanelBody) {
             actorPanelBody.innerHTML =
                 '<div class="pa-loader-center" style="padding: 4rem 0;">' +
-                    '<div class="pa-spinner"></div>' +
+                    '<span class="pa-spinner"></span>' +
                 '</div>';
         }
 

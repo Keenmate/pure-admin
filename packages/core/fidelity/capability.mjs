@@ -36,7 +36,10 @@ const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'));
 function producedClasses(name, feat) {
   const out = [];
   const tmpl = feat.produces;
-  if (tmpl) {
+  if (tmpl && typeof tmpl === 'object') {
+    // irregular enum: explicit option → class map (e.g. align center → --middle)
+    for (const cls of Object.values(tmpl)) if (cls) out.push(cls);
+  } else if (tmpl) {
     if (tmpl.includes('{value}') && feat.options) {
       for (const o of feat.options) out.push(tmpl.replace('{value}', o));
     } else if (tmpl.includes('{variant}') && feat.appliesToVariants) {

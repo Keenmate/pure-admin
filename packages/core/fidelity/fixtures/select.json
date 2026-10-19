@@ -1,5 +1,5 @@
 {
-  "//": "Markup-fidelity fixture for the SELECT component — the dropdown form field `.pa-select` (keen `PureAdmin.Components.Form.select/1`, svelte `forms/Select.svelte`). SCOPE = the `<select class=\"pa-select ...\">` CONTAINER + its class/native-attr contract. Like pa-input, pa-select owns the full validation set: size (xs/sm/lg/xl), state (success/warning/error), themeColor (color-1..9) — all confirmed in dist/css/main.css. OPTIONS ARE OUT OF SCOPE: the two wrappers build option children through DIFFERENT, non-slot APIs — keen from an `options` list (default []) + an optional `prompt` via `Phoenix.HTML.Form.options_for_select`, svelte from a `children` snippet of raw <option> markup. There is no shared neutral representation for option rows, so every scenario renders the EMPTY select (no options, no prompt) and the fixture proves only the <select> tag + its pa-select class (+ size/state/color modifiers) + native attrs. disabled/required/multiple are NATIVE attrs, not classes (no pa-select--disabled). `value` selects an option and is meaningless with zero options, so it is not modeled. svelte additionally has `multiple` (a static-attribute branch) — exercised as a native boolean here. keen select/1 appends a conditional `<.form_help variant=\"error\">` only when :field errors are present; no scenario feeds a field, so both wrappers emit a bare <select>. Sibling pa-input/pa-textarea + the field-wrapper chrome are separate components, prose-deferred. See input.json for the bare-control model.",
+  "//": "Markup-fidelity fixture for the SELECT component — the dropdown form field `.pa-select` (keen `PureAdmin.Components.Form.select/1`, svelte `forms/Select.svelte`). SCOPE = the `<select class=\"pa-select ...\">` CONTAINER + its class/native-attr contract. Like pa-input, pa-select owns the full validation set: size (xs/sm/lg/xl), state (success/warning/error), themeColor (color-1..9) — all confirmed in dist/css/main.css. OPTIONS ARE OUT OF SCOPE: the two wrappers build option children through DIFFERENT, non-slot APIs — keen from an `options` list (default []) + an optional `prompt` via `Phoenix.HTML.Form.options_for_select`, svelte from a `children` snippet of raw <option> markup. There is no shared neutral representation for option rows, so every scenario renders the EMPTY select (no options, no prompt) and the fixture proves only the <select> tag + its pa-select class (+ size/state/color modifiers) + native attrs. disabled/required/multiple are NATIVE attrs, not classes (no pa-select--disabled). `value` selects an option and is meaningless with zero options, so it is not modeled. isMultiple (svelte isMultiple, keen is_multiple) renders the native `multiple` attribute (svelte branches on it) — exercised as a native boolean here. keen select/1 appends a conditional `<.form_help variant=\"error\">` only when :field errors are present; no scenario feeds a field, so both wrappers emit a bare <select>. Sibling pa-input/pa-textarea + the field-wrapper chrome are separate components, prose-deferred. See input.json for the bare-control model.",
   "component": "select",
   "block": "pa-select",
   "propsVocabulary": {
@@ -8,9 +8,9 @@
     "themeColor": "1..9 theme colour slot — pa-select--color-N (paints the border with --pc-palette-N). Orthogonal to state/size.",
     "name": "native name attribute",
     "id": "native id attribute (hand-set — the normalizer keeps real ids)",
-    "disabled": "native boolean attribute (there is NO pa-select--disabled class)",
-    "required": "native boolean attribute",
-    "multiple": "native boolean attribute — renders a multi-select list (svelte branches on it; keen passes it via @rest)",
+    "isDisabled": "boolean prop → the native `disabled` attribute (there is NO pa-select--disabled class)",
+    "isRequired": "boolean prop → the native `required` attribute",
+    "isMultiple": "boolean prop → the native `multiple` attribute — renders a multi-select list (svelte branches on it; keen passes it via @rest)",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },
   "goldenConventions": "Goldens encode the EMPTY `<select class=\"pa-select ...\"></select>` — no option children (options are the out-of-scope, API-divergent sub-slice; see top note). A state modifier is present when a state is set, a size modifier when a size is set, pa-select--color-N when themeColor is set. Native boolean attrs (disabled/required/multiple) are canonicalized to bare presence by the normalizer. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
@@ -33,9 +33,9 @@
     },
     "name": { "kind": "string", "produces": null, "note": "native name attribute" },
     "id": { "kind": "string", "produces": null, "note": "native id attribute (hand-set)" },
-    "disabled": { "kind": "bool", "produces": null, "note": "native boolean attribute — there is NO pa-select--disabled class" },
-    "required": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
-    "multiple": { "kind": "bool", "produces": null, "note": "native boolean attribute — multi-select list" },
+    "isDisabled": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute — there is NO pa-select--disabled class" },
+    "isRequired": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute" },
+    "isMultiple": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute — multi-select list" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
   "deferred": {
@@ -134,18 +134,18 @@
     },
     {
       "name": "disabled",
-      "props": { "disabled": true },
+      "props": { "isDisabled": true },
       "golden": "<select disabled class=\"pa-select\"></select>",
-      "note": "native disabled attr — no pa-select--disabled class. Normalizer canonicalizes to bare presence."
+      "note": "boolean prop → native disabled attribute — no pa-select--disabled class. Normalizer canonicalizes to bare presence."
     },
     {
       "name": "required",
-      "props": { "required": true },
+      "props": { "isRequired": true },
       "golden": "<select required class=\"pa-select\"></select>"
     },
     {
       "name": "multiple",
-      "props": { "multiple": true },
+      "props": { "isMultiple": true },
       "golden": "<select multiple class=\"pa-select\"></select>",
       "note": "native multiple attr — svelte branches on it (static attr alongside bind:value), keen passes it via @rest."
     },
@@ -163,7 +163,7 @@
     },
     {
       "name": "combined",
-      "props": { "size": "sm", "validation": "error", "themeColor": "3", "name": "role", "id": "role", "required": true },
+      "props": { "size": "sm", "validation": "error", "themeColor": "3", "name": "role", "id": "role", "isRequired": true },
       "golden": "<select name=\"role\" id=\"role\" required aria-invalid=\"true\" class=\"pa-select pa-select--sm pa-select--error pa-select--color-3\"></select>",
       "note": "Stacks size + state + themeColor + native attrs to exercise class ordering + attribute passthrough together; the error state carries aria-invalid=\"true\"."
     }

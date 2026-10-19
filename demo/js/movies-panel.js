@@ -111,7 +111,7 @@
 
         // Show loading
         panelTitle.textContent = 'Loading\u2026';
-        panelBody.innerHTML = '<div class="pa-loader-center" style="padding: 4rem 0;"><div class="pa-spinner"></div></div>';
+        panelBody.innerHTML = '<div class="pa-loader-center" style="padding: 4rem 0;"><span class="pa-spinner"></span></div>';
 
         // Simulate loading delay
         setTimeout(function () {

@@ -4,7 +4,7 @@
  *
  * Usage:
  *   pureAdmin.toast.success('Operation completed!');
- *   pureAdmin.toast.error('Something went wrong', { position: 'top-end' });
+ *   pureAdmin.toast.error('Something went wrong', { placement: 'top-end' });
  *   pureAdmin.toast.show({ variant: 'warning', title: 'Warning', message: '...', persistent: true });
  *   pureAdmin.toast.dismiss(toastId);
  */
@@ -33,7 +33,7 @@
   function toastDefaults() {
     const t = paConfig().toast || {};
     return {
-      position: t.position != null ? t.position : 'top-end',
+      placement: t.placement != null ? t.placement : 'top-end',
       duration: t.duration != null ? t.duration : 5000,
       showProgress: !!t.showProgress,
       persistent: !!t.persistent,
@@ -68,16 +68,16 @@
   }
 
   /**
-   * Ensure toast container exists for given position
+   * Ensure toast container exists for given placement
    */
-  function ensureContainer(position) {
-    const containerId = `toast-container-${position}`;
+  function ensureContainer(placement) {
+    const containerId = `toast-container-${placement}`;
     let container = document.getElementById(containerId);
 
     if (!container) {
       container = document.createElement('div');
       container.id = containerId;
-      container.className = `pa-toast-container pa-toast-container--${position}`;
+      container.className = `pa-toast-container pa-toast-container--${placement}`;
       document.body.appendChild(container);
     }
 
@@ -94,7 +94,7 @@
     const {
       title = sev.title,
       message = '',
-      position = d.position,
+      placement = d.placement,
       duration = d.duration,
       showProgress = d.showProgress,
       persistent = d.persistent,
@@ -108,7 +108,7 @@
     const toastId = `pa-toast-${++toastCounter}`;
 
     // Ensure container exists
-    const container = ensureContainer(position);
+    const container = ensureContainer(placement);
 
     // Create toast element
     const toast = document.createElement('div');
@@ -236,11 +236,11 @@
   }
 
   /**
-   * Dismiss all toasts (optionally filtered by position)
+   * Dismiss all toasts (optionally filtered by placement)
    */
-  function dismissAll(position = null) {
-    const selector = position
-      ? `#toast-container-${position} .pa-toast`
+  function dismissAll(placement = null) {
+    const selector = placement
+      ? `#toast-container-${placement} .pa-toast`
       : '.pa-toast';
 
     const toasts = document.querySelectorAll(selector);
@@ -271,7 +271,7 @@
     /**
      * Show a success toast
      * @param {string} message - Toast message
-     * @param {Object} options - Additional options (position, duration, etc.)
+     * @param {Object} options - Additional options (placement, duration, etc.)
      * @returns {string} - Toast ID
      */
     success: function(message, options = {}) {
@@ -362,11 +362,11 @@
     },
 
     /**
-     * Dismiss all toasts (optionally filtered by position)
-     * @param {string} position - Optional position filter (e.g., 'top-end')
+     * Dismiss all toasts (optionally filtered by placement)
+     * @param {string} placement - Optional placement filter (e.g., 'top-end')
      */
-    dismissAll: function(position = null) {
-      dismissAll(position);
+    dismissAll: function(placement = null) {
+      dismissAll(placement);
     }
   };
 

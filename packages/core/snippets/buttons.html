@@ -225,7 +225,7 @@
   </div>
 </div>
 
-<!-- Split Button with Danger Item -->
+<!-- Split Button with Role-Coloured Items (pa-btn-split__item--{role}: primary|secondary|success|warning|danger|info) -->
 <div class="pa-btn-split">
   <button class="pa-btn pa-btn--primary">Export</button>
   <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
@@ -235,6 +235,7 @@
     <div class="pa-btn-split__menu-inner">
     <button class="pa-btn-split__item">Export as CSV</button>
     <button class="pa-btn-split__item">Export as PDF</button>
+    <button class="pa-btn-split__item pa-btn-split__item--success">Publish</button>
     <button class="pa-btn-split__item pa-btn-split__item--danger">Delete All</button>
     </div>
   </div>
@@ -605,7 +606,8 @@ SPLIT BUTTON (.pa-btn-split):
       .pa-btn-split__menu
         .pa-btn-split__menu-inner
           .pa-btn-split__item
-          .pa-btn-split__item--danger
+          .pa-btn-split__item--{role}   (primary|secondary|success|warning|danger|info —
+                                         role-tinted text, role fill on hover)
 
   State:
   - .pa-btn-split--open              set by JS; adds rotation to __chevron

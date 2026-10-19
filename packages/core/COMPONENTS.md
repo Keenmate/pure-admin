@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1386** class selectors.
+Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1391** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -334,7 +334,7 @@ Buttons (icon/label/spinner, xs–xl, ripple), button groups, split buttons with
 
 - **Blocks:** `pa-btn`, `pa-btn-group`, `pa-btn-split`, `pa-overflow`
 - **Elements:** `pa-btn-split__chevron`, `pa-btn-split__group-label`, `pa-btn-split__item`, `pa-btn-split__item-icon`, `pa-btn-split__item-row`, `pa-btn-split__menu`, `pa-btn-split__menu-inner`, `pa-btn-split__toggle`, `pa-btn__icon`, `pa-btn__label`, `pa-btn__spinner`
-- **Modifiers / states:** `pa-btn--block`, `pa-btn--danger`, `pa-btn--dark`, `pa-btn--disabled`, `pa-btn--ghost`, `pa-btn--icon-only`, `pa-btn--info`, `pa-btn--justify-between`, `pa-btn--justify-center`, `pa-btn--justify-end`, `pa-btn--justify-start`, `pa-btn--lg`, `pa-btn--light`, `pa-btn--loading`, `pa-btn--outline-danger`, `pa-btn--outline-info`, `pa-btn--outline-primary`, `pa-btn--outline-secondary`, `pa-btn--outline-success`, `pa-btn--outline-warning`, `pa-btn--primary`, `pa-btn--ripple`, `pa-btn--ripple-active`, `pa-btn--secondary`, `pa-btn--sm`, `pa-btn--success`, `pa-btn--warning`, `pa-btn--xl`, `pa-btn--xs`, `pa-btn-group--nowrap`, `pa-btn-group--vertical`, `pa-btn-split--in-overflow`, `pa-btn-split--open`, `pa-btn-split__item--danger`, `pa-btn-split__menu--open`
+- **Modifiers / states:** `pa-btn--block`, `pa-btn--danger`, `pa-btn--dark`, `pa-btn--disabled`, `pa-btn--ghost`, `pa-btn--icon-only`, `pa-btn--info`, `pa-btn--justify-between`, `pa-btn--justify-center`, `pa-btn--justify-end`, `pa-btn--justify-start`, `pa-btn--lg`, `pa-btn--light`, `pa-btn--loading`, `pa-btn--outline-danger`, `pa-btn--outline-info`, `pa-btn--outline-primary`, `pa-btn--outline-secondary`, `pa-btn--outline-success`, `pa-btn--outline-warning`, `pa-btn--primary`, `pa-btn--ripple`, `pa-btn--ripple-active`, `pa-btn--secondary`, `pa-btn--sm`, `pa-btn--success`, `pa-btn--warning`, `pa-btn--xl`, `pa-btn--xs`, `pa-btn-group--nowrap`, `pa-btn-group--vertical`, `pa-btn-split--in-overflow`, `pa-btn-split--open`, `pa-btn-split__item--danger`, `pa-btn-split__item--info`, `pa-btn-split__item--primary`, `pa-btn-split__item--secondary`, `pa-btn-split__item--success`, `pa-btn-split__item--warning`, `pa-btn-split__menu--open`
 - **SCSS:** `core-components/_buttons.scss`, `core-components/_cards.scss`, `core-components/_icons.scss`, `core-components/_overflow.scss`, `core-components/_popconfirm.scss`, `core-components/_tables.scss`
 - **Snippet:** `buttons.html`
 - **Demo:** `buttons.mustache`, `overflow.mustache`

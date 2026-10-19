@@ -171,7 +171,7 @@
         title.textContent = 'Loading\u2026';
         body.innerHTML =
             '<div class="pa-loader-center" style="padding: 4rem 0;">' +
-                '<div class="pa-spinner"></div>' +
+                '<span class="pa-spinner"></span>' +
             '</div>';
 
         // Cancel any pending load
@@ -220,7 +220,7 @@
         title.textContent = 'Loading\u2026';
         body.innerHTML =
             '<div class="pa-loader-center" style="padding: 4rem 0;">' +
-                '<div class="pa-spinner"></div>' +
+                '<span class="pa-spinner"></span>' +
             '</div>';
 
         if (headerActionsLoadTimer) clearTimeout(headerActionsLoadTimer);
@@ -299,7 +299,7 @@
         title.textContent = 'Loading\u2026';
         activePanel.innerHTML =
             '<div class="pa-loader-center" style="padding: 4rem 0;">' +
-                '<div class="pa-spinner"></div>' +
+                '<span class="pa-spinner"></span>' +
             '</div>';
 
         if (tabbedLoadTimer) clearTimeout(tabbedLoadTimer);

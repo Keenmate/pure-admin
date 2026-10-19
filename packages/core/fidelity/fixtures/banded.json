@@ -4,12 +4,10 @@
   "block": "pa-banded",
   "propsVocabulary": {
     "labelWidth": "narrow (8rem) | wide (20rem) label column → pa-banded--{value}; absent = default width. svelte labelWidth, keen label_width.",
-    "middle": "boolean — vertically center labels + values (pa-banded--middle)",
+    "align": "center → vertically center labels + values (pa-banded--middle); the CSS align-items name. svelte align, keen align",
     "truncate": "boolean — single-line ellipsis on labels + values (pa-banded--truncate)",
-    "labelEnd": "boolean — right-align labels (pa-banded--label-end)",
-    "labelCenter": "boolean — center-align labels (pa-banded--label-center)",
-    "valueEnd": "boolean — right-align values (pa-banded--value-end)",
-    "valueCenter": "boolean — center-align values (pa-banded--value-center)",
+    "labelTextAlign": "center | end → pa-banded--label-{value} (start = default, no class); the CSS text-align name. svelte labelTextAlign, keen label_text_align",
+    "valueTextAlign": "center | end → pa-banded--value-{value} (start = default, no class); the CSS text-align name. svelte valueTextAlign, keen value_text_align",
     "body": "the row area — filled with plain slot text in this container-only slice (real pa-banded__row children are the deferred sub-component)",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },
@@ -17,12 +15,10 @@
   "features": {
     "//": "Feature->class contract authored from dist/css/main.css. axis-1 reverse-check is scoped to the eight pa-banded--* BLOCK modifiers, all produced by a feature below. The four __element classes (pa-banded__row / __label / __value / __copy) and the four row STATE modifiers (__row--copy-btn / --copy-hover / --copy-click / --copied) belong to the banded_row sub-component and are DEFERRED (see deferred block) — none are container markup.",
     "labelWidth":  { "kind": "enum", "options": ["narrow", "wide"], "produces": "pa-banded--{value}", "note": "label column width; the two values are mutually exclusive" },
-    "middle":      { "kind": "bool", "produces": "pa-banded--middle" },
+    "align":      { "kind": "enum", "options": ["center"], "produces": { "center": "pa-banded--middle" }, "note": "align-items of the cells (CSS name); only center ships a class (pa-banded--middle) — absent = top" },
     "truncate":    { "kind": "bool", "produces": "pa-banded--truncate" },
-    "labelEnd":    { "kind": "bool", "produces": "pa-banded--label-end" },
-    "labelCenter": { "kind": "bool", "produces": "pa-banded--label-center" },
-    "valueEnd":    { "kind": "bool", "produces": "pa-banded--value-end" },
-    "valueCenter": { "kind": "bool", "produces": "pa-banded--value-center" },
+    "labelTextAlign":    { "kind": "enum", "options": ["center", "end"], "produces": "pa-banded--label-{value}", "note": "text-align of the labels (CSS name); start is the default (no class)" },
+    "valueTextAlign":    { "kind": "enum", "options": ["center", "end"], "produces": "pa-banded--value-{value}", "note": "text-align of the values (CSS name); start is the default (no class)" },
     "body":        { "kind": "slot", "produces": null, "note": "structural — the container's inner content; row structure is the deferred sub-component" },
     "extraClass":  { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
@@ -57,7 +53,7 @@
     },
     {
       "name": "middle",
-      "props": { "body": "Body", "middle": true },
+      "props": { "body": "Body", "align": "center" },
       "golden": "<div class=\"pa-banded pa-banded--middle\">Body</div>"
     },
     {
@@ -67,27 +63,27 @@
     },
     {
       "name": "label-end",
-      "props": { "body": "Body", "labelEnd": true },
+      "props": { "body": "Body", "labelTextAlign": "end" },
       "golden": "<div class=\"pa-banded pa-banded--label-end\">Body</div>"
     },
     {
       "name": "label-center",
-      "props": { "body": "Body", "labelCenter": true },
+      "props": { "body": "Body", "labelTextAlign": "center" },
       "golden": "<div class=\"pa-banded pa-banded--label-center\">Body</div>"
     },
     {
       "name": "value-end",
-      "props": { "body": "Body", "valueEnd": true },
+      "props": { "body": "Body", "valueTextAlign": "end" },
       "golden": "<div class=\"pa-banded pa-banded--value-end\">Body</div>"
     },
     {
       "name": "value-center",
-      "props": { "body": "Body", "valueCenter": true },
+      "props": { "body": "Body", "valueTextAlign": "center" },
       "golden": "<div class=\"pa-banded pa-banded--value-center\">Body</div>"
     },
     {
       "name": "combined",
-      "props": { "body": "Body", "labelWidth": "narrow", "middle": true, "labelEnd": true },
+      "props": { "body": "Body", "labelWidth": "narrow", "align": "center", "labelTextAlign": "end" },
       "golden": "<div class=\"pa-banded pa-banded--narrow pa-banded--middle pa-banded--label-end\">Body</div>",
       "note": "Modifiers compound (snippets/data-display.html L271). Class-token order is normalized away."
     },

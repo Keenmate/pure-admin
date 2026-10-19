@@ -3,7 +3,7 @@
   "component": "basic-list",
   "block": "pa-list-basic",
   "propsVocabulary": {
-    "spacing": "inter-item density compact|spacious — emits pa-list-basic--{spacing} (default = no modifier)",
+    "density": "inter-item density compact|spacious — emits pa-list-basic--{density} (default = no modifier)",
     "unstyled": "boolean — removes bullets/padding (pa-list-basic--unstyled)",
     "inline": "boolean — horizontal flex layout (pa-list-basic--inline)",
     "bordered": "boolean — borders between items (pa-list-basic--bordered)",
@@ -16,7 +16,7 @@
   "goldenConventions": "Structural. The container is a <ul class=\"pa-list-basic …\">. spacing emits pa-list-basic--{value}; the booleans each emit their modifier; the icon-variant emits pa-list-basic--{variant} only under the hasIcon+non-success coupling (see iconVariant). There is NO pa-list-basic--success (default). Attribute + class-token order and whitespace are normalized away.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pa-list-basic--'): compact, spacious, unstyled, inline, bordered, striped, icon, danger, info, warning. NO --success (default). iconVariant is type-coupled like loader's size (emits pa-list-basic--{variant} only with hasIcon && variant!=success), so its produces is null and it is verified via scenarios/goldens + claimed via cssStateClasses. body/extraClass produce null (structural/passthrough).",
-    "spacing": {
+    "density": {
       "kind": "enum",
       "options": ["compact", "spacious"],
       "produces": "pa-list-basic--{value}"
@@ -49,12 +49,12 @@
     },
     {
       "name": "compact",
-      "props": { "body": "Items", "spacing": "compact" },
+      "props": { "body": "Items", "density": "compact" },
       "golden": "<ul class=\"pa-list-basic pa-list-basic--compact\">Items</ul>"
     },
     {
       "name": "spacious",
-      "props": { "body": "Items", "spacing": "spacious" },
+      "props": { "body": "Items", "density": "spacious" },
       "golden": "<ul class=\"pa-list-basic pa-list-basic--spacious\">Items</ul>"
     },
     {
@@ -112,7 +112,7 @@
     },
     {
       "name": "combined",
-      "props": { "body": "Items", "spacing": "compact", "bordered": true, "hasIcon": true, "iconVariant": "info", "extraClass": "mb-base" },
+      "props": { "body": "Items", "density": "compact", "bordered": true, "hasIcon": true, "iconVariant": "info", "extraClass": "mb-base" },
       "golden": "<ul class=\"pa-list-basic pa-list-basic--compact pa-list-basic--bordered pa-list-basic--icon pa-list-basic--info mb-base\">Items</ul>"
     }
   ]

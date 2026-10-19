@@ -85,7 +85,9 @@ and dump symmetrically.
   `dist/css/main.css` (NOT `components.json` — its static extraction misses every
   SCSS-`@each`-generated variant). Each feature declares `kind`
   (enum/bool/string/slot), its `options`, and a `produces` class template
-  (`pa-btn--{value}`, `null` for structural/native).
+  (`pa-btn--{value}`, `null` for structural/native). An enum whose classes don't
+  follow the template may give an explicit option → class map instead
+  (`"produces": { "center": "pa-banded--middle" }`).
 - **`scenarios`** — neutral prop bags + the `golden` markup. Attribute + class
   order and whitespace are normalized, so goldens are written for readability.
 - **`deferred`** *(optional)* — element classes a slice intentionally leaves to a

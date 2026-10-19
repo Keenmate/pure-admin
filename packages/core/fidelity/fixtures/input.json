@@ -11,9 +11,9 @@
     "value": "native value attribute — emitted only when supplied (the blessed empty shape carries no value)",
     "name": "native name attribute",
     "id": "native id attribute (hand-set — the normalizer keeps real ids, only strips framework-generated ones)",
-    "disabled": "native boolean attribute (there is NO pa-input--disabled class)",
-    "readonly": "native boolean attribute",
-    "required": "native boolean attribute",
+    "isDisabled": "boolean prop → the native `disabled` attribute (there is NO pa-input--disabled class)",
+    "isReadonly": "boolean prop → the native `readonly` attribute",
+    "isRequired": "boolean prop → the native `required` attribute",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },
   "goldenConventions": "Goldens encode the bare `<input class=\"pa-input ...\">` from snippets/forms.html plus the one convention both wrappers legitimately add: `type=\"text\"` is always present (both default type to \"text\"). `value` appears ONLY in scenarios that set it — the empty shape omits it (svelte had to drop its `$bindable('')` default to stop emitting a phantom `value=\"\"`; see the fix note). Native boolean attrs (disabled/readonly/required) are canonicalized to bare presence by the normalizer, so `disabled=\"\"` (svelte) ≡ `disabled` (keen). Attribute order and class-token order are normalized away, so goldens are written for readability. themeColor scenarios omit state/size — pa-input--color-N composes but is the colour axis.",
@@ -44,9 +44,9 @@
     "value": { "kind": "string", "produces": null, "note": "native value attribute — emitted only when supplied" },
     "name": { "kind": "string", "produces": null, "note": "native name attribute" },
     "id": { "kind": "string", "produces": null, "note": "native id attribute (hand-set)" },
-    "disabled": { "kind": "bool", "produces": null, "note": "native boolean attribute — there is NO pa-input--disabled class" },
-    "readonly": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
-    "required": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "isDisabled": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute — there is NO pa-input--disabled class" },
+    "isReadonly": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute" },
+    "isRequired": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
   "deferred": {
@@ -182,18 +182,18 @@
     },
     {
       "name": "disabled",
-      "props": { "value": "Disabled input", "disabled": true },
+      "props": { "value": "Disabled input", "isDisabled": true },
       "golden": "<input type=\"text\" value=\"Disabled input\" disabled class=\"pa-input\">",
-      "note": "native disabled attr — no pa-input--disabled class. Normalizer canonicalizes to bare presence."
+      "note": "boolean prop → native disabled attribute — no pa-input--disabled class. Normalizer canonicalizes to bare presence."
     },
     {
       "name": "readonly",
-      "props": { "value": "Readonly input", "readonly": true },
+      "props": { "value": "Readonly input", "isReadonly": true },
       "golden": "<input type=\"text\" value=\"Readonly input\" readonly class=\"pa-input\">"
     },
     {
       "name": "required",
-      "props": { "placeholder": "Required", "required": true },
+      "props": { "placeholder": "Required", "isRequired": true },
       "golden": "<input type=\"text\" placeholder=\"Required\" required class=\"pa-input\">"
     },
     {
@@ -216,7 +216,7 @@
     },
     {
       "name": "combined",
-      "props": { "type": "email", "size": "sm", "themeColor": "3", "name": "email", "id": "email", "placeholder": "you@co", "required": true },
+      "props": { "type": "email", "size": "sm", "themeColor": "3", "name": "email", "id": "email", "placeholder": "you@co", "isRequired": true },
       "golden": "<input type=\"email\" name=\"email\" id=\"email\" placeholder=\"you@co\" required class=\"pa-input pa-input--sm pa-input--color-3\">",
       "note": "Stacks type + size + themeColor + native attrs to exercise class ordering + attribute passthrough together."
     }

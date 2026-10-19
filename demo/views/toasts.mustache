@@ -296,11 +296,11 @@ const toastMessages = {
 };
 
 // Demo functions using pureAdmin.toast API
-function showToast(position, variant) {
+function showToast(placement, variant) {
     pureAdmin.toast.show({
         variant: variant,
         message: toastMessages[variant],
-        position: position
+        placement: placement
     });
 }
 

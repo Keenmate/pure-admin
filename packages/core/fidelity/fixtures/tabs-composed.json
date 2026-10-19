@@ -13,7 +13,7 @@
   "goldenConventions": "Golden = the core snippet shape: `.pa-tabs` div wrapping bare `.pa-tabs__item` buttons, exactly one carrying `--active`. No id / data-* / switching attrs — those are per-wrapper interactivity, not the class contract. Attribute + class-token order and whitespace normalized away. keen's phx-click is dropped by the wrapper-wide defaults; its id=\"tab-btn-*\" + data-tab-target are dropped by this fixture's per-component `normalize` block (see the top note).",
   "features": {
     "//": "PARENT (tabs) feature vocabulary — exercised subset. The full pa-tabs--* modifier contract is asserted by tabs.json; this fixture is about the item seam, not the container's class contract (check-all skips composites).",
-    "style": { "kind": "enum", "produces": "pa-tabs--{value}", "options": ["pills", "boxed", "vertical"], "note": "underline is the default (no class)" },
+    "type": { "kind": "enum", "produces": "pa-tabs--{value}", "options": ["pills", "boxed", "vertical"], "note": "underline is the default (no class)" },
     "size":  { "kind": "enum", "produces": "pa-tabs--{value}", "options": ["sm", "lg"] }
   },
   "scenarios": [
@@ -30,7 +30,7 @@
     },
     {
       "name": "pills-middle-active",
-      "props": { "style": "pills" },
+      "props": { "type": "pills" },
       "children": [
         { "label": "Dashboard", "target": "p-1" },
         { "label": "Analytics", "active": true, "target": "p-2" },

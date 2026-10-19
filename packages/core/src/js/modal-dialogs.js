@@ -8,7 +8,7 @@
  *   const value = await pureAdmin.prompt({ title: 'Enter name:', message: '...' });
  *
  * Options (all methods):
- *   position: 'center' | 'top' - Modal vertical position (default: 'center')
+ *   placement: 'center' | 'top' - Modal vertical placement (default: 'center')
  */
 
 (function(window) {
@@ -60,7 +60,7 @@
       id,
       size = 'sm',
       variant = null,
-      position = 'center', // 'center' or 'top'
+      placement = 'center', // 'center' or 'top'
       title,
       message,
       footer
@@ -69,7 +69,7 @@
     const modal = document.createElement('div');
     // Build modal class with optional variant on the wrapper (not header)
     let modalClass = 'pa-modal pa-modal--show';
-    if (position === 'top') modalClass += ' pa-modal--top';
+    if (placement === 'top') modalClass += ' pa-modal--top';
     if (variant) modalClass += ` pa-modal--${variant}`;
     // Banded header + footer bands — pair with a role variant (success/warning/
     // danger/info) for the colour, like the declarative modal.
@@ -226,7 +226,7 @@
       cancelText = 'Cancel',
       variant = 'primary',
       size = 'sm',
-      position = 'center',
+      placement = 'center',
       confirmVariant = variant,
       closeOnBackdrop = true
     } = options;
@@ -247,7 +247,7 @@
       id,
       size,
       variant,
-      position,
+      placement,
       title,
       message,
       footer,
@@ -287,7 +287,7 @@
       okText = 'OK',
       variant = 'primary',
       size = 'sm',
-      position = 'center',
+      placement = 'center',
       closeOnBackdrop = true
     } = options;
 
@@ -304,7 +304,7 @@
       id,
       size,
       variant,
-      position,
+      placement,
       title,
       message,
       footer,
@@ -344,7 +344,7 @@
       cancelText = 'Cancel',
       variant = 'primary',
       size = 'sm',
-      position = 'center',
+      placement = 'center',
       validator = null,
       closeOnBackdrop = true
     } = options;
@@ -384,7 +384,7 @@
       id,
       size,
       variant,
-      position,
+      placement,
       title,
       message,
       inputHtml,
@@ -458,7 +458,7 @@
       title = 'Dialog',
       size = 'md',
       variant = null,
-      position = 'center',
+      placement = 'center',
       closeOnBackdrop = true,
       icon,
       render
@@ -473,7 +473,7 @@
     const modal = document.createElement('div');
     // Build modal class with optional variant on the wrapper (not header)
     let modalClass = 'pa-modal pa-modal--show';
-    if (position === 'top') modalClass += ' pa-modal--top';
+    if (placement === 'top') modalClass += ' pa-modal--top';
     if (variant) modalClass += ` pa-modal--${variant}`;
     // Banded header + footer bands — pair with a role variant (success/warning/
     // danger/info) for the colour, like the declarative modal.

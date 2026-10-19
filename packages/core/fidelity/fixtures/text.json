@@ -4,7 +4,7 @@
   "block": "text",
   "propsVocabulary": {
     "variant": "semantic colour primary|success|danger|warning|info → text-{variant} (colour-only utility). Omit → bare <span> with no class.",
-    "title": "HTML title attribute (hover tooltip) — a real attribute, not a class",
+    "titleText": "HTML title attribute (hover tooltip) — a real attribute, not a class",
     "content": "inner text content (slot / inner_block)",
     "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
   },
@@ -12,7 +12,7 @@
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. The INLINE text component uses the colour-only `.text-*` utilities (NOT pa-text--*). Core ships exactly five: text-primary, text-success, text-danger, text-warning, text-info. The block name here is `text` — a bare type/utility prefix with no `text--*` BEM modifiers and no `text__*` elements (the `.text-{variant}` utilities are flat), so the axis-1 reverse checks find nothing to claim and the 'vacuous scope' note is EXPECTED (the component's canonical default is a class-less bare <span>). `title` + the slot + class passthrough are structural → produces: null.",
     "variant":    { "kind": "enum",   "options": ["primary", "success", "danger", "warning", "info"], "produces": "text-{value}" },
-    "title":      { "kind": "string", "produces": null, "note": "HTML title attribute (tooltip) — not a class" },
+    "titleText":      { "kind": "string", "produces": null, "note": "HTML title attribute (tooltip) — not a class" },
     "content":    { "kind": "slot",   "produces": null, "note": "inner text of the span" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
@@ -53,7 +53,7 @@
     },
     {
       "name": "with-title",
-      "props": { "variant": "danger", "title": "Overdue by 3 days", "content": "Overdue" },
+      "props": { "variant": "danger", "titleText": "Overdue by 3 days", "content": "Overdue" },
       "golden": "<span class=\"text-danger\" title=\"Overdue by 3 days\">Overdue</span>",
       "note": "The title attribute rides alongside the colour utility."
     },

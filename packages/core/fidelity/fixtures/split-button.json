@@ -43,7 +43,12 @@
     "pa-btn-split__menu--open": "open-state class the JS hook adds to the menu container when the dropdown opens (svelte's closeMenu/openMenu toggle it)",
     "pa-btn-split__menu-inner": "menu inner scroll area — same",
     "pa-btn-split__item": "a dropdown menu item — built from the item/menu slot (JS-runtime)",
-    "pa-btn-split__item--danger": "destructive menu item styling",
+    "pa-btn-split__item--primary": "role-coloured menu item (item variant=primary) — built from the item/menu slot",
+    "pa-btn-split__item--secondary": "role-coloured menu item (item variant=secondary)",
+    "pa-btn-split__item--success": "role-coloured menu item (item variant=success)",
+    "pa-btn-split__item--warning": "role-coloured menu item (item variant=warning)",
+    "pa-btn-split__item--danger": "role-coloured menu item (item variant=danger) — destructive actions",
+    "pa-btn-split__item--info": "role-coloured menu item (item variant=info)",
     "pa-btn-split__item-icon": "leading icon inside a menu item",
     "pa-btn-split__item-row": "wraps a menu item + its inline action button",
     "pa-btn-split__group-label": "section heading overflow.js inserts above a folded atomic group"

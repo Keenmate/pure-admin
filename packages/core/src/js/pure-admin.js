@@ -327,7 +327,7 @@
     // toast.* — defaults for pureAdmin.toast.
     cfg.toast = cfg.toast || {};
     fillDefaults(cfg.toast, {
-      position: 'top-end', // logical, RTL-aware
+      placement: 'top-end', // logical, RTL-aware
       duration: 5000,
       showProgress: false,
       persistent: false,

@@ -11,7 +11,7 @@
     "iconOnly": "boolean — square icon button; label renders as bare content",
     "justify": "start|end|center|between",
     "themeColor": "1..9 theme colour slot (overrides variant)",
-    "disabled": "boolean",
+    "isDisabled": "boolean",
     "label": "inner text content",
     "icon": "glyph/text rendered inside pa-btn__icon (ignored for iconOnly, where label is the glyph)",
     "iconPosition": "start|end",
@@ -19,7 +19,7 @@
     "target": "anchor target",
     "truncate": "boolean — wrap label in .text-truncate",
     "inputGroupButton": "boolean — add pa-input-group__button",
-    "title": "title attribute",
+    "titleText": "title attribute",
     "extraClass": "extra classes appended"
   },
   "goldenConventions": "Goldens encode the core snippet shape PLUS the two conventions both wrappers legitimately add over the static snippet: (1) <button> carries type=\"button\" (sensible default preventing implicit form submit; <a> carries none); (2) loading buttons are disabled. Everything else must match snippets/buttons.html + _buttons.scss exactly. Attribute order and class-token order are normalized away by the comparator, so goldens are written for readability, not byte-equality.",
@@ -131,7 +131,7 @@
       "produces": "pa-input-group__button",
       "note": "cross-component (input-group) addon flattening"
     },
-    "disabled": {
+    "isDisabled": {
       "kind": "bool",
       "produces": null,
       "note": "native attribute on the control; the class form pa-btn--disabled exists only for non-button elements"
@@ -145,7 +145,7 @@
       "kind": "string",
       "produces": null
     },
-    "title": {
+    "titleText": {
       "kind": "string",
       "produces": null
     },
@@ -246,7 +246,7 @@
         "variant": "primary",
         "iconOnly": true,
         "label": "★",
-        "title": "Star"
+        "titleText": "Star"
       },
       "golden": "<button type=\"button\" title=\"Star\" class=\"pa-btn pa-btn--primary pa-btn--icon-only\">★</button>"
     },
@@ -291,7 +291,7 @@
       "name": "disabled",
       "props": {
         "variant": "primary",
-        "disabled": true,
+        "isDisabled": true,
         "label": "Disabled"
       },
       "golden": "<button type=\"button\" disabled class=\"pa-btn pa-btn--primary\">Disabled</button>"

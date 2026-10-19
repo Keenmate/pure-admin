@@ -47,7 +47,7 @@ test.describe('pureAdmin.config', () => {
             const c = (window as any).pureAdmin.config;
             return {
                 debounce: c.typingDebounceDelay,
-                position: c.toast.position,
+                placement: c.toast.placement,
                 duration: c.toast.duration,
                 successIcon: c.severity.success.icon,
                 dangerTitle: c.severity.danger.title
@@ -55,7 +55,7 @@ test.describe('pureAdmin.config', () => {
         });
         expect(cfg).toEqual({
             debounce: 300,
-            position: 'top-end', // logical, RTL-aware
+            placement: 'top-end', // logical, RTL-aware
             duration: 5000,
             successIcon: undefined, // no text glyph — the masked .pa-icon--success is the default
             dangerTitle: 'Error'
@@ -85,12 +85,12 @@ test.describe('toast-service reads config.severity / config.toast', () => {
         await expect(toast.locator('.pa-toast__title')).toHaveText('Success');
     });
 
-    test('an override of config.toast.position + config.severity routes and renders accordingly', async ({ page }) => {
-        // Override BEFORE bootstrap: whole-object severity override + a position.
+    test('an override of config.toast.placement + config.severity routes and renders accordingly', async ({ page }) => {
+        // Override BEFORE bootstrap: whole-object severity override + a placement.
         await page.addInitScript(() => {
             (window as any).pureAdmin = (window as any).pureAdmin || {};
             (window as any).pureAdmin.config = {
-                toast: { position: 'bottom-center' },
+                toast: { placement: 'bottom-center' },
                 severity: { info: { icon: '🔔', title: 'Heads up' } }
             };
         });
@@ -98,7 +98,7 @@ test.describe('toast-service reads config.severity / config.toast', () => {
 
         await page.evaluate(() => (window as any).pureAdmin.toast.info('Ping'));
 
-        // Lands in the bottom-center container (position override honoured)…
+        // Lands in the bottom-center container (placement override honoured)…
         const toast = page.locator('#toast-container-bottom-center .pa-toast--info').first();
         await expect(toast).toBeVisible();
         // …with the overridden icon + title (severity override honoured).

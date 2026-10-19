@@ -8,7 +8,7 @@
   "propsVocabulary": {
     "placement": "logical initial side (top|bottom|start|end) — pa-popconfirm--{placement}; the snippet always carries one (bottom is the authored default). JS may rewrite it after flip() at runtime (out of scope).",
     "compact": "boolean — tighter padding + narrower min-width (pa-popconfirm--compact)",
-    "icon": "severity glyph on the __message element (danger|warning|info) — adds pa-popconfirm__icon + pa-popconfirm__icon--{icon}; omitted = no icon (plain message)",
+    "iconVariant": "severity glyph on the __message element (danger|warning|info) — adds pa-popconfirm__icon + pa-popconfirm__icon--{iconVariant}; omitted = no icon (plain message)",
     "message": "body copy, rendered inside __message > p",
     "confirmVariant": "colour variant of the confirm button (pa-btn--{confirmVariant}); the cancel button is always pa-btn--secondary",
     "confirmText": "confirm button label",
@@ -28,7 +28,7 @@
       "kind": "bool",
       "produces": "pa-popconfirm--compact"
     },
-    "icon": {
+    "iconVariant": {
       "kind": "enum",
       "options": ["danger", "warning", "info"],
       "produces": "pa-popconfirm__icon--{value}",
@@ -96,23 +96,23 @@
     },
     {
       "name": "icon-danger",
-      "props": { "placement": "bottom", "icon": "danger", "message": "Are you sure you want to delete this item? This action cannot be undone.", "confirmVariant": "danger", "confirmText": "Delete", "cancelText": "Cancel" },
+      "props": { "placement": "bottom", "iconVariant": "danger", "message": "Are you sure you want to delete this item? This action cannot be undone.", "confirmVariant": "danger", "confirmText": "Delete", "cancelText": "Cancel" },
       "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger\"><p>Are you sure you want to delete this item? This action cannot be undone.</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--danger\" type=\"button\">Delete</button></div></div></div>",
       "note": "The canonical delete-confirm (snippet BASIC example). __message carries both the base __icon and the __icon--danger modifier."
     },
     {
       "name": "icon-warning",
-      "props": { "placement": "bottom", "icon": "warning", "message": "Archive this item? It will be moved to the archive folder.", "confirmVariant": "warning", "confirmText": "Archive", "cancelText": "Cancel" },
+      "props": { "placement": "bottom", "iconVariant": "warning", "message": "Archive this item? It will be moved to the archive folder.", "confirmVariant": "warning", "confirmText": "Archive", "cancelText": "Cancel" },
       "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--warning\"><p>Archive this item? It will be moved to the archive folder.</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--warning\" type=\"button\">Archive</button></div></div></div>"
     },
     {
       "name": "icon-info",
-      "props": { "placement": "bottom", "icon": "info", "message": "Reset all settings to their default values?", "confirmVariant": "primary", "confirmText": "Reset", "cancelText": "Cancel" },
+      "props": { "placement": "bottom", "iconVariant": "info", "message": "Reset all settings to their default values?", "confirmVariant": "primary", "confirmText": "Reset", "cancelText": "Cancel" },
       "golden": "<div class=\"pa-popconfirm pa-popconfirm--bottom\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info\"><p>Reset all settings to their default values?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">Cancel</button><button class=\"pa-btn pa-btn--primary\" type=\"button\">Reset</button></div></div></div>"
     },
     {
       "name": "combined",
-      "props": { "placement": "top", "compact": true, "icon": "danger", "message": "Delete John Doe?", "confirmVariant": "danger", "confirmText": "Yes", "cancelText": "No", "class": "mt-sm" },
+      "props": { "placement": "top", "compact": true, "iconVariant": "danger", "message": "Delete John Doe?", "confirmVariant": "danger", "confirmText": "Yes", "cancelText": "No", "class": "mt-sm" },
       "golden": "<div class=\"pa-popconfirm pa-popconfirm--top pa-popconfirm--compact mt-sm\"><div class=\"pa-popconfirm__arrow\"></div><div class=\"pa-popconfirm__content\"><div class=\"pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger\"><p>Delete John Doe?</p></div><div class=\"pa-popconfirm__actions\"><button class=\"pa-btn pa-btn--secondary\" type=\"button\">No</button><button class=\"pa-btn pa-btn--danger\" type=\"button\">Yes</button></div></div></div>",
       "note": "Stacks placement + compact + icon + confirmVariant + class passthrough to exercise full class ordering together."
     }

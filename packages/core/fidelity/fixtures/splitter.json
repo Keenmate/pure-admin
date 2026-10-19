@@ -9,7 +9,7 @@
     "id":         "persistence id — enables localStorage under pa-splitter:<id>. Both wrappers stamp it as the root `id` AND as data-pa-splitter-id (keen also wires phx-hook=\"PureAdminSplitter\" off it; phx-* is normalized away). Mapped in both maps (axis-2 completeness) but set in no golden — like modal's `static`/`show`. See goldenConventions.",
     "step": "keyboard arrow-step in px — emits data-pa-splitter-step. Numeric; both wrappers render it verbatim (keen does no math on it). Structural data-attr, no class.",
     "railSize": "rail width in px when a pane minimizes — emits data-pa-splitter-rail-size. Numeric. Structural data-attr, no class.",
-    "minimizeThreshold": "drag-into-rail snap ratio — emits data-pa-splitter-minimize-threshold. STRING (e.g. \"0.40\") on both wrappers (keen's attr is :string, svelte renders the value as-is). Structural data-attr, no class.",
+    "minimizeThreshold": "drag-into-rail snap ratio — emits data-pa-splitter-minimize-threshold. a NUMBER (e.g. 0.4) on both wrappers (keen :float, svelte number), rendered verbatim. Structural data-attr, no class.",
     "body": "ONE pane's inner content — a plain text token the dumper seeds into a single keen `:pane` / svelte pane. It renders INSIDE a .pa-splitter__pane. The multi-pane + __gutter interleave is the deferred child-composition sub-slice."
   },
   "goldenConventions": "Goldens assert the ROOT element wrapping exactly ONE .pa-splitter__pane: <div class=\"pa-splitter pa-splitter--{orientation}\" data-pa-splitter><div class=\"pa-splitter__pane\">{body}</div></div> — the minimal canonical unit (content always sits in a pane). data-pa-splitter is a BARE marker attribute on both wrappers (svelte literal `data-pa-splitter`, keen literal `data-pa-splitter`) — it is NOT in the normalizer's BOOLEAN_ATTRS set, so presence+spelling must match; both emit the bare form, so goldens write it bare. The pane carries no attrs in these scenarios (no size/min/max/minimizable/style/class set), so it is a bare .pa-splitter__pane — keen's style={nil} no longer leaks a style=\"\" (fixed in splitter.ex). The numeric/string sizing data-attrs (step / rail-size / minimize-threshold) sit on the ROOT and are each exercised by one scenario with the SAME literal the dumper passes verbatim (numeric literals for step/railSize per the keen-dumper verbatim-pass gotcha; a string for minimizeThreshold). id is deliberately NOT set in any golden (keen also wires a phx-hook off it) — it is mapped in both wrapper maps for axis-2 completeness only. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability. COMPARE: keen dumps + matches cleanly; svelte is non-dumpable here (setContext — see top note) so it has no compare run (capability-only).",
@@ -43,7 +43,7 @@
     "minimizeThreshold": {
       "kind": "string",
       "produces": null,
-      "note": "structural — data-pa-splitter-minimize-threshold on the ROOT. String value on both wrappers."
+      "note": "structural — data-pa-splitter-minimize-threshold on the ROOT. Numeric literal in the scenario (both render it verbatim)."
     },
     "body": {
       "kind": "slot",
@@ -87,7 +87,7 @@
     },
     {
       "name": "sizing-attrs",
-      "props": { "orientation": "horizontal", "step": 20, "railSize": 48, "minimizeThreshold": "0.5", "body": "Body" },
+      "props": { "orientation": "horizontal", "step": 20, "railSize": 48, "minimizeThreshold": 0.5, "body": "Body" },
       "golden": "<div class=\"pa-splitter pa-splitter--horizontal\" data-pa-splitter data-pa-splitter-step=\"20\" data-pa-splitter-rail-size=\"48\" data-pa-splitter-minimize-threshold=\"0.5\"><div class=\"pa-splitter__pane\">Body</div></div>",
       "note": "Exercises the structural sizing data-attrs on the ROOT. step/railSize are numeric literals (keen renders them verbatim — the dumper passes JSON values straight through, no Elixir math); minimizeThreshold is a string. id is NOT set (keen would add a phx-hook)."
     },

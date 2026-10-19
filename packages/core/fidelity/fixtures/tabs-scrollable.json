@@ -10,7 +10,7 @@
   "goldenConventions": "Golden = the canonical scrollable scaffold from snippets/tabs.html: `.pa-tabs.pa-tabs--scrollable` wrapping start-arrow button + `.pa-tabs__scroll-container` (holding the items — plain text token here) + end-arrow button, each arrow carrying a `.pa-icon.pa-icon--chevron-{left,right}` glyph span. Attribute + class-token order and whitespace normalized away; wiring attrs trimmed per the `normalize` block. keen's `overflow=\"scrollable\"` is forced by the dump task's render clause (it IS the scrollable variant); svelte's TabsScrollable is intrinsically scrollable.",
   "features": {
     "//": "Shared capability surface both wrappers expose on the scrollable tabs. scrollable-ness itself is INTRINSIC to the fixture (keen: const overflow=scrollable via the render clause; svelte: TabsScrollable is always scrollable), so it is not a feature. Per-item/panel markup is the deferred sub-components (see tabs.json).",
-    "style":      { "prop": "style", "kind": "enum", "values": ["pills", "boxed"], "produces": "pa-tabs--{value}" },
+    "type":      { "prop": "type", "kind": "enum", "values": ["pills", "boxed"], "produces": "pa-tabs--{value}" },
     "size":       { "prop": "size",  "kind": "enum", "values": ["sm", "lg"], "produces": "pa-tabs--{value}" },
     "body":       { "prop": "body",  "kind": "slot", "produces": null },
     "extraClass": { "prop": "class", "kind": "string", "produces": null }
@@ -24,7 +24,7 @@
     },
     {
       "name": "style-pills",
-      "props": { "style": "pills", "body": "Body" },
+      "props": { "type": "pills", "body": "Body" },
       "golden": "<div class=\"pa-tabs pa-tabs--scrollable pa-tabs--pills\"><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--start\"><span class=\"pa-icon pa-icon--chevron-left\" aria-hidden=\"true\"></span></button><div class=\"pa-tabs__scroll-container\">Body</div><button type=\"button\" class=\"pa-tabs__scroll-btn pa-tabs__scroll-btn--end\"><span class=\"pa-icon pa-icon--chevron-right\" aria-hidden=\"true\"></span></button></div>",
       "note": "Style modifier composes with the scrollable scaffold; class-token order normalized away."
     },

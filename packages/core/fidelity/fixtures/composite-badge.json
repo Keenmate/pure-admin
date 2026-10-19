@@ -7,7 +7,7 @@
     "labelVariant": "override the LABEL section's colour independently of the base variant — pa-composite-badge--label-{v} (svelte labelVariant, keen label_variant)",
     "buttonVariant": "override the BUTTON section's colour independently — pa-composite-badge--btn-{v} (svelte buttonVariant, keen button_variant). All 8 variants exist (incl. --btn-danger; the SCSS @each covers every variant even though the base __button already renders danger-coloured).",
     "iconVariant": "override the ICON section's colour independently — pa-composite-badge--icon-{v} (svelte iconVariant, keen icon_variant)",
-    "icon": "glyph/text rendered inside pa-composite-badge__icon (left section). svelte: icon snippet; keen: icon_content slot (the string `icon` attr and the slot both emit the same __icon span)",
+    "icon": "glyph/text rendered inside pa-composite-badge__icon (left section). svelte `icon` snippet, keen `:icon` slot (both emit the same __icon span). The `iconName` / `icon_name` string renders a provider icon through the Icon component inside the same span — provider-dependent output, not exercised here",
     "label": "middle section text — rendered inside pa-composite-badge__label (svelte labelText, keen label_text)",
     "buttonText": "right section text/count — rendered inside pa-composite-badge__button (svelte buttonText, keen button_text / count)"
   },

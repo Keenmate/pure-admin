@@ -4,7 +4,7 @@
   "block": "pa-filter-card",
   "propsVocabulary": {
     "loading": "boolean — dim + pointer-events:none (pa-filter-card--loading)",
-    "disabled": "boolean — dim + pointer-events:none, disables controls (pa-filter-card--disabled)",
+    "isDisabled": "boolean — dim + pointer-events:none, disables controls (pa-filter-card--disabled)",
     "expanded": "boolean — advanced section visible (only renders with advancedFilters present)",
     "showToggle": "boolean — render the built-in expand/collapse icon button (only with advancedFilters)",
     "showClear": "boolean — render the built-in clear-all icon button",
@@ -18,7 +18,7 @@
   "features": {
     "//": "Feature->class contract authored from dist/css/main.css. Block-modifier reverse-check covers pa-filter-card--loading/--disabled. Element classes verified forward via scenario goldens.",
     "loading":             { "kind": "bool", "produces": "pa-filter-card--loading" },
-    "disabled":            { "kind": "bool", "produces": "pa-filter-card--disabled" },
+    "isDisabled":            { "kind": "bool", "produces": "pa-filter-card--disabled" },
     "filters":             { "kind": "slot", "produces": "pa-filter-card__filters", "note": "inside __row" },
     "advancedFilters":     { "kind": "slot", "produces": "pa-filter-card__advanced", "note": "collapsible; only rendered when expanded" },
     "actions":             { "kind": "slot", "produces": null, "note": "author buttons placed inside pa-filter-card__actions (which is always emitted)" },
@@ -45,7 +45,7 @@
     },
     {
       "name": "disabled",
-      "props": { "filters": "Filters", "disabled": true, "showToggle": false, "showClear": false, "showRefresh": false },
+      "props": { "filters": "Filters", "isDisabled": true, "showToggle": false, "showClear": false, "showRefresh": false },
       "golden": "<div class=\"pa-card pa-filter-card pa-filter-card--disabled\"><div class=\"pa-card__body\"><div class=\"pa-filter-card__row\"><div class=\"pa-filter-card__filters\">Filters</div><div class=\"pa-filter-card__actions\"></div></div></div></div>"
     },
     {

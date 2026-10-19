@@ -14,6 +14,7 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 
 | Component | Snippet | Coverage | Ref block | Missing selectors |
 |---|---|:--:|:--:|---|
+| Button | buttons.html | 51/55 (93%) | ✓ | `pa-btn-split__item--info`, `pa-btn-split__item--primary`, `pa-btn-split__item--secondary`, `pa-btn-split__item--warning` |
 | Radio | forms.html | 14/15 (93%) | ✓ | `pa-radio--disabled` |
 
 ## Gaps — components with no snippet
@@ -28,5 +29,5 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 
 ## Full structural coverage + reference block
 
-`Card`, `Section`, `Splitter`, `Modal`, `Tabs`, `Detail panel`, `Profile panel`, `Table card`, `Form layout`, `Text input`, `Textarea`, `Select`, `Input group`, `Input wrapper / token field`, `Checkbox`, `Checkbox list`, `Range slider`, `Range group`, `Inline query editor`, `Filter card`, `Button`, `Pager`, `Popconfirm`, `Table`, `Comparison table`, `List`, `Document`, `Sheet (printable document)`, `Code block`, `Data display (field lists)`, `Statistics / stat cards`, `KPI showcase — shared base`, `KPI showcase — terminal`, `KPI showcase — sparkline list`, `KPI showcase — comparison gauges`, `KPI showcase — hero + supporting`, `KPI showcase — bento`, `KPI showcase — numeric strip`, `KPI showcase — editorial minimal`, `Alert`, `Callout`, `Toast`, `Notifications`, `Tooltip`, `Popover`, `Loaders / spinners`, `Timeline`, `Badge`, `Label`, `Composite badge`, `Command palette`, `Search results`, `Icon`, `Utilities & state hooks`
+`Card`, `Section`, `Splitter`, `Modal`, `Tabs`, `Detail panel`, `Profile panel`, `Table card`, `Form layout`, `Text input`, `Textarea`, `Select`, `Input group`, `Input wrapper / token field`, `Checkbox`, `Checkbox list`, `Range slider`, `Range group`, `Inline query editor`, `Filter card`, `Pager`, `Popconfirm`, `Table`, `Comparison table`, `List`, `Document`, `Sheet (printable document)`, `Code block`, `Data display (field lists)`, `Statistics / stat cards`, `KPI showcase — shared base`, `KPI showcase — terminal`, `KPI showcase — sparkline list`, `KPI showcase — comparison gauges`, `KPI showcase — hero + supporting`, `KPI showcase — bento`, `KPI showcase — numeric strip`, `KPI showcase — editorial minimal`, `Alert`, `Callout`, `Toast`, `Notifications`, `Tooltip`, `Popover`, `Loaders / spinners`, `Timeline`, `Badge`, `Label`, `Composite badge`, `Command palette`, `Search results`, `Icon`, `Utilities & state hooks`
 

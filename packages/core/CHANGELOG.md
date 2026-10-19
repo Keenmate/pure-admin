@@ -45,6 +45,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   exposes `pureAdmin.components.range.setValue(el, v | [min, max])` for silent
   programmatic sync.
 
+- **Split-button menu items in every role colour.** `.pa-btn-split__item--{role}` for `primary`,
+  `secondary`, `success`, `warning`, `danger`, `info` (role-tinted text, filled with the role
+  colour on hover) — generated from one role loop; `--danger` looks exactly as before. Wrappers
+  expose it as the item `variant`. Snippet + demo show a `--success` / `--warning` item.
+
 ### Changed
 
 - **BREAKING — button and tabs alignment modifiers use the CSS property name.** Layout props are
@@ -66,6 +71,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   loader `color` → `variant`; stat `variant` (hero / square) → `layout` and `color` → `variant`
   (`variant` is the role colour on every component); paragraph `color` → `isMuted` (it was only ever
   body vs muted text — `primary` no longer emits a redundant `text-body`). No class changes.
+- **Fidelity vocabulary, batch 3 — every boolean is `is_` / `has_` / `should_`, plain text is
+  `*Text`, `style` is only inline CSS.** Native boolean attributes are no exception any more:
+  `disabled` / `readonly` / `required` / `checked` / `multiple` → `isDisabled` / `isReadonly` /
+  `isRequired` / `isChecked` / `isMultiple` (button, input, textarea, select, checkbox, radio,
+  form-group, filter-card). button / text `title` → `titleText` (it's plain text, even though it
+  lands in the native `title` attribute). pager `firstLabel` … `lastLabel` → `firstText` …
+  `lastText`; popconfirm `icon` → `iconVariant` (it picks the glyph's colour, it isn't an icon);
+  load-more `text` → `label` (the default slot) and `count` → `countText`; tabs / tabs-composed /
+  tabs-scrollable and ordered-list `style` → `type`; basic-list `spacing` → `density`; fields'
+  six layout booleans → one `layout` enum and `compact` / `relaxed` → `density`; desc-table and
+  banded `middle` → `align` (`center`), `labelEnd` / `labelCenter` → `labelTextAlign` and
+  `valueEnd` / `valueCenter` → `valueTextAlign` (`center` / `end`); splitter `minimizeThreshold`
+  is a number. No class changes. `NAMING.md` adds the `icon_name` + `:icon` pair, `type` /
+  `layout` / `variant` / `density` / `style`, and the accepted authoring idioms (splitter panes,
+  split-button items, range-group rows, kpi-terminal tabs, svelte-only client state).
+- **Spinner is a `<span>`.** The canonical `.pa-spinner` element is now an inline `<span>` (the
+  class already sets `display: inline-block`), so it is valid inside text, buttons and `<p>` — a
+  `<div>` there is invalid HTML (the browser closes the paragraph early). Snippets, demo, the
+  command-palette loading state and the spinner fixture updated. No CSS change.
+- **BREAKING — core JS `position` option → `placement`.** `pureAdmin.confirm` / `alert` /
+  `prompt` / `custom` (`modal-dialogs.js`), `pureAdmin.toast.*` and `toast.dismissAll(placement)`
+  (`toast-service.js`) and the shared config `pureAdmin.config.toast.placement` — the same word the
+  wrappers use for every floating / positioned element. No alias for `position`.
 - **Card title is ALWAYS `h3.pa-card__title-text`.** The reference note said "h1..h6" while every
   example, the fidelity fixture and both wrappers emit `h3` — so the demo had drifted to 92 `h4`,
   18 `h2`, 24 `h5`. The note now states `h3` (the CSS styles the class, not the tag; other levels
@@ -306,6 +334,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (snake ↔ camel) modulo framework idioms; conventions in `fidelity/NAMING.md` (`*_text` / `*Text`,
   `is_*`, `has_*`, card `header_actions` / `footer_actions`). Card fixture: `tools` → `headerActions`,
   new `headerActionsCollapsed` scenario (core's `--responsive` tree).
+- **Fidelity: irregular enum `produces` maps + per-component idioms.** A feature's `produces` may
+  be an option → class map (`align: { "center": "pa-banded--middle" }`) when the class doesn't
+  follow the `{value}` template. `naming.mjs` accepts the documented per-component authoring idioms
+  (splitter `pane` ↔ `children`, range-group `row` ↔ `rows`, kpi-terminal tab mode).
 - **Theme matrix: `e2e/theme-matrix.spec.ts` + `playwright.themes.config.ts`.** Every theme ×
   light/dark: a snapshot of every resolved custom property plus full-page screenshots of 8 demo
   pages (`<web-grid>` masked — randomised data). Run with

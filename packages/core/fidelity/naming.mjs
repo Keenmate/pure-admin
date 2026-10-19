@@ -28,10 +28,22 @@ const paint = (c, s) => (process.stdout.isTTY ? `\x1b[${{ red: 31, green: 32, ye
 const camel = (s) => s.replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase());
 
 /**
+ * Per-component authoring idioms (NAMING.md "Accepted idioms"): the same DOM,
+ * authored the way each framework does it naturally — keen named slots vs
+ * svelte child components / data arrays / an explicit mode flag.
+ */
+const COMPONENT_IDIOMS = {
+  splitter: [['pane', 'children']],          // keen <:pane> slots vs <SplitterPane> children
+  'range-group': [['row', 'rows']],          // keen <:row> slots vs svelte rows[] data array
+  'kpi-terminal': [['pane_demo', 'hasTabs']], // keen tabs on when <:pane> slots exist vs svelte hasTabs (SSR must know up front)
+};
+
+/**
  * Framework idioms — the SAME concept spelled the way each framework requires.
  * Returns true when keen `k` and svelte `s` are an accepted idiom pair.
  */
-function idiom(k, s) {
+function idiom(k, s, component) {
+  if (COMPONENT_IDIOMS[component]?.some(([ki, si]) => ki === k && si === s)) return true;
   if (k === 'inner_block' && s === 'children') return true;            // default slot
   if (k.endsWith('_') && camel(k.slice(0, -1)) === s) return true;     // Elixir reserved word (end_, footer_)
   if (/^on_/.test(k) && s === 'on' + k.slice(3).replace(/_/g, '')) return true; // event: keen phx event name, svelte lowercase callback
@@ -58,7 +70,7 @@ for (const file of files) {
     const kp = k.prop, sp = svelte[feature].prop;
     if (typeof kp !== 'string' || typeof sp !== 'string') continue;
     compared++;
-    if (camel(kp) === sp || idiom(kp, sp)) continue;
+    if (camel(kp) === sp || idiom(kp, sp, component)) continue;
     rows.push(`   ${paint('red', 'NAME')} ${feature.padEnd(24)} keen ${paint('bold', kp)}  ≠  svelte ${paint('bold', sp)}  ${paint('gray', `(expected svelte ${camel(kp)} or keen ${sp.replace(/[A-Z]/g, (c) => '_' + c.toLowerCase())})`)}`);
   }
   if (rows.length) {

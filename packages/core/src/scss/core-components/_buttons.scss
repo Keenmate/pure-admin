@@ -479,6 +479,16 @@
 }
 
 // === Split Button (primary action + dropdown toggle) ===
+// Split-button menu item in a role colour (.pa-btn-split__item--{role}).
+@mixin btn-split-item-role($role) {
+  color: var(--pa-btn-#{$role}-bg);
+
+  &:hover {
+    background-color: var(--pa-btn-#{$role}-bg);
+    color: var(--pa-btn-#{$role}-text);
+  }
+}
+
 .pa-btn-split {
   position: relative;
   display: inline-flex;
@@ -584,14 +594,15 @@
       background-color: var(--pc-primary-bg-subtle-hover);
     }
 
-    &--danger {
-      color: var(--pa-btn-danger-bg);
-
-      &:hover {
-        background-color: var(--pa-btn-danger-bg);
-        color: var(--pa-btn-danger-text);
-      }
-    }
+    // Role colour (svelte/keen item `variant`): role-tinted text, filled
+    // with the role colour on hover — e.g. --danger for destructive items.
+    // Written out (not @each) so the component catalog sees every modifier.
+    &--primary { @include btn-split-item-role(primary); }
+    &--secondary { @include btn-split-item-role(secondary); }
+    &--success { @include btn-split-item-role(success); }
+    &--warning { @include btn-split-item-role(warning); }
+    &--danger { @include btn-split-item-role(danger); }
+    &--info { @include btn-split-item-role(info); }
   }
 
   // Row with item + action button (e.g. delete)

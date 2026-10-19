@@ -9,9 +9,9 @@
     "placeholder": "native placeholder attribute",
     "name": "native name attribute",
     "id": "native id attribute (hand-set — the normalizer keeps real ids, only strips framework-generated ones)",
-    "disabled": "native boolean attribute (there is NO pa-textarea--disabled class)",
-    "readonly": "native boolean attribute",
-    "required": "native boolean attribute",
+    "isDisabled": "boolean prop → the native `disabled` attribute (there is NO pa-textarea--disabled class)",
+    "isReadonly": "boolean prop → the native `readonly` attribute",
+    "isRequired": "boolean prop → the native `required` attribute",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },
   "goldenConventions": "Goldens encode the bare `<textarea class=\"pa-textarea ...\">value</textarea>` from snippets/forms.html. `value` is the text content, present ONLY in scenarios that set it (empty shape is `<textarea ...></textarea>`). No `rows` attribute appears (see the top note — svelte's always-on default is fixed, keen routes it via rest). There is NO validation-state class for textarea — state scenarios are intentionally absent. Native boolean attrs (disabled/readonly/required) are canonicalized to bare presence by the normalizer. Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
@@ -31,9 +31,9 @@
     "placeholder": { "kind": "string", "produces": null, "note": "native placeholder attribute" },
     "name": { "kind": "string", "produces": null, "note": "native name attribute" },
     "id": { "kind": "string", "produces": null, "note": "native id attribute (hand-set)" },
-    "disabled": { "kind": "bool", "produces": null, "note": "native boolean attribute — there is NO pa-textarea--disabled class" },
-    "readonly": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
-    "required": { "kind": "bool", "produces": null, "note": "native boolean attribute" },
+    "isDisabled": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute — there is NO pa-textarea--disabled class" },
+    "isReadonly": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute" },
+    "isRequired": { "kind": "bool", "produces": null, "note": "boolean prop → native attribute" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
   "deferred": {
@@ -127,18 +127,18 @@
     },
     {
       "name": "disabled",
-      "props": { "value": "Disabled textarea", "disabled": true },
+      "props": { "value": "Disabled textarea", "isDisabled": true },
       "golden": "<textarea disabled class=\"pa-textarea\">Disabled textarea</textarea>",
-      "note": "native disabled attr — no pa-textarea--disabled class. Normalizer canonicalizes to bare presence."
+      "note": "boolean prop → native disabled attribute — no pa-textarea--disabled class. Normalizer canonicalizes to bare presence."
     },
     {
       "name": "readonly",
-      "props": { "value": "Readonly textarea", "readonly": true },
+      "props": { "value": "Readonly textarea", "isReadonly": true },
       "golden": "<textarea readonly class=\"pa-textarea\">Readonly textarea</textarea>"
     },
     {
       "name": "required",
-      "props": { "placeholder": "Required", "required": true },
+      "props": { "placeholder": "Required", "isRequired": true },
       "golden": "<textarea placeholder=\"Required\" required class=\"pa-textarea\"></textarea>"
     },
     {
@@ -155,7 +155,7 @@
     },
     {
       "name": "combined",
-      "props": { "size": "lg", "themeColor": "3", "name": "bio", "id": "bio", "placeholder": "About you", "required": true, "value": "Hi" },
+      "props": { "size": "lg", "themeColor": "3", "name": "bio", "id": "bio", "placeholder": "About you", "isRequired": true, "value": "Hi" },
       "golden": "<textarea name=\"bio\" id=\"bio\" placeholder=\"About you\" required class=\"pa-textarea pa-textarea--lg pa-textarea--color-3\">Hi</textarea>",
       "note": "Stacks size + themeColor + native attrs + value text to exercise class ordering + attribute passthrough together."
     }

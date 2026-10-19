@@ -147,7 +147,7 @@ fullscreen sheet" (the command palette's mobile sheet keys off it). This mirrors
 
 | Key | Default | Provenance |
 |---|---|---|
-| `toast.position` | `'top-right'` | js (move) |
+| `toast.placement` | `'top-end'` | js (move) |
 | `toast.duration` | `5000` (ms) | js (move) |
 | `toast.showProgress` | `false` | js (move) |
 | `toast.persistent` | `false` | js (move) |
