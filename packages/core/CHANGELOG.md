@@ -58,7 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `alignment` → `textAlign`; timeline `alignment` → `side` (it puts every item on one side, it
   isn't alignment); tooltip `position` and card `titleTooltipPosition` / `descriptionTooltipPosition`
   → `placement` / `…Placement` (CSS `position` means static/absolute — floating elements use
-  `placement`, like popover / popconfirm). `NAMING.md` documents the rule.
+  `placement`, like popover / popconfirm). Fields / table-card `color` → `themeColor`
+  (the 1–9 theme slot is `themeColor` everywhere). `NAMING.md` documents the rule.
 - **Card title is ALWAYS `h3.pa-card__title-text`.** The reference note said "h1..h6" while every
   example, the fidelity fixture and both wrappers emit `h3` — so the demo had drifted to 92 `h4`,
   18 `h2`, 24 `h5`. The note now states `h3` (the CSS styles the class, not the tag; other levels

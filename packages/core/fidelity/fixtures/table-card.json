@@ -4,7 +4,7 @@
   "block": "pa-table-card",
   "propsVocabulary": {
     "variant": "semantic header colour (primary|success|warning|danger) — tints the header fill. svelte variant; keen variant. NO info/secondary.",
-    "color": "theme-slot header colour (1..9) — pa-table-card--color-{n}. svelte color (number); keen color (string).",
+    "themeColor": "theme-slot header colour (1..9) — pa-table-card--color-{n}. svelte themeColor (number); keen theme_color (string).",
     "plain": "pa-table-card--plain — strips card chrome (no border/shadow/bg/radius); header/body/footer lose their fills. svelte isPlain; keen is_plain.",
     "scrollable": "pa-table-card__body--scrollable — enables overflow-x:auto on the body for wide tables. svelte isScrollable; keen is_scrollable.",
     "title": "header title text — rendered as `.pa-table-card__title` > `.pa-table-card__title-text` (blessed wrapper, mirrors .pa-card__title). svelte titleText; keen title_text.",
@@ -18,7 +18,7 @@
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. capability.mjs axis-1 reverse-check is scoped to the pa-table-card--* BLOCK modifiers. Real authored block modifiers: --primary/--success/--warning/--danger (one `variant` enum), --color-1..9 (one `color` enum), --plain. The only element modifier is pa-table-card__body--scrollable (verified forward via `scrollable`). description/actions/body/footer are structural/slot; extraClass is passthrough. The title is the `.pa-table-card__title` > `.pa-table-card__title-text` wrapper, exercised directly by the title/description/actions/header-full/variant-primary/plain/full goldens. The inner `.pa-table` + thead/tbody in the body are native consumer markup (deferred).",
     "variant":     { "kind": "enum",   "produces": "pa-table-card--{value}", "options": ["primary", "success", "warning", "danger"], "note": "coloured header; svelte/keen variant" },
-    "color":       { "kind": "enum",   "produces": "pa-table-card--color-{value}", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "note": "theme-slot coloured header; svelte color (number), keen color (string)" },
+    "themeColor":  { "kind": "enum",   "produces": "pa-table-card--color-{value}", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "note": "theme-slot coloured header; svelte themeColor (number), keen theme_color (string)" },
     "plain":       { "kind": "bool",   "produces": "pa-table-card--plain", "note": "svelte isPlain; keen is_plain" },
     "scrollable":  { "kind": "bool",   "produces": "pa-table-card__body--scrollable", "note": "body element modifier; svelte isScrollable; keen is_scrollable" },
     "title":       { "kind": "string", "produces": null, "note": "structural — rendered as .pa-table-card__title > .pa-table-card__title-text (exercised by the title goldens)" },
@@ -99,8 +99,8 @@
       "golden": "<div class=\"pa-table-card pa-table-card--danger\"><div class=\"pa-table-card__body\">Body</div></div>"
     },
     {
-      "name": "color-3",
-      "props": { "color": "3", "body": "Body" },
+      "name": "theme-color-3",
+      "props": { "themeColor": "3", "body": "Body" },
       "golden": "<div class=\"pa-table-card pa-table-card--color-3\"><div class=\"pa-table-card__body\">Body</div></div>",
       "note": "Theme-slot coloured header. svelte passes color as a number, keen as a string; both must emit pa-table-card--color-3."
     },

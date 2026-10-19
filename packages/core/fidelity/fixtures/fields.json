@@ -15,7 +15,7 @@
     "linear": "ultra-clean side-by-side, weight+colour contrast only (pa-fields--linear)",
     "chips": "Notion-style inline pairs with pill/chip values (pa-fields--chips)",
     "filled": "subtle background panel (pa-fields--filled)",
-    "color": "theme colour 1-9 for the left border (pa-fields--color-{n})",
+    "themeColor": "theme colour 1-9 for the left border (pa-fields--color-{n})",
     "noBorder": "remove the left border (pa-fields--no-border). svelte models this as hasBorder=false (negated); keen as is_no_border=true.",
     "body": "the container's item area — plain slot text in this container-only slice (the real pa-field children are the deferred sub-slice)",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
@@ -35,7 +35,7 @@
     "linear":     { "kind": "bool", "produces": "pa-fields--linear" },
     "chips":      { "kind": "bool", "produces": "pa-fields--chips" },
     "filled":     { "kind": "bool", "produces": "pa-fields--filled" },
-    "color":      { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": null, "note": "emits pa-fields--color-{n}; verified via scenarios (produces template can't carry {n})." },
+    "themeColor": { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": null, "note": "emits pa-fields--color-{n}; verified via scenarios (produces template can't carry {n})." },
     "noBorder":   { "kind": "bool", "produces": "pa-fields--no-border", "note": "svelte hasBorder=false (negated), keen is_no_border=true" },
     "body":       { "kind": "slot", "produces": null, "note": "structural — the container's inner content; pa-field items are the deferred sub-slice" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
@@ -173,23 +173,23 @@
       "note": "svelte hasBorder=false (negated bool), keen is_no_border=true -> same pa-fields--no-border."
     },
     {
-      "name": "color-1",
-      "props": { "body": "Body", "color": "1" },
+      "name": "theme-color-1",
+      "props": { "body": "Body", "themeColor": "1" },
       "golden": "<div class=\"pa-fields pa-fields--color-1\">Body</div>"
     },
     {
-      "name": "color-5",
-      "props": { "body": "Body", "color": "5" },
+      "name": "theme-color-5",
+      "props": { "body": "Body", "themeColor": "5" },
       "golden": "<div class=\"pa-fields pa-fields--color-5\">Body</div>"
     },
     {
-      "name": "color-9",
-      "props": { "body": "Body", "color": "9" },
+      "name": "theme-color-9",
+      "props": { "body": "Body", "themeColor": "9" },
       "golden": "<div class=\"pa-fields pa-fields--color-9\">Body</div>"
     },
     {
       "name": "filled-color",
-      "props": { "body": "Body", "filled": true, "color": "3" },
+      "props": { "body": "Body", "filled": true, "themeColor": "3" },
       "golden": "<div class=\"pa-fields pa-fields--filled pa-fields--color-3\">Body</div>",
       "note": "Snippet-blessed combo (snippets/data-display.html L105): tinted background panel."
     },
