@@ -60,6 +60,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   → `placement` / `…Placement` (CSS `position` means static/absolute — floating elements use
   `placement`, like popover / popconfirm). Fields / table-card `color` → `themeColor`
   (the 1–9 theme slot is `themeColor` everywhere). `NAMING.md` documents the rule.
+- **Fidelity vocabulary, batch 2 — one flag vs one choice.** Options that exclude each other are
+  one enum named for what they control; combinable ones are booleans. alert `headingLarge` →
+  `headingSize` (`lg`); banded `narrow` / `wide` → `labelWidth`; modal `top` → `placement` (`top`);
+  loader `color` → `variant`; stat `variant` (hero / square) → `layout` and `color` → `variant`
+  (`variant` is the role colour on every component); paragraph `color` → `isMuted` (it was only ever
+  body vs muted text — `primary` no longer emits a redundant `text-body`). No class changes.
 - **Card title is ALWAYS `h3.pa-card__title-text`.** The reference note said "h1..h6" while every
   example, the fidelity fixture and both wrappers emit `h3` — so the demo had drifted to 92 `h4`,
   18 `h2`, 24 `h5`. The note now states `h3` (the CSS styles the class, not the tag; other levels

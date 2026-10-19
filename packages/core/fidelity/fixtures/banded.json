@@ -3,8 +3,7 @@
   "component": "banded",
   "block": "pa-banded",
   "propsVocabulary": {
-    "narrow": "boolean — narrow (8rem) label band (pa-banded--narrow). svelte: width='narrow' (enum); keen: is_narrow (bool)",
-    "wide": "boolean — wide (20rem) label band (pa-banded--wide). svelte: width='wide' (enum); keen: is_wide (bool). Mutually exclusive with narrow",
+    "labelWidth": "narrow (8rem) | wide (20rem) label column → pa-banded--{value}; absent = default width. svelte labelWidth, keen label_width.",
     "middle": "boolean — vertically center labels + values (pa-banded--middle)",
     "truncate": "boolean — single-line ellipsis on labels + values (pa-banded--truncate)",
     "labelEnd": "boolean — right-align labels (pa-banded--label-end)",
@@ -17,8 +16,7 @@
   "goldenConventions": "Structural only — the banded container adds no attribute conventions (unlike button's type). The body slot is a plain text token (Body) so the diff checks the container's tag + class + the layout modifiers, not rich row content. The width band is modeled as two mutually-exclusive bool features (narrow / wide) rather than one enum because the wrappers diverge: svelte exposes a single width='narrow'|'wide' enum (each bool maps to a fixed `const` width value in its map), keen exposes two is_narrow / is_wide bools (each maps straight through). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
   "features": {
     "//": "Feature->class contract authored from dist/css/main.css. axis-1 reverse-check is scoped to the eight pa-banded--* BLOCK modifiers, all produced by a feature below. The four __element classes (pa-banded__row / __label / __value / __copy) and the four row STATE modifiers (__row--copy-btn / --copy-hover / --copy-click / --copied) belong to the banded_row sub-component and are DEFERRED (see deferred block) — none are container markup.",
-    "narrow":      { "kind": "bool", "produces": "pa-banded--narrow", "note": "svelte width='narrow' (const); keen is_narrow (bool)" },
-    "wide":        { "kind": "bool", "produces": "pa-banded--wide", "note": "svelte width='wide' (const); keen is_wide (bool); mutually exclusive with narrow" },
+    "labelWidth":  { "kind": "enum", "options": ["narrow", "wide"], "produces": "pa-banded--{value}", "note": "label column width; the two values are mutually exclusive" },
     "middle":      { "kind": "bool", "produces": "pa-banded--middle" },
     "truncate":    { "kind": "bool", "produces": "pa-banded--truncate" },
     "labelEnd":    { "kind": "bool", "produces": "pa-banded--label-end" },
@@ -49,12 +47,12 @@
     },
     {
       "name": "narrow",
-      "props": { "body": "Body", "narrow": true },
+      "props": { "body": "Body", "labelWidth": "narrow" },
       "golden": "<div class=\"pa-banded pa-banded--narrow\">Body</div>"
     },
     {
       "name": "wide",
-      "props": { "body": "Body", "wide": true },
+      "props": { "body": "Body", "labelWidth": "wide" },
       "golden": "<div class=\"pa-banded pa-banded--wide\">Body</div>"
     },
     {
@@ -89,7 +87,7 @@
     },
     {
       "name": "combined",
-      "props": { "body": "Body", "narrow": true, "middle": true, "labelEnd": true },
+      "props": { "body": "Body", "labelWidth": "narrow", "middle": true, "labelEnd": true },
       "golden": "<div class=\"pa-banded pa-banded--narrow pa-banded--middle pa-banded--label-end\">Body</div>",
       "note": "Modifiers compound (snippets/data-display.html L271). Class-token order is normalized away."
     },

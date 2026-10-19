@@ -10,7 +10,7 @@
     "dismissible": "boolean — padding-inline-end for the close button + renders .pa-alert__close",
     "multiline": "boolean — opt out of align-items:center so an icon top-aligns with a multi-line __content stack",
     "heading": "heading text rendered as <h4 class=pa-alert__heading>",
-    "headingLarge": "boolean — bump heading to pa-alert__heading--lg (deliberate-read presentation)",
+    "headingSize": "lg — bump heading to pa-alert__heading--lg (deliberate-read presentation); the only size core ships today",
     "body": "main content — bare children (WITHOUT icon: direct child of pa-alert; WITH icon: inside pa-alert__content)",
     "icon": "leading icon rendered inside pa-alert__icon; its presence wraps the rest in pa-alert__content",
     "list": "list items wrapped in <ul class=pa-alert__list>",
@@ -53,9 +53,10 @@
       "kind": "string",
       "produces": "pa-alert__heading"
     },
-    "headingLarge": {
-      "kind": "bool",
-      "produces": "pa-alert__heading--lg",
+    "headingSize": {
+      "kind": "enum",
+      "options": ["lg"],
+      "produces": "pa-alert__heading--{value}",
       "note": "element modifier on the heading; only meaningful together with `heading`. Verified forward against CSS."
     },
     "icon": {
@@ -193,7 +194,7 @@
     },
     {
       "name": "heading-large",
-      "props": { "variant": "success", "heading": "Success!", "headingLarge": true, "body": "You read this message." },
+      "props": { "variant": "success", "heading": "Success!", "headingSize": "lg", "body": "You read this message." },
       "golden": "<div class=\"pa-alert pa-alert--success\" role=\"alert\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">Success!</h4>You read this message.</div>"
     },
     {
@@ -204,12 +205,12 @@
     },
     {
       "name": "icon-multiline",
-      "props": { "variant": "info", "multiline": true, "icon": "ⓘ", "heading": "Heads up", "headingLarge": true, "body": "Long body text." },
+      "props": { "variant": "info", "multiline": true, "icon": "ⓘ", "heading": "Heads up", "headingSize": "lg", "body": "Long body text." },
       "golden": "<div class=\"pa-alert pa-alert--info pa-alert--multiline\" role=\"alert\"><span class=\"pa-alert__icon\">ⓘ</span><div class=\"pa-alert__content\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">Heads up</h4>Long body text.</div></div>"
     },
     {
       "name": "list",
-      "props": { "variant": "info", "heading": "System Update", "headingLarge": true, "body": "This update includes:", "list": "Performance improvements" },
+      "props": { "variant": "info", "heading": "System Update", "headingSize": "lg", "body": "This update includes:", "list": "Performance improvements" },
       "golden": "<div class=\"pa-alert pa-alert--info\" role=\"alert\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">System Update</h4>This update includes:<ul class=\"pa-alert__list\">Performance improvements</ul></div>",
       "note": "list slot content is a plain text token; real usage is <li> children."
     },
@@ -220,7 +221,7 @@
     },
     {
       "name": "combined",
-      "props": { "variant": "info", "dismissible": true, "multiline": true, "icon": "ⓘ", "heading": "System Update", "headingLarge": true, "body": "A new version is available.", "list": "Bug fixes", "actions": "Update Now" },
+      "props": { "variant": "info", "dismissible": true, "multiline": true, "icon": "ⓘ", "heading": "System Update", "headingSize": "lg", "body": "A new version is available.", "list": "Bug fixes", "actions": "Update Now" },
       "golden": "<div class=\"pa-alert pa-alert--info pa-alert--multiline pa-alert--dismissible\" role=\"alert\"><span class=\"pa-alert__icon\">ⓘ</span><div class=\"pa-alert__content\"><h4 class=\"pa-alert__heading pa-alert__heading--lg\">System Update</h4>A new version is available.<ul class=\"pa-alert__list\">Bug fixes</ul><div class=\"pa-alert__actions\">Update Now</div></div><button type=\"button\" class=\"pa-alert__close\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div>",
       "note": "Everything at once: icon (→ __content wrap) + multiline + heading--lg + body + list + actions + dismissible close button."
     },

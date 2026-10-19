@@ -12,6 +12,9 @@ declare (`npm run fidelity:naming -w @keenmate/pure-admin-core`).
 | Boolean flag | `is_*` | `is*` | `is_striped` / `isStriped`, `is_vertical` / `isVertical` |
 | Show / hide an optional part | `has_*` | `has*` | `has_toggle` / `hasToggle`, `has_clear` / `hasClear` |
 | Behaviour (what it should DO) | `should_*` | `should*` | `should_close_on_escape` / `shouldCloseOnEscape`, `should_truncate_text` / `shouldTruncateText` |
+| Role colour (primary / success / danger …) | `variant` | `variant` | button, alert, badge, card, modal, toast, loader, stat |
+| Theme colour slot 1–9 | `theme_color` | `themeColor` | badge, button, input, fields, table-card … |
+| Several options that exclude each other | one enum named for what it controls | same | banded `label_width` (narrow / wide), modal `placement` |
 | Plain-text value | `*_text` | `*Text` | `title_text` / `titleText`, `label_text` / `labelText`, `unit_text` / `unitText` |
 | Rich content (slot / snippet) | bare name | bare name | `:title` / `title` snippet, `:description` / `description` |
 | One actions area | `:actions` | `actions` | alert, toast, detail panel, filter card, table card |

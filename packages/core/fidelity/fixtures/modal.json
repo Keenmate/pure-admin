@@ -5,7 +5,7 @@
   "propsVocabulary": {
     "variant": "role colour on the ROOT (primary|success|warning|danger|info) — emits pa-modal--{variant}; colours the header via a descendant selector. There is NO pa-modal__header--{variant}. --info has no solid-header rule (band-only), but the class exists and is valid, so it's kept in the enum; pair it with banded for colour.",
     "banded": "boolean — pa-modal--banded; header AND footer wear the role colour as filled bands (needs a band role variant: success/warning/danger/info).",
-    "top": "boolean — pa-modal--top; align the dialog near the top (5vh) instead of centred.",
+    "placement": "top → pa-modal--top (dialog near the top, 5vh); absent / center = centred (no class).",
     "size": "container size on __container (sm|lg|xl|xxl|fw) — emits pa-modal__container--{size}. md is the DEFAULT and emits NO class (a bare .pa-modal__container IS medium).",
     "scrollable": "boolean — pa-modal__body--scrollable; explicit shorter body max-height (60vh).",
     "static": "boolean — BEHAVIOURAL JS hook only. There is NO .pa-modal--static CSS rule (confirmed absent from dist/css/main.css); it exists purely so the example JS skips Esc + backdrop dismissal. The two wrappers DIVERGE on it (keen emits the class, svelte deliberately omits it), so no scenario exercises it — see goldenConventions.",
@@ -33,9 +33,10 @@
       "kind": "bool",
       "produces": "pa-modal--banded"
     },
-    "top": {
-      "kind": "bool",
-      "produces": "pa-modal--top"
+    "placement": {
+      "kind": "enum",
+      "options": ["top"],
+      "produces": "pa-modal--{value}"
     },
     "size": {
       "kind": "enum",
@@ -127,7 +128,7 @@
         "id": "modal-top",
         "title": "Top-Aligned Modal",
         "body": "Body",
-        "top": true
+        "placement": "top"
       },
       "golden": "<div id=\"modal-top\" class=\"pa-modal pa-modal--top\"><div class=\"pa-modal__backdrop\"></div><div class=\"pa-modal__container\"><div class=\"pa-modal__header\"><h3 class=\"pa-modal__title\">Top-Aligned Modal</h3><button class=\"pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary\" aria-label=\"Close\"><span class=\"pa-icon pa-icon--x\" aria-hidden=\"true\"></span></button></div><div class=\"pa-modal__body\">Body</div></div></div>"
     },
@@ -271,7 +272,7 @@
         "body": "Body",
         "variant": "warning",
         "banded": true,
-        "top": true,
+        "placement": "top",
         "size": "xl",
         "scrollable": true,
         "footer": "Footer"
