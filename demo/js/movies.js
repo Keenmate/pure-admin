@@ -237,6 +237,9 @@ window.MOVIE_DATA = [
 (function () {
     var tableBody = document.getElementById('moviesTableBody');
     if (!tableBody) return; // Not on list page
+    // movies-panel.mustache also loads this file (for MOVIE_DATA) but has its
+    // own controller in movies-panel.js and no year filters — don't bind here.
+    if (document.getElementById('movieDetailPanel')) return;
 
     var ITEMS_PER_PAGE = 5;
     var currentPage = 1;
