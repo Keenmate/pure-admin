@@ -251,7 +251,7 @@
                             <div class="pa-alert pa-alert--info">
                                 <strong>The problem:</strong> an irregular label set like
                                 <em>Orders / Invoices / Delivery sheets / Complaints and missed items</em>
-                                looks bad both ways &mdash; <code>--full</code> stretches the short tabs into dead space,
+                                looks bad both ways &mdash; <code>--justify-stretch</code> stretches the short tabs into dead space,
                                 and plain auto width leaves the long one huge and the edge ragged.
                                 <code>pa-tabs--wrap-labels</code> lets the long title wrap; cap it with
                                 <code>maxwr-*</code> to choose the wrap point. The row then keeps every tab as tall
@@ -359,7 +359,7 @@
                         the label is <em>start-aligned</em> by default. Add the <code>justify-content-center</code> utility
                         &mdash; the tab item is a flexbox &mdash; to center it (or <code>justify-content-end</code> to
                         end-align). That utility ships in <code>@keenmate/pure-css</code>. It is <em>not</em> the same as
-                        <code>pa-tabs--centered</code>, which centers the whole tab group within the bar rather than the
+                        <code>pa-tabs--justify-center</code>, which centers the whole tab group within the bar rather than the
                         label inside each tab.
                     </div>
                 </div>
@@ -684,7 +684,7 @@
                     </div>
                 </div>
                 <div class="pa-card__body">
-                    <div class="pa-tabs pa-tabs--centered">
+                    <div class="pa-tabs pa-tabs--justify-center">
                         <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'center-tab-1')">Features</button>
                         <button class="pa-tabs__item" onclick="switchTab(this, 'center-tab-2')">Pricing</button>
                         <button class="pa-tabs__item" onclick="switchTab(this, 'center-tab-3')">Testimonials</button>
@@ -711,7 +711,7 @@
                     </div>
                 </div>
                 <div class="pa-card__body">
-                    <div class="pa-tabs pa-tabs--full">
+                    <div class="pa-tabs pa-tabs--justify-stretch">
                         <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'full-tab-1')">
                             <i class="fa-solid fa-mobile-screen"></i>
                             <span>Mobile</span>
@@ -777,7 +777,7 @@
                             </div>
                         </div>
                         <div class="pa-card__body">
-                            <div class="pa-tabs pa-tabs--border-top pa-tabs--full">
+                            <div class="pa-tabs pa-tabs--border-top pa-tabs--justify-stretch">
                                 <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'border-top-full-1')">
                                     <i class="fa-solid fa-user"></i>
                                     <span>Profile</span>
@@ -789,7 +789,7 @@
                             </div>
                             <div class="pa-tabs__content">
                                 <div class="pa-tabs__panel pa-tabs__panel--active" id="border-top-full-1">
-                                    <p>Combines <code>--border-top</code> with <code>--full</code> for equal-width tabs with top indicator.</p>
+                                    <p>Combines <code>--border-top</code> with <code>--justify-stretch</code> for equal-width tabs with top indicator.</p>
                                 </div>
                                 <div class="pa-tabs__panel" id="border-top-full-2">
                                     <p>Favorites panel content.</p>
@@ -855,7 +855,7 @@
                         </div>
                         <div class="pa-card__body">
                             <div class="pa-tabs__vertical-layout">
-                                <div class="pa-tabs pa-tabs--vertical pa-tabs--centered">
+                                <div class="pa-tabs pa-tabs--vertical pa-tabs--justify-center">
                                     <button class="pa-tabs__item pa-tabs__item--w-4x pa-tabs__item--active pa-tooltip" onclick="switchTab(this, 'icon-vert-1')" data-tooltip="Home">
                                         <i class="fa-solid fa-house"></i>
                                     </button>
@@ -1335,8 +1335,8 @@
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-tabs--sm</code> - Small size</li>
             <li><code>pa-tabs--lg</code> - Large size</li>
-            <li><code>pa-tabs--centered</code> - Center-aligned tabs</li>
-            <li><code>pa-tabs--full</code> - Full width (equal-width tabs)</li>
+            <li><code>pa-tabs--justify-center</code> - Center-aligned tabs</li>
+            <li><code>pa-tabs--justify-stretch</code> - Full width (equal-width tabs)</li>
             <li><code>pa-tabs--nowrap</code> - Prevent wrapping</li>
             <li><code>pa-tabs--collapse</code> - Icon-only until active</li>
             <li><code>pa-tabs--scrollable</code> - Horizontal scroll with arrows</li>
