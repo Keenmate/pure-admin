@@ -4,7 +4,7 @@
   "block": "pa-form-group",
   "propsVocabulary": {
     "body": "the group's inner area — filled with plain slot text in this container-only slice (real label/control/help children are separate components)",
-    "validation": "validation state → one pa-form-group--* modifier (success | warning | error). svelte exposes it as `state`, keen as `validation`.",
+    "validation": "validation state → one pa-form-group--* modifier (success | warning | error). svelte and keen both expose it as `validation`, keen as `validation`.",
     "required": "boolean → pa-form-group--required, the escape hatch for NON-native widgets (custom selects, image browsers) with no :required descendant. svelte `isRequired`, keen `is_required`.",
     "horizontal": "boolean → pa-form-group--horizontal (label inline-start, control fills the rest). svelte `isHorizontal`/`horizontal`, keen `is_horizontal`.",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"

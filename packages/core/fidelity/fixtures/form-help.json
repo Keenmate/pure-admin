@@ -4,7 +4,7 @@
   "block": "pa-form-help",
   "propsVocabulary": {
     "variant": "validation variant → one pa-form-help--* modifier (success | warning | error). NO info. svelte `variant`, keen `variant`.",
-    "themeColor": "1..9 theme colour slot → pa-form-help--color-N. svelte `themeColor`, keen `color`.",
+    "themeColor": "1..9 theme colour slot → pa-form-help--color-N. svelte `themeColor`, keen `theme_color`.",
     "body": "the caption text content",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },

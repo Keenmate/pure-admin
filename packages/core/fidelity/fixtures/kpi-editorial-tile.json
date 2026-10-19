@@ -6,8 +6,8 @@
   "propsVocabulary": {
     "labelText": "uppercase mono caption — pa-kpi-edit__label (always rendered). svelte `labelText`, keen `label_text`.",
     "valueText": "headline thin numeral — pa-kpi-edit__num inside the __value wrapper. svelte `valueText`, keen `value_text`.",
-    "unit": "unit/affix suffix — pa-kpi-edit__unit after the number. svelte `unit`, keen `unit_text`.",
-    "prefix": "currency/scale prefix — pa-kpi-edit__unit before the number. svelte `prefix`, keen `prefix_text`.",
+    "unit": "unit/affix suffix — pa-kpi-edit__unit after the number. svelte `unitText`, keen `unit_text`.",
+    "prefix": "currency/scale prefix — pa-kpi-edit__unit before the number. svelte `prefixText`, keen `prefix_text`.",
     "deltaText": "delta value in the meta row — pa-kpi-edit__delta (rendered only when set). svelte `deltaText`, keen `delta_text`.",
     "deltaVariant": "sentiment tint on the delta — pa-kpi-edit__delta--{variant}; default (nil) emits no tint (SCSS defaults the bare __delta to --pa-positive). svelte `deltaVariant`, keen `delta_variant` (underscore up_strong/down_strong dasherized to the class).",
     "targetText": "target value in the meta row — pa-kpi-edit__target, prefixed by a literal <em>tgt</em> (rendered only when set). svelte `targetText`, keen `target_text`.",

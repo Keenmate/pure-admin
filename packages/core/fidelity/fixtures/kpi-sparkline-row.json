@@ -8,8 +8,8 @@
     "label": "uppercase metric name — pa-kpi-spark-row__label. svelte labelText; keen label_text.",
     "chart": "chart cell content (author SVG sparkline; plain text here) — wrapped in pa-kpi-spark-row__chart. svelte chart snippet; keen :chart slot.",
     "value": "focal number — the pa-kpi-spark-row__num inside pa-kpi-spark-row__value. svelte valueText; keen value_text.",
-    "unit": "unit suffix after the number — pa-kpi-spark-row__unit (second affix inside __value). svelte unit; keen unit_text.",
-    "prefix": "currency/scale prefix before the number — pa-kpi-spark-row__unit (first affix inside __value). svelte prefix; keen prefix_text.",
+    "unit": "unit suffix after the number — pa-kpi-spark-row__unit (second affix inside __value). svelte unitText; keen unit_text.",
+    "prefix": "currency/scale prefix before the number — pa-kpi-spark-row__unit (first affix inside __value). svelte prefixText; keen prefix_text.",
     "delta": "Δ% text — pa-kpi-spark-row__delta. svelte deltaText; keen delta_text.",
     "deltaVariant": "Δ% sentiment tint — pa-kpi-spark-row__delta--{variant}. svelte deltaVariant; keen delta_variant.",
     "extraClass": "extra classes appended verbatim to the row (passthrough — svelte class, keen class)."

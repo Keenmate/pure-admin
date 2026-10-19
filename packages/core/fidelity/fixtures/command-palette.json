@@ -4,7 +4,7 @@
   "block": "pa-command-palette",
   "propsVocabulary": {
     "size": "size preset on the ROOT — sm (48/28.8rem) | lg (76.8/51.2rem) | xl (89.6/64rem); emits pa-command-palette--{size}. Default (nil) keeps 60.8/38.4rem and emits NO class (a bare .pa-command-palette IS the default size). This is the ONE block modifier BOTH wrappers emit identically in SSR (svelte `size`, keen `size`), so it is the shared oracle feature.",
-    "display": "step display style — inline (default; the input shows the full accumulated sentence, a command badge on the right) | tokens (input cleared each step; prior selections shown as badge spans above the input). svelte `displayStyle`, keen `display`. Structural (NO class): it writes keen's data-display attr + gates the __tokens region; it does NOT toggle a pa-command-palette--* modifier. The __tokens element it gates is deferred (framework-divergent: keen emits an empty __tokens div even with no selections, svelte omits it until selections exist)."
+    "display": "step display style — inline (default; the input shows the full accumulated sentence, a command badge on the right) | tokens (input cleared each step; prior selections shown as badge spans above the input). svelte `displayStyle`, keen `display_style`. Structural (NO class): it writes keen's data-display attr + gates the __tokens region; it does NOT toggle a pa-command-palette--* modifier. The __tokens element it gates is deferred (framework-divergent: keen emits an empty __tokens div even with no selections, svelte omits it until selections exist)."
   },
   "goldenConventions": "No scenarios → no goldens. See the leading note for why a shared full-tree golden is impossible (JS-driven internals + root-element-level SSR divergence by design) and why even the bare shell can't reconcile (keen's required driver id + data-mode/data-display/data-locked-length SSR-state attrs vs svelte's bare root). Correctness is carried by the structural contract: the `size` block-modifier feature, the `display` structural feature, the --active / --fullscreen JS state classes, and the deferred / cssStateElements element inventory. Attribute + class-token order and whitespace would be normalized away if a golden existed.",
   "features": {
@@ -19,7 +19,7 @@
       "kind": "enum",
       "options": ["inline", "tokens"],
       "produces": null,
-      "note": "structural — step display style. svelte `displayStyle`, keen `display`. Emits keen's data-display attr and gates the deferred __tokens region; produces NO pa-command-palette--* class. Declared in both maps for axis-2 completeness; not exercised by a strict scenario (capability-only fixture)."
+      "note": "structural — step display style. svelte `displayStyle`, keen `display_style`. Emits keen's data-display attr and gates the deferred __tokens region; produces NO pa-command-palette--* class. Declared in both maps for axis-2 completeness; not exercised by a strict scenario (capability-only fixture)."
     }
   },
   "cssStateClasses": {

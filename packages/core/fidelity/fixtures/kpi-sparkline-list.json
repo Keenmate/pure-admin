@@ -6,7 +6,7 @@
     "title": "header title text — rendered inside the canonical `.pa-card__title` > `.pa-card__title-text` shape (snippets/kpi.html L333). svelte titleText; keen title_text.",
     "live": "show the animated LIVE pill (`.pa-kpi-live` + `.pa-kpi-live__dot` + the text 'LIVE') next to the title. svelte isLive (hardcodes 'LIVE'); keen is_live (live_text defaults to 'LIVE').",
     "footer": "footer caption text — wrapped in `.pa-card__footer pa-kpi-footer` as a <span>. svelte footerText; keen footer_text.",
-    "noDelta": "pa-kpi-spark-list--no-delta — drops the trailing Δ% column from every row's grid. svelte noDelta; keen is_no_delta.",
+    "noDelta": "pa-kpi-spark-list--no-delta — drops the trailing Δ% column from every row's grid. svelte isNoDelta; keen is_no_delta.",
     "chartFirst": "pa-kpi-spark-list--chart-first — rotates the mid-narrow row layout to label-on-top / chart-middle / value+delta-bottom. svelte isChartFirst; keen is_chart_first.",
     "body": "the row area — filled with plain slot text in this container-only slice (the real `.pa-kpi-spark-row` children are the deferred row sub-component, rendered by KpiSparklineRow / kpi_sparkline_row which both dumpers can't flow through a text slot). svelte children; keen inner_block.",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature."
@@ -17,7 +17,7 @@
     "title":      { "kind": "string", "produces": null, "note": "structural — canonical .pa-card__title > .pa-card__title-text (blessed shape, NOT a bare <h3>)" },
     "live":       { "kind": "bool",   "produces": null, "note": "structural — emits the .pa-kpi-live pill (shared kpi-base class, not a block modifier)" },
     "footer":     { "kind": "string", "produces": null, "note": "structural — footer caption wrapped in .pa-card__footer pa-kpi-footer" },
-    "noDelta":    { "kind": "bool",   "produces": "pa-kpi-spark-list--no-delta", "note": "svelte noDelta; keen is_no_delta" },
+    "noDelta":    { "kind": "bool",   "produces": "pa-kpi-spark-list--no-delta", "note": "svelte isNoDelta; keen is_no_delta" },
     "chartFirst": { "kind": "bool",   "produces": "pa-kpi-spark-list--chart-first", "note": "svelte isChartFirst; keen is_chart_first" },
     "body":       { "kind": "slot",   "produces": null, "note": "structural — the card body (.pa-card__body pa-kpi-spark-list__body); the real .pa-kpi-spark-row children are the deferred row sub-component" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }

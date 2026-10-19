@@ -3,7 +3,7 @@
   "component": "pager",
   "block": "pa-pager",
   "propsVocabulary": {
-    "justify": "start|center|end — justify-content modifier. center is the SCSS default; the canonical snippet omits the class for centered. Both wrappers emit no class for their default-centered form (svelte align defaults to 'center' → no class; keen align defaults to nil → no class), and emit pa-pager--center only when align is set to 'center' explicitly. Scenarios exercise start/end (both wrappers agree); center the modifier is claimed by the feature's produces (axis-2) and left to the default no-class form in goldens.",
+    "justify": "start|center|end — justify-content modifier. center is the SCSS default; the canonical snippet omits the class for centered. Both wrappers emit no class for their default-centered form (svelte justify defaults to 'center' → no class; keen justify defaults to nil → no class), and emit pa-pager--center only when justify is set to 'center' explicitly. Scenarios exercise start/end (both wrappers agree); center the modifier is claimed by the feature's produces (axis-2) and left to the default no-class form in goldens.",
     "showFirst": "whether the First-page button renders. svelte: presence of the `onfirst` callback; keen: presence of the `on_first` event-name string. A truthy event name enables the button.",
     "showLast": "whether the Last-page button renders. svelte: `onlast` callback; keen: `on_last` event-name string.",
     "firstLabel": "First button text content. svelte `firstText`; keen `icon_first` (plain text, HTML-escaped). Fed identical text so button content matches.",
@@ -12,7 +12,7 @@
     "lastLabel": "Last button text content. svelte `lastText`; keen `icon_last`.",
     "showInfo": "boolean — whether the __info section renders (svelte `showInfo`, keen `show_info`).",
     "showPageInput": "boolean — whether the numeric page __input renders inside __info (svelte `showPageInput`, keen `show_page_input`).",
-    "page": "current page value bound to the numeric __input (svelte `currentPage`, keen `page`).",
+    "page": "current page value bound to the numeric __input (svelte `currentPage`, keen `current_page`).",
     "totalPages": "total page count — the input's max and the 'of N' label (svelte `totalPages`, keen `total_pages`).",
     "extraClass": "extra classes appended verbatim to the root (svelte `class`, keen `class`) — class passthrough, not a core feature."
   },

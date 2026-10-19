@@ -3,7 +3,7 @@
   "component": "prop-card",
   "block": "pa-prop-card",
   "propsVocabulary": {
-    "header": "card header title — rendered as pa-prop-card__header only when present (keen `header`, svelte `headerText`)",
+    "header": "card header title — rendered as pa-prop-card__header only when present (keen `header_text`, svelte `headerText`)",
     "body": "the card's row area — filled with plain slot text in this container-only slice (real pa-prop-card__row children are the deferred sub-slice fed via the default slot). keen's inner_block is required:true so every scenario supplies it",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },

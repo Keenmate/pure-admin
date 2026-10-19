@@ -14,8 +14,8 @@
     "labelText": "uppercase mono name cell — pa-kpi-bento-tile__label (always rendered). svelte `labelText`, keen `label_text`.",
     "deltaText": "Δ% chip — pa-kpi-bento-tile__delta (rendered only when set). svelte `deltaText`, keen `delta_text`.",
     "valueText": "focal number — pa-kpi-bento-tile__num inside the __value wrapper. svelte `valueText`, keen `value_text`.",
-    "unit": "unit/affix suffix — pa-kpi-bento-tile__unit after the number. svelte `unit`, keen `unit_text`.",
-    "prefix": "currency/scale prefix — pa-kpi-bento-tile__unit before the number. svelte `prefix`, keen `prefix_text`.",
+    "unit": "unit/affix suffix — pa-kpi-bento-tile__unit after the number. svelte `unitText`, keen `unit_text`.",
+    "prefix": "currency/scale prefix — pa-kpi-bento-tile__unit before the number. svelte `prefixText`, keen `prefix_text`.",
     "extraClass": "extra classes appended verbatim to the tile (svelte `class`, keen `class`) — class passthrough, not a core feature."
   },
   "features": {

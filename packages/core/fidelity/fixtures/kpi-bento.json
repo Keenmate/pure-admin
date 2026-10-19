@@ -5,7 +5,7 @@
   "propsVocabulary": {
     "title": "card header title — rendered inside `.pa-kpi-header` as `.pa-card__title` > `.pa-card__title-text` (the single blessed card-title shape per the card-header canonicalization, mirrored by snippets/kpi.html L559). svelte titleText; keen title_text. Header renders only when title and/or live is present.",
     "live": "the LIVE status pill — `.pa-kpi-live` with an animated `.pa-kpi-live__dot` and the hardcoded 'LIVE' label. svelte isLive (label hardcoded 'LIVE'); keen is_live (label defaults 'LIVE' via live_text). bool.",
-    "layout": "grid layout modifier — hero-end (`.pa-kpi-bento__grid--hero-end`, mirror of the default hero-start) or 5-tile (`.pa-kpi-bento__grid--5-tile`, hero + 4 supporting). Default (nil) is the base 6-tile hero-left grid, no modifier. Tile source order is unchanged across layouts. svelte layout ('hero-end' | '5-tile'); keen bento_layout ('hero_right' | '5_tile', dasherized to the class).",
+    "layout": "grid layout modifier — hero-end (`.pa-kpi-bento__grid--hero-end`, mirror of the default hero-start) or 5-tile (`.pa-kpi-bento__grid--5-tile`, hero + 4 supporting). Default (nil) is the base 6-tile hero-left grid, no modifier. Tile source order is unchanged across layouts. svelte layout ('hero-end' | '5-tile'); keen layout ('hero_end' | '5_tile', dasherized to the class).",
     "body": "the grid's tile area — filled with plain slot text in this container-only slice (real `.pa-kpi-bento-tile` children are the deferred sub-component). svelte children; keen inner_block (required:true, so every scenario supplies it).",
     "footer": "card footer caption — rendered inside `.pa-card__footer.pa-kpi-footer` as a bare `<span>` when the plain-string footer is set (the richer footer snippet override is out of this text-only slice). svelte footerText; keen footer_text. Footer renders only when set.",
     "extraClass": "extra classes appended verbatim to the card shell (svelte `class`, keen `class`) — class passthrough, not a core feature."
@@ -15,7 +15,7 @@
     "//": "Feature->class contract authored from dist/css/main.css. The `.pa-kpi-bento` BLOCK has ZERO block-level modifiers (grep '\\.pa-kpi-bento--' on main.css is empty — hero-end/5-tile are ELEMENT modifiers on `__grid`), so capability.mjs axis-1 block-modifier reverse-check is vacuous. Block element classes in CSS: `__body`, `__grid`, `__grid--hero-end`, `__grid--5-tile` — all exercised: `__body` + `__grid` appear in every golden, the two `__grid--*` modifiers are produced by the `layout` enum. The header pill / footer / title classes (`pa-kpi-header`, `pa-kpi-live`, `pa-kpi-live__dot`, `pa-kpi-footer`, `pa-card__title`, `pa-card__title-text`) belong to the card/kpi-base chrome, not this block, so they are structural (produces:null) but still exercised directly by the goldens. The whole `.pa-kpi-bento-tile*` family is a SEPARATE block (deferred prose). `produces:null` = structural/native (no `pa-kpi-bento` modifier).",
     "title":      { "kind": "string", "produces": null, "note": "structural — blessed card title shape .pa-card__title > .pa-card__title-text inside .pa-kpi-header; svelte titleText / keen title_text" },
     "live":       { "kind": "bool",   "produces": null, "note": "structural — the .pa-kpi-live pill (with .pa-kpi-live__dot + hardcoded 'LIVE'); svelte isLive / keen is_live" },
-    "layout":     { "kind": "enum",   "produces": "pa-kpi-bento__grid--{value}", "options": ["hero-end", "5-tile"], "note": "grid layout modifier on __grid; svelte layout ('hero-end'|'5-tile'), keen bento_layout ('hero_right'|'5_tile' dasherized)" },
+    "layout":     { "kind": "enum",   "produces": "pa-kpi-bento__grid--{value}", "options": ["hero-end", "5-tile"], "note": "grid layout modifier on __grid; svelte layout ('hero-end'|'5-tile'), keen layout ('hero_end'|'5_tile' dasherized)" },
     "body":       { "kind": "slot",   "produces": null, "note": "structural — the grid's inner tile area; real .pa-kpi-bento-tile children are the deferred sub-component" },
     "footer":     { "kind": "string", "produces": null, "note": "structural — footer caption in .pa-card__footer.pa-kpi-footer as a bare <span>; svelte footerText / keen footer_text" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim to the card shell, not a core feature" }
@@ -66,13 +66,13 @@
       "name": "layout-hero-end",
       "props": { "layout": "hero-end", "body": "Body" },
       "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid pa-kpi-bento__grid--hero-end\">Body</div></div></div>",
-      "note": "Layout modifier on __grid — mirror of the default (hero at the end — right in LTR, left in RTL). svelte layout='hero-end'; keen bento_layout='hero_right' dasherizes to the same class."
+      "note": "Layout modifier on __grid — mirror of the default (hero at the end — right in LTR, left in RTL). svelte layout='hero-end'; keen layout='hero_end' dasherizes to the same class."
     },
     {
       "name": "layout-5-tile",
       "props": { "layout": "5-tile", "body": "Body" },
       "golden": "<div class=\"pa-card pa-kpi-bento\"><div class=\"pa-card__body pa-kpi-bento__body\"><div class=\"pa-kpi-bento__grid pa-kpi-bento__grid--5-tile\">Body</div></div></div>",
-      "note": "5-tile layout variant (hero + 4 supporting). svelte layout='5-tile'; keen bento_layout='5_tile' dasherizes to the same class."
+      "note": "5-tile layout variant (hero + 4 supporting). svelte layout='5-tile'; keen layout='5_tile' dasherizes to the same class."
     },
     {
       "name": "footer",

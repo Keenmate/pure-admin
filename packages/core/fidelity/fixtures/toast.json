@@ -40,7 +40,7 @@
     "show": {
       "kind": "bool",
       "produces": "pa-toast--show",
-      "note": "SSR enter/visible state. Both wrappers default to visible (svelte show / keen is_visible both default true) so every golden carries pa-toast--show; the sibling exit-state pa-toast--hide is JS-only (cssStateClasses)."
+      "note": "SSR enter/visible state. Both wrappers default to visible (svelte isVisible / keen is_visible both default true) so every golden carries pa-toast--show; the sibling exit-state pa-toast--hide is JS-only (cssStateClasses)."
     },
     "icon": {
       "kind": "slot",

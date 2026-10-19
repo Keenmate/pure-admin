@@ -6,8 +6,8 @@
   "propsVocabulary": {
     "metric": "metric-name cell text — pa-kpi-strip__metric. svelte metricText; keen metric_text.",
     "value": "focal 'now' number — the pa-kpi-strip__num inside pa-kpi-strip__now. svelte valueText; keen value_text.",
-    "unit": "unit suffix after the number — pa-kpi-strip__unit (second affix inside __now). svelte unit; keen unit_text.",
-    "prefix": "currency/scale prefix before the number — pa-kpi-strip__unit (first affix inside __now). svelte prefix; keen prefix_text.",
+    "unit": "unit suffix after the number — pa-kpi-strip__unit (second affix inside __now). svelte unitText; keen unit_text.",
+    "prefix": "currency/scale prefix before the number — pa-kpi-strip__unit (first affix inside __now). svelte prefixText; keen prefix_text.",
     "prev": "previous-period value — pa-kpi-strip__prev (cell omitted when unset). svelte previousValueText; keen previous_value_text.",
     "delta": "Δ% text — pa-kpi-strip__delta. svelte deltaText; keen delta_text.",
     "deltaVariant": "Δ% sentiment — pa-kpi-strip__delta--{variant}. svelte deltaVariant; keen delta_variant.",

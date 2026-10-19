@@ -6,7 +6,7 @@
     "noGutter": "boolean — remove the horizontal gutter between columns (pc-row--no-gutter)",
     "sameHeight": "boolean — force .pa-card inside each column to equal height (pc-row--same-height)",
     "justify": "horizontal alignment of columns center|end|between|around → pc-row--{justify}",
-    "align":  "vertical alignment of columns top|middle|bottom|stretch → pc-row--{valign} (stretch is the explicit default)",
+    "align":  "vertical alignment of columns top|middle|bottom|stretch → pc-row--{value} (stretch is the explicit default)",
     "body": "the row's content area — plain slot text here (real children are pc-col columns)",
     "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
   },
@@ -87,7 +87,7 @@
       "name": "combined",
       "props": { "noGutter": true, "sameHeight": true, "justify": "between", "align":  "middle", "body": "Columns" },
       "golden": "<div class=\"pc-row pc-row--no-gutter pc-row--same-height pc-row--between pc-row--middle\">Columns</div>",
-      "note": "Stacks gutter + same-height + justify + valign; class-token order is normalized away."
+      "note": "Stacks gutter + same-height + justify + align; class-token order is normalized away."
     },
     {
       "name": "extra-class",

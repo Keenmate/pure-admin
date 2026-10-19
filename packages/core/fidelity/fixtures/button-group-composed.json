@@ -8,7 +8,7 @@
   "goldenConventions": "The composed golden = the button-group `<div>` shell (with its modifiers) wrapping the real `<button class=\"pa-btn …\">` children in document order. Both wrappers add `type=\"button\"` on `<button>` (a golden convention also used by button.json). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
   "features": {
     "//": "The PARENT's feature vocabulary (button-group). Exercised subset only — the full button-group contract (nowrap, responsive variants, stretch) is asserted by button-group.json; this fixture is about the composition seam, not the class contract (check-all skips composites for capability).",
-    "vertical": { "kind": "bool", "produces": "pa-btn-group--vertical", "note": "svelte vertical / keen is_vertical" },
+    "vertical": { "kind": "bool", "produces": "pa-btn-group--vertical", "note": "svelte isVertical / keen is_vertical" },
     "align":    { "kind": "enum", "produces": "pa-btn-group--{value}", "options": ["center", "end", "stretch"], "note": "svelte align / keen align" }
   },
   "scenarios": [

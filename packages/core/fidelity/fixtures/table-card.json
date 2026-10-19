@@ -8,8 +8,8 @@
     "plain": "pa-table-card--plain — strips card chrome (no border/shadow/bg/radius); header/body/footer lose their fills. svelte isPlain; keen is_plain.",
     "scrollable": "pa-table-card__body--scrollable — enables overflow-x:auto on the body for wide tables. svelte isScrollable; keen is_scrollable.",
     "title": "header title text — rendered as `.pa-table-card__title` > `.pa-table-card__title-text` (blessed wrapper, mirrors .pa-card__title). svelte titleText; keen title_text.",
-    "description": "header subtitle — flexes into the free middle of the header row and truncates (pa-table-card__description). svelte descriptionText; keen subtitle_text.",
-    "actions": "header actions slot (buttons/controls), wrapped in pa-table-card__actions. svelte headerActions; keen actions.",
+    "description": "header subtitle — flexes into the free middle of the header row and truncates (pa-table-card__description). svelte descriptionText; keen description_text.",
+    "actions": "header actions slot (buttons/controls), wrapped in pa-table-card__actions. svelte and keen both `actions`.",
     "body": "the table region — filled with plain slot text in this container-only slice (a real <table class=\"pa-table\"> is a native child the consumer writes inside the slot, styled by `.pa-table-card__body .pa-table`, not a sub-component). svelte children; keen inner_block.",
     "footer": "footer slot (pagination/summary), wrapped in pa-table-card__footer. svelte footer; keen footer.",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature."

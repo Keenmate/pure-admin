@@ -3,14 +3,14 @@
   "component": "sidebar-search",
   "block": "pc-sidebar__search",
   "propsVocabulary": {
-    "label": "trigger-mode label text, in the `.pc-sidebar__label` span. svelte `labelText`, keen `label`. Default \"Search…\".",
+    "label": "trigger-mode label text, in the `.pc-sidebar__label` span. svelte `labelText`, keen `label_text`. Default \"Search…\".",
     "action": "set it to switch to TYPE-AND-GO form mode (`.pc-sidebar__search--input`) — a <form> whose native GET submit navigates to a results page on Enter. svelte `action`, keen `action`. Absent → the trigger button.",
     "extraClass": "extra classes appended verbatim to the mode root (the trigger <button> or the <form>) after `pc-sidebar__search` (svelte `class`, keen `class`) — class passthrough; not a core modifier."
   },
   "goldenConventions": "Goldens encode BOTH shared modes and the a11y conventions the oracle snippet blesses: the TRIGGER button carries NO aria-label (the visible `.pc-sidebar__label` is the name); the TYPE-AND-GO form's submit magnifier + input both carry aria-label=\"Search\"; the input emits no `value` attribute when empty. method defaults to \"get\", name to \"q\", placeholder to \"Search…\" — all matching both wrappers. The custom `icon` slot is defaulted (trigger uses the masked `.pa-icon.pa-icon--search`; the form magnifier is empty, core masks it). Attribute + class-token order and whitespace are normalized away.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css (grep '\\.pc-sidebar__search'). Classes: the base `.pc-sidebar__search`, the mode modifier `.pc-sidebar__search--input` (the ONLY ^pc-sidebar__search-- block modifier, produced by setting `action`), and the hyphenated siblings `.pc-sidebar__search-icon` / `.pc-sidebar__search-field` (NOT `__`-nested, so not matched by the ^pc-sidebar__search__ element reverse check — exercised directly by the type-and-go golden). `label` → the `.pc-sidebar__label` text (a shared sidebar element, not a pc-sidebar__search sub-class). So the contract is: base class + the `action`→--input mode modifier + the label text + a class passthrough.",
-    "label":      { "kind": "string", "produces": null, "note": "trigger label text → `.pc-sidebar__label` span (exercised by the trigger golden). svelte `labelText`, keen `label`." },
+    "label":      { "kind": "string", "produces": null, "note": "trigger label text → `.pc-sidebar__label` span (exercised by the trigger golden). svelte `labelText`, keen `label_text`." },
     "action":     { "kind": "string", "produces": "pc-sidebar__search--input", "note": "when set, switches to the type-and-go <form> mode, producing the --input modifier (+ the -icon submit magnifier and -field input, exercised by the golden). svelte `action`, keen `action`." },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim after pc-sidebar__search on the mode root; svelte `class`, keen `class`." }
   },

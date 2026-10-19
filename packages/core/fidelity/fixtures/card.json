@@ -84,7 +84,7 @@
     "pa-card__actions-collapsed":   "CORE-ONLY responsive-actions subtree — see pa-card__actions-full."
   },
   "cssStateClasses": {
-    "//": "Wrapper-emitted __actions modifiers driven by actions_variant (container-query / JS). Claimed here; dedicated scenarios owed.",
+    "//": "Wrapper-emitted __actions modifiers driven by the header_actions_collapsed slot (CSS container query) or is_actions_overflow (JS). Claimed here; dedicated scenarios owed.",
     "pa-card__actions--overflow": "JS progressive-collapse toolbar",
     "pa-card__actions--responsive": "container-query collapse (needs -full/-collapsed subtrees)"
   },
