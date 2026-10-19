@@ -45,15 +45,32 @@
     }
 
     /**
+     * True when the element's text is clipped (ellipsis / overflow) — its
+     * content is wider or taller than its box.
+     */
+    function isTruncated(element) {
+        return element.scrollWidth > element.clientWidth + 1 ||
+            element.scrollHeight > element.clientHeight + 1;
+    }
+
+    /**
      * Show tooltip with Floating UI positioning
      */
     async function showTooltip(element) {
         if (!tooltipEl) createTooltip();
 
+        // `data-pa-tooltip-overflow`: show only when the text is actually cut
+        // off (e.g. a card title/description that ellipsises). A fully visible
+        // text needs no tooltip repeating it.
+        if (element.hasAttribute('data-pa-tooltip-overflow') && !isTruncated(element)) return;
+
         currentTooltipTarget = element;
 
-        // Get tooltip text from data-tooltip attribute
-        const text = element.dataset.tooltip || element.getAttribute('aria-label') || '';
+        // Get tooltip text from data-tooltip attribute. An EMPTY data-tooltip=""
+        // means "use the element's own text" (e.g. a truncated card title whose
+        // markup is rich, so the full text needn't be duplicated server-side).
+        const text = element.dataset.tooltip || element.getAttribute('aria-label') ||
+            (element.hasAttribute('data-tooltip') ? element.textContent.trim() : '');
         if (!text) return;
 
         // Determine placement from class
@@ -274,7 +291,8 @@
         initTooltips,
         initPopovers,
         showTooltip,
-        hideTooltip
+        hideTooltip,
+        isTruncated
     };
 
 })();

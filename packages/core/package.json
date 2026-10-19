@@ -36,6 +36,7 @@
     "generate-hashes": "node scripts/generate-hashes.js",
     "catalog": "node scripts/build-components-catalog.mjs",
     "fidelity": "node fidelity/check-all.mjs",
+    "fidelity:naming": "node fidelity/naming.mjs",
     "pack-theme": "node scripts/pack-theme.js",
     "prepublishOnly": "npm run build"
   },

@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Card title / description tooltips — shown only while truncated.** Put the tooltip ON the
+  truncating element (`h3.pa-card__title-text` / `p.pa-card__description`): `.pa-tooltip
+  .pa-tooltip--floating` + `data-tooltip` (+ any position / colour / `--multiline` / `--help` /
+  `--keyword` modifier). New `data-pa-tooltip-overflow` → `tooltips-popovers.js` shows it only while
+  the text is actually cut off; an empty `data-tooltip=""` uses the element's own text (rich
+  titles). `pureAdmin.tooltips.isTruncated(el)` exposed. Documented in `cards.html`; card fidelity
+  fixture +14 features / +36 scenarios (both wrappers green). Demo uses it.
 - **Three new animated loaders: `.pa-loader-grid`, `.pa-loader-ripple`, `.pa-loader-dual-ring`.**
   Grid is a 3×3 of dots pulsing on a diagonal wave (9 `<span>`); ripple is concentric rings
   expanding from the centre (CSS-only via `::before`/`::after`); dual-ring is two arcs
@@ -40,6 +47,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Card title is ALWAYS `h3.pa-card__title-text`.** The reference note said "h1..h6" while every
+  example, the fidelity fixture and both wrappers emit `h3` — so the demo had drifted to 92 `h4`,
+  18 `h2`, 24 `h5`. The note now states `h3` (the CSS styles the class, not the tag; other levels
+  render but are not the shape); 136 demo titles normalised to `h3`.
 - **Snippets: the actions column is the FIRST column.** `tables.html` "Table with actions",
   `checkbox-lists.html`, `popconfirm.html` and `tooltips.html` put `th/td.col-auto` actions last,
   contradicting every demo and both wrappers (keen `:action` renders first). They now lead with it
@@ -270,6 +281,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal
 
+- **Fidelity: naming-parity check** (`npm run fidelity:naming`, `fidelity/naming.mjs`). The markup checks
+  are name-agnostic by design (each wrapper maps a neutral feature to its own prop), so keen `:tools`
+  vs svelte `headerActions` passed. The new check compares the two capability maps' prop names
+  (snake ↔ camel) modulo framework idioms; conventions in `fidelity/NAMING.md` (`*_text` / `*Text`,
+  `is_*`, `has_*`, card `header_actions` / `footer_actions`). Card fixture: `tools` → `headerActions`,
+  new `headerActionsCollapsed` scenario (core's `--responsive` tree).
 - **Theme matrix: `e2e/theme-matrix.spec.ts` + `playwright.themes.config.ts`.** Every theme ×
   light/dark: a snapshot of every resolved custom property plus full-page screenshots of 8 demo
   pages (`<web-grid>` masked — randomised data). Run with

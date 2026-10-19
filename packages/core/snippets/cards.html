@@ -96,6 +96,38 @@
   <div class="pa-card__body">Body.</div>
 </div>
 
+<!-- Truncated title / description with a tooltip
+     The title text and the description ellipsise on one line. Put the tooltip
+     ON the truncating element itself (h3.pa-card__title-text / p.pa-card__description):
+       - pa-tooltip pa-tooltip--floating  → JS-portaled bubble (never clipped by
+         the card's overflow:hidden)
+       - data-tooltip="…"                 → the full text (or any custom text);
+                                            an EMPTY data-tooltip="" uses the
+                                            element's own text
+       - data-pa-tooltip-overflow         → show ONLY while the text is actually cut
+                                            off (omit it to always show)
+       - optional modifiers               → --bottom/--start/--end, --multiline,
+                                            --primary/--success/--warning/--danger,
+                                            --color-1..9, --help, --keyword
+     Wrappers: svelte <Card titleTooltip descriptionTooltip …>, keen <.card
+     title_tooltip description_tooltip …>. -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text pa-tooltip pa-tooltip--floating pa-tooltip--bottom"
+          data-tooltip="Quarterly infrastructure spend by region and service"
+          data-pa-tooltip-overflow>Quarterly infrastructure spend by region and service</h3>
+    </div>
+    <p class="pa-card__description pa-tooltip pa-tooltip--floating pa-tooltip--bottom pa-tooltip--multiline"
+       data-tooltip="Complete history of system changes, user actions and security events. Filter by date, user, action type or resource."
+       data-pa-tooltip-overflow>Complete history of system changes, user actions and security events. Filter by date, user, action type or resource.</p>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--sm pa-btn--primary">Open</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
 
 <!-- ================================
      HEADER UNDERLINE MODIFIER
@@ -659,7 +691,11 @@ TITLE SUB-COMPONENT (the canonical header title — use it for EVERY card):
                                .pa-card__actions stays right. Always present,
                                with or without an icon — never a bare <h3>.
 - .pa-card__title-icon         Fixed-size leading icon (optional).
-- .pa-card__title-text         The heading (h1..h6); truncates with ellipsis.
+- .pa-card__title-text         ALWAYS an <h3>; truncates with ellipsis. One
+                               level for every card title, so wrappers emit a
+                               single tree (svelte/keen render h3 too). The CSS
+                               styles the class, not the tag — other levels
+                               only "work" visually; they are not the shape.
 
 BODY MODIFIER:
 - .pa-card__body--no-padding   Strips body padding (for tables / lists
