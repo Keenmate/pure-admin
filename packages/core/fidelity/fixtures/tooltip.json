@@ -11,7 +11,7 @@
     "content": "trigger content (the hoverable element's children)",
     "placement": "end|bottom|start — logical placement; top is the default and emits NO class (core defines no pa-tooltip--top)",
     "variant": "colour variant (primary|success|warning|danger|color-1..9) — colours the bubble + arrow",
-    "multiline": "boolean — allow the bubble text to wrap (fixed width) instead of single-line",
+    "isMultiline": "boolean — allow the bubble text to wrap (fixed width) instead of single-line",
     "help": "boolean — cursor: help (question-mark cursor) for informational hints",
     "keyword": "boolean — dotted underline + help cursor for inline term explanations"
   },
@@ -20,7 +20,7 @@
     "//": "Feature→class contract authored from dist/css/main.css (NOT components.json). `produces` is a class template with {value}; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native (data-tooltip text attr, trigger content).",
     "placement": { "kind": "enum", "options": ["end", "bottom", "start"], "produces": "pa-tooltip--{value}", "note": "top is the default and emits no class — excluded from options" },
     "variant":   { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
-    "multiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
+    "isMultiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
     "help":      { "kind": "bool", "produces": "pa-tooltip--help" },
     "keyword":   { "kind": "bool", "produces": "pa-tooltip--keyword" },
     "text":      { "kind": "string", "produces": null, "note": "structural — rendered into the data-tooltip attribute" },
@@ -88,7 +88,7 @@
     },
     {
       "name": "multiline",
-      "props": { "text": "This is a longer tooltip that wraps to multiple lines.", "content": "Hover for multiline", "multiline": true },
+      "props": { "text": "This is a longer tooltip that wraps to multiple lines.", "content": "Hover for multiline", "isMultiline": true },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--multiline\" data-tooltip=\"This is a longer tooltip that wraps to multiple lines.\">Hover for multiline</span>"
     },
     {
@@ -110,7 +110,7 @@
     },
     {
       "name": "multiline-bottom",
-      "props": { "text": "Multiline tooltips work with any position.", "content": "Multiline bottom", "multiline": true, "placement": "bottom" },
+      "props": { "text": "Multiline tooltips work with any position.", "content": "Multiline bottom", "isMultiline": true, "placement": "bottom" },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom pa-tooltip--multiline\" data-tooltip=\"Multiline tooltips work with any position.\">Multiline bottom</span>"
     }
   ]

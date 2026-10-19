@@ -15,7 +15,7 @@
     "headerUnderlined": "boolean — accent border under header",
     "headerUnderlineColor": "success|warning|danger|info — underline colour (needs headerUnderlined)",
     "headerUnderlineThemeColor": "1..9 theme-slot underline colour (needs headerUnderlined)",
-    "headerWrap": "boolean — allow header description to wrap",
+    "shouldWrapHeader": "boolean — let the header description wrap onto its own line",
     "body": "main body content",
     "footer": "footer content",
     "footerActions": "footer actions (wrapped in pa-card__actions)",
@@ -24,17 +24,17 @@
     "titleTooltip": "boolean — tooltip on the title text showing its full text, only while truncated",
     "titleTooltipPlacement": "bottom|start|end (top = default)",
     "titleTooltipVariant": "primary|success|warning|danger|color-1..9",
-    "titleTooltipMultiline": "boolean",
+    "titleTooltipIsMultiline": "boolean",
     "titleTooltipIsHelp": "boolean",
     "titleTooltipIsKeyword": "boolean",
-    "titleTooltipAlways": "boolean — show even when not truncated",
+    "titleTooltipMode": "overflow (default) | always — overflow = only while the title is truncated (data-pa-tooltip-overflow), always = on every hover",
     "descriptionTooltip": "boolean — tooltip on the description showing its full text, only while truncated",
     "descriptionTooltipPlacement": "bottom|start|end (top = default)",
     "descriptionTooltipVariant": "primary|success|warning|danger|color-1..9",
-    "descriptionTooltipMultiline": "boolean",
+    "descriptionTooltipIsMultiline": "boolean",
     "descriptionTooltipIsHelp": "boolean",
     "descriptionTooltipIsKeyword": "boolean",
-    "descriptionTooltipAlways": "boolean — show even when not truncated"
+    "descriptionTooltipMode": "overflow (default) | always — overflow = only while the description is truncated (data-pa-tooltip-overflow), always = on every hover"
   },
   "goldenConventions": "Structural only — cards add no attribute conventions like button's type. Slot content is a plain text token (Body/Tools/etc.) so the diff checks the wrapper's structural nesting, not rich content. Attribute + class-token order are normalized away.",
   "features": {
@@ -47,7 +47,7 @@
     "headerUnderlined":          { "kind": "bool", "produces": "pa-card__header--underlined" },
     "headerUnderlineColor":      { "kind": "enum", "options": ["success", "warning", "danger", "info"], "produces": "pa-card__header--underline-{value}" },
     "headerUnderlineThemeColor": { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": "pa-card__header--underline-color-{value}" },
-    "headerWrap":                { "kind": "bool", "produces": "pa-card__header--wrap" },
+    "shouldWrapHeader":          { "kind": "bool", "produces": "pa-card__header--wrap" },
     "title":                     { "kind": "string", "produces": null, "note": "structural — pa-card__title > pa-card__title-text" },
     "titleIcon":                 { "kind": "slot", "produces": "pa-card__title-icon" },
     "description":               { "kind": "string", "produces": "pa-card__description" },
@@ -62,17 +62,17 @@
     "titleTooltip":               { "kind": "bool", "produces": "pa-tooltip", "note": "tooltip ON the h3.pa-card__title-text (pa-tooltip pa-tooltip--floating + data-tooltip = its text + data-pa-tooltip-overflow → shown only while truncated)" },
     "titleTooltipPlacement":      { "kind": "enum", "options": ["bottom", "start", "end"], "produces": "pa-tooltip--{value}", "note": "top is the default (no class)" },
     "titleTooltipVariant":        { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
-    "titleTooltipMultiline":      { "kind": "bool", "produces": "pa-tooltip--multiline" },
+    "titleTooltipIsMultiline":    { "kind": "bool", "produces": "pa-tooltip--multiline" },
     "titleTooltipIsHelp":         { "kind": "bool", "produces": "pa-tooltip--help" },
     "titleTooltipIsKeyword":      { "kind": "bool", "produces": "pa-tooltip--keyword" },
-    "titleTooltipAlways":         { "kind": "bool", "note": "drops data-pa-tooltip-overflow → shown even when the text fits" },
+    "titleTooltipMode":           { "kind": "enum", "options": ["overflow", "always"], "produces": null, "note": "overflow (default) emits data-pa-tooltip-overflow; always drops it → shown even when the text fits" },
     "descriptionTooltip":         { "kind": "bool", "produces": "pa-tooltip", "note": "tooltip ON the p.pa-card__description (pa-tooltip pa-tooltip--floating + data-tooltip = its text + data-pa-tooltip-overflow → shown only while truncated)" },
     "descriptionTooltipPlacement": { "kind": "enum", "options": ["bottom", "start", "end"], "produces": "pa-tooltip--{value}", "note": "top is the default (no class)" },
     "descriptionTooltipVariant":  { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
-    "descriptionTooltipMultiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
+    "descriptionTooltipIsMultiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
     "descriptionTooltipIsHelp":   { "kind": "bool", "produces": "pa-tooltip--help" },
     "descriptionTooltipIsKeyword": { "kind": "bool", "produces": "pa-tooltip--keyword" },
-    "descriptionTooltipAlways":   { "kind": "bool", "note": "drops data-pa-tooltip-overflow → shown even when the text fits" }
+    "descriptionTooltipMode":     { "kind": "enum", "options": ["overflow", "always"], "produces": null, "note": "overflow (default) emits data-pa-tooltip-overflow; always drops it → shown even when the text fits" }
   },
   "deferred": {
     "//": "Element classes covered by a fragment fixture (verified against it) or acknowledged out-of-scope. See README 'deferred'. { fixture: X } is verified: capability confirms X's goldens/produces actually include the class.",
@@ -163,7 +163,7 @@
     },
     {
       "name": "header-wrap",
-      "props": { "title": "Title", "description": "A longer description", "headerWrap": true, "body": "Body" },
+      "props": { "title": "Title", "description": "A longer description", "shouldWrapHeader": true, "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header pa-card__header--wrap\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description\">A longer description</p></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
@@ -204,7 +204,7 @@
     },
     {
       "name": "title-tooltip-options",
-      "props": { "title": "Title", "titleTooltip": true, "titleTooltipMultiline": true, "titleTooltipIsHelp": true, "titleTooltipIsKeyword": true, "titleTooltipAlways": true, "body": "Body" },
+      "props": { "title": "Title", "titleTooltip": true, "titleTooltipIsMultiline": true, "titleTooltipIsHelp": true, "titleTooltipIsKeyword": true, "titleTooltipMode": "always", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text pa-tooltip pa-tooltip--floating pa-tooltip--multiline pa-tooltip--help pa-tooltip--keyword\" data-tooltip=\"Title\">Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
@@ -214,7 +214,7 @@
     },
     {
       "name": "description-tooltip-options",
-      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipMultiline": true, "descriptionTooltipIsHelp": true, "descriptionTooltipIsKeyword": true, "descriptionTooltipAlways": true, "body": "Body" },
+      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipIsMultiline": true, "descriptionTooltipIsHelp": true, "descriptionTooltipIsKeyword": true, "descriptionTooltipMode": "always", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description pa-tooltip pa-tooltip--floating pa-tooltip--multiline pa-tooltip--help pa-tooltip--keyword\" data-tooltip=\"Last 30 days\">Last 30 days</p></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {

@@ -52,6 +52,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING (fidelity vocabulary) — batch 4: every boolean is `is*` / `has*` / `should*`.** Fixture
+  features follow the wrappers' renames: modal `showClose` → `hasClose`, pager `showInfo` /
+  `showPageInput` → `hasInfo` / `hasPageInput`, tooltip `multiline` → `isMultiline`, form-group
+  `horizontal` → `isHorizontal`, card `headerWrap` → `shouldWrapHeader` and
+  `*TooltipMultiline` → `*TooltipIsMultiline`. Card `*TooltipAlways` (bool) → `*TooltipMode` enum
+  (`overflow` default = `data-pa-tooltip-overflow`, `always` = shown on every hover). kpi-strip's
+  negated features keep their class-named keys (`noHeader` …) and map to `hasHeader={false}` …
+  NAMING.md adds `is_open` (overlays), `is_visible` (gated render), `has_*` default `true` instead of
+  `no_*` / `show_*`, and `mode` = which behaviour vs `type` = which design.
 - **BREAKING (fidelity vocabulary) — part placement is `<part>Placement`.** checkbox / radio
   `labelPosition` → `labelPlacement`, button `iconPosition` → `iconPlacement` (fixtures + wrappers;
   pager `infoPosition` → `infoPlacement` in both wrappers). Bare `placement` = where the component

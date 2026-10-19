@@ -9,13 +9,17 @@ declare (`npm run fidelity:naming -w @keenmate/pure-admin-core`).
 
 | Kind | keen | svelte | Examples |
 |---|---|---|---|
-| Boolean flag | `is_*` | `is*` | `is_striped` / `isStriped`, `is_vertical` / `isVertical` |
-| Show / hide an optional part | `has_*` | `has*` | `has_toggle` / `hasToggle`, `has_tick_labels` / `hasTickLabels` |
-| Behaviour (what it should DO) | `should_*` | `should*` | `should_close_on_escape` / `shouldCloseOnEscape`, `should_snap_to_ticks` / `shouldSnapToTicks` |
+| Boolean flag | `is_*` | `is*` | `is_striped` / `isStriped`, `is_vertical` / `isVertical`, `is_touched` / `isTouched` |
+| Overlay open state | `is_open` | `isOpen` | modal, slide-panel, detail-view, popconfirm, command-palette, profile-panel, notifications |
+| Gate rendering of a whole block | `is_visible` | `isVisible` | form-error-summary, toast |
+| Show / hide an optional part | `has_*` | `has*` | `has_toggle` / `hasToggle`, `has_tick_labels` / `hasTickLabels`, `has_close` / `hasClose`, `has_info` / `hasInfo` |
+| Hide a part that shows by default | `has_*`, default `true` | `has*` | kpi-strip `has_header={false}`, fields `has_border={false}` — never `no_*` / `show_*` |
+| Behaviour (what it should DO) | `should_*` | `should*` | `should_close_on_escape` / `shouldCloseOnEscape`, `should_snap_to_ticks` / `shouldSnapToTicks`, `should_render_html` / `shouldRenderHtml`, `should_wrap_header` / `shouldWrapHeader` |
 | Role colour (primary / success / danger …) | `variant` | `variant` | button, alert, badge, card, modal, toast, loader, stat, split-button item |
 | Theme colour slot 1–9 | `theme_color` | `themeColor` | badge, button, input, fields, table-card … |
 | Several options that exclude each other | one enum named for what it controls | same | banded `label_width` (narrow / wide), modal `placement`, fields `layout`, `copy_mode` |
 | Predefined kind / design of the component | `type` | `type` | loader, kpi, tabs (`pills` / `boxed`), ordered-list (`roman` / `alpha`), range `handle_type` |
+| Which behaviour the component follows | `mode` / `<part>_mode` | `mode` / `<part>Mode` | `copy_mode` (`btn` / `click` / `hover`), card `title_tooltip_mode` (`overflow` / `always`), range row `mode` (`range` / `single`) |
 | Arrangement of the children | `layout` | `layout` | stat, kpi-bento, checkbox-list, fields |
 | Spacing density | `density` | `density` | fields (`compact` / `relaxed`), list, document, sheet |
 | Plain-text value | `*_text` | `*Text` | `title_text` / `titleText`, `label_text` / `labelText`, `count_text` / `countText` |
@@ -40,8 +44,8 @@ native attribute itself. keen does NOT also pass the bare native name through
 `:rest`, so there is one way to write it.
 
 **`style` is only ever the native inline-style string** (`style="--x: 1"`). A
-choice between predefined designs is `type`; the arrangement of children is
-`layout`; the role colour is `variant`.
+choice between predefined designs is `type`; a choice between behaviours is `mode`; the
+arrangement of children is `layout`; the role colour is `variant`.
 
 ## Framework idioms (accepted differences)
 

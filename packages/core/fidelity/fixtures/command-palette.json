@@ -24,7 +24,7 @@
   },
   "cssStateClasses": {
     "//": "pa-command-palette--* BLOCK modifiers toggled by runtime JS (never hand-authored at SSR, never prop-driven), so no feature produces them; axis-1's reverse block-modifier check counts them as claimed.",
-    "pa-command-palette--active": "open/visible state (display:flex). svelte toggles it from the `show` prop in its reactive class string; keen toggles it from `is_open` which the PureAdminCommandPalette hook flips at runtime on open/close. Not part of a blessed SSR shell a shared golden could assert (keen defaults is_open=false, svelte defaults show=false → neither emits it neutrally), so left to this bucket.",
+    "pa-command-palette--active": "open/visible state (display:flex). svelte toggles it from the `isOpen` prop in its reactive class string; keen toggles it from `is_open` which the PureAdminCommandPalette hook flips at runtime on open/close. Not part of a blessed SSR shell a shared golden could assert (keen defaults is_open=false, svelte defaults isOpen=false → neither emits it neutrally), so left to this bucket.",
     "pa-command-palette--fullscreen": "mobile full-viewport sheet. Added ONLY by the palette JS driver via pureAdmin.device classification (a touch-primary phone), never by a width media query and never hand-authored — a pure runtime state class on both wrappers."
   },
   "cssStateElements": {

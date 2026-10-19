@@ -10,13 +10,13 @@
     "previousText": "Previous button text content. svelte `previousText`, keen `previous_text`.",
     "nextText": "Next button text content. svelte `nextText`, keen `next_text`.",
     "lastText": "Last button text content. svelte `lastText`, keen `last_text`.",
-    "showInfo": "boolean — whether the __info section renders (svelte `showInfo`, keen `show_info`).",
-    "showPageInput": "boolean — whether the numeric page __input renders inside __info (svelte `showPageInput`, keen `show_page_input`).",
+    "hasInfo": "boolean — whether the __info section renders (svelte `hasInfo`, keen `has_info`).",
+    "hasPageInput": "boolean — whether the numeric page __input renders inside __info (svelte `hasPageInput`, keen `has_page_input`).",
     "page": "current page value bound to the numeric __input (svelte `currentPage`, keen `current_page`).",
     "totalPages": "total page count — the input's max and the 'of N' label (svelte `totalPages`, keen `total_pages`).",
     "extraClass": "extra classes appended verbatim to the root (svelte `class`, keen `class`) — class passthrough, not a core feature."
   },
-  "goldenConventions": "The pager root is a <div class=\"pa-pager\">; an alignment modifier is present only for start/end. Navigation controls are plain pa-btn buttons (foreign block) inside pa-pager__controls — button text is fed identically to both wrappers via the *Label features so content matches. Scenarios pick a MIDDLE page (page between 1 and totalPages) so neither wrapper's disabled logic fires — keen derives disabled from page<=1 / page>=total_pages, svelte from disablePrevious/disableNext (left false), so a middle page yields NO disabled attr in either and a single golden fits. The __info section uses the canonical snippet shape (snippets/tables.html:388-392): a leading 'Page' __text, the numeric __input, then an 'of N' __text. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability.",
+  "goldenConventions": "The pager root is a <div class=\"pa-pager\">; an alignment modifier is present only for start/end. Navigation controls are plain pa-btn buttons (foreign block) inside pa-pager__controls — button text is fed identically to both wrappers via the *Text features so content matches. Scenarios pick a MIDDLE page (page between 1 and totalPages) so neither wrapper's disabled logic fires — keen derives disabled from page<=1 / page>=total_pages, svelte from isPreviousDisabled/isNextDisabled (left false), so a middle page yields NO disabled attr in either and a single golden fits. The __info section uses the canonical snippet shape (snippets/tables.html:388-392): a leading 'Page' __text, the numeric __input, then an 'of N' __text. Attribute + class-token order and whitespace are normalized away by the comparator, so goldens are written for readability.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. Pager block modifiers: --start/--center/--end (alignment). Pager elements: __container/__controls/__info/__input/__text. The nav buttons carry pa-btn* classes (a FOREIGN block) not pager classes, so they're structural children with produces:null. `produces: null` = structural/native (no pa-pager class).",
     "justify": {
@@ -31,14 +31,14 @@
     "previousText": { "kind": "string", "produces": null, "note": "Previous button text content" },
     "nextText": { "kind": "string", "produces": null, "note": "Next button text content" },
     "lastText": { "kind": "string", "produces": null, "note": "Last button text content" },
-    "showInfo": { "kind": "bool", "produces": null, "note": "structural — toggles the pa-pager__info section" },
-    "showPageInput": { "kind": "bool", "produces": null, "note": "structural — toggles the pa-pager__input inside __info" },
+    "hasInfo": { "kind": "bool", "produces": null, "note": "structural — toggles the pa-pager__info section" },
+    "hasPageInput": { "kind": "bool", "produces": null, "note": "structural — toggles the pa-pager__input inside __info" },
     "page": { "kind": "string", "produces": null, "note": "current page — input value" },
     "totalPages": { "kind": "string", "produces": null, "note": "total pages — input max + 'of N' label" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim" }
   },
   "deferred": {
-    "//": "The __info section elements are pager's OWN markup and blessed by the snippet (snippets/tables.html:388-392), but the two wrappers diverge on functional/i18n attrs that a single shared golden can't reconcile, so they're acknowledged out-of-scope for strict compare (prose, not a fixture ref). Svelte matches the snippet shape EXACTLY ('Page' __text → numeric __input → 'of N' __text) — verified by hand against svelte-pager.dump.json with showInfo+showPageInput on. Keen diverges on two unavoidable points: (1) its __input carries name=\"page\", functionally REQUIRED for the LiveView phx-change form param (the static snippet has no name because it is not interactive); and (2) its labels come from keen's own i18n (t(\"pureAdmin.pagination.pages\") = '/ N pages') rather than the snippet's literal 'Page'/'of N'. Both are legitimate per-wrapper concerns the harness's name-agnostic render diff isn't meant to force-converge. The controls surface (the strict-compared part) IS covered by the four scenarios below.",
+    "//": "The __info section elements are pager's OWN markup and blessed by the snippet (snippets/tables.html:388-392), but the two wrappers diverge on functional/i18n attrs that a single shared golden can't reconcile, so they're acknowledged out-of-scope for strict compare (prose, not a fixture ref). Svelte matches the snippet shape EXACTLY ('Page' __text → numeric __input → 'of N' __text) — verified by hand against svelte-pager.dump.json with hasInfo+hasPageInput on. Keen diverges on two unavoidable points: (1) its __input carries name=\"page\", functionally REQUIRED for the LiveView phx-change form param (the static snippet has no name because it is not interactive); and (2) its labels come from keen's own i18n (t(\"pureAdmin.pagination.pages\") = '/ N pages') rather than the snippet's literal 'Page'/'of N'. Both are legitimate per-wrapper concerns the harness's name-agnostic render diff isn't meant to force-converge. The controls surface (the strict-compared part) IS covered by the four scenarios below.",
     "pa-pager__info":  "Info group — wrappers diverge on LiveView-required name attr + i18n label text; svelte matches the snippet, keen is functionally-divergent. Acknowledged out-of-scope.",
     "pa-pager__input": "Numeric page input inside __info — keen adds name=\"page\" (LiveView phx-change param), the static snippet has none. Acknowledged out-of-scope.",
     "pa-pager__text":  "Info text labels ('Page'/'of N') — keen renders its own i18n string. Acknowledged out-of-scope.",
@@ -50,7 +50,7 @@
       "props": {
         "previousText": "‹ Previous",
         "nextText": "Next ›",
-        "showInfo": false,
+        "hasInfo": false,
         "page": 5,
         "totalPages": 10
       },
@@ -67,7 +67,7 @@
         "previousText": "‹ Previous",
         "nextText": "Next ›",
         "lastText": "Last »",
-        "showInfo": false,
+        "hasInfo": false,
         "page": 5,
         "totalPages": 10
       },
@@ -80,7 +80,7 @@
         "justify": "end",
         "previousText": "‹ Previous",
         "nextText": "Next ›",
-        "showInfo": false,
+        "hasInfo": false,
         "page": 5,
         "totalPages": 10
       },
@@ -92,7 +92,7 @@
       "props": {
         "previousText": "‹ Previous",
         "nextText": "Next ›",
-        "showInfo": false,
+        "hasInfo": false,
         "page": 5,
         "totalPages": 10,
         "extraClass": "mb-4"
