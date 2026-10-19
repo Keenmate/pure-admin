@@ -211,7 +211,7 @@ Shared enum-like options (same across all four methods):
              modifier — there is no pa-modal__container--md). Every other
              value interpolates into pa-modal__container--{size}.
              Default: 'sm' for confirm/alert/prompt, 'md' for custom.
-  position →  'center' | 'top'
+  placement → 'center' | 'top'
              Default: 'center'. 'top' adds pa-modal--top (5vh offset).
   isBanded →  true | false (default false)
              Adds pa-modal--banded (filled header + footer bands). Pair with a
@@ -229,7 +229,7 @@ CONFIRM OPTIONS:
   variant: string         // (default: 'primary')
   confirmVariant: string  // Confirm button color (default: same as variant)
   size: string            // (default: 'sm')
-  position: string        // (default: 'center')
+  placement: string       // (default: 'center')
   closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
 }
 Returns: Promise<boolean> — true on confirm, false on cancel/backdrop/Esc.
@@ -241,7 +241,7 @@ ALERT OPTIONS:
   okText: string          // Button text (default: 'OK')
   variant: string         // (default: 'primary')
   size: string            // (default: 'sm')
-  position: string        // (default: 'center')
+  placement: string       // (default: 'center')
   closeOnBackdrop: bool   // (default: true)
 }
 Returns: Promise<void> — resolves when the user dismisses the dialog.
@@ -256,7 +256,7 @@ PROMPT OPTIONS:
   cancelText: string      // Cancel button text (default: 'Cancel')
   variant: string         // (default: 'primary')
   size: string            // (default: 'sm')
-  position: string        // (default: 'center')
+  placement: string       // (default: 'center')
   validator: function     // (value: string) => true | errorMessage
   closeOnBackdrop: bool   // (default: true — same as the other methods;
                           //  if the user clicks backdrop it resolves null
@@ -270,7 +270,7 @@ CUSTOM OPTIONS:
   size: string            // (default: 'md' — note: different from the
                           //  other methods, which default to 'sm')
   variant: string         // (default: 'primary')
-  position: string        // (default: 'center')
+  placement: string       // (default: 'center')
   closeOnBackdrop: bool   // (default: true)
   render: function        // REQUIRED — (container, close) => void
                           //   container: the .pa-modal__container element.
