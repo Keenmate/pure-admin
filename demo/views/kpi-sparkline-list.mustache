@@ -1,8 +1,6 @@
 <p>Bloomberg-y "sparkline list" KPI indicator. Each KPI becomes one row: <strong>name · sparkline · value · Δ%</strong>. No view-mode toggle, no status pills, no prev row — built for fast vertical scanning and side-by-side comparison rather than per-tile depth. Sparkline gets a filled area under the line for stronger visual weight than the terminal-grid version. Hover any row for the structured detail breakdown.</p>
 <p>Two list-level modifiers on <code>.pa-kpi-spark-list</code> are independently composable: <code>--chart-first</code> flips the value/chart stacking order at narrow widths, and <code>--no-delta</code> drops the rightmost (Δ%) column when the chart's slope already conveys direction. Source markup stays the same; pick modifiers per instance.</p>
 
-
-
 <div class="pa-card pa-kpi-spark-list">
     <div class="pa-card__header pa-kpi-header">
         <div class="pa-card__title">
@@ -177,13 +175,11 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      2. Layout variant: --no-delta (3-col rows)
      ============================================================ -->
 
-<h3>Layout variant · <code>pa-kpi-spark-list--no-delta</code></h3>
+<h3 class="mt-xl">Layout variant · <code>pa-kpi-spark-list--no-delta</code></h3>
 <p>Drops the rightmost (Δ%) column — each row reads as <strong>label · sparkline · value</strong>. Useful when the sparkline's slope already conveys direction and the percentage delta would be redundant chrome. The row template shrinks from 4 columns to 3 at wide widths; at narrow widths the responsive 2-row / 3-row layouts also collapse to a 2-cell / single-cell shape.</p>
 
 <div class="pa-card pa-kpi-spark-list pa-kpi-spark-list--no-delta">
@@ -299,7 +295,6 @@
         <span>Δ% row left in markup so the same data shows on hover</span>
     </div>
 </div>
-
 
 <!-- ============================================================
      3. Layout test — 1×3 page grid (.pc-col-1-3)
@@ -477,7 +472,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- ============================================================
      4. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
@@ -730,13 +724,11 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      Custom chart library — Chart.js in the chart slot
      ============================================================ -->
 
-<h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
+<h3 class="mt-xl">Custom chart library · <code>Chart.js</code> in the chart slot</h3>
 <p>The <code>pa-kpi-spark-row__chart</code> cell is just a positioned grid cell — the inline SVG sparkline is the lightweight default, not a requirement. Each row below drops a <code>&lt;canvas data-kpi-chart&gt;</code> into that cell instead, rendering a Chart.js <strong>bar chart</strong> ("sparkbars") so it reads as an obviously different chart from the line+area default. The row's sentiment modifier (<code>--up</code>, <code>--down</code>, …) still sets <code>color</code> on the chart cell, so the bars read <code>currentColor</code> and stay in sync with the sentiment scale and theme.</p>
 
 <div class="pa-card pa-kpi-spark-list">
@@ -845,10 +837,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- Usage Guide -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">Usage Guide</h3>
@@ -886,10 +876,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- CSS Classes Reference -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">CSS Classes Reference</h3>
@@ -951,5 +939,4 @@
         </ul>
     </div>
 </div>
-
 

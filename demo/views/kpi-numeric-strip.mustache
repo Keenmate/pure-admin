@@ -1,7 +1,5 @@
 <p>"Numeric strip · densest" KPI indicator. <strong>Wide table-card layout — most data per pixel</strong>: metric / now / prev / Δ% / vs target columns. No sparkline, no chart chrome — a stripped-down 5-column grid for "spreadsheet-style" scanning when the operator wants the <em>numbers</em> and nothing else. Each row carries a tiny progress bar in the last column showing actual-vs-target as a percentage, with the percent value pinned below the bar. <strong>Wide-only by design</strong> — there's no narrow-card collapse because the row-stack form would duplicate the Comparison gauges showcase; if you need this data in a 1×3 or 25/45 cell, use Comparison gauges instead. Rendered as a <strong>table card</strong> (zero card-body padding, dividers extend edge-to-edge) so the table reads as the card's content rather than a table sitting inside another panel.</p>
 
-
-
 <!-- ============================================================
      Canonical full-width Numeric strip — wide-only, table-card style
      ============================================================ -->
@@ -157,8 +155,6 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      Asymmetric 25 / 35 / 40 page-grid — same wide-only table design
      allocated across three differently-sized cells. Cells are below
@@ -168,7 +164,7 @@
      remains: route narrow placements to Comparison gauges.
      ============================================================ -->
 
-<div class="pc-row">
+<div class="pc-row mt-xl">
     <div class="pc-col-100 pc-col-md-25">
         <div class="pa-card pa-kpi-strip pa-kpi-strip--no-prev">
             <div class="pa-card__header pa-kpi-header">
@@ -319,15 +315,13 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      Column variations — composable --no-* toggle modifiers, showing
      the 3-col (metric / now / target) and 2-col (metric / now) shapes
      alongside an explicit 4-col variant.
      ============================================================ -->
 
-<h3>Column variations · composable <code>--no-*</code> toggles</h3>
+<h3 class="mt-xl">Column variations · composable <code>--no-*</code> toggles</h3>
 <p><code>--no-prev</code>, <code>--no-delta</code>, and <code>--no-target</code> compose. <code>metric</code> and <code>now</code> are mandatory; any combination of the other three can be dropped to land on a 2-, 3-, or 4-column shape. Templates and cell-hiding rules are precomputed in the framework, so consumers just toggle the modifier classes.</p>
 
 <div class="pc-row">
@@ -466,10 +460,8 @@
 
 </div>
 
-<br>
-
 <!-- Usage Guide -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">Usage Guide</h3>
@@ -498,10 +490,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- CSS Classes Reference -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">CSS Classes Reference</h3>
@@ -564,5 +554,4 @@
         </ul>
     </div>
 </div>
-
 

@@ -1,8 +1,6 @@
 <p>"Hero + supporting" KPI indicator. <strong>One headline metric on the left</strong> (huge value, delta + period + target meta row, big sparkline) — the marketing/exec story you want at a glance. <strong>A vertical side rail of supporting metrics on the right</strong> (compact tiles, each with label · value · delta-vs-prev). Card-level container query collapses the side-by-side layout to stacked when the card narrows below 700px so the same markup works in narrow page-grid cells.</p>
 <p>Split-ratio modifiers on <code>.pa-kpi-hero-list__layout</code> shift weight to the hero without touching markup: default is <code>1:1</code> (50/50), <code>--hero-2-3</code> gives the hero 2/3 of the width, <code>--hero-3-4</code> makes the rail a thin sidebar. Pick the proportion that fits your hero's visual weight need.</p>
 
-
-
 <!-- ============================================================
      1. Canonical full-width Hero + supporting card
      ============================================================ -->
@@ -150,13 +148,11 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      2. Layout variant: hero 2/3, rail 1/3 (--hero-2-3)
      ============================================================ -->
 
-<h3>Layout variant · <code>pa-kpi-hero-list__layout--hero-2-3</code></h3>
+<h3 class="mt-xl">Layout variant · <code>pa-kpi-hero-list__layout--hero-2-3</code></h3>
 <p>Hero gets 2/3 of the width, rail 1/3. Pushes more visual weight onto the headline metric — common in marketing/exec layouts where the supporting tiles are reference rather than focal. Source markup is identical to the canonical; only the modifier on <code>__layout</code> changes.</p>
 
 <div class="pa-card pa-kpi-hero-list">
@@ -250,13 +246,11 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      3. Layout variant: hero 3/4, rail 1/4 (--hero-3-4)
      ============================================================ -->
 
-<h3>Layout variant · <code>pa-kpi-hero-list__layout--hero-3-4</code></h3>
+<h3 class="mt-xl">Layout variant · <code>pa-kpi-hero-list__layout--hero-3-4</code></h3>
 <p>Hero gets 3/4 of the width, rail 1/4 (a thin sidebar). The hero-dominant shape — the rail becomes a quick reference column rather than an equal-weight partner. At narrow card widths the same <code>@container</code> breakpoint applies, so the layout still collapses to a stack below 700px regardless of which split-ratio modifier the layout carries.</p>
 
 <div class="pa-card pa-kpi-hero-list">
@@ -349,7 +343,6 @@
         <span>Hover any KPI for detail</span>
     </div>
 </div>
-
 
 <!-- ============================================================
      4. Layout test — 1×3 page grid (.pc-col-1-3)
@@ -507,7 +500,6 @@
     </div>
 </div>
 
-
 <!-- ============================================================
      5. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
      ============================================================ -->
@@ -624,13 +616,11 @@
     </div>
 </div>
 
-<br>
-
 <!-- ============================================================
      6. Custom chart library — Chart.js in the chart slot
      ============================================================ -->
 
-<h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
+<h3 class="mt-xl">Custom chart library · <code>Chart.js</code> in the chart slot</h3>
 <p>The <code>pa-kpi-hero-main__chart</code> slot is a plain container — the hand-authored inline SVG sparkline is just the lightweight default. Drop a real charting library in and render <em>any</em> chart type: the example below uses a Chart.js <strong>bar chart</strong> so the difference from the default sparkline is obvious. It still inherits the layout box and the sentiment cascade for free — the chart wrapper sets <code>color: var(--pa-kpi-accent)</code>, so Chart.js reading <code>currentColor</code> picks up the right hue and re-colours on theme change. Markup below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was; everything else is unchanged.</p>
 
 <div class="pa-card pa-kpi-hero-list">
@@ -712,10 +702,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- Usage Guide -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">Usage Guide</h3>
@@ -747,10 +735,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- CSS Classes Reference -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">CSS Classes Reference</h3>
@@ -814,5 +800,4 @@
         </ul>
     </div>
 </div>
-
 

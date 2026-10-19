@@ -1,8 +1,6 @@
 <p>"Comparison gauges" KPI indicator. Each KPI is a goal-oriented progress bar — <strong>label · value</strong> on top, <strong>bar with a target tick</strong> in the middle, <strong>0 · tgt</strong> scale below. Bar fill is value/target, capped at 100% (overshoots are signalled by colour, not by overflowing the bar). Colours: <code>--pa-positive</code> for "on track", <code>--pc-warning-color</code> for "off-target / approaching limit", <code>--pa-neutral</code> for "no strong sentiment".</p>
 <p>Layout is a cell-min-driven <code>auto-fit</code> grid: cells stay at least <code>--pa-kpi-gauge-cell-min</code> wide (default <code>20rem</code>), the grid fits as many columns as the container allows, and the responsive cascade is intrinsic. <code>--max-2</code>…<code>--max-6</code> modifiers cap the column count while still collapsing on narrow containers. The canonical card below uses <code>--max-3</code> for a deterministic 2-row layout.</p>
 
-
-
 <!-- ============================================================
      1. Canonical full-width Comparison gauges card
      ============================================================ -->
@@ -147,7 +145,6 @@
     </div>
 </div>
 
-
 <!-- ============================================================
      2. Layout test — 1×3 page grid (.pc-col-1-3)
      ============================================================ -->
@@ -256,7 +253,6 @@
     </div>
 </div>
 
-
 <!-- ============================================================
      3. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
      ============================================================ -->
@@ -356,10 +352,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- Usage Guide -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">Usage Guide</h3>
@@ -392,10 +386,8 @@
     </div>
 </div>
 
-<br>
-
 <!-- CSS Classes Reference -->
-<div class="pa-card">
+<div class="pa-card mt-xl">
     <div class="pa-card__header">
         <div class="pa-card__title">
             <h3 class="pa-card__title-text">CSS Classes Reference</h3>
@@ -464,5 +456,4 @@
         </ul>
     </div>
 </div>
-
 
