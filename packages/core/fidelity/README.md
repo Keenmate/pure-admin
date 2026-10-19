@@ -117,7 +117,7 @@ fixture that silently skips a whole sub-feature (card's inline-tabs, …).
 `<component>.map.json` in each wrapper — a declarative manifest keyed by the same
 neutral feature names, each giving that wrapper's `prop`, `kind`, and (for enums)
 its real `values`. Kinds: `enum` / `string` / `bool` (opt `negate`) / `slot` /
-`const` (fixed value from a flag — e.g. keen's stat card is `variant="stat"`),
+`const` (fixed value from a flag — e.g. desc-table's `cols2` feature is keen `cols="2"`),
 plus `channel:"rest"` for keen globals. **The dumper drives off this map**, so a
 wrong prop name breaks rendering — the map can't lie silently.
 

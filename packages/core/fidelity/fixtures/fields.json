@@ -16,7 +16,7 @@
     "chips": "Notion-style inline pairs with pill/chip values (pa-fields--chips)",
     "filled": "subtle background panel (pa-fields--filled)",
     "themeColor": "theme colour 1-9 for the left border (pa-fields--color-{n})",
-    "noBorder": "remove the left border (pa-fields--no-border). svelte models this as hasBorder=false (negated); keen as is_no_border=true.",
+    "noBorder": "remove the left border (pa-fields--no-border). svelte hasBorder=false, keen has_border={false} (both negated bools).",
     "body": "the container's item area — plain slot text in this container-only slice (the real pa-field children are the deferred sub-slice)",
     "extraClass": "extra classes appended verbatim (svelte `class`, keen `class`) — class passthrough, not a core feature"
   },
@@ -36,7 +36,7 @@
     "chips":      { "kind": "bool", "produces": "pa-fields--chips" },
     "filled":     { "kind": "bool", "produces": "pa-fields--filled" },
     "themeColor": { "kind": "enum", "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"], "produces": null, "note": "emits pa-fields--color-{n}; verified via scenarios (produces template can't carry {n})." },
-    "noBorder":   { "kind": "bool", "produces": "pa-fields--no-border", "note": "svelte hasBorder=false (negated), keen is_no_border=true" },
+    "noBorder":   { "kind": "bool", "produces": "pa-fields--no-border", "note": "svelte hasBorder=false / keen has_border={false} (negated)" },
     "body":       { "kind": "slot", "produces": null, "note": "structural — the container's inner content; pa-field items are the deferred sub-slice" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
@@ -170,7 +170,7 @@
       "name": "no-border",
       "props": { "body": "Body", "noBorder": true },
       "golden": "<div class=\"pa-fields pa-fields--no-border\">Body</div>",
-      "note": "svelte hasBorder=false (negated bool), keen is_no_border=true -> same pa-fields--no-border."
+      "note": "svelte hasBorder=false / keen has_border={false} (negated bools) -> pa-fields--no-border."
     },
     {
       "name": "theme-color-1",

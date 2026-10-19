@@ -108,7 +108,7 @@
       "name": "stat",
       "props": { "stat": true, "body": "Body" },
       "golden": "<div class=\"pa-card pa-card--stat\"><div class=\"pa-card__body\">Body</div></div>",
-      "note": "svelte models this as isStat (bool); keen as variant=\"stat\". The maps absorb the API-spelling difference; both must emit pa-card--stat."
+      "note": "svelte isStat / keen is_stat (bool, combinable with a colour variant); both emit pa-card--stat."
     },
     {
       "name": "ghost",
