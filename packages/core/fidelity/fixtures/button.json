@@ -14,7 +14,7 @@
     "isDisabled": "boolean",
     "label": "inner text content",
     "icon": "glyph/text rendered inside pa-btn__icon (ignored for iconOnly, where label is the glyph)",
-    "iconPosition": "start|end",
+    "iconPlacement": "start|end",
     "href": "renders as <a> instead of <button>",
     "target": "anchor target",
     "truncate": "boolean — wrap label in .text-truncate",
@@ -104,7 +104,7 @@
       ],
       "produces": "pa-btn--justify-{value}"
     },
-    "iconPosition": {
+    "iconPlacement": {
       "kind": "enum",
       "options": [
         "start",
@@ -265,7 +265,7 @@
         "variant": "primary",
         "icon": "→",
         "label": "Next",
-        "iconPosition": "end"
+        "iconPlacement": "end"
       },
       "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary\">Next<span class=\"pa-btn__icon\">→</span></button>"
     },

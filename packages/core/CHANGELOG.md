@@ -52,6 +52,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING (fidelity vocabulary) — part placement is `<part>Placement`.** checkbox / radio
+  `labelPosition` → `labelPlacement`, button `iconPosition` → `iconPlacement` (fixtures + wrappers;
+  pager `infoPosition` → `infoPlacement` in both wrappers). Bare `placement` = where the component
+  sits, `<part>_placement` = where one of its parts sits, `position` only for a real coordinate.
 - **BREAKING — button and tabs alignment modifiers use the CSS property name.** Layout props are
   named after the CSS property they drive (`justify` = `justify-content`, `align` = `align-items`,
   `textAlign` = `text-align`), and the classes follow:

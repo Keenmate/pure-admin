@@ -4,7 +4,7 @@
   "block": "pa-radio",
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — scales the native radio input (default is the unmodified md radio). Shared scale with input/select; emits pa-radio--{size}.",
-    "labelPosition": "end|start|top — label placement relative to the input → pa-radio--label-{pos}. `end` is the visual default but still emits the (redundant, valid) class when set explicitly; unset = classless. Requires the __label span, which both wrappers always emit when a label is present.",
+    "labelPlacement": "end|start|top — label placement relative to the input → pa-radio--label-{pos}. `end` is the visual default but still emits the (redundant, valid) class when set explicitly; unset = classless. Requires the __label span, which both wrappers always emit when a label is present.",
     "label": "label text — rendered inside <span class=\"pa-radio__label\">. When absent, no label span.",
     "name": "native name attribute on the <input> (the radio group name)",
     "value": "native value attribute on the <input> — REQUIRED by both wrappers, always supplied",
@@ -20,7 +20,7 @@
       "options": ["xs", "sm", "lg", "xl"],
       "produces": "pa-radio--{value}"
     },
-    "labelPosition": {
+    "labelPlacement": {
       "kind": "enum",
       "options": ["end", "start", "top"],
       "produces": "pa-radio--label-{value}"
@@ -78,18 +78,18 @@
     },
     {
       "name": "label-end",
-      "props": { "name": "posDemo", "value": "e", "label": "End", "labelPosition": "end" },
+      "props": { "name": "posDemo", "value": "e", "label": "End", "labelPlacement": "end" },
       "golden": "<label class=\"pa-radio pa-radio--label-end\"><input type=\"radio\" name=\"posDemo\" value=\"e\"><span class=\"pa-radio__label\">End</span></label>",
       "note": "Explicit --label-end (redundant but valid — the default look)."
     },
     {
       "name": "label-start",
-      "props": { "name": "posDemo", "value": "s", "label": "Start", "labelPosition": "start" },
+      "props": { "name": "posDemo", "value": "s", "label": "Start", "labelPlacement": "start" },
       "golden": "<label class=\"pa-radio pa-radio--label-start\"><input type=\"radio\" name=\"posDemo\" value=\"s\"><span class=\"pa-radio__label\">Start</span></label>"
     },
     {
       "name": "label-top",
-      "props": { "name": "posDemo", "value": "t", "label": "Top", "labelPosition": "top" },
+      "props": { "name": "posDemo", "value": "t", "label": "Top", "labelPlacement": "top" },
       "golden": "<label class=\"pa-radio pa-radio--label-top\"><input type=\"radio\" name=\"posDemo\" value=\"t\"><span class=\"pa-radio__label\">Top</span></label>"
     },
     {
@@ -105,7 +105,7 @@
     },
     {
       "name": "combined",
-      "props": { "name": "plan", "value": "pro", "label": "Pro Plan", "size": "lg", "labelPosition": "start", "isDisabled": true },
+      "props": { "name": "plan", "value": "pro", "label": "Pro Plan", "size": "lg", "labelPlacement": "start", "isDisabled": true },
       "golden": "<label class=\"pa-radio pa-radio--lg pa-radio--label-start\"><input type=\"radio\" name=\"plan\" value=\"pro\" disabled><span class=\"pa-radio__label\">Pro Plan</span></label>",
       "note": "Stacks size + label-start + native disabled attr to exercise class ordering + the no-disabled-class contract together."
     }

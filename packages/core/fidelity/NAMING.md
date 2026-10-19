@@ -66,7 +66,10 @@ back-compat aliases) and record the rename in that wrapper's CHANGELOG.
 | `justify` | `justify-content` | grid, button, tabs, pager, load-more |
 | `align` | `align-items` | grid, button-group, desc-table / banded (`center`) |
 | `text_align` / `textAlign` | `text-align` | paragraph, popover; desc-table / banded `label_text_align` / `value_text_align` |
-| `placement` | — (floating element side, as in Floating UI / Bootstrap) | tooltip, popover, popconfirm, modal, toast, split-button menu, card `*_tooltip_placement`; core JS `placement` option (dialogs, toasts) |
+| `placement` | — (floating element side, as in Floating UI / Bootstrap) | tooltip, popover, popconfirm, modal, toast, split-button menu; core JS `placement` option (dialogs, toasts) |
+| `<part>_placement` | — (where one PART of the component sits) | checkbox / radio `label_placement`, button `icon_placement`, pager `info_placement`, card `*_tooltip_placement` |
 
 Never reuse a CSS property name for something that isn't that property: timeline's "all items on
 one side" is `side`, not `align`; command-palette's mode is `display_style`, not `display`.
+Bare `placement` is where the component itself sits; `<part>_placement` is where one of its parts sits.
+`position` is kept only for a real coordinate or length (kpi-gauge `tick_position` = `"80%"` along the bar).

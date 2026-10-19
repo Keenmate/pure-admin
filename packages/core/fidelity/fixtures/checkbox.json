@@ -4,7 +4,7 @@
   "block": "pa-checkbox",
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — scales the box (default is the unmodified md checkbox). Shared scale with input/select; emits pa-checkbox--{size}.",
-    "labelPosition": "end|start|top — label placement relative to the box → pa-checkbox--label-{pos}. `end` is the visual default but still emits the (redundant, valid) class when set explicitly; unset = classless.",
+    "labelPlacement": "end|start|top — label placement relative to the box → pa-checkbox--label-{pos}. `end` is the visual default but still emits the (redundant, valid) class when set explicitly; unset = classless.",
     "isXMark": "boolean — swap the checkmark for an X (pa-checkbox--x), for excluded/blocked selections.",
     "isDisabled": "boolean — emits pa-checkbox--disabled on the label AND the native `disabled` attr on the input.",
     "label": "label text — rendered inside <span class=\"pa-checkbox__label\">. When absent, no label span.",
@@ -23,7 +23,7 @@
       "options": ["xs", "sm", "lg", "xl"],
       "produces": "pa-checkbox--{value}"
     },
-    "labelPosition": {
+    "labelPlacement": {
       "kind": "enum",
       "options": ["end", "start", "top"],
       "produces": "pa-checkbox--label-{value}"
@@ -89,18 +89,18 @@
     },
     {
       "name": "label-end",
-      "props": { "id": "cb10", "label": "End", "value": "v", "labelPosition": "end" },
+      "props": { "id": "cb10", "label": "End", "value": "v", "labelPlacement": "end" },
       "golden": "<label class=\"pa-checkbox pa-checkbox--label-end\"><input type=\"checkbox\" id=\"cb10\" value=\"v\"><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">End</span></label>",
       "note": "Explicit --label-end (redundant but valid — the default look)."
     },
     {
       "name": "label-start",
-      "props": { "id": "cb11", "label": "Start", "value": "v", "labelPosition": "start" },
+      "props": { "id": "cb11", "label": "Start", "value": "v", "labelPlacement": "start" },
       "golden": "<label class=\"pa-checkbox pa-checkbox--label-start\"><input type=\"checkbox\" id=\"cb11\" value=\"v\"><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Start</span></label>"
     },
     {
       "name": "label-top",
-      "props": { "id": "cb12", "label": "Top", "value": "v", "labelPosition": "top" },
+      "props": { "id": "cb12", "label": "Top", "value": "v", "labelPlacement": "top" },
       "golden": "<label class=\"pa-checkbox pa-checkbox--label-top\"><input type=\"checkbox\" id=\"cb12\" value=\"v\"><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Top</span></label>"
     },
     {
@@ -122,7 +122,7 @@
     },
     {
       "name": "combined",
-      "props": { "id": "cb16", "label": "Featured", "size": "lg", "isXMark": true, "labelPosition": "start", "isDisabled": true, "name": "feat", "value": "yes", "isChecked": true },
+      "props": { "id": "cb16", "label": "Featured", "size": "lg", "isXMark": true, "labelPlacement": "start", "isDisabled": true, "name": "feat", "value": "yes", "isChecked": true },
       "golden": "<label class=\"pa-checkbox pa-checkbox--lg pa-checkbox--x pa-checkbox--label-start pa-checkbox--disabled\"><input type=\"checkbox\" name=\"feat\" id=\"cb16\" value=\"yes\" checked disabled><span class=\"pa-checkbox__box\"></span><span class=\"pa-checkbox__label\">Featured</span></label>",
       "note": "Stacks size + x + label-start + disabled + native attrs to exercise full class ordering + the disabled double-emit together."
     }
