@@ -6,17 +6,17 @@
     "noGutter": "boolean — remove the horizontal gutter between columns (pc-row--no-gutter)",
     "sameHeight": "boolean — force .pa-card inside each column to equal height (pc-row--same-height)",
     "justify": "horizontal alignment of columns center|end|between|around → pc-row--{justify}",
-    "valign": "vertical alignment of columns top|middle|bottom|stretch → pc-row--{valign} (stretch is the explicit default)",
+    "align":  "vertical alignment of columns top|middle|bottom|stretch → pc-row--{valign} (stretch is the explicit default)",
     "body": "the row's content area — plain slot text here (real children are pc-col columns)",
     "extraClass": "extra classes appended verbatim (class passthrough — not a core feature)"
   },
   "goldenConventions": "Structural only. Base is always `<div class=\"pc-row\">`; a modifier class is added per set feature. The body slot is a plain text token (Columns) so the diff checks the container's tag + class + nesting, not rich column content. Class-token order + whitespace are normalized away, so goldens are written for readability.",
   "features": {
-    "//": "Feature→class contract authored from dist/css/main.css. The full .pc-row--* set in main.css is exactly: no-gutter, center, end, between, around, top, middle, bottom, stretch, same-height (10) — all claimed below (justify covers center/end/between/around; valign covers top/middle/bottom/stretch; noGutter + sameHeight cover the remaining two). Base `.pc-row` exists as a real rule. `produces: null` only for the slot + class passthrough.",
+    "//": "Feature→class contract authored from dist/css/main.css. The full .pc-row--* set in main.css is exactly: no-gutter, center, end, between, around, top, middle, bottom, stretch, same-height (10) — all claimed below (justify covers center/end/between/around; align covers top/middle/bottom/stretch; noGutter + sameHeight cover the remaining two). Base `.pc-row` exists as a real rule. `produces: null` only for the slot + class passthrough.",
     "noGutter":   { "kind": "bool",   "produces": "pc-row--no-gutter" },
     "sameHeight": { "kind": "bool",   "produces": "pc-row--same-height" },
     "justify":    { "kind": "enum",   "options": ["center", "end", "between", "around"], "produces": "pc-row--{value}" },
-    "valign":     { "kind": "enum",   "options": ["top", "middle", "bottom", "stretch"], "produces": "pc-row--{value}" },
+    "align":      { "kind": "enum",   "options": ["top", "middle", "bottom", "stretch"], "produces": "pc-row--{value}" },
     "body":       { "kind": "slot",   "produces": null, "note": "the row's inner content (columns)" },
     "extraClass": { "kind": "string", "produces": null, "note": "class passthrough — appended verbatim, not a core feature" }
   },
@@ -64,28 +64,28 @@
       "golden": "<div class=\"pc-row pc-row--around\">Columns</div>"
     },
     {
-      "name": "valign-top",
-      "props": { "valign": "top", "body": "Columns" },
+      "name": "align-top",
+      "props": { "align":  "top", "body": "Columns" },
       "golden": "<div class=\"pc-row pc-row--top\">Columns</div>"
     },
     {
-      "name": "valign-middle",
-      "props": { "valign": "middle", "body": "Columns" },
+      "name": "align-middle",
+      "props": { "align":  "middle", "body": "Columns" },
       "golden": "<div class=\"pc-row pc-row--middle\">Columns</div>"
     },
     {
-      "name": "valign-bottom",
-      "props": { "valign": "bottom", "body": "Columns" },
+      "name": "align-bottom",
+      "props": { "align":  "bottom", "body": "Columns" },
       "golden": "<div class=\"pc-row pc-row--bottom\">Columns</div>"
     },
     {
-      "name": "valign-stretch",
-      "props": { "valign": "stretch", "body": "Columns" },
+      "name": "align-stretch",
+      "props": { "align":  "stretch", "body": "Columns" },
       "golden": "<div class=\"pc-row pc-row--stretch\">Columns</div>"
     },
     {
       "name": "combined",
-      "props": { "noGutter": true, "sameHeight": true, "justify": "between", "valign": "middle", "body": "Columns" },
+      "props": { "noGutter": true, "sameHeight": true, "justify": "between", "align":  "middle", "body": "Columns" },
       "golden": "<div class=\"pc-row pc-row--no-gutter pc-row--same-height pc-row--between pc-row--middle\">Columns</div>",
       "note": "Stacks gutter + same-height + justify + valign; class-token order is normalized away."
     },

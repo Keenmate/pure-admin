@@ -4,7 +4,7 @@
   "block": "pa-timeline",
   "propsVocabulary": {
     "variant": "visual variant, mutually exclusive (simple|alternating|feed)",
-    "alignment": "alternating-only layout modifier: force all items to start or end side (start|end); omit to zig-zag",
+    "side":      "alternating-only layout modifier: force all items to start or end side (start|end); omit to zig-zag",
     "keepLayout": "boolean — alternating-only: keep desktop zig-zag on mobile (no single-column collapse below the breakpoint)",
     "singleColumn": "boolean — alternating-only: force single-column layout at any width (pa-timeline--single-column)",
     "body": "item area content — a plain text token in this container slice (items are the deferred sub-slice)",
@@ -14,7 +14,7 @@
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. Only the 7 pa-timeline--* BLOCK modifiers are container features. capability.mjs axis-1 reverse-check is block-modifier-scoped, so the item-level pa-timeline__* classes (see `deferred`) are neither required here nor flagged.",
     "variant":      { "kind": "enum", "options": ["simple", "alternating", "feed"], "produces": "pa-timeline--{value}" },
-    "alignment":    { "kind": "enum", "options": ["start", "end"], "produces": "pa-timeline--{value}", "note": "alternating-only layout modifier" },
+    "side":         { "kind": "enum", "options": ["start", "end"], "produces": "pa-timeline--{value}", "note": "alternating-only layout modifier" },
     "keepLayout":   { "kind": "bool", "produces": "pa-timeline--keep-layout" },
     "singleColumn": { "kind": "bool", "produces": "pa-timeline--single-column" },
     "body":         { "kind": "slot", "produces": null, "note": "structural — item area; a plain text token in this container slice" },
@@ -63,12 +63,12 @@
     },
     {
       "name": "alternating-start",
-      "props": { "variant": "alternating", "alignment": "start", "body": "Body" },
+      "props": { "variant": "alternating", "side":      "start", "body": "Body" },
       "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--start\">Body</ul>"
     },
     {
       "name": "alternating-end",
-      "props": { "variant": "alternating", "alignment": "end", "body": "Body" },
+      "props": { "variant": "alternating", "side":      "end", "body": "Body" },
       "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--end\">Body</ul>"
     },
     {
@@ -83,7 +83,7 @@
     },
     {
       "name": "alternating-start-keep-layout",
-      "props": { "variant": "alternating", "alignment": "start", "keepLayout": true, "body": "Body" },
+      "props": { "variant": "alternating", "side":      "start", "keepLayout": true, "body": "Body" },
       "golden": "<ul class=\"pa-timeline pa-timeline--alternating pa-timeline--start pa-timeline--keep-layout\">Body</ul>",
       "note": "Combined scenario: layout modifiers stack on the alternating variant (snippet lines 301-310)."
     },

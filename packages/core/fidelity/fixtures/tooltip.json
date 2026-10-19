@@ -9,7 +9,7 @@
   "propsVocabulary": {
     "text": "tooltip text — rendered into the data-tooltip attribute on the trigger",
     "content": "trigger content (the hoverable element's children)",
-    "position": "end|bottom|start — logical placement; top is the default and emits NO class (core defines no pa-tooltip--top)",
+    "placement": "end|bottom|start — logical placement; top is the default and emits NO class (core defines no pa-tooltip--top)",
     "variant": "colour variant (primary|success|warning|danger|color-1..9) — colours the bubble + arrow",
     "multiline": "boolean — allow the bubble text to wrap (fixed width) instead of single-line",
     "help": "boolean — cursor: help (question-mark cursor) for informational hints",
@@ -18,7 +18,7 @@
   "goldenConventions": "Goldens encode the core snippet shape PLUS the one convention BOTH wrappers legitimately add over the static snippet: the trigger always carries pa-tooltip--floating. Both wrappers treat the JS-portaled bubble (.pa-tooltip-floating built on hover) as their canonical tooltip, and pa-tooltip--floating on the trigger suppresses the CSS ::before/::after pseudo so the two can't stack into a double tooltip. It is hardcoded in both (not a prop), exactly like button's type=\"button\". The trigger element is <span> in both wrappers. data-tooltip carries the text (structural attr, no class). Attribute + class-token order and whitespace are normalized away, so goldens are written for readability.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css (NOT components.json). `produces` is a class template with {value}; capability.mjs expands it and cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native (data-tooltip text attr, trigger content).",
-    "position":  { "kind": "enum", "options": ["end", "bottom", "start"], "produces": "pa-tooltip--{value}", "note": "top is the default and emits no class — excluded from options" },
+    "placement": { "kind": "enum", "options": ["end", "bottom", "start"], "produces": "pa-tooltip--{value}", "note": "top is the default and emits no class — excluded from options" },
     "variant":   { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
     "multiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
     "help":      { "kind": "bool", "produces": "pa-tooltip--help" },
@@ -42,18 +42,18 @@
       "note": "top is the default position — no pa-tooltip--top class. pa-tooltip--floating is the shared wrapper convention (see goldenConventions)."
     },
     {
-      "name": "position-end",
-      "props": { "text": "Tooltip on the end", "content": "Hover me", "position": "end" },
+      "name": "placement-end",
+      "props": { "text": "Tooltip on the end", "content": "Hover me", "placement": "end" },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--end\" data-tooltip=\"Tooltip on the end\">Hover me</span>"
     },
     {
-      "name": "position-bottom",
-      "props": { "text": "Tooltip on the bottom", "content": "Hover me", "position": "bottom" },
+      "name": "placement-bottom",
+      "props": { "text": "Tooltip on the bottom", "content": "Hover me", "placement": "bottom" },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom\" data-tooltip=\"Tooltip on the bottom\">Hover me</span>"
     },
     {
-      "name": "position-start",
-      "props": { "text": "Tooltip on the start", "content": "Hover me", "position": "start" },
+      "name": "placement-start",
+      "props": { "text": "Tooltip on the start", "content": "Hover me", "placement": "start" },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--start\" data-tooltip=\"Tooltip on the start\">Hover me</span>"
     },
     {
@@ -104,13 +104,13 @@
     },
     {
       "name": "variant-position-combo",
-      "props": { "text": "Primary info", "content": "Primary Bottom", "variant": "primary", "position": "bottom" },
+      "props": { "text": "Primary info", "content": "Primary Bottom", "variant": "primary", "placement": "bottom" },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom pa-tooltip--primary\" data-tooltip=\"Primary info\">Primary Bottom</span>",
       "note": "class-token order is normalized away — the two modifiers may be emitted in either order by either wrapper."
     },
     {
       "name": "multiline-bottom",
-      "props": { "text": "Multiline tooltips work with any position.", "content": "Multiline bottom", "multiline": true, "position": "bottom" },
+      "props": { "text": "Multiline tooltips work with any position.", "content": "Multiline bottom", "multiline": true, "placement": "bottom" },
       "golden": "<span class=\"pa-tooltip pa-tooltip--floating pa-tooltip--bottom pa-tooltip--multiline\" data-tooltip=\"Multiline tooltips work with any position.\">Multiline bottom</span>"
     }
   ]

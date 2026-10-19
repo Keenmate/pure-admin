@@ -47,6 +47,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING — button and tabs alignment modifiers use the CSS property name.** Layout props are
+  named after the CSS property they drive (`justify` = `justify-content`, `align` = `align-items`,
+  `textAlign` = `text-align`), and the classes follow:
+  `pa-btn--align-start` / `-end` / `-center` / `-justify` → `pa-btn--justify-start` / `-end` /
+  `-center` / `-between`; `pa-tabs--centered` → `pa-tabs--justify-center`, `pa-tabs--full` →
+  `pa-tabs--justify-stretch`. No aliases for the old classes. Snippets, demo and README updated.
+- **Fidelity vocabulary follows the same rule.** Neutral features renamed: button / tabs / pager /
+  load-more `align` → `justify`; grid `valign` → `align`; paragraph `align` and popover
+  `alignment` → `textAlign`; timeline `alignment` → `side` (it puts every item on one side, it
+  isn't alignment); tooltip `position` and card `titleTooltipPosition` / `descriptionTooltipPosition`
+  → `placement` / `…Placement` (CSS `position` means static/absolute — floating elements use
+  `placement`, like popover / popconfirm). `NAMING.md` documents the rule.
 - **Card title is ALWAYS `h3.pa-card__title-text`.** The reference note said "h1..h6" while every
   example, the fidelity fixture and both wrappers emit `h3` — so the demo had drifted to 92 `h4`,
   18 `h2`, 24 `h5`. The note now states `h3` (the CSS styles the class, not the tag; other levels

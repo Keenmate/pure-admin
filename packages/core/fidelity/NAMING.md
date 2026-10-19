@@ -30,3 +30,15 @@ same concept (`title_text` vs `:title`), so both can exist side by side.
 
 Anything else that differs is a bug in one wrapper — rename it (pre-release, no
 back-compat aliases) and record the rename in that wrapper's CHANGELOG.
+
+## Layout props are named after the CSS property they drive
+
+| Prop | CSS | Used by |
+|---|---|---|
+| `justify` | `justify-content` | grid, button, tabs, pager, load-more |
+| `align` | `align-items` | grid, button-group |
+| `text_align` / `textAlign` | `text-align` | paragraph, popover |
+| `placement` | — (floating element side, as in Floating UI / Bootstrap) | tooltip, popover, popconfirm, card `*_tooltip_placement` |
+
+Never reuse a CSS property name for something that isn't that property: timeline's "all items on
+one side" is `side`, not `align`; command-palette's mode is `display_style`, not `display`.

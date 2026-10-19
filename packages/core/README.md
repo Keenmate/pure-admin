@@ -478,9 +478,9 @@ macOS Spotlight-style search with multi-step commands, context search, and globa
   - `.pa-tabs--vertical` - Vertical tab layout
   - `.pa-tabs--scrollable` - Horizontally scrollable with arrows
   - `.pa-tabs--collapse` - Icon-only tabs (active shows text)
-  - `.pa-tabs--full` - Full-width tabs
+  - `.pa-tabs--justify-stretch` - Full-width tabs
   - `.pa-tabs--border-top` - Active indicator on top
-  - `.pa-tabs--centered` - Center-aligned tabs
+  - `.pa-tabs--justify-center` - Center-aligned tabs
   - `.pa-tabs--nowrap` - Prevent wrapping
 - **Sizes:** `.pa-tabs--sm`, `.pa-tabs--lg`
 - **Containers:**

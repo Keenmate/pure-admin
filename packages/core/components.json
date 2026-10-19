@@ -224,9 +224,9 @@
       "modifiers": [
         "pa-tabs--border-top",
         "pa-tabs--boxed",
-        "pa-tabs--centered",
         "pa-tabs--collapse",
-        "pa-tabs--full",
+        "pa-tabs--justify-center",
+        "pa-tabs--justify-stretch",
         "pa-tabs--lg",
         "pa-tabs--nowrap",
         "pa-tabs--pills",
@@ -903,10 +903,6 @@
         "pa-btn__spinner"
       ],
       "modifiers": [
-        "pa-btn--align-center",
-        "pa-btn--align-end",
-        "pa-btn--align-justify",
-        "pa-btn--align-start",
         "pa-btn--block",
         "pa-btn--danger",
         "pa-btn--dark",
@@ -914,6 +910,10 @@
         "pa-btn--ghost",
         "pa-btn--icon-only",
         "pa-btn--info",
+        "pa-btn--justify-between",
+        "pa-btn--justify-center",
+        "pa-btn--justify-end",
+        "pa-btn--justify-start",
         "pa-btn--lg",
         "pa-btn--light",
         "pa-btn--loading",

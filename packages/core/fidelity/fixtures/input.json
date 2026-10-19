@@ -4,7 +4,7 @@
   "block": "pa-input",
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md input). Shared scale with pa-select/pa-textarea; this slice only exercises pa-input--{size}.",
-    "state": "success|warning|error — standalone validation border (pa-input--{state}). Core defines these three for pa-input (and pa-select); pa-textarea has none.",
+    "validation": "success|warning|error — standalone validation border (pa-input--{state}). Core defines these three for pa-input (and pa-select); pa-textarea has none.",
     "themeColor": "1..9 theme colour slot — pa-input--color-N (paints the border with --pc-palette-N). Orthogonal to state/size.",
     "type": "native input type (text|email|password|tel|url|search) — text-like inputs only. Structural: a native `type` attr, not a class. Both wrappers default to text.",
     "placeholder": "native placeholder attribute",
@@ -24,7 +24,7 @@
       "options": ["xs", "sm", "lg", "xl"],
       "produces": "pa-input--{value}"
     },
-    "state": {
+    "validation": {
       "kind": "enum",
       "options": ["success", "warning", "error"],
       "produces": "pa-input--{value}"
@@ -125,18 +125,18 @@
       "golden": "<input type=\"text\" class=\"pa-input pa-input--xl\">"
     },
     {
-      "name": "state-success",
-      "props": { "state": "success", "value": "Valid value" },
+      "name": "validation-success",
+      "props": { "validation": "success", "value": "Valid value" },
       "golden": "<input type=\"text\" value=\"Valid value\" class=\"pa-input pa-input--success\">"
     },
     {
-      "name": "state-warning",
-      "props": { "state": "warning", "value": "Check this" },
+      "name": "validation-warning",
+      "props": { "validation": "warning", "value": "Check this" },
       "golden": "<input type=\"text\" value=\"Check this\" class=\"pa-input pa-input--warning\">"
     },
     {
-      "name": "state-error",
-      "props": { "state": "error", "value": "Invalid value" },
+      "name": "validation-error",
+      "props": { "validation": "error", "value": "Invalid value" },
       "golden": "<input type=\"text\" value=\"Invalid value\" aria-invalid=\"true\" class=\"pa-input pa-input--error\">",
       "note": "The error state also emits aria-invalid=\"true\" (a11y contract — pairs with pa-input--error). Both wrappers emit it when the resolved state is error."
     },
@@ -210,7 +210,7 @@
     },
     {
       "name": "size-and-state",
-      "props": { "size": "lg", "state": "error", "value": "x" },
+      "props": { "size": "lg", "validation": "error", "value": "x" },
       "golden": "<input type=\"text\" value=\"x\" aria-invalid=\"true\" class=\"pa-input pa-input--lg pa-input--error\">",
       "note": "size + state compose — class-token order is normalized away; the error state carries aria-invalid=\"true\"."
     },

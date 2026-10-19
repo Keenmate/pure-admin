@@ -6,7 +6,7 @@
   "propsVocabulary": {
     "placement": "top|end|bottom|start — data-placement positioning hint (top default)",
     "size": "sm|lg — popover width (default = medium, no class)",
-    "alignment": "center|end — text-align of the body (RTL-aware; default = start, no class)",
+    "textAlign": "center|end — text-align of the body (RTL-aware; default = start, no class)",
     "triggerText": "default trigger button text (? by default)",
     "title": "header title text (rendered in the __header h4)",
     "content": "popover body content (slot / inner_block)"
@@ -25,7 +25,7 @@
       "produces": "pa-popover--{value}",
       "note": "medium is the default and emits no class — excluded from options"
     },
-    "alignment": {
+    "textAlign": {
       "kind": "enum",
       "options": ["center", "end"],
       "produces": "pa-popover--{value}",

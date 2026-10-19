@@ -170,7 +170,7 @@
 </div>
 
 <!-- Border Top + Full Width (profile panel style) -->
-<div class="pa-tabs pa-tabs--border-top pa-tabs--full">
+<div class="pa-tabs pa-tabs--border-top pa-tabs--justify-stretch">
   <button class="pa-tabs__item pa-tabs__item--active">
     <i class="fa-solid fa-user"></i>
     <span>Profile</span>
@@ -215,7 +215,7 @@
 
 <!-- Vertical Tabs - Centered (for icon-only or narrow tabs) -->
 <div class="pa-tabs__vertical-layout">
-  <div class="pa-tabs pa-tabs--vertical pa-tabs--centered">
+  <div class="pa-tabs pa-tabs--vertical pa-tabs--justify-center">
     <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Dashboard">
       <i class="fa-solid fa-chart-line"></i>
     </button>
@@ -337,7 +337,7 @@
 <!-- TAB ALIGNMENT -->
 
 <!-- Centered Tabs -->
-<div class="pa-tabs pa-tabs--centered">
+<div class="pa-tabs pa-tabs--justify-center">
   <button class="pa-tabs__item pa-tabs__item--active">Features</button>
   <button class="pa-tabs__item">Pricing</button>
   <button class="pa-tabs__item">Testimonials</button>
@@ -355,7 +355,7 @@
 </div>
 
 <!-- Full Width Tabs -->
-<div class="pa-tabs pa-tabs--full">
+<div class="pa-tabs pa-tabs--justify-stretch">
   <button class="pa-tabs__item pa-tabs__item--active">
     <i class="fa-solid fa-mobile-screen"></i>
     <span>Mobile</span>
@@ -595,7 +595,7 @@
 
 <!-- Vertical Icon-Only Tabs (use vertical layout wrapper, centered for icon-only, square 3x3) -->
 <div class="pa-tabs__vertical-layout">
-  <div class="pa-tabs pa-tabs--vertical pa-tabs--centered">
+  <div class="pa-tabs pa-tabs--vertical pa-tabs--justify-center">
     <button class="pa-tabs__item minwr-3 minhr-3 pa-tabs__item--active pa-tooltip" data-tooltip="Home">
       <i class="fa-solid fa-house"></i>
     </button>
@@ -1002,8 +1002,8 @@ STYLES:
                         border-bottom is removed on the container)
 
 ALIGNMENT:
-- pa-tabs--centered    (center-align tabs)
-- pa-tabs--full        (full-width tabs, equal distribution)
+- pa-tabs--justify-center    (center-align tabs)
+- pa-tabs--justify-stretch        (full-width tabs, equal distribution)
 
 OVERFLOW HANDLING:
 - (default)            (tabs wrap to multiple LINES/ROWS when constrained;
@@ -1068,6 +1068,6 @@ USAGE NOTES:
 - Icons work with all tab styles
 - Badges can be added to tabs for counts/status
 - Vertical tabs use pa-tabs__vertical-layout wrapper
-- Icon-only vertical tabs should use pa-tabs--centered modifier
+- Icon-only vertical tabs should use pa-tabs--justify-center modifier
 - First panel in vertical layouts automatically has no top padding
 -->

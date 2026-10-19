@@ -3,7 +3,7 @@
   "component": "load-more",
   "block": "pa-load-more",
   "propsVocabulary": {
-    "align": "start|center|end — justify-content of the container (core ships all three; center is also the base default)",
+    "justify": "start|center|end — justify-content of the container (core ships all three; center is also the base default)",
     "loading": "boolean — spinner + non-interactive button (pa-load-more__button--loading)",
     "count": "count text shown in pa-load-more__count, e.g. '25 of 250' — the wrapper wraps it in parentheses",
     "text": "button label text (rendered inside pa-load-more__text)",
@@ -12,7 +12,7 @@
   "goldenConventions": "Goldens encode the core snippet shape (snippets/tables.html load-more): <div class=\"pa-load-more [--align]\"> → <button class=\"pa-load-more__button [--loading]\"> → optional <span class=\"pa-load-more__spinner\"> (loading only) + <span class=\"pa-load-more__text\">LABEL</span> + optional <span class=\"pa-load-more__count\">(COUNT)</span>. ONE convention BOTH wrappers add over the static snippet: a loading button carries the native `disabled` attribute (non-interactive while loading — same spirit as button.json's 'loading buttons are disabled'; keen gained it in this slice, svelte already had it). The label is supplied explicitly in every scenario (keen via its inner_block slot inside the text span, svelte via its `text` prop) to avoid the wrappers' i18n defaults diverging (keen pureAdmin.pagination.loadMore vs svelte pureAdmin.loadMore.loadMore) — an i18n divergence, not a markup contract one. Count text avoids characters HEEx/Svelte escape differently. Attribute + class-token order and whitespace are normalized away; goldens are written for readability.",
   "features": {
     "//": "Feature→class contract authored from dist/css/main.css. `produces` with {value}; capability.mjs expands + cross-checks against main.css AND each wrapper's map + the scenario set. `produces: null` = structural/native.",
-    "align": {
+    "justify": {
       "kind": "enum",
       "options": ["start", "center", "end"],
       "produces": "pa-load-more--{value}",
@@ -62,18 +62,18 @@
       "golden": "<div class=\"pa-load-more\"><button disabled class=\"pa-load-more__button pa-load-more__button--loading\"><span class=\"pa-load-more__spinner\"></span><span class=\"pa-load-more__text\">Loading</span></button></div>"
     },
     {
-      "name": "align-start",
-      "props": { "text": "Show More", "align": "start" },
+      "name": "justify-start",
+      "props": { "text": "Show More", "justify": "start" },
       "golden": "<div class=\"pa-load-more pa-load-more--start\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Show More</span></button></div>"
     },
     {
-      "name": "align-center",
-      "props": { "text": "Show More", "align": "center" },
+      "name": "justify-center",
+      "props": { "text": "Show More", "justify": "center" },
       "golden": "<div class=\"pa-load-more pa-load-more--center\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Show More</span></button></div>"
     },
     {
-      "name": "align-end",
-      "props": { "text": "Show More", "align": "end" },
+      "name": "justify-end",
+      "props": { "text": "Show More", "justify": "end" },
       "golden": "<div class=\"pa-load-more pa-load-more--end\"><button class=\"pa-load-more__button\"><span class=\"pa-load-more__text\">Show More</span></button></div>"
     },
     {

@@ -9,7 +9,7 @@
     "block": "boolean — full-width",
     "loading": "boolean — spinner + disabled",
     "iconOnly": "boolean — square icon button; label renders as bare content",
-    "align": "start|end|center|justify",
+    "justify": "start|end|center|between",
     "themeColor": "1..9 theme colour slot (overrides variant)",
     "disabled": "boolean",
     "label": "inner text content",
@@ -94,15 +94,15 @@
       "kind": "bool",
       "produces": "pa-btn--ripple"
     },
-    "align": {
+    "justify": {
       "kind": "enum",
       "options": [
         "start",
         "end",
         "center",
-        "justify"
+        "between"
       ],
-      "produces": "pa-btn--align-{value}"
+      "produces": "pa-btn--justify-{value}"
     },
     "iconPosition": {
       "kind": "enum",
@@ -270,14 +270,14 @@
       "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary\">Next<span class=\"pa-btn__icon\">→</span></button>"
     },
     {
-      "name": "align-center",
+      "name": "justify-center",
       "props": {
         "variant": "primary",
-        "align": "center",
+        "justify": "center",
         "icon": "✓",
         "label": "Save"
       },
-      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-center\"><span class=\"pa-btn__icon\">✓</span><span class=\"pa-btn__label\">Save</span></button>"
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--justify-center\"><span class=\"pa-btn__icon\">✓</span><span class=\"pa-btn__label\">Save</span></button>"
     },
     {
       "name": "theme-color-3",
@@ -407,34 +407,34 @@
       "note": "themeColor + outline exercises the outlineProduces path (pa-btn--outline-color-{n})."
     },
     {
-      "name": "align-start",
+      "name": "justify-start",
       "props": {
         "variant": "primary",
-        "align": "start",
+        "justify": "start",
         "icon": "✓",
         "label": "Save"
       },
-      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-start\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--justify-start\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
     },
     {
-      "name": "align-end",
+      "name": "justify-end",
       "props": {
         "variant": "primary",
-        "align": "end",
+        "justify": "end",
         "icon": "✓",
         "label": "Save"
       },
-      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-end\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--justify-end\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
     },
     {
-      "name": "align-justify",
+      "name": "justify-between",
       "props": {
         "variant": "primary",
-        "align": "justify",
+        "justify": "between",
         "icon": "✓",
         "label": "Save"
       },
-      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--align-justify\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--justify-between\"><span class=\"pa-btn__icon\">✓</span>Save</button>"
     },
     {
       "name": "ripple",

@@ -4,7 +4,7 @@
   "block": "pa-select",
   "propsVocabulary": {
     "size": "xs|sm|lg|xl — height/padding/font size variant (default is the unmodified md select). Shared scale with pa-input/pa-textarea; emits pa-select--{size}.",
-    "state": "success|warning|error — validation border (pa-select--{state}). Core defines all three for pa-select (same set as pa-input).",
+    "validation": "success|warning|error — validation border (pa-select--{state}). Core defines all three for pa-select (same set as pa-input).",
     "themeColor": "1..9 theme colour slot — pa-select--color-N (paints the border with --pc-palette-N). Orthogonal to state/size.",
     "name": "native name attribute",
     "id": "native id attribute (hand-set — the normalizer keeps real ids)",
@@ -21,7 +21,7 @@
       "options": ["xs", "sm", "lg", "xl"],
       "produces": "pa-select--{value}"
     },
-    "state": {
+    "validation": {
       "kind": "enum",
       "options": ["success", "warning", "error"],
       "produces": "pa-select--{value}"
@@ -72,18 +72,18 @@
       "golden": "<select class=\"pa-select pa-select--xl\"></select>"
     },
     {
-      "name": "state-success",
-      "props": { "state": "success" },
+      "name": "validation-success",
+      "props": { "validation": "success" },
       "golden": "<select class=\"pa-select pa-select--success\"></select>"
     },
     {
-      "name": "state-warning",
-      "props": { "state": "warning" },
+      "name": "validation-warning",
+      "props": { "validation": "warning" },
       "golden": "<select class=\"pa-select pa-select--warning\"></select>"
     },
     {
-      "name": "state-error",
-      "props": { "state": "error" },
+      "name": "validation-error",
+      "props": { "validation": "error" },
       "golden": "<select aria-invalid=\"true\" class=\"pa-select pa-select--error\"></select>",
       "note": "The error state also emits aria-invalid=\"true\" (a11y contract — pairs with pa-select--error)."
     },
@@ -163,7 +163,7 @@
     },
     {
       "name": "combined",
-      "props": { "size": "sm", "state": "error", "themeColor": "3", "name": "role", "id": "role", "required": true },
+      "props": { "size": "sm", "validation": "error", "themeColor": "3", "name": "role", "id": "role", "required": true },
       "golden": "<select name=\"role\" id=\"role\" required aria-invalid=\"true\" class=\"pa-select pa-select--sm pa-select--error pa-select--color-3\"></select>",
       "note": "Stacks size + state + themeColor + native attrs to exercise class ordering + attribute passthrough together; the error state carries aria-invalid=\"true\"."
     }

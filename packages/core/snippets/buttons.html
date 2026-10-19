@@ -446,25 +446,25 @@
 <!-- BUTTON ALIGNMENT -->
 
 <!-- Start Aligned (icon flush to inline-start) -->
-<button class="pa-btn pa-btn--primary minwr-8 pa-btn--align-start">
+<button class="pa-btn pa-btn--primary minwr-8 pa-btn--justify-start">
   <span class="pa-btn__icon">✓</span>
   Save
 </button>
 
 <!-- End Aligned (icon flush to inline-end) -->
-<button class="pa-btn pa-btn--primary minwr-8 pa-btn--align-end">
+<button class="pa-btn pa-btn--primary minwr-8 pa-btn--justify-end">
   Save
   <span class="pa-btn__icon">✓</span>
 </button>
 
 <!-- Center Aligned -->
-<button class="pa-btn pa-btn--primary minwr-8 pa-btn--align-center">
+<button class="pa-btn pa-btn--primary minwr-8 pa-btn--justify-center">
   <span class="pa-btn__icon">✓</span>
   Save
 </button>
 
 <!-- Justified (space-between) -->
-<button class="pa-btn pa-btn--primary minwr-8 pa-btn--align-justify">
+<button class="pa-btn pa-btn--primary minwr-8 pa-btn--justify-between">
   <span class="pa-btn__icon">✓</span>
   Save
 </button>
@@ -553,10 +553,10 @@ LAYOUT MODIFIERS:
 
 CONTENT ALIGNMENT (the switch for justify-content inside the button —
 buttons CENTRE their content by default):
-- .pa-btn--align-start    flush-start (opt-in; icon sits at the padding edge)
-- .pa-btn--align-end      flush-end
-- .pa-btn--align-center   centred (the default; explicit) — __label flexes to fill
-- .pa-btn--align-justify  space-between (icon on one side, text on the other)
+- .pa-btn--justify-start    flush-start (opt-in; icon sits at the padding edge)
+- .pa-btn--justify-end      flush-end
+- .pa-btn--justify-center   centred (the default; explicit) — __label flexes to fill
+- .pa-btn--justify-between  space-between (icon on one side, text on the other)
 
 EFFECTS:
 - .pa-btn--ripple            enables the CSS ripple base styles
@@ -570,7 +570,7 @@ ELEMENTS:
                     (symmetric, so a leading OR trailing icon spaces the
                     same). No fixed column or per-side margins, so the icon
                     sits at the padding edge exactly like a text label.
-- .pa-btn__label    text wrapper used by --align-center to flex-fill
+- .pa-btn__label    text wrapper used by --justify-center to flex-fill
                     and centre its text within the button.
 - .pa-btn__spinner  only used inside .pa-btn--loading; CSS handles
                     positioning + animation, no extra classes needed.
@@ -579,7 +579,7 @@ LAYOUT MODEL:
 - Every .pa-btn is an inline-flex row (align-items: center,
   justify-content: center, gap: $spacing-sm) regardless of content —
   text-only, icon+label, and icon-only all lay out identically and
-  CENTRE by default. Use --align-start (etc.) to change the alignment;
+  CENTRE by default. Use --justify-start (etc.) to change the alignment;
   an icon then sits at the padding edge, aligned with a text-only label.
 
 BUTTON GROUP (.pa-btn-group):

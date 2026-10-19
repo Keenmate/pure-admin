@@ -22,14 +22,14 @@
     "headerActions": "header actions (wrapped in pa-card__actions)",
     "headerActionsCollapsed": "compact fallback for the header actions → pa-card__actions--responsive with __actions-full / __actions-collapsed",
     "titleTooltip": "boolean — tooltip on the title text showing its full text, only while truncated",
-    "titleTooltipPosition": "bottom|start|end (top = default)",
+    "titleTooltipPlacement": "bottom|start|end (top = default)",
     "titleTooltipVariant": "primary|success|warning|danger|color-1..9",
     "titleTooltipMultiline": "boolean",
     "titleTooltipIsHelp": "boolean",
     "titleTooltipIsKeyword": "boolean",
     "titleTooltipAlways": "boolean — show even when not truncated",
     "descriptionTooltip": "boolean — tooltip on the description showing its full text, only while truncated",
-    "descriptionTooltipPosition": "bottom|start|end (top = default)",
+    "descriptionTooltipPlacement": "bottom|start|end (top = default)",
     "descriptionTooltipVariant": "primary|success|warning|danger|color-1..9",
     "descriptionTooltipMultiline": "boolean",
     "descriptionTooltipIsHelp": "boolean",
@@ -60,14 +60,14 @@
     "tabs":                      { "kind": "slot", "produces": "pa-card__tabs", "note": "tab strip INSIDE the header, after the title (canonical per snippets/cards.html). Tab buttons/panels are the card-tab / card-tab-content fragments." },
     "inlineTabs":                { "kind": "bool", "produces": "pa-card__tabs--inline", "note": "compact pill style; the tab strip still lives in the header" },
     "titleTooltip":               { "kind": "bool", "produces": "pa-tooltip", "note": "tooltip ON the h3.pa-card__title-text (pa-tooltip pa-tooltip--floating + data-tooltip = its text + data-pa-tooltip-overflow → shown only while truncated)" },
-    "titleTooltipPosition":       { "kind": "enum", "options": ["bottom", "start", "end"], "produces": "pa-tooltip--{value}", "note": "top is the default (no class)" },
+    "titleTooltipPlacement":      { "kind": "enum", "options": ["bottom", "start", "end"], "produces": "pa-tooltip--{value}", "note": "top is the default (no class)" },
     "titleTooltipVariant":        { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
     "titleTooltipMultiline":      { "kind": "bool", "produces": "pa-tooltip--multiline" },
     "titleTooltipIsHelp":         { "kind": "bool", "produces": "pa-tooltip--help" },
     "titleTooltipIsKeyword":      { "kind": "bool", "produces": "pa-tooltip--keyword" },
     "titleTooltipAlways":         { "kind": "bool", "note": "drops data-pa-tooltip-overflow → shown even when the text fits" },
     "descriptionTooltip":         { "kind": "bool", "produces": "pa-tooltip", "note": "tooltip ON the p.pa-card__description (pa-tooltip pa-tooltip--floating + data-tooltip = its text + data-pa-tooltip-overflow → shown only while truncated)" },
-    "descriptionTooltipPosition": { "kind": "enum", "options": ["bottom", "start", "end"], "produces": "pa-tooltip--{value}", "note": "top is the default (no class)" },
+    "descriptionTooltipPlacement": { "kind": "enum", "options": ["bottom", "start", "end"], "produces": "pa-tooltip--{value}", "note": "top is the default (no class)" },
     "descriptionTooltipVariant":  { "kind": "enum", "options": ["primary", "success", "warning", "danger", "color-1", "color-2", "color-3", "color-4", "color-5", "color-6", "color-7", "color-8", "color-9"], "produces": "pa-tooltip--{value}" },
     "descriptionTooltipMultiline": { "kind": "bool", "produces": "pa-tooltip--multiline" },
     "descriptionTooltipIsHelp":   { "kind": "bool", "produces": "pa-tooltip--help" },
@@ -219,32 +219,32 @@
     },
     {
       "name": "title-tooltip-bottom",
-      "props": { "title": "Title", "titleTooltip": true, "titleTooltipPosition": "bottom", "body": "Body" },
+      "props": { "title": "Title", "titleTooltip": true, "titleTooltipPlacement": "bottom", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text pa-tooltip pa-tooltip--floating pa-tooltip--bottom\" data-tooltip=\"Title\" data-pa-tooltip-overflow>Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
       "name": "description-tooltip-bottom",
-      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipPosition": "bottom", "body": "Body" },
+      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipPlacement": "bottom", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description pa-tooltip pa-tooltip--floating pa-tooltip--bottom\" data-tooltip=\"Last 30 days\" data-pa-tooltip-overflow>Last 30 days</p></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
       "name": "title-tooltip-start",
-      "props": { "title": "Title", "titleTooltip": true, "titleTooltipPosition": "start", "body": "Body" },
+      "props": { "title": "Title", "titleTooltip": true, "titleTooltipPlacement": "start", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text pa-tooltip pa-tooltip--floating pa-tooltip--start\" data-tooltip=\"Title\" data-pa-tooltip-overflow>Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
       "name": "description-tooltip-start",
-      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipPosition": "start", "body": "Body" },
+      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipPlacement": "start", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description pa-tooltip pa-tooltip--floating pa-tooltip--start\" data-tooltip=\"Last 30 days\" data-pa-tooltip-overflow>Last 30 days</p></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
       "name": "title-tooltip-end",
-      "props": { "title": "Title", "titleTooltip": true, "titleTooltipPosition": "end", "body": "Body" },
+      "props": { "title": "Title", "titleTooltip": true, "titleTooltipPlacement": "end", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text pa-tooltip pa-tooltip--floating pa-tooltip--end\" data-tooltip=\"Title\" data-pa-tooltip-overflow>Title</h3></div></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {
       "name": "description-tooltip-end",
-      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipPosition": "end", "body": "Body" },
+      "props": { "title": "Title", "description": "Last 30 days", "descriptionTooltip": true, "descriptionTooltipPlacement": "end", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><p class=\"pa-card__description pa-tooltip pa-tooltip--floating pa-tooltip--end\" data-tooltip=\"Last 30 days\" data-pa-tooltip-overflow>Last 30 days</p></div><div class=\"pa-card__body\">Body</div></div>"
     },
     {

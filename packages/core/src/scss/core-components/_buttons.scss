@@ -12,7 +12,7 @@
   // buttons now lay out identically — no per-type divergence (previously
   // text-only used inline-block + text-align:center while icon buttons used
   // inline-flex + start, so the two never matched). Change the alignment with
-  // the `--align-start / -end / -center / -justify` switches (see "Button Text
+  // the `--justify-start / -end / -center / -between` switches (see "Button Text
   // Alignment"); start is the opt-in, center is the standard default.
   display: inline-flex;
   align-items: center;
@@ -379,7 +379,7 @@
   // Button always keeps its horizontal padding (0.75rem on both sides)
   // These classes control content position and remove icon padding on aligned sides
 
-  &--align-start {
+  &--justify-start {
     justify-content: flex-start;
 
     .pa-btn__icon {
@@ -387,7 +387,7 @@
     }
   }
 
-  &--align-end {
+  &--justify-end {
     justify-content: flex-end;
 
     .pa-btn__icon {
@@ -395,7 +395,7 @@
     }
   }
 
-  &--align-center {
+  &--justify-center {
     justify-content: center;
 
     .pa-btn__label {
@@ -404,7 +404,7 @@
     }
   }
 
-  &--align-justify {
+  &--justify-between {
     justify-content: space-between;
 
     .pa-btn__icon:first-child {

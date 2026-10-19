@@ -167,8 +167,8 @@
     }
   }
 
-  // Centered tabs
-  &--centered {
+  // Centered tabs (justify-content: center)
+  &--justify-center {
     justify-content: center;
 
     // For vertical tabs, center the content within each item
@@ -293,8 +293,8 @@
     }
   }
 
-  // Full width tabs
-  &--full {
+  // Stretched tabs: items share the full width
+  &--justify-stretch {
     .pa-tabs__item {
       flex: 1;
       justify-content: center;

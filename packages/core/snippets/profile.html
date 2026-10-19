@@ -214,7 +214,7 @@ to save horizontal space in the navbar.
 
         <!-- Tab strip — sits between header and body -->
         <div class="pa-profile-panel__tabs">
-            <div class="pa-tabs pa-tabs--full">
+            <div class="pa-tabs pa-tabs--justify-stretch">
                 <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
                     <span class="pa-icon pa-icon--user" aria-hidden="true"></span>
                     <span class="pa-profile-panel__tab-text">Profile</span>
@@ -282,7 +282,7 @@ to save horizontal space in the navbar.
      --icon-only on the tabs container. Keep the <span class="__tab-text">
      markup in place so removing the modifier re-enables labels. -->
 <div class="pa-profile-panel__tabs pa-profile-panel__tabs--icon-only">
-    <div class="pa-tabs pa-tabs--full">
+    <div class="pa-tabs pa-tabs--justify-stretch">
         <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile" title="Profile">
             <span class="pa-icon pa-icon--user" aria-hidden="true"></span>
             <span class="pa-profile-panel__tab-text">Profile</span>
@@ -454,7 +454,7 @@ TABS (optional — sits between __header and __body):
                                         via `title` attrs recommended).
 - .pa-profile-panel__tab-text           Text label element inside a tab
                                         (kept in markup; hidden by --icon-only).
-- Uses the shared .pa-tabs / .pa-tabs--full / .pa-tabs__item / .pa-tabs__panel
+- Uses the shared .pa-tabs / .pa-tabs--justify-stretch / .pa-tabs__item / .pa-tabs__panel
   component — see tabs.html for the full tab reference.
 
 BODY + NAV:
