@@ -2,6 +2,10 @@
   "//": "Markup-fidelity fixture for the modal component (pa-modal). NEUTRAL scenarios + the GOLDEN markup core blesses. Scope is the single modal component that keen `modal/1` and svelte `Modal.svelte` render. Goldens encode the canonical shape from packages/core/snippets/modals.html: root .pa-modal[ --variant / --banded / --top ] > .pa-modal__backdrop + .pa-modal__container[ --size ] > (.pa-modal__header > .pa-modal__title + close pa-btn) + .pa-modal__body[ --scrollable ] + (.pa-modal__footer). See ../README.md and card.json for the model.",
   "component": "modal",
   "block": "pa-modal",
+  "normalize": {
+    "//": "PER-COMPONENT wiring trims (merged onto the wrapper-wide phx-*/data-phx* defaults). keen modal/1 carries its Escape wiring on the root: data-cancel (the close JS command, shared with the close button + backdrop) and data-pa-close-on-escape (read by the PureAdminModal hook). Invisible to CSS, not part of the markup contract.",
+    "ignoreAttrs": ["data-cancel", "data-pa-close-on-escape"]
+  },
   "propsVocabulary": {
     "variant": "role colour on the ROOT (primary|success|warning|danger|info) — emits pa-modal--{variant}; colours the header via a descendant selector. There is NO pa-modal__header--{variant}. --info has no solid-header rule (band-only), but the class exists and is valid, so it's kept in the enum; pair it with banded for colour.",
     "banded": "boolean — pa-modal--banded; header AND footer wear the role colour as filled bands (needs a band role variant: success/warning/danger/info).",
