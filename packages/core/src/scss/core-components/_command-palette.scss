@@ -124,7 +124,6 @@
 
     &::placeholder {
       color: var(--pa-input-placeholder-color);
-      opacity: $opacity-muted;
     }
   }
 
@@ -605,7 +604,6 @@
 
     &::placeholder {
       color: var(--pa-input-placeholder-color);
-      opacity: $opacity-muted;
     }
 
     &::-webkit-search-decoration,

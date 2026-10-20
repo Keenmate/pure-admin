@@ -142,7 +142,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Placeholders read the contract's `--base-input-placeholder-color`** (via the new
   `--pa-input-placeholder-color`; was `--pc-text-color-2`): inputs, query editor, command palette
   and the navbar search. They now match web-multiselect, web-daterangepicker and
-  web-commandpalette, which read the same token.
+  web-commandpalette, which read the same token. The query editor's and command palette's extra
+  `opacity` (0.7 / 0.5) is gone, so they show the token as is.
 
 - **BREAKING (utilities): all physical left / right utilities are gone** (removed in
   pure-css 2.0.0-rc02) — they didn't mirror under `dir="rtl"`. Core's `utilities.scss`
@@ -257,6 +258,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the responsive card layout.
 
 ### Fixed
+
+- **`.pa-input` placeholders were the browser's grey.** The placeholder rule sat on `.pa-textarea`
+  only; `.pa-input` now has its own.
 
 - **Settings hints and sheet labels / legal text render subtle again.** They read
   `--pc-text-color-3`, which nothing defined on screen (only the sheet's print block set it), so

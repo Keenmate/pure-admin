@@ -25,6 +25,12 @@
   color: var(--pa-input-text);
   transition: border-color $transition-fast $easing-snappy;
 
+  // The contract's placeholder tone (shared with the web components) — without
+  // this .pa-input fell back to the browser's own grey.
+  &::placeholder {
+    color: var(--pa-input-placeholder-color);
+  }
+
   &:focus {
     outline: none;
     border-color: var(--pa-input-focus-border-color);
