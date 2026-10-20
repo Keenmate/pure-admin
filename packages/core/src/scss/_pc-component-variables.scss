@@ -61,6 +61,9 @@
   --pa-input-bg: var(--base-input-bg, #{$input-bg});
   --pa-input-border: var(--base-input-border-color, #{$input-border});
   --pa-input-text: var(--base-input-text-color, #{$input-text});
+  // Placeholder text — the contract token the web components read too, so core
+  // inputs and web-multiselect / -daterangepicker / -commandpalette match.
+  --pa-input-placeholder-color: var(--base-input-placeholder-color, #{$base-input-placeholder-color});
   --pa-input-focus-border-color: var(--base-primary-color, #{$input-focus-border-color});
   // Focus halo tone — its own contract token (not the --pc-primary-bg-subtle fill
   // tint, which themes set far stronger). Each halo keeps its own size.

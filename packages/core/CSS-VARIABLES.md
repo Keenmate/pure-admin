@@ -189,6 +189,7 @@ on `.pc-mode-*`, or on any card ancestor to retune without a recompile.
 | `--pa-input-bg` | Input background |
 | `--pa-input-border` | Input border |
 | `--pa-input-text` | Input text |
+| `--pa-input-placeholder-color` | Placeholder text (inputs, query editor, command palette) | `--base-input-placeholder-color` |
 | `--pa-input-focus-border-color` | Input focus border |
 | `--pa-select-focus-border-color` | Select focus border |
 | `--pa-textarea-focus-border-color` | Textarea focus border |

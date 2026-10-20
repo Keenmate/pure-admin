@@ -139,8 +139,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `-3`. In dark themes the tertiary labels get dimmer (Corporate `#9199a3` → `#64748b`) — that is
   the theme's own step 3; tune `$base-text-color-3` if it reads too faint. Utilities for every
   step: `.text-body`, `.text-muted`, `.text-subtle`, `.text-faint`.
-- **Placeholders use `--pc-text-color-3`** (was `-2`): inputs, query editor, command palette and
-  the navbar search, so a placeholder reads lighter than typed text.
+- **Placeholders read the contract's `--base-input-placeholder-color`** (via the new
+  `--pa-input-placeholder-color`; was `--pc-text-color-2`): inputs, query editor, command palette
+  and the navbar search. They now match web-multiselect, web-daterangepicker and
+  web-commandpalette, which read the same token.
 
 - **BREAKING (utilities): all physical left / right utilities are gone** (removed in
   pure-css 2.0.0-rc02) — they didn't mirror under `dir="rtl"`. Core's `utilities.scss`

@@ -148,7 +148,7 @@
 
   &:empty::before {
     content: attr(data-placeholder);
-    color: var(--pc-text-color-3);
+    color: var(--pa-input-placeholder-color);
     opacity: 0.7;
     pointer-events: none;
   }
@@ -222,7 +222,7 @@
     }
 
     &::placeholder {
-      color: var(--pc-text-color-3);
+      color: var(--pa-input-placeholder-color);
       opacity: 0.7;
     }
   }
