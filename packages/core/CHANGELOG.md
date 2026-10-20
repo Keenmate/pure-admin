@@ -256,9 +256,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **Settings hints, sheet labels / legal text and table item descriptions render subtle again.**
-  They read `--pc-text-color-3`, which nothing defined on screen (only the sheet's print block set
-  it), so they took the parent's colour. pure-css 2.0.0-rc04 defines it.
+- **Settings hints and sheet labels / legal text render subtle again.** They read
+  `--pc-text-color-3`, which nothing defined on screen (only the sheet's print block set it), so
+  they took the parent's colour. pure-css 2.0.0-rc04 defines it. Table item descriptions
+  (`.pa-table__item-desc`) had the same bug; they are supporting text, so they now use
+  `--pc-text-color-2` (muted) instead.
 
 - **Inputs and selects no longer clip text at `sm` / `lg` / `xl`.** Each size had a fixed height
   (`$base-input-size-*-height`) **and** fixed vertical padding, leaving less room than the font
