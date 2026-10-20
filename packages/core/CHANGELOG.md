@@ -133,6 +133,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   places), which painted the role grey instead of the theme's `--pc-text-color-2`. They now use
   `.text-muted`. The paragraph fidelity fixture follows (`color="secondary"` → `text-muted`).
 
+- **BREAKING: one text scale, `--pc-text-color-1..4`** (pure-css 2.0.0-rc04). The alpha tiers
+  `--pc-text-strong` / `--pc-text-secondary` / `--pc-text-tertiary` are gone; their 24 uses (KPI
+  widgets, range-group ticks and labels, two button spots) now read `--pc-text-color-1` / `-2` /
+  `-3`. In dark themes the tertiary labels get dimmer (Corporate `#9199a3` → `#64748b`) — that is
+  the theme's own step 3; tune `$base-text-color-3` if it reads too faint. Utilities for every
+  step: `.text-body`, `.text-muted`, `.text-subtle`, `.text-faint`.
+- **Placeholders use `--pc-text-color-3`** (was `-2`): inputs, query editor, command palette and
+  the navbar search, so a placeholder reads lighter than typed text.
+
 - **BREAKING (utilities): all physical left / right utilities are gone** (removed in
   pure-css 2.0.0-rc02) — they didn't mirror under `dir="rtl"`. Core's `utilities.scss`
   forwards pure-css's utilities, so every theme stops shipping them. Renames (identical in
@@ -246,6 +255,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the responsive card layout.
 
 ### Fixed
+
+- **Settings hints, sheet labels / legal text and table item descriptions render subtle again.**
+  They read `--pc-text-color-3`, which nothing defined on screen (only the sheet's print block set
+  it), so they took the parent's colour. pure-css 2.0.0-rc04 defines it.
 
 - **Inputs and selects no longer clip text at `sm` / `lg` / `xl`.** Each size had a fixed height
   (`$base-input-size-*-height`) **and** fixed vertical padding, leaving less room than the font

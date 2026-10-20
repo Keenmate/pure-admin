@@ -368,7 +368,7 @@ to the framework default shown, so a `var()` reference never collapses to nothin
 | `--pa-range-thumb-border-hover` | Handle colour on hover | `--pc-primary-bg-subtle-hover` |
 | `--pa-range-focus-ring` | Thumb focus / active ring | `--pc-primary-bg-subtle` |
 | `--pa-range-tick` | Minor tick-mark colour | `--pc-border-color` |
-| `--pa-range-tick-major` | Major tick-mark colour | `--pc-text-tertiary` |
+| `--pa-range-tick-major` | Major tick-mark colour | `--pc-text-color-3` |
 | `--pa-range-track-height` | Track / fill thickness | `0.4rem` |
 | `--pa-range-thumb-size` | Default round handle diameter | `1.6rem` |
 | `--pa-range-group-panel-min-width` | Floating panel min width | `32rem` |

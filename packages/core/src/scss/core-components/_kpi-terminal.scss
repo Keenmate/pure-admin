@@ -105,7 +105,7 @@
   margin-bottom: 0.3rem;
 }
 .pa-kpi-tile__id {
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
   font-weight: 600;
 }
 .pa-kpi-tile__status {
@@ -141,7 +141,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--pc-text-strong);
+  color: var(--pc-text-color-1);
   margin-bottom: 0.8rem;
 }
 
@@ -175,7 +175,7 @@
 .pa-kpi-tile__unit {
   font-size: 1.6rem;
   font-weight: 500;
-  color: var(--pc-text-secondary);
+  color: var(--pc-text-color-2);
 }
 
 /* ----- Previous-value + delta row -------------------------------------- */
@@ -187,7 +187,7 @@
   font-size: 1.3rem;
   margin-top: auto;     /* push to bottom of flex column */
   margin-bottom: 0.4rem;
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
 }
 .pa-kpi-tile__delta {
   &--very-positive { color: var(--pa-very-positive); }

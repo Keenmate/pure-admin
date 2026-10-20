@@ -75,7 +75,7 @@
   &--ghost {
     background-color: transparent;
     border-color: transparent;
-    color: var(--pc-text-secondary);
+    color: var(--pc-text-color-2);
 
     &:hover {
       background-color: var(--pc-surface-hover);
@@ -682,7 +682,7 @@
     font-weight: $font-weight-semibold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--pc-text-secondary);
+    color: var(--pc-text-color-2);
     white-space: nowrap;
   }
 }

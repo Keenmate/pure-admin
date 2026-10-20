@@ -18,7 +18,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--pc-text-secondary);
+  color: var(--pc-text-color-2);
 
   &__dot {
     width: 0.8rem;
@@ -57,7 +57,7 @@
   gap: 1rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
-  color: var(--pc-text-secondary);
+  color: var(--pc-text-color-2);
 
   strong {
     color: var(--pc-text-color-1);

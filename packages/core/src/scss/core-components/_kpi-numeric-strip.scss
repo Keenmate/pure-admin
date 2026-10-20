@@ -59,7 +59,7 @@ $strip-col-target: minmax(0, 1.6fr);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
 
   &--num { text-align: end; }
 }
@@ -102,7 +102,7 @@ $strip-col-target: minmax(0, 1.6fr);
   font-family: var(--base-font-family-mono);
   font-size: 1.5rem;
   font-weight: 500;
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
   text-align: end;
   white-space: nowrap;
 }
@@ -151,7 +151,7 @@ $strip-col-target: minmax(0, 1.6fr);
   font-family: var(--base-font-family-mono);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--pc-text-secondary);
+  color: var(--pc-text-color-2);
   align-self: flex-end;
   line-height: 1;
 }

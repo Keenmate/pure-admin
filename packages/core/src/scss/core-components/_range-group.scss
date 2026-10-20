@@ -42,7 +42,7 @@
 //   --pa-range-thumb-border-hover   handle on hover         (→ --pc-primary-color-hover)
 //   --pa-range-focus-ring           thumb focus/active ring (→ --pc-primary-bg-subtle)
 //   --pa-range-tick                 minor tick-mark colour  (→ --pc-border-color)
-//   --pa-range-tick-major           major tick-mark colour  (→ --pc-text-tertiary)
+//   --pa-range-tick-major           major tick-mark colour  (→ --pc-text-color-3)
 //   --pa-range-track-height         track/fill thickness    (→ 0.4rem)
 //   --pa-range-thumb-size           default round handle Ø  (→ 1.6rem)
 //   --pa-range-group-panel-min-width  floating panel width  (→ 32rem)
@@ -158,7 +158,7 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   width: $range-tick-major-width;
   height: $range-tick-major-height;
   margin-inline-start: calc(#{$range-tick-major-width} / -2);
-  background-color: var(--pa-range-tick-major, var(--pc-text-tertiary));
+  background-color: var(--pa-range-tick-major, var(--pc-text-color-3));
 }
 
 // Labels (opt-in via data-tick-labels). Sit in a band below the track; JS
@@ -176,7 +176,7 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   inset-inline-start: var(--_pos, 0%);
   transform: translateX(-50%);   // symmetric box centring; position flips via inset
   font-size: $font-size-2xs;
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
@@ -425,7 +425,7 @@ $range-group-panel-row-gap:    $spacing-lg;
   font-weight: $font-weight-semibold;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
 }
 
 .pa-range-group__seg-value {
@@ -436,13 +436,13 @@ $range-group-panel-row-gap:    $spacing-lg;
 
 // "Any" placeholder value — muted so active dimensions read as the signal.
 .pa-range-group__seg-value--empty {
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
   font-weight: $font-weight-normal;
 }
 
 // The " / " separators between segments.
 .pa-range-group__seg-sep {
-  color: var(--pc-text-tertiary);
+  color: var(--pc-text-color-3);
   margin-inline: 0.4rem;
 }
 
@@ -453,7 +453,7 @@ $range-group-panel-row-gap:    $spacing-lg;
   @include pa-icon-mask(var(--pa-icon-chevron));
   --pa-icon-size: #{$font-size-xs};
   flex-shrink: 0;
-  color: var(--pc-text-secondary);
+  color: var(--pc-text-color-2);
   transform: rotate(var(--pa-range-group-caret-rotate-closed, 90deg));
   transition: transform 0.2s ease;
 }
@@ -508,7 +508,7 @@ $range-group-panel-row-gap:    $spacing-lg;
   color: var(--pa-range-fill, var(--pc-primary-color));
 
   &.pa-range-group__row-value--empty {
-    color: var(--pc-text-tertiary);
+    color: var(--pc-text-color-3);
   }
 }
 
