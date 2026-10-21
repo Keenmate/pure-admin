@@ -292,7 +292,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   of `--pa-checkbox-checkmark-color` on `--pa-checkbox-bg-checked`, so it scales with the size
   modifiers. Markup is unchanged. Disabled works like the checkbox: `.pa-radio--disabled` on the
   label and/or the native `disabled` attribute on the input (the fidelity contract, the forms
-  snippet and the catalog now list the modifier; the wrappers emit both when disabled).
+  snippet and the catalog now list the modifier; svelte-pure-admin and keen-pure-admin still
+  emit only the attribute — their radio fidelity goldens need the class added).
 
 - **Splitter: the JS ignored theme / inline rail-size overrides.** `splitter.js` read
   `--pc-splitter-rail-size`, but the stylesheet emits `--pa-splitter-rail-size` (the JS string
