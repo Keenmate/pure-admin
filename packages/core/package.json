@@ -53,7 +53,7 @@
   "author": "KeenMate",
   "license": "MIT",
   "dependencies": {
-    "@keenmate/pure-css": "^2.0.0-rc02"
+    "@keenmate/pure-css": "^2.0.0-rc04"
   },
   "peerDependencies": {
     "sass": "^1.0.0"
