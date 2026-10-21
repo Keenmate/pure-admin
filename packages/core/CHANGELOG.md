@@ -290,9 +290,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   checkboxes). It now uses `appearance: none` with the same `--pa-checkbox-*` border, fill,
   hover, focus and disabled treatment as `.pa-checkbox`; the selected dot is a radial gradient
   of `--pa-checkbox-checkmark-color` on `--pa-checkbox-bg-checked`, so it scales with the size
-  modifiers. Markup is unchanged. Disabled is the native `disabled` attribute only — the copy of
-  the checkbox rule had added a `.pa-radio--disabled` modifier that the radio contract (and the
-  wrappers) don't have; it is gone again.
+  modifiers. Markup is unchanged. Disabled works like the checkbox: `.pa-radio--disabled` on the
+  label and/or the native `disabled` attribute on the input (the fidelity contract, the forms
+  snippet and the catalog now list the modifier; the wrappers emit both when disabled).
 
 - **Splitter: the JS ignored theme / inline rail-size overrides.** `splitter.js` read
   `--pc-splitter-rail-size`, but the stylesheet emits `--pa-splitter-rail-size` (the JS string

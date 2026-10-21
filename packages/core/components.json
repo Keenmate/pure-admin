@@ -4,7 +4,7 @@
   "totals": {
     "components": 60,
     "blocks": 148,
-    "selectors": 1390,
+    "selectors": 1391,
     "experimental": 1
   },
   "categories": [
@@ -659,6 +659,7 @@
         "pa-radio__label"
       ],
       "modifiers": [
+        "pa-radio--disabled",
         "pa-radio--label-end",
         "pa-radio--label-start",
         "pa-radio--label-top",

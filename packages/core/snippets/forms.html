@@ -257,7 +257,7 @@ via JS (the SCSS listens for `input:indeterminate`):
 <div class="pa-radio-group">
   <label class="pa-radio"><input type="radio" name="radioGroup" checked> <span class="pa-radio__label">Option 1</span></label>
   <label class="pa-radio"><input type="radio" name="radioGroup"> <span class="pa-radio__label">Option 2</span></label>
-  <label class="pa-radio"><input type="radio" name="radioGroup" disabled> <span class="pa-radio__label">Option 3 (disabled)</span></label>
+  <label class="pa-radio pa-radio--disabled"><input type="radio" name="radioGroup" disabled> <span class="pa-radio__label">Option 3 (disabled)</span></label>
 </div>
 
 <!-- Label position (needs .pa-radio__label). Default is label-end. -->
@@ -592,6 +592,9 @@ RADIO:
 - .pa-radio--label-end         Label after the input (DEFAULT).
 - .pa-radio--label-start       Label before the input.
 - .pa-radio--label-top         Label stacked above the input.
+- .pa-radio--disabled          Manual disabled style (same as checkbox).
+                               (Also auto-applied via :has(input:disabled),
+                               so input[disabled] alone is enough.)
 - Required: `required` on the <input>. STANDALONE radio → asterisk on its own
   .pa-radio__label. Inside a .pa-radio-group → the marker moves to the group's
   heading <label> and per-option markers are suppressed (hybrid placement — see

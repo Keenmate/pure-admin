@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1390** class selectors.
+Framework version **3.3.0-rc07** · **60** components · **148** blocks · **1391** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -266,7 +266,7 @@ Custom-styled radio and radio group.
 
 - **Blocks:** `pa-radio`, `pa-radio-group`
 - **Elements:** `pa-radio__label`
-- **Modifiers / states:** `pa-radio--label-end`, `pa-radio--label-start`, `pa-radio--label-top`, `pa-radio--lg`, `pa-radio--sm`, `pa-radio--xl`, `pa-radio--xs`, `pa-radio-group--2col`, `pa-radio-group--3col`, `pa-radio-group--grid`, `pa-radio-group--horizontal`
+- **Modifiers / states:** `pa-radio--disabled`, `pa-radio--label-end`, `pa-radio--label-start`, `pa-radio--label-top`, `pa-radio--lg`, `pa-radio--sm`, `pa-radio--xl`, `pa-radio--xs`, `pa-radio-group--2col`, `pa-radio-group--3col`, `pa-radio-group--grid`, `pa-radio-group--horizontal`
 - **SCSS:** `core-components/forms/_checkboxes-radios.scss`
 - **Snippet:** `forms.html`
 - **Demo:** ✗ none
