@@ -47,13 +47,13 @@
 
 
   &--primary {
-    background-color: var(--pc-primary-color);
-    border-color: var(--pc-primary-color);
+    background-color: var(--pa-btn-primary-bg);
+    border-color: var(--pa-btn-primary-bg);
     color: var(--pa-btn-primary-text);
 
     &:hover {
-      background-color: var(--pc-primary-color);
-      filter: brightness($btn-hover-brightness);
+      background-color: var(--pa-btn-primary-bg-hover);
+      border-color: var(--pa-btn-primary-bg-hover);
     }
   }
 
@@ -269,7 +269,7 @@
 
   // Button states
   &:disabled {
-    opacity: $btn-disabled-opacity;
+    opacity: var(--base-disabled-opacity, #{$opacity-disabled});
     cursor: not-allowed;
     transform: none !important;
   }

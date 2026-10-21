@@ -53,6 +53,6 @@
 }
 
 .pa-filter-card--disabled {
-  opacity: 0.5;
+  opacity: var(--base-disabled-opacity, #{$opacity-disabled});
   pointer-events: none;
 }

@@ -185,7 +185,7 @@
   // Disabled state
   &--disabled,
   &:has(input:disabled) {
-    opacity: 0.5;
+    opacity: var(--base-disabled-opacity, #{$opacity-disabled});
     cursor: not-allowed;
 
     .pa-checkbox__box {
@@ -272,7 +272,7 @@
   // Disabled state (matches .pa-checkbox)
   &--disabled,
   &:has(input:disabled) {
-    opacity: 0.5;
+    opacity: var(--base-disabled-opacity, #{$opacity-disabled});
     cursor: not-allowed;
 
     input {

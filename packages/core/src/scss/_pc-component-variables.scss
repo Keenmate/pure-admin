@@ -186,9 +186,9 @@
   // =========================================================================
 
   // Secondary
-  --pa-btn-secondary-bg: #{$btn-secondary-bg};
-  --pa-btn-secondary-bg-hover: #{$btn-secondary-bg-hover};
-  --pa-btn-secondary-text: #{$btn-secondary-text};
+  --pa-btn-secondary-bg: var(--base-secondary-color, #{$btn-secondary-bg});
+  --pa-btn-secondary-bg-hover: var(--base-secondary-color-hover, #{$btn-secondary-bg-hover});
+  --pa-btn-secondary-text: var(--base-on-secondary-text-color, #{$btn-secondary-text});
   --pa-btn-secondary-outline-color: var(--pa-btn-secondary-bg);
 
   // Role identities — -bg references the role colour (mode-invariant). The

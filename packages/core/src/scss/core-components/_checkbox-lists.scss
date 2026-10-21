@@ -140,7 +140,7 @@
 
 // Disabled state styling (feature not available)
 .pa-checkbox-list__item--disabled {
-  opacity: 0.5;
+  opacity: var(--base-disabled-opacity, #{$opacity-disabled});
   cursor: not-allowed;
 
   &:hover {
@@ -163,7 +163,7 @@
 
   .pa-checkbox-list__checkbox {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: var(--base-disabled-opacity, #{$opacity-disabled});
   }
 
   .pa-checkbox-list__label {

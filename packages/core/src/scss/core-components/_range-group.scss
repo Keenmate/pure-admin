@@ -361,7 +361,7 @@ $range-lg-ridge-h:      1.2rem;
 }
 
 .pa-range--disabled {
-  opacity: 0.5;
+  opacity: var(--base-disabled-opacity, #{$opacity-disabled});
   pointer-events: none;
 }
 

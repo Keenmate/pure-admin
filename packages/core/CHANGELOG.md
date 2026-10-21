@@ -139,6 +139,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `-3`. In dark themes the tertiary labels get dimmer (Corporate `#9199a3` → `#64748b`) — that is
   the theme's own step 3; tune `$base-text-color-3` if it reads too faint. Utilities for every
   step: `.text-body`, `.text-muted`, `.text-subtle`, `.text-faint`.
+- **Buttons follow the full role contract** (base-css-variables 2.0.0-rc03 via pure-css 2.0.0-rc04).
+  `.pa-btn--primary` paints `--pa-btn-primary-bg` / `-bg-hover` (it painted `--pc-primary-color` and
+  hovered with a brightness filter, so a theme's `--pa-btn-primary-bg` never showed and its text was
+  picked for a different fill — express dark drew black on red). The secondary button tokens read
+  `--base-secondary-color(-hover)` / `--base-on-secondary-text-color` like the other roles. Text on
+  every role fill is the contract's derived black / white.
+- **One disabled fade, `--base-disabled-opacity`** (0.65): disabled buttons, checkboxes, radios,
+  checkbox-list items (and locked checkboxes), filter cards and ranges (were 0.5–0.65).
 - **Placeholders read the contract's `--base-input-placeholder-color`** (via the new
   `--pa-input-placeholder-color`; was `--pc-text-color-2`): inputs, query editor, command palette
   and the navbar search. They now match web-multiselect, web-daterangepicker and
