@@ -269,8 +269,7 @@
     border-color: var(--pa-checkbox-border-color-hover);
   }
 
-  // Disabled state (matches .pa-checkbox)
-  &--disabled,
+  // Disabled state: the native attribute only — radio has no --disabled modifier
   &:has(input:disabled) {
     opacity: var(--base-disabled-opacity, #{$opacity-disabled});
     cursor: not-allowed;
