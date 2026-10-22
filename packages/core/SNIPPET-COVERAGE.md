@@ -14,7 +14,7 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 
 | Component | Snippet | Coverage | Ref block | Missing selectors |
 |---|---|:--:|:--:|---|
-| Button | buttons.html | 51/55 (93%) | ✓ | `pa-btn-split__item--info`, `pa-btn-split__item--primary`, `pa-btn-split__item--secondary`, `pa-btn-split__item--warning` |
+| Button | buttons.html | 55/59 (93%) | ✓ | `pa-btn-split__item--info`, `pa-btn-split__item--primary`, `pa-btn-split__item--secondary`, `pa-btn-split__item--warning` |
 
 ## Gaps — components with no snippet
 

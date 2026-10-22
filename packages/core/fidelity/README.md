@@ -38,7 +38,7 @@ and text content.
 **Noise (normalized away):** HTML comments (Svelte SSR block anchors, LiveView
 markers), `phx-*` / `data-phx*` attributes, attribute order, class-token order,
 whitespace, and boolean/presence-attr spelling (`disabled` ≡ `disabled=""` ≡
-`disabled="true"`; `data-ripple` likewise). See `lib/normalize.mjs`.
+`disabled="true"`). See `lib/normalize.mjs`.
 
 Noise comes in **two layers**. The above are **wrapper-wide** — wiring every
 component of a wrapper emits, always dropped. A fixture may also declare

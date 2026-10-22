@@ -187,6 +187,12 @@
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__body\">Body</div><div class=\"pa-card__footer\"><div class=\"pa-card__actions\">Actions</div></div></div>"
     },
     {
+      "name": "footer-with-actions",
+      "props": { "body": "Body", "footer": "Footer", "footerActions": "Actions" },
+      "golden": "<div class=\"pa-card\"><div class=\"pa-card__body\">Body</div><div class=\"pa-card__footer\">Footer<div class=\"pa-card__actions\">Actions</div></div></div>",
+      "note": "Leading footer content and the actions slot combine: content on the left, .pa-card__actions pinned to the end (margin-inline-start: auto). svelte previously rendered only one of the two."
+    },
+    {
       "name": "tabs",
       "props": { "title": "Title", "tabs": "Tabs", "body": "Body" },
       "golden": "<div class=\"pa-card\"><div class=\"pa-card__header\"><div class=\"pa-card__title\"><h3 class=\"pa-card__title-text\">Title</h3></div><div class=\"pa-card__tabs\">Tabs</div></div><div class=\"pa-card__body\">Body</div></div>",

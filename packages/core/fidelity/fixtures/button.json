@@ -94,6 +94,12 @@
       "kind": "bool",
       "produces": "pa-btn--ripple"
     },
+    "rippleType": {
+      "kind": "enum",
+      "options": ["center", "pulse", "double-pulse"],
+      "produces": "pa-btn--ripple-{value}",
+      "note": "which ripple design, on top of ripple=true (absent = grows from the click point): center = always from the middle, pulse = a halo of the fill past the edges, double-pulse = two halos one after the other"
+    },
     "justify": {
       "kind": "enum",
       "options": [
@@ -443,8 +449,23 @@
         "ripple": true,
         "label": "Ripple"
       },
-      "golden": "<button type=\"button\" data-ripple class=\"pa-btn pa-btn--primary pa-btn--ripple\">Ripple</button>",
-      "note": "pa-btn--ripple is the CSS base; data-ripple is the runtime hook the ripple JS keys off to add pa-btn--ripple-active on click. It's a PRESENCE flag — value is irrelevant — so the normalizer treats data-ripple as boolean (svelte emits =\"true\", keen emits =\"\"; both ≡ bare)."
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--ripple\">Ripple</button>",
+      "note": "pa-btn--ripple is the whole contract: the class enables the CSS ripple and core's src/js/ripple.js (delegated document listener) adds pa-btn--ripple-active on click. No data-ripple attribute (removed in 3.3.0-rc09)."
+    },
+    {
+      "name": "ripple-center",
+      "props": { "variant": "primary", "ripple": true, "rippleType": "center", "label": "Ripple" },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-center\">Ripple</button>"
+    },
+    {
+      "name": "ripple-pulse",
+      "props": { "variant": "primary", "ripple": true, "rippleType": "pulse", "label": "Ripple" },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-pulse\">Ripple</button>"
+    },
+    {
+      "name": "ripple-double-pulse",
+      "props": { "variant": "primary", "ripple": true, "rippleType": "double-pulse", "label": "Ripple" },
+      "golden": "<button type=\"button\" class=\"pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-double-pulse\">Ripple</button>"
     },
     {
       "name": "input-group-button",

@@ -23,6 +23,11 @@
       "produces": "pa-btn-group--{value}",
       "note": "cross-axis alignment, meaningful on a vertical group"
     },
+    "compact": {
+      "kind": "bool",
+      "produces": "pa-btn-group--compact",
+      "note": "tight 3px gap ($btn-group-compact-gap) for small-button clusters such as table row actions; the default gap is 8px"
+    },
     "nowrap": {
       "kind": "bool",
       "produces": "pa-btn-group--nowrap"
@@ -82,6 +87,11 @@
       "name": "nowrap",
       "props": { "nowrap": true, "content": "Buttons" },
       "golden": "<div class=\"pa-btn-group pa-btn-group--nowrap\">Buttons</div>"
+    },
+    {
+      "name": "compact",
+      "props": { "compact": true, "content": "Buttons" },
+      "golden": "<div class=\"pa-btn-group pa-btn-group--compact\">Buttons</div>"
     },
     {
       "name": "responsive-md-vertical",

@@ -247,12 +247,13 @@
   <div class="pa-card__body">Card content.</div>
 </div>
 
-<!-- …want the SEGMENTED (joined-corner) button look? Nest .pa-btn-group
-     INSIDE .pa-card__actions. Don't use .pa-btn-group as the direct header
-     child — it's a general-purpose button-cluster component, not the card's
-     actions slot; putting it straight in the header only "works" because the
-     header happens to also pin .pa-btn-group to flex-shrink: 0, and it drags
-     the attached-button styling in whether you want it or not. -->
+<!-- …need a button group's own options (--compact 3px gap, --vertical,
+     --nowrap)? Nest .pa-btn-group INSIDE .pa-card__actions. Don't use
+     .pa-btn-group as the direct header child — it's a general-purpose
+     button-cluster component, not the card's actions slot; putting it
+     straight in the header only "works" because the header happens to also
+     pin .pa-btn-group to flex-shrink: 0. Plain buttons need no group: the
+     actions slot already spaces them (8px, the same as .pa-btn-group). -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
@@ -677,11 +678,11 @@ SUB-ELEMENTS:
 - .pa-card__actions            THE canonical header actions slot. Button/
                                control container (gap + align-center);
                                flex-shrink: 0 inside header. Use this for any
-                               set of header controls. For the segmented
-                               (joined-corner) look, nest a .pa-btn-group
-                               INSIDE it — don't put .pa-btn-group straight in
-                               the header (it's a generic button cluster, not
-                               the actions slot).
+                               set of header controls (8px gap). Need a
+                               group's options (--compact, --vertical)? Nest
+                               a .pa-btn-group INSIDE it — don't put
+                               .pa-btn-group straight in the header (it's a
+                               generic button cluster, not the actions slot).
 - .pa-card__meta               Muted secondary text (dates, byline, etc.).
 
 TITLE SUB-COMPONENT (the canonical header title — use it for EVERY card):

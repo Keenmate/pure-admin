@@ -126,28 +126,15 @@
 </div>
 
 
-<!-- BUTTON GROUP GAP VARIANTS -->
-<!-- Use gap-* utility classes to adjust spacing -->
+<!-- BUTTON GROUP GAP -->
+<!-- Default gap is 8px — the same as every other button row (.pa-card__actions,
+     card / detail-panel footers). Use it for any row of independent buttons. -->
 
-<!-- Compact Gap (2px) -->
-<div class="pa-btn-group gap-2">
-  <button class="pa-btn pa-btn--primary">A</button>
-  <button class="pa-btn pa-btn--primary">B</button>
-  <button class="pa-btn pa-btn--primary">C</button>
-</div>
-
-<!-- Default Gap (3px) -->
-<div class="pa-btn-group">
-  <button class="pa-btn pa-btn--primary">A</button>
-  <button class="pa-btn pa-btn--primary">B</button>
-  <button class="pa-btn pa-btn--primary">C</button>
-</div>
-
-<!-- Loose Gap (8px) -->
-<div class="pa-btn-group gap-8">
-  <button class="pa-btn pa-btn--primary">A</button>
-  <button class="pa-btn pa-btn--primary">B</button>
-  <button class="pa-btn pa-btn--primary">C</button>
+<!-- Compact (3px) — a tight cluster of small buttons, e.g. table row actions -->
+<div class="pa-btn-group pa-btn-group--compact">
+  <button class="pa-btn pa-btn--primary pa-btn--xs pa-btn--icon-only" title="View">V</button>
+  <button class="pa-btn pa-btn--secondary pa-btn--xs pa-btn--icon-only" title="Edit">E</button>
+  <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" title="Delete">D</button>
 </div>
 
 
@@ -473,26 +460,54 @@
 
 <!-- INTERACTIVE BUTTONS -->
 
-<!-- Ripple Effect Button -->
-<button class="pa-btn pa-btn--primary pa-btn--ripple" data-ripple>
+<!-- Ripple Effect Button (grows from the click point) -->
+<button class="pa-btn pa-btn--primary pa-btn--ripple">
   Primary Ripple
 </button>
 
+<!-- Ripple variants: always from the centre / a halo past the edges -->
+<button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-center">Centred</button>
+<button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-pulse">Pulse</button>
+<button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-double-pulse">Double pulse</button>
+
+<!-- Custom ripple type: no JS, no registration. Define .pa-btn--ripple-<name>
+     in your own CSS with an animation on .pa-btn--ripple-active (on ::before,
+     ::after or the button). ripple.js sets --pa-ripple-x / -y / -size and
+     removes the class when the longest animation (duration + delay) ends.
+     Wrappers pass any name: <Button isRipple rippleType="wave"> (svelte),
+     <.button is_ripple ripple_type="wave"> (keen).
+
+     .pa-btn--ripple-wave::before {
+       background: transparent;
+       border: 2px solid currentColor;     // a ring instead of a filled ink
+     }
+     .pa-btn--ripple-wave.pa-btn--ripple-active::before {
+       animation: app-ripple-wave 0.6s ease-out;
+     }
+     @keyframes app-ripple-wave {
+       from { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+       to   { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+     }
+-->
+<button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-wave">Wave (custom)</button>
+
 <!-- Button with Loading Demo -->
-<button class="pa-btn pa-btn--primary pa-btn--ripple" data-loading-demo data-ripple>
+<button class="pa-btn pa-btn--primary pa-btn--ripple" data-loading-demo>
   Save Changes
 </button>
 
 <!--
-pa-btn--ripple enables the CSS ripple base styles; pa-btn--ripple-active is
-the class that triggers the expansion, added/removed at click time by JS.
-data-ripple is the runtime HOOK attribute that JS keys off to know which
-buttons should ripple — a functional attribute (only its presence matters,
-not its value), NOT a class hook. Core ships no ripple JS itself, so on a
-core-only page it's your own script (or a wrapper library's ripple hook)
-that reads data-ripple and toggles pa-btn--ripple-active; the demo uses
-demo/js for this. data-loading-demo, by contrast, IS demo-only wiring — the
-demo's fake-loading toggle — and is not part of any framework contract.
+pa-btn--ripple is the whole contract: the class enables the CSS ripple, and
+core's src/js/ripple.js (one delegated document click listener — include it
+once per page) places it at the click point, adds pa-btn--ripple-active and
+removes it when the animation ends (one grow-and-fade, $ripple-duration).
+Optional modifier on top: --ripple-center (always from the middle) or
+--ripple-pulse (a halo of the fill past the edges) / --ripple-double-pulse
+(two halos). Buttons rendered later
+ripple too; no init call, no extra attribute. pureAdmin.ripple.play(btn)
+triggers it programmatically.
+data-loading-demo is demo-only wiring — the demo's fake-loading toggle — and
+is not part of any framework contract.
 -->
 
 
@@ -560,10 +575,15 @@ buttons CENTRE their content by default):
 - .pa-btn--justify-between  space-between (icon on one side, text on the other)
 
 EFFECTS:
-- .pa-btn--ripple            enables the CSS ripple base styles
-- .pa-btn--ripple-active     added/removed by your own JS to trigger the
-                             ripple expansion (see note above about
-                             data-ripple which is a demo-wiring attribute)
+- .pa-btn--ripple            enables the ripple (grows from the click point)
+- .pa-btn--ripple-center     + --ripple: always grows from the middle
+- .pa-btn--ripple-pulse      + --ripple: a halo of the fill grows past the edges
+- .pa-btn--ripple-double-pulse  + --ripple: two halos, the second
+                             $ripple-double-pulse-delay (0.15s) later
+- .pa-btn--ripple-<name>     + --ripple: your own type, defined in app CSS
+                             (see "Custom ripple type" above)
+- .pa-btn--ripple-active     added/removed by src/js/ripple.js on click to
+                             run the expansion (never author it)
 
 ELEMENTS:
 - .pa-btn__icon     icon container. Natural width, centred on itself; the
@@ -584,15 +604,17 @@ LAYOUT MODEL:
   an icon then sits at the padding edge, aligned with a text-only label.
 
 BUTTON GROUP (.pa-btn-group):
-- default                  inline-flex, wrap, $btn-group-gap, aligned centre
+- default                  inline-flex, wrap, $btn-group-gap (8px), aligned centre
 - --vertical               flex-column; aligns to flex-start by default
 - --vertical --center      vertical + centre cross-axis alignment
 - --vertical --end         vertical + flex-end alignment
 - --vertical --stretch     vertical + stretch (all children go 100% width)
 - --nowrap                 prevents wrapping on overflow
+- --compact                $btn-group-compact-gap (3px) — tight clusters (table row actions)
 - --{sm|md|lg|xl}-vertical       responsive: column at that breakpoint
 - --{sm|md|lg|xl}-horizontal     responsive: row at that breakpoint
-- (Use .gap-{n} utilities to override the default gap size.)
+- Independent buttons in a row go in a group (or .pa-card__actions) — not a
+  bare d-flex; .gap-{n} utilities still override the gap when a layout needs it.
 
 SPLIT BUTTON (.pa-btn-split):
   Structure:

@@ -296,7 +296,9 @@
     }
   }
 
-  // Ripple effect
+  // Ripple effect — src/js/ripple.js adds .pa-btn--ripple-active on click and
+  // sets --pa-ripple-x / -y (click point) and --pa-ripple-size (covers the
+  // button). One grow-and-fade animation; removing the class just stops it.
   &--ripple {
     position: relative;
     overflow: hidden;
@@ -304,20 +306,73 @@
     &::before {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
+      left: var(--pa-ripple-x, 50%);
+      top: var(--pa-ripple-y, 50%);
+      width: var(--pa-ripple-size, #{$ripple-size});
+      aspect-ratio: 1;
       border-radius: 50%;
       background: $ripple-color;
-      transform: translate(-50%, -50%);
-      transition: width $ripple-transition-duration ease, height $ripple-transition-duration ease;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
       pointer-events: none;
     }
 
     &.pa-btn--ripple-active::before {
-      width: $ripple-size;
-      height: $ripple-size;
+      animation: pa-btn-ripple $ripple-duration $ripple-easing;
+    }
+  }
+
+  // Centred ripple — always grows from the middle, whatever was clicked.
+  &--ripple-center::before {
+    left: 50%;
+    top: 50%;
+  }
+
+  // Pulse / double pulse (on top of --ripple) — instead of the ink, a halo of
+  // the button's own fill grows past its edges and fades (filled buttons; an
+  // outline / light button has no fill to echo). Double pulse sends a second
+  // halo $ripple-double-pulse-delay later. Declared after --ripple so the
+  // overflow / ::before overrides win.
+  &--ripple-pulse,
+  &--ripple-double-pulse {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -$btn-border-width;
+      z-index: -1;
+      border-radius: inherit;
+      background: inherit;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &.pa-btn--ripple-active::after {
+      animation: pa-btn-ripple-pulse $ripple-duration $ripple-easing;
+    }
+  }
+
+  &--ripple-pulse::before {
+    display: none;
+  }
+
+  // Second halo: the ::before ink is re-shaped into a copy of the ::after halo.
+  &--ripple-double-pulse {
+    &::before {
+      inset: -$btn-border-width;
+      width: auto;
+      aspect-ratio: auto;
+      z-index: -1;
+      border-radius: inherit;
+      background: inherit;
+      transform: none;
+    }
+
+    &.pa-btn--ripple-active::before {
+      animation: pa-btn-ripple-pulse $ripple-duration $ripple-easing $ripple-double-pulse-delay backwards;
     }
   }
 
@@ -468,6 +523,12 @@
   // === No Wrap Variant ===
   &--nowrap {
     flex-wrap: nowrap;
+  }
+
+  // === Compact Variant ===
+  // Tight cluster of small buttons (table row actions, icon toolbars).
+  &--compact {
+    gap: $btn-group-compact-gap;
   }
 
   // Ensure tooltips on buttons appear above siblings
@@ -688,3 +749,26 @@
 }
 
 
+
+// === Ripple animations (.pa-btn--ripple / --ripple-pulse) ===
+@keyframes pa-btn-ripple {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: $ripple-opacity;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes pa-btn-ripple-pulse {
+  from {
+    transform: scale(1);
+    opacity: $ripple-pulse-opacity;
+  }
+  to {
+    transform: scale($ripple-pulse-scale, $ripple-pulse-scale * 1.4);
+    opacity: 0;
+  }
+}

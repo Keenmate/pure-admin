@@ -94,10 +94,15 @@ $bg-pattern-circle-2-y: 20% !default;
 $bg-pattern-gradient-start: 0% !default;
 $bg-pattern-gradient-stop: 50% !default;
 
-// Ripple interaction effect
-$ripple-color: rgba(255, 255, 255, 0.3) !default;
-$ripple-transition-duration: 0.6s !default;
-$ripple-size: 300px !default;
+// Ripple interaction effect (.pa-btn--ripple, played by src/js/ripple.js)
+$ripple-color: currentColor !default;       // ink follows the button's text colour (white on filled, role on outline/light)
+$ripple-opacity: 0.35 !default;             // ink opacity at the start; fades to 0
+$ripple-duration: 0.45s !default;           // one grow-and-fade, no shrink-back
+$ripple-easing: cubic-bezier(0.4, 0, 0.2, 1) !default;
+$ripple-size: 300px !default;               // fallback diameter; the JS sizes it to cover the button
+$ripple-pulse-scale: 1.25 !default;         // --ripple-pulse: how far the halo grows past the button
+$ripple-pulse-opacity: 0.5 !default;
+$ripple-double-pulse-delay: 0.15s !default; // --ripple-double-pulse: gap before the second halo
 
 // ============================================================================
 // BADGE SYSTEM
@@ -127,7 +132,8 @@ $composite-badge-label-hover-bg: $secondary-lighter-bg !default;
 // ============================================================================
 // BUTTON SYSTEM
 // ============================================================================
-$btn-group-gap: 0.3rem !default;           // 3px - default gap (use gap-* utilities for other sizes)
+$btn-group-gap: $spacing-sm !default;      // 8px - same as every other button row (card actions, footers)
+$btn-group-compact-gap: 0.3rem !default;   // 3px - .pa-btn-group--compact (tight icon clusters, e.g. table row actions)
 
 // Button specific - vertical padding matches input padding for height alignment
 $btn-padding-v: 0.8rem !default;           // 8px - matches input default

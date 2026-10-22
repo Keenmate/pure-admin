@@ -57,12 +57,7 @@ const DEFAULT_IGNORE_ATTRS = new Set(['data-phx-id', 'data-phx-component']);
 // bare-name output. (disabled / disabled="" / disabled="disabled" / true → same.)
 const BOOLEAN_ATTRS = new Set([
   'disabled', 'checked', 'selected', 'readonly', 'required', 'multiple',
-  'hidden', 'open', 'autofocus',
-  // Framework presence-flag attributes: their VALUE is irrelevant — the JS hook
-  // only tests for the attribute's existence. Different wrappers serialize the
-  // boolean differently (`data-ripple="true"` vs `data-ripple=""`); both mean
-  // "ripple on". Normalize to bare so presence, not spelling, is compared.
-  'data-ripple'
+  'hidden', 'open', 'autofocus'
 ]);
 
 function isIgnoredAttr(name, ctx) {
