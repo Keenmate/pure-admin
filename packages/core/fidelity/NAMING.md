@@ -35,7 +35,18 @@ goes for `icon_name` vs `:icon`.
 
 **`*_text` holds even when the string lands in a native attribute.** button's
 hover title is `title_text` / `titleText` (rendered as `title="…"`), not a bare
-`title` — the bare name stays reserved for a rich slot, as everywhere else.
+`title` — the bare name stays reserved for a rich slot, as everywhere else. The same
+goes for `placeholder_text`, `alt_text`, `aria_label_text`.
+
+**The rule is strict — no exceptions.** Any prop, attr, slot attr or rendered field
+of a config object (rows, items, columns) whose value is human-readable text the
+component outputs is `<part>_text` / `<part>Text` — tooltip `content_text`, section
+title `title_text`, table `<:col label_text=…>`, sheet `doc_title_text`, profile
+`name_text`. Not text, so they keep their names: identifiers (icon / form-field
+`name`, `id`, `key`, `for`), CSS (`class`, `style`), URLs (`href`, `src`), enums,
+event names, numbers, and data values the user enters or the app passes through
+(input `value`, `copy_value`, `min` / `max`). If it is output as text, it ends in
+`_text` — no need to weigh a "common idiom" against the rule.
 
 **Every boolean follows `is_` / `has_` / `should_`, native attributes included.**
 `is_disabled` / `isDisabled`, `is_readonly`, `is_required`, `is_checked`
