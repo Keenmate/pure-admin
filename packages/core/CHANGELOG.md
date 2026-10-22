@@ -5,6 +5,26 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc10] - 2026-10-22
+
+### Changed
+
+- **Snippet `timeline.html`: every example is `<ul>` / `<li>`.** The five alternating-modifier
+  examples (`--start`, `--end`, `--keep-layout` and their combinations) still used `<div>` items,
+  contradicting the canonical list shape the rest of the snippet and the demo use.
+
+### Internal
+
+- **fidelity: timeline-item covers every layout.** New features `date`, `iconText`, `title`,
+  `meta`, `avatar`, `avatarAlt`, `comment` and goldens for the alternating (with / without date),
+  feed (avatar, comment) and date-header-with-icon layouts, authored from `snippets/timeline.html`.
+  These were deferred while the wrappers disagreed on the content shape; both now follow the
+  snippet (title `<h3>`, alternating body `<p>`, `date_text` / `dateText` for the date).
+- **fidelity: tabs-scrollable** notes — both wrappers now ship a dedicated scrollable-tabs
+  component (keen `tabs_scrollable/1`, svelte `TabsScrollable`).
+- **fidelity/NAMING.md**: plain text is `*_text` / `*Text` with no exceptions (native text
+  attributes, slot attributes, config-object fields).
+
 ## [3.3.0-rc09] - 2026-10-22 [PUBLISHED]
 
 ### Added

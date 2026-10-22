@@ -1,29 +1,35 @@
 {
-  "//": "FRAGMENT fixture for a Timeline sub-component — the item (pa-timeline__item). See ../README.md + timeline.json. Tested in isolation (svelte TimelineItem, keen timeline_item/1). GENERALITY NOTES: (1) element-rooted block pa-timeline__item carries its own 8 modifiers (--primary…--info, --filled, --date-header), caught by the reverse check. (2) Its parts are FLAT SIBLINGS under pa-timeline__ (pa-timeline__time/__content/__date-label), claimed via features' produces + goldens. (3) SCOPE: this covers the simple/marker/date-header layouts where BOTH wrappers agree (item = <li>, content raw). The icon/avatar/alternating layouts are still DEFERRED, but the TAG divergence is now RESOLVED — as of 2026-10-13 keen's timeline_item/1 always emits <li> (dropped the old <div>-for-icon branch), matching svelte + keen's always-<ul> container + the canonical <ul>/<li> snippet shape. What remains deferred is purely CONTENT-WRAPPING: in the alternating/icon layout keen wraps the body in <h3>+<p> and sources the date from time_text, while svelte renders children raw with a separate `date` prop; the feed/avatar layout structurally matches but isn't yet exercised. Authoring those goldens needs a content-shape decision, not a tag decision. Authored from snippets/timeline.html + _timeline.scss.",
+  "//": "FRAGMENT fixture for a Timeline sub-component — the item (pa-timeline__item). See ../README.md + timeline.json. Tested in isolation (svelte TimelineItem, keen timeline_item/1). GENERALITY NOTES: (1) element-rooted block pa-timeline__item carries its own 8 modifiers (--primary…--info, --filled, --date-header), caught by the reverse check. (2) Its parts are FLAT SIBLINGS under pa-timeline__ (pa-timeline__time/__content/__date-label), claimed via features' produces + goldens. (3) SCOPE: every layout — simple / marker / date-header, alternating (icon), feed (avatar). The content shape follows snippets/timeline.html: an icon selects the alternating layout (optional pa-timeline__date, pa-timeline__icon, content = <h3> title + <p> body); an avatar URL selects the feed layout (avatar first in the content, body, optional pa-timeline__comment > p); simple = optional <h3> title + <p> meta + body. The date is its own feature (date_text / dateText), time_text is only the simple/feed time. Authored from snippets/timeline.html + _timeline.scss.",
   "component": "timeline-item",
   "block": "pa-timeline__item",
-  "goldenConventions": "Item element is <li> (canonical; snippet uses <li> throughout). Simple/marker content is RAW inside pa-timeline__content (no <p>/<h3> wrapper unless title/meta slots are used — not exercised here). Class-token order normalized.",
-  "deferred": {
-    "//": "Element classes belonging to the icon/avatar/alternating layouts. The tag divergence is resolved (both wrappers now emit <li>); these stay deferred only for the content-wrapping divergence (keen <h3>+<p> + time_text-as-date vs svelte raw children + `date` prop). Authoring goldens here needs that content-shape call first.",
-    "pa-timeline__icon": "alternating/feed layout — deferred (tag divergence)",
-    "pa-timeline__date": "alternating layout — deferred",
-    "pa-timeline__date-icon": "date-header-with-icon — deferred",
-    "pa-timeline__avatar": "feed layout — deferred",
-    "pa-timeline__comment": "feed layout — deferred"
-  },
+  "goldenConventions": "Item element is <li> (canonical; snippet uses <li> throughout). Simple/marker body is RAW inside pa-timeline__content; a title is a bare <h3> and meta a <p> before it. Alternating body is wrapped in <p> (core snippet); feed comment is pa-timeline__comment > p. Class-token order normalized.",
   "propsVocabulary": {
     "variant": "marker colour — pa-timeline__item--{variant}",
     "filled": "filled marker — pa-timeline__item--filled",
     "dateHeader": "date-header item — pa-timeline__item--date-header; content renders in pa-timeline__date-label",
     "time": "time/date text — pa-timeline__time",
-    "content": "item content slot — pa-timeline__content (or pa-timeline__date-label when dateHeader)"
+    "content": "item content slot — pa-timeline__content (or pa-timeline__date-label when dateHeader)",
+    "date": "alternating layout date — pa-timeline__date",
+    "iconText": "icon — selects the alternating layout (pa-timeline__icon); pa-timeline__date-icon on a date header",
+    "title": "bare <h3> title first in the content (simple + alternating)",
+    "meta": "<p> after the title (simple layout)",
+    "avatar": "avatar URL — selects the feed layout (pa-timeline__avatar > img)",
+    "avatarAlt": "alt of the avatar img",
+    "comment": "feed layout comment — pa-timeline__comment > p"
   },
   "features": {
     "variant":    { "kind": "enum", "options": ["primary", "secondary", "success", "warning", "danger", "info"], "produces": "pa-timeline__item--{value}" },
     "filled":     { "kind": "bool", "produces": "pa-timeline__item--filled" },
     "dateHeader": { "kind": "bool", "produces": "pa-timeline__item--date-header" },
     "time":       { "kind": "string", "produces": "pa-timeline__time" },
-    "content":    { "kind": "slot", "produces": "pa-timeline__content" }
+    "content":    { "kind": "slot", "produces": "pa-timeline__content" },
+    "date":      { "kind":  "string", "produces":  "pa-timeline__date" },
+    "iconText":  { "kind":  "string", "produces":  "pa-timeline__icon" },
+    "title":     { "kind":  "string", "produces":  null },
+    "meta":      { "kind":  "string", "produces":  null },
+    "avatar":    { "kind":  "string", "produces":  "pa-timeline__avatar" },
+    "avatarAlt": { "kind":  "string", "produces":  null },
+    "comment":   { "kind":  "string", "produces":  "pa-timeline__comment" }
   },
   "scenarios": [
     { "name": "simple", "props": { "time": "14:32", "content": "Deployed release" },
@@ -43,6 +49,22 @@
     { "name": "filled", "props": { "variant": "primary", "filled": true, "time": "Now", "content": "Filled primary marker" },
       "golden": "<li class=\"pa-timeline__item pa-timeline__item--primary pa-timeline__item--filled\"><div class=\"pa-timeline__time\">Now</div><div class=\"pa-timeline__content\">Filled primary marker</div></li>" },
     { "name": "date-header", "props": { "dateHeader": true, "content": "January 2021" },
-      "golden": "<li class=\"pa-timeline__item pa-timeline__item--date-header\"><div class=\"pa-timeline__date-label\">January 2021</div></li>" }
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--date-header\"><div class=\"pa-timeline__date-label\">January 2021</div></li>" },
+    { "name": "simple-title-meta", "props": { "time":  "14:32", "title":  "Deployed", "meta":  "by Jane", "content":  "Release 2.0 is live" },
+      "golden": "<li class=\"pa-timeline__item\"><div class=\"pa-timeline__time\">14:32</div><div class=\"pa-timeline__content\"><h3>Deployed</h3><p>by Jane</p>Release 2.0 is live</div></li>" },
+    { "name": "alternating", "props": { "date":  "Jan 2021", "iconText":  "🚀", "title":  "Project Launch", "content":  "Launched the new platform." },
+      "golden": "<li class=\"pa-timeline__item\"><div class=\"pa-timeline__date\">Jan 2021</div><div class=\"pa-timeline__icon\">🚀</div><div class=\"pa-timeline__content\"><h3>Project Launch</h3><p>Launched the new platform.</p></div></li>",
+      "note": "core snippets/timeline.html \"Block Timeline (Centered alternating)\": date + icon + content (h3 title, p body)" },
+    { "name": "alternating-no-date", "props": { "iconText":  "✨", "title":  "Feature Release", "content":  "Shipped." },
+      "golden": "<li class=\"pa-timeline__item\"><div class=\"pa-timeline__icon\">✨</div><div class=\"pa-timeline__content\"><h3>Feature Release</h3><p>Shipped.</p></div></li>",
+      "note": "the icon selects the layout; the date is optional" },
+    { "name": "feed-avatar", "props": { "time":  "14:32", "avatar":  "https://example.com/a.png", "avatarAlt":  "Sarah", "content":  "Sarah merged #456" },
+      "golden": "<li class=\"pa-timeline__item\"><div class=\"pa-timeline__time\">14:32</div><div class=\"pa-timeline__content\"><div class=\"pa-timeline__avatar\"><img src=\"https://example.com/a.png\" alt=\"Sarah\"></div>Sarah merged #456</div></li>",
+      "note": "core snippets/timeline.html \"Feed Timeline with Date Headers and Time Prefixes\"" },
+    { "name": "feed-comment", "props": { "avatar":  "https://example.com/l.png", "avatarAlt":  "Luna", "content":  "Luna commented", "comment":  "This looks great!" },
+      "golden": "<li class=\"pa-timeline__item\"><div class=\"pa-timeline__content\"><div class=\"pa-timeline__avatar\"><img src=\"https://example.com/l.png\" alt=\"Luna\"></div>Luna commented<div class=\"pa-timeline__comment\"><p>This looks great!</p></div></div></li>",
+      "note": "core snippets/timeline.html \"Feed Timeline with Comments\"" },
+    { "name": "date-header-icon", "props": { "dateHeader":  true, "iconText":  "📅", "content":  "January 22, 2025" },
+      "golden": "<li class=\"pa-timeline__item pa-timeline__item--date-header\"><div class=\"pa-timeline__date-icon\">📅</div><div class=\"pa-timeline__date-label\">January 22, 2025</div></li>" }
   ]
 }
