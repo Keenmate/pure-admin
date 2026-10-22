@@ -502,7 +502,7 @@
             let currentContainerWidth = 'fluid';
             for (const cls of containerWidthClasses) {
                 if (body.classList.contains(cls)) {
-                    currentContainerWidth = cls.replace('pa-container-', '');
+                    currentContainerWidth = cls.replace('pc-container-', '');
                     break;
                 }
             }
