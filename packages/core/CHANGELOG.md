@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   feed (avatar, comment) and date-header-with-icon layouts, authored from `snippets/timeline.html`.
   These were deferred while the wrappers disagreed on the content shape; both now follow the
   snippet (title `<h3>`, alternating body `<p>`, `date_text` / `dateText` for the date).
+- **fidelity: kpi-terminal ignores keen's generated hook id** (`normalize.ignoreIdPrefixes:
+  ["pa-kpi-terminal-"]`) — LiveView needs an id on a `phx-hook`; it is wrapper wiring, not shared markup.
 - **fidelity: tabs-scrollable** notes — both wrappers now ship a dedicated scrollable-tabs
   component (keen `tabs_scrollable/1`, svelte `TabsScrollable`).
 - **fidelity/NAMING.md**: plain text is `*_text` / `*Text` with no exceptions (native text
