@@ -33,14 +33,21 @@ jobs:
           ZIP="pure-admin-core-${VER}.zip"
           cd packages/core
           zip -r "${GITHUB_WORKSPACE}/${ZIP}" \
-            dist src/scss src/js snippets schemas fidelity README.md LICENSE
+            dist src/scss src/js snippets schemas fidelity release-notes README.md LICENSE
           cd "${GITHUB_WORKSPACE}"
           sha256sum "${ZIP}" > "${ZIP}.sha256"
           ls -l "${ZIP}" "${ZIP}.sha256"
 
+      - name: Find release notes
+        id: notes
+        run: |
+          NOTES="packages/core/release-notes/${GITHUB_REF_NAME#v}.md"
+          if [ -f "$NOTES" ]; then echo "body_path=$NOTES" >> "$GITHUB_OUTPUT"; fi
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
+          body_path: ${{ steps.notes.outputs.body_path }}
           files: |
             pure-admin-core-*.zip
             pure-admin-core-*.zip.sha256

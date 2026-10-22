@@ -1,6 +1,6 @@
 {
   "name": "@keenmate/pure-admin-core",
-  "version": "3.3.0-rc07",
+  "version": "3.3.0-rc08",
   "description": "Lightweight, data-focused HTML/CSS admin framework built with PureCSS foundation and comprehensive component system",
   "style": "dist/css/main.css",
   "exports": {
@@ -26,6 +26,7 @@
     "COMPONENTS.md",
     "README.md",
     "QUICKSTART.md",
+    "release-notes/",
     "LICENSE"
   ],
   "scripts": {

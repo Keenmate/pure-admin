@@ -6,6 +6,18 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc08
+
+The largest release of the 3.3 cycle — **read the [release notes](release-notes/3.3.0-rc08.md)
+before upgrading**; most breaking changes are 1:1 renames with migration tables there.
+
+- **BREAKING — pure-css 2.0 colour / text contract** (`^2.0.0-rc04`): role tokens end in `-color`, `accent` → `primary`, one text scale `--pc-text-color-1..4`; muted text is `.text-muted`.
+- **BREAKING — logical-only utilities**: `ml-/mr-/pl-/pr-`, `border-left/right`, `rounded-left/right` are gone in favour of `ms-/me-/ps-/pe-`, `-start/-end`.
+- **BREAKING — Sass variable layer is a module**: themes configure it with `@use '…/variables' with (…)`; zero deprecation warnings.
+- **BREAKING — CSS-property naming and `placement`**: `pa-btn--justify-*`, `pa-tabs--justify-*`, and `placement` instead of `position` in the dialog / toast JS.
+- **One naming vocabulary across core, svelte and keen** (`fidelity/NAMING.md`, checked by `npm run fidelity:naming`).
+- **New**: grid / ripple / dual-ring loaders, slider pager, standalone range events, highlighted list items, role-coloured split-button items, truncation-only card tooltips.
+
 ## What's New in 3.3.0-rc07
 
 Collapsed-sidebar flyouts become genuinely usable, a detail-panel header actions slot, and table-card header polish.
@@ -16,17 +28,6 @@ Collapsed-sidebar flyouts become genuinely usable, a detail-panel header actions
 - **`.pa-detail-panel__actions`** — a header actions slot on the detail-panel content shell, between the title and close button (mirrors `.pa-card__actions`), so a panel can put icon buttons in its header without a footer.
 - **Table-card header fixes** — the header now carries the same `gap` as `.pa-card__header` (title and description no longer butt together), and `.pa-table-card__title-text` stopped clipping glyph descenders (the "g"/"y"/"p" tails) under its ellipsis.
 - **pure-css `^1.3.0-rc01`** — the foundation bump that carries the sidebar flyout work above.
-
-## What's New in 3.3.0-rc06
-
-Two breaking cleanups, a fully modernized command palette, and banded programmatic dialogs.
-
-- **BREAKING — `.pa-text` is gone; use the flat `text-*` utilities.** The pseudo-component collapsed to the same `font-size-*` tokens, so move to `text-sm` / `text-2xs` / … plus the new `.text-secondary` (muted body text), `.text-body`, `.text-caption`, and `.text-lead`. Wrapper `<Paragraph>` / `<Text>` / `<Heading>` APIs are unchanged.
-- **BREAKING — palette colour utilities dropped the `pa-` prefix.** `.bg-color-N`, `.text-color-N`, `.border-color-N`, `.text-on-color-N`, and the renamed composite `.surface-color-N` (tinted surface + guaranteed-readable text). Component `--color-N` BEM modifiers (`pa-btn--color-N`, …) keep the `pa-` prefix.
-- **Command palette modernized in the shipped JS** — it now matches the svelte + keen wrappers: a home screen, `/command` multi-step wizards, `:context` scoped search, global search, and modifier-free `g <letter>` shortcuts (e.g. `g g` → Go to Page, idiomatic where `Alt+<letter>` breaks on macOS). The demo dogfoods this file directly.
-- **Richer palette keyboard nav + real icons** — `PgUp`/`PgDn` and `Home`/`End` join `↑↓`, the idle home screen is arrow-navigable, and the icon slot now sizes a rendered icon child (inline SVG / masked `.pa-icon` / FA `<i>`) so the palette can mirror the sidebar's glyphs instead of an emoji fallback.
-- **Banded programmatic dialogs** — `pureAdmin.confirm/alert/prompt/custom` gain an `isBanded` option (filled header + footer bands, paired with a role `variant`), matching the keen and svelte dialog services.
-- **pure-css `^1.2.0`** — pulls in the role surface utilities (`bg-/surface-/text-on-{primary|success|warning|danger|info}`) that the card / table-card colour system consumes.
 
 ## Installation
 

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T11:10:52.214Z",
+  "generated": "2026-10-22T09:57:34.842Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -8,29 +8,29 @@
       "modified": "2026-09-15T19:32:24.752Z"
     },
     "badges.html": {
-      "hash": "14cb1375a268141f288e3a897840a1a0d880ec3ff127deb3774ad47e449cd8c6",
-      "size": 14317,
-      "modified": "2026-10-06T18:45:36.641Z"
+      "hash": "4b19c3a09de27599140f7dc3efca77b25fde62573bfdff1e4a558c1a768534dd",
+      "size": 14330,
+      "modified": "2026-10-15T13:21:46.295Z"
     },
     "buttons.html": {
-      "hash": "62a88650d769c75d9fe230bd11619e56207aae8d2f319f86d5763389be733be6",
-      "size": 26737,
-      "modified": "2026-10-06T18:45:20.522Z"
+      "hash": "107c143fb721ddc3e108edf3cb2fd6669acc29e6c1681bf8cb61d6ce5a784cf3",
+      "size": 27748,
+      "modified": "2026-10-19T18:30:58.152Z"
     },
     "callouts.html": {
-      "hash": "d05f67144829cbc17f92459151a9707c3b1c6cae2a53e11f6873f225f1fe858b",
-      "size": 7568,
-      "modified": "2026-09-15T19:32:32.625Z"
+      "hash": "40a5fe52114f2842cdebfb5cbf5353e6db847c5a3063beb19fbacb8117de0e56",
+      "size": 7780,
+      "modified": "2026-10-14T20:30:46.454Z"
     },
     "cards.html": {
-      "hash": "121a40f7721935d6cfd3a7054aee2de5246d30a6e1da800a86b15d2b41cabd67",
-      "size": 28849,
-      "modified": "2026-09-14T18:43:55.034Z"
+      "hash": "e75142d9412327b2c863303edb1c1084c3ed056b263d5c135ffd9c92a6dd7648",
+      "size": 31212,
+      "modified": "2026-10-18T21:30:32.873Z"
     },
     "checkbox-lists.html": {
-      "hash": "0334b0f6d92d5e9cf6b532b3f66106d00f60e92c0cea203e9c252bdc21a2d1e4",
+      "hash": "befa8f874630eb833b7fa4cf1365160722a1ec83cf5ad80893d9803f8989f916",
       "size": 32047,
-      "modified": "2026-10-06T18:31:28.011Z"
+      "modified": "2026-10-18T19:42:29.363Z"
     },
     "code.html": {
       "hash": "0010d649d6497b544b0539ed09811cc3743556f6983bda7b459b6eb175646661",
@@ -38,9 +38,9 @@
       "modified": "2026-09-10T19:55:53.154Z"
     },
     "command-palette.html": {
-      "hash": "7b94f030cc15ab7c911cfe1356c36e1a01e38db2ddb34a15c068876f51691282",
-      "size": 25879,
-      "modified": "2026-10-08T19:00:49.821Z"
+      "hash": "556a0b89bd778ff1942503e7bd1daa66b8741fe21ffc155053f7950db9eecc9b",
+      "size": 25881,
+      "modified": "2026-10-19T18:31:44.006Z"
     },
     "comparison.html": {
       "hash": "9dfebfd808d7754fa7721a9dc12c75e8c30f4def806b360105132daa2e75dd4a",
@@ -48,19 +48,19 @@
       "modified": "2026-09-15T16:31:41.683Z"
     },
     "customization.html": {
-      "hash": "ae2c8d86a0e9bafbf00074c1dad0c9a296ae616b70901d0cf6da502c7b129d63",
-      "size": 12795,
-      "modified": "2026-09-10T19:55:53.237Z"
+      "hash": "07a91342369218f0c1ee47dcc45f4a2baf8c93e82abd3ae27a72c5f6127b2259",
+      "size": 12994,
+      "modified": "2026-10-18T08:41:20.550Z"
     },
     "data-display.html": {
-      "hash": "b8c4234ff4a06c7419d155d599b546fc2f432ff9450feabaf46f31ac429579fc",
-      "size": 27048,
-      "modified": "2026-10-06T18:48:49.903Z"
+      "hash": "ec98a6d6e8fdab624b31442bb3d3d62cd91cbd984f05ec5892ac0a7a74848c2c",
+      "size": 27683,
+      "modified": "2026-10-18T08:41:20.566Z"
     },
     "detail-panel.html": {
-      "hash": "f61fbb601da3b52a5517da48ec188df86f1c3f79279faa834491ec53a6273fdd",
-      "size": 20752,
-      "modified": "2026-10-10T15:05:31.529Z"
+      "hash": "804936cd902bcfd0c4fd1d7e193be5e7d0e98c819444377e87a07b3ba0f20335",
+      "size": 20774,
+      "modified": "2026-10-19T15:03:47.482Z"
     },
     "document.html": {
       "hash": "7d83d21f8072263ed7ed1ad3162dd8111868e71c1c96b5bc58e246e4266b9956",
@@ -68,14 +68,14 @@
       "modified": "2026-09-19T14:03:10.414Z"
     },
     "filter-card.html": {
-      "hash": "48a89d228a148ad5787fbc44cc31f430a7e901d38a4d69cf8720328432e44808",
-      "size": 9497,
-      "modified": "2026-09-15T16:31:47.365Z"
+      "hash": "c976e269644bd06549e8da0b4101d6febc1fc5e155e3edd8fa1aed0966f7d8ad",
+      "size": 9708,
+      "modified": "2026-10-18T20:02:43.666Z"
     },
     "forms.html": {
-      "hash": "96672ab3cfce25beb73e993e7ee75d1e650548aca5a0b5d04a7910050ff730ad",
-      "size": 30614,
-      "modified": "2026-10-07T20:07:40.572Z"
+      "hash": "379bf890e0b177ca8da8657db21121ca0db4bd3a7fe12e8a1bd934f92b15489c",
+      "size": 31595,
+      "modified": "2026-10-21T20:38:54.455Z"
     },
     "grid.html": {
       "hash": "26be1ae131fc2493750fc759cf641213c7cb302a03822fc64a5c75ae89ef8107",
@@ -83,19 +83,19 @@
       "modified": "2026-09-24T19:14:41.276Z"
     },
     "icon.html": {
-      "hash": "512ca29ded3bbf9f3cf07b8b6c1e8e8d2a4007cf2d806ad2c2505b9c19a6ba3d",
-      "size": 9559,
-      "modified": "2026-10-06T18:32:29.382Z"
+      "hash": "ff9fce527d574e79890af2da591d446ef335b04e9b5fb0065875059d711faa97",
+      "size": 9576,
+      "modified": "2026-10-18T18:30:54.358Z"
     },
     "kpi.html": {
-      "hash": "79395de2b1a702a412962c7229b2543ae00d71e06929c8149186359c39cbd34a",
-      "size": 39698,
-      "modified": "2026-10-06T18:35:08.820Z"
+      "hash": "a37984e73ca291b55a799a71b3285ec22067bd66ee65b335fb2252a1a14ee1d7",
+      "size": 39726,
+      "modified": "2026-10-18T18:32:00.436Z"
     },
     "layout.html": {
-      "hash": "4b8c885e269352e9fbf9b2d61d0dde6fb0fd62ad531b784cc1893b91c9578def",
-      "size": 47199,
-      "modified": "2026-09-27T19:53:46.365Z"
+      "hash": "bb4bc65aa369980a725f16de53e5bade04689a282947ed3f1293b909a4da39e2",
+      "size": 47660,
+      "modified": "2026-10-17T19:07:25.673Z"
     },
     "lists.html": {
       "hash": "ed9ea4e375151155d2b4dd189f39818495adedae47c57319f6e75a7486933d1c",
@@ -103,14 +103,14 @@
       "modified": "2026-10-12T21:38:38.529Z"
     },
     "loaders.html": {
-      "hash": "4287079930d06c0f738c06f86eca820c3c9ed93c2e968fe3a141940e5af12238",
-      "size": 7069,
-      "modified": "2026-10-14T11:10:39.668Z"
+      "hash": "52d4c196ba0dbc338dc687cf20f4292526a18d86e8347a0f722cbe13afc8a0e1",
+      "size": 7347,
+      "modified": "2026-10-19T18:31:44.012Z"
     },
     "modal-dialogs.html": {
-      "hash": "833e240662625c49b2dd0cf78f4263c173a05c94fa61d7f303c49f55439c67c9",
+      "hash": "8fb4702674889adc515919848ffb23d10e78615bfa55a566c0812755e4e11278",
       "size": 15586,
-      "modified": "2026-10-08T14:58:15.845Z"
+      "modified": "2026-10-19T19:26:30.794Z"
     },
     "modals.html": {
       "hash": "3245e64c205fc723d0949d13af462a2bcf455704a18ede5f65737ce383b7f397",
@@ -118,24 +118,24 @@
       "modified": "2026-09-17T18:39:54.108Z"
     },
     "notifications.html": {
-      "hash": "e01536970f58884cc9f7f3eb9b57e331bd03929d28ed26147f87f7d094d64b80",
-      "size": 12000,
-      "modified": "2026-09-16T15:44:36.891Z"
+      "hash": "2b2f52895968fbaf3fb7bac1add4419d9ec6832498301b07f3fc8e47f5c3b8b4",
+      "size": 12292,
+      "modified": "2026-10-18T08:41:20.592Z"
     },
     "popconfirm.html": {
-      "hash": "6f1ebfb5e087996fa0a3de5bda42b20cd6d9c8d5fd0b03723b90d103349d938f",
+      "hash": "1adf23b9e00484960f49687610dfc97f0925ff38d5a8ac5afe3cf841eb0e2f5c",
       "size": 17138,
-      "modified": "2026-09-16T16:04:54.387Z"
+      "modified": "2026-10-18T19:42:29.366Z"
     },
     "profile.html": {
-      "hash": "d129b9f00281e4ab7657ef6e467540db6a0feddb0e053b7a1036f112886312f6",
-      "size": 27564,
-      "modified": "2026-09-27T18:59:43.368Z"
+      "hash": "94f5e0276115a629c1b8eb6d1ae7631f9641c085c5eb584eab0248f423d719f0",
+      "size": 27597,
+      "modified": "2026-10-19T15:03:47.490Z"
     },
     "range-group.html": {
-      "hash": "499dae5adc643dc7f0f05c96a1b1cb14022d0f5d25b239b7ff453970b20c43ed",
-      "size": 17007,
-      "modified": "2026-09-14T18:43:56.633Z"
+      "hash": "8deffb5ea72f59e397a25732e16ab5e07899c34dc4947be272c78cb253c94a91",
+      "size": 17670,
+      "modified": "2026-10-18T18:31:24.895Z"
     },
     "search-results.html": {
       "hash": "eb9029998d07e64fbab3126dd2a39e75577a8262982840509307cb345138bf59",
@@ -153,66 +153,66 @@
       "modified": "2026-10-06T18:43:03.740Z"
     },
     "statistics.html": {
-      "hash": "48aca0374b84d0eb71eac20a9d0a50f5bdab330e189a0a285db27cecded29f22",
-      "size": 13830,
-      "modified": "2026-10-06T18:35:55.438Z"
+      "hash": "2e89ebcae266faf12c9ded9243c31bf4a602d7daff99ec97d02455d8e6f5c077",
+      "size": 13854,
+      "modified": "2026-10-18T18:30:59.048Z"
     },
     "tables.html": {
-      "hash": "f309d775914ceee603f960259f8c9701da510a26b91527e80b80981f0b12ff54",
-      "size": 23196,
-      "modified": "2026-10-07T11:51:18.299Z"
+      "hash": "0cc4e33f3a486603f44af29a86908aa9ab5982891b1114f6c045fd0fd1ff4f5f",
+      "size": 29431,
+      "modified": "2026-10-18T19:42:29.378Z"
     },
     "tabs.html": {
-      "hash": "971136a5fb7f409da18ef6815479395007e3bfb38903894a01c890c2f4be0eed",
-      "size": 35932,
-      "modified": "2026-09-15T15:38:41.576Z"
+      "hash": "91696f3d690299a3df9a7a3793fe0c7a7348695e4b30879497fa67dd4e4eb0fc",
+      "size": 35995,
+      "modified": "2026-10-19T15:03:47.498Z"
     },
     "timeline.html": {
-      "hash": "3d1b14db555fa14f877482234e2b084285f3bc21d4d7aeadee87f2fd3c14f6fc",
-      "size": 17706,
-      "modified": "2026-10-13T07:05:55.703Z"
+      "hash": "b683dd5239cd26e3345ed217249618278b128bfdf70ede3acb26d0f981b24a7f",
+      "size": 17708,
+      "modified": "2026-10-19T18:31:44.014Z"
     },
     "toasts.html": {
-      "hash": "98380049fcd17de9d6c63fc6176965d6b2fe5c235bad826bbe66433b836e651c",
-      "size": 14505,
-      "modified": "2026-09-15T19:32:40.406Z"
+      "hash": "96d07d5771964d4af69b60e2605d585b8e4d005894f3db40c2144cbab858adcb",
+      "size": 14510,
+      "modified": "2026-10-19T18:32:34.694Z"
     },
     "tooltips.html": {
-      "hash": "c34ac3ee658dbf7b7292207c693f1399ac10fa4da170de51e0be665e5a495288",
-      "size": 20935,
-      "modified": "2026-09-10T19:55:53.869Z"
+      "hash": "40dcc4e391643276639057c54bb69d6013fb647e11c5e9203d197dceffacee3b",
+      "size": 20937,
+      "modified": "2026-10-18T19:42:29.374Z"
     },
     "typography.html": {
-      "hash": "0b2cbf96fbfa01d2c4cd3b844720ef9c9c0cc2fbbbed88e9fa1e837f59d92ddb",
-      "size": 8843,
-      "modified": "2026-10-05T13:27:04.876Z"
+      "hash": "13539b57e5c94835e0352691795703584d9b308bb2353cea574f13a33fec605c",
+      "size": 8829,
+      "modified": "2026-10-18T08:44:46.876Z"
     },
     "utilities.html": {
-      "hash": "593f292b27fdef78524e00bf1747cc63bb993ab4e39b54522f4079566c505b18",
-      "size": 27159,
-      "modified": "2026-10-05T13:56:40.818Z"
+      "hash": "d22878dbc131c1d54a5985fa93a353a53aadbfbd8d7b2e8da882b5f36518d392",
+      "size": 27509,
+      "modified": "2026-10-17T18:59:00.257Z"
     },
     "virtual-scroll.html": {
-      "hash": "03d6c68dae634de20b8dac82a2ef9b40c059deca6d09f45c5d36bcb8336a4e6b",
-      "size": 17106,
-      "modified": "2026-09-10T19:55:53.955Z"
+      "hash": "3ce295ddc84ad7e5fc3182c48e30158fd0b0ba1beb56aa971e1ed389d8b8a195",
+      "size": 17110,
+      "modified": "2026-10-19T18:31:44.016Z"
     },
     "web-daterangepicker.html": {
-      "hash": "13f22b5673a771a02d90bf7ac63cee4dfbdc9c57265ff371fe4b6a20c95acd52",
-      "size": 26777,
-      "modified": "2026-09-10T19:55:53.986Z"
+      "hash": "8aac6b8d31ab1417638f26bc5e66dcb4f9785e4e10336c0c8f6b1cef16ae87f1",
+      "size": 27599,
+      "modified": "2026-10-18T08:41:20.607Z"
     },
     "web-multiselect.html": {
-      "hash": "3376dec5369c24cd6cd143e64dc0d92da22ab250ca59388e4a667172573089e6",
-      "size": 22607,
-      "modified": "2026-09-10T19:55:54.018Z"
+      "hash": "fe566f5ea29be5530ca95e792447f6f8c567762313a43ffaddc3cfddfb148b37",
+      "size": 23213,
+      "modified": "2026-10-18T08:41:20.624Z"
     }
   },
   "scss": {
     "core-components/badges/_badge-base.scss": {
-      "hash": "724c66aa55e9d06285bcb2a7240adedb6c48f313249e9e108a13ab00cce5b796",
-      "size": 3651,
-      "modified": "2026-10-05T13:59:18.055Z"
+      "hash": "aa9d7aef299de31a5e0bd37b2515d2f39cd077edd35506e011356e1efc06ab4c",
+      "size": 3679,
+      "modified": "2026-10-15T13:21:46.921Z"
     },
     "core-components/badges/_badge-group.scss": {
       "hash": "7f03987dee29ad37eded48cd7c8fbf60096007efead1b7ffea94361181c9f497",
@@ -225,9 +225,9 @@
       "modified": "2026-09-12T15:25:37.327Z"
     },
     "core-components/badges/_composite-badge.scss": {
-      "hash": "934c7913864a23e851a48a3e01f343d8855d03ebda0cef58088741ff50c08c00",
-      "size": 1864,
-      "modified": "2026-09-12T15:25:37.330Z"
+      "hash": "30dcc553d5be5570498d637142bfc76f6680bb65fe28d3a571169fff30a2a6cf",
+      "size": 1870,
+      "modified": "2026-10-18T08:41:20.679Z"
     },
     "core-components/badges/_index.scss": {
       "hash": "b76ae8d3f8e9a522b9becc2abd72088c00afdc79e5fa38cdfafeb1912cfae173",
@@ -235,29 +235,29 @@
       "modified": "2026-09-12T15:25:37.334Z"
     },
     "core-components/badges/_labels.scss": {
-      "hash": "b1193f6ec0c8688e598e921022fa1ffe32cecee7dd44b496027c0bdbe62a6be6",
-      "size": 3770,
-      "modified": "2026-09-12T15:25:37.337Z"
+      "hash": "4d92ea3617bddc81c6ea66ada977e1cefc0a24cafbe0bdc16cec8c7966958bf3",
+      "size": 3984,
+      "modified": "2026-10-18T08:41:20.681Z"
     },
     "core-components/forms/_checkboxes-radios.scss": {
-      "hash": "efc0aa767bc0d57aacaa8fb7c0c28323b072fdc86b09e38a7406ec96bfcc48d8",
-      "size": 12434,
-      "modified": "2026-09-20T20:09:46.003Z"
+      "hash": "85c78a084f38aeb0014dc3dd8a2ba6baba854a8d219bf8685e5467ed49afc3bf",
+      "size": 13854,
+      "modified": "2026-10-21T20:38:22.695Z"
     },
     "core-components/forms/_form-inputs.scss": {
-      "hash": "0b82b23d9da3f8a5307378e563b0f8695ddbd4d7d90d147f7f1b31b0eb5383af",
-      "size": 4199,
-      "modified": "2026-09-13T20:20:30.382Z"
+      "hash": "3494763a748f20c6779fe4e2f936209a8bc3ae2aeb4b4842644863167f1fc0f7",
+      "size": 5611,
+      "modified": "2026-10-20T17:31:25.050Z"
     },
     "core-components/forms/_form-layout.scss": {
-      "hash": "78063f7665d6a1f557f4776e9a6cb721ffc2066fa384f01bda4f411bdc721440",
-      "size": 4013,
-      "modified": "2026-09-12T15:25:37.354Z"
+      "hash": "9d7904fb7959894993d26073abbf04400127fbd46ebf395f93aa04d2e41cbdd5",
+      "size": 4019,
+      "modified": "2026-10-18T08:41:20.682Z"
     },
     "core-components/forms/_form-states.scss": {
-      "hash": "b23b7f8a6deb2e7a4bbe119a7dc89a1528f102b1dd80ab647ddf2f6341e6cec3",
-      "size": 2586,
-      "modified": "2026-09-12T15:25:37.358Z"
+      "hash": "dfa78fc4d41bd615a59d42306766e120896977202bff537d003dbc8010ec8d6d",
+      "size": 2710,
+      "modified": "2026-10-14T20:30:46.541Z"
     },
     "core-components/forms/_index.scss": {
       "hash": "e4a98a898b6df0882a09bd4d43602ae9251cf4259df04f220febfe7d10429729",
@@ -265,19 +265,19 @@
       "modified": "2026-09-12T15:25:37.361Z"
     },
     "core-components/forms/_input-groups.scss": {
-      "hash": "69dced41a5562eeeabfdf54cf88f97b4838b9fb4632a112cabd8fb59b5bdc45e",
-      "size": 4670,
-      "modified": "2026-09-12T15:25:37.365Z"
+      "hash": "6a88507465c7c90855bb792540fb0f0488e3961739876474285da9390f5c8870",
+      "size": 4486,
+      "modified": "2026-10-16T18:25:54.757Z"
     },
     "core-components/forms/_input-wrapper.scss": {
-      "hash": "0b30efded8e43f28188c99b33a645bb58f03608e87acdb3a38c72e0415ec4cb0",
-      "size": 1822,
-      "modified": "2026-09-12T15:25:37.368Z"
+      "hash": "a48489f6320e079174e9c8966b11101bbf8f0d248e6ddb0ffcc0466a2ef15817",
+      "size": 1828,
+      "modified": "2026-10-18T08:41:20.683Z"
     },
     "core-components/forms/_query-editor.scss": {
-      "hash": "1cf1d53d5102ca06d890416b855e029f916487cc1863a87c2a7e834d3324f7e6",
-      "size": 8298,
-      "modified": "2026-09-13T20:21:34.677Z"
+      "hash": "921649c13be6a811e7a4b83ac6ed0975dd74bb52295cdb13d2ec21efe4a371cf",
+      "size": 8414,
+      "modified": "2026-10-20T17:31:25.051Z"
     },
     "core-components/layout/_fit-flyout.scss": {
       "hash": "45b854a69f84bb196f28172676d9d80fea3358bee2b316975b431e7bf6bd906d",
@@ -320,9 +320,9 @@
       "modified": "2026-09-12T15:25:37.400Z"
     },
     "core-components/_alerts.scss": {
-      "hash": "e9021b3a86bbd3a76a08803b0134ceb4b382e20f7a2cd3a7841da24b81664f1a",
-      "size": 8329,
-      "modified": "2026-09-18T12:27:02.120Z"
+      "hash": "993f62ca1cc85af8c8683b3120708e49c01aa0571b4195fdc44266fe59e725eb",
+      "size": 8383,
+      "modified": "2026-10-18T08:41:20.648Z"
     },
     "core-components/_badges.scss": {
       "hash": "ab742cc5b0487ee3ccb1d8f9a02d67a3b4ae6873932b7da03141d0c40160c59b",
@@ -330,39 +330,39 @@
       "modified": "2026-09-12T15:25:37.406Z"
     },
     "core-components/_base.scss": {
-      "hash": "15766eae82a629156f8fdc13bf0fa0f01f6454ee1c8f30ec7b818f5a3338fe04",
-      "size": 2524,
-      "modified": "2026-09-12T15:25:37.410Z"
+      "hash": "560bc21686ca08d44d5308e19ce9b323b55d2b7b5398f94bde3bd2f381ceb6c5",
+      "size": 2590,
+      "modified": "2026-10-18T08:41:20.649Z"
     },
     "core-components/_buttons.scss": {
-      "hash": "dd263d039d2bf0cb152ec70a89e920f632fdbbe1160060a7c5ab9df173adb617",
-      "size": 19023,
-      "modified": "2026-09-14T18:41:56.879Z"
+      "hash": "60db2016852359a168840d400696f30618c5b181ec49fc1dd98b7c74c7db9031",
+      "size": 19883,
+      "modified": "2026-10-21T18:57:19.789Z"
     },
     "core-components/_callouts.scss": {
-      "hash": "2ff955ef7645083c6d450f6f6bd90611a04a7c350f7177e6ab06a7b60ae822ff",
-      "size": 3900,
-      "modified": "2026-09-15T20:01:51.600Z"
+      "hash": "984fbcd28df1e459cae60edfca0aa68ccd70398926f27c16ddaf0a2f827cef8c",
+      "size": 4077,
+      "modified": "2026-10-18T08:41:20.650Z"
     },
     "core-components/_cards.scss": {
-      "hash": "46018ed2d8b799e8b5d8ebe4f785ea24634c77d5c5cfb575f9fe5eae260bf79d",
-      "size": 20404,
-      "modified": "2026-10-07T16:27:32.111Z"
+      "hash": "412138c9879505cfb796da76bdc8f41bbb78d192c3fef989a6612628abe1796e",
+      "size": 20588,
+      "modified": "2026-10-18T08:41:20.651Z"
     },
     "core-components/_checkbox-lists.scss": {
-      "hash": "2835848a62e7c68473ce1092784cc5fcce4a438608afdfc745e77e78a71c88ac",
-      "size": 6600,
-      "modified": "2026-09-12T15:25:37.431Z"
+      "hash": "132d9d403d378350e994b0eadd347fc3170db7a0a0f8c1e741859cca9cca6a61",
+      "size": 7034,
+      "modified": "2026-10-21T18:52:57.680Z"
     },
     "core-components/_code.scss": {
-      "hash": "03323ef592f6476592a49691ddee50360de47b2fe70a83bd9cde3914493f87c5",
-      "size": 3241,
-      "modified": "2026-09-12T15:29:15.143Z"
+      "hash": "9e60c14b0dce33f2b8f9c69e8be5f3d52c3e977cc897b165d2a8886f1cdb2f53",
+      "size": 3250,
+      "modified": "2026-10-18T15:09:15.331Z"
     },
     "core-components/_command-palette.scss": {
-      "hash": "69424ff406f1fff10f9929f9c9e9370f58df5e492dd0260a0aef8779ecff7855",
-      "size": 22992,
-      "modified": "2026-10-08T19:26:27.511Z"
+      "hash": "a7284885b896931a67b97d0cd7f2b690791bf4aaf6b0865386c31e2bccd4ad43",
+      "size": 23188,
+      "modified": "2026-10-20T17:31:25.052Z"
     },
     "core-components/_comparison.scss": {
       "hash": "691c5518958e79c08309e97b6058238aa5cf3dda32ae7ad80ba9074b6a6f21ed",
@@ -370,34 +370,34 @@
       "modified": "2026-09-12T15:25:37.446Z"
     },
     "core-components/_data-display.scss": {
-      "hash": "c5552c1cbc6742bdac685bd91cbe3b8ffef7311f338768d3ee71f26b530f7301",
-      "size": 29933,
-      "modified": "2026-09-12T15:25:37.450Z"
+      "hash": "31d8a9285b15539cb9eadf898d5258382cae1af4541521def4e37164f3fb39dd",
+      "size": 31139,
+      "modified": "2026-10-18T08:41:20.654Z"
     },
     "core-components/_data-viz.scss": {
-      "hash": "5219a4a8b20c9f29b343e55da4f927d12128a0f2309e72196f9a0b3c75510910",
-      "size": 17049,
-      "modified": "2026-09-12T15:25:37.455Z"
+      "hash": "a44931ee1cb50d69903fd65f404cadc99f99be46026cf2745a1449f30eb3ee04",
+      "size": 18059,
+      "modified": "2026-10-18T08:41:20.655Z"
     },
     "core-components/_detail-panel.scss": {
-      "hash": "efa49ef8f1123777bcdcadb563d0075eb9b87ca02853b93584c555168911a133",
-      "size": 9737,
-      "modified": "2026-10-10T15:05:13.578Z"
+      "hash": "55b2f2adb4d9efd11c66257890f0952cdb810b79588a4232a09eb4dae93ee714",
+      "size": 10143,
+      "modified": "2026-10-18T08:41:20.656Z"
     },
     "core-components/_document.scss": {
-      "hash": "aa27331d7997de1a100e80be0d8eac5acc0c07a1d8bc6a1ab8a888d3dd88f304",
-      "size": 6664,
-      "modified": "2026-09-20T18:22:07.416Z"
+      "hash": "e45f86bbb6ab66a17494978bde365cc13d457ecc1b1c7291e9308748523b90ad",
+      "size": 6856,
+      "modified": "2026-10-18T08:41:20.657Z"
     },
     "core-components/_file-selector.scss": {
-      "hash": "6e77d8b1d29e99f040e5c5ac26f6e87b4e862a26371f08c0f0f9f939c6db5d2f",
-      "size": 15841,
-      "modified": "2026-09-12T15:25:37.466Z"
+      "hash": "91fe0b3dcc02f7dc6df841b14d3a9d7c6468e84c8ddf7187274569e46f5696bb",
+      "size": 16088,
+      "modified": "2026-10-18T08:41:20.658Z"
     },
     "core-components/_filter-card.scss": {
-      "hash": "fb0bb0856d4b689205e28aa40dd3e28f492f6e047019db138f35ba49d8b206ff",
-      "size": 1087,
-      "modified": "2026-09-12T15:25:37.470Z"
+      "hash": "b69e99fdb3eec08e11f52d07720410cdddff30caeb6ae8973b51c4110f944816",
+      "size": 1134,
+      "modified": "2026-10-21T18:52:57.681Z"
     },
     "core-components/_forms.scss": {
       "hash": "c14e0a8dc9523d585945d3df11f91b26531b6f453f0cdff6232ccec90e777c9b",
@@ -410,24 +410,24 @@
       "modified": "2026-09-24T19:09:06.973Z"
     },
     "core-components/_icons.scss": {
-      "hash": "4fb5fe1e76ea281e0f51a779746d6e0053fb4d029836bfc5d47c1a3fdac089e1",
+      "hash": "dc9c6d41e0a99284f777424fe5a5b75cee0acb93eba78ea454c067e089060a44",
       "size": 25161,
-      "modified": "2026-09-27T18:58:25.745Z"
+      "modified": "2026-10-18T14:30:13.096Z"
     },
     "core-components/_kpi-base.scss": {
-      "hash": "1ef302f71c5f8e8dd7017424985299b8f4a05b9d3316476e51554e15fa960bb8",
-      "size": 5120,
-      "modified": "2026-09-12T15:25:37.485Z"
+      "hash": "92adc01fce44714b44f069a6ecc8b0a98ac4fe3f1c1252d0af0e3f3ceb67ed12",
+      "size": 5122,
+      "modified": "2026-10-20T15:01:56.742Z"
     },
     "core-components/_kpi-bento.scss": {
-      "hash": "e8de21e1d6dba0fc539446f4f2ae690d0b8217548e69cb7ee4cf41b5c296b733",
-      "size": 6965,
-      "modified": "2026-09-12T15:25:37.490Z"
+      "hash": "26539c9fc4d13ec0e85c0216d0c2ec2a407736af8bf9a7fbdda832ee51ebe40d",
+      "size": 7193,
+      "modified": "2026-10-17T19:00:42.923Z"
     },
     "core-components/_kpi-comparison-gauges.scss": {
-      "hash": "50519f468b6864f399254f31abe2e1b7ba571ced6d6f32f85fd383ee3bfc9bb8",
-      "size": 6495,
-      "modified": "2026-09-12T15:25:37.495Z"
+      "hash": "1260c51316a1cb39bc43f5ced39f827a2368355a9098746fda6998ca171db6be",
+      "size": 6498,
+      "modified": "2026-10-20T15:01:56.746Z"
     },
     "core-components/_kpi-editorial-minimal.scss": {
       "hash": "f668d06bc4b8376c75891400605e81cd7474b1e7e26707079cd91a52b1baa076",
@@ -435,24 +435,24 @@
       "modified": "2026-09-12T15:25:37.499Z"
     },
     "core-components/_kpi-hero-supporting.scss": {
-      "hash": "ae1ca0ee7db102c7909bdf4d79698a9c2e1caec89c0ae1dc31eec0193ee525c8",
-      "size": 6326,
-      "modified": "2026-09-12T15:25:37.503Z"
+      "hash": "ea46ad7576137175548e9ea3e588c03be6b2f6e34afa324d38c22395edf7fb80",
+      "size": 6322,
+      "modified": "2026-10-20T15:01:56.751Z"
     },
     "core-components/_kpi-numeric-strip.scss": {
-      "hash": "be382e00768c7f8502a50d673341e4b171b49b24c69c4a201f51ebde0235f86f",
-      "size": 7743,
-      "modified": "2026-09-12T15:25:37.508Z"
+      "hash": "e5a0b0f0b435afe7cfc257b449de28878a3e9c7393a79170b9a81d4012dcddc7",
+      "size": 7739,
+      "modified": "2026-10-20T15:01:56.755Z"
     },
     "core-components/_kpi-sparkline-list.scss": {
-      "hash": "ba710ce0f54234e56a1e1f41460f92f3e0579e4ef559fbe0e3a9652581121c56",
-      "size": 7541,
-      "modified": "2026-09-12T15:25:37.512Z"
+      "hash": "417b798dfcad1f47d45f0e07ae5d3522a27787810406ba0ad621797c5a464363",
+      "size": 7539,
+      "modified": "2026-10-20T15:01:56.759Z"
     },
     "core-components/_kpi-terminal.scss": {
-      "hash": "2f14d61c9a672e2da2beb15287c7a36cdd39daac78516921a0407d16ca697181",
-      "size": 7179,
-      "modified": "2026-09-12T15:25:37.519Z"
+      "hash": "b54dc62cab0b5847382d2dca0407d5f04306980e4d84235f0136072715b17301",
+      "size": 7176,
+      "modified": "2026-10-20T15:01:56.765Z"
     },
     "core-components/_layout.scss": {
       "hash": "1c27b02008d79f856fc845b16856850dc36912d179bc695b68603f04c15ef4ad",
@@ -460,9 +460,9 @@
       "modified": "2026-09-12T15:25:37.524Z"
     },
     "core-components/_lists.scss": {
-      "hash": "ba71c2e308024dd258e419ccd825e5a809ac8c03cf0607e33a86d2d46f269c36",
-      "size": 5365,
-      "modified": "2026-10-12T21:38:32.569Z"
+      "hash": "de73a4d19c5fde02fd34bfc548c7feca619d81b250b62eceaf52498d11a05e1e",
+      "size": 5635,
+      "modified": "2026-10-18T08:41:20.662Z"
     },
     "core-components/_loaders.scss": {
       "hash": "633d736100e8f1a32d8411a3b7640833aeeee59fb562d727b0de856c5cad173e",
@@ -470,19 +470,19 @@
       "modified": "2026-10-14T11:10:22.737Z"
     },
     "core-components/_logic-tree.scss": {
-      "hash": "ab18d096732c10c371b4cd0a328b2651f02b22086aa47481d16a425d77ac2383",
-      "size": 7494,
-      "modified": "2026-09-12T15:32:01.235Z"
+      "hash": "e7ae8be63cc5f188b7f6f527294bccc4255ac487ee29600a4988e8b96fe56813",
+      "size": 7853,
+      "modified": "2026-10-18T15:09:15.358Z"
     },
     "core-components/_modals.scss": {
-      "hash": "d342fa10abf3241aae74fade78916279a4a075a1fc6f3025f1ac7471501b380d",
-      "size": 8796,
-      "modified": "2026-09-17T19:42:16.829Z"
+      "hash": "d03ca8ea744b00f8c766f33343cc8c2daa154fb561fb358f28bdee8c47e20b7b",
+      "size": 8765,
+      "modified": "2026-10-16T17:06:38.206Z"
     },
     "core-components/_notifications.scss": {
-      "hash": "af9af579562fed9570e931fd288f3fd234cdc43ff45a54c3e974d5f89ec14ae9",
-      "size": 7586,
-      "modified": "2026-09-15T20:01:47.142Z"
+      "hash": "4dafc8956701ce152ebdef7e0590cabedbd05a253b36c4652f60d518f1ccfd6e",
+      "size": 8020,
+      "modified": "2026-10-18T08:41:20.665Z"
     },
     "core-components/_overflow.scss": {
       "hash": "c4c965561f2671b951da503e2feecc15da129ffaa219b41c7dd405dadc46c094",
@@ -490,9 +490,9 @@
       "modified": "2026-09-12T15:25:37.555Z"
     },
     "core-components/_pagers.scss": {
-      "hash": "a87012bed65563be777744b42262a509397941696faa95d21e4115b90c165668",
-      "size": 2691,
-      "modified": "2026-09-12T15:25:37.559Z"
+      "hash": "3928553ff4812ce6aedd200756b5a16921879ba610429d1e6d224707398c2e72",
+      "size": 4096,
+      "modified": "2026-10-18T08:41:20.666Z"
     },
     "core-components/_popconfirm.scss": {
       "hash": "9ef61acf8e5e7aea029755856a0f22bdfbe92d8812bdf88a5b22bac07aaa21f8",
@@ -505,14 +505,14 @@
       "modified": "2026-09-24T19:09:28.614Z"
     },
     "core-components/_profile.scss": {
-      "hash": "a82134693e622dab5e4cd7af1331aafca3b64ba752fef183e90272a747dae885",
-      "size": 12381,
-      "modified": "2026-09-24T19:10:22.967Z"
+      "hash": "f592fc01744119534192b7655ee5c89bbfbf4a3c832ac4c7418bf596b06b7f45",
+      "size": 12909,
+      "modified": "2026-10-18T08:41:20.667Z"
     },
     "core-components/_range-group.scss": {
-      "hash": "454fbc6e44e9749376451314e0bf3b9f6146de3fb6f4d36e772d9df0731126fd",
-      "size": 17437,
-      "modified": "2026-09-14T18:42:09.071Z"
+      "hash": "9e20de80f91641122155e464762015807711504f66efa799063bb864dabc1cef",
+      "size": 19160,
+      "modified": "2026-10-21T18:52:57.682Z"
     },
     "core-components/_resize-handle.scss": {
       "hash": "ed64b1a07c97177345801a60a1b491fc84a0a642c1d8feb297cee6fb195709e9",
@@ -525,64 +525,64 @@
       "modified": "2026-09-12T15:25:37.586Z"
     },
     "core-components/_search-results.scss": {
-      "hash": "3b1c484e52113bc74185bab17ea2b317ac5db0a6061dddcb18e3ebd5bfe75e15",
-      "size": 7860,
-      "modified": "2026-09-12T15:25:37.590Z"
+      "hash": "602f60c6f8dae564d31749415001e4986f1b30c2a7b53e38ee44b24bd1db4001",
+      "size": 8139,
+      "modified": "2026-10-18T08:41:20.669Z"
     },
     "core-components/_settings-panel.scss": {
-      "hash": "eeddf9dff8cb61fdca53011e840a9457616e4c164a7fcce1378dc64ac5532b65",
-      "size": 4615,
-      "modified": "2026-09-24T19:10:07.519Z"
+      "hash": "e5d887a00d99e7458a5965d318eaa155cb043eddb7ea9ccc27072b352c419eaf",
+      "size": 4670,
+      "modified": "2026-10-18T08:41:20.670Z"
     },
     "core-components/_sheet.scss": {
-      "hash": "808069ff7b74c5a56fa9bd0ad27938e34121c9452eebae61d37a8f88cb624aea",
-      "size": 17644,
-      "modified": "2026-09-22T19:33:51.424Z"
+      "hash": "55fbd85b6d2ab52d2ed7d58844f7427f0efced9734abafa058a5ac6187640d1e",
+      "size": 17699,
+      "modified": "2026-10-18T08:41:20.671Z"
     },
     "core-components/_splitter.scss": {
-      "hash": "c2181bdb24ee7d73ed017c6d765ce660b76d9ae7f5d2a1097f3ac65490c29d7e",
-      "size": 6930,
-      "modified": "2026-09-12T15:25:37.601Z"
+      "hash": "1d0f7d5e157ac32d5e11d126a837ebff0410cdcfe5af1bfe9c4df59056747ca6",
+      "size": 7143,
+      "modified": "2026-10-18T08:41:20.672Z"
     },
     "core-components/_statistics.scss": {
-      "hash": "7c2eea5a444e325408c6fce8a5faf1d857b5bcfa22498a0d1bf37ecde30cc9fd",
-      "size": 13578,
-      "modified": "2026-09-12T15:25:37.606Z"
+      "hash": "1b73019c13c1ca03ee393e67f2eb627ab7208e35d1d74a9eff500112653b1d4a",
+      "size": 13963,
+      "modified": "2026-10-18T08:41:20.673Z"
     },
     "core-components/_tables.scss": {
-      "hash": "28f8d5c7e974d84c6d599486c212a29041f328527c65d3d4d97adb6e3a8e16b3",
-      "size": 23993,
-      "modified": "2026-10-11T14:17:02.364Z"
+      "hash": "5ade828fdd9d60f2dde7c579338fb7d3ad89e3a895eb4cad831cb3daf3ec02c2",
+      "size": 24004,
+      "modified": "2026-10-20T17:06:09.077Z"
     },
     "core-components/_tabs.scss": {
-      "hash": "38b74c710e0e66887d4c380e91ae3af07d15442024275b2100fa2f7b468c7bb0",
-      "size": 14683,
-      "modified": "2026-09-12T15:25:37.617Z"
+      "hash": "e5737941ec3089d523aaf9c8bc0853e6e13a9fba3e3956c28d69658a90ad4bd8",
+      "size": 14872,
+      "modified": "2026-10-19T15:03:39.677Z"
     },
     "core-components/_timeline.scss": {
-      "hash": "08c05ba74113545fe423450acad224bf07988351563a9e39cd1f4fb9d2f519bb",
-      "size": 17798,
-      "modified": "2026-10-13T18:11:34.593Z"
+      "hash": "d79512c8233e76993958f083bbfbbb10a20d434289369f80a00b1fd45ab34d5e",
+      "size": 17979,
+      "modified": "2026-10-18T08:41:20.675Z"
     },
     "core-components/_toasts.scss": {
-      "hash": "a8b15c36a6a98f6148b0e86b040ab0c29fd91412ceff190a9fa9a9f6680976de",
-      "size": 10563,
-      "modified": "2026-09-24T19:10:33.908Z"
+      "hash": "2437667020f5cc87791feb170a3707220a9c376b809814a469675b625610b2fe",
+      "size": 10604,
+      "modified": "2026-10-18T08:41:20.676Z"
     },
     "core-components/_tooltips.scss": {
-      "hash": "115d5e757be2f24bde2978930ee09d631283642116297bd84c64bfb7d23199cd",
-      "size": 16746,
-      "modified": "2026-09-12T17:59:49.265Z"
+      "hash": "c0b04d37dff52e60148cdde13c09dd9b78033602bd4ce8a01df2715a53a1c0cc",
+      "size": 16808,
+      "modified": "2026-10-18T08:41:20.677Z"
     },
     "core-components/_utilities.scss": {
-      "hash": "9afba314bc65790b16362e07606c03f476682af254649e23035d36768a4c7864",
-      "size": 11065,
-      "modified": "2026-10-05T14:23:54.610Z"
+      "hash": "3786f8a6c11fa03797da0bf573d5eb41f8c6ffa8c2be29b6f7b0d07225100a17",
+      "size": 10656,
+      "modified": "2026-10-18T08:45:08.634Z"
     },
     "core-components/_web-components-theme.scss": {
-      "hash": "853ccea1b554b186a5b19993ca7b989c3efce28078b5f88b43f08e9d455b2eef",
-      "size": 868,
-      "modified": "2026-09-12T15:25:37.647Z"
+      "hash": "a3df966acb350cb7481dcbbecbb853fe81f316b5a463568297067c796a04d188",
+      "size": 890,
+      "modified": "2026-10-14T20:30:46.538Z"
     },
     "main.scss": {
       "hash": "bfc08d457fcd5f33e11740734f9467392f8af92a15fa9a1e0af6bacc2045cae5",
@@ -595,19 +595,19 @@
       "modified": "2026-09-10T19:55:52.850Z"
     },
     "variables/_components.scss": {
-      "hash": "052973eba28d170c745eb206d7f6fd9389f15b85ace9be6618337ba98aa0a491",
-      "size": 49522,
-      "modified": "2026-10-14T11:10:06.654Z"
+      "hash": "dfddb05de1547bdfb99ba9fd5e7990dae1d2391d6e1d5111ff167328f193c8b8",
+      "size": 49569,
+      "modified": "2026-10-18T08:41:20.686Z"
     },
     "variables/_index.scss": {
-      "hash": "571ac8b22945e0bc1918638ad5df011b894167d944636d84fd38c7a1689520e1",
-      "size": 2140,
-      "modified": "2026-09-10T19:55:52.862Z"
+      "hash": "d447b4d59d06fb9011b9dd929c7e8425bfdb3ab70cccdac3b0fb346741434a0f",
+      "size": 1738,
+      "modified": "2026-10-15T19:57:02.774Z"
     },
     "_base-css-variables.scss": {
-      "hash": "dc01d95ec200f64e6ebdaaa3dd54903b3bd04a6b5d0b9dafd4784618fe4caa86",
-      "size": 3024,
-      "modified": "2026-09-10T19:55:52.866Z"
+      "hash": "9e4977aa080f47d9fdbbaf302da445eb3a97accd77e610eabb837888a71bd1a8",
+      "size": 2552,
+      "modified": "2026-10-18T08:41:20.645Z"
     },
     "_core.scss": {
       "hash": "e4335355b784f37fa7657b1148e17b3f640cfbc3b3b7bb59296906a319451152",
@@ -615,9 +615,9 @@
       "modified": "2026-09-26T20:31:42.058Z"
     },
     "_pc-component-variables.scss": {
-      "hash": "e0913c337c84151509d2335c4a1fe48e619ece0001291ace43bb5734f2a4fc89",
-      "size": 23815,
-      "modified": "2026-09-26T21:11:20.082Z"
+      "hash": "a609e3fb82eeb78d6e6f226c34b3a7dd226b3ceac6c5647c83c82faa4b3a3bfa",
+      "size": 23315,
+      "modified": "2026-10-21T18:53:40.422Z"
     },
     "_rtl-helpers.scss": {
       "hash": "1b35098638142c4af9a81d97633c7fbb738be3f2e50e90f8b64fb8373417a1f5",
@@ -625,9 +625,9 @@
       "modified": "2026-09-10T19:55:52.883Z"
     },
     "_variables.scss": {
-      "hash": "19b699ca24904872fd8507ee4d194aa78646f33a2d9b50e1671433a5738dbcf0",
-      "size": 661,
-      "modified": "2026-09-10T19:55:52.887Z"
+      "hash": "f2bbeecf8104c77decbeabce016fa587448f09ab890c7fd560345a0ba2665bfb",
+      "size": 662,
+      "modified": "2026-10-15T19:57:02.776Z"
     }
   }
 }
