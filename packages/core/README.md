@@ -6,6 +6,16 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 3.3.0-rc09
+
+Consistent button spacing and a button ripple that actually works — with variants and room for your own.
+
+- **Button groups use the same 8px gap as every other button row** — `.pa-btn-group` now matches `.pa-card__actions`, card / detail-panel footers and `.pa-form-actions`. The old tight 3px gap lives on as `.pa-btn-group--compact`, for small clusters like table row actions.
+- **The ripple works out of the box** — new `src/js/ripple.js` plays `.pa-btn--ripple` on any button, including ones rendered later; no init call and no `data-ripple` attribute (removed). `pureAdmin.ripple.play(btn)` triggers it from code.
+- **A shorter, better ripple** — one 0.45s grow-and-fade from the click point instead of a ~1.2s grow-and-shrink from the centre. The ink follows the button's text colour, so outline and light buttons ripple too. `$ripple-transition-duration` is now `$ripple-duration`.
+- **Ripple variants** — `--ripple-center` (always from the middle), `--ripple-pulse` (a halo of the fill past the edges) and `--ripple-double-pulse` (two halos).
+- **Your own ripple types, no JS** — define `.pa-btn--ripple-<name>` with an animation in your CSS; `ripple.js` times it automatically. The buttons snippet shows a ring "wave".
+
 ## What's New in 3.3.0-rc08
 
 The largest release of the 3.3 cycle — **read the [release notes](release-notes/3.3.0-rc08.md)
@@ -17,17 +27,6 @@ before upgrading**; most breaking changes are 1:1 renames with migration tables 
 - **BREAKING — CSS-property naming and `placement`**: `pa-btn--justify-*`, `pa-tabs--justify-*`, and `placement` instead of `position` in the dialog / toast JS.
 - **One naming vocabulary across core, svelte and keen** (`fidelity/NAMING.md`, checked by `npm run fidelity:naming`).
 - **New**: grid / ripple / dual-ring loaders, slider pager, standalone range events, highlighted list items, role-coloured split-button items, truncation-only card tooltips.
-
-## What's New in 3.3.0-rc07
-
-Collapsed-sidebar flyouts become genuinely usable, a detail-panel header actions slot, and table-card header polish.
-
-- **Collapsed icon-rail submenu flyouts overhauled** — in icon-collapse mode the hover flyouts no longer shrink their text per nesting level (it was dropping to 12px), linger briefly when the cursor leaves so you can travel back to them, and read as an elevated floating card instead of a muted panel. Ships via pure-css `^1.3.0-rc01`.
-- **Flyouts are viewport-aware** — the new `js/sidebar-flyout.js` shifts a flyout up, caps-and-scrolls, or flips it (RTL-aware) so one on an item low in a tall menu no longer opens off the bottom edge. Event-delegated and self-initialising.
-- **New desktop "overlay" sidebar behaviour** — `body.sidebar-overlay` turns the sidebar into a temporary floating drawer the burger opens and closes, alongside the existing hide / icon-collapse modes.
-- **`.pa-detail-panel__actions`** — a header actions slot on the detail-panel content shell, between the title and close button (mirrors `.pa-card__actions`), so a panel can put icon buttons in its header without a footer.
-- **Table-card header fixes** — the header now carries the same `gap` as `.pa-card__header` (title and description no longer butt together), and `.pa-table-card__title-text` stopped clipping glyph descenders (the "g"/"y"/"p" tails) under its ellipsis.
-- **pure-css `^1.3.0-rc01`** — the foundation bump that carries the sidebar flyout work above.
 
 ## Installation
 

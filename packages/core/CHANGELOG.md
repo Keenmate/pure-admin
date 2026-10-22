@@ -5,6 +5,58 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0-rc09] - 2026-10-22 [PUBLISHED]
+
+### Added
+
+- **`.pa-btn-group--compact`** — the old tight 3px gap (`$btn-group-compact-gap`) for clusters of
+  small buttons such as table row actions. The tables / checkbox-lists / popconfirm / tooltips
+  snippets use it for their row actions. Fidelity: `button-group` feature `compact`.
+- **`src/js/ripple.js` — the button ripple now works out of the box.** Core shipped only the
+  `.pa-btn--ripple` CSS; the click that adds `.pa-btn--ripple-active` was left to "your own JS",
+  so outside the demo's Buttons page (which had an inline script) nothing rippled. One delegated
+  document listener, self-initialising, covers buttons rendered later;
+  `pureAdmin.ripple.play(btn)` triggers it from code.
+- **Ripple variants `.pa-btn--ripple-center`, `.pa-btn--ripple-pulse` and
+  `.pa-btn--ripple-double-pulse`** (modifiers on top of `.pa-btn--ripple`): always grow from the
+  middle, a halo of the button's fill grows past its edges, or two halos, the second
+  `$ripple-double-pulse-delay` (0.15s) later. Fidelity: button feature `rippleType`
+  (`center` | `pulse` | `double-pulse`).
+- **Custom ripple types without JS.** Any `.pa-btn--ripple-<name>` a product defines in its own CSS
+  works: put an animation on `.pa-btn--ripple-active` (on `::before`, `::after` or the button) and
+  `ripple.js` times it from the computed animation-duration + delay — nothing to register. The
+  buttons snippet and demo show a ring `wave` defined in page CSS.
+
+### Changed
+
+- **`.pa-btn-group` gap is 8px (was 3px)** — `$btn-group-gap` is now `$spacing-sm`, the same gap
+  as `.pa-card__actions`, the card / detail-panel footers and `.pa-form-actions`, so a row of
+  buttons looks the same wherever it sits. Visible: every button group spreads out by 5px.
+- **The ripple is one short grow-and-fade from the click point.** It was a 0.6s width/height
+  transition from the centre that shrank back over another 0.6s once the class came off (≈1.2s
+  per click) and never faded. Now a 0.45s keyframe animation (`$ripple-duration`,
+  `$ripple-easing`) starts where you click, is sized to cover the button and fades out; the ink is
+  `currentColor` at `$ripple-opacity` (0.35), so it shows on outline / light buttons too (the
+  white ink was invisible there). `$ripple-transition-duration` is replaced by `$ripple-duration`.
+  The keyframes are `pa-btn-ripple` / `pa-btn-ripple-pulse` — `pa-ripple` is the loader's.
+
+### Removed
+
+- **`data-ripple`.** The class is the whole contract — `.pa-btn--ripple` alone enables the ripple.
+  The fidelity normalizer no longer treats `data-ripple` as a boolean attribute and the button
+  `ripple` golden drops it.
+
+### Internal
+
+- **fidelity: card `footer-with-actions` scenario.** Leading footer content plus `.pa-card__actions`
+  in one footer (`footer` + `footerActions`), the shape the footer CSS documents. svelte's `<Card>`
+  rendered only one of the two, which this scenario now catches.
+- **Demo: one 8px gap between buttons.** Ad-hoc `gap-5` (13px) and whitespace-spaced inline
+  buttons became `.pa-btn-group` / `.pa-form-actions`; buttons nested in a group inside
+  `.pa-card__actions` sit straight in the slot; table row actions and detail-panel header icon
+  clusters use `--compact`. The cards demo and snippet no longer claim `.pa-btn-group` gives a
+  "joined-corner" look — it never did (no CSS joins the buttons).
+
 ## [3.3.0-rc08] - 2026-10-22 [PUBLISHED]
 
 ### Added

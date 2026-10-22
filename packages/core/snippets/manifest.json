@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-22T09:57:34.842Z",
+  "generated": "2026-10-22T15:28:33.811Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -13,9 +13,9 @@
       "modified": "2026-10-15T13:21:46.295Z"
     },
     "buttons.html": {
-      "hash": "107c143fb721ddc3e108edf3cb2fd6669acc29e6c1681bf8cb61d6ce5a784cf3",
-      "size": 27748,
-      "modified": "2026-10-19T18:30:58.152Z"
+      "hash": "6a6718645f98a431cf4ef57ec5c41e00beb6bb83260caed8a58d02efe5cb749d",
+      "size": 29587,
+      "modified": "2026-10-22T14:52:19.170Z"
     },
     "callouts.html": {
       "hash": "40a5fe52114f2842cdebfb5cbf5353e6db847c5a3063beb19fbacb8117de0e56",
@@ -23,14 +23,14 @@
       "modified": "2026-10-14T20:30:46.454Z"
     },
     "cards.html": {
-      "hash": "e75142d9412327b2c863303edb1c1084c3ed056b263d5c135ffd9c92a6dd7648",
-      "size": 31212,
-      "modified": "2026-10-18T21:30:32.873Z"
+      "hash": "39e4ead79835dcef6915e39ac77782cd9bd4a11447da67fa38c4cecbe7bd20b2",
+      "size": 31292,
+      "modified": "2026-10-22T12:42:09.223Z"
     },
     "checkbox-lists.html": {
-      "hash": "befa8f874630eb833b7fa4cf1365160722a1ec83cf5ad80893d9803f8989f916",
-      "size": 32047,
-      "modified": "2026-10-18T19:42:29.363Z"
+      "hash": "738b4241962ad43dc99a48b33be3616645e948ab3ea9fb79f7296a1f3f299c56",
+      "size": 32157,
+      "modified": "2026-10-22T12:39:33.896Z"
     },
     "code.html": {
       "hash": "0010d649d6497b544b0539ed09811cc3743556f6983bda7b459b6eb175646661",
@@ -123,9 +123,9 @@
       "modified": "2026-10-18T08:41:20.592Z"
     },
     "popconfirm.html": {
-      "hash": "1adf23b9e00484960f49687610dfc97f0925ff38d5a8ac5afe3cf841eb0e2f5c",
-      "size": 17138,
-      "modified": "2026-10-18T19:42:29.366Z"
+      "hash": "c746eb9987ccd5377f4476f3c2c37e912cf8731c24fbf26d0967b86036a56949",
+      "size": 17160,
+      "modified": "2026-10-22T12:39:33.902Z"
     },
     "profile.html": {
       "hash": "94f5e0276115a629c1b8eb6d1ae7631f9641c085c5eb584eab0248f423d719f0",
@@ -158,9 +158,9 @@
       "modified": "2026-10-18T18:30:59.048Z"
     },
     "tables.html": {
-      "hash": "0cc4e33f3a486603f44af29a86908aa9ab5982891b1114f6c045fd0fd1ff4f5f",
-      "size": 29431,
-      "modified": "2026-10-18T19:42:29.378Z"
+      "hash": "bbf79d02884f15184e18b1e8ff1bc309954480a1ebdab6823df466627d1cb9cc",
+      "size": 29475,
+      "modified": "2026-10-22T12:39:33.911Z"
     },
     "tabs.html": {
       "hash": "91696f3d690299a3df9a7a3793fe0c7a7348695e4b30879497fa67dd4e4eb0fc",
@@ -178,9 +178,9 @@
       "modified": "2026-10-19T18:32:34.694Z"
     },
     "tooltips.html": {
-      "hash": "40dcc4e391643276639057c54bb69d6013fb647e11c5e9203d197dceffacee3b",
-      "size": 20937,
-      "modified": "2026-10-18T19:42:29.374Z"
+      "hash": "c48271f289b64b19ec5e5bc336f6c7b6f2abb55bf2720ef09027a9ecd344785b",
+      "size": 20959,
+      "modified": "2026-10-22T12:39:33.915Z"
     },
     "typography.html": {
       "hash": "13539b57e5c94835e0352691795703584d9b308bb2353cea574f13a33fec605c",
@@ -335,9 +335,9 @@
       "modified": "2026-10-18T08:41:20.649Z"
     },
     "core-components/_buttons.scss": {
-      "hash": "60db2016852359a168840d400696f30618c5b181ec49fc1dd98b7c74c7db9031",
-      "size": 19883,
-      "modified": "2026-10-21T18:57:19.789Z"
+      "hash": "29aae56b89dd59a8ce0c9494f2125e02322adaa871f5de851c6b3a3f90319d27",
+      "size": 22202,
+      "modified": "2026-10-22T14:17:55.787Z"
     },
     "core-components/_callouts.scss": {
       "hash": "984fbcd28df1e459cae60edfca0aa68ccd70398926f27c16ddaf0a2f827cef8c",
@@ -595,9 +595,9 @@
       "modified": "2026-09-10T19:55:52.850Z"
     },
     "variables/_components.scss": {
-      "hash": "dfddb05de1547bdfb99ba9fd5e7990dae1d2391d6e1d5111ff167328f193c8b8",
-      "size": 49569,
-      "modified": "2026-10-18T08:41:20.686Z"
+      "hash": "753e1e1d081fbd447986690373e36601c64c2c779a49657227163aa602e4e80b",
+      "size": 50300,
+      "modified": "2026-10-22T14:17:55.789Z"
     },
     "variables/_index.scss": {
       "hash": "d447b4d59d06fb9011b9dd929c7e8425bfdb3ab70cccdac3b0fb346741434a0f",
