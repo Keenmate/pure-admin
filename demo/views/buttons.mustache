@@ -1192,10 +1192,10 @@
                             <div class="pc-row">
                                 <div class="pc-col-100">
                                     <div class="pa-btn-group">
-                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save" data-ripple data-loading-demo><span class="pa-icon pa-icon--save" aria-hidden="true"></span></button>
-                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Refresh" data-ripple data-loading-demo><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></button>
-                                        <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Upload" data-ripple data-loading-demo><i class="fa-solid fa-upload"></i></button>
-                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Delete" data-ripple data-loading-demo><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></button>
+                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--ripple" title="Save" data-loading-demo><span class="pa-icon pa-icon--save" aria-hidden="true"></span></button>
+                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only pa-btn--ripple" title="Refresh" data-loading-demo><span class="pa-icon pa-icon--refresh" aria-hidden="true"></span></button>
+                                        <button class="pa-btn pa-btn--success pa-btn--icon-only pa-btn--ripple" title="Upload" data-loading-demo><i class="fa-solid fa-upload"></i></button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only pa-btn--ripple" title="Delete" data-loading-demo><span class="pa-icon pa-icon--delete" aria-hidden="true"></span></button>
                                     </div>
                                 </div>
                             </div>
@@ -1406,14 +1406,66 @@
                             </div>
                         </div>
                         <div class="pa-card__body">
-                            <p class="mb-1">Click buttons to see ripple animation effect:</p>
-                            <div class="pa-btn-group">
-                                <button class="pa-btn pa-btn--primary pa-btn--ripple" data-ripple>Primary Ripple</button>
-                                <button class="pa-btn pa-btn--secondary pa-btn--ripple" data-ripple>Secondary Ripple</button>
-                                <button class="pa-btn pa-btn--success pa-btn--ripple" data-ripple>Success Ripple</button>
-                                <button class="pa-btn pa-btn--warning pa-btn--ripple" data-ripple>Warning Ripple</button>
-                                <button class="pa-btn pa-btn--danger pa-btn--ripple" data-ripple>Danger Ripple</button>
+                            <p class="mb-1"><code>pa-btn--ripple</code> — grows from where you click and fades out. The ink is the button's text colour, so it works on every variant:</p>
+                            <div class="pa-btn-group mb-3">
+                                <button class="pa-btn pa-btn--primary pa-btn--ripple">Primary</button>
+                                <button class="pa-btn pa-btn--success pa-btn--ripple">Success</button>
+                                <button class="pa-btn pa-btn--danger pa-btn--ripple">Danger</button>
+                                <button class="pa-btn pa-btn--secondary pa-btn--ripple">Secondary</button>
+                                <button class="pa-btn pa-btn--primary pa-btn--outline pa-btn--ripple">Outline</button>
+                                <button class="pa-btn pa-btn--light pa-btn--ripple">Light</button>
                             </div>
+                            <p class="mb-1"><code>pa-btn--ripple pa-btn--ripple-center</code> — always starts in the middle:</p>
+                            <div class="pa-btn-group mb-3">
+                                <button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-center">Primary</button>
+                                <button class="pa-btn pa-btn--warning pa-btn--ripple pa-btn--ripple-center">Warning</button>
+                                <button class="pa-btn pa-btn--info pa-btn--ripple pa-btn--ripple-center">Info</button>
+                                <button class="pa-btn pa-btn--primary pa-btn--block pa-btn--ripple pa-btn--ripple-center">Full width, centred</button>
+                            </div>
+                            <p class="mb-1"><code>pa-btn--ripple pa-btn--ripple-pulse</code> — a halo of the button's fill grows past its edges (filled buttons):</p>
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-pulse">Primary</button>
+                                <button class="pa-btn pa-btn--success pa-btn--ripple pa-btn--ripple-pulse">Success</button>
+                                <button class="pa-btn pa-btn--danger pa-btn--ripple pa-btn--ripple-pulse">Danger</button>
+                                <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--ripple pa-btn--ripple-pulse" title="Favourite"><span class="pa-icon pa-icon--favorites" aria-hidden="true"></span></button>
+                            </div>
+                            <p class="mb-1 mt-3"><code>pa-btn--ripple pa-btn--ripple-double-pulse</code> — two halos, one right after the other:</p>
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-double-pulse">Primary</button>
+                                <button class="pa-btn pa-btn--success pa-btn--ripple pa-btn--ripple-double-pulse">Success</button>
+                                <button class="pa-btn pa-btn--danger pa-btn--ripple pa-btn--ripple-double-pulse">Danger</button>
+                                <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--ripple pa-btn--ripple-double-pulse" title="Notifications"><span class="pa-icon pa-icon--bell" aria-hidden="true"></span></button>
+                            </div>
+                            <p class="mb-1 mt-3"><strong>Your own type</strong> — any <code>pa-btn--ripple-&lt;name&gt;</code> with an animation on <code>pa-btn--ripple-active</code>; no JS or registration (<code>ripple.js</code> times it from the CSS). This page defines a ring <code>wave</code>:</p>
+                            <style>
+                            .pa-btn--ripple-wave::before {
+                              background: transparent;
+                              border: 2px solid currentColor;
+                            }
+                            .pa-btn--ripple-wave.pa-btn--ripple-active::before {
+                              animation: app-ripple-wave 0.6s ease-out;
+                            }
+                            @keyframes app-ripple-wave {
+                              from { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+                              to   { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+                            }
+                            </style>
+                            <div class="pa-btn-group mb-2">
+                                <button class="pa-btn pa-btn--primary pa-btn--ripple pa-btn--ripple-wave">Primary</button>
+                                <button class="pa-btn pa-btn--success pa-btn--ripple pa-btn--ripple-wave">Success</button>
+                                <button class="pa-btn pa-btn--primary pa-btn--outline pa-btn--ripple pa-btn--ripple-wave">Outline</button>
+                            </div>
+                            <pre class="pa-code pa-code--css pa-code--compact">.pa-btn--ripple-wave::before {
+  background: transparent;
+  border: 2px solid currentColor;
+}
+.pa-btn--ripple-wave.pa-btn--ripple-active::before {
+  animation: app-ripple-wave 0.6s ease-out;
+}
+@keyframes app-ripple-wave {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+  to   { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}</pre>
                         </div>
                     </div>
                 </div>
@@ -1429,19 +1481,19 @@
                         <div class="pa-card__body">
                             <p class="mb-1">Click buttons to simulate loading states:</p>
                             <div class="pa-btn-group">
-                                <button class="pa-btn pa-btn--primary pa-btn--ripple" data-loading-demo data-ripple>
+                                <button class="pa-btn pa-btn--primary pa-btn--ripple" data-loading-demo>
                                     Save Changes
                                 </button>
-                                <button class="pa-btn pa-btn--secondary pa-btn--ripple" data-loading-demo data-ripple>
+                                <button class="pa-btn pa-btn--secondary pa-btn--ripple" data-loading-demo>
                                     Load Data
                                 </button>
-                                <button class="pa-btn pa-btn--success pa-btn--ripple" data-loading-demo data-ripple>
+                                <button class="pa-btn pa-btn--success pa-btn--ripple" data-loading-demo>
                                     Submit Form
                                 </button>
-                                <button class="pa-btn pa-btn--warning pa-btn--ripple" data-loading-demo data-ripple>
+                                <button class="pa-btn pa-btn--warning pa-btn--ripple" data-loading-demo>
                                     Process
                                 </button>
-                                <button class="pa-btn pa-btn--danger pa-btn--ripple" data-loading-demo data-ripple>
+                                <button class="pa-btn pa-btn--danger pa-btn--ripple" data-loading-demo>
                                     Delete Item
                                 </button>
                             </div>
@@ -1459,7 +1511,7 @@
                 </div>
                 <div class="pa-card__body">
                     <h4>Ripple Effect</h4>
-                    <p>Add <code>pa-btn--ripple</code> class and <code>data-ripple</code> attribute to any button for click animation feedback.</p>
+                    <p>Add <code>pa-btn--ripple</code> to any button for click feedback (grows from the click point and fades out); add <code>pa-btn--ripple-center</code> to start it in the middle, or <code>pa-btn--ripple-pulse</code> for a halo that grows past the button. Core's <code>src/js/ripple.js</code> plays them; <code>$ripple-duration</code> (0.45s) and <code>$ripple-opacity</code> tune the feel.</p>
 
                     <h4>Loading States</h4>
                     <p>Use <code>pa-btn--loading</code> class to show spinner. JavaScript can toggle this class during async operations.</p>
@@ -1475,20 +1527,8 @@
             </div>
 
             <script>
-            // Ripple Effect Implementation
+            // Loading-state demo (ripple is core's src/js/ripple.js)
             document.addEventListener('DOMContentLoaded', function() {
-                function addRippleEffect(button) {
-                    button.addEventListener('click', function(e) {
-                        // Add ripple active class
-                        this.classList.add('pa-btn--ripple-active');
-
-                        // Remove the class after animation completes
-                        setTimeout(() => {
-                            this.classList.remove('pa-btn--ripple-active');
-                        }, 600);
-                    });
-                }
-
                 function addLoadingDemo(button) {
                     button.addEventListener('click', function() {
                         if (this.classList.contains('pa-btn--loading')) return;
@@ -1510,9 +1550,6 @@
                         }, loadingTime);
                     });
                 }
-
-                // Initialize ripple effects
-                document.querySelectorAll('[data-ripple]').forEach(addRippleEffect);
 
                 // Initialize loading demos
                 document.querySelectorAll('[data-loading-demo]').forEach(addLoadingDemo);

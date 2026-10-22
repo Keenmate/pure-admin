@@ -155,7 +155,7 @@
                                 </div>
                             </div>
                             <div class="pa-card__body">
-                                <p>Header controls belong in <code>.pa-card__actions</code> — the canonical actions slot. It stays fixed (<code>flex-shrink: 0</code>) and won't squeeze. Want the joined/segmented look? Nest a <code>.pa-btn-group</code> <em>inside</em> it.</p>
+                                <p>Header controls belong in <code>.pa-card__actions</code> — the canonical actions slot. It stays fixed (<code>flex-shrink: 0</code>) and won't squeeze. Buttons go straight in — the slot spaces them; nest a <code>.pa-btn-group</code> <em>inside</em> only for its options (compact, vertical).</p>
                             </div>
                         </div>
                     </div>
@@ -906,7 +906,7 @@
             <li><code>pa-card__title-icon</code> - Icon before title</li>
             <li><code>pa-card__title-text</code> - Title text (auto-truncates)</li>
             <li><code>pa-card__actions</code> - Canonical actions container (header or footer); fixed width, use for any header controls</li>
-            <li><code>pa-btn-group</code> - Segmented (joined) button cluster; nest <em>inside</em> <code>pa-card__actions</code>, not directly in the header</li>
+            <li><code>pa-btn-group</code> - Button cluster (8px gap; <code>--compact</code> 3px, <code>--vertical</code>); nest <em>inside</em> <code>pa-card__actions</code>, not directly in the header</li>
         </ul>
 
         <h4 class="mt-4">Footer Elements</h4>

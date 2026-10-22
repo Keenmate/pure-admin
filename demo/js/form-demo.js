@@ -232,7 +232,7 @@
             return `
                 <tr data-entry-id="${e.id}"${isEditing ? ' class="is-editing"' : ''}>
                     <td>
-                        <div class="pa-btn-group">
+                        <div class="pa-btn-group pa-btn-group--compact">
                             <button type="button" class="pa-btn pa-btn--danger pa-btn--xs" data-delete="${e.id}" title="Delete entry" aria-label="Delete entry">
                                 <span class="pa-icon pa-icon--remove" aria-hidden="true"></span>
                             </button>
