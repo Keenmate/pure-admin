@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`pa-list` is always `<ul class="pa-list" role="list">` with `<li class="pa-list__item">` rows
+  (BREAKING for hand-written `<div>` markup).** The structured list now has one canonical shape,
+  like every other core list (`pa-list-basic` `<ul>`, `pa-list-ordered` `<ol>`,
+  `pa-list-definition` `<dl>`, `pa-timeline` `<ul>`). `.pa-list` owns its list reset
+  (`list-style: none; margin: 0; padding: 0`, and `> li { margin: 0 }` against the foundation's
+  `ul li` row spacing), so it renders exactly like the old `<div>` form. `role="list"` keeps the
+  list semantics WebKit/VoiceOver drops under `list-style: none`. The snippet no longer offers
+  `<div>`s or borrows `.pa-list-basic--unstyled`; anything placed between rows must be an `<li>`.
+  Demo pages (lists, cards, dashboard, command palette) migrated; fidelity `list` / `list-item`
+  goldens updated.
 - **Snippet `timeline.html`: every example is `<ul>` / `<li>`.** The five alternating-modifier
   examples (`--start`, `--end`, `--keep-layout` and their combinations) still used `<div>` items,
   contradicting the canonical list shape the rest of the snippet and the demo use.

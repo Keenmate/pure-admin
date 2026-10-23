@@ -2,7 +2,7 @@
   "//": "FRAGMENT fixture for a List sub-component — the item (pa-list__item). See ../README.md + list.json. Tested in isolation (svelte ListItem, keen list_item/1); the parent list fixture `deferred`s these classes pointing here. GENERALITY NOTE: the item's parts are FLAT SIBLINGS under pa-list__ (pa-list__content/__title/…), NOT pa-list__item__…, so they aren't block-modifiers/sub-elements of pa-list__item. They're claimed via each feature's `produces` (forward-verified against main.css) and exercised by the goldens; capability's reverse checks (scoped to pa-list__item--/__) are correctly empty, and the base class pa-list__item exists so no vacuous note. Authored from snippets/lists.html + _lists.scss.",
   "component": "list-item",
   "block": "pa-list__item",
-  "goldenConventions": "Default item element is <div> (both wrappers default to it; keen also offers as=\"li\", svelte is div-only — absorbed, not a shared feature). __meta nests INSIDE __content (snippet + both wrappers). Avatar (when present) precedes __content.",
+  "goldenConventions": "The item element is always <li> (the list is <ul role=\"list\">; rc10 dropped the <div> form and keen's as=). __meta nests INSIDE __content (snippet + both wrappers). Avatar (when present) precedes __content.",
   "propsVocabulary": {
     "avatar": "avatar slot — wrapped in pa-list__avatar, precedes the content",
     "title": "pa-list__title text (inside pa-list__content)",
@@ -20,12 +20,12 @@
   },
   "scenarios": [
     { "name": "full", "props": { "avatar": "A", "title": "Sarah", "subtitle": "PM", "meta": "2h ago" },
-      "golden": "<div class=\"pa-list__item\"><div class=\"pa-list__avatar\">A</div><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div><div class=\"pa-list__subtitle\">PM</div><div class=\"pa-list__meta\">2h ago</div></div></div>" },
+      "golden": "<li class=\"pa-list__item\"><div class=\"pa-list__avatar\">A</div><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div><div class=\"pa-list__subtitle\">PM</div><div class=\"pa-list__meta\">2h ago</div></div></li>" },
     { "name": "title-only", "props": { "title": "Sarah" },
-      "golden": "<div class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" },
+      "golden": "<li class=\"pa-list__item\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></li>" },
     { "name": "highlighted", "props": { "title": "Sarah", "highlighted": true },
-      "golden": "<div class=\"pa-list__item pa-list__item--highlighted\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" },
+      "golden": "<li class=\"pa-list__item pa-list__item--highlighted\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></li>" },
     { "name": "extra-class", "props": { "title": "Sarah", "extraClass": "custom" },
-      "golden": "<div class=\"pa-list__item custom\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></div>" }
+      "golden": "<li class=\"pa-list__item custom\"><div class=\"pa-list__content\"><div class=\"pa-list__title\">Sarah</div></div></li>" }
   ]
 }

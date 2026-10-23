@@ -157,41 +157,42 @@
 
 <!-- ================================
      COMPLEX LISTS (with avatars)
-     The sub-elements are flex-aware, so the container + items can be
-     <div>s (as below) or semantic <ul>/<li> — the CSS doesn't care.
-     Prefer <ul>/<li> when the list is genuinely enumerative so screen
-     readers announce it as one.
+     One canonical shape: <ul class="pa-list" role="list"> with
+     <li class="pa-list__item"> rows — like every other core list.
+     .pa-list owns its reset (no bullets / indent / row margins);
+     role="list" keeps the list semantics WebKit/VoiceOver drops under
+     list-style:none. Never <div>s.
      ================================ -->
 
-<div class="pa-list">
-    <div class="pa-list__item">
+<ul role="list" class="pa-list">
+    <li class="pa-list__item">
         <div class="pa-list__avatar">👤</div>
         <div class="pa-list__content">
             <div class="pa-list__title">Sarah Johnson</div>
             <div class="pa-list__subtitle">Product Manager</div>
             <div class="pa-list__meta">Last active: 2 hours ago</div>
         </div>
-    </div>
-    <div class="pa-list__item">
+    </li>
+    <li class="pa-list__item">
         <div class="pa-list__avatar">👤</div>
         <div class="pa-list__content">
             <div class="pa-list__title">Michael Chen</div>
             <div class="pa-list__subtitle">Lead Developer</div>
             <div class="pa-list__meta">Last active: 15 minutes ago</div>
         </div>
-    </div>
-    <div class="pa-list__item">
+    </li>
+    <li class="pa-list__item">
         <div class="pa-list__avatar">👤</div>
         <div class="pa-list__content">
             <div class="pa-list__title">Emily Rodriguez</div>
             <div class="pa-list__subtitle">UX Designer</div>
             <div class="pa-list__meta">Last active: 1 day ago</div>
         </div>
-    </div>
-</div>
+    </li>
+</ul>
 
-<!-- Same structure using semantic markup -->
-<ul class="pa-list pa-list-basic--unstyled">
+<!-- Notification-style rows (same structure) -->
+<ul role="list" class="pa-list">
     <li class="pa-list__item">
         <div class="pa-list__avatar">🔔</div>
         <div class="pa-list__content">
@@ -274,10 +275,10 @@ Automatic behaviour:
 - .pa-list__item:hover gets var(--pc-main-bg) — signals interactivity.
   Don't use bare .pa-list for passive read-only content if the hover
   would be misleading.
-- Any block element works for .pa-list + .pa-list__item; semantic
-  <ul>/<li> (combined with .pa-list-basic--unstyled on the ul to kill
-  bullets) is preferred for screen readers when the items form a
-  genuine enumerative list.
+- Always <ul class="pa-list" role="list"> > <li class="pa-list__item">.
+  .pa-list resets the foundation's ul/li list styling itself — don't add
+  .pa-list-basic--unstyled (another block's modifier). Anything placed
+  between rows must itself be an <li>.
 
 RTL HANDLING (all list types):
 - padding-inline-start / margin-inline-start used throughout, so
@@ -321,7 +322,7 @@ Inline key-value:
 </dl>
 
 Complex user row with hover feedback:
-<ul class="pa-list pa-list-basic--unstyled">
+<ul role="list" class="pa-list">
   <li class="pa-list__item">
     <div class="pa-list__avatar">👤</div>
     <div class="pa-list__content">

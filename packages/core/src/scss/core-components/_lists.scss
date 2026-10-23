@@ -176,7 +176,19 @@
 }
 
 // Complex Lists (with avatars, titles, etc.)
+// Canonical shape: <ul class="pa-list" role="list"> > <li class="pa-list__item">.
+// The block owns its list reset (like .pa-timeline): no bullets, and it cancels
+// the foundation's `ul` margin/indent and the `ul li` 0.4rem row spacing.
+// role="list" because WebKit/VoiceOver drops list semantics once list-style is none.
 .pa-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    margin: 0;
+  }
+
   &__item {
     display: flex;
     align-items: center;
