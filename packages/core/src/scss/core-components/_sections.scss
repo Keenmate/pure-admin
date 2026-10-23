@@ -1,0 +1,259 @@
+/* ========================================
+   Sections (pa-sections) — EXPERIMENTAL
+   One long piece of content (a EULA, a form, a settings page) split into
+   sections, plus a pa-steps navigator that the block CONTROLS (js/sections.js):
+   current section by scroll position, read / validity state per step,
+   click-to-jump, optional wizard paging.
+
+   <div class="pa-sections pa-sections--side" data-pa-sections>
+     <nav class="pa-sections__nav" aria-label="Sections">
+       <ol class="pa-steps pa-steps--sm">
+         <li class="pa-steps__item" data-section="terms">
+           <a class="pa-steps__link" href="#terms">
+             <span class="pa-steps__marker">1</span>
+             <span class="pa-steps__content"><span class="pa-steps__label">Terms</span></span>
+           </a>
+         </li> …
+       </ol>
+     </nav>
+     <div class="pa-sections__body">
+       <section class="pa-sections__section" id="terms"><h3 class="pa-sections__title">1. Terms</h3> …</section> …
+     </div>
+   </div>
+
+   Layout   --side (sticky column; collapses to a bar on narrow blocks)
+            --top (sticky bar) | --overlay (floating mini stepper, expands on hover/focus)
+   Style    (plain: one continuous document) | --boxed (body in one box) | --cards (each section boxed)
+   Mode     (scroll) | --wizard (one section at a time; .pa-sections__actions shows Back / Next)
+   The nav's pa-steps needs no --vertical class: the layout arranges it.
+   Sticky needs the scroll container to be the window or the content area —
+   see the pc-layout__content note in the demo / pure-css.
+   ======================================== */
+@use '../variables' as *;
+@use 'steps' as steps;
+
+// a full-width bar stuck flush under the edge (top layout + collapsed side)
+@mixin sections-bar {
+  position: sticky;
+  top: var(--pa-sections-edge);
+  align-self: stretch;
+  max-height: none;
+  overflow: visible;
+  background: var(--pc-page-bg);
+  padding: var(--pa-sections-nav-gap) 0 $sections-bar-padding-bottom;
+  border-bottom: 1px solid var(--pc-border-color);
+}
+
+// a bar-mode section must land below the edge AND the bar (height measured by the script)
+@mixin sections-bar-landing {
+  .pa-sections__section {
+    scroll-margin-top: calc(var(--pa-sections-edge) + var(--pa-sections-nav-height, 0px) + var(--pa-sections-nav-gap));
+  }
+}
+
+@mixin sections-box {
+  background: var(--pc-main-bg);
+  border: 1px solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
+  padding: $sections-box-padding;
+}
+
+// Flexbox, not grid: a sticky GRID item is confined to its own grid cell (a top
+// bar in row 1 could never stick); a sticky FLEX item to the whole block.
+.pa-sections {
+  --pa-sections-edge: #{$sections-edge};
+  --pa-sections-nav-gap: #{$sections-nav-gap};
+
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: $sections-gap;
+  // on-demand space so a section near the end can still scroll up to the nav (set by the script)
+  padding-bottom: var(--pa-sections-end-space, 0px);
+
+  &__nav {
+    z-index: $sections-nav-z-index;
+    align-self: flex-start;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__section {
+    scroll-margin-top: calc(var(--pa-sections-edge) + var(--pa-sections-nav-gap));
+
+    & + & { margin-top: $sections-section-gap; }
+  }
+
+  &__title { margin-top: 0; }
+
+  &__actions { display: none; }
+
+  // ---- style -----------------------------------------------------------------
+  &--boxed {
+    .pa-sections__body { @include sections-box; }
+
+    .pa-sections__section + .pa-sections__section {
+      margin-top: $sections-box-padding;
+      padding-top: $sections-box-padding;
+      border-top: 1px solid var(--pc-border-color);
+    }
+  }
+
+  &--cards {
+    .pa-sections__section { @include sections-box; }
+    .pa-sections__section + .pa-sections__section { margin-top: $sections-section-gap-cards; }
+  }
+
+  // ---- layout: side ----------------------------------------------------------
+  &--side {
+    flex-direction: row;
+    align-items: flex-start;
+
+    .pa-sections__nav {
+      position: sticky;
+      top: calc(var(--pa-sections-edge) + var(--pa-sections-nav-gap));
+      flex: 0 0 $sections-nav-width;
+      max-height: calc(100vh - var(--pa-sections-edge) - 2 * var(--pa-sections-nav-gap));
+      overflow-y: auto;
+    }
+
+    .pa-sections__nav .pa-steps { @include steps.steps-vertical; }
+  }
+
+  // ---- layout: top -----------------------------------------------------------
+  &--top {
+    .pa-sections__nav { @include sections-bar; }
+    @include sections-bar-landing;
+  }
+
+  // ---- layout: overlay -------------------------------------------------------
+  &--overlay {
+    .pa-sections__nav {
+      position: fixed;
+      inset-inline-end: $sections-overlay-inset;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--pc-main-bg);
+      border: 1px solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius-lg);
+      padding: $sections-overlay-padding-v $sections-overlay-padding-h;
+      box-shadow: var(--base-shadow-md);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity $transition-normal $easing-smooth;
+    }
+
+    &.pa-sections--in-view .pa-sections__nav {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    // collapsed: markers only; labels sit on the content side (row-reverse) so on
+    // expand the markers stay put at the screen edge and the pill grows inward
+    .pa-sections__nav .pa-steps {
+      @include steps.steps-vertical;
+      --pa-steps-row-gap: #{$sections-overlay-row-gap};
+
+      .pa-steps__item {
+        flex-direction: row-reverse;
+        text-align: end;
+        gap: 0;
+      }
+
+      .pa-steps__item:not(:last-child)::after {
+        inset-inline-start: auto;
+        inset-inline-end: calc(var(--pa-steps-marker) / 2 - #{$steps-line-width} / 2);
+      }
+    }
+
+    .pa-steps__content {
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition:
+        max-width $transition-normal $easing-smooth $sections-overlay-collapse-delay,
+        opacity $transition-normal $easing-smooth $sections-overlay-collapse-delay,
+        margin $transition-normal $easing-smooth $sections-overlay-collapse-delay;
+    }
+
+    // expanded: hover, or keyboard focus inside the nav
+    .pa-sections__nav:hover,
+    .pa-sections__nav:focus-within {
+      border-radius: var(--pc-border-radius);
+
+      .pa-steps__content {
+        max-width: $sections-overlay-label-max-width;
+        opacity: 1;
+        margin-inline-end: $steps-item-gap-vertical;
+        transition-delay: 0s;
+      }
+    }
+  }
+
+  // ---- mode: wizard ----------------------------------------------------------
+  &--wizard {
+    padding-bottom: 0;
+
+    .pa-sections__section:not(.pa-sections__section--active) { display: none; }
+
+    .pa-sections__section + .pa-sections__section {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .pa-sections__actions {
+      display: flex;
+      justify-content: space-between;
+      gap: $sections-actions-gap;
+      margin-top: $sections-section-gap-cards;
+    }
+  }
+}
+
+// Sticky-sidebar app mode: the content area scrolls, there is no navbar inside it.
+body.pc-layout--sticky .pa-sections { --pa-sections-edge: 0rem; }
+
+// Narrow block: the side column collapses to a horizontal bar (container query on the block).
+@container (max-width: #{$sections-collapse-below}) {
+  .pa-sections--side {
+    flex-direction: column;
+    align-items: stretch;
+
+    .pa-sections__nav { @include sections-bar; }
+    @include sections-bar-landing;
+
+    // undo the vertical arrangement the wide side layout applies
+    .pa-sections__nav .pa-steps {
+      flex-direction: row;
+
+      .pa-steps__item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: $steps-item-gap;
+        padding-bottom: 0;
+
+        &:not(:last-child)::after { content: none; }
+        & + .pa-steps__item::before { content: ''; }
+      }
+
+      .pa-steps__content { padding-top: 0; }
+      .pa-steps__description { display: none; }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pa-sections--overlay .pa-steps__content,
+  .pa-sections--overlay .pa-sections__nav { transition: none; }
+}
+
+@media print {
+  .pa-sections__nav { display: none; }
+  .pa-sections--wizard .pa-sections__section { display: block; }
+}

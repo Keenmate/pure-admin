@@ -369,6 +369,16 @@ const TAXONOMY = [
   { key: 'timeline', name: 'Timeline', category: 'Feedback',
     desc: 'Vertical/columned activity timeline with dated items, severity dots, avatars and comments.',
     blocks: ['pa-timeline'] },
+  { key: 'steps', name: 'Steps', category: 'Feedback',
+    desc: 'A list of steps — marker (number / icon), label, optional description — joined by connector lines. Horizontal (wizard header) or --vertical (status block, section navigator); progress state (done / current / running) and validity state (success / warning / danger) are independent; --sm compact. Connector geometry derives from one marker-size token.',
+    status: 'experimental',
+    statusNote: 'Class names, modifiers and markup may still change — pin an exact version if you build on it.',
+    blocks: ['pa-steps'] },
+  { key: 'sections', name: 'Sections (navigated long content)', category: 'Surfaces',
+    desc: 'One long piece of content (EULA, form, settings page) split into sections, plus a pa-steps navigator the block controls via js/sections.js: current section by scroll position, read / field-validity state per step, click-to-jump with on-demand end space. Layouts --side (sticky column, collapses to a bar on narrow blocks) / --top (sticky bar) / --overlay (floating, expands on hover); styles plain / --boxed / --cards; --wizard paging.',
+    status: 'experimental',
+    statusNote: 'Class names, modifiers, markup and the JS API may still change — pin an exact version if you build on it. Sticky layouts need the content area not to be a non-scrolling scroll container (pure-css .pc-layout__content fix pending).',
+    blocks: ['pa-sections'] },
 
   // ---------------- Interactive & misc ----------------
   { key: 'badge', name: 'Badge', category: 'Interactive & misc',
@@ -446,6 +456,7 @@ const SNIPPET_OF = {
 const DEMO_OF = {
   'data-viz': 'data-visualization.mustache', 'kpi-base': 'kpi-dashboard.mustache',
   'logic-tree': null, 'settings-panel': null,
+  steps: 'progress.mustache',   // shown on the Progress page (wizard, CNC status block) and driven by Sections
 };
 
 // Why a component has no (or empty) snippet — drives the coverage report so a

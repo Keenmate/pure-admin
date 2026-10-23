@@ -1,0 +1,202 @@
+/* ========================================
+   Steps (pa-steps) — EXPERIMENTAL
+   A list of steps with a marker (number / icon), a label and an optional
+   description, joined by connector lines. Horizontal by default (a wizard
+   header); --vertical stacks it (a status block, a section navigator).
+
+   <ol class="pa-steps">
+     <li class="pa-steps__item pa-steps__item--done">
+       <span class="pa-steps__marker"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></span>
+       <span class="pa-steps__content">
+         <span class="pa-steps__label">Account</span>
+         <span class="pa-steps__description">Email + password</span>
+       </span>
+     </li>
+     …
+   </ol>
+
+   Progress state  --done / --current / --running   (upcoming = no modifier)
+   Validity state  --success / --warning / --danger (independent of progress)
+   A navigable step wraps marker + content in <a class="pa-steps__link">.
+   Geometry: every connector position is derived from --pa-steps-marker, so
+   --sm (or any override of that property) keeps the lines aligned.
+   ======================================== */
+@use '../variables' as *;
+
+// The vertical arrangement, shared with pa-sections (which applies it to its
+// navigator per layout instead of requiring a --vertical class in the markup).
+@mixin steps-vertical {
+  flex-direction: column;
+
+  .pa-steps__item {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: start;
+    gap: $steps-item-gap-vertical;
+    padding-bottom: var(--pa-steps-row-gap);
+
+    &:last-child { padding-bottom: 0; }
+
+    // no horizontal connector …
+    & + .pa-steps__item::before { content: none; }
+
+    // … a vertical one from below this marker down to the next marker
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      inset-inline-start: calc(var(--pa-steps-marker) / 2 - #{$steps-line-width} / 2);
+      top: calc(var(--pa-steps-marker) + #{$steps-line-gap});
+      bottom: $steps-line-gap;
+      width: $steps-line-width;
+      border-radius: $steps-line-width;
+      background: var(--pc-surface-track);
+    }
+  }
+
+  .pa-steps__item--done:not(:last-child)::after,
+  .pa-steps__item--success:not(:last-child)::after {
+    background: var(--pc-primary-color);
+  }
+
+  // align the label's first line with the marker's centre
+  .pa-steps__content {
+    padding-top: calc((var(--pa-steps-marker) - #{$steps-label-font-size} * #{$line-height-base}) / 2);
+  }
+}
+
+.pa-steps {
+  --pa-steps-marker: #{$steps-marker-size};
+  --pa-steps-row-gap: #{$steps-row-gap};
+
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li { margin: 0; }   // cancel the foundation's `ul li` / `ol li` spacing
+
+  &__item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $steps-item-gap;
+    position: relative;
+    color: var(--pc-text-color-2);
+    text-align: center;
+
+    // horizontal connector: from the previous marker's edge to this marker's edge
+    & + .pa-steps__item::before {
+      content: '';
+      position: absolute;
+      top: calc(var(--pa-steps-marker) / 2 - #{$steps-line-width} / 2);
+      height: $steps-line-width;
+      border-radius: $steps-line-width;
+      inset-inline-start: calc(-50% + var(--pa-steps-marker) / 2 + #{$steps-line-gap});
+      inset-inline-end: calc(50% + var(--pa-steps-marker) / 2 + #{$steps-line-gap});
+      background: var(--pc-surface-track);
+    }
+  }
+
+  &__item--done + &__item::before,
+  &__item--success + &__item::before {
+    background: var(--pc-primary-color);
+  }
+
+  &__marker {
+    width: var(--pa-steps-marker);
+    height: var(--pa-steps-marker);
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: $steps-marker-font-size;
+    font-weight: $steps-marker-font-weight;
+    background: var(--pc-surface-track);
+    color: var(--pc-text-color-2);
+    transition: transform $steps-transition-duration $easing-smooth;
+
+    .pa-icon { font-size: $steps-marker-icon-size; }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__label { font-size: $steps-label-font-size; }
+
+  &__description {
+    font-size: $steps-description-font-size;
+    color: var(--pc-text-color-2);
+  }
+
+  // the step's state as TEXT for screen readers (colour alone is not enough) — visually hidden
+  &__state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // navigable step: the link is layout-transparent, marker + content stay flex children
+  &__link {
+    display: contents;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  // ---- progress state ------------------------------------------------------
+  &__item--current {
+    color: var(--pc-text-color-1);
+
+    .pa-steps__label { font-weight: $steps-label-current-font-weight; }
+
+    .pa-steps__marker {
+      box-shadow: 0 0 0 $steps-current-ring var(--pc-primary-bg-subtle);
+      transform: scale($steps-current-scale);
+    }
+  }
+
+  &__item--done .pa-steps__marker,
+  &__item--current .pa-steps__marker,
+  &__item--running .pa-steps__marker {
+    background: var(--pa-btn-primary-bg);
+    color: var(--pa-btn-primary-text);
+  }
+
+  // running: the current step is actively working (pulsing halo)
+  &__item--running .pa-steps__marker {
+    animation: pa-steps-pulse $steps-running-duration ease-out infinite;
+  }
+
+  // ---- validity state (overrides the progress colour of the marker) --------
+  &__item--success .pa-steps__marker { background: var(--pa-btn-success-bg); color: var(--pa-btn-success-text); }
+  &__item--warning .pa-steps__marker { background: var(--pa-btn-warning-bg); color: var(--pa-btn-warning-text); }
+  &__item--danger .pa-steps__marker  { background: var(--pa-btn-danger-bg);  color: var(--pa-btn-danger-text); }
+  &__item--danger .pa-steps__label   { color: var(--pc-danger-color); }
+
+  // ---- variants ------------------------------------------------------------
+  &--sm {
+    --pa-steps-marker: #{$steps-marker-size-sm};
+    --pa-steps-row-gap: #{$steps-row-gap-sm};
+
+    .pa-steps__marker { font-size: $steps-marker-font-size-sm; }
+  }
+
+  &--vertical {
+    @include steps-vertical;
+  }
+}
+
+@keyframes pa-steps-pulse {
+  0%   { box-shadow: 0 0 0 0 var(--pc-primary-color); }
+  100% { box-shadow: 0 0 0 calc(#{$steps-current-ring} * 2) transparent; }
+}

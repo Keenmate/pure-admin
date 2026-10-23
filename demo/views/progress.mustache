@@ -237,8 +237,8 @@
 
             <!-- ================================================================
                  Phases / segmented / vertical / effects ship in core (rc10).
-                 The <style> below only defines the app colour --our-yellow and the
-                 still-prototype stepper (pa-steps). Scoped to #progress-prototypes.
+                 The <style> below only defines the app colour --our-yellow.
+                 The steppers use core's pa-steps (experimental).
                  ================================================================ -->
             <div id="progress-prototypes">
             <style>
@@ -246,60 +246,6 @@
                    Used by the Phases demo to show that any CSS colour can be a phase colour. */
                 #progress-prototypes { --our-yellow: #eab308; }
 
-                /* --- Stepper (multi-step form): its own block, not a bar ------------------- */
-                #progress-prototypes .pa-steps {
-                    display: flex;
-                    list-style: none;
-                    margin: 0;
-                    padding: 0;
-                }
-                #progress-prototypes .pa-steps__item {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 0.6rem;
-                    position: relative;
-                    margin: 0;
-                    color: var(--pc-text-color-2);
-                    text-align: center;
-                }
-                /* connector line to the previous step */
-                #progress-prototypes .pa-steps__item + .pa-steps__item::before {
-                    content: '';
-                    position: absolute;
-                    top: 1.5rem;
-                    inset-inline-end: calc(50% + 2rem);
-                    inset-inline-start: calc(-50% + 2rem);
-                    height: 0.2rem;
-                    background: var(--pc-surface-track);
-                    border-radius: 0.1rem;
-                }
-                #progress-prototypes .pa-steps__item--done + .pa-steps__item::before,
-                #progress-prototypes .pa-steps__item--done::before { background: var(--pc-primary-color); }
-                #progress-prototypes .pa-steps__marker {
-                    width: 3rem;
-                    height: 3rem;
-                    border-radius: 50%;
-                    display: grid;
-                    place-items: center;
-                    font-weight: 600;
-                    background: var(--pc-surface-track);
-                    color: var(--pc-text-color-2);
-                    transition: transform 0.2s ease;
-                }
-                #progress-prototypes .pa-steps__item--current { color: var(--pc-text-color-1); }
-                #progress-prototypes .pa-steps__item--current .pa-steps__marker {
-                    background: var(--pc-primary-color);
-                    color: var(--pa-btn-primary-text);
-                    box-shadow: 0 0 0 0.4rem var(--pc-primary-bg-subtle);
-                    transform: scale(1.08);
-                }
-                #progress-prototypes .pa-steps__item--done .pa-steps__marker {
-                    background: var(--pc-primary-color);
-                    color: var(--pa-btn-primary-text);
-                }
-                #progress-prototypes .pa-steps__label { font-size: 1.3rem; }
             </style>
 
             <!-- Lively bars -->
@@ -525,14 +471,14 @@
             <div class="pa-callout pa-callout--warning mb-4">
                 <span class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
                 <div class="pa-callout__content">
-                    <h4 class="pa-callout__heading">Prototype</h4>
-                    <p>The stepper below (<code>pa-steps</code>) is a sketch — <strong>not in core yet</strong>; its styles live in a page-local block. Its name and structure will change before it ships. The segmented bar under it is real core.</p>
+                    <h4 class="pa-callout__heading">Experimental</h4>
+                    <p>The steppers below use core's <code>pa-steps</code>, shipped as <strong>experimental</strong> — class names and markup may still change. The long form with a sticky stepper lives on its own page now: <a href="/surfaces/sections">Surfaces → Sections</a> (<code>pa-sections</code>).</p>
                 </div>
             </div>
             <div class="pa-card">
                 <div class="pa-card__header">
                     <div class="pa-card__title">
-                        <h3 class="pa-card__title-text">Prototype: multi-step form (stepper + segmented bar)</h3>
+                        <h3 class="pa-card__title-text">Multi-step form (stepper + segmented bar)</h3>
                     </div>
                 </div>
                 <div class="pa-card__body">
@@ -571,6 +517,37 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Vertical status block (static process) -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Vertical stepper as a status block (CNC job)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pc-row">
+                        <div class="pc-col-100 pc-col-md-1-2">
+                            <ol class="pa-steps pa-steps--vertical" id="proto-cnc">
+                                <li class="pa-steps__item" data-cnc="Spindle warm-up, coolant on"><span class="pa-steps__marker">1</span><div class="pa-steps__content"><span class="pa-steps__label">Starting</span><span class="pa-steps__description"></span></div></li>
+                                <li class="pa-steps__item" data-cnc="X / Y / Z referenced"><span class="pa-steps__marker">2</span><div class="pa-steps__content"><span class="pa-steps__label">Homing axes</span><span class="pa-steps__description"></span></div></li>
+                                <li class="pa-steps__item" data-cnc="Pass 3 of 7 — roughing"><span class="pa-steps__marker">3</span><div class="pa-steps__content"><span class="pa-steps__label">Cutting</span><span class="pa-steps__description"></span></div></li>
+                                <li class="pa-steps__item" data-cnc="Chip removal, coolant flush"><span class="pa-steps__marker">4</span><div class="pa-steps__content"><span class="pa-steps__label">Cleaning</span><span class="pa-steps__description"></span></div></li>
+                                <li class="pa-steps__item" data-cnc="Part ready for pickup"><span class="pa-steps__marker">5</span><div class="pa-steps__content"><span class="pa-steps__label">Finished</span><span class="pa-steps__description"></span></div></li>
+                            </ol>
+                        </div>
+                        <div class="pc-col-100 pc-col-md-1-2">
+                            <p class="text-muted text-sm">A read-only block: the machine reports which phase it is in. Done phases get a check, the running one pulses, a fault turns the step red with the reason underneath.</p>
+                            <div class="pa-btn-group">
+                                <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" id="proto-cnc-next">Next phase</button>
+                                <button type="button" class="pa-btn pa-btn--danger pa-btn--sm" id="proto-cnc-fault">Raise fault</button>
+                                <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" id="proto-cnc-reset">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             </div>
             <!-- /PROTOTYPES -->
 
@@ -786,6 +763,52 @@
             });
         }, 180);
     });
+})();
+
+// --- Prototype: CNC status block -----------------------------------------------
+(function () {
+    var list = document.getElementById('proto-cnc');
+    if (!list) return;
+    var items = list.querySelectorAll('.pa-steps__item');
+    var phase = 0, fault = false;
+    var ICON = function (name) { return '<span class="pa-icon pa-icon--' + name + '" aria-hidden="true"></span>'; };
+
+    function show() {
+        items.forEach(function (li, i) {
+            var marker = li.querySelector('.pa-steps__marker');
+            var desc = li.querySelector('.pa-steps__description');
+            li.className = 'pa-steps__item';
+            li.removeAttribute('aria-current');
+            desc.textContent = '';
+            if (i < phase || (phase === items.length - 1 && i === phase && !fault)) {
+                li.classList.add('pa-steps__item--done');
+                marker.innerHTML = ICON('check');
+                desc.textContent = li.dataset.cnc;
+            } else if (i === phase) {
+                li.setAttribute('aria-current', 'step');
+                desc.textContent = li.dataset.cnc;
+                if (fault) {
+                    li.classList.add('pa-steps__item--danger');
+                    marker.innerHTML = ICON('x');
+                    desc.textContent = 'Fault E-214: spindle load too high — operator check required';
+                } else {
+                    li.classList.add('pa-steps__item--current', 'pa-steps__item--running');
+                    marker.textContent = String(i + 1);
+                }
+            } else {
+                marker.textContent = String(i + 1);
+            }
+        });
+    }
+    document.getElementById('proto-cnc-next').addEventListener('click', function () {
+        if (fault) return;
+        if (phase < items.length - 1) phase++;
+        show();
+    });
+    document.getElementById('proto-cnc-fault').addEventListener('click', function () { fault = true; show(); });
+    document.getElementById('proto-cnc-reset').addEventListener('click', function () { phase = 0; fault = false; show(); });
+    phase = 2;   // start mid-job so the states are visible at once
+    show();
 })();
 
 // --- Prototype: multi-step form ---------------------------------------------

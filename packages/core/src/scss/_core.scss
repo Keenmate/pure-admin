@@ -105,6 +105,8 @@
 
 // Timeline components
 @use 'core-components/timeline' as *;
+@use 'core-components/steps' as *;      // EXPERIMENTAL
+@use 'core-components/sections' as *;   // EXPERIMENTAL (uses steps)
 
 // Command Palette
 @use 'core-components/command-palette' as *;

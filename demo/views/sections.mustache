@@ -1,0 +1,289 @@
+            <div class="pa-callout pa-callout--warning mb-4">
+                <span class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
+                <div class="pa-callout__content">
+                    <h4 class="pa-callout__heading">Experimental</h4>
+                    <p><code>pa-sections</code> and the stepper it drives (<code>pa-steps</code>) are in core as <strong>experimental</strong> components (<code>_sections.scss</code>, <code>_steps.scss</code>, <code>js/sections.js</code>). <strong>Class names, modifiers and markup may still change</strong> — pin an exact version if you build on them. Sticky layouts need the pure-css layout fix this page applies temporarily (see its style block).</p>
+                </div>
+            </div>
+
+            <p><code>pa-sections</code> is one long piece of content split into sections — a EULA, a form, a settings page — plus a navigator (<code>pa-steps</code>) that the block <strong>controls</strong>: it marks the section you are in, ticks off what you have read or filled in, colours steps by the state of their fields, and jumps to a section on click. Sections are <strong>plain by default</strong> (one continuous document on the page background); <code>--boxed</code> puts the whole document in one box, <code>--cards</code> boxes each section.</p>
+
+            <div class="pa-card">
+                <div class="pa-card__body">
+                    <form class="pa-form" onsubmit="return false">
+                        <div class="pc-row">
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="sx-example">Example</label>
+                                    <select class="pa-select" id="sx-example">
+                                        <option value="eula">EULA — continuous text, read tracking</option>
+                                        <option value="form">Form — boxed sections, field validation</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="sx-layout">Layout</label>
+                                    <select class="pa-select" id="sx-layout">
+                                        <option value="side">side — sticky column</option>
+                                        <option value="top">top — sticky bar</option>
+                                        <option value="overlay">overlay — floating mini stepper</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="sx-mode">Mode</label>
+                                    <select class="pa-select" id="sx-mode">
+                                        <option value="scroll">scroll — all sections visible</option>
+                                        <option value="wizard">wizard — one section at a time</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="sx-style">Sections</label>
+                                    <select class="pa-select" id="sx-style">
+                                        <option value="plain">plain — one continuous text</option>
+                                        <option value="boxed">boxed — the whole text in one box</option>
+                                        <option value="cards">cards — each section boxed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="text-muted text-sm" id="sx-explain"></p>
+                </div>
+            </div>
+
+<style>
+    /* ===== TEMPORARY page-only stand-in for a pure-css fix (not shipped anywhere yet) =====
+       pure-css gives .pc-layout__content an unconditional `overflow-y: auto`. In the default
+       layout the WINDOW scrolls, so that wrapper never scrolls — but it is still a scroll
+       container, which traps every position:sticky inside the page. Fix: only scroll it in
+       sticky-sidebar mode; otherwise `overflow-x: clip` (contains wide content, no scroll box). */
+    .pc-layout__content { overflow-y: visible; overflow-x: clip; }
+    body.pc-layout--sticky .pc-layout__content { overflow-y: auto; overflow-x: hidden; }
+</style>
+
+            <!-- THE block. Its nav + body are swapped from the <template>s below when the example changes. -->
+            <div class="pa-sections pa-sections--side mb-8" id="sx" data-pa-sections>
+                <nav class="pa-sections__nav" aria-label="Sections"></nav>
+                <div class="pa-sections__body"></div>
+            </div>
+
+<template id="sx-tpl-eula-nav">
+    <ol class="pa-steps pa-steps--sm">
+        <li class="pa-steps__item" data-section="eula-1"><a class="pa-steps__link" href="#eula-1"><span class="pa-steps__marker">1</span><span class="pa-steps__content"><span class="pa-steps__label">Definitions</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-2"><a class="pa-steps__link" href="#eula-2"><span class="pa-steps__marker">2</span><span class="pa-steps__content"><span class="pa-steps__label">Licence grant</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-3"><a class="pa-steps__link" href="#eula-3"><span class="pa-steps__marker">3</span><span class="pa-steps__content"><span class="pa-steps__label">Restrictions</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-4"><a class="pa-steps__link" href="#eula-4"><span class="pa-steps__marker">4</span><span class="pa-steps__content"><span class="pa-steps__label">Privacy</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-6"><a class="pa-steps__link" href="#eula-6"><span class="pa-steps__marker">5</span><span class="pa-steps__content"><span class="pa-steps__label">Warranty</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-7"><a class="pa-steps__link" href="#eula-7"><span class="pa-steps__marker">6</span><span class="pa-steps__content"><span class="pa-steps__label">Liability</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-8"><a class="pa-steps__link" href="#eula-8"><span class="pa-steps__marker">7</span><span class="pa-steps__content"><span class="pa-steps__label">Governing law</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-5"><a class="pa-steps__link" href="#eula-5"><span class="pa-steps__marker">8</span><span class="pa-steps__content"><span class="pa-steps__label">Termination</span></span></a></li>
+    </ol>
+</template>
+<template id="sx-tpl-eula-body">
+    <section class="pa-sections__section" id="eula-1">
+        <h3 class="pa-sections__title">1. Definitions</h3>
+        <p>"Software" means the Twin Peaks Sawmill Management Suite, including updates, documentation and any accompanying materials. "You" means the individual or the legal entity accepting this agreement. "Great Northern Ltd." ("we", "us") is the licensor.</p>
+        <p>Headings are for convenience only. Words in the singular include the plural. "Including" means "including without limitation". A reference to a law includes that law as amended.</p>
+        <p>Any term not defined here takes its ordinary meaning in the timber-processing industry of Washington State, as interpreted by a reasonable Log Lady.</p>
+        <p>You are responsible for backing up your data before installing any update. Nothing in this section limits any right that cannot be limited under applicable law. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Where the context allows, a reference to a person includes a company, trust or partnership.</p>
+        <p>Any amounts overdue by more than thirty days accrue interest at the statutory rate. Nothing in this section limits any right that cannot be limited under applicable law. The cherry pie served on site is not part of the Software and carries no warranty of any kind. If a provision is found unenforceable, the rest of this agreement remains in full effect. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest.</p>
+        <p>Feedback you send us may be used to improve the Software without any obligation to you. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Each party remains an independent contractor; nothing here creates a partnership or agency.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. Feedback you send us may be used to improve the Software without any obligation to you. Nothing in this section limits any right that cannot be limited under applicable law. Where the context allows, a reference to a person includes a company, trust or partnership.</p>
+        <p>Any amounts overdue by more than thirty days accrue interest at the statutory rate. Nothing in this section limits any right that cannot be limited under applicable law. You are responsible for backing up your data before installing any update. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-2">
+        <h3 class="pa-sections__title">2. Licence grant</h3>
+        <p>Subject to this agreement, we grant you a non-exclusive, non-transferable licence to install and use the Software on devices you own or control, solely for your internal business purposes.</p>
+        <p>You may make one backup copy. The licence is per seat; each named user needs a seat. Seats may be reassigned no more than once every thirty days, except when an employee leaves for the Black Lodge.</p>
+        <p>Evaluation licences expire after thirty days and may not be used in production. The coffee must be black as midnight on a moonless night.</p>
+        <p>Updates released during an active subscription are included. Major versions released after the subscription ends require a new licence; minor versions do not.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. Any delay in enforcing a right is not a waiver of that right or of any other right. Records kept in the ordinary course of business are evidence of their contents. Feedback you send us may be used to improve the Software without any obligation to you.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. Where the context allows, a reference to a person includes a company, trust or partnership. Records kept in the ordinary course of business are evidence of their contents. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee.</p>
+        <p>Any amounts overdue by more than thirty days accrue interest at the statutory rate. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. If a provision is found unenforceable, the rest of this agreement remains in full effect. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Nothing in this section limits any right that cannot be limited under applicable law. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-3">
+        <h3 class="pa-sections__title">3. Restrictions</h3>
+        <p>You may not reverse-engineer, decompile or disassemble the Software except to the extent the law expressly permits it despite this restriction. You may not rent, lease, lend or sublicense it.</p>
+        <p>You may not remove notices, use the Software to build a competing product, or run it in a way that intentionally exceeds the published rate limits. The owls are not what they seem.</p>
+        <p>Benchmark results may be published only with the full configuration disclosed. Automated scraping of the user interface is not permitted; use the documented API instead.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. Feedback you send us may be used to improve the Software without any obligation to you. Third-party components are licensed under their own terms, listed in the About dialog. Export of the Software may be subject to export-control laws; you agree to comply with them. The cherry pie served on site is not part of the Software and carries no warranty of any kind. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee.</p>
+        <p>Each party remains an independent contractor; nothing here creates a partnership or agency. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Records kept in the ordinary course of business are evidence of their contents.</p>
+        <p>Service levels are described in the separate Support Policy, which forms part of this agreement. Third-party components are licensed under their own terms, listed in the About dialog. Export of the Software may be subject to export-control laws; you agree to comply with them. Records kept in the ordinary course of business are evidence of their contents. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Nothing in this section limits any right that cannot be limited under applicable law.</p>
+        <p>Feedback you send us may be used to improve the Software without any obligation to you. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Third-party components are licensed under their own terms, listed in the About dialog. Any delay in enforcing a right is not a waiver of that right or of any other right. Service levels are described in the separate Support Policy, which forms part of this agreement. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+        <p>Notices must be given in writing and are effective on receipt at the Great Northern front desk. Audit rights may be exercised once per year with fourteen days' written notice. Third-party components are licensed under their own terms, listed in the About dialog. Any amounts overdue by more than thirty days accrue interest at the statutory rate.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-4">
+        <h3 class="pa-sections__title">4. Privacy</h3>
+        <p>The Software sends anonymous usage statistics (feature counts, error codes, version numbers) unless you switch this off in Settings → Privacy. No document content ever leaves your devices.</p>
+        <p>Crash reports are sent only with your consent, per report. We keep usage statistics for twelve months. Our full privacy notice is available on request at the Double R Diner.</p>
+        <p>You can ask for a copy of the data we hold about your account, or for its deletion, at any time. We answer within thirty days.</p>
+        <p>Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Service levels are described in the separate Support Policy, which forms part of this agreement. Export of the Software may be subject to export-control laws; you agree to comply with them. Notices must be given in writing and are effective on receipt at the Great Northern front desk. The cherry pie served on site is not part of the Software and carries no warranty of any kind.</p>
+        <p>Service levels are described in the separate Support Policy, which forms part of this agreement. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Nothing in this section limits any right that cannot be limited under applicable law. Records kept in the ordinary course of business are evidence of their contents. Export of the Software may be subject to export-control laws; you agree to comply with them.</p>
+        <p>You are responsible for backing up your data before installing any update. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. The licensee shall keep all copies of the Software under reasonable control at all times. Export of the Software may be subject to export-control laws; you agree to comply with them. Any amounts overdue by more than thirty days accrue interest at the statutory rate.</p>
+        <p>Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Where the context allows, a reference to a person includes a company, trust or partnership. Service levels are described in the separate Support Policy, which forms part of this agreement. Nothing in this section limits any right that cannot be limited under applicable law.</p>
+        <p>Records kept in the ordinary course of business are evidence of their contents. Any delay in enforcing a right is not a waiver of that right or of any other right. Each party remains an independent contractor; nothing here creates a partnership or agency. You are responsible for backing up your data before installing any update.</p>
+        <p>Service levels are described in the separate Support Policy, which forms part of this agreement. Notices must be given in writing and are effective on receipt at the Great Northern front desk. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Export of the Software may be subject to export-control laws; you agree to comply with them. You are responsible for backing up your data before installing any update.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-6">
+        <h3 class="pa-sections__title">5. Warranty</h3>
+        <p>Any delay in enforcing a right is not a waiver of that right or of any other right. Feedback you send us may be used to improve the Software without any obligation to you. Audit rights may be exercised once per year with fourteen days' written notice. The licensor may update these terms with thirty days' notice; continued use means acceptance. Any amounts overdue by more than thirty days accrue interest at the statutory rate.</p>
+        <p>You are responsible for backing up your data before installing any update. Each party remains an independent contractor; nothing here creates a partnership or agency. Any delay in enforcing a right is not a waiver of that right or of any other right. Notices must be given in writing and are effective on receipt at the Great Northern front desk. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee.</p>
+        <p>Each party remains an independent contractor; nothing here creates a partnership or agency. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. The licensee shall keep all copies of the Software under reasonable control at all times. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
+        <p>The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. The licensor may update these terms with thirty days' notice; continued use means acceptance. Records kept in the ordinary course of business are evidence of their contents. The licensee shall keep all copies of the Software under reasonable control at all times. Any delay in enforcing a right is not a waiver of that right or of any other right. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+        <p>Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Any amounts overdue by more than thirty days accrue interest at the statutory rate. Third-party components are licensed under their own terms, listed in the About dialog. Any delay in enforcing a right is not a waiver of that right or of any other right. Nothing in this section limits any right that cannot be limited under applicable law. Each party remains an independent contractor; nothing here creates a partnership or agency.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. You are responsible for backing up your data before installing any update. Any amounts overdue by more than thirty days accrue interest at the statutory rate. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. The cherry pie served on site is not part of the Software and carries no warranty of any kind. Nothing in this section limits any right that cannot be limited under applicable law.</p>
+        <p>You are responsible for backing up your data before installing any update. Nothing in this section limits any right that cannot be limited under applicable law. If a provision is found unenforceable, the rest of this agreement remains in full effect. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Audit rights may be exercised once per year with fourteen days' written notice.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-7">
+        <h3 class="pa-sections__title">6. Liability</h3>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Third-party components are licensed under their own terms, listed in the About dialog. Nothing in this section limits any right that cannot be limited under applicable law. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest.</p>
+        <p>Any amounts overdue by more than thirty days accrue interest at the statutory rate. Any delay in enforcing a right is not a waiver of that right or of any other right. Audit rights may be exercised once per year with fourteen days' written notice. Where the context allows, a reference to a person includes a company, trust or partnership.</p>
+        <p>Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. The licensee shall keep all copies of the Software under reasonable control at all times. Notices must be given in writing and are effective on receipt at the Great Northern front desk. If a provision is found unenforceable, the rest of this agreement remains in full effect. You are responsible for backing up your data before installing any update.</p>
+        <p>The licensor may update these terms with thirty days' notice; continued use means acceptance. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Any amounts overdue by more than thirty days accrue interest at the statutory rate. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Service levels are described in the separate Support Policy, which forms part of this agreement. Export of the Software may be subject to export-control laws; you agree to comply with them. Any amounts overdue by more than thirty days accrue interest at the statutory rate.</p>
+        <p>Records kept in the ordinary course of business are evidence of their contents. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Any delay in enforcing a right is not a waiver of that right or of any other right. Where the context allows, a reference to a person includes a company, trust or partnership. Third-party components are licensed under their own terms, listed in the About dialog.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-8">
+        <h3 class="pa-sections__title">7. Governing law</h3>
+        <p>Service levels are described in the separate Support Policy, which forms part of this agreement. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. The cherry pie served on site is not part of the Software and carries no warranty of any kind. The licensee shall keep all copies of the Software under reasonable control at all times. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+        <p>Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Any delay in enforcing a right is not a waiver of that right or of any other right. Audit rights may be exercised once per year with fourteen days' written notice. The licensee shall keep all copies of the Software under reasonable control at all times. Records kept in the ordinary course of business are evidence of their contents. Third-party components are licensed under their own terms, listed in the About dialog.</p>
+        <p>The licensor may update these terms with thirty days' notice; continued use means acceptance. The cherry pie served on site is not part of the Software and carries no warranty of any kind. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee.</p>
+        <p>Each party remains an independent contractor; nothing here creates a partnership or agency. Audit rights may be exercised once per year with fourteen days' written notice. Any amounts overdue by more than thirty days accrue interest at the statutory rate. The cherry pie served on site is not part of the Software and carries no warranty of any kind. Third-party components are licensed under their own terms, listed in the About dialog.</p>
+        <p>Each party remains an independent contractor; nothing here creates a partnership or agency. If a provision is found unenforceable, the rest of this agreement remains in full effect. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. You are responsible for backing up your data before installing any update. Audit rights may be exercised once per year with fourteen days' written notice. Where the context allows, a reference to a person includes a company, trust or partnership.</p>
+        <p>Service levels are described in the separate Support Policy, which forms part of this agreement. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. The licensee shall keep all copies of the Software under reasonable control at all times. Audit rights may be exercised once per year with fourteen days' written notice. The licensor may update these terms with thirty days' notice; continued use means acceptance. Each party remains an independent contractor; nothing here creates a partnership or agency.</p>
+        <p>If a provision is found unenforceable, the rest of this agreement remains in full effect. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Export of the Software may be subject to export-control laws; you agree to comply with them. Any amounts overdue by more than thirty days accrue interest at the statutory rate. The cherry pie served on site is not part of the Software and carries no warranty of any kind.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-5">
+        <h3 class="pa-sections__title">8. Termination</h3>
+        <p>This agreement ends automatically if you breach it. On termination you must stop using the Software and destroy all copies. Sections 1, 3 and 4 survive termination.</p>
+        <p>Either party may terminate for convenience with thirty days' written notice. Fees already paid are not refundable, except as required by law.</p>
+        <p>Each party remains an independent contractor; nothing here creates a partnership or agency. Where the context allows, a reference to a person includes a company, trust or partnership. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
+        <p>Third-party components are licensed under their own terms, listed in the About dialog. If a provision is found unenforceable, the rest of this agreement remains in full effect. Service levels are described in the separate Support Policy, which forms part of this agreement. The licensee shall keep all copies of the Software under reasonable control at all times.</p>
+        <p>Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Where the context allows, a reference to a person includes a company, trust or partnership. You are responsible for backing up your data before installing any update. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+        <p>The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Feedback you send us may be used to improve the Software without any obligation to you. Third-party components are licensed under their own terms, listed in the About dialog. Notices must be given in writing and are effective on receipt at the Great Northern front desk. You are responsible for backing up your data before installing any update.</p>
+        <div class="pa-form-actions mt-4">
+            <button type="button" class="pa-btn pa-btn--primary" id="eula-accept" disabled>Accept</button>
+            <span class="text-muted text-sm" id="eula-hint">Read to the end to accept.</span>
+        </div>
+    </section>
+</template>
+
+<template id="sx-tpl-form-nav">
+    <ol class="pa-steps pa-steps--sm">
+        <li class="pa-steps__item" data-section="sx-personal"><a class="pa-steps__link" href="#sx-personal"><span class="pa-steps__marker">1</span><span class="pa-steps__content"><span class="pa-steps__label">Personal</span><span class="pa-steps__description">Name, email</span></span></a></li>
+        <li class="pa-steps__item" data-section="sx-address"><a class="pa-steps__link" href="#sx-address"><span class="pa-steps__marker">2</span><span class="pa-steps__content"><span class="pa-steps__label">Address</span><span class="pa-steps__description">Where we ship</span></span></a></li>
+        <li class="pa-steps__item" data-section="sx-company"><a class="pa-steps__link" href="#sx-company"><span class="pa-steps__marker">3</span><span class="pa-steps__content"><span class="pa-steps__label">Company</span><span class="pa-steps__description">Optional</span></span></a></li>
+        <li class="pa-steps__item" data-section="sx-billing"><a class="pa-steps__link" href="#sx-billing"><span class="pa-steps__marker">4</span><span class="pa-steps__content"><span class="pa-steps__label">Billing</span><span class="pa-steps__description">Card + VAT</span></span></a></li>
+        <li class="pa-steps__item" data-section="sx-review"><a class="pa-steps__link" href="#sx-review"><span class="pa-steps__marker">5</span><span class="pa-steps__content"><span class="pa-steps__label">Review</span><span class="pa-steps__description">Confirm and send</span></span></a></li>
+    </ol>
+</template>
+<template id="sx-tpl-form-body">
+    <form class="pa-form" onsubmit="return false" novalidate>
+        <section class="pa-sections__section" id="sx-personal">
+            <h3 class="pa-sections__title">1. Personal</h3>
+            <div class="pa-form-group"><label for="sx-first">First name</label><input type="text" class="pa-input" id="sx-first" required></div>
+            <div class="pa-form-group"><label for="sx-last">Last name</label><input type="text" class="pa-input" id="sx-last" required></div>
+            <div class="pa-form-group"><label for="sx-email">Email</label><input type="email" class="pa-input" id="sx-email" required placeholder="dale.cooper@fbi.gov"></div>
+            <div class="pa-form-group"><label for="sx-phone">Phone</label><input type="tel" class="pa-input" id="sx-phone"></div>
+        </section>
+        <section class="pa-sections__section" id="sx-address">
+            <h3 class="pa-sections__title">2. Address</h3>
+            <div class="pa-form-group"><label for="sx-street">Street</label><input type="text" class="pa-input" id="sx-street" required></div>
+            <div class="pa-form-group"><label for="sx-city">City</label><input type="text" class="pa-input" id="sx-city" required placeholder="Twin Peaks"></div>
+            <div class="pa-form-group"><label for="sx-zip">ZIP code (5 digits)</label><input type="text" class="pa-input" id="sx-zip" required pattern="\d{5}"></div>
+            <div class="pa-form-group"><label for="sx-country">Country</label><select class="pa-select" id="sx-country" required><option value="">Choose…</option><option>United States</option><option>Canada</option><option>Czechia</option></select></div>
+        </section>
+        <section class="pa-sections__section" id="sx-company">
+            <h3 class="pa-sections__title">3. Company (optional)</h3>
+            <div class="pa-form-group"><label for="sx-org">Company name</label><input type="text" class="pa-input" id="sx-org"></div>
+            <div class="pa-form-group"><label for="sx-role">Role</label><input type="text" class="pa-input" id="sx-role"></div>
+        </section>
+        <section class="pa-sections__section" id="sx-billing">
+            <h3 class="pa-sections__title">4. Billing</h3>
+            <div class="pa-form-group"><label for="sx-card">Card number (16 digits)</label><input type="text" class="pa-input" id="sx-card" required pattern="\d{16}" placeholder="4111111111111111"></div>
+            <div class="pa-form-group"><label for="sx-exp">Expiry (MM/YY)</label><input type="text" class="pa-input" id="sx-exp" required pattern="(0[1-9]|1[0-2])/\d{2}"></div>
+            <div class="pa-form-group"><label for="sx-vat">VAT ID</label><input type="text" class="pa-input" id="sx-vat"></div>
+        </section>
+        <section class="pa-sections__section" id="sx-review">
+            <h3 class="pa-sections__title">5. Review</h3>
+            <label class="pa-checkbox mb-4">
+                <input type="checkbox" id="sx-terms" required>
+                <span class="pa-checkbox__box"></span>
+                <span class="pa-checkbox__label">I agree to the terms</span>
+            </label>
+            <div class="pa-form-actions">
+                <button type="button" class="pa-btn pa-btn--primary" data-sections-submit>Send</button>
+            </div>
+        </section>
+    </form>
+</template>
+<template id="sx-tpl-actions">
+    <div class="pa-sections__actions">
+        <button type="button" class="pa-btn pa-btn--secondary" data-sections-prev>Back</button>
+        <button type="button" class="pa-btn pa-btn--primary" data-sections-next>Next</button>
+    </div>
+</template>
+
+<script src="/src/js/sections.js"></script>
+<script>
+/* Demo wiring only — the controller is core's js/sections.js (window.pureAdmin.components.sections). */
+(function () {
+    var api = window.pureAdmin.components.sections;
+    var root = document.getElementById('sx');
+    var $ = function (id) { return document.getElementById(id); };
+    var example = $('sx-example'), layout = $('sx-layout'), mode = $('sx-mode'), style = $('sx-style');
+    var EXPLAIN = {
+        eula: 'EULA: no fields, no data-validate — a step is ticked once you have read past its section; "Accept" unlocks when the last section is reached.',
+        form: 'Form: data-validate — steps take their colour from the section\'s fields: numbered = untouched, amber = started, red = invalid (try a 4-digit ZIP), green = complete. In wizard mode, Next only moves on from a valid page.'
+    };
+
+    function clone(id) { return $(id).content.cloneNode(true); }
+
+    function build() {
+        var ctl = api.get(root);
+        if (ctl) ctl.destroy();
+        root.querySelector('.pa-sections__nav').replaceChildren(clone('sx-tpl-' + example.value + '-nav'));
+        var body = root.querySelector('.pa-sections__body');
+        body.replaceChildren(clone('sx-tpl-' + example.value + '-body'));
+        body.appendChild(clone('sx-tpl-actions'));
+        if (example.value === 'form') root.setAttribute('data-validate', ''); else root.removeAttribute('data-validate');
+        $('sx-explain').textContent = EXPLAIN[example.value];
+        applyClasses();
+        api.init(root.parentElement);
+    }
+
+    function applyClasses() {
+        var inView = root.classList.contains('pa-sections--in-view');   // runtime state — keep it
+        root.className = 'pa-sections mb-8 pa-sections--' + layout.value
+            + (mode.value === 'wizard' ? ' pa-sections--wizard' : '')
+            + (style.value !== 'plain' ? ' pa-sections--' + style.value : '')
+            + (inView ? ' pa-sections--in-view' : '');
+        var ctl = api.get(root);
+        if (ctl) ctl.refresh();
+    }
+
+    // EULA: Accept unlocks when the last section has been read
+    root.addEventListener('pa-sections:change', function (e) {
+        var accept = $('eula-accept');
+        if (!accept) return;
+        var states = e.detail.states;
+        var last = states[states.length - 1] === 'done';
+        accept.disabled = !last;
+        $('eula-hint').textContent = last ? 'Thanks for reading.' : 'Read to the end to accept.';
+    });
+
+    example.addEventListener('change', function () {
+        style.value = example.value === 'form' ? 'cards' : 'boxed';
+        build();
+    });
+    [layout, mode, style].forEach(function (el) { el.addEventListener('change', applyClasses); });
+    style.value = example.value === 'form' ? 'cards' : 'boxed';
+    build();
+})();
+</script>

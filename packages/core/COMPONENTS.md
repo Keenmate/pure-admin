@@ -4,19 +4,19 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc09** · **60** components · **148** blocks · **1400** class selectors.
+Framework version **3.3.0-rc09** · **62** components · **150** blocks · **1430** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
 ## Coverage summary
 
-> ⚠ **1 experimental component(s)** — contract not yet stable, marked ⚠ below. Not ready for wrapper-fidelity work or production use; pin an exact version if you build on them.
+> ⚠ **3 experimental component(s)** — contract not yet stable, marked ⚠ below. Not ready for wrapper-fidelity work or production use; pin an exact version if you build on them.
 
 | Component | Block | Category | Status | Snippet | Demo |
 |---|---|---|:--:|:--:|:--:|
 | Scroll lock | `pa-scroll-lock` | Layout & shell | ✓ | ✗ | ✗ |
 | Card | `pa-card` | Surfaces | ✓ | ✓ | ✓ |
-| Section | `pa-section` | Surfaces | ✓ | ✓ | ✗ |
+| Section | `pa-section` | Surfaces | ✓ | ✓ | ✓ |
 | Splitter | `pa-splitter` | Surfaces | ✓ | ✓ | ✓ |
 | Modal | `pa-modal` | Surfaces | ✓ | ✓ | ✓ |
 | Tabs | `pa-tabs` | Surfaces | ✓ | ✓ | ✓ |
@@ -65,6 +65,8 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 | Popover | `pa-popover` | Feedback | ✓ | ✓ | ✗ |
 | Loaders / spinners | `pa-loader-bars` | Feedback | ✓ | ✓ | ✓ |
 | Timeline | `pa-timeline` | Feedback | ✓ | ✓ | ✓ |
+| Steps | `pa-steps` | Feedback | ⚠ exp | ✓ | ✓ |
+| Sections (navigated long content) | `pa-sections` | Surfaces | ⚠ exp | ✓ | ✓ |
 | Badge | `pa-badge` | Interactive & misc | ✓ | ✓ | ✓ |
 | Label | `pa-label` | Interactive & misc | ✓ | ✓ | ✗ |
 | Composite badge | `pa-composite-badge` | Interactive & misc | ✓ | ✓ | ✗ |
@@ -106,7 +108,7 @@ Lightweight titled content grouping used inside cards/panels.
 - **Blocks:** `pa-section`, `pa-section-title`
 - **SCSS:** `core-components/_cards.scss`
 - **Snippet:** `cards.html`
-- **Demo:** ✗ none
+- **Demo:** `sections.mustache`
 
 ### Splitter — `pa-splitter`
 
@@ -184,6 +186,19 @@ Card wrapper specialised for tables: header/actions/body/footer chrome around a 
 - **SCSS:** `core-components/_tables.scss`
 - **Snippet:** `tables.html`
 - **Demo:** ✗ none
+
+### Sections (navigated long content) — `pa-sections`
+
+> ⚠ **Experimental.** Class names, modifiers, markup and the JS API may still change — pin an exact version if you build on it. Sticky layouts need the content area not to be a non-scrolling scroll container (pure-css .pc-layout__content fix pending).
+
+One long piece of content (EULA, form, settings page) split into sections, plus a pa-steps navigator the block controls via js/sections.js: current section by scroll position, read / field-validity state per step, click-to-jump with on-demand end space. Layouts --side (sticky column, collapses to a bar on narrow blocks) / --top (sticky bar) / --overlay (floating, expands on hover); styles plain / --boxed / --cards; --wizard paging.
+
+- **Blocks:** `pa-sections`
+- **Elements:** `pa-sections__actions`, `pa-sections__body`, `pa-sections__nav`, `pa-sections__section`, `pa-sections__title`
+- **Modifiers / states:** `pa-sections--boxed`, `pa-sections--cards`, `pa-sections--in-view`, `pa-sections--overlay`, `pa-sections--side`, `pa-sections--top`, `pa-sections--wizard`, `pa-sections__section--active`
+- **SCSS:** `core-components/_sections.scss`
+- **Snippet:** `sections.html`
+- **Demo:** `sections.mustache`
 
 ## Forms
 
@@ -641,6 +656,19 @@ Vertical/columned activity timeline with dated items, severity dots, avatars and
 - **Snippet:** `timeline.html`
 - **Demo:** `timeline.mustache`, `timeline-block.mustache`, `timeline-simple.mustache`
 
+### Steps — `pa-steps`
+
+> ⚠ **Experimental.** Class names, modifiers and markup may still change — pin an exact version if you build on it.
+
+A list of steps — marker (number / icon), label, optional description — joined by connector lines. Horizontal (wizard header) or --vertical (status block, section navigator); progress state (done / current / running) and validity state (success / warning / danger) are independent; --sm compact. Connector geometry derives from one marker-size token.
+
+- **Blocks:** `pa-steps`
+- **Elements:** `pa-steps__content`, `pa-steps__description`, `pa-steps__item`, `pa-steps__label`, `pa-steps__link`, `pa-steps__marker`, `pa-steps__state`
+- **Modifiers / states:** `pa-steps--sm`, `pa-steps--vertical`, `pa-steps__item--current`, `pa-steps__item--danger`, `pa-steps__item--done`, `pa-steps__item--running`, `pa-steps__item--success`, `pa-steps__item--warning`
+- **SCSS:** `core-components/_steps.scss`
+- **Snippet:** `steps.html`
+- **Demo:** `progress.mustache`
+
 ## Interactive & misc
 
 ### Badge — `pa-badge`
@@ -724,7 +752,7 @@ Mask-based icon element (pa-icon--x etc.).
 
 - **Blocks:** `pa-icon`
 - **Modifiers / states:** `pa-icon--add`, `pa-icon--bell`, `pa-icon--caret`, `pa-icon--caret-down`, `pa-icon--caret-up`, `pa-icon--check`, `pa-icon--chevron`, `pa-icon--chevron-down`, `pa-icon--chevron-left`, `pa-icon--chevron-right`, `pa-icon--chevron-up`, `pa-icon--clear`, `pa-icon--collapse`, `pa-icon--copy`, `pa-icon--danger`, `pa-icon--delete`, `pa-icon--download`, `pa-icon--edit`, `pa-icon--ellipsis`, `pa-icon--ellipsis-vertical`, `pa-icon--expand`, `pa-icon--external-link`, `pa-icon--favorites`, `pa-icon--filter`, `pa-icon--help`, `pa-icon--info`, `pa-icon--link`, `pa-icon--lock`, `pa-icon--logout`, `pa-icon--refresh`, `pa-icon--remove`, `pa-icon--save`, `pa-icon--search`, `pa-icon--settings`, `pa-icon--success`, `pa-icon--user`, `pa-icon--warning`, `pa-icon--x`
-- **SCSS:** `core-components/_command-palette.scss`, `core-components/_icons.scss`, `core-components/_modals.scss`
+- **SCSS:** `core-components/_command-palette.scss`, `core-components/_icons.scss`, `core-components/_modals.scss`, `core-components/_steps.scss`
 - **Snippet:** `icon.html`
 - **Demo:** `icons.mustache`
 

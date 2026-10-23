@@ -479,6 +479,10 @@ app.get('/surfaces/detail-panel', (req, res) => {
     renderWithLayout(res, 'detail-panel', { pageTitle: 'Detail Panel', currentPage: 'detail-panel', isDetailPanel: true });
 });
 
+app.get('/surfaces/sections', (req, res) => {
+    renderWithLayout(res, 'sections', { pageTitle: 'Sections', currentPage: 'sections', isSections: true });
+});
+
 app.get('/surfaces/splitter', (req, res) => {
     renderWithLayout(res, 'splitter', { pageTitle: 'Splitter', currentPage: 'splitter', isSplitter: true });
 });

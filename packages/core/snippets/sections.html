@@ -1,0 +1,120 @@
+<!-- ================================
+     SECTIONS (pa-sections) — EXPERIMENTAL
+     One long piece of content split into sections + a pa-steps navigator that
+     the block CONTROLS (load js/sections.js; it auto-inits [data-pa-sections]).
+     The nav is authored: each step points at a section id via data-section.
+     The layout arranges the nav's pa-steps — don't add --vertical in the markup.
+
+     Layout  --side (sticky column; collapses to a bar on narrow blocks)
+             --top (sticky bar) | --overlay (floating mini stepper, expands on hover / focus)
+     Style   plain (default: one continuous document) | --boxed | --cards
+     Mode    scroll (default) | --wizard (one section at a time + .pa-sections__actions)
+     Attrs   data-validate (steps coloured by their fields) · data-update-hash
+             data-text-next / -finish / -complete / -incomplete / -invalid / -read
+     Event   pa-sections:change  { current, index, states }
+     ================================ -->
+
+<!-- A EULA: continuous text, read tracking (no data-validate) -->
+<div class="pa-sections pa-sections--side pa-sections--boxed" data-pa-sections>
+  <nav class="pa-sections__nav" aria-label="Agreement sections">
+    <ol class="pa-steps pa-steps--sm">
+      <li class="pa-steps__item" data-section="eula-definitions">
+        <a class="pa-steps__link" href="#eula-definitions">
+          <span class="pa-steps__marker">1</span>
+          <span class="pa-steps__content"><span class="pa-steps__label">Definitions</span></span>
+        </a>
+      </li>
+      <li class="pa-steps__item" data-section="eula-licence">
+        <a class="pa-steps__link" href="#eula-licence">
+          <span class="pa-steps__marker">2</span>
+          <span class="pa-steps__content"><span class="pa-steps__label">Licence grant</span></span>
+        </a>
+      </li>
+    </ol>
+  </nav>
+  <div class="pa-sections__body">
+    <section class="pa-sections__section" id="eula-definitions">
+      <h3 class="pa-sections__title">1. Definitions</h3>
+      <p>…</p>
+    </section>
+    <section class="pa-sections__section" id="eula-licence">
+      <h3 class="pa-sections__title">2. Licence grant</h3>
+      <p>…</p>
+    </section>
+  </div>
+</div>
+
+<!-- A form: boxed sections, steps coloured by field validity, wizard paging -->
+<div class="pa-sections pa-sections--top pa-sections--cards pa-sections--wizard" data-pa-sections data-validate
+     data-text-next="Next" data-text-finish="Finish">
+  <nav class="pa-sections__nav" aria-label="Form sections">
+    <ol class="pa-steps pa-steps--sm">
+      <li class="pa-steps__item" data-section="f-personal">
+        <a class="pa-steps__link" href="#f-personal">
+          <span class="pa-steps__marker">1</span>
+          <span class="pa-steps__content"><span class="pa-steps__label">Personal</span><span class="pa-steps__description">Name, email</span></span>
+        </a>
+      </li>
+      <li class="pa-steps__item" data-section="f-billing">
+        <a class="pa-steps__link" href="#f-billing">
+          <span class="pa-steps__marker">2</span>
+          <span class="pa-steps__content"><span class="pa-steps__label">Billing</span><span class="pa-steps__description">Card + VAT</span></span>
+        </a>
+      </li>
+    </ol>
+  </nav>
+  <form class="pa-sections__body pa-form" novalidate>
+    <section class="pa-sections__section" id="f-personal">
+      <h3 class="pa-sections__title">1. Personal</h3>
+      <div class="pa-form-group"><label for="f-email">Email</label><input type="email" class="pa-input" id="f-email" required></div>
+    </section>
+    <section class="pa-sections__section" id="f-billing">
+      <h3 class="pa-sections__title">2. Billing</h3>
+      <div class="pa-form-group"><label for="f-card">Card number</label><input type="text" class="pa-input" id="f-card" required pattern="\d{16}"></div>
+    </section>
+    <div class="pa-sections__actions">
+      <button type="button" class="pa-btn pa-btn--secondary" data-sections-prev>Back</button>
+      <button type="button" class="pa-btn pa-btn--primary" data-sections-next>Next</button>
+    </div>
+  </form>
+</div>
+
+<!-- A floating navigator over long content -->
+<div class="pa-sections pa-sections--overlay" data-pa-sections>
+  <nav class="pa-sections__nav" aria-label="Page sections">
+    <ol class="pa-steps pa-steps--sm">…</ol>
+  </nav>
+  <div class="pa-sections__body">…</div>
+</div>
+
+<!--
+CSS custom properties
+  --pa-sections-edge        top of the visible scroll area (default: the navbar height;
+                            0 in the sticky-sidebar app mode)
+  --pa-sections-nav-gap     gap a floating side column keeps from the edge
+  set by js/sections.js:
+  --pa-sections-nav-height  measured nav height (bar layouts land jumps below it)
+  --pa-sections-end-space   temporary space so a section near the end can reach the nav
+State classes set by the script
+  .pa-sections--in-view           the block is on screen (overlay nav shows only then)
+  .pa-sections__section--active   the current section (wizard shows only that one)
+-->
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================
+
+SECTIONS CLASSES:
+- .pa-sections                The block (flex). data-pa-sections → js/sections.js.
+- .pa-sections__nav           Holds the pa-steps navigator (sticky / fixed per layout).
+- .pa-sections__body          The content (a <div> or the <form>).
+- .pa-sections__section       One section; its id is what a step's data-section points at.
+- .pa-sections__title         Section heading.
+- .pa-sections__actions       Wizard Back / Next row (hidden outside --wizard).
+
+LAYOUT:  .pa-sections--side / --top / --overlay
+STYLE:   (plain) / .pa-sections--boxed / --cards
+MODE:    (scroll) / .pa-sections--wizard
+STATE (set by the script):
+- .pa-sections--in-view, .pa-sections__section--active
+-->

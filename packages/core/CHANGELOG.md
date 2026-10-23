@@ -28,6 +28,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     (instead of overriding the fill background); set it yourself for a custom colour. New SCSS
     tokens: `$progress-segment-gap`, `$progress-vertical-length`, `$progress-indeterminate-*`,
     `$progress-shimmer-duration`, `$progress-glow-*`, `$progress-flow-duration`.
+- **`pa-steps` (EXPERIMENTAL)** — a stepper: marker (number / icon) + label + optional
+  description, joined by connector lines. Horizontal (wizard header) or `--vertical` (status block,
+  section navigator), `--sm`. Progress state `--done / --current / --running` and validity state
+  `--success / --warning / --danger` are independent. All connector geometry derives from one
+  `--pa-steps-marker` property, so sizes can't misalign the lines. A visually hidden
+  `.pa-steps__state` carries the state as text for screen readers. Tokens `$steps-*`.
+  Snippet `steps.html`.
+- **`pa-sections` (EXPERIMENTAL) + `js/sections.js`** — long content (a EULA, a form, a settings
+  page) split into sections, with a `pa-steps` navigator the block controls: current section by
+  scroll position (a reading line, deterministic on every frame), read tracking or field-validity
+  colouring (`data-validate`), click-to-jump that lands exactly under the nav (scrolls only the
+  block's own scroller; temporary end space for sections near the end, removed once out of
+  sight), optional URL hash, focus moved to the section, reduced-motion aware, RTL-safe.
+  Layouts `--side` (sticky column, collapses to a bar on narrow blocks via a container query) /
+  `--top` (sticky bar flush under the navbar) / `--overlay` (floating mini stepper, expands on hover
+  or focus); styles plain / `--boxed` / `--cards`; `--wizard` paging (with `data-validate`, Next
+  only past a valid page). Event `pa-sections:change`; API
+  `window.pureAdmin.components.sections.{init,get}`. Tokens `$sections-*`. Snippet `sections.html`;
+  demo Surfaces → Sections. Note: sticky layouts need pure-css's `.pc-layout__content` not to be a
+  non-scrolling scroll container — the demo page applies the fix locally until pure-css ships it.
 - **Snippet `progress.html`** — the first snippet for the data-viz family (it had none): every
   progress-bar shape above plus the caption row and the CSS custom properties.
 - **Demo: new Feedback → Progress page** (`/feedback/progress`) with a live playground (value, variant

@@ -963,3 +963,52 @@ $splitter-focus-ring-width: 2px !default;
 $splitter-transition: background-color 0.15s ease !default;
 $splitter-pane-min-size: 0 !default;                           // absolute floor regardless of constraints
 $splitter-rail-size: 4rem !default;                            // 40px — start pane width when minimized to rail
+
+// ============================================================================
+// STEPS (pa-steps) — EXPERIMENTAL
+// A numbered/stated list of steps: horizontal (wizard) or vertical (status
+// block / section navigator). All connector-line geometry is DERIVED from the
+// marker size (see _steps.scss) — change the marker, the lines follow.
+// ============================================================================
+$steps-marker-size: 3rem !default;                       // 30px
+$steps-marker-size-sm: 2.4rem !default;                  // 24px
+$steps-marker-font-size: $font-size-sm !default;
+$steps-marker-font-size-sm: $font-size-xs !default;
+$steps-marker-icon-size: $font-size-sm !default;
+$steps-marker-font-weight: $font-weight-semibold !default;
+$steps-line-width: 0.2rem !default;                      // connector thickness
+$steps-line-gap: $spacing-xs !default;                   // space between a marker and a connector end
+$steps-item-gap: $spacing-sm !default;                   // marker ↔ text (horizontal: stacked)
+$steps-item-gap-vertical: $spacing-md !default;          // marker ↔ text (vertical: side by side)
+$steps-row-gap: $spacing-lg !default;                    // between steps, vertical
+$steps-row-gap-sm: $spacing-base !default;
+$steps-label-font-size: $font-size-sm !default;
+$steps-label-current-font-weight: $font-weight-semibold !default;
+$steps-description-font-size: $font-size-xs !default;
+$steps-current-ring: $spacing-xs !default;               // halo around the current marker
+$steps-current-scale: 1.08 !default;
+$steps-transition-duration: $transition-medium !default;
+$steps-running-duration: 1.4s !default;                  // one pulse of a --running marker
+
+// ============================================================================
+// SECTIONS (pa-sections) — EXPERIMENTAL
+// Long content split into sections + a pa-steps navigator the block controls
+// (scroll-spy, read / validity state, click-to-jump; js/sections.js).
+// ============================================================================
+$sections-edge: $navbar-height !default;                 // top of the visible scroll area (below the fixed navbar)
+$sections-nav-gap: $spacing-base !default;               // a floating side column keeps this from the edge
+$sections-gap: $spacing-lg !default;                     // nav ↔ body
+$sections-nav-width: 22rem !default;                     // side column
+$sections-collapse-below: 64rem !default;                // block width under which side collapses to a bar
+$sections-bar-padding-bottom: $spacing-md !default;
+$sections-section-gap: $spacing-xl !default;             // plain: between sections
+$sections-section-gap-cards: $spacing-base !default;     // cards: between boxes
+$sections-box-padding: $spacing-lg !default;             // boxed body / each card
+$sections-actions-gap: $spacing-md !default;             // wizard Back / Next
+$sections-overlay-inset: $spacing-lg !default;           // overlay distance from the screen edge
+$sections-overlay-padding-v: $spacing-md !default;
+$sections-overlay-padding-h: $spacing-sm !default;
+$sections-overlay-row-gap: $spacing-sm !default;
+$sections-overlay-label-max-width: 22rem !default;
+$sections-overlay-collapse-delay: $transition-medium !default;   // grace before the expanded overlay folds
+$sections-nav-z-index: $z-index-content !default;
