@@ -6,9 +6,9 @@
     "value": "progress percentage 0-100 — sets inline style --value: N% on the fill, plus aria-valuenow on the bar",
     "variant": "colour variant (success|warning|danger|info) — primary is the BASE fill (var(--pc-primary-color)), emits NO modifier class",
     "size": "xs|sm|lg bar height",
-    "rounded": "boolean — pill shape (pa-progress--rounded)",
     "striped": "boolean — diagonal stripe fill (pa-progress--striped)",
-    "animated": "boolean — moving stripes (pa-progress--animated)",
+    "themeColor": "1..9 theme palette slot — pa-progress--color-N on the bar, paints the fill",
+    "animated": "boolean — moving stripes (pa-progress--animated; brings its own stripes, no --striped needed)",
     "extraClass": "extra classes appended verbatim"
   },
   "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache) PLUS the accessibility convention both wrappers carry on the SSR bar: role=\"progressbar\" + aria-valuenow=\"{value}\" + aria-valuemin=\"0\" + aria-valuemax=\"100\". The fill's percentage is a data-driven inline style (style=\"--value: {value}%\") — treated as a scenario-provided value so both wrappers receive the same input; the width is static SSR markup, not the JS-animated fill (out of scope). primary is the DEFAULT variant and emits NO pa-progress--primary class (the base fill IS the accent colour; no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",
@@ -19,14 +19,16 @@
       "options": ["success", "warning", "danger", "info"],
       "produces": "pa-progress--{value}"
     },
+    "themeColor": {
+      "kind": "enum",
+      "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "produces": "pa-progress--color-{value}",
+      "note": "theme palette slot on the fill (--pc-palette-N); svelte themeColor, keen theme_color"
+    },
     "size": {
       "kind": "enum",
       "options": ["xs", "sm", "lg"],
       "produces": "pa-progress--{value}"
-    },
-    "rounded": {
-      "kind": "bool",
-      "produces": "pa-progress--rounded"
     },
     "striped": {
       "kind": "bool",
@@ -95,14 +97,14 @@
       "golden": "<div class=\"pa-progress pa-progress--sm\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
     },
     {
+      "name": "theme-color",
+      "props": { "value": 40, "themeColor": "3" },
+      "golden": "<div class=\"pa-progress pa-progress--color-3\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 40%\"></div></div>"
+    },
+    {
       "name": "size-lg",
       "props": { "value": 60, "size": "lg" },
       "golden": "<div class=\"pa-progress pa-progress--lg\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
-    },
-    {
-      "name": "rounded",
-      "props": { "value": 75, "rounded": true, "size": "lg" },
-      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--rounded\" role=\"progressbar\" aria-valuenow=\"75\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 75%\"></div></div>"
     },
     {
       "name": "striped",
@@ -115,9 +117,14 @@
       "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--success\" role=\"progressbar\" aria-valuenow=\"58\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 58%\"></div></div>"
     },
     {
+      "name": "animated",
+      "props": { "value": 58, "animated": true, "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--animated\" role=\"progressbar\" aria-valuenow=\"58\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 58%\"></div></div>"
+    },
+    {
       "name": "combined",
-      "props": { "value": 50, "rounded": true, "size": "lg", "striped": true, "animated": true, "variant": "info", "extraClass": "mt-sm" },
-      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--info pa-progress--rounded mt-sm\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 50%\"></div></div>"
+      "props": { "value": 50, "size": "lg", "striped": true, "animated": true, "variant": "info", "extraClass": "mt-sm" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--info mt-sm\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 50%\"></div></div>"
     }
   ]
 }

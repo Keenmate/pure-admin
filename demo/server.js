@@ -439,6 +439,10 @@ app.get('/feedback/callouts', (req, res) => {
     renderWithLayout(res, 'callouts', { pageTitle: 'Callouts', currentPage: 'callouts', isCallouts: true });
 });
 
+app.get('/feedback/progress', (req, res) => {
+    renderWithLayout(res, 'progress', { pageTitle: 'Progress', currentPage: 'progress', isProgress: true });
+});
+
 app.get('/feedback/toasts', (req, res) => {
     renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts', isToasts: true });
 });

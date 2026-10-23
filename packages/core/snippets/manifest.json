@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-23T17:06:13.247Z",
+  "generated": "2026-10-23T17:49:04.554Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -375,9 +375,9 @@
       "modified": "2026-10-18T08:41:20.654Z"
     },
     "core-components/_data-viz.scss": {
-      "hash": "a44931ee1cb50d69903fd65f404cadc99f99be46026cf2745a1449f30eb3ee04",
-      "size": 18059,
-      "modified": "2026-10-18T08:41:20.655Z"
+      "hash": "b2371056106d1abd72aee701266e200af76ac4816aab8376ab8610e3c2d2ad3d",
+      "size": 18445,
+      "modified": "2026-10-23T17:48:12.163Z"
     },
     "core-components/_detail-panel.scss": {
       "hash": "55b2f2adb4d9efd11c66257890f0952cdb810b79588a4232a09eb4dae93ee714",

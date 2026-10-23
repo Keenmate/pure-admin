@@ -7,8 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.3.0-rc10] - 2026-10-22
 
+### Added
+
+- **Progress bar theme palette: `pa-progress--color-1` … `--color-9`.** Paints the fill with the
+  theme's palette slot (`--pc-palette-N`), alongside the role variants. Wrappers: `themeColor` /
+  `theme_color`.
+- **Demo: new Feedback → Progress page** (`/feedback/progress`) with a live playground (value, variant
+  incl. palette, size, caption, striped / animated) showing the generated markup, plus sizes,
+  variants, palette, caption groups, rings and the stacked bar.
+
+### Removed
+
+- **`pa-progress--rounded` and `pa-stacked-bar--rounded` (BREAKING).** Both were no-ops in most
+  themes: the bars already take the theme radius (`--pc-border-radius`, 0.6rem by default), which is
+  at least half their height, so they were pills already. The corner radius now simply follows the
+  theme — soft themes give pills, square themes square bars, matching their buttons and inputs.
+
 ### Changed
 
+- **`pa-progress--animated` brings its own stripes.** It used to only move the stripes of
+  `--striped`, so on its own it animated a solid colour (no visible effect). Now `--animated` alone
+  gives moving stripes; `--striped` alone stays static; both together equal `--animated`.
 - **`pa-list` is always `<ul class="pa-list" role="list">` with `<li class="pa-list__item">` rows
   (BREAKING for hand-written `<div>` markup).** The structured list now has one canonical shape,
   like every other core list (`pa-list-basic` `<ul>`, `pa-list-ordered` `<ol>`,

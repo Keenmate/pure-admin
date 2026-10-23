@@ -1,0 +1,292 @@
+            <p>Everything core ships for showing "how far along": the progress bar (with an optional caption row), the progress ring and the stacked bar. Play with the bar in the playground first, then compare the shapes below.</p>
+
+            <!-- Playground -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Playground</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <form class="pa-form" id="progress-playground" onsubmit="return false">
+                        <div class="pc-row">
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="pp-value">Value (%)</label>
+                                    <input type="number" class="pa-input" id="pp-value" min="0" max="100" step="5" value="65">
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="pp-variant">Variant</label>
+                                    <select class="pa-select" id="pp-variant">
+                                        <option value="">primary (default)</option>
+                                        <option value="success">success</option>
+                                        <option value="warning">warning</option>
+                                        <option value="danger">danger</option>
+                                        <option value="info">info</option>
+                                        <option value="color-1">color-1</option>
+                                        <option value="color-2">color-2</option>
+                                        <option value="color-3">color-3</option>
+                                        <option value="color-4">color-4</option>
+                                        <option value="color-5">color-5</option>
+                                        <option value="color-6">color-6</option>
+                                        <option value="color-7">color-7</option>
+                                        <option value="color-8">color-8</option>
+                                        <option value="color-9">color-9</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="pp-size">Size</label>
+                                    <select class="pa-select" id="pp-size">
+                                        <option value="xs">xs</option>
+                                        <option value="sm">sm</option>
+                                        <option value="" selected>default</option>
+                                        <option value="lg">lg</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="pp-label">Caption label (empty = no caption)</label>
+                                    <input type="text" class="pa-input" id="pp-label" value="Storage Used">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-4 mb-4">
+                            <label class="pa-checkbox">
+                                <input type="checkbox" id="pp-striped">
+                                <span class="pa-checkbox__box"></span>
+                                <span class="pa-checkbox__label">Striped</span>
+                            </label>
+                            <label class="pa-checkbox">
+                                <input type="checkbox" id="pp-animated">
+                                <span class="pa-checkbox__box"></span>
+                                <span class="pa-checkbox__label">Animated (moving stripes)</span>
+                            </label>
+                        </div>
+                        <div class="pa-btn-group mb-4">
+                            <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" data-pp-step="-10">−10</button>
+                            <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" data-pp-step="10">+10</button>
+                            <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" data-pp-run>Run 0 → 100</button>
+                        </div>
+                    </form>
+
+                    <div id="pp-output" class="mb-4"></div>
+
+                    <h5>Generated markup</h5>
+                    <pre class="pa-code pa-code--html" id="pp-markup"></pre>
+                </div>
+            </div>
+
+            <!-- Bar: sizes -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Progress bar: sizes</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body d-flex flex-column gap-4">
+                    <div class="pa-progress pa-progress--xs" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 40%"></div></div>
+                    <div class="pa-progress pa-progress--sm" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 55%"></div></div>
+                    <div class="pa-progress" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 70%"></div></div>
+                    <div class="pa-progress pa-progress--lg" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 85%"></div></div>
+                </div>
+            </div>
+
+            <!-- Bar: variants + modifiers -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Progress bar: variants, striped, animated</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body d-flex flex-column gap-4">
+                    <div class="pa-progress pa-progress--lg" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                    <div class="pa-progress pa-progress--lg pa-progress--success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                    <div class="pa-progress pa-progress--lg pa-progress--warning pa-progress--striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                    <div class="pa-progress pa-progress--lg pa-progress--danger pa-progress--animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                    <div class="pa-progress pa-progress--lg pa-progress--info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                </div>
+            </div>
+
+            <!-- Bar: theme palette -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Progress bar: theme palette (color-1 … color-9)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body d-flex flex-column gap-4">
+                    <div class="pa-progress pa-progress--color-1" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 10%"></div></div>
+                    <div class="pa-progress pa-progress--color-2" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 20%"></div></div>
+                    <div class="pa-progress pa-progress--color-3" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 30%"></div></div>
+                    <div class="pa-progress pa-progress--color-4" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 40%"></div></div>
+                    <div class="pa-progress pa-progress--color-5" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 50%"></div></div>
+                    <div class="pa-progress pa-progress--color-6" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                    <div class="pa-progress pa-progress--color-7" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 70%"></div></div>
+                    <div class="pa-progress pa-progress--color-8" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 80%"></div></div>
+                    <div class="pa-progress pa-progress--color-9" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 90%"></div></div>
+                </div>
+            </div>
+
+            <!-- Bar with caption (pa-progress-group) -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Progress bar with caption (pa-progress-group)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pc-row">
+                        <div class="pc-col-100 pc-col-md-1-2">
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label">
+                                    <span>Storage Used</span>
+                                    <span class="pa-progress__label-value">65%</span>
+                                </div>
+                                <div class="pa-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 65%"></div></div>
+                            </div>
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label">
+                                    <span>Quota</span>
+                                    <span class="pa-progress__label-value">6.5 / 10 GB</span>
+                                </div>
+                                <div class="pa-progress pa-progress--warning" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 65%"></div></div>
+                            </div>
+                        </div>
+                        <div class="pc-col-100 pc-col-md-1-2">
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label">
+                                    <span>Upload</span>
+                                    <span class="pa-progress__label-value">89%</span>
+                                </div>
+                                <div class="pa-progress pa-progress--lg pa-progress--success pa-progress--striped pa-progress--animated" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 89%"></div></div>
+                            </div>
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label">
+                                    <span>Caption above a stacked bar (does it fit?)</span>
+                                    <span class="pa-progress__label-value">153 / 256 GB</span>
+                                </div>
+                                <div class="pa-stacked-bar">
+                                    <div class="pa-stacked-bar__segment" style="--value: 35%"></div>
+                                    <div class="pa-stacked-bar__segment pa-stacked-bar__segment--success" style="--value: 25%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ring -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Progress ring</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body d-flex flex-wrap gap-4">
+                    <div class="pa-progress-ring pa-progress-ring--sm" style="--value: 35">
+                        <div class="pa-progress-ring__inner"><span class="pa-progress-ring__value">35%</span></div>
+                    </div>
+                    <div class="pa-progress-ring" style="--value: 72">
+                        <div class="pa-progress-ring__inner">
+                            <span class="pa-progress-ring__value">72%</span>
+                            <span class="pa-progress-ring__label">CPU</span>
+                        </div>
+                    </div>
+                    <div class="pa-progress-ring pa-progress-ring--success" style="--value: 94">
+                        <div class="pa-progress-ring__inner">
+                            <span class="pa-progress-ring__value">94%</span>
+                            <span class="pa-progress-ring__label">Uptime</span>
+                        </div>
+                    </div>
+                    <div class="pa-progress-ring pa-progress-ring--lg pa-progress-ring--danger" style="--value: 18">
+                        <div class="pa-progress-ring__inner">
+                            <span class="pa-progress-ring__value">18%</span>
+                            <span class="pa-progress-ring__label">Disk free</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stacked bar -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Stacked bar (a breakdown, not a progress)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-stacked-bar pa-stacked-bar--lg mb-4">
+                        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--success" style="--value: 45%"></div>
+                        <div class="pa-stacked-bar__segment" style="--value: 30%"></div>
+                        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--warning" style="--value: 15%"></div>
+                        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--danger" style="--value: 10%"></div>
+                    </div>
+                    <div class="pa-stacked-bar__legend">
+                        <span class="pa-stacked-bar__legend-item"><span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--success"></span>Hot (45%)</span>
+                        <span class="pa-stacked-bar__legend-item"><span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--primary"></span>Warm (30%)</span>
+                        <span class="pa-stacked-bar__legend-item"><span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--warning"></span>Cool (15%)</span>
+                        <span class="pa-stacked-bar__legend-item"><span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--danger"></span>Cold (10%)</span>
+                    </div>
+                </div>
+            </div>
+
+<script>
+(function () {
+    var $ = function (id) { return document.getElementById(id); };
+    var value = $('pp-value'), variant = $('pp-variant'), size = $('pp-size'), label = $('pp-label');
+    var striped = $('pp-striped'), animated = $('pp-animated');
+    var output = $('pp-output'), markup = $('pp-markup');
+    var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+
+    function render() {
+        var v = Math.max(0, Math.min(100, parseInt(value.value, 10) || 0));
+        var cls = ['pa-progress'];
+        if (size.value) cls.push('pa-progress--' + size.value);
+        if (variant.value) cls.push('pa-progress--' + variant.value);
+        if (striped.checked) cls.push('pa-progress--striped');
+        if (animated.checked) cls.push('pa-progress--animated');
+        var bar = '<div class="' + cls.join(' ') + '" role="progressbar" aria-valuenow="' + v + '" aria-valuemin="0" aria-valuemax="100">\n'
+            + '  <div class="pa-progress__fill" style="--value: ' + v + '%"></div>\n</div>';
+        var html = bar;
+        if (label.value.trim()) {
+            html = '<div class="pa-progress-group">\n'
+                + '  <div class="pa-progress__label">\n'
+                + '    <span>' + esc(label.value.trim()) + '</span>\n'
+                + '    <span class="pa-progress__label-value">' + v + '%</span>\n'
+                + '  </div>\n'
+                + bar.replace(/^/gm, '  ') + '\n</div>';
+        }
+        output.innerHTML = html;
+        markup.textContent = html;
+    }
+
+    [value, variant, size, label, striped, animated].forEach(function (el) {
+        el.addEventListener('input', render);
+        el.addEventListener('change', render);
+    });
+    document.querySelectorAll('[data-pp-step]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            value.value = Math.max(0, Math.min(100, (parseInt(value.value, 10) || 0) + parseInt(btn.dataset.ppStep, 10)));
+            render();
+        });
+    });
+    var timer = null;
+    document.querySelector('[data-pp-run]').addEventListener('click', function () {
+        clearInterval(timer);
+        value.value = 0;
+        render();
+        timer = setInterval(function () {
+            var next = (parseInt(value.value, 10) || 0) + 5;
+            value.value = Math.min(100, next);
+            render();
+            if (next >= 100) clearInterval(timer);
+        }, 150);
+    });
+    render();
+})();
+</script>

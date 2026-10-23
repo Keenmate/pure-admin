@@ -58,13 +58,18 @@
   &--danger > .pa-progress__fill  { background: var(--pc-danger-color); }
   &--info > .pa-progress__fill    { background: var(--pc-info-color); }
 
-  // Rounded (pill shape)
-  &--rounded {
-    border-radius: 50rem;
+  // Theme palette slots (color-1 … color-9) — same part as the role variants: the fill
+  @for $i from 1 through 9 {
+    &--color-#{$i} > .pa-progress__fill { background: var(--pc-palette-#{$i}); }
   }
 
-  // Striped
-  &--striped > .pa-progress__fill {
+  // Corner radius follows the theme (--pc-border-radius): soft themes give a pill,
+  // square themes a square bar — no separate rounded modifier.
+
+  // Striped. --animated brings its own stripes (it moves them), so it never
+  // needs --striped alongside it.
+  &--striped > .pa-progress__fill,
+  &--animated > .pa-progress__fill {
     background-image: repeating-linear-gradient(
       $progress-stripe-angle,
       rgba(255, 255, 255, 0.2) 0,
@@ -160,7 +165,6 @@
   &--lg { height: $progress-height-lg; }
 
   // Rounded
-  &--rounded { border-radius: 50rem; }
 }
 
 
