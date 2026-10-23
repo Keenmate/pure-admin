@@ -38,8 +38,13 @@
   top: var(--pa-sections-edge);
   align-self: stretch;
   max-height: none;
-  overflow: visible;
+  // many steps on a narrow screen: the bar scrolls sideways itself instead of
+  // overflowing the page (a sticky element may have its own overflow)
+  overflow-x: auto;
+  overflow-y: hidden;
   background: var(--pc-page-bg);
+
+  .pa-steps { min-width: max-content; }
   padding: var(--pa-sections-nav-gap) 0 $sections-bar-padding-bottom;
   border-bottom: 1px solid var(--pc-border-color);
 }
