@@ -16,7 +16,9 @@
     "vertical": "boolean — pa-progress--vertical (fill grows from the bottom)",
     "length": "CSS length of a vertical bar — style --pa-progress-length on the bar",
     "indeterminate": "boolean — pa-progress--indeterminate: unknown duration, NO aria-valuenow and NO --value on the fill",
-    "effect": "shimmer | glow | flow — pa-progress--{effect}"
+    "effect": "shimmer | glow | flow — pa-progress--{effect}",
+    "ariaLabel": "accessible name of the bar — aria-label (svelte ariaLabelText, keen aria_label_text). A progress_group / caption passes its label here",
+    "valueText": "the human value when it is not a plain percentage (\"3 of 5\", \"6.5 / 10 GB\") — aria-valuetext on the bar"
   },
   "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache) PLUS the accessibility convention both wrappers carry on the SSR bar: role=\"progressbar\" + aria-valuenow=\"{value}\" + aria-valuemin=\"0\" + aria-valuemax=\"100\". The fill's percentage is a data-driven inline style (style=\"--value: {value}%\") — treated as a scenario-provided value so both wrappers receive the same input; the width is static SSR markup, not the JS-animated fill (out of scope). primary is the DEFAULT variant and emits NO pa-progress--primary class (the base fill IS the accent colour; no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",
   "features": {
@@ -77,6 +79,16 @@
       "kind": "enum",
       "options": ["shimmer", "glow", "flow"],
       "produces": "pa-progress--{value}"
+    },
+    "ariaLabel": {
+      "kind": "string",
+      "produces": null,
+      "note": "aria-label on the bar (the progressbar needs an accessible name)"
+    },
+    "valueText": {
+      "kind": "string",
+      "produces": null,
+      "note": "aria-valuetext on the bar; omitted when not given"
     },
     "value": {
       "kind": "string",
@@ -235,6 +247,35 @@
       "name": "effect-flow",
       "props": { "value": 80, "effect": "flow", "themeColor": "2" },
       "golden": "<div class=\"pa-progress pa-progress--color-2 pa-progress--flow\" role=\"progressbar\" aria-valuenow=\"80\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 80%\"></div></div>"
+    },
+    {
+      "name": "aria-label-valuetext",
+      "props": { "value": 60, "ariaLabel": "Profile completion", "valueText": "3 of 5" },
+      "golden": "<div class=\"pa-progress\" role=\"progressbar\" aria-label=\"Profile completion\" aria-valuetext=\"3 of 5\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "value-clamped",
+      "props": { "value": 150 },
+      "golden": "<div class=\"pa-progress\" role=\"progressbar\" aria-valuenow=\"100\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 100%\"></div></div>",
+      "note": "value is clamped to 0..100 for both the fill and aria-valuenow (150 → 100; negative / NaN → 0)"
+    },
+    {
+      "name": "phases-single",
+      "props": { "value": 50, "phases": [{ "at": 0, "color": "success" }] },
+      "golden": "<div class=\"pa-progress pa-progress--phased\" style=\"--pa-progress-phases: var(--pc-success-color) 0% 100%\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 50%\"></div></div>",
+      "note": "one phase in smooth mode: a two-stop gradient (C at% 100%), never a single-stop one"
+    },
+    {
+      "name": "steps-below-two-ignored",
+      "props": { "value": 40, "steps": 1 },
+      "golden": "<div class=\"pa-progress\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 40%\"></div></div>",
+      "note": "steps must be an integer >= 2; anything else is ignored (no --segmented, no --pa-progress-steps)"
+    },
+    {
+      "name": "phases-unsafe-colour-dropped",
+      "props": { "value": 30, "phases": [{ "at": 0, "color": "red; display: none" }, { "at": 50, "color": "success" }] },
+      "golden": "<div class=\"pa-progress pa-progress--phased\" style=\"--pa-progress-phases: var(--pc-success-color) 50% 100%\" role=\"progressbar\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 30%\"></div></div>",
+      "note": "a colour containing ; { } a quote or < (or an invalid --var name) is dropped; the remaining phases render. If none remain, the bar is plain"
     }
   ]
 }

@@ -8,7 +8,16 @@
 // 1. PROGRESS BAR (pa-progress)
 // ============================================================================
 
+// Layered model — every modifier combines:
+//   bar   .pa-progress            the track; clips its layers (clip-path when it glows)
+//   fill  .pa-progress__fill      colour (--pa-progress-fill) or the phase gradient
+//         ::before                stripes overlay   (--striped / --animated)
+//         ::after                 effect overlay    (--shimmer / --flow)
+//   glow  box-shadow on the fill  (--glow)
+// So stripes, phases and an effect never fight over the same property.
 .pa-progress {
+  --pa-progress-fill: var(--pc-primary-color);
+
   width: 100%;
   height: $progress-height;
   background: var(--pc-surface-track);
@@ -17,13 +26,23 @@
   position: relative;
 
   // Fill bar. Its colour is the --pa-progress-fill token (variants and palette
-  // slots set it), so effects like --glow / --flow follow whatever colour the bar has.
+  // slots set it), so effects like --glow follow whatever colour the bar has.
   &__fill {
+    position: relative;
     height: 100%;
     width: var(--value, 0%);
-    background-color: var(--pa-progress-fill, var(--pc-primary-color));
+    background-color: var(--pa-progress-fill);
     border-radius: inherit;
+    overflow: hidden;   // clips the stripe / effect overlays to the fill
     transition: width $transition-medium $easing-smooth;
+
+    &::before,
+    &::after {
+      content: none;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
   }
 
   // Label (outside, above the bar)
@@ -41,17 +60,9 @@
   }
 
   // Size variants
-  &--xs {
-    height: $progress-height-xs;
-  }
-
-  &--sm {
-    height: $progress-height-sm;
-  }
-
-  &--lg {
-    height: $progress-height-lg;
-  }
+  &--xs { height: $progress-height-xs; }
+  &--sm { height: $progress-height-sm; }
+  &--lg { height: $progress-height-lg; }
 
   // Color variants — set the fill token
   &--success { --pa-progress-fill: var(--pc-success-color); }
@@ -67,57 +78,124 @@
   // Corner radius follows the theme (--pc-border-radius): soft themes give a pill,
   // square themes a square bar — no separate rounded modifier.
 
-  // Striped. --animated brings its own stripes (it moves them), so it never
-  // needs --striped alongside it.
-  &--striped > .pa-progress__fill,
-  &--animated > .pa-progress__fill {
+  // ---- stripes overlay (::before) ---------------------------------------------
+  // --animated brings its own stripes (it moves them), so it never needs --striped.
+  &--striped > .pa-progress__fill::before,
+  &--animated > .pa-progress__fill::before {
+    content: '';
     background-image: repeating-linear-gradient(
       $progress-stripe-angle,
-      rgba(255, 255, 255, 0.2) 0,
-      rgba(255, 255, 255, 0.2) 25%,
+      $progress-stripe-color 0,
+      $progress-stripe-color 25%,
       transparent 25%,
       transparent 50%
     );
     background-size: $progress-stripe-size $progress-stripe-size;
   }
 
-  // Animated (moving stripes)
-  &--animated > .pa-progress__fill {
+  &--animated > .pa-progress__fill::before {
     animation: pa-progress-stripe $progress-animation-duration linear infinite;
   }
 
-  // Phased — the fill reveals a gradient defined by --pa-progress-phases, a list of
-  // ordinary gradient stops written on the bar:
+  // ---- phases (the fill's own background) --------------------------------------
+  // The fill reveals a gradient listed in --pa-progress-phases (ordinary gradient
+  // stops written on the bar), e.g.
   //   style="--pa-progress-phases: var(--pc-danger-color) 0%, var(--pc-warning-color) 40%, var(--pc-success-color) 70%"
-  // Smooth stops blend; "0% 40%, … 40% 70%" style stops give hard zones. Any CSS colour
-  // works (roles, palette slots, the app's own variables). The gradient is sized to the
-  // BAR (100cqw), so the colours stay put and the fill uncovers them as it grows.
+  // Smooth stops blend; "0% 40%, 40% 70%, …" stops give hard zones. Any CSS colour
+  // works. The gradient is sized to the BAR (100cqw) and anchored at the bar's start,
+  // so the colours stay put and the fill uncovers them as it grows.
+  // NB: --phased makes the bar a size container — give it a definite width (it has
+  // width: 100%; inside a shrink-to-fit parent, size the parent).
   &--phased {
     container-type: inline-size;
 
     > .pa-progress__fill {
-      background-image: linear-gradient(90deg, var(--pa-progress-phases));
+      background-image: linear-gradient(to right, var(--pa-progress-phases));
       background-size: 100cqw 100%;
+    }
+
+    // RTL: the fill grows from the right — run the scale from the right
+    &:dir(rtl) > .pa-progress__fill {
+      background-image: linear-gradient(to left, var(--pa-progress-phases));
+      background-position: right;
     }
   }
 
-  // Segmented — one value drawn as N blocks (--pa-progress-steps, default 5)
+  // ---- segmented ----------------------------------------------------------------
+  // One value drawn as N blocks (--pa-progress-steps, default 5)
   &--segmented {
     --pa-progress-segment-period: calc((100% + #{$progress-segment-gap}) / var(--pa-progress-steps, 5));
     background: transparent;
     border-radius: 0;
-    box-shadow: inset 0 0 0 100vmax var(--pc-surface-track);
-    mask: repeating-linear-gradient(90deg,
+    box-shadow: inset 0 0 0 100vmax var(--pc-surface-track);   // the track, inside the mask
+    mask: repeating-linear-gradient(to right,
       #000 0 calc(var(--pa-progress-segment-period) - #{$progress-segment-gap}),
       transparent 0 var(--pa-progress-segment-period));
 
+    > .pa-progress__fill { border-radius: 0; }
+  }
+
+  // ---- indeterminate --------------------------------------------------------------
+  // Unknown duration: a block sweeps across (no --value)
+  &--indeterminate > .pa-progress__fill {
+    width: $progress-indeterminate-width;
+    animation: pa-progress-indeterminate $progress-indeterminate-duration $progress-indeterminate-easing infinite;
+  }
+
+  &--indeterminate:dir(rtl) > .pa-progress__fill {
+    animation-name: pa-progress-indeterminate-rtl;
+  }
+
+  // ---- effects overlay (::after) --------------------------------------------------
+  // Shimmer — a single light sweep travels over the fill
+  &--shimmer > .pa-progress__fill::after {
+    content: '';
+    background: linear-gradient(to right, transparent, $progress-shimmer-color, transparent);
+    transform: translateX(-100%);
+    animation: pa-progress-shimmer $progress-shimmer-duration $progress-effect-easing infinite;
+  }
+
+  // Flow — lighter bands travel continuously along the fill (over any fill, phases too)
+  &--flow > .pa-progress__fill::after {
+    content: '';
+    background: linear-gradient(to right, transparent 0%, $progress-flow-highlight 50%, transparent 100%);
+    background-size: 50% 100%;
+    animation: pa-progress-flow $progress-flow-duration linear infinite;
+  }
+
+  // RTL: effects travel from the inline start (the right)
+  &--shimmer:dir(rtl) > .pa-progress__fill::after,
+  &--flow:dir(rtl) > .pa-progress__fill::after {
+    scale: -1 1;
+  }
+
+  // ---- glow -----------------------------------------------------------------------
+  // The fill breathes in its own colour ("still working"). The bar clips with
+  // clip-path instead of overflow, so the glow can spill above / below the track
+  // while the fill (and an indeterminate block) stays inside it lengthwise.
+  &--glow {
+    overflow: visible;
+    clip-path: inset(calc(-1 * #{$progress-glow-size}) 0);
+
     > .pa-progress__fill {
-      border-radius: 0;
+      animation: pa-progress-glow $progress-glow-duration $progress-effect-easing infinite;
     }
   }
 
-  // Vertical — the fill grows from the bottom; size modifiers set the thickness,
-  // --pa-progress-length the length
+  // indeterminate + glow: both animate the fill — run both
+  &--indeterminate.pa-progress--glow > .pa-progress__fill {
+    animation:
+      pa-progress-indeterminate $progress-indeterminate-duration $progress-indeterminate-easing infinite,
+      pa-progress-glow $progress-glow-duration $progress-effect-easing infinite;
+  }
+
+  &--indeterminate.pa-progress--glow:dir(rtl) > .pa-progress__fill {
+    animation-name: pa-progress-indeterminate-rtl, pa-progress-glow;
+  }
+
+  // ---- vertical -------------------------------------------------------------------
+  // The fill grows from the bottom; size modifiers set the thickness,
+  // --pa-progress-length the length. Phases, segments and effects turn upright.
   &--vertical {
     display: flex;
     align-items: flex-end;
@@ -138,85 +216,112 @@
       container-type: size;
 
       > .pa-progress__fill {
-        background-image: linear-gradient(0deg, var(--pa-progress-phases));
+        background-image: linear-gradient(to top, var(--pa-progress-phases));
         background-size: 100% 100cqh;
         background-position: bottom;
       }
     }
 
     &.pa-progress--segmented {
-      mask: repeating-linear-gradient(0deg,
+      mask: repeating-linear-gradient(to top,
         #000 0 calc(var(--pa-progress-segment-period) - #{$progress-segment-gap}),
         transparent 0 var(--pa-progress-segment-period));
     }
-  }
 
-  // Indeterminate — unknown duration: a block sweeps across (no --value)
-  &--indeterminate > .pa-progress__fill {
-    width: $progress-indeterminate-width;
-    animation: pa-progress-indeterminate $progress-indeterminate-duration ease-in-out infinite;
-  }
-
-  // Shimmer — a light sweep travels over the fill
-  &--shimmer > .pa-progress__fill {
-    position: relative;
-    overflow: hidden;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
-      transform: translateX(-100%);
-      animation: pa-progress-shimmer $progress-shimmer-duration ease-in-out infinite;
+    &.pa-progress--indeterminate > .pa-progress__fill {
+      width: 100%;
+      height: $progress-indeterminate-width;
+      animation-name: pa-progress-indeterminate-up;
     }
-  }
 
-  // Glow — the fill breathes in its own colour ("still working")
-  &--glow {
-    overflow: visible;
-
-    > .pa-progress__fill {
-      animation: pa-progress-glow $progress-glow-duration ease-in-out infinite;
+    &.pa-progress--indeterminate.pa-progress--glow > .pa-progress__fill {
+      animation-name: pa-progress-indeterminate-up, pa-progress-glow;
     }
-  }
 
-  // Flow — a lighter band of the fill's own colour travels along it
-  &--flow > .pa-progress__fill {
-    background-image: linear-gradient(90deg,
-      var(--pa-progress-fill, var(--pc-primary-color)),
-      color-mix(in oklch, var(--pa-progress-fill, var(--pc-primary-color)), #fff 35%),
-      var(--pa-progress-fill, var(--pc-primary-color)));
-    background-size: 200% 100%;
-    animation: pa-progress-flow $progress-flow-duration linear infinite;
+    &.pa-progress--glow { clip-path: inset(0 calc(-1 * #{$progress-glow-size})); }
+
+    &.pa-progress--shimmer > .pa-progress__fill::after {
+      background: linear-gradient(to top, transparent, $progress-shimmer-color, transparent);
+      transform: translateY(100%);
+      animation-name: pa-progress-shimmer-up;
+      scale: none;
+    }
+
+    &.pa-progress--flow > .pa-progress__fill::after {
+      background: linear-gradient(to top, transparent 0%, $progress-flow-highlight 50%, transparent 100%);
+      background-size: 100% 50%;
+      animation-name: pa-progress-flow-up;
+      scale: none;
+    }
   }
 }
 
+@keyframes pa-progress-stripe {
+  0%   { background-position: $progress-stripe-size 0; }
+  100% { background-position: 0 0; }
+}
+
+// the block starts just before the track and leaves just past its end:
+// translate is a % of the BLOCK, the track is 1 / ratio blocks long
 @keyframes pa-progress-indeterminate {
   0%   { transform: translateX(-100%); }
   100% { transform: translateX(calc(100% / #{$progress-indeterminate-ratio})); }
+}
+
+@keyframes pa-progress-indeterminate-rtl {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(calc(-100% / #{$progress-indeterminate-ratio})); }
+}
+
+@keyframes pa-progress-indeterminate-up {
+  0%   { transform: translateY(100%); }
+  100% { transform: translateY(calc(-100% / #{$progress-indeterminate-ratio})); }
 }
 
 @keyframes pa-progress-shimmer {
   to { transform: translateX(100%); }
 }
 
-@keyframes pa-progress-glow {
-  0%, 100% { box-shadow: 0 0 0 0 transparent; }
-  50%      { box-shadow: 0 0 $progress-glow-size 0.1rem var(--pa-progress-fill, var(--pc-primary-color)); }
+@keyframes pa-progress-shimmer-up {
+  to { transform: translateY(-100%); }
 }
 
 @keyframes pa-progress-flow {
-  to { background-position: -200% 0; }
+  from { background-position: -100% 0; }
+  to   { background-position: 200% 0; }
 }
 
-@keyframes pa-progress-stripe {
-  0% {
-    background-position: $progress-stripe-size 0;
+@keyframes pa-progress-flow-up {
+  from { background-position: 0 200%; }
+  to   { background-position: 0 -100%; }
+}
+
+@keyframes pa-progress-glow {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50%      { box-shadow: 0 0 $progress-glow-size $progress-glow-spread var(--pa-progress-fill); }
+}
+
+@keyframes pa-progress-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+// Reduced motion: no moving stripes / sweeps / glow; an indeterminate bar stays a
+// full-width fill that gently pulses (it still has to say "working").
+@media (prefers-reduced-motion: reduce) {
+  .pa-progress__fill,
+  .pa-progress__fill::before,
+  .pa-progress__fill::after {
+    animation: none !important;
+    transition: none;
   }
-  100% {
-    background-position: 0 0;
+
+  .pa-progress--indeterminate > .pa-progress__fill {
+    width: 100%;
+    animation: pa-progress-pulse $progress-indeterminate-duration $progress-effect-easing infinite !important;
   }
+
+  .pa-progress--vertical.pa-progress--indeterminate > .pa-progress__fill { height: 100%; }
 }
 
 // Wrapper for label + bar combo

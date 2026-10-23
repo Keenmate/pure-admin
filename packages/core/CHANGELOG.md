@@ -53,6 +53,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `position: sticky`), so `js/sections.js` marks it `.pa-sections-host` while a block is on the page
   and core turns it into a non-scroll container (`overflow-y: visible; overflow-x: clip`) — scoped
   to pages with a `pa-sections`, nothing else changes; not in sticky-sidebar mode.
+- **Progress bar review fixes (layered model).** Stripes are now an overlay (`::before`), shimmer /
+  flow an overlay (`::after`), phases the fill's background and glow the fill's shadow, so every
+  modifier combines (striped + phased kept the gradient but lost the stripes; flow + phased lost the
+  phases; glow / flow stopped the indeterminate sweep and the moving stripes). RTL: phases,
+  the indeterminate sweep and the effects run from the inline start (phases ran backwards, the
+  sweep was mostly off-track). `--vertical` + `--indeterminate` / `--shimmer` / `--flow` turn upright
+  (vertical indeterminate rendered nothing). Glow clips with `clip-path` so it can spill above and
+  below without the bar's content escaping sideways. `prefers-reduced-motion` stops every effect;
+  an indeterminate bar becomes a gently pulsing full fill. New tokens `$progress-stripe-color`,
+  `$progress-shimmer-color`, `$progress-flow-highlight`, `$progress-glow-spread`,
+  `$progress-effect-easing`, `$progress-indeterminate-easing`; the indeterminate width derives from
+  `$progress-indeterminate-ratio` (one source).
+- **Progress accessibility contract.** A bar takes an accessible name (`aria-label`) and, when the
+  shown value isn't a plain percentage, `aria-valuetext`; a caption group passes its label / value
+  text to its bar. `pa-progress-ring` is a progressbar too (`role` + `aria-value*`, caption as name).
+  Values are clamped to 0..100 for the fill and `aria-valuenow`. Fixtures: bar `aria-label-valuetext`,
+  `value-clamped`, `phases-single` (one phase → `C at% 100%`), `steps-below-two-ignored`,
+  `phases-unsafe-colour-dropped` (colours with `; { }` / quotes are dropped); ring goldens gain the
+  role / aria attributes.
 - **Snippet `progress.html`** — the first snippet for the data-viz family (it had none): every
   progress-bar shape above plus the caption row and the CSS custom properties.
 - **Demo: new Feedback → Progress page** (`/feedback/progress`) with a live playground (value, variant

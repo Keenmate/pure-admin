@@ -62,16 +62,45 @@ value is in, emitted as the normal variant / palette class.
 <div class="pa-progress pa-progress--vertical" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 75%"></div></div>
 <div class="pa-progress pa-progress--vertical pa-progress--phased pa-progress--segmented" style="--pa-progress-phases: var(--pc-success-color) 0%, var(--pc-warning-color) 60%, var(--pc-danger-color) 85%; --pa-progress-steps: 6; --pa-progress-length: 20rem" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 85%"></div></div>
 
-<!-- With a caption row (label left, value right) -->
+<!-- With a caption row (label left, value right). The caption is plain text, so the bar
+     carries it as its accessible name (aria-label); a value that is not a plain percentage
+     also goes to aria-valuetext so screen readers don't announce "60%". -->
 <div class="pa-progress-group">
   <div class="pa-progress__label">
     <span>Storage Used</span>
-    <span class="pa-progress__label-value">65%</span>
+    <span class="pa-progress__label-value">6.5 / 10 GB</span>
   </div>
-  <div class="pa-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 65%"></div></div>
+  <div class="pa-progress" role="progressbar" aria-label="Storage Used" aria-valuetext="6.5 / 10 GB" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 65%"></div></div>
+</div>
+
+<!-- A bare bar still needs a name -->
+<div class="pa-progress" role="progressbar" aria-label="Upload" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 40%"></div></div>
+
+<!-- ================================
+     PROGRESS RING (pa-progress-ring)
+     A circular progressbar: --value is UNITLESS (0-100) on the ring.
+     ================================ -->
+<div class="pa-progress-ring pa-progress-ring--success" role="progressbar" aria-label="Uptime" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100" style="--value: 94">
+  <div class="pa-progress-ring__inner">
+    <span class="pa-progress-ring__value">94%</span>
+    <span class="pa-progress-ring__label">Uptime</span>
+  </div>
 </div>
 
 <!--
+COMBINING MODIFIERS
+Every modifier composes: stripes are an overlay (::before), shimmer / flow an
+overlay (::after), phases the fill's own background, glow the fill's shadow — so
+e.g. pa-progress--phased pa-progress--animated pa-progress--shimmer works, as does
+--vertical with --indeterminate / --shimmer / --flow (they turn upright) and RTL
+(phases, the indeterminate sweep and effects run from the inline start).
+prefers-reduced-motion stops every effect; an indeterminate bar becomes a gently
+pulsing full fill.
+
+VALUES
+--value / aria-valuenow are clamped to 0..100. Phase colours must be plain colours,
+var(--x) or --x custom properties — never anything with ; { } or quotes.
+
 CSS custom properties on the bar
   --pa-progress-phases   gradient stops for --phased
   --pa-progress-steps    block count for --segmented (default 5)

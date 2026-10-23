@@ -5,6 +5,7 @@
 
 // The foundation vocabulary (base, layout, typography, spacing, colors, system)
 // this file derives from — the same configured module instance the theme set up.
+@use 'sass:math';
 @use '@keenmate/pure-css/src/scss/variables/index' as *;
 
 // NOTE: 10px rem base - all rem values are now in 10px units (1rem = 10px)
@@ -887,13 +888,19 @@ $progress-stripe-size: 1.6rem !default;      // 16px
 $progress-animation-duration: 1s !default;
 $progress-segment-gap: 0.4rem !default;            // gap between --segmented blocks
 $progress-vertical-length: 12rem !default;         // default --vertical length (--pa-progress-length)
-$progress-indeterminate-ratio: 0.35 !default;      // sweeping block = 35% of the bar
-$progress-indeterminate-width: 35% !default;
+$progress-indeterminate-ratio: 0.35 !default;      // sweeping block = 35% of the bar (single source)
+$progress-indeterminate-width: math.percentage($progress-indeterminate-ratio) !default;
+$progress-indeterminate-easing: ease-in-out !default;
 $progress-indeterminate-duration: 1.4s !default;
 $progress-shimmer-duration: 1.8s !default;
 $progress-glow-duration: 1.6s !default;
 $progress-glow-size: 1.2rem !default;
 $progress-flow-duration: 2.4s !default;
+$progress-effect-easing: ease-in-out !default;     // shimmer / glow / reduced-motion pulse
+$progress-stripe-color: rgba(255, 255, 255, 0.2) !default;       // stripes overlay (any fill)
+$progress-shimmer-color: rgba(255, 255, 255, 0.45) !default;     // shimmer sweep highlight
+$progress-flow-highlight: rgba(255, 255, 255, 0.25) !default;    // flow band highlight
+$progress-glow-spread: 0.1rem !default;
 $progress-label-font-size: $font-size-xs !default;
 $progress-label-font-weight: $font-weight-medium !default;
 
