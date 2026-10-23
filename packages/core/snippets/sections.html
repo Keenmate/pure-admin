@@ -12,6 +12,9 @@
      Attrs   data-validate (steps coloured by their fields) · data-update-hash
              data-text-next / -finish / -complete / -incomplete / -invalid / -read
      Event   pa-sections:change  { current, index, states }
+     Host    while a block is on the page the script marks the app shell's
+             .pc-layout__content with .pa-sections-host, so position:sticky works
+             in the default (window-scrolling) layout. Scoped: other pages unchanged.
      ================================ -->
 
 <!-- A EULA: continuous text, read tracking (no data-validate) -->

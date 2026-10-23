@@ -46,8 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   or focus); styles plain / `--boxed` / `--cards`; `--wizard` paging (with `data-validate`, Next
   only past a valid page). Event `pa-sections:change`; API
   `window.pureAdmin.components.sections.{init,get}`. Tokens `$sections-*`. Snippet `sections.html`;
-  demo Surfaces → Sections. Note: sticky layouts need pure-css's `.pc-layout__content` not to be a
-  non-scrolling scroll container — the demo page applies the fix locally until pure-css ships it.
+  demo Surfaces → Sections. Sticky inside the app shell works automatically: pure-css's
+  `.pc-layout__content` is a scroll container even when the window scrolls (which traps
+  `position: sticky`), so `js/sections.js` marks it `.pa-sections-host` while a block is on the page
+  and core turns it into a non-scroll container (`overflow-y: visible; overflow-x: clip`) — scoped
+  to pages with a `pa-sections`, nothing else changes; not in sticky-sidebar mode.
 - **Snippet `progress.html`** — the first snippet for the data-viz family (it had none): every
   progress-bar shape above plus the caption row and the CSS custom properties.
 - **Demo: new Feedback → Progress page** (`/feedback/progress`) with a live playground (value, variant

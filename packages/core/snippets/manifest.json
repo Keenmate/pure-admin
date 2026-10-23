@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-23T20:25:33.621Z",
+  "generated": "2026-10-23T20:38:01.312Z",
   "version": "1.0.0",
   "snippets": {
     "alerts.html": {
@@ -148,9 +148,9 @@
       "modified": "2026-10-06T18:45:49.630Z"
     },
     "sections.html": {
-      "hash": "faa784fd21e5e90ac81a1c1c6b3eb3c28e9d850720d48504ca16ef02ff9909c6",
-      "size": 5841,
-      "modified": "2026-10-23T20:25:32.124Z"
+      "hash": "e746bde7a51075da33244320ef7af4529120f766c2fba1dd2b7cb4f94a11786e",
+      "size": 6084,
+      "modified": "2026-10-23T20:37:59.843Z"
     },
     "sheet.html": {
       "hash": "e400d642cf819ea05a97632fb4f11f9076ff0531c9b573d4ed7ae0a580a1c0bf",
@@ -545,9 +545,9 @@
       "modified": "2026-10-18T08:41:20.669Z"
     },
     "core-components/_sections.scss": {
-      "hash": "df5f3534e4c4ee111843de47fd5aaab99fe64a17114896318f1dac31d524a73e",
-      "size": 8373,
-      "modified": "2026-10-23T20:18:08.182Z"
+      "hash": "0cc5e1a62077af7d4d46c552a03d8b8df28377cb887bcbb9ae471d9ccd2103f6",
+      "size": 9266,
+      "modified": "2026-10-23T20:36:08.145Z"
     },
     "core-components/_settings-panel.scss": {
       "hash": "e5d887a00d99e7458a5965d318eaa155cb043eddb7ea9ccc27072b352c419eaf",

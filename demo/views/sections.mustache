@@ -2,7 +2,7 @@
                 <span class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
                 <div class="pa-callout__content">
                     <h4 class="pa-callout__heading">Experimental</h4>
-                    <p><code>pa-sections</code> and the stepper it drives (<code>pa-steps</code>) are in core as <strong>experimental</strong> components (<code>_sections.scss</code>, <code>_steps.scss</code>, <code>js/sections.js</code>). <strong>Class names, modifiers and markup may still change</strong> — pin an exact version if you build on them. Sticky layouts need the pure-css layout fix this page applies temporarily (see its style block).</p>
+                    <p><code>pa-sections</code> and the stepper it drives (<code>pa-steps</code>) are in core as <strong>experimental</strong> components (<code>_sections.scss</code>, <code>_steps.scss</code>, <code>js/sections.js</code>). <strong>Class names, modifiers and markup may still change</strong> — pin an exact version if you build on them. Sticky layouts work inside the app shell automatically: <code>js/sections.js</code> marks the content wrapper with <code>pa-sections-host</code> while a block is on the page.</p>
                 </div>
             </div>
 
@@ -55,17 +55,6 @@
                     <p class="text-muted text-sm" id="sx-explain"></p>
                 </div>
             </div>
-
-<style>
-    /* ===== TEMPORARY page-only stand-in for a pure-css fix (not shipped anywhere yet) =====
-       pure-css gives .pc-layout__content an unconditional `overflow-y: auto`. In the default
-       layout the WINDOW scrolls, so that wrapper never scrolls — but it is still a scroll
-       container, which traps every position:sticky inside the page. Fix: only scroll it in
-       sticky-sidebar mode; otherwise `overflow-x: clip` (contains wide content, no scroll box). */
-    .pc-layout__content { overflow-y: visible; overflow-x: clip; }
-    body.pc-layout--sticky .pc-layout__content { overflow-y: auto; overflow-x: hidden; }
-</style>
-
             <!-- THE block. Its nav + body are swapped from the <template>s below when the example changes. -->
             <div class="pa-sections pa-sections--side mb-8" id="sx" data-pa-sections>
                 <nav class="pa-sections__nav" aria-label="Sections"></nav>

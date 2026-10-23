@@ -377,7 +377,7 @@ const TAXONOMY = [
   { key: 'sections', name: 'Sections (navigated long content)', category: 'Surfaces',
     desc: 'One long piece of content (EULA, form, settings page) split into sections, plus a pa-steps navigator the block controls via js/sections.js: current section by scroll position, read / field-validity state per step, click-to-jump with on-demand end space. Layouts --side (sticky column, collapses to a bar on narrow blocks) / --top (sticky bar) / --overlay (floating, expands on hover); styles plain / --boxed / --cards; --wizard paging.',
     status: 'experimental',
-    statusNote: 'Class names, modifiers, markup and the JS API may still change — pin an exact version if you build on it. Sticky layouts need the content area not to be a non-scrolling scroll container (pure-css .pc-layout__content fix pending).',
+    statusNote: 'Class names, modifiers, markup and the JS API may still change — pin an exact version if you build on it. js/sections.js marks the app shell's .pc-layout__content with .pa-sections-host so sticky works there (scoped to pages with a block).',
     blocks: ['pa-sections'] },
 
   // ---------------- Interactive & misc ----------------

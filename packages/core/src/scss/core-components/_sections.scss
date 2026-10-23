@@ -220,6 +220,17 @@
   }
 }
 
+// The app shell's content wrapper (pure-css .pc-layout__content) has `overflow-y: auto`
+// even in the default layout, where the WINDOW scrolls — so it is a scroll container
+// that never scrolls, and it traps every position:sticky inside it. js/sections.js
+// marks the wrapper with .pa-sections-host while a pa-sections block is on the page;
+// only then it stops being a scroll container. Scoped on purpose: nothing else in the
+// app changes. (Sticky-sidebar mode is excluded — there the wrapper really scrolls.)
+body:not(.pc-layout--sticky) .pa-sections-host {
+  overflow-y: visible;
+  overflow-x: clip;   // still contains wide content, without becoming a scroll box
+}
+
 // Sticky-sidebar app mode: the content area scrolls, there is no navbar inside it.
 body.pc-layout--sticky .pa-sections { --pa-sections-edge: 0rem; }
 

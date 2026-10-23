@@ -26,6 +26,8 @@
  *   data-text-complete / -incomplete / -invalid / -read
  *                                  screen-reader state texts (English defaults)
  * Classes it sets:
+ *   .pa-sections-host              on the app shell's .pc-layout__content while a block is on the
+ *                                  page, so position:sticky works inside it (see _sections.scss)
  *   .pa-sections--in-view          the block is on screen (the overlay nav shows only then)
  *   .pa-sections__section--active  the current section (wizard shows only that one)
  *   .pa-steps__item--current/--done/--success/--warning/--danger + aria-current="step"
@@ -62,12 +64,28 @@
         return null;   // the document
     }
 
+    // Mark the app shell's content wrapper while at least one block lives in it (ref-counted).
+    var HOST_CLASS = 'pa-sections-host';
+    function claimHost(root) {
+        var host = root.closest('.pc-layout__content');
+        if (!host) return null;
+        host._paSectionsCount = (host._paSectionsCount || 0) + 1;
+        host.classList.add(HOST_CLASS);
+        return host;
+    }
+    function releaseHost(host) {
+        if (!host) return;
+        host._paSectionsCount = Math.max(0, (host._paSectionsCount || 1) - 1);
+        if (!host._paSectionsCount) host.classList.remove(HOST_CLASS);
+    }
+
     function create(root) {
         var items = Array.prototype.slice.call(root.querySelectorAll('.pa-sections__nav .pa-steps__item[data-section]'));
         var sections = items.map(function (li) { return document.getElementById(li.dataset.section); });
         if (!items.length || sections.some(function (s) { return !s; })) return null;
 
         var nav = root.querySelector('.pa-sections__nav');
+        var host = claimHost(root);   // before measuring: it changes which element scrolls
         var text = function (name, fallback) { return root.getAttribute('data-text-' + name) || fallback; };
         var touched = new WeakSet();
         var read = [];
@@ -327,6 +345,7 @@
                 root.removeEventListener('input', onField);
                 root.removeEventListener('change', onField);
                 root.removeEventListener('click', onClick);
+                releaseHost(host);
                 delete root._paSections;
             }
         };
