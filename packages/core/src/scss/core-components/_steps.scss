@@ -154,6 +154,8 @@
   }
 
   // ---- progress state ------------------------------------------------------
+  // Filled markers use the foundation role pair (same as pure-css .surface-{role}):
+  // --pc-{role}-color fill + --base-on-{role}-text-color contrast text.
   &__item--current {
     color: var(--pc-text-color-1);
 
@@ -168,8 +170,8 @@
   &__item--done .pa-steps__marker,
   &__item--current .pa-steps__marker,
   &__item--running .pa-steps__marker {
-    background: var(--pa-btn-primary-bg);
-    color: var(--pa-btn-primary-text);
+    background: var(--pc-primary-color);
+    color: var(--base-on-primary-text-color);
   }
 
   // running: the current step is actively working (pulsing halo)
@@ -178,9 +180,9 @@
   }
 
   // ---- validity state (overrides the progress colour of the marker) --------
-  &__item--success .pa-steps__marker { background: var(--pa-btn-success-bg); color: var(--pa-btn-success-text); }
-  &__item--warning .pa-steps__marker { background: var(--pa-btn-warning-bg); color: var(--pa-btn-warning-text); }
-  &__item--danger .pa-steps__marker  { background: var(--pa-btn-danger-bg);  color: var(--pa-btn-danger-text); }
+  &__item--success .pa-steps__marker { background: var(--pc-success-color); color: var(--base-on-success-text-color); }
+  &__item--warning .pa-steps__marker { background: var(--pc-warning-color); color: var(--base-on-warning-text-color); }
+  &__item--danger .pa-steps__marker  { background: var(--pc-danger-color);  color: var(--base-on-danger-text-color); }
   &__item--danger .pa-steps__label   { color: var(--pc-danger-color); }
 
   // ---- variants ------------------------------------------------------------

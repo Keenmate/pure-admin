@@ -33,7 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   section navigator), `--sm`. Progress state `--done / --current / --running` and validity state
   `--success / --warning / --danger` are independent. All connector geometry derives from one
   `--pa-steps-marker` property, so sizes can't misalign the lines. A visually hidden
-  `.pa-steps__state` carries the state as text for screen readers. Tokens `$steps-*`.
+  `.pa-steps__state` carries the state as text for screen readers. Filled markers use the foundation
+  role pair (`--pc-{role}-color` + `--base-on-{role}-text-color`, as pure-css `.surface-{role}`).
+  Tokens `$steps-*`.
   Snippet `steps.html`.
 - **`pa-sections` (EXPERIMENTAL) + `js/sections.js`** — long content (a EULA, a form, a settings
   page) split into sections, with a `pa-steps` navigator the block controls: current section by
