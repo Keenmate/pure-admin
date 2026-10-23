@@ -366,8 +366,9 @@
                                 <div class="pa-form-group">
                                     <label for="ph-preset">Preset</label>
                                     <select class="pa-select" id="ph-preset">
-                                        <option value="health">health — danger → warning → --our-yellow → success</option>
-                                        <option value="usage">usage — reversed (more is worse)</option>
+                                        <option value="health">health — danger 0 → warning 40 → success 70 (built-in)</option>
+                                        <option value="health-yellow">health + --our-yellow (custom list)</option>
+                                        <option value="usage">usage — success 0 → warning 60 → danger 85 (built-in)</option>
                                         <option value="palette">palette — color-1 → color-4</option>
                                         <option value="custom">custom (edit the rows below)</option>
                                     </select>
@@ -638,7 +639,8 @@
     var COLORS = ['danger', 'warning', '--our-yellow', 'success', 'info', 'primary', 'secondary',
                   '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     var PRESETS = {
-        health: [{ at: 0, color: 'danger' }, { at: 40, color: 'warning' }, { at: 70, color: '--our-yellow' }, { at: 90, color: 'success' }],
+        health: [{ at: 0, color: 'danger' }, { at: 40, color: 'warning' }, { at: 70, color: 'success' }],
+        'health-yellow': [{ at: 0, color: 'danger' }, { at: 40, color: 'warning' }, { at: 70, color: '--our-yellow' }, { at: 90, color: 'success' }],
         usage: [{ at: 0, color: 'success' }, { at: 60, color: 'warning' }, { at: 85, color: 'danger' }],
         palette: [{ at: 0, color: '1' }, { at: 33, color: '2' }, { at: 66, color: '3' }, { at: 100, color: '4' }]
     };
@@ -717,7 +719,7 @@
         $('ph-value-text').textContent = v + '%';
         $('ph-html').textContent = html;
 
-        var name = preset.value === 'custom' ? null : preset.value;
+        var name = (preset.value === 'health' || preset.value === 'usage') ? preset.value : null;   // only the built-in presets have names
         var list = sorted.map(function (p) { return '{ at: ' + p.at + ', color: ' + (/^[1-9]$/.test(p.color) ? p.color : "'" + p.color + "'") + ' }'; });
         var phasesSvelte = name ? '"' + name + '"' : '{[\n    ' + list.join(',\n    ') + '\n  ]}';
         var modeSvelte = mode.value === 'smooth' ? '' : '\n  phaseMode="' + mode.value + '"';
