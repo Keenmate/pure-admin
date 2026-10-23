@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc09** · **60** components · **148** blocks · **1393** class selectors.
+Framework version **3.3.0-rc09** · **60** components · **148** blocks · **1400** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -48,7 +48,7 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 | Code block | `pa-code` | Data display | ✓ | ✓ | ✓ |
 | Data display (field lists) | `pa-accent-grid` | Data display | ✓ | ✓ | ✓ |
 | Statistics / stat cards | `pa-kpi-grid` | Data display | ✓ | ✓ | ✓ |
-| Data-viz primitives | `pa-bar-list` | Data visualization | ✓ | ✗ | ✓ |
+| Data-viz primitives | `pa-bar-list` | Data visualization | ✓ | ✓ | ✓ |
 | KPI showcase — shared base | `pa-kpi-detail` | Data visualization | ✓ | ✓ | ✓ |
 | KPI showcase — terminal | `pa-kpi-tile` | Data visualization | ✓ | ✓ | ✓ |
 | KPI showcase — sparkline list | `pa-kpi-spark-dot` | Data visualization | ✓ | ✓ | ✓ |
@@ -461,9 +461,9 @@ Inline chart primitives: bar list, data bar, gauge, heatmap, progress (bar/group
 
 - **Blocks:** `pa-bar-list`, `pa-data-bar`, `pa-gauge`, `pa-heatmap`, `pa-progress`, `pa-progress-group`, `pa-progress-ring`, `pa-sparkline`, `pa-stacked-bar`
 - **Elements:** `pa-bar-list__bar`, `pa-bar-list__header`, `pa-bar-list__item`, `pa-bar-list__label`, `pa-bar-list__value`, `pa-data-bar__fill`, `pa-data-bar__track`, `pa-data-bar__value`, `pa-gauge__inner`, `pa-gauge__label`, `pa-gauge__max`, `pa-gauge__min`, `pa-gauge__value`, `pa-heatmap__cell`, `pa-heatmap__legend`, `pa-heatmap__legend-cell`, `pa-progress-ring__inner`, `pa-progress-ring__label`, `pa-progress-ring__value`, `pa-progress__fill`, `pa-progress__label`, `pa-progress__label-value`, `pa-sparkline__bar`, `pa-stacked-bar__legend`, `pa-stacked-bar__legend-item`, `pa-stacked-bar__legend-swatch`, `pa-stacked-bar__segment`
-- **Modifiers / states:** `pa-bar-list--compact`, `pa-bar-list--danger`, `pa-bar-list--info`, `pa-bar-list--success`, `pa-bar-list--warning`, `pa-data-bar--danger`, `pa-data-bar--info`, `pa-data-bar--negative`, `pa-data-bar--success`, `pa-data-bar--warning`, `pa-gauge--danger`, `pa-gauge--info`, `pa-gauge--success`, `pa-gauge--warning`, `pa-gauge--zones`, `pa-heatmap--compact`, `pa-heatmap--danger`, `pa-heatmap--success`, `pa-progress--animated`, `pa-progress--danger`, `pa-progress--info`, `pa-progress--lg`, `pa-progress--sm`, `pa-progress--striped`, `pa-progress--success`, `pa-progress--warning`, `pa-progress--xs`, `pa-progress-ring--danger`, `pa-progress-ring--info`, `pa-progress-ring--lg`, `pa-progress-ring--sm`, `pa-progress-ring--success`, `pa-progress-ring--warning`, `pa-sparkline--danger`, `pa-sparkline--info`, `pa-sparkline--lg`, `pa-sparkline--sm`, `pa-sparkline--success`, `pa-sparkline--warning`, `pa-stacked-bar--lg`, `pa-stacked-bar--sm`, `pa-stacked-bar__legend-swatch--danger`, `pa-stacked-bar__legend-swatch--info`, `pa-stacked-bar__legend-swatch--primary`, `pa-stacked-bar__legend-swatch--secondary`, `pa-stacked-bar__legend-swatch--success`, `pa-stacked-bar__legend-swatch--warning`, `pa-stacked-bar__segment--danger`, `pa-stacked-bar__segment--info`, `pa-stacked-bar__segment--secondary`, `pa-stacked-bar__segment--success`, `pa-stacked-bar__segment--warning`
+- **Modifiers / states:** `pa-bar-list--compact`, `pa-bar-list--danger`, `pa-bar-list--info`, `pa-bar-list--success`, `pa-bar-list--warning`, `pa-data-bar--danger`, `pa-data-bar--info`, `pa-data-bar--negative`, `pa-data-bar--success`, `pa-data-bar--warning`, `pa-gauge--danger`, `pa-gauge--info`, `pa-gauge--success`, `pa-gauge--warning`, `pa-gauge--zones`, `pa-heatmap--compact`, `pa-heatmap--danger`, `pa-heatmap--success`, `pa-progress--animated`, `pa-progress--danger`, `pa-progress--flow`, `pa-progress--glow`, `pa-progress--indeterminate`, `pa-progress--info`, `pa-progress--lg`, `pa-progress--phased`, `pa-progress--segmented`, `pa-progress--shimmer`, `pa-progress--sm`, `pa-progress--striped`, `pa-progress--success`, `pa-progress--vertical`, `pa-progress--warning`, `pa-progress--xs`, `pa-progress-ring--danger`, `pa-progress-ring--info`, `pa-progress-ring--lg`, `pa-progress-ring--sm`, `pa-progress-ring--success`, `pa-progress-ring--warning`, `pa-sparkline--danger`, `pa-sparkline--info`, `pa-sparkline--lg`, `pa-sparkline--sm`, `pa-sparkline--success`, `pa-sparkline--warning`, `pa-stacked-bar--lg`, `pa-stacked-bar--sm`, `pa-stacked-bar__legend-swatch--danger`, `pa-stacked-bar__legend-swatch--info`, `pa-stacked-bar__legend-swatch--primary`, `pa-stacked-bar__legend-swatch--secondary`, `pa-stacked-bar__legend-swatch--success`, `pa-stacked-bar__legend-swatch--warning`, `pa-stacked-bar__segment--danger`, `pa-stacked-bar__segment--info`, `pa-stacked-bar__segment--secondary`, `pa-stacked-bar__segment--success`, `pa-stacked-bar__segment--warning`
 - **SCSS:** `core-components/_data-viz.scss`
-- **Snippet:** ✗ none
+- **Snippet:** `progress.html`
 - **Demo:** `data-visualization.mustache`
 
 ### KPI showcase — shared base — `pa-kpi-detail`

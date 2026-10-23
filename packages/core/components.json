@@ -4,7 +4,7 @@
   "totals": {
     "components": 60,
     "blocks": 148,
-    "selectors": 1393,
+    "selectors": 1400,
     "experimental": 1
   },
   "categories": [
@@ -1565,11 +1565,18 @@
         "pa-heatmap--success",
         "pa-progress--animated",
         "pa-progress--danger",
+        "pa-progress--flow",
+        "pa-progress--glow",
+        "pa-progress--indeterminate",
         "pa-progress--info",
         "pa-progress--lg",
+        "pa-progress--phased",
+        "pa-progress--segmented",
+        "pa-progress--shimmer",
         "pa-progress--sm",
         "pa-progress--striped",
         "pa-progress--success",
+        "pa-progress--vertical",
         "pa-progress--warning",
         "pa-progress--xs",
         "pa-progress-ring--danger",
@@ -1601,11 +1608,13 @@
       "partials": [
         "core-components/_data-viz.scss"
       ],
-      "snippets": [],
+      "snippets": [
+        "progress.html"
+      ],
       "demos": [
         "data-visualization.mustache"
       ],
-      "hasSnippet": false
+      "hasSnippet": true
     },
     "kpi-base": {
       "name": "KPI showcase — shared base",

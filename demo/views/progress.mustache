@@ -235,6 +235,344 @@
                 </div>
             </div>
 
+            <!-- ================================================================
+                 Phases / segmented / vertical / effects ship in core (rc10).
+                 The <style> below only defines the app colour --our-yellow and the
+                 still-prototype stepper (pa-steps). Scoped to #progress-prototypes.
+                 ================================================================ -->
+            <div id="progress-prototypes">
+            <style>
+                /* An app-defined colour, NOT a framework token — e.g. from your own stylesheet.
+                   Used by the Phases demo to show that any CSS colour can be a phase colour. */
+                #progress-prototypes { --our-yellow: #eab308; }
+
+                /* --- Stepper (multi-step form): its own block, not a bar ------------------- */
+                #progress-prototypes .pa-steps {
+                    display: flex;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                }
+                #progress-prototypes .pa-steps__item {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.6rem;
+                    position: relative;
+                    margin: 0;
+                    color: var(--pc-text-color-2);
+                    text-align: center;
+                }
+                /* connector line to the previous step */
+                #progress-prototypes .pa-steps__item + .pa-steps__item::before {
+                    content: '';
+                    position: absolute;
+                    top: 1.5rem;
+                    inset-inline-end: calc(50% + 2rem);
+                    inset-inline-start: calc(-50% + 2rem);
+                    height: 0.2rem;
+                    background: var(--pc-surface-track);
+                    border-radius: 0.1rem;
+                }
+                #progress-prototypes .pa-steps__item--done + .pa-steps__item::before,
+                #progress-prototypes .pa-steps__item--done::before { background: var(--pc-primary-color); }
+                #progress-prototypes .pa-steps__marker {
+                    width: 3rem;
+                    height: 3rem;
+                    border-radius: 50%;
+                    display: grid;
+                    place-items: center;
+                    font-weight: 600;
+                    background: var(--pc-surface-track);
+                    color: var(--pc-text-color-2);
+                    transition: transform 0.2s ease;
+                }
+                #progress-prototypes .pa-steps__item--current { color: var(--pc-text-color-1); }
+                #progress-prototypes .pa-steps__item--current .pa-steps__marker {
+                    background: var(--pc-primary-color);
+                    color: var(--pa-btn-primary-text);
+                    box-shadow: 0 0 0 0.4rem var(--pc-primary-bg-subtle);
+                    transform: scale(1.08);
+                }
+                #progress-prototypes .pa-steps__item--done .pa-steps__marker {
+                    background: var(--pc-primary-color);
+                    color: var(--pa-btn-primary-text);
+                }
+                #progress-prototypes .pa-steps__label { font-size: 1.3rem; }
+            </style>
+
+            <!-- Lively bars -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Effects: indeterminate, shimmer, glow, flow</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Indeterminate — unknown duration ("Connecting…")</span></div>
+                        <div class="pa-progress pa-progress--indeterminate" role="progressbar" aria-label="Loading"><div class="pa-progress__fill"></div></div>
+                    </div>
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Shimmer — known value, light sweeps over the fill</span><span class="pa-progress__label-value">62%</span></div>
+                        <div class="pa-progress pa-progress--lg pa-progress--shimmer" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 62%"></div></div>
+                    </div>
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Glow — the fill breathes ("still working")</span><span class="pa-progress__label-value">48%</span></div>
+                        <div class="pa-progress pa-progress--glow" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 48%"></div></div>
+                    </div>
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Gradient flow — colour travels along the fill</span><span class="pa-progress__label-value">80%</span></div>
+                        <div class="pa-progress pa-progress--lg pa-progress--flow" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 80%"></div></div>
+                    </div>
+                    <div class="pa-progress-group">
+                        <div class="pa-progress__label"><span>Existing: animated stripes (for comparison)</span><span class="pa-progress__label-value">70%</span></div>
+                        <div class="pa-progress pa-progress--lg pa-progress--animated" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 70%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phases: red → orange → yellow → green, defined explicitly -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Phases (red → orange → yellow → green)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-4">A <strong>phase</strong> = a colour + the value it starts at. The list lives in <strong>one CSS variable</strong> on the bar (<code>--pa-progress-phases</code>), written as ordinary gradient stops — so the colours are visible in the markup and any colour works: a role (<code>var(--pc-danger-color)</code>), a palette slot (<code>var(--pc-palette-3)</code>) or <strong>your own CSS variable</strong> — the yellow here is <code>--our-yellow</code>, defined by the app (this page), not by the framework. Mode <strong>smooth</strong> blends the stops, <strong>zoned</strong> writes them with hard edges, <strong>value</strong> paints the whole fill with the colour of the phase the value is in (that one is wrapper logic — CSS can't compare numbers; here a small script stands in for the wrapper).</p>
+
+                    <!-- Phase editor -->
+                    <form class="pa-form mb-4" id="phase-editor" onsubmit="return false">
+                        <div class="pc-row">
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="ph-value">Value (%)</label>
+                                    <input type="number" class="pa-input" id="ph-value" min="0" max="100" step="5" value="55">
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="ph-mode">Mode</label>
+                                    <select class="pa-select" id="ph-mode">
+                                        <option value="smooth">smooth (spectrum)</option>
+                                        <option value="zoned">zoned (hard edges)</option>
+                                        <option value="value">value (solid colour of current phase)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label for="ph-preset">Preset</label>
+                                    <select class="pa-select" id="ph-preset">
+                                        <option value="health">health — danger → warning → --our-yellow → success</option>
+                                        <option value="usage">usage — reversed (more is worse)</option>
+                                        <option value="palette">palette — color-1 → color-4</option>
+                                        <option value="custom">custom (edit the rows below)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-4">
+                                <div class="pa-form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="button" class="pa-btn pa-btn--secondary" id="ph-run">Animate 0 → 100</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pc-row" id="ph-rows"></div>
+                    </form>
+
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Result</span><span class="pa-progress__label-value" id="ph-value-text"></span></div>
+                        <div class="pa-progress pa-progress--lg" id="ph-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                    </div>
+
+                    <div class="pc-row">
+                        <div class="pc-col-100 pc-col-lg-1-2">
+                            <h5>Component call (svelte)</h5>
+                            <pre class="pa-code" id="ph-svelte"></pre>
+                            <h5>Component call (keen)</h5>
+                            <pre class="pa-code" id="ph-keen"></pre>
+                        </div>
+                        <div class="pc-col-100 pc-col-lg-1-2">
+                            <h5>Generated HTML</h5>
+                            <pre class="pa-code pa-code--html" id="ph-html"></pre>
+                        </div>
+                    </div>
+
+                    <!-- Fixed examples (static markup, exactly as a wrapper would emit it) -->
+                    <h4 class="mt-4">Fixed examples</h4>
+                    <div class="pc-row">
+                        <div class="pc-col-100 pc-col-md-1-2">
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label"><span>Health, smooth</span><span class="pa-progress__label-value">35%</span></div>
+                                <div class="pa-progress pa-progress--lg pa-progress--phased" style="--pa-progress-phases: var(--pc-danger-color) 0%, var(--pc-warning-color) 40%, var(--our-yellow) 70%, var(--pc-success-color) 90%" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 35%"></div></div>
+                            </div>
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label"><span>Health, smooth</span><span class="pa-progress__label-value">95%</span></div>
+                                <div class="pa-progress pa-progress--lg pa-progress--phased" style="--pa-progress-phases: var(--pc-danger-color) 0%, var(--pc-warning-color) 40%, var(--our-yellow) 70%, var(--pc-success-color) 90%" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 95%"></div></div>
+                            </div>
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label"><span>Health, zoned (0–40 / 40–70 / 70–100)</span><span class="pa-progress__label-value">85%</span></div>
+                                <div class="pa-progress pa-progress--lg pa-progress--phased" style="--pa-progress-phases: var(--pc-danger-color) 0% 40%, var(--pc-warning-color) 40% 70%, var(--pc-success-color) 70% 100%" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 85%"></div></div>
+                            </div>
+                        </div>
+                        <div class="pc-col-100 pc-col-md-1-2">
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label"><span>Disk usage, zoned + reversed (more is worse)</span><span class="pa-progress__label-value">88%</span></div>
+                                <div class="pa-progress pa-progress--lg pa-progress--phased" style="--pa-progress-phases: var(--pc-success-color) 0% 60%, var(--pc-warning-color) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 88%"></div></div>
+                            </div>
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label"><span>Palette phases, smooth (color-1 → color-4)</span><span class="pa-progress__label-value">80%</span></div>
+                                <div class="pa-progress pa-progress--lg pa-progress--phased" style="--pa-progress-phases: var(--pc-palette-1) 0%, var(--pc-palette-2) 33%, var(--pc-palette-3) 66%, var(--pc-palette-4) 100%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 80%"></div></div>
+                            </div>
+                            <div class="pa-progress-group mb-4">
+                                <div class="pa-progress__label"><span>Value mode — 55% is in the warning phase → existing class</span><span class="pa-progress__label-value">55%</span></div>
+                                <div class="pa-progress pa-progress--lg pa-progress--warning" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 55%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segmented bars -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Segmented bar (one value, N blocks)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Profile completion</span><span class="pa-progress__label-value">3 of 5</span></div>
+                        <div class="pa-progress pa-progress--lg pa-progress--segmented" style="--pa-progress-steps: 5" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                    </div>
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Password strength</span><span class="pa-progress__label-value">Good</span></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--segmented pa-progress--success" style="--pa-progress-steps: 4" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 75%"></div></div>
+                    </div>
+                    <div class="pa-progress-group">
+                        <div class="pa-progress__label"><span>Segmented + shimmer, 10 blocks</span><span class="pa-progress__label-value">7 / 10</span></div>
+                        <div class="pa-progress pa-progress--lg pa-progress--segmented pa-progress--shimmer pa-progress--color-3" style="--pa-progress-steps: 10" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 70%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertical bars -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Vertical bar</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-4">Same <code>pa-progress</code> block plus <code>--vertical</code>: the fill grows from the bottom (<code>--value</code> is the height). Sizes set the bar's thickness; the length comes from <code>--pa-progress-length</code> (default 12rem). Every other modifier still applies — variants, palette, striped / animated, phases (bottom → top, like a thermometer).</p>
+                    <div class="d-flex flex-wrap gap-4 mb-4" id="proto-vertical">
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--xs pa-progress--vertical" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 30%"></div></div>
+                            <span class="text-xs text-muted">xs</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--sm pa-progress--vertical" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 45%"></div></div>
+                            <span class="text-xs text-muted">sm</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--vertical" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+                            <span class="text-xs text-muted">default</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--lg pa-progress--vertical" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 75%"></div></div>
+                            <span class="text-xs text-muted">lg</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--lg pa-progress--vertical pa-progress--success pa-progress--animated" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 55%"></div></div>
+                            <span class="text-xs text-muted">animated</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--lg pa-progress--vertical pa-progress--color-5" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 40%"></div></div>
+                            <span class="text-xs text-muted">color-5</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--lg pa-progress--vertical pa-progress--phased" style="--pa-progress-phases: var(--pc-success-color) 0%, var(--our-yellow) 60%, var(--pc-danger-color) 100%" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 85%"></div></div>
+                            <span class="text-xs text-muted">phased</span>
+                        </div>
+                        <div class="d-flex flex-column gap-2 text-center">
+                            <div class="pa-progress pa-progress--lg pa-progress--vertical pa-progress--segmented" style="--pa-progress-steps: 6" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 67%"></div></div>
+                            <span class="text-xs text-muted">segmented</span>
+                        </div>
+                    </div>
+
+                    <h5>Level meter (7 bars, live)</h5>
+                    <div class="d-flex gap-2 mb-4" id="proto-meter">
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                        <div class="pa-progress pa-progress--sm pa-progress--vertical pa-progress--phased" style="--pa-progress-length: 6rem; --pa-progress-phases: var(--pc-success-color) 0% 60%, var(--our-yellow) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+                    </div>
+                    <div class="pa-btn-group">
+                        <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" id="proto-vertical-run">Animate the bars above</button>
+                        <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" id="proto-meter-toggle">Start meter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-step form -->
+            <div class="pa-callout pa-callout--warning mb-4">
+                <span class="pa-callout__icon"><span class="pa-icon pa-icon--warning" aria-hidden="true"></span></span>
+                <div class="pa-callout__content">
+                    <h4 class="pa-callout__heading">Prototype</h4>
+                    <p>The stepper below (<code>pa-steps</code>) is a sketch — <strong>not in core yet</strong>; its styles live in a page-local block. Its name and structure will change before it ships. The segmented bar under it is real core.</p>
+                </div>
+            </div>
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Prototype: multi-step form (stepper + segmented bar)</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <ol class="pa-steps mb-4" id="proto-steps">
+                        <li class="pa-steps__item"><span class="pa-steps__marker">1</span><span class="pa-steps__label">Account</span></li>
+                        <li class="pa-steps__item"><span class="pa-steps__marker">2</span><span class="pa-steps__label">Profile</span></li>
+                        <li class="pa-steps__item"><span class="pa-steps__marker">3</span><span class="pa-steps__label">Billing</span></li>
+                        <li class="pa-steps__item"><span class="pa-steps__marker">4</span><span class="pa-steps__label">Confirm</span></li>
+                    </ol>
+
+                    <div class="pa-progress-group mb-4">
+                        <div class="pa-progress__label"><span>Same progress as a segmented bar</span><span class="pa-progress__label-value" id="proto-steps-text"></span></div>
+                        <div class="pa-progress pa-progress--segmented" style="--pa-progress-steps: 4" id="proto-steps-bar" role="progressbar" aria-valuemin="0" aria-valuemax="4"><div class="pa-progress__fill"></div></div>
+                    </div>
+
+                    <form class="pa-form" onsubmit="return false">
+                        <div class="pa-form-group" data-proto-step="0">
+                            <label for="proto-email">Email</label>
+                            <input type="email" class="pa-input" id="proto-email" placeholder="dale.cooper@fbi.gov">
+                        </div>
+                        <div class="pa-form-group" data-proto-step="1" hidden>
+                            <label for="proto-name">Full name</label>
+                            <input type="text" class="pa-input" id="proto-name" placeholder="Dale Cooper">
+                        </div>
+                        <div class="pa-form-group" data-proto-step="2" hidden>
+                            <label for="proto-card">Card number</label>
+                            <input type="text" class="pa-input" id="proto-card" placeholder="4111 1111 1111 1111">
+                        </div>
+                        <div class="pa-form-group" data-proto-step="3" hidden>
+                            <p>All set — review and confirm.</p>
+                        </div>
+                        <div class="pa-form-actions">
+                            <button type="button" class="pa-btn pa-btn--secondary" id="proto-back">Back</button>
+                            <button type="button" class="pa-btn pa-btn--primary" id="proto-next">Next</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+            <!-- /PROTOTYPES -->
+
 <script>
 (function () {
     var $ = function (id) { return document.getElementById(id); };
@@ -288,5 +626,194 @@
         }, 150);
     });
     render();
+})();
+
+// --- Prototype: phase editor (the script plays the wrapper) --------------------
+(function () {
+    var form = document.getElementById('phase-editor');
+    if (!form) return;
+    var $ = function (id) { return document.getElementById(id); };
+    var value = $('ph-value'), mode = $('ph-mode'), preset = $('ph-preset'), rowsEl = $('ph-rows');
+    var bar = $('ph-bar'), fill = bar.querySelector('.pa-progress__fill');
+    var COLORS = ['danger', 'warning', '--our-yellow', 'success', 'info', 'primary', 'secondary',
+                  '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    var PRESETS = {
+        health: [{ at: 0, color: 'danger' }, { at: 40, color: 'warning' }, { at: 70, color: '--our-yellow' }, { at: 90, color: 'success' }],
+        usage: [{ at: 0, color: 'success' }, { at: 60, color: 'warning' }, { at: 85, color: 'danger' }],
+        palette: [{ at: 0, color: '1' }, { at: 33, color: '2' }, { at: 66, color: '3' }, { at: 100, color: '4' }]
+    };
+    var phases = PRESETS.health.slice();
+
+    // colour name -> CSS colour (what core / the wrapper would resolve)
+    function css(c) {
+        if (/^[1-9]$/.test(c)) return 'var(--pc-palette-' + c + ')';
+        if (c.indexOf('--') === 0) return 'var(' + c + ')';   // any custom CSS variable
+        return 'var(--pc-' + c + '-color)';
+    }
+    // colour name -> existing class (value mode: no new CSS needed)
+    function cls(c) {
+        if (/^[1-9]$/.test(c)) return 'pa-progress--color-' + c;
+        if (['success', 'warning', 'danger', 'info'].indexOf(c) < 0) return '';
+        if (c.indexOf('--') === 0) return '';   // custom colour: no class, painted inline (see render)
+        return 'pa-progress--' + c;
+    }
+    function stops() {
+        var sorted = phases.slice().sort(function (a, b) { return a.at - b.at; });
+        if (mode.value === 'zoned') {
+            return sorted.map(function (p, i) {
+                var end = i + 1 < sorted.length ? sorted[i + 1].at : 100;
+                return css(p.color) + ' ' + p.at + '% ' + end + '%';
+            }).join(', ');
+        }
+        return sorted.map(function (p) { return css(p.color) + ' ' + p.at + '%'; }).join(', ');
+    }
+    function currentPhase(v) {
+        var sorted = phases.slice().sort(function (a, b) { return a.at - b.at; });
+        var hit = sorted[0];
+        sorted.forEach(function (p) { if (v >= p.at) hit = p; });
+        return hit;
+    }
+    function drawRows() {
+        rowsEl.innerHTML = '';
+        phases.forEach(function (p, i) {
+            var col = document.createElement('div');
+            col.className = 'pc-col-50 pc-col-md-1-4';
+            var opts = COLORS.map(function (c) {
+                return '<option value="' + c + '"' + (c === p.color ? ' selected' : '') + '>' + (/^[1-9]$/.test(c) ? 'color-' + c : c.indexOf('--') === 0 ? c + ' (custom)' : c) + '</option>';
+            }).join('');
+            col.innerHTML = '<div class="pa-form-group"><label>Phase ' + (i + 1) + ' — from %</label>'
+                + '<input type="number" class="pa-input mb-2" min="0" max="100" step="5" value="' + p.at + '" data-i="' + i + '" data-k="at">'
+                + '<select class="pa-select" data-i="' + i + '" data-k="color">' + opts + '</select></div>';
+            rowsEl.appendChild(col);
+        });
+    }
+    function render() {
+        var v = Math.max(0, Math.min(100, parseInt(value.value, 10) || 0));
+        var sorted = phases.slice().sort(function (a, b) { return a.at - b.at; });
+        bar.className = 'pa-progress pa-progress--lg';
+        bar.removeAttribute('style');
+        var html, phaseAttr;
+        if (mode.value === 'value') {
+            var ph = currentPhase(v).color, c = cls(ph);
+            var custom = !c && ph !== 'primary';
+            if (c) bar.classList.add(c);
+            if (custom) bar.style.setProperty('--pa-progress-fill', css(ph));
+            html = '<div class="pa-progress' + (c ? ' ' + c : '') + '"' + (custom ? ' style="--pa-progress-fill: ' + css(ph) + '"' : '') + ' role="progressbar" aria-valuenow="' + v + '" …>\n'
+                + '  <div class="pa-progress__fill" style="--value: ' + v + '%"></div>\n</div>\n\n'
+                + (custom
+                    ? '<!-- value ' + v + '% is in the "' + ph + '" phase → no class for this colour, so it goes to the --pa-progress-fill token -->'
+                    : '<!-- value ' + v + '% is in the "' + ph + '" phase → existing class, no new CSS -->');
+        } else {
+            var s = stops();
+            bar.classList.add('pa-progress--phased');
+            bar.style.setProperty('--pa-progress-phases', s);
+            html = '<div class="pa-progress pa-progress--phased"\n'
+                + '     style="--pa-progress-phases: ' + s.replace(/, /g, ',\n                                  ') + '"\n'
+                + '     role="progressbar" aria-valuenow="' + v + '" …>\n'
+                + '  <div class="pa-progress__fill" style="--value: ' + v + '%"></div>\n</div>';
+        }
+        fill.style.setProperty('--value', v + '%');
+        bar.setAttribute('aria-valuenow', String(v));
+        $('ph-value-text').textContent = v + '%';
+        $('ph-html').textContent = html;
+
+        var name = preset.value === 'custom' ? null : preset.value;
+        var list = sorted.map(function (p) { return '{ at: ' + p.at + ', color: ' + (/^[1-9]$/.test(p.color) ? p.color : "'" + p.color + "'") + ' }'; });
+        var phasesSvelte = name ? '"' + name + '"' : '{[\n    ' + list.join(',\n    ') + '\n  ]}';
+        var modeSvelte = mode.value === 'smooth' ? '' : '\n  phaseMode="' + mode.value + '"';
+        $('ph-svelte').textContent = '<Progress\n  value={' + v + '}\n  phases=' + phasesSvelte + modeSvelte + '\n/>';
+        var listKeen = sorted.map(function (p) { return '{' + p.at + ', ' + (/^[1-9]$/.test(p.color) ? p.color : '"' + p.color + '"') + '}'; });
+        var phasesKeen = name ? '"' + name + '"' : '{[' + listKeen.join(', ') + ']}';
+        var modeKeen = mode.value === 'smooth' ? '' : ' phase_mode="' + mode.value + '"';
+        $('ph-keen').textContent = '<.progress value={' + v + '} phases=' + phasesKeen + modeKeen + ' />';
+    }
+
+    rowsEl.addEventListener('input', function (e) {
+        var i = e.target.dataset.i, k = e.target.dataset.k;
+        if (i === undefined) return;
+        phases[i][k] = k === 'at' ? (parseInt(e.target.value, 10) || 0) : e.target.value;
+        preset.value = 'custom';
+        render();
+    });
+    rowsEl.addEventListener('change', function (e) { rowsEl.dispatchEvent(new Event('input')); render(); });
+    preset.addEventListener('change', function () {
+        if (PRESETS[preset.value]) { phases = PRESETS[preset.value].map(function (p) { return { at: p.at, color: p.color }; }); drawRows(); }
+        render();
+    });
+    [value, mode].forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+    var timer = null;
+    $('ph-run').addEventListener('click', function () {
+        clearInterval(timer);
+        value.value = 0;
+        render();
+        timer = setInterval(function () {
+            var next = (parseInt(value.value, 10) || 0) + 2;
+            value.value = Math.min(100, next);
+            render();
+            if (next >= 100) clearInterval(timer);
+        }, 40);
+    });
+    drawRows();
+    render();
+})();
+
+// --- Prototype: vertical bars --------------------------------------------------
+(function () {
+    var run = document.getElementById('proto-vertical-run');
+    if (!run) return;
+    var bars = document.querySelectorAll('#proto-vertical .pa-progress');
+    run.addEventListener('click', function () {
+        bars.forEach(function (b) {
+            var v = Math.round(Math.random() * 100);
+            b.querySelector('.pa-progress__fill').style.setProperty('--value', v + '%');
+            b.setAttribute('aria-valuenow', String(v));
+        });
+    });
+    var meter = document.querySelectorAll('#proto-meter .pa-progress');
+    var toggle = document.getElementById('proto-meter-toggle');
+    var timer = null;
+    toggle.addEventListener('click', function () {
+        if (timer) { clearInterval(timer); timer = null; toggle.textContent = 'Start meter'; return; }
+        toggle.textContent = 'Stop meter';
+        timer = setInterval(function () {
+            meter.forEach(function (b, i) {
+                var base = 70 - Math.abs(i - 3) * 12;
+                var v = Math.max(5, Math.min(100, base + Math.round((Math.random() - 0.5) * 50)));
+                b.querySelector('.pa-progress__fill').style.setProperty('--value', v + '%');
+                b.setAttribute('aria-valuenow', String(v));
+            });
+        }, 180);
+    });
+})();
+
+// --- Prototype: multi-step form ---------------------------------------------
+(function () {
+    var items = document.querySelectorAll('#proto-steps .pa-steps__item');
+    var panes = document.querySelectorAll('[data-proto-step]');
+    var bar = document.getElementById('proto-steps-bar');
+    var text = document.getElementById('proto-steps-text');
+    var back = document.getElementById('proto-back');
+    var next = document.getElementById('proto-next');
+    if (!items.length) return;
+    var total = items.length, current = 0;
+
+    function show() {
+        items.forEach(function (li, i) {
+            li.classList.toggle('pa-steps__item--done', i < current);
+            li.classList.toggle('pa-steps__item--current', i === current);
+            if (i === current) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+            li.querySelector('.pa-steps__marker').textContent = i < current ? '✓' : String(i + 1);
+        });
+        panes.forEach(function (p) { p.hidden = Number(p.dataset.protoStep) !== current; });
+        // the bar shows completed steps (current one is in progress)
+        bar.querySelector('.pa-progress__fill').style.setProperty('--value', (current / total * 100) + '%');
+        bar.setAttribute('aria-valuenow', String(current));
+        text.textContent = 'Step ' + (current + 1) + ' of ' + total;
+        back.disabled = current === 0;
+        next.textContent = current === total - 1 ? 'Finish' : 'Next';
+    }
+    back.addEventListener('click', function () { if (current > 0) { current--; show(); } });
+    next.addEventListener('click', function () { if (current < total - 1) { current++; show(); } else { current = 0; show(); } });
+    show();
 })();
 </script>

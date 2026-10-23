@@ -439,7 +439,9 @@ const SNIPPET_OF = {
   icon: 'icon.html',
   // true gaps — no dedicated snippet exists yet:
   'settings-panel': null, 'logic-tree': null, 'file-selector': null,
-  'data-viz': null,
+  // data-viz: progress.html covers the progress-bar family; the other data-viz
+  // blocks (ring, gauge, stacked bar, heatmap, …) are still owed a snippet.
+  'data-viz': 'progress.html',
 };
 const DEMO_OF = {
   'data-viz': 'data-visualization.mustache', 'kpi-base': 'kpi-dashboard.mustache',
@@ -455,7 +457,6 @@ const DEMO_OF = {
 const GAP_REASON = {
   'file-selector': ['superseded', 'Superseded by @keenmate/web-dropzone (the demo "File Upload" route renders the web component). Removal candidate — no snippet owed.'],
   'logic-tree':    ['deferred', 'API not yet stable — a snippet would chase a moving target.'],
-  'data-viz':      ['deferred', 'D3-driven; a static HTML snippet is too thin to be useful. Documented via demo only.'],
   'settings-panel':['deferred', 'Demo-internal composition; no standalone public contract yet.'],
   'query-editor':  ['deferred', 'Smart-filters family; API not yet stable. Cross-referenced from forms.html only.'],
   // NOTE: icon, navbar-search, kpi-base and the seven kpi-* design showcases now

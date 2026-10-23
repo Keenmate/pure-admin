@@ -12,6 +12,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Progress bar theme palette: `pa-progress--color-1` … `--color-9`.** Paints the fill with the
   theme's palette slot (`--pc-palette-N`), alongside the role variants. Wrappers: `themeColor` /
   `theme_color`.
+- **Progress bar: phases, segmented, vertical, indeterminate and effects.** All modifiers of the
+  one `pa-progress` block, combinable with sizes, variants, palette and the caption row:
+  - `--phased` + `--pa-progress-phases` (a list of gradient stops on the bar): the fill reveals a
+    colour scale spanning the whole bar — smooth (`C 40%, …`) or zoned (`C 40% 70%, …`). Any CSS
+    colour works, including the app's own variables. Wrappers: `phases` (preset `health` / `usage`
+    or a `{ at, color }` list) + `phaseMode` smooth / zoned / value (value = the whole fill takes
+    the current phase's colour via the normal variant / palette class).
+  - `--segmented` + `--pa-progress-steps` (one value drawn as N blocks).
+  - `--vertical` + `--pa-progress-length` (fill grows from the bottom; sizes set the thickness).
+  - `--indeterminate` (unknown duration; no `aria-valuenow`, no `--value`).
+  - Effects `--shimmer` (light sweep), `--glow` (breathes in its colour), `--flow` (lighter band
+    travels).
+  - The fill colour is now a token, `--pa-progress-fill`, which the role and palette variants set
+    (instead of overriding the fill background); set it yourself for a custom colour. New SCSS
+    tokens: `$progress-segment-gap`, `$progress-vertical-length`, `$progress-indeterminate-*`,
+    `$progress-shimmer-duration`, `$progress-glow-*`, `$progress-flow-duration`.
+- **Snippet `progress.html`** — the first snippet for the data-viz family (it had none): every
+  progress-bar shape above plus the caption row and the CSS custom properties.
 - **Demo: new Feedback → Progress page** (`/feedback/progress`) with a live playground (value, variant
   incl. palette, size, caption, striped / animated) showing the generated markup, plus sizes,
   variants, palette, caption groups, rings and the stacked bar.

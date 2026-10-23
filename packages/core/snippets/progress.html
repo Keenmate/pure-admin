@@ -1,0 +1,82 @@
+<!-- ================================
+     PROGRESS BAR (pa-progress)
+     One block: a track with a single fill. The value is the fill's
+     --value (a percentage); role="progressbar" + aria-value* on the bar.
+     Colour = role variant OR theme palette slot; everything else is a
+     modifier that combines freely (size, striped/animated, phases,
+     segmented, vertical, indeterminate, effects).
+     ================================ -->
+
+<!-- Basic (primary is the base fill — no modifier) -->
+<div class="pa-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+  <div class="pa-progress__fill" style="--value: 65%"></div>
+</div>
+
+<!-- Sizes: --xs / --sm / (default) / --lg -->
+<div class="pa-progress pa-progress--xs" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 40%"></div></div>
+<div class="pa-progress pa-progress--sm" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 55%"></div></div>
+<div class="pa-progress pa-progress--lg" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 85%"></div></div>
+
+<!-- Role variants: --success / --warning / --danger / --info -->
+<div class="pa-progress pa-progress--success" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 89%"></div></div>
+<div class="pa-progress pa-progress--warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 45%"></div></div>
+<div class="pa-progress pa-progress--danger" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 30%"></div></div>
+<div class="pa-progress pa-progress--info" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 82%"></div></div>
+
+<!-- Theme palette slots: --color-1 … --color-9 (replaces the role variant) -->
+<div class="pa-progress pa-progress--color-3" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 40%"></div></div>
+
+<!-- Striped (static) / animated (moving stripes — brings its own stripes) -->
+<div class="pa-progress pa-progress--lg pa-progress--striped" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 72%"></div></div>
+<div class="pa-progress pa-progress--lg pa-progress--animated" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 58%"></div></div>
+
+<!-- Effects: --shimmer (light sweep) / --glow (breathes in its colour) / --flow (lighter band travels) -->
+<div class="pa-progress pa-progress--lg pa-progress--shimmer" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 62%"></div></div>
+<div class="pa-progress pa-progress--success pa-progress--glow" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 48%"></div></div>
+<div class="pa-progress pa-progress--color-2 pa-progress--flow" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 80%"></div></div>
+
+<!-- Indeterminate: unknown duration — no aria-valuenow, no --value -->
+<div class="pa-progress pa-progress--indeterminate" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill"></div></div>
+
+<!--
+Phases: the fill reveals a gradient listed in --pa-progress-phases (ordinary
+gradient stops). The gradient spans the whole bar, so low values show only the
+first colours. Any CSS colour works — roles, palette slots, your own variables.
+  smooth: "C at%, C at%, …"           (colours blend)
+  zoned:  "C at% next%, …, C at% 100%" (hard edges)
+Presets the wrappers ship: health = danger 0 / warning 40 / success 70,
+usage = success 0 / warning 60 / danger 85 (more is worse).
+"Value" mode is wrapper logic: the whole fill takes the colour of the phase the
+value is in, emitted as the normal variant / palette class.
+-->
+<div class="pa-progress pa-progress--phased" style="--pa-progress-phases: var(--pc-danger-color) 0%, var(--pc-warning-color) 40%, var(--pc-success-color) 70%" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 65%"></div></div>
+<div class="pa-progress pa-progress--phased" style="--pa-progress-phases: var(--pc-success-color) 0% 60%, var(--pc-warning-color) 60% 85%, var(--pc-danger-color) 85% 100%" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 88%"></div></div>
+
+<!-- A custom fill colour without a class (value mode with an app colour) -->
+<div class="pa-progress" style="--pa-progress-fill: var(--our-yellow)" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+
+<!-- Segmented: one value drawn as N blocks (--pa-progress-steps, default 5) -->
+<div class="pa-progress pa-progress--lg pa-progress--segmented" style="--pa-progress-steps: 5" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 60%"></div></div>
+
+<!-- Vertical: fill grows from the bottom; size = thickness, --pa-progress-length = length (default 12rem) -->
+<div class="pa-progress pa-progress--vertical" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 75%"></div></div>
+<div class="pa-progress pa-progress--vertical pa-progress--phased pa-progress--segmented" style="--pa-progress-phases: var(--pc-success-color) 0%, var(--pc-warning-color) 60%, var(--pc-danger-color) 85%; --pa-progress-steps: 6; --pa-progress-length: 20rem" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 85%"></div></div>
+
+<!-- With a caption row (label left, value right) -->
+<div class="pa-progress-group">
+  <div class="pa-progress__label">
+    <span>Storage Used</span>
+    <span class="pa-progress__label-value">65%</span>
+  </div>
+  <div class="pa-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pa-progress__fill" style="--value: 65%"></div></div>
+</div>
+
+<!--
+CSS custom properties on the bar
+  --pa-progress-phases   gradient stops for --phased
+  --pa-progress-steps    block count for --segmented (default 5)
+  --pa-progress-length   length of --vertical (default 12rem)
+  --pa-progress-fill     fill colour (variants / palette set it; set it yourself for a custom colour)
+On the fill
+  --value                the percentage (width, or height when --vertical)
+-->

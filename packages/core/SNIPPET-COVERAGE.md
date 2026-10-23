@@ -14,6 +14,7 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 
 | Component | Snippet | Coverage | Ref block | Missing selectors |
 |---|---|:--:|:--:|---|
+| Data-viz primitives | progress.html | 21/95 (22%) | ✗ | `pa-bar-list`, `pa-data-bar`, `pa-gauge`, `pa-heatmap`, `pa-progress-ring`, `pa-sparkline`, `pa-stacked-bar`, `pa-bar-list__bar`, `pa-bar-list__header`, `pa-bar-list__item`, `pa-bar-list__label`, `pa-bar-list__value`, `pa-data-bar__fill`, `pa-data-bar__track`, `pa-data-bar__value`, `pa-gauge__inner`, `pa-gauge__label`, `pa-gauge__max`, `pa-gauge__min`, `pa-gauge__value`, `pa-heatmap__cell`, `pa-heatmap__legend`, `pa-heatmap__legend-cell`, `pa-progress-ring__inner`, `pa-progress-ring__label`, `pa-progress-ring__value`, `pa-sparkline__bar`, `pa-stacked-bar__legend`, `pa-stacked-bar__legend-item`, `pa-stacked-bar__legend-swatch`, `pa-stacked-bar__segment`, `pa-bar-list--compact`, `pa-bar-list--danger`, `pa-bar-list--info`, `pa-bar-list--success`, `pa-bar-list--warning`, `pa-data-bar--danger`, `pa-data-bar--info`, `pa-data-bar--negative`, `pa-data-bar--success`, `pa-data-bar--warning`, `pa-gauge--danger`, `pa-gauge--info`, `pa-gauge--success`, `pa-gauge--warning`, `pa-gauge--zones`, `pa-heatmap--compact`, `pa-heatmap--danger`, `pa-heatmap--success`, `pa-progress-ring--danger`, `pa-progress-ring--info`, `pa-progress-ring--lg`, `pa-progress-ring--sm`, `pa-progress-ring--success`, `pa-progress-ring--warning`, `pa-sparkline--danger`, `pa-sparkline--info`, `pa-sparkline--lg`, `pa-sparkline--sm`, `pa-sparkline--success`, `pa-sparkline--warning`, `pa-stacked-bar--lg`, `pa-stacked-bar--sm`, `pa-stacked-bar__legend-swatch--danger`, `pa-stacked-bar__legend-swatch--info`, `pa-stacked-bar__legend-swatch--primary`, `pa-stacked-bar__legend-swatch--secondary`, `pa-stacked-bar__legend-swatch--success`, `pa-stacked-bar__legend-swatch--warning`, `pa-stacked-bar__segment--danger`, `pa-stacked-bar__segment--info`, `pa-stacked-bar__segment--secondary`, `pa-stacked-bar__segment--success`, `pa-stacked-bar__segment--warning` |
 | Button | buttons.html | 55/59 (93%) | ✓ | `pa-btn-split__item--info`, `pa-btn-split__item--primary`, `pa-btn-split__item--secondary`, `pa-btn-split__item--warning` |
 
 ## Gaps — components with no snippet
@@ -22,7 +23,6 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 |---|---|:--:|---|
 | Scroll lock | `pa-scroll-lock` | todo | Dedicated snippet owed. |
 | Settings panel | `pa-settings-panel` | deferred | Demo-internal composition; no standalone public contract yet. |
-| Data-viz primitives | `pa-bar-list` | deferred | D3-driven; a static HTML snippet is too thin to be useful. Documented via demo only. |
 | Logic tree | `pa-logic-tree` | deferred | API not yet stable — a snippet would chase a moving target. |
 | File selector | `pa-file-dropzone` | superseded | Superseded by @keenmate/web-dropzone (the demo "File Upload" route renders the web component). Removal candidate — no snippet owed. |
 

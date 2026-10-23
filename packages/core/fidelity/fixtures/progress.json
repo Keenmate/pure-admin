@@ -9,7 +9,14 @@
     "striped": "boolean — diagonal stripe fill (pa-progress--striped)",
     "themeColor": "1..9 theme palette slot — pa-progress--color-N on the bar, paints the fill",
     "animated": "boolean — moving stripes (pa-progress--animated; brings its own stripes, no --striped needed)",
-    "extraClass": "extra classes appended verbatim"
+    "extraClass": "extra classes appended verbatim",
+    "phases": "colour phases — a preset name (health = danger 0 / warning 40 / success 70; usage = success 0 / warning 60 / danger 85) or a list of { at, color }. color = role name (var(--pc-ROLE-color)), palette slot 1-9 (var(--pc-palette-N)), a custom variable '--name' (var(--name)) or any CSS colour as-is. Smooth/zoned modes emit pa-progress--phased + style --pa-progress-phases on the bar",
+    "phaseMode": "smooth (default — stops 'C at%, …') | zoned (hard stops 'C at% next%, …', last runs to 100%) | value (no gradient: the whole fill takes the colour of the phase the value is in — success/warning/danger/info → pa-progress--ROLE, 1-9 → pa-progress--color-N, primary → nothing, anything else → style --pa-progress-fill on the bar)",
+    "steps": "segmented bar — N blocks: pa-progress--segmented + style --pa-progress-steps: N on the bar",
+    "vertical": "boolean — pa-progress--vertical (fill grows from the bottom)",
+    "length": "CSS length of a vertical bar — style --pa-progress-length on the bar",
+    "indeterminate": "boolean — pa-progress--indeterminate: unknown duration, NO aria-valuenow and NO --value on the fill",
+    "effect": "shimmer | glow | flow — pa-progress--{effect}"
   },
   "goldenConventions": "Goldens encode the core snippet/demo shape (demo/views/data-visualization.mustache) PLUS the accessibility convention both wrappers carry on the SSR bar: role=\"progressbar\" + aria-valuenow=\"{value}\" + aria-valuemin=\"0\" + aria-valuemax=\"100\". The fill's percentage is a data-driven inline style (style=\"--value: {value}%\") — treated as a scenario-provided value so both wrappers receive the same input; the width is static SSR markup, not the JS-animated fill (out of scope). primary is the DEFAULT variant and emits NO pa-progress--primary class (the base fill IS the accent colour; no such class exists in main.css). Attribute + class-token order and whitespace are normalized away.",
   "features": {
@@ -37,6 +44,39 @@
     "animated": {
       "kind": "bool",
       "produces": "pa-progress--animated"
+    },
+    "phases": {
+      "kind": "string",
+      "produces": "pa-progress--phased",
+      "note": "smooth/zoned modes; the stops go to style --pa-progress-phases on the bar. Bar style vars are written in the order --pa-progress-phases, --pa-progress-steps, --pa-progress-length, --pa-progress-fill, joined with '; '"
+    },
+    "phaseMode": {
+      "kind": "enum",
+      "options": ["smooth", "zoned", "value"],
+      "produces": null,
+      "note": "changes how phases render (see propsVocabulary); value mode produces existing variant/palette classes"
+    },
+    "steps": {
+      "kind": "string",
+      "produces": "pa-progress--segmented"
+    },
+    "vertical": {
+      "kind": "bool",
+      "produces": "pa-progress--vertical"
+    },
+    "length": {
+      "kind": "string",
+      "produces": null,
+      "note": "style --pa-progress-length on the bar"
+    },
+    "indeterminate": {
+      "kind": "bool",
+      "produces": "pa-progress--indeterminate"
+    },
+    "effect": {
+      "kind": "enum",
+      "options": ["shimmer", "glow", "flow"],
+      "produces": "pa-progress--{value}"
     },
     "value": {
       "kind": "string",
@@ -125,6 +165,76 @@
       "name": "combined",
       "props": { "value": 50, "size": "lg", "striped": true, "animated": true, "variant": "info", "extraClass": "mt-sm" },
       "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--info mt-sm\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 50%\"></div></div>"
+    },
+    {
+      "name": "phases-health",
+      "props": { "value": 65, "phases": "health" },
+      "golden": "<div class=\"pa-progress pa-progress--phased\" style=\"--pa-progress-phases: var(--pc-danger-color) 0%, var(--pc-warning-color) 40%, var(--pc-success-color) 70%\" role=\"progressbar\" aria-valuenow=\"65\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 65%\"></div></div>"
+    },
+    {
+      "name": "phases-usage-zoned",
+      "props": { "value": 88, "phases": "usage", "phaseMode": "zoned" },
+      "golden": "<div class=\"pa-progress pa-progress--phased\" style=\"--pa-progress-phases: var(--pc-success-color) 0% 60%, var(--pc-warning-color) 60% 85%, var(--pc-danger-color) 85% 100%\" role=\"progressbar\" aria-valuenow=\"88\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 88%\"></div></div>"
+    },
+    {
+      "name": "phases-list",
+      "props": { "value": 70, "phases": [{ "at": 0, "color": "danger" }, { "at": 50, "color": "--our-yellow" }, { "at": 80, "color": "3" }, { "at": 100, "color": "#16a34a" }] },
+      "golden": "<div class=\"pa-progress pa-progress--phased\" style=\"--pa-progress-phases: var(--pc-danger-color) 0%, var(--our-yellow) 50%, var(--pc-palette-3) 80%, #16a34a 100%\" role=\"progressbar\" aria-valuenow=\"70\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 70%\"></div></div>"
+    },
+    {
+      "name": "phases-value-role",
+      "props": { "value": 55, "phases": "health", "phaseMode": "value" },
+      "golden": "<div class=\"pa-progress pa-progress--warning\" role=\"progressbar\" aria-valuenow=\"55\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 55%\"></div></div>"
+    },
+    {
+      "name": "phases-value-primary",
+      "props": { "value": 30, "phases": [{ "at": 0, "color": "primary" }, { "at": 50, "color": "success" }], "phaseMode": "value" },
+      "golden": "<div class=\"pa-progress\" role=\"progressbar\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 30%\"></div></div>"
+    },
+    {
+      "name": "phases-value-palette",
+      "props": { "value": 90, "phases": [{ "at": 0, "color": "1" }, { "at": 75, "color": "4" }], "phaseMode": "value" },
+      "golden": "<div class=\"pa-progress pa-progress--color-4\" role=\"progressbar\" aria-valuenow=\"90\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 90%\"></div></div>"
+    },
+    {
+      "name": "phases-value-custom",
+      "props": { "value": 60, "phases": [{ "at": 0, "color": "danger" }, { "at": 50, "color": "--our-yellow" }], "phaseMode": "value" },
+      "golden": "<div class=\"pa-progress\" style=\"--pa-progress-fill: var(--our-yellow)\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "segmented",
+      "props": { "value": 60, "steps": 5, "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--segmented\" style=\"--pa-progress-steps: 5\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 60%\"></div></div>"
+    },
+    {
+      "name": "vertical",
+      "props": { "value": 75, "vertical": true },
+      "golden": "<div class=\"pa-progress pa-progress--vertical\" role=\"progressbar\" aria-valuenow=\"75\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 75%\"></div></div>"
+    },
+    {
+      "name": "vertical-length-phased-segmented",
+      "props": { "value": 85, "vertical": true, "length": "20rem", "steps": 6, "phases": "usage" },
+      "golden": "<div class=\"pa-progress pa-progress--vertical pa-progress--phased pa-progress--segmented\" style=\"--pa-progress-phases: var(--pc-success-color) 0%, var(--pc-warning-color) 60%, var(--pc-danger-color) 85%; --pa-progress-steps: 6; --pa-progress-length: 20rem\" role=\"progressbar\" aria-valuenow=\"85\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 85%\"></div></div>"
+    },
+    {
+      "name": "indeterminate",
+      "props": { "value": 40, "indeterminate": true },
+      "golden": "<div class=\"pa-progress pa-progress--indeterminate\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\"></div></div>"
+    },
+    {
+      "name": "effect-shimmer",
+      "props": { "value": 62, "effect": "shimmer", "size": "lg" },
+      "golden": "<div class=\"pa-progress pa-progress--lg pa-progress--shimmer\" role=\"progressbar\" aria-valuenow=\"62\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 62%\"></div></div>"
+    },
+    {
+      "name": "effect-glow",
+      "props": { "value": 48, "effect": "glow", "variant": "success" },
+      "golden": "<div class=\"pa-progress pa-progress--success pa-progress--glow\" role=\"progressbar\" aria-valuenow=\"48\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 48%\"></div></div>"
+    },
+    {
+      "name": "effect-flow",
+      "props": { "value": 80, "effect": "flow", "themeColor": "2" },
+      "golden": "<div class=\"pa-progress pa-progress--color-2 pa-progress--flow\" role=\"progressbar\" aria-valuenow=\"80\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"pa-progress__fill\" style=\"--value: 80%\"></div></div>"
     }
   ]
 }
