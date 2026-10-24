@@ -10,25 +10,47 @@
  *   current step   the last section whose top has passed the reading line (a third
  *                  of the visible scroll area); at the end of the scroll, the last one.
  *                  Wizard mode: the active page.
- *   step state     data-validate → from the section's own fields:
- *                    untouched | warning (started, incomplete) | danger (invalid) | success
- *                  otherwise read tracking: done once its bottom passed the reading line
+ *   nav follow     when the nav's steps don't fit (a bar scrolling sideways, a long side
+ *                  column), the nav scrolls itself to keep the current step in view.
+ *   step state     data-progress decides how a step gets ticked:
+ *                    seen (default)  done once its START and its END have both been on
+ *                                    screen through your own scrolling (a jump is not
+ *                                    tracked while it runs — jumped-over sections stay open;
+ *                                    a section that fits on screen is seen when shown)
+ *                    passed          done once it is above the reading line — a jump ticks
+ *                                    what it went over (lax)
+ *                    confirm         done only when its [data-sections-confirm] checkbox (in
+ *                                    the section footer) is ticked or via markDone(); seen but
+ *                                    not ticked = warning. data-confirm-after-seen keeps the
+ *                                    checkbox disabled until the section has been seen.
+ *                    fields          from the section's own fields: untouched | warning
+ *                                    (started, incomplete) | danger (invalid) | success
+ *   overlay        the .pa-sections__toggle handle opens / closes the pill (touch has no
+ *                  hover); a step tap jumps and folds it, a tap outside or Esc folds it.
+ *                  aria-expanded kept on the handle. API open() / close().
  *   click a step   smooth-scroll to its section (scroll-spy paused until it settles);
  *                  a section too close to the end gets temporary end space so it can
  *                  reach the nav — removed again once it is scrolled out of sight.
- *                  Wizard mode: switch page (data-validate: Next only past a valid page).
+ *                  Wizard mode: switch page (fields: Next only past a valid page;
+ *                  confirm: only past a confirmed one).
  *
  * Block attributes:
  *   data-pa-sections               auto-init marker
- *   data-validate                  colour steps by the validity of their fields
+ *   data-progress                  seen | passed | confirm | fields (see step state)
+ *   data-confirm-after-seen        confirm: checkbox disabled until the section was seen
+ *   data-overlay-steps="N"         overlay layout: show at most N steps; the list scrolls
+ *                                  (no scrollbar — the edge with more steps fades)
+ *   data-debug                     log what the controller does to the console
  *   data-update-hash               write #section-id to the URL on a step click
  *   data-text-next / -finish       wizard button texts (default "Next" / "Finish")
- *   data-text-complete / -incomplete / -invalid / -read
+ *   data-text-complete / -incomplete / -invalid / -read / -confirmed / -unconfirmed
  *                                  screen-reader state texts (English defaults)
  * Classes it sets:
  *   .pa-sections-host              on the app shell's .pc-layout__content while a block is on the
  *                                  page, so position:sticky works inside it (see _sections.scss)
  *   .pa-sections--in-view          the block is on screen (the overlay nav shows only then)
+ *   .pa-sections__nav--open        overlay unfolded by the handle / open() (hover + keyboard need no class)
+ *   .pa-sections__nav--more-before / --more-after   a limited overlay list has steps above / below
  *   .pa-sections__section--active  the current section (wizard shows only that one)
  *   .pa-steps__item--current/--done/--success/--warning/--danger + aria-current="step"
  * CSS custom properties it sets on the block:
@@ -38,7 +60,8 @@
  *   pa-sections:change   detail = { current: sectionId, index, states: [...] } — only when something changed
  *
  * API: window.pureAdmin.components.sections = { init(scope), get(el) }
- *      get(el) → { go(index), refresh(), destroy() }
+ *   get(el) → { go(i), markDone(i), clear(i), open(), close(), refresh(), destroy() }
+ *   (i = 0-based step index or a section id)
  */
 (function () {
     'use strict';
@@ -88,7 +111,10 @@
         var host = claimHost(root);   // before measuring: it changes which element scrolls
         var text = function (name, fallback) { return root.getAttribute('data-text-' + name) || fallback; };
         var touched = new WeakSet();
-        var read = [];
+        var read = [];                   // passed: its bottom went above the reading line
+        var seenStart = [], seenEnd = [];   // seen: its start / end were on screen
+        var confirmed = [];              // confirm: its [data-sections-confirm] is checked
+        var forced = [];                 // markDone() from the API
         var current = 0;
         var jumping = false, settleTimer = null;
         var endSpace = 0;
@@ -96,7 +122,10 @@
         var scroller = null;
 
         var isWizard = function () { return root.classList.contains('pa-sections--wizard'); };
-        var validate = function () { return root.hasAttribute('data-validate'); };
+        // how a step gets ticked — data-progress: seen (default) | passed | confirm | fields
+        var MODES = { seen: 1, passed: 1, confirm: 1, fields: 1 };
+        var progress = function () { var m = root.getAttribute('data-progress'); return MODES[m] ? m : 'seen'; };
+        var validate = function () { return progress() === 'fields'; };
 
         // ---- geometry -------------------------------------------------------------
         function viewport() {
@@ -111,14 +140,49 @@
             var el = scrollEl();
             return el.scrollTop + el.clientHeight >= el.scrollHeight - BOTTOM_SLACK;
         }
+        // ---- debug: data-debug on the block logs what the controller does -------------
+        var debug = root.hasAttribute('data-debug');
+        function log() {
+            if (!debug) return;
+            console.log.apply(console, ['[pa-sections]'].concat(Array.prototype.slice.call(arguments)));
+        }
+        function stepOf(el) {
+            var li = el && el.closest && el.closest('.pa-steps__item');
+            return li && items.indexOf(li) >= 0 ? items.indexOf(li) + 1 : null;
+        }
+        function listPos() { var l = nav.querySelector('.pa-steps'); return l ? Math.round(l.scrollTop) : null; }
+
         function measureNav() {
             root.style.setProperty('--pa-sections-nav-height', nav.offsetHeight + 'px');
         }
 
+        // ---- overlay: at most N steps visible (data-overlay-steps) ----------------------
+        // The list scrolls with no scrollbar; the edge that has more steps fades instead.
+        var list = nav.querySelector('.pa-steps');
+        function applyVisibleSteps() {
+            var n = parseInt(root.getAttribute('data-overlay-steps'), 10);
+            if (n > 0) root.style.setProperty('--pa-sections-overlay-steps', String(n));
+            else root.style.removeProperty('--pa-sections-overlay-steps');
+            updateMore();
+        }
+        function updateMore() {
+            if (!list) return;
+            var limited = list.scrollHeight > list.clientHeight + 1;
+            nav.classList.toggle('pa-sections__nav--more-before', limited && list.scrollTop > 1);
+            nav.classList.toggle('pa-sections__nav--more-after', limited && list.scrollTop + list.clientHeight < list.scrollHeight - 1);
+        }
+
         // ---- state ------------------------------------------------------------------
-        function fieldsOf(section) { return section.querySelectorAll('input, select, textarea'); }
+        function fieldsOf(section) { return section.querySelectorAll('input:not([data-sections-confirm]), select, textarea'); }
+        function confirmBoxOf(i) { return sections[i].querySelector('[data-sections-confirm]'); }
+        function isSeen(i) { return !!(seenStart[i] && seenEnd[i]); }
         function stateOf(i) {
-            if (!validate()) return read[i] ? 'done' : '';
+            if (forced[i]) return validate() ? 'success' : 'done';
+            var mode = progress();
+            if (mode === 'passed') return read[i] ? 'done' : '';
+            if (mode === 'seen') return isSeen(i) ? 'done' : '';
+            // seen but not ticked yet: a warning, like a started-but-incomplete form section
+            if (mode === 'confirm') return confirmed[i] ? 'done' : (isSeen(i) ? 'warning' : '');
             var fields = fieldsOf(sections[i]);
             var any = false, invalid = false, complete = true;
             Array.prototype.forEach.call(fields, function (f) {
@@ -135,13 +199,36 @@
             return complete ? 'success' : 'warning';
         }
         function stateText(st) {
+            var confirm = progress() === 'confirm';
             return st === 'success' ? text('complete', 'complete')
-                : st === 'warning' ? text('incomplete', 'incomplete')
+                : st === 'warning' ? (confirm ? text('unconfirmed', 'not confirmed') : text('incomplete', 'incomplete'))
                 : st === 'danger' ? text('invalid', 'invalid')
-                : st === 'done' ? text('read', 'read') : '';
+                : st === 'done' ? (confirm ? text('confirmed', 'confirmed') : text('read', 'read')) : '';
         }
 
         // ---- render: touch the DOM only where something changed ----------------------
+        // the nav scrolls itself when its steps don't fit (a bar sideways, a long side
+        // column down): keep the current step in view — scrolls only the nav, never the page
+        var revealed = -1;
+        function scrolls(el) { return el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1; }
+        function revealStep(li) {
+            if (!li) return;
+            // the scroller: the step list itself (overlay with data-overlay-steps) or the nav
+            var ol = li.parentElement;
+            var box = scrolls(ol) ? ol : (scrolls(nav) ? nav : null);
+            if (!box) return;
+            var scrollsX = box.scrollWidth > box.clientWidth + 1, scrollsY = box.scrollHeight > box.clientHeight + 1;
+            var n = box.getBoundingClientRect(), r = li.getBoundingClientRect();
+            log('reveal step', items.indexOf(li) + 1, 'in', box === nav ? 'nav' : 'list',
+                'dy', Math.round((r.top + r.height / 2) - (n.top + n.height / 2)), 'list scrollTop', listPos());
+            // centre the step (rect deltas, so RTL needs no special case)
+            box.scrollBy({
+                left: scrollsX ? (r.left + r.width / 2) - (n.left + n.width / 2) : 0,
+                top: scrollsY ? (r.top + r.height / 2) - (n.top + n.height / 2) : 0,
+                behavior: reducedMotion() ? 'auto' : 'smooth'
+            });
+        }
+
         var rendered = [];   // per item: { state, current }
         function render() {
             var states = items.map(function (li, i) { return stateOf(i); });
@@ -169,6 +256,16 @@
                 sr.textContent = stateText(st) ? ' — ' + stateText(st) : '';
             });
             sections.forEach(function (s, i) { s.classList.toggle('pa-sections__section--active', i === current); });
+            var lockUnseen = progress() === 'confirm' && root.hasAttribute('data-confirm-after-seen');
+            sections.forEach(function (s, i) {
+                var box = confirmBoxOf(i);
+                if (box) box.disabled = lockUnseen && !isSeen(i) && !box.checked;
+            });
+            if (current !== revealed) {
+                log('current', revealed + 1, '->', current + 1, jumping ? '(jump)' : '(scroll)');
+                revealed = current;
+                revealStep(items[current]);
+            }
 
             var prevBtn = root.querySelector('[data-sections-prev]');
             var nextBtn = root.querySelector('[data-sections-next]');
@@ -186,20 +283,41 @@
         }
 
         // ---- scroll: spy + read tracking + end space ---------------------------------
+        // current step: the last section whose top has passed the reading line
         function spy() {
             var vp = viewport();
             var line = vp.top + vp.height * READING_LINE;
             var idx = 0;
             sections.forEach(function (s, i) {
                 var r = s.getBoundingClientRect();
-                if (r.top <= line) idx = i;
-                if (r.bottom <= line) read[i] = true;
+                if (r.height && r.top <= line) idx = i;   // a hidden (wizard) page has no position
             });
-            if (!endSpace && atEnd()) {   // a short last section never reaches the line
-                idx = sections.length - 1;
-                read[idx] = true;
-            }
+            if (!endSpace && atEnd()) idx = sections.length - 1;   // a short last section never reaches the line
             current = idx;
+        }
+        // passed: everything whose bottom is above the reading line (also what a jump went over)
+        function markPassed() {
+            var vp = viewport();
+            var line = vp.top + vp.height * READING_LINE;
+            sections.forEach(function (s, i) {
+                var r = s.getBoundingClientRect();
+                if (r.height && r.bottom <= line) read[i] = true;
+            });
+            if (!endSpace && atEnd()) read[sections.length - 1] = true;
+        }
+        // seen: record each section's start (its top) and end (its bottom) once it is in the
+        // visible band — below the edge (navbar) and a sticky bar, above the bottom of the
+        // scroll area. Only what is on screen counts; a jump is not tracked while it runs.
+        function track() {
+            var vp = viewport();
+            var bottom = vp.top + vp.height;
+            sections.forEach(function (s, i) {
+                var r = s.getBoundingClientRect();
+                if (!r.height) return;   // a hidden wizard page
+                var top = vp.top + landingOf(s);
+                if (!seenStart[i] && r.top >= top - 1 && r.top <= bottom) { seenStart[i] = true; log('seen start of', i + 1); }
+                if (!seenEnd[i] && r.bottom >= top && r.bottom <= bottom + 1) { seenEnd[i] = true; log('seen end of', i + 1); }
+            });
         }
         function setEndSpace(px) {
             endSpace = Math.max(0, Math.round(px));
@@ -226,12 +344,16 @@
 
         var ticking = false;
         function onScroll() {
-            if (jumping || isWizard() || ticking) return;
+            if (jumping || ticking) return;
             ticking = true;
             requestAnimationFrame(function () {
                 ticking = false;
-                maybeDropEndSpace();
-                spy();
+                if (!isWizard()) {
+                    maybeDropEndSpace();
+                    spy();
+                    markPassed();
+                }
+                track();
                 render();
             });
         }
@@ -255,9 +377,12 @@
         function landingOf(el) { return parseFloat(getComputedStyle(el).scrollMarginTop) || 0; }
 
         function go(i, opts) {
+            log('go', i + 1, 'from', current + 1);
             current = Math.max(0, Math.min(sections.length - 1, i));
             var section = sections[current];
             if (isWizard()) {
+                render();
+                track();   // a page that fits on screen is seen as soon as it is shown
                 render();
                 scrollToEl(root, landingOf(sections[current]));
                 return;
@@ -275,8 +400,16 @@
             var settle = function () {
                 clearTimeout(settleTimer);
                 settleTimer = setTimeout(function () {
+                    log('jump settled on', current + 1, sections[current].id,
+                        'section top', Math.round(section.getBoundingClientRect().top - viewport().top),
+                        'landing', landingOf(section));
                     jumping = false;
                     target.removeEventListener('scroll', settle);
+                    // the jump has landed: record what is on screen now (seen) and what it
+                    // went over (passed) — right away, not on the next scroll
+                    markPassed();
+                    track();
+                    render();
                 }, SETTLE_MS);
             };
             target.addEventListener('scroll', settle, { passive: true });
@@ -286,19 +419,68 @@
             Array.prototype.forEach.call(fieldsOf(scope), function (f) { touched.add(f); });
         }
 
-        function onField(e) { touched.add(e.target); render(); }
+        // ---- overlay: open / close with the handle (touch has no hover) ---------------
+        var toggle = nav.querySelector('.pa-sections__toggle');
+        function isOpen() { return nav.classList.contains('pa-sections__nav--open'); }
+        function setOpen(open) {
+            nav.classList.toggle('pa-sections__nav--open', !!open);
+            if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        var downStep = null, downList = null;
+        function onPointerDown(e) {
+            if (nav.contains(e.target)) {
+                downStep = stepOf(e.target); downList = listPos();
+                log('pointerdown', e.pointerType, 'on', downStep ? 'step ' + downStep : e.target.className || e.target.tagName, 'list scrollTop', downList);
+            }
+            if (isOpen() && !nav.contains(e.target)) setOpen(false);   // tap outside closes
+        }
+        function onPointerUp(e) {
+            if (!nav.contains(e.target) && downStep === null) return;
+            var upStep = stepOf(e.target);
+            log('pointerup on', upStep ? 'step ' + upStep : e.target.className || e.target.tagName, 'list scrollTop', listPos(),
+                upStep !== downStep || listPos() !== downList ? '<- MOVED since pointerdown (step ' + downStep + ', list ' + downList + ') — the browser fires no click / clicks something else' : '');
+            downStep = null;
+        }
+        function onKeyDown(e) { if (e.key === 'Escape' && isOpen()) setOpen(false); }
+
+        function onField(e) {
+            if (e.target.matches && e.target.matches('[data-sections-confirm]')) {
+                var i = sections.indexOf(e.target.closest('.pa-sections__section'));
+                if (i >= 0) { confirmed[i] = e.target.checked; log('confirm', i + 1, e.target.checked); }
+            } else {
+                touched.add(e.target);
+            }
+            render();
+        }
+        function readConfirmBoxes() {
+            sections.forEach(function (s, i) { var b = confirmBoxOf(i); confirmed[i] = !!(b && b.checked); });
+        }
+        function indexOf(x) {   // a step index (0-based) or a section id
+            return typeof x === 'string' ? sections.findIndex(function (s) { return s.id === x; }) : x;
+        }
         function onClick(e) {
+            if (nav.contains(e.target)) log('click on', stepOf(e.target) ? 'step ' + stepOf(e.target) : e.target.className || e.target.tagName,
+                'list scrollTop', listPos());
             var link = e.target.closest('.pa-steps__link');
             if (link && nav.contains(link)) {
                 e.preventDefault();
+                setOpen(false);
                 go(items.indexOf(link.closest('.pa-steps__item')), { focus: true });
                 return;
             }
+            if (toggle && toggle.contains(e.target)) { setOpen(!isOpen()); return; }
             if (e.target.closest('[data-sections-prev]')) { go(current - 1); return; }
             if (e.target.closest('[data-sections-next]')) {
                 if (validate()) {
                     markTouched(sections[current]);
                     if (stateOf(current) !== 'success') { render(); return; }   // stay until the page is valid
+                } else if (progress() === 'confirm') {
+                    if (stateOf(current) !== 'done') {   // stay until the page is confirmed
+                        var box = confirmBoxOf(current);
+                        if (box && !box.disabled) box.focus();
+                        render();
+                        return;
+                    }
                 } else {
                     read[current] = true;
                 }
@@ -310,30 +492,71 @@
 
         // ---- wiring --------------------------------------------------------------------
         var presence = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) { root.classList.toggle('pa-sections--in-view', e.isIntersecting); });
+            entries.forEach(function (e) {
+                root.classList.toggle('pa-sections--in-view', e.isIntersecting);
+                if (!e.isIntersecting) setOpen(false);
+            });
         });
         presence.observe(root);
-        var sizer = new ResizeObserver(function () { measureNav(); attachScroll(); });
+        var sizer = new ResizeObserver(function () { measureNav(); attachScroll(); updateMore(); });
         sizer.observe(nav);
         sizer.observe(root);
 
         root.addEventListener('input', onField);
         root.addEventListener('change', onField);
         root.addEventListener('click', onClick);
+        if (list) list.addEventListener('scroll', updateMore, { passive: true });
+        var listLogTimer;
+        function onListScroll() {
+            clearTimeout(listLogTimer);
+            listLogTimer = setTimeout(function () { log('list scrolled to', listPos()); }, 150);
+        }
+        if (list && debug) list.addEventListener('scroll', onListScroll, { passive: true });
+        document.addEventListener('pointerup', onPointerUp, true);
+        log('init', root.id || '', 'steps', items.length, 'layout', root.className, 'overlay-steps', root.getAttribute('data-overlay-steps'));
+        applyVisibleSteps();
+        document.addEventListener('pointerdown', onPointerDown, true);
+        document.addEventListener('keydown', onKeyDown);
         attachScroll();
         measureNav();
-        spy();
+        if (!isWizard()) { spy(); markPassed(); }   // wizard: starts on the first page
+        readConfirmBoxes();
+        track();
         render();
 
         return {
-            go: function (i) { go(i, { focus: false }); },
+            go: function (i) { go(indexOf(i), { focus: false }); },
+            // set a step done yourself (any mode); in confirm mode its checkbox is ticked too
+            markDone: function (i) {
+                i = indexOf(i);
+                if (!sections[i]) return;
+                forced[i] = true;
+                var box = confirmBoxOf(i);
+                if (box) { box.checked = true; confirmed[i] = true; }
+                render();
+            },
+            // back to not done: forget what was seen / passed / confirmed for it
+            clear: function (i) {
+                i = indexOf(i);
+                if (!sections[i]) return;
+                forced[i] = false; read[i] = false; seenStart[i] = false; seenEnd[i] = false; confirmed[i] = false;
+                var box = confirmBoxOf(i);
+                if (box) box.checked = false;
+                render();
+            },
+            // overlay layout: unfold / fold the floating navigator (e.g. from your own button)
+            open: function () { setOpen(true); },
+            close: function () { setOpen(false); },
             // after the block's classes changed (layout / mode / style) or its content did
             refresh: function () {
                 setEndSpace(0);
+                applyVisibleSteps();
                 rendered = [];
                 measureNav();
                 attachScroll();
-                if (!isWizard()) spy();
+                if (!isWizard()) { spy(); markPassed(); }
+                readConfirmBoxes();
+                track();
                 render();
             },
             destroy: function () {
@@ -345,6 +568,13 @@
                 root.removeEventListener('input', onField);
                 root.removeEventListener('change', onField);
                 root.removeEventListener('click', onClick);
+                if (list) list.removeEventListener('scroll', updateMore);
+                root.style.removeProperty('--pa-sections-overlay-steps');
+                document.removeEventListener('pointerdown', onPointerDown, true);
+                document.removeEventListener('pointerup', onPointerUp, true);
+                if (list) list.removeEventListener('scroll', onListScroll);
+                document.removeEventListener('keydown', onKeyDown);
+                setOpen(false);
                 releaseHost(host);
                 delete root._paSections;
             }

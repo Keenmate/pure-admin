@@ -6,20 +6,48 @@
      The layout arranges the nav's pa-steps — don't add --vertical in the markup.
 
      Layout  --side (sticky column; collapses to a bar on narrow blocks)
-             --top (sticky bar) | --overlay (floating mini stepper, expands on hover / focus)
+             --top (sticky bar) | --overlay (floating mini stepper; expands on hover, keyboard
+             focus or the .pa-sections__toggle handle — the handle is the way on touch;
+             API open() / close())
+     Handle  every nav starts with the .pa-sections__toggle button — shown only in the
+             overlay layout on a device without hover (with hover, hovering opens it). Its
+             chevron is .pa-sections__toggle-icon (the shared --pa-icon-chevron, turned by
+             --pa-sections-toggle-rotate-closed / -open). The script keeps aria-expanded;
+             the aria-label is yours to translate.
+     Position --nav-start | --nav-end — which edge the side column / overlay sits on
+             (defaults: side at the start, overlay at the end; the top bar ignores it)
      Style   plain (default: one continuous document) | --boxed | --cards
+     Bar     a bar that doesn't fit scrolls sideways (default) | --wrap (its steps break into rows,
+             joined by a return line) | --wrap-clean (rows, no line between them)
      Mode    scroll (default) | --wizard (one section at a time + .pa-sections__actions)
-     Attrs   data-validate (steps coloured by their fields) · data-update-hash
-             data-text-next / -finish / -complete / -incomplete / -invalid / -read
+     Progress data-progress — how a step gets ticked (the script; wrappers may drive the same
+             step classes their own way):
+               seen (default)  its start AND end have been on screen through your own scrolling
+                               (a jump is not tracked — jumped-over sections stay open)
+               passed          it is above you (a jump ticks what it went over)
+               confirm         its footer checkbox [data-sections-confirm] is ticked (or markDone());
+                               seen but not ticked = --warning. data-confirm-after-seen keeps the
+                               checkbox disabled until the section was seen
+               fields          the validity of its fields (untouched / --warning / --danger / --success)
+     Footer  .pa-sections__footer — the section's last row (confirm checkbox, section actions)
+     Attrs   data-update-hash
+             data-overlay-steps="N" (overlay: at most N steps visible; the list scrolls with no
+             scrollbar, snaps to whole steps, fades the edge that has more;
+             labels only — descriptions hide so N steps really fit)
+             data-text-next / -finish / -complete / -incomplete / -invalid / -read / -confirmed / -unconfirmed
+     API     sections.get(el) → go(i), markDone(i), clear(i), open(), close(), refresh()
+             (i = 0-based step index or a section id)
      Event   pa-sections:change  { current, index, states }
      Host    while a block is on the page the script marks the app shell's
              .pc-layout__content with .pa-sections-host, so position:sticky works
              in the default (window-scrolling) layout. Scoped: other pages unchanged.
      ================================ -->
 
-<!-- A EULA: continuous text, read tracking (no data-validate) -->
-<div class="pa-sections pa-sections--side pa-sections--boxed" data-pa-sections>
+<!-- A strict EULA: each section must be confirmed, and only after it was scrolled through.
+     (Leave data-progress out for the default "seen" — then no footers are needed.) -->
+<div class="pa-sections pa-sections--side pa-sections--boxed" data-pa-sections data-progress="confirm" data-confirm-after-seen>
   <nav class="pa-sections__nav" aria-label="Agreement sections">
+    <button type="button" class="pa-sections__toggle" aria-expanded="false" aria-label="Show all sections"><span class="pa-sections__toggle-icon" aria-hidden="true"></span></button>
     <ol class="pa-steps pa-steps--sm">
       <li class="pa-steps__item" data-section="eula-definitions">
         <a class="pa-steps__link" href="#eula-definitions">
@@ -39,18 +67,33 @@
     <section class="pa-sections__section" id="eula-definitions">
       <h3 class="pa-sections__title">1. Definitions</h3>
       <p>…</p>
+      <footer class="pa-sections__footer">
+        <label class="pa-checkbox">
+          <input type="checkbox" data-sections-confirm>
+          <span class="pa-checkbox__box"></span>
+          <span class="pa-checkbox__label">I have read this section</span>
+        </label>
+      </footer>
     </section>
     <section class="pa-sections__section" id="eula-licence">
       <h3 class="pa-sections__title">2. Licence grant</h3>
       <p>…</p>
+      <footer class="pa-sections__footer">
+        <label class="pa-checkbox">
+          <input type="checkbox" data-sections-confirm>
+          <span class="pa-checkbox__box"></span>
+          <span class="pa-checkbox__label">I have read this section</span>
+        </label>
+      </footer>
     </section>
   </div>
 </div>
 
 <!-- A form: boxed sections, steps coloured by field validity, wizard paging -->
-<div class="pa-sections pa-sections--top pa-sections--cards pa-sections--wizard" data-pa-sections data-validate
+<div class="pa-sections pa-sections--top pa-sections--cards pa-sections--wizard" data-pa-sections data-progress="fields"
      data-text-next="Next" data-text-finish="Finish">
   <nav class="pa-sections__nav" aria-label="Form sections">
+    <button type="button" class="pa-sections__toggle" aria-expanded="false" aria-label="Show all sections"><span class="pa-sections__toggle-icon" aria-hidden="true"></span></button>
     <ol class="pa-steps pa-steps--sm">
       <li class="pa-steps__item" data-section="f-personal">
         <a class="pa-steps__link" href="#f-personal">
@@ -85,6 +128,7 @@
 <!-- A floating navigator over long content -->
 <div class="pa-sections pa-sections--overlay" data-pa-sections>
   <nav class="pa-sections__nav" aria-label="Page sections">
+    <button type="button" class="pa-sections__toggle" aria-expanded="false" aria-label="Show all sections"><span class="pa-sections__toggle-icon" aria-hidden="true"></span></button>
     <ol class="pa-steps pa-steps--sm">…</ol>
   </nav>
   <div class="pa-sections__body">…</div>
@@ -110,14 +154,22 @@ State classes set by the script
 SECTIONS CLASSES:
 - .pa-sections                The block (flex). data-pa-sections → js/sections.js.
 - .pa-sections__nav           Holds the pa-steps navigator (sticky / fixed per layout).
+- .pa-sections__toggle        Overlay open / close handle (<button>, first in the nav; touch only, hidden elsewhere).
+- .pa-sections__toggle-icon   Its chevron (masked --pa-icon-chevron; rotates closed → open).
 - .pa-sections__body          The content (a <div> or the <form>).
 - .pa-sections__section       One section; its id is what a step's data-section points at.
 - .pa-sections__title         Section heading.
+- .pa-sections__footer        The section's last row: a [data-sections-confirm] checkbox, section actions.
 - .pa-sections__actions       Wizard Back / Next row (hidden outside --wizard).
 
 LAYOUT:  .pa-sections--side / --top / --overlay
+POSITION: .pa-sections--nav-start / --nav-end (side + overlay)
 STYLE:   (plain) / .pa-sections--boxed / --cards
+BAR:     (scrolls sideways) / .pa-sections--wrap (rows + return line) / --wrap-clean (rows only);
+         applies to --top and the collapsed --side bar
 MODE:    (scroll) / .pa-sections--wizard
 STATE (set by the script):
 - .pa-sections--in-view, .pa-sections__section--active
+- .pa-sections__nav--open    overlay unfolded by the handle or open()
+- .pa-sections__nav--more-before / --more-after   a limited overlay list has steps above / below
 -->

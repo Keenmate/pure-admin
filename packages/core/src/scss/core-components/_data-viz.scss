@@ -97,6 +97,13 @@
     animation: pa-progress-stripe $progress-animation-duration linear infinite;
   }
 
+  // RTL: mirror the stripe layer — the slant and the travel follow the fill direction
+  // (a vertical bar grows upward in both directions — left alone)
+  &--striped:not(&--vertical):dir(rtl) > .pa-progress__fill::before,
+  &--animated:not(&--vertical):dir(rtl) > .pa-progress__fill::before {
+    scale: -1 1;
+  }
+
   // ---- phases (the fill's own background) --------------------------------------
   // The fill reveals a gradient listed in --pa-progress-phases (ordinary gradient
   // stops written on the bar), e.g.

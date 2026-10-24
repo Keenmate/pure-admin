@@ -12,7 +12,7 @@
                 <div class="pa-card__body">
                     <form class="pa-form" onsubmit="return false">
                         <div class="pc-row">
-                            <div class="pc-col-100 pc-col-md-1-4">
+                            <div class="pc-col-100 pc-col-md-1-3">
                                 <div class="pa-form-group">
                                     <label for="sx-example">Example</label>
                                     <select class="pa-select" id="sx-example">
@@ -21,7 +21,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="pc-col-100 pc-col-md-1-4">
+                            <div class="pc-col-100 pc-col-md-1-3">
+                                <div class="pa-form-group">
+                                    <label for="sx-progress">Progress (data-progress)</label>
+                                    <select class="pa-select" id="sx-progress">
+                                        <option value="seen">seen — start and end on screen (strict)</option>
+                                        <option value="passed">passed — everything above you (lax)</option>
+                                        <option value="confirm">confirm — a checkbox per section</option>
+                                        <option value="confirm-after-seen">confirm + data-confirm-after-seen</option>
+                                        <option value="fields">fields — validity of the fields</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-3">
                                 <div class="pa-form-group">
                                     <label for="sx-layout">Layout</label>
                                     <select class="pa-select" id="sx-layout">
@@ -31,7 +43,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="pc-col-100 pc-col-md-1-4">
+                            <div class="pc-col-100 pc-col-md-1-3">
                                 <div class="pa-form-group">
                                     <label for="sx-mode">Mode</label>
                                     <select class="pa-select" id="sx-mode">
@@ -40,7 +52,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="pc-col-100 pc-col-md-1-4">
+                            <div class="pc-col-100 pc-col-md-1-3">
                                 <div class="pa-form-group">
                                     <label for="sx-style">Sections</label>
                                     <select class="pa-select" id="sx-style">
@@ -50,18 +62,49 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="pc-col-100 pc-col-md-1-3">
+                                <div class="pa-form-group">
+                                    <label for="sx-bar">Narrow bar</label>
+                                    <select class="pa-select" id="sx-bar">
+                                        <option value="scroll">scroll — steps scroll sideways</option>
+                                        <option value="wrap">wrap — rows joined by a return line</option>
+                                        <option value="wrap-clean">wrap-clean — rows, no line between them</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-3">
+                                <div class="pa-form-group">
+                                    <label for="sx-position">Nav position (side / overlay)</label>
+                                    <select class="pa-select" id="sx-position">
+                                        <option value="">default — side at start, overlay at end</option>
+                                        <option value="nav-start">nav-start</option>
+                                        <option value="nav-end">nav-end</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pc-col-100 pc-col-md-1-3">
+                                <div class="pa-form-group">
+                                    <label for="sx-visible">Overlay: visible steps</label>
+                                    <select class="pa-select" id="sx-visible">
+                                        <option value="">all</option>
+                                        <option value="5" selected>data-overlay-steps="5"</option>
+                                        <option value="7">data-overlay-steps="7"</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
                     <p class="text-muted text-sm" id="sx-explain"></p>
                 </div>
             </div>
             <!-- THE block. Its nav + body are swapped from the <template>s below when the example changes. -->
-            <div class="pa-sections pa-sections--side mb-8" id="sx" data-pa-sections>
+            <div class="pa-sections pa-sections--side mb-8" id="sx" data-pa-sections data-debug>
                 <nav class="pa-sections__nav" aria-label="Sections"></nav>
                 <div class="pa-sections__body"></div>
             </div>
 
 <template id="sx-tpl-eula-nav">
+    <button type="button" class="pa-sections__toggle" aria-expanded="false" aria-label="Show all sections"><span class="pa-sections__toggle-icon" aria-hidden="true"></span></button>
     <ol class="pa-steps pa-steps--sm">
         <li class="pa-steps__item" data-section="eula-1"><a class="pa-steps__link" href="#eula-1"><span class="pa-steps__marker">1</span><span class="pa-steps__content"><span class="pa-steps__label">Definitions</span></span></a></li>
         <li class="pa-steps__item" data-section="eula-2"><a class="pa-steps__link" href="#eula-2"><span class="pa-steps__marker">2</span><span class="pa-steps__content"><span class="pa-steps__label">Licence grant</span></span></a></li>
@@ -70,7 +113,13 @@
         <li class="pa-steps__item" data-section="eula-6"><a class="pa-steps__link" href="#eula-6"><span class="pa-steps__marker">5</span><span class="pa-steps__content"><span class="pa-steps__label">Warranty</span></span></a></li>
         <li class="pa-steps__item" data-section="eula-7"><a class="pa-steps__link" href="#eula-7"><span class="pa-steps__marker">6</span><span class="pa-steps__content"><span class="pa-steps__label">Liability</span></span></a></li>
         <li class="pa-steps__item" data-section="eula-8"><a class="pa-steps__link" href="#eula-8"><span class="pa-steps__marker">7</span><span class="pa-steps__content"><span class="pa-steps__label">Governing law</span></span></a></li>
-        <li class="pa-steps__item" data-section="eula-5"><a class="pa-steps__link" href="#eula-5"><span class="pa-steps__marker">8</span><span class="pa-steps__content"><span class="pa-steps__label">Termination</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-9"><a class="pa-steps__link" href="#eula-9"><span class="pa-steps__marker">8</span><span class="pa-steps__content"><span class="pa-steps__label">Updates</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-10"><a class="pa-steps__link" href="#eula-10"><span class="pa-steps__marker">9</span><span class="pa-steps__content"><span class="pa-steps__label">Support</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-11"><a class="pa-steps__link" href="#eula-11"><span class="pa-steps__marker">10</span><span class="pa-steps__content"><span class="pa-steps__label">Third-party components</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-12"><a class="pa-steps__link" href="#eula-12"><span class="pa-steps__marker">11</span><span class="pa-steps__content"><span class="pa-steps__label">Export control</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-13"><a class="pa-steps__link" href="#eula-13"><span class="pa-steps__marker">12</span><span class="pa-steps__content"><span class="pa-steps__label">Assignment</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-14"><a class="pa-steps__link" href="#eula-14"><span class="pa-steps__marker">13</span><span class="pa-steps__content"><span class="pa-steps__label">Notices</span></span></a></li>
+        <li class="pa-steps__item" data-section="eula-5"><a class="pa-steps__link" href="#eula-5"><span class="pa-steps__marker">14</span><span class="pa-steps__content"><span class="pa-steps__label">Termination</span></span></a></li>
     </ol>
 </template>
 <template id="sx-tpl-eula-body">
@@ -148,8 +197,52 @@
         <p>Service levels are described in the separate Support Policy, which forms part of this agreement. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. The licensee shall keep all copies of the Software under reasonable control at all times. Audit rights may be exercised once per year with fourteen days' written notice. The licensor may update these terms with thirty days' notice; continued use means acceptance. Each party remains an independent contractor; nothing here creates a partnership or agency.</p>
         <p>If a provision is found unenforceable, the rest of this agreement remains in full effect. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Export of the Software may be subject to export-control laws; you agree to comply with them. Any amounts overdue by more than thirty days accrue interest at the statutory rate. The cherry pie served on site is not part of the Software and carries no warranty of any kind.</p>
     </section>
+    <section class="pa-sections__section" id="eula-9">
+        <h3 class="pa-sections__title">8. Updates</h3>
+        <p>Export of the Software may be subject to export-control laws; you agree to comply with them. The cherry pie served on site is not part of the Software and carries no warranty of any kind. Any delay in enforcing a right is not a waiver of that right or of any other right. Audit rights may be exercised once per year with fourteen days' written notice. The licensee shall keep all copies of the Software under reasonable control at all times.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Each party remains an independent contractor; nothing here creates a partnership or agency. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Any delay in enforcing a right is not a waiver of that right or of any other right. The licensor may update these terms with thirty days' notice; continued use means acceptance.</p>
+        <p>Third-party components are licensed under their own terms, listed in the About dialog. If a provision is found unenforceable, the rest of this agreement remains in full effect. Any delay in enforcing a right is not a waiver of that right or of any other right. Audit rights may be exercised once per year with fourteen days' written notice. Where the context allows, a reference to a person includes a company, trust or partnership.</p>
+        <p>The licensee shall keep all copies of the Software under reasonable control at all times. Audit rights may be exercised once per year with fourteen days' written notice. Nothing in this section limits any right that cannot be limited under applicable law. Where the context allows, a reference to a person includes a company, trust or partnership. Notices must be given in writing and are effective on receipt at the Great Northern front desk.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-10">
+        <h3 class="pa-sections__title">9. Support</h3>
+        <p>Any delay in enforcing a right is not a waiver of that right or of any other right. Each party remains an independent contractor; nothing here creates a partnership or agency. Nothing in this section limits any right that cannot be limited under applicable law. You are responsible for backing up your data before installing any update. Records kept in the ordinary course of business are evidence of their contents.</p>
+        <p>You are responsible for backing up your data before installing any update. The cherry pie served on site is not part of the Software and carries no warranty of any kind. Any delay in enforcing a right is not a waiver of that right or of any other right. Nothing in this section limits any right that cannot be limited under applicable law. Any amounts overdue by more than thirty days accrue interest at the statutory rate.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Export of the Software may be subject to export-control laws; you agree to comply with them. Records kept in the ordinary course of business are evidence of their contents. The licensee shall keep all copies of the Software under reasonable control at all times. Audit rights may be exercised once per year with fourteen days' written notice.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Each party remains an independent contractor; nothing here creates a partnership or agency. Records kept in the ordinary course of business are evidence of their contents. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Any delay in enforcing a right is not a waiver of that right or of any other right.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-11">
+        <h3 class="pa-sections__title">10. Third-party components</h3>
+        <p>You are responsible for backing up your data before installing any update. If a provision is found unenforceable, the rest of this agreement remains in full effect. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Each party remains an independent contractor; nothing here creates a partnership or agency. Notices must be given in writing and are effective on receipt at the Great Northern front desk.</p>
+        <p>Audit rights may be exercised once per year with fourteen days' written notice. Any delay in enforcing a right is not a waiver of that right or of any other right. If a provision is found unenforceable, the rest of this agreement remains in full effect. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. The licensee shall keep all copies of the Software under reasonable control at all times. Service levels are described in the separate Support Policy, which forms part of this agreement. The licensor may update these terms with thirty days' notice; continued use means acceptance. Records kept in the ordinary course of business are evidence of their contents.</p>
+        <p>The licensor may update these terms with thirty days' notice; continued use means acceptance. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Records kept in the ordinary course of business are evidence of their contents. Nothing in this section limits any right that cannot be limited under applicable law. The cherry pie served on site is not part of the Software and carries no warranty of any kind.</p>
+        <p>Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Nothing in this section limits any right that cannot be limited under applicable law. Audit rights may be exercised once per year with fourteen days' written notice. Records kept in the ordinary course of business are evidence of their contents. Notices must be given in writing and are effective on receipt at the Great Northern front desk.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-12">
+        <h3 class="pa-sections__title">11. Export control</h3>
+        <p>Service levels are described in the separate Support Policy, which forms part of this agreement. The licensor may update these terms with thirty days' notice; continued use means acceptance. Records kept in the ordinary course of business are evidence of their contents. Audit rights may be exercised once per year with fourteen days' written notice. Any delay in enforcing a right is not a waiver of that right or of any other right.</p>
+        <p>Third-party components are licensed under their own terms, listed in the About dialog. The licensee shall keep all copies of the Software under reasonable control at all times. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Service levels are described in the separate Support Policy, which forms part of this agreement. Audit rights may be exercised once per year with fourteen days' written notice.</p>
+        <p>The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. The licensee shall keep all copies of the Software under reasonable control at all times. Any delay in enforcing a right is not a waiver of that right or of any other right. Audit rights may be exercised once per year with fourteen days' written notice. The cherry pie served on site is not part of the Software and carries no warranty of any kind.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Service levels are described in the separate Support Policy, which forms part of this agreement. You are responsible for backing up your data before installing any update. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Records kept in the ordinary course of business are evidence of their contents.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-13">
+        <h3 class="pa-sections__title">12. Assignment</h3>
+        <p>You are responsible for backing up your data before installing any update. The licensor may update these terms with thirty days' notice; continued use means acceptance. Audit rights may be exercised once per year with fourteen days' written notice. Third-party components are licensed under their own terms, listed in the About dialog. Export of the Software may be subject to export-control laws; you agree to comply with them.</p>
+        <p>The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Audit rights may be exercised once per year with fourteen days' written notice. Any delay in enforcing a right is not a waiver of that right or of any other right. Records kept in the ordinary course of business are evidence of their contents. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
+        <p>You are responsible for backing up your data before installing any update. The licensor may update these terms with thirty days' notice; continued use means acceptance. Records kept in the ordinary course of business are evidence of their contents. The cherry pie served on site is not part of the Software and carries no warranty of any kind. Where the context allows, a reference to a person includes a company, trust or partnership.</p>
+        <p>Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Any amounts overdue by more than thirty days accrue interest at the statutory rate. The licensor may update these terms with thirty days' notice; continued use means acceptance. You are responsible for backing up your data before installing any update. Audit rights may be exercised once per year with fourteen days' written notice.</p>
+    </section>
+    <section class="pa-sections__section" id="eula-14">
+        <h3 class="pa-sections__title">13. Notices</h3>
+        <p>Each party remains an independent contractor; nothing here creates a partnership or agency. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Any delay in enforcing a right is not a waiver of that right or of any other right. If a provision is found unenforceable, the rest of this agreement remains in full effect. The cherry pie served on site is not part of the Software and carries no warranty of any kind.</p>
+        <p>Records kept in the ordinary course of business are evidence of their contents. Export of the Software may be subject to export-control laws; you agree to comply with them. Nothing in this section limits any right that cannot be limited under applicable law. The cherry pie served on site is not part of the Software and carries no warranty of any kind. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+        <p>The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Audit rights may be exercised once per year with fourteen days' written notice. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. The licensor may update these terms with thirty days' notice; continued use means acceptance. If a provision is found unenforceable, the rest of this agreement remains in full effect.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Notices must be given in writing and are effective on receipt at the Great Northern front desk. Export of the Software may be subject to export-control laws; you agree to comply with them. The licensee shall keep all copies of the Software under reasonable control at all times. The parties will first try to settle any dispute in good faith over a cup of damn fine coffee.</p>
+        <p>Where the context allows, a reference to a person includes a company, trust or partnership. Notices must be given in writing and are effective on receipt at the Great Northern front desk. The licensee shall keep all copies of the Software under reasonable control at all times. Support requests are answered within two business days, except during the annual Miss Twin Peaks pageant. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
+    </section>
     <section class="pa-sections__section" id="eula-5">
-        <h3 class="pa-sections__title">8. Termination</h3>
+        <h3 class="pa-sections__title">14. Termination</h3>
         <p>This agreement ends automatically if you breach it. On termination you must stop using the Software and destroy all copies. Sections 1, 3 and 4 survive termination.</p>
         <p>Either party may terminate for convenience with thirty days' written notice. Fees already paid are not refundable, except as required by law.</p>
         <p>Each party remains an independent contractor; nothing here creates a partnership or agency. Where the context allows, a reference to a person includes a company, trust or partnership. Force majeure includes floods, fires, sawmill accidents and unexplained events in Ghostwood Forest. Service levels are described in the separate Support Policy, which forms part of this agreement.</p>
@@ -158,12 +251,13 @@
         <p>The parties will first try to settle any dispute in good faith over a cup of damn fine coffee. Feedback you send us may be used to improve the Software without any obligation to you. Third-party components are licensed under their own terms, listed in the About dialog. Notices must be given in writing and are effective on receipt at the Great Northern front desk. You are responsible for backing up your data before installing any update.</p>
         <div class="pa-form-actions mt-4">
             <button type="button" class="pa-btn pa-btn--primary" id="eula-accept" disabled>Accept</button>
-            <span class="text-muted text-sm" id="eula-hint">Read to the end to accept.</span>
+            <span class="text-muted text-sm" id="eula-hint">Read every section to accept.</span>
         </div>
     </section>
 </template>
 
 <template id="sx-tpl-form-nav">
+    <button type="button" class="pa-sections__toggle" aria-expanded="false" aria-label="Show all sections"><span class="pa-sections__toggle-icon" aria-hidden="true"></span></button>
     <ol class="pa-steps pa-steps--sm">
         <li class="pa-steps__item" data-section="sx-personal"><a class="pa-steps__link" href="#sx-personal"><span class="pa-steps__marker">1</span><span class="pa-steps__content"><span class="pa-steps__label">Personal</span><span class="pa-steps__description">Name, email</span></span></a></li>
         <li class="pa-steps__item" data-section="sx-address"><a class="pa-steps__link" href="#sx-address"><span class="pa-steps__marker">2</span><span class="pa-steps__content"><span class="pa-steps__label">Address</span><span class="pa-steps__description">Where we ship</span></span></a></li>
@@ -226,11 +320,16 @@
     var api = window.pureAdmin.components.sections;
     var root = document.getElementById('sx');
     var $ = function (id) { return document.getElementById(id); };
-    var example = $('sx-example'), layout = $('sx-layout'), mode = $('sx-mode'), style = $('sx-style');
+    var example = $('sx-example'), progress = $('sx-progress'), layout = $('sx-layout'), mode = $('sx-mode'), style = $('sx-style'), bar = $('sx-bar'), position = $('sx-position'), visible = $('sx-visible');
     var EXPLAIN = {
-        eula: 'EULA: no fields, no data-validate — a step is ticked once you have read past its section; "Accept" unlocks when the last section is reached.',
-        form: 'Form: data-validate — steps take their colour from the section\'s fields: numbered = untouched, amber = started, red = invalid (try a 4-digit ZIP), green = complete. In wizard mode, Next only moves on from a valid page.'
+        seen: 'seen (default, strict): a step is ticked once its section\'s START and END have both been on screen through your own scrolling. Jump to 10 and 1-9 stay open until you scroll through them. "Accept" unlocks when every step is ticked.',
+        passed: 'passed (lax): a step is ticked once its section is above you — a jump to 10 ticks 1-9 as well.',
+        confirm: 'confirm (manual): each section ends with a footer checkbox; only ticking it ticks the step. A section you have seen but not confirmed shows a warning.',
+        'confirm-after-seen': 'confirm + data-confirm-after-seen: the checkbox stays disabled until the section has been seen (start and end) — you cannot confirm what you did not scroll through.',
+        fields: 'fields: steps take their colour from the section\'s fields: numbered = untouched, amber = started, red = invalid (try a 4-digit ZIP), green = complete. In wizard mode, Next only moves on from a valid page.'
     };
+    var FOOTER = '<footer class="pa-sections__footer"><label class="pa-checkbox"><input type="checkbox" data-sections-confirm>'
+        + '<span class="pa-checkbox__box"></span><span class="pa-checkbox__label">I have read this section</span></label></footer>';
 
     function clone(id) { return $(id).content.cloneNode(true); }
 
@@ -241,8 +340,15 @@
         var body = root.querySelector('.pa-sections__body');
         body.replaceChildren(clone('sx-tpl-' + example.value + '-body'));
         body.appendChild(clone('sx-tpl-actions'));
-        if (example.value === 'form') root.setAttribute('data-validate', ''); else root.removeAttribute('data-validate');
-        $('sx-explain').textContent = EXPLAIN[example.value];
+        var confirm = progress.value.indexOf('confirm') === 0;
+        root.setAttribute('data-progress', confirm ? 'confirm' : progress.value);
+        if (progress.value === 'confirm-after-seen') root.setAttribute('data-confirm-after-seen', ''); else root.removeAttribute('data-confirm-after-seen');
+        // confirm: every section ends with a footer holding its checkbox (before the EULA's Accept row)
+        if (confirm) body.querySelectorAll('.pa-sections__section').forEach(function (sec) {
+            var actions = sec.querySelector('.pa-form-actions');
+            if (actions) actions.insertAdjacentHTML('beforebegin', FOOTER); else sec.insertAdjacentHTML('beforeend', FOOTER);
+        });
+        $('sx-explain').textContent = EXPLAIN[progress.value];
         applyClasses();
         api.init(root.parentElement);
     }
@@ -252,27 +358,33 @@
         root.className = 'pa-sections mb-8 pa-sections--' + layout.value
             + (mode.value === 'wizard' ? ' pa-sections--wizard' : '')
             + (style.value !== 'plain' ? ' pa-sections--' + style.value : '')
+            + (bar.value !== 'scroll' ? ' pa-sections--' + bar.value : '')
+            + (position.value ? ' pa-sections--' + position.value : '')
             + (inView ? ' pa-sections--in-view' : '');
+        if (visible.value) root.setAttribute('data-overlay-steps', visible.value); else root.removeAttribute('data-overlay-steps');
         var ctl = api.get(root);
         if (ctl) ctl.refresh();
     }
 
-    // EULA: Accept unlocks when the last section has been read
+    // EULA: Accept unlocks when every step is ticked
     root.addEventListener('pa-sections:change', function (e) {
         var accept = $('eula-accept');
         if (!accept) return;
         var states = e.detail.states;
-        var last = states[states.length - 1] === 'done';
-        accept.disabled = !last;
-        $('eula-hint').textContent = last ? 'Thanks for reading.' : 'Read to the end to accept.';
+        var open = states.filter(function (st) { return st !== 'done'; }).length;
+        accept.disabled = open > 0;
+        $('eula-hint').textContent = open ? open + ' of ' + states.length + ' sections still to go.' : 'Thanks for reading.';
     });
 
     example.addEventListener('change', function () {
         style.value = example.value === 'form' ? 'cards' : 'boxed';
+        progress.value = example.value === 'form' ? 'fields' : 'seen';
         build();
     });
-    [layout, mode, style].forEach(function (el) { el.addEventListener('change', applyClasses); });
+    progress.addEventListener('change', build);
+    [layout, mode, style, bar, position, visible].forEach(function (el) { el.addEventListener('change', applyClasses); });
     style.value = example.value === 'form' ? 'cards' : 'boxed';
+    progress.value = example.value === 'form' ? 'fields' : 'seen';
     build();
 })();
 </script>

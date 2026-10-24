@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **3.3.0-rc09** · **62** components · **150** blocks · **1430** class selectors.
+Framework version **3.3.0-rc09** · **62** components · **151** blocks · **1443** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -189,13 +189,13 @@ Card wrapper specialised for tables: header/actions/body/footer chrome around a 
 
 ### Sections (navigated long content) — `pa-sections`
 
-> ⚠ **Experimental.** Class names, modifiers, markup and the JS API may still change — pin an exact version if you build on it. Sticky layouts need the content area not to be a non-scrolling scroll container (pure-css .pc-layout__content fix pending).
+> ⚠ **Experimental.** Class names, modifiers, markup and the JS API may still change — pin an exact version if you build on it. js/sections.js marks the app shell’s .pc-layout__content with .pa-sections-host so sticky works there (scoped to pages with a block).
 
-One long piece of content (EULA, form, settings page) split into sections, plus a pa-steps navigator the block controls via js/sections.js: current section by scroll position, read / field-validity state per step, click-to-jump with on-demand end space. Layouts --side (sticky column, collapses to a bar on narrow blocks) / --top (sticky bar) / --overlay (floating, expands on hover); styles plain / --boxed / --cards; --wizard paging.
+One long piece of content (EULA, form, settings page) split into sections, plus a pa-steps navigator the block controls via js/sections.js: current section by scroll position, per-step progress via data-progress (seen / passed / confirm with a .pa-sections__footer checkbox / fields), click-to-jump with on-demand end space. Layouts --side (sticky column, collapses to a bar on narrow blocks) / --top (sticky bar) / --overlay (floating, expands on hover / focus, open / close handle for touch, data-overlay-steps limit); --nav-start / --nav-end position; styles plain / --boxed / --cards; --wrap / --wrap-clean (bar steps break into rows); --wizard paging.
 
-- **Blocks:** `pa-sections`
-- **Elements:** `pa-sections__actions`, `pa-sections__body`, `pa-sections__nav`, `pa-sections__section`, `pa-sections__title`
-- **Modifiers / states:** `pa-sections--boxed`, `pa-sections--cards`, `pa-sections--in-view`, `pa-sections--overlay`, `pa-sections--side`, `pa-sections--top`, `pa-sections--wizard`, `pa-sections__section--active`
+- **Blocks:** `pa-sections`, `pa-sections-host`
+- **Elements:** `pa-sections__actions`, `pa-sections__body`, `pa-sections__footer`, `pa-sections__nav`, `pa-sections__section`, `pa-sections__title`, `pa-sections__toggle`, `pa-sections__toggle-icon`
+- **Modifiers / states:** `pa-sections--boxed`, `pa-sections--cards`, `pa-sections--in-view`, `pa-sections--nav-end`, `pa-sections--nav-start`, `pa-sections--overlay`, `pa-sections--side`, `pa-sections--top`, `pa-sections--wizard`, `pa-sections--wrap`, `pa-sections--wrap-clean`, `pa-sections__nav--more-after`, `pa-sections__nav--more-before`, `pa-sections__nav--open`, `pa-sections__section--active`
 - **SCSS:** `core-components/_sections.scss`
 - **Snippet:** `sections.html`
 - **Demo:** `sections.mustache`
@@ -660,12 +660,12 @@ Vertical/columned activity timeline with dated items, severity dots, avatars and
 
 > ⚠ **Experimental.** Class names, modifiers and markup may still change — pin an exact version if you build on it.
 
-A list of steps — marker (number / icon), label, optional description — joined by connector lines. Horizontal (wizard header) or --vertical (status block, section navigator); progress state (done / current / running) and validity state (success / warning / danger) are independent; --sm compact. Connector geometry derives from one marker-size token.
+A list of steps — marker (number / icon), label, optional description — joined by connector lines. Horizontal (wizard header) or --vertical (status block, section navigator); progress state (done / current / running) and validity state (success / warning / danger) are independent; --sm compact; --wrap breaks a long strip into rows joined by a return line, --wrap-clean into rows with no line. Connector geometry derives from one marker-size token.
 
 - **Blocks:** `pa-steps`
 - **Elements:** `pa-steps__content`, `pa-steps__description`, `pa-steps__item`, `pa-steps__label`, `pa-steps__link`, `pa-steps__marker`, `pa-steps__state`
-- **Modifiers / states:** `pa-steps--sm`, `pa-steps--vertical`, `pa-steps__item--current`, `pa-steps__item--danger`, `pa-steps__item--done`, `pa-steps__item--running`, `pa-steps__item--success`, `pa-steps__item--warning`
-- **SCSS:** `core-components/_steps.scss`
+- **Modifiers / states:** `pa-steps--sm`, `pa-steps--vertical`, `pa-steps--wrap`, `pa-steps--wrap-clean`, `pa-steps__item--current`, `pa-steps__item--danger`, `pa-steps__item--done`, `pa-steps__item--running`, `pa-steps__item--success`, `pa-steps__item--warning`
+- **SCSS:** `core-components/_sections.scss`, `core-components/_steps.scss`
 - **Snippet:** `steps.html`
 - **Demo:** `progress.mustache`
 

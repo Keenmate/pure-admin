@@ -7,6 +7,9 @@
 
    <div class="pa-sections pa-sections--side" data-pa-sections>
      <nav class="pa-sections__nav" aria-label="Sections">
+       <button type="button" class="pa-sections__toggle" aria-expanded="false" aria-label="Show all sections">
+         <span class="pa-sections__toggle-icon" aria-hidden="true"></span>
+       </button>
        <ol class="pa-steps pa-steps--sm">
          <li class="pa-steps__item" data-section="terms">
            <a class="pa-steps__link" href="#terms">
@@ -22,8 +25,14 @@
    </div>
 
    Layout   --side (sticky column; collapses to a bar on narrow blocks)
-            --top (sticky bar) | --overlay (floating mini stepper, expands on hover/focus)
+            --top (sticky bar) | --overlay (floating mini stepper; expands on hover, keyboard
+            focus, or — on a device without hover — its .pa-sections__toggle handle)
+   Position --nav-start | --nav-end (side defaults to start, overlay to end)
+   Overlay  data-overlay-steps="N" — show at most N steps, the list scrolls (no scrollbar)
    Style    (plain: one continuous document) | --boxed (body in one box) | --cards (each section boxed)
+   Bar      (scrolls sideways when the steps don't fit) | --wrap (rows + return line) | --wrap-clean (rows only)
+   Progress data-progress = seen (default) | passed | confirm | fields — how a step gets ticked
+            (js/sections.js); .pa-sections__footer ends a section (e.g. the confirm checkbox)
    Mode     (scroll) | --wizard (one section at a time; .pa-sections__actions shows Back / Next)
    The nav's pa-steps needs no --vertical class: the layout arranges it.
    Sticky needs the scroll container to be the window or the content area —
@@ -31,6 +40,7 @@
    ======================================== */
 @use '../variables' as *;
 @use 'steps' as steps;
+@use 'icons' as *;
 
 // a full-width bar stuck flush under the edge (top layout + collapsed side)
 @mixin sections-bar {
@@ -46,13 +56,29 @@
 
   .pa-steps { min-width: max-content; }
   padding: var(--pa-sections-nav-gap) 0 $sections-bar-padding-bottom;
-  border-bottom: 1px solid var(--pc-border-color);
+  // a scroller's scrollbar sits below its padding, right on the border — so the
+  // bottom border IS the gap under the scrollbar (in the bar's own colour), and
+  // the divider line is a 1px shadow beneath it
+  border-bottom: $sections-bar-scrollbar-gap solid var(--pc-page-bg);
+  box-shadow: 0 $border-width-base 0 var(--pc-border-color);
 }
 
 // a bar-mode section must land below the edge AND the bar (height measured by the script)
 @mixin sections-bar-landing {
   .pa-sections__section {
     scroll-margin-top: calc(var(--pa-sections-edge) + var(--pa-sections-nav-height, 0px) + var(--pa-sections-nav-gap));
+  }
+}
+
+// the overlay's expanded state: labels slide out next to the markers
+@mixin sections-overlay-expanded {
+  border-radius: var(--pc-border-radius);
+
+  .pa-steps__content {
+    max-width: $sections-overlay-label-max-width;
+    opacity: 1;
+    margin-inline: var(--pa-sections-overlay-label-gap-start, 0) var(--pa-sections-overlay-label-gap-end, 0);
+    transition-delay: 0s;
   }
 }
 
@@ -69,7 +95,7 @@
   --pa-sections-edge: #{$sections-edge};
   --pa-sections-nav-gap: #{$sections-nav-gap};
 
-  container-type: inline-size;
+  container: pa-sections / inline-size;   // named: a wrapping nav strip is a container too
   display: flex;
   flex-direction: column;
   gap: $sections-gap;
@@ -90,11 +116,31 @@
     scroll-margin-top: calc(var(--pa-sections-edge) + var(--pa-sections-nav-gap));
 
     & + & { margin-top: $sections-section-gap; }
+
+    // a jump moves focus here (tabindex="-1") so a screen reader announces the
+    // section and Tab continues from it — it is a target, not a control, so no
+    // ring around the whole section; the nav's current step is the visual cue
+    &:focus { outline: none; }
   }
 
   &__title { margin-top: 0; }
 
+  // the section's own last row: a confirmation checkbox ([data-sections-confirm],
+  // data-progress="confirm"), section-level actions, …
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $sections-footer-gap;
+    margin-top: $sections-footer-margin;
+    padding-top: $sections-footer-padding;
+    border-top: 1px solid var(--pc-border-color);
+  }
+
   &__actions { display: none; }
+
+  // the overlay's open / close handle (only shown in the overlay layout)
+  &__toggle { display: none; }
 
   // ---- style -----------------------------------------------------------------
   &--boxed {
@@ -115,6 +161,7 @@
   // ---- layout: side ----------------------------------------------------------
   &--side {
     flex-direction: row;
+    flex-wrap: wrap;   // collapsed, the nav takes a whole line and the body wraps below it
     align-items: flex-start;
 
     .pa-sections__nav {
@@ -125,7 +172,10 @@
       overflow-y: auto;
     }
 
-    .pa-sections__nav .pa-steps { @include steps.steps-vertical; }
+    .pa-sections__nav .pa-steps {
+      @include steps.steps-vertical;
+      padding: var(--pa-steps-halo);   // the column scrolls (clips): room for the current marker's halo
+    }
   }
 
   // ---- layout: top -----------------------------------------------------------
@@ -133,6 +183,10 @@
     .pa-sections__nav { @include sections-bar; }
     @include sections-bar-landing;
   }
+
+  // bar with --wrap: the steps break into rows instead of scrolling sideways
+  &--top.pa-sections--wrap .pa-sections__nav .pa-steps { @include steps.steps-wrap; }
+  &--top.pa-sections--wrap-clean .pa-sections__nav .pa-steps { @include steps.steps-wrap(false); }
 
   // ---- layout: overlay -------------------------------------------------------
   &--overlay {
@@ -146,6 +200,9 @@
       border-radius: var(--pc-border-radius-lg);
       padding: $sections-overlay-padding-v $sections-overlay-padding-h;
       box-shadow: var(--base-shadow-md);
+      // many steps on a short screen: the pill scrolls itself
+      max-height: calc(100dvh - 2 * #{$sections-overlay-inset});
+      overflow-y: auto;
       opacity: 0;
       pointer-events: none;
       transition: opacity $transition-normal $easing-smooth;
@@ -161,6 +218,7 @@
     .pa-sections__nav .pa-steps {
       @include steps.steps-vertical;
       --pa-steps-row-gap: #{$sections-overlay-row-gap};
+      --pa-sections-overlay-label-gap-end: #{$steps-item-gap-vertical};
 
       .pa-steps__item {
         flex-direction: row-reverse;
@@ -174,6 +232,43 @@
       }
     }
 
+    // with a step limit: labels only — an expanded description makes a step taller
+    // than its marker, and the N-step height is counted in markers
+    &[data-overlay-steps] .pa-steps__description { display: none; }
+
+    // touch: a step is a finger target — more room between them
+    @media (pointer: coarse) {
+      .pa-sections__nav .pa-steps { --pa-steps-row-gap: #{$sections-overlay-row-gap-touch}; }
+    }
+
+    // data-overlay-steps="N" (the script mirrors it to --pa-sections-overlay-steps):
+    // the list shows N steps and scrolls — no scrollbar, it snaps to whole steps, and
+    // the edge that has more steps fades (.pa-sections__nav--more-before / --more-after).
+    // Padding = the current marker's halo, so it is not clipped by the scroll box.
+    &[data-overlay-steps] .pa-sections__nav .pa-steps {
+      max-height: calc(
+        var(--pa-sections-overlay-steps, 5) * (var(--pa-steps-marker) + var(--pa-steps-row-gap))
+        - var(--pa-steps-row-gap) + 2 * var(--pa-steps-halo)
+      );
+      padding: var(--pa-steps-halo);
+      margin: calc(-1 * var(--pa-steps-halo));
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      scroll-snap-type: y mandatory;
+      scroll-padding-block: var(--pa-steps-halo);
+      mask-image: linear-gradient(to bottom,
+        transparent 0, #000 var(--pa-sections-fade-before, 0px),
+        #000 calc(100% - var(--pa-sections-fade-after, 0px)), transparent 100%);
+
+      &::-webkit-scrollbar { display: none; }
+
+      .pa-steps__item { scroll-snap-align: start; }
+    }
+
+    .pa-sections__nav--more-before .pa-steps { --pa-sections-fade-before: #{$sections-overlay-fade}; }
+    .pa-sections__nav--more-after .pa-steps { --pa-sections-fade-after: #{$sections-overlay-fade}; }
+
     .pa-steps__content {
       max-width: 0;
       opacity: 0;
@@ -185,19 +280,91 @@
         margin $transition-normal $easing-smooth $sections-overlay-collapse-delay;
     }
 
-    // expanded: hover, or keyboard focus inside the nav
-    .pa-sections__nav:hover,
-    .pa-sections__nav:focus-within {
+    // handle: opens / closes the pill on a device WITHOUT hover (touch) — with hover,
+    // hovering the pill opens it, so there the handle is hidden. Sits over the marker
+    // column; the chevron points the way the labels slide.
+    .pa-sections__toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: $sections-toggle-size;
+      height: $sections-toggle-size;
+      margin-inline-start: auto;
+      margin-bottom: $sections-overlay-row-gap;
+      padding: 0;
+      border: 0;
       border-radius: var(--pc-border-radius);
+      background: none;
+      color: var(--pc-text-color-2);
+      cursor: pointer;
 
-      .pa-steps__content {
-        max-width: $sections-overlay-label-max-width;
-        opacity: 1;
-        margin-inline-end: $steps-item-gap-vertical;
-        transition-delay: 0s;
+      @media (hover: hover) { display: none; }
+    }
+
+    // the shared masked chevron (--pa-icon-chevron, points to the inline end;
+    // re-skinned by --base-icon-chevron) turned by ONE transform between two
+    // themeable rotations, like .pa-btn-split__chevron: closed points inward (the
+    // way the labels slide out), open points back. A theme with a pre-oriented glyph
+    // overrides --pa-sections-toggle-rotate-closed / -open.
+    .pa-sections__toggle-icon {
+      @include pa-icon-mask(var(--pa-icon-chevron));
+      --pa-icon-size: #{$sections-toggle-icon-size};
+      transform: rotate(var(--pa-sections-toggle-rotate-closed, 180deg));
+      transition: transform $transition-fast $easing-snappy;
+    }
+
+    .pa-sections__nav--open .pa-sections__toggle-icon {
+      transform: rotate(var(--pa-sections-toggle-rotate-open, 0deg));
+    }
+
+    // the glyph is physical — mirror it where "inward" is the other way round
+    // (nav on the start edge, or RTL; both together cancel out)
+    &.pa-sections--nav-start .pa-sections__toggle-icon,
+    &:dir(rtl) .pa-sections__toggle-icon { scale: -1 1; }
+    &.pa-sections--nav-start:dir(rtl) .pa-sections__toggle-icon { scale: none; }
+
+    // expanded: opened with the handle (or open()), or a keyboard user moving
+    // through the steps (:focus-visible — so a mouse click on the handle that
+    // closes it does not keep it open through :focus-within)
+    .pa-sections__nav:has(.pa-steps__link:focus-visible),
+    .pa-sections__nav--open { @include sections-overlay-expanded; }
+
+    // … or a mouse hovering it (hover only where there IS hover: a touch screen
+    // keeps :hover stuck after a tap, which would leave the pill open)
+    @media (hover: hover) {
+      .pa-sections__nav:hover { @include sections-overlay-expanded; }
+    }
+
+    // nav at the START edge: markers sit at that edge, labels slide out inward
+    &.pa-sections--nav-start {
+      .pa-sections__nav {
+        inset-inline-end: auto;
+        inset-inline-start: $sections-overlay-inset;
+      }
+
+      .pa-sections__toggle { margin-inline-start: 0; }
+
+      .pa-sections__nav .pa-steps {
+        --pa-sections-overlay-label-gap-start: #{$steps-item-gap-vertical};
+        --pa-sections-overlay-label-gap-end: 0;
+
+        .pa-steps__item {
+          flex-direction: row;
+          text-align: start;
+        }
+
+        .pa-steps__item:not(:last-child)::after {
+          inset-inline-start: calc(var(--pa-steps-marker) / 2 - #{$steps-line-width} / 2);
+          inset-inline-end: auto;
+        }
       }
     }
   }
+
+  // ---- nav position (side + overlay) -------------------------------------------
+  // Defaults: side column at the start, overlay at the end; --nav-start / --nav-end
+  // pick the edge explicitly (the top bar ignores them).
+  &--side.pa-sections--nav-end { flex-direction: row-reverse; }
 
   // ---- mode: wizard ----------------------------------------------------------
   &--wizard {
@@ -234,13 +401,15 @@ body:not(.pc-layout--sticky) .pa-sections-host {
 // Sticky-sidebar app mode: the content area scrolls, there is no navbar inside it.
 body.pc-layout--sticky .pa-sections { --pa-sections-edge: 0rem; }
 
-// Narrow block: the side column collapses to a horizontal bar (container query on the block).
-@container (max-width: #{$sections-collapse-below}) {
+// Narrow block: the side column collapses to a horizontal bar (container query on the
+// block). Only DESCENDANTS can query the block's width, so the block itself stays a
+// wrapping row and the nav simply takes the whole first line.
+@container pa-sections (max-width: #{$sections-collapse-below}) {
   .pa-sections--side {
-    flex-direction: column;
-    align-items: stretch;
-
-    .pa-sections__nav { @include sections-bar; }
+    .pa-sections__nav {
+      @include sections-bar;
+      flex-basis: 100%;
+    }
     @include sections-bar-landing;
 
     // undo the vertical arrangement the wide side layout applies
@@ -261,6 +430,9 @@ body.pc-layout--sticky .pa-sections { --pa-sections-edge: 0rem; }
       .pa-steps__content { padding-top: 0; }
       .pa-steps__description { display: none; }
     }
+
+    &.pa-sections--wrap .pa-sections__nav .pa-steps { @include steps.steps-wrap; }
+    &.pa-sections--wrap-clean .pa-sections__nav .pa-steps { @include steps.steps-wrap(false); }
   }
 }
 

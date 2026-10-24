@@ -35,18 +35,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `--pa-steps-marker` property, so sizes can't misalign the lines. A visually hidden
   `.pa-steps__state` carries the state as text for screen readers. Filled markers use the foundation
   role pair (`--pc-{role}-color` + `--base-on-{role}-text-color`, as pure-css `.surface-{role}`).
+  `--wrap` breaks a long horizontal strip into rows joined by a return line (down from the row's
+  last marker, back along the row gap, down into the next row's first marker), so every row reads
+  start → end; steps per row follow the list's own width (container query, `$steps-wrap-*` tokens),
+  pure CSS, RTL-safe. `--wrap-clean` breaks into the same rows with no line between them.
+  A navigable step wraps marker + content in `<a class="pa-steps__link">`, which takes over the
+  item's flex arrangement (not `display: contents`, which browsers drop from the tab order), and
+  the whole step is its click target (a stretched layer over the item; the focus ring stays tight).
+  `--pa-steps-halo` (the current marker's halo + scale-up) is what a scrolling container pads the
+  list by so that marker is never cut — pa-sections uses it for the side column and the limited
+  overlay list.
+  Markers are round in every theme (like radios and avatars); `$steps-marker-radius` (0 = square)
+  lets a theme square them.
   Tokens `$steps-*`.
   Snippet `steps.html`.
 - **`pa-sections` (EXPERIMENTAL) + `js/sections.js`** — long content (a EULA, a form, a settings
   page) split into sections, with a `pa-steps` navigator the block controls: current section by
-  scroll position (a reading line, deterministic on every frame), read tracking or field-validity
-  colouring (`data-validate`), click-to-jump that lands exactly under the nav (scrolls only the
+  scroll position (a reading line, deterministic on every frame), per-step progress chosen with
+  `data-progress` — `seen` (default, strict: a section is ticked once its start AND end have been on
+  screen through your own scrolling; jumped-over sections stay open; a section that fits on screen is
+  seen when shown), `passed` (lax: everything above you, a jump ticks what it went over), `confirm`
+  (manual: only the section's `[data-sections-confirm]` checkbox in its `.pa-sections__footer`, or
+  the API; seen-but-unconfirmed shows `--warning`; `data-confirm-after-seen` keeps the checkbox
+  disabled until the section was seen) or `fields` (validity of the section's fields — untouched /
+  `--warning` / `--danger` with an ✕ / `--success`); a jump records what is on screen as soon as it
+  lands. API `go(i)`, `markDone(i)`, `clear(i)` (index or section id); click-to-jump that lands exactly under the nav (scrolls only the
   block's own scroller; temporary end space for sections near the end, removed once out of
-  sight), optional URL hash, focus moved to the section, reduced-motion aware, RTL-safe.
+  sight), optional URL hash, focus moved to the section, reduced-motion aware, RTL-safe. When the nav's
+  steps don't fit (a bar scrolling sideways, a long side column) the nav scrolls itself to keep the
+  current step in view (only the nav — never the page); a scrolling bar keeps a gap under its
+  scrollbar (`$sections-bar-scrollbar-gap`). The overlay works on touch screens (no hover there):
+  every nav starts with a `.pa-sections__toggle` handle that opens / closes the pill on a device
+  without hover (hidden elsewhere — hovering opens it); its chevron `.pa-sections__toggle-icon` is the
+  shared `--pa-icon-chevron` turned between `--pa-sections-toggle-rotate-closed` / `-open`; a step tap jumps and folds it, a tap outside or Esc
+  folds it; the script keeps the handle's `aria-expanded`; `open()` / `close()` on the controller
+  (`.pa-sections__nav--open`). Hover expansion only applies where the device has hover; keyboard
+  users see the labels while moving through the steps. On a touch screen the overlay steps get
+  more room (`$sections-overlay-row-gap-touch`). `data-overlay-steps="N"` shows at most N steps:
+  the list scrolls with no scrollbar, snaps to whole steps, fades the edge that has more
+  (`$sections-overlay-fade`) and follows the current step; with a limit the overlay shows labels
+  only (a description would make a step taller than the N-step height counts on). Position
+  modifiers `--nav-start` / `--nav-end` put the side column or the overlay on either edge (defaults:
+  side at the start, overlay at the end); a long overlay scrolls itself on a short screen. The
+  jumped-to section takes focus (screen readers
+  announce it, Tab continues from it) without drawing a focus ring around the whole section.
   Layouts `--side` (sticky column, collapses to a bar on narrow blocks via a container query) /
   `--top` (sticky bar flush under the navbar) / `--overlay` (floating mini stepper, expands on hover
-  or focus); styles plain / `--boxed` / `--cards`; `--wizard` paging (with `data-validate`, Next
-  only past a valid page). Event `pa-sections:change`; API
+  or focus); styles plain / `--boxed` / `--cards`; `--wrap` / `--wrap-clean` make a bar's steps break into rows
+  instead of scrolling sideways (a phone with many steps); `--wizard` paging (Next only past a valid page with
+  `fields`, a confirmed one with `confirm`; a block that starts in wizard mode opens on its first page). Event `pa-sections:change`; API
   `window.pureAdmin.components.sections.{init,get}`. Tokens `$sections-*`. Snippet `sections.html`;
   demo Surfaces → Sections. Sticky inside the app shell works automatically: pure-css's
   `.pc-layout__content` is a scroll container even when the window scrolls (which traps
@@ -104,7 +141,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   examples (`--start`, `--end`, `--keep-layout` and their combinations) still used `<div>` items,
   contradicting the canonical list shape the rest of the snippet and the demo use.
 
+### Fixed
+
+- **Code reads left to right on RTL pages.** `.pa-code` blocks and inline `code` now set
+  `direction: ltr` (inline code also `unicode-bidi: isolate`); before, the bidi algorithm reordered
+  their punctuation (`</div>` showed as `</ "div`, `--x: 1` lost its order). A block's line-number
+  gutter and language accent therefore stay on the left, where the code starts.
+- **pa-sections: the collapsed side layout no longer depends on an ancestor container.** The block
+  is now a named size container (`pa-sections`) and the collapse to a bar is done by the nav taking
+  the whole first line (`flex-basis: 100%`) — a block cannot size-query itself, so the old
+  `flex-direction` switch on the block only worked when some ancestor happened to be a container.
+- **Progress: striped / animated stripes mirror in RTL** (slant and travel), like the other effects.
+
 ### Internal
+
+- **Catalog generator runs again** — an unescaped apostrophe in the sections status note broke
+  `npm run catalog`, and the `pa-sections-host` block was unassigned in the taxonomy.
 
 - **fidelity: timeline-item covers every layout.** New features `date`, `iconText`, `title`,
   `meta`, `avatar`, `avatarAlt`, `comment` and goldens for the alternating (with / without date),

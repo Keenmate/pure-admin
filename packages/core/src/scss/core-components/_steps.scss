@@ -3,6 +3,8 @@
    A list of steps with a marker (number / icon), a label and an optional
    description, joined by connector lines. Horizontal by default (a wizard
    header); --vertical stacks it (a status block, a section navigator).
+   --wrap breaks a long horizontal strip into rows joined by a return line;
+   --wrap-clean breaks it into rows with no line between them.
 
    <ol class="pa-steps">
      <li class="pa-steps__item pa-steps__item--done">
@@ -64,9 +66,104 @@
   }
 }
 
+// The wrapping arrangement, shared with pa-sections (its sticky bar opts in with
+// pa-sections--wrap). Steps fill rows of equal columns; how many fit is a container
+// query on the list (≥ $steps-wrap-min-width each), and a row that ends early is
+// joined to the next by a return line: down from the last marker, back along the
+// gap, down into the first marker of the next row — every row reads start → end.
+// CSS cannot see where a flex row breaks, so the per-row count is fixed per query
+// and the row ends are :nth-child rules generated for 2 … $steps-wrap-max-per-row.
+// $return: false is the clean wrap — rows simply break, no line between them.
+@mixin steps-wrap($return: true) {
+  container: pa-steps / inline-size;
+  flex-wrap: wrap;
+  row-gap: if($return, $steps-wrap-row-gap, $steps-wrap-row-gap-clean);
+  min-width: 0;
+
+  .pa-steps__item { min-width: 0; }
+  .pa-steps__label { overflow-wrap: anywhere; }
+
+  @for $n from 2 through $steps-wrap-max-per-row {
+    $lo: $n * $steps-wrap-min-width;
+    $hi: ($n + 1) * $steps-wrap-min-width - 0.01rem;
+    $query: '(min-width: #{$lo}) and (max-width: #{$hi})';
+    @if $n == 2 { $query: '(max-width: #{$hi})'; }
+    @if $n == $steps-wrap-max-per-row { $query: '(min-width: #{$lo})'; }
+
+    @container pa-steps #{$query} {
+      @include steps-wrap-rows($n, $return);
+    }
+  }
+}
+
+@mixin steps-wrap-rows($n, $return) {
+  .pa-steps__item { flex: 0 0 calc(100% / #{$n}); }
+
+  // everything fits on one row: share the width like an unwrapped strip
+  .pa-steps__item:first-child:nth-last-child(-n + #{$n}),
+  .pa-steps__item:first-child:nth-last-child(-n + #{$n}) ~ .pa-steps__item { flex: 1 1 0; }
+
+  // clean wrap: a row start has no incoming connector, and that's all
+  @if not $return {
+    .pa-steps__item:nth-child(#{$n}n + 1)::before { content: none; }
+  } @else {
+    @include steps-wrap-return($n);
+  }
+}
+
+// the return line between rows (--wrap)
+@mixin steps-wrap-return($n) {
+  // row end: down from the marker, then back along the middle of the row gap
+  .pa-steps__item:nth-child(#{$n}n):not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--pa-steps-marker) + #{$steps-line-gap});
+    bottom: calc(-1 * #{$steps-wrap-row-gap} / 2);
+    // starts exactly where the row-start corner ends: the line colour is translucent,
+    // so the two pieces must not overlap (an overlap paints darker)
+    inset-inline-start: calc(50% - #{$n - 1} * 100% - #{$steps-line-width} / 2 + #{$steps-wrap-corner-radius});
+    inset-inline-end: calc(50% - #{$steps-line-width} / 2);
+    width: auto;          // reset what a vertical arrangement may have set
+    background: none;
+    border: 0 solid var(--pc-surface-track);
+    border-inline-end-width: $steps-line-width;
+    border-block-end-width: $steps-line-width;
+    border-radius: 0;
+    border-end-end-radius: $steps-wrap-corner-radius;
+  }
+
+  // row start: the line comes in from the gap above instead of from the side
+  .pa-steps__item:nth-child(#{$n}n + 1):not(:first-child)::before {
+    top: calc(-1 * #{$steps-wrap-row-gap} / 2 - #{$steps-line-width});
+    bottom: calc(100% + #{$steps-line-gap});
+    inset-inline-start: calc(50% - #{$steps-line-width} / 2);
+    inset-inline-end: auto;
+    width: $steps-wrap-corner-radius;
+    box-sizing: border-box;   // the border is inside the width (no overlap with the return line)
+    height: auto;
+    background: none;
+    border: 0 solid var(--pc-surface-track);
+    border-block-start-width: $steps-line-width;
+    border-inline-start-width: $steps-line-width;
+    border-radius: 0;
+    border-start-start-radius: $steps-wrap-corner-radius;
+  }
+
+  // the return line belongs to the row-end step: done / success colours it
+  .pa-steps__item--done:nth-child(#{$n}n):not(:last-child)::after,
+  .pa-steps__item--success:nth-child(#{$n}n):not(:last-child)::after,
+  .pa-steps__item--done + .pa-steps__item:nth-child(#{$n}n + 1)::before,
+  .pa-steps__item--success + .pa-steps__item:nth-child(#{$n}n + 1)::before {
+    border-color: var(--pc-primary-color);
+  }
+}
+
 .pa-steps {
   --pa-steps-marker: #{$steps-marker-size};
   --pa-steps-row-gap: #{$steps-row-gap};
+  // how far the current marker reaches past its box (halo ring + the scale-up) — a
+  // container that scrolls (clips) the list pads it by this much so nothing is cut
+  --pa-steps-halo: calc(#{$steps-current-ring} + var(--pa-steps-marker) * #{($steps-current-scale - 1) / 2});
 
   display: flex;
   list-style: none;
@@ -109,7 +206,7 @@
     flex-shrink: 0;
     display: grid;
     place-items: center;
-    border-radius: 50%;
+    border-radius: $steps-marker-radius;
     font-size: $steps-marker-font-size;
     font-weight: $steps-marker-font-weight;
     background: var(--pc-surface-track);
@@ -145,12 +242,30 @@
     border: 0;
   }
 
-  // navigable step: the link is layout-transparent, marker + content stay flex children
+  // navigable step: the link is the item's only child and takes over its arrangement
+  // (direction / alignment / gap inherited), so the layout is the same as without a link.
+  // Not display: contents — browsers drop such an element from the tab order.
   &__link {
-    display: contents;
+    display: flex;
+    flex-direction: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+    gap: inherit;
+    text-align: inherit;
+    min-width: 0;
     color: inherit;
     text-decoration: none;
     cursor: pointer;
+
+    // the WHOLE step is the click target (empty space beside the label, the gap to the
+    // next step): an invisible layer stretched over the item (the item is the
+    // positioned ancestor). The link's own box — and its focus ring — stays tight.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;   // above the connector lines (the item's ::before / ::after)
+    }
   }
 
   // ---- progress state ------------------------------------------------------
@@ -195,6 +310,16 @@
 
   &--vertical {
     @include steps-vertical;
+  }
+
+  // many steps in a narrow space: wrap into rows joined by a return line …
+  &--wrap:not(&--vertical) {
+    @include steps-wrap;
+  }
+
+  // … or just break into rows (no line between them)
+  &--wrap-clean:not(&--vertical) {
+    @include steps-wrap(false);
   }
 }
 

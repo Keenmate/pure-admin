@@ -979,6 +979,7 @@ $splitter-rail-size: 4rem !default;                            // 40px — start
 // ============================================================================
 $steps-marker-size: 3rem !default;                       // 30px
 $steps-marker-size-sm: 2.4rem !default;                  // 24px
+$steps-marker-radius: 50% !default;                      // round like radios / avatars, also in square themes; 0 = square
 $steps-marker-font-size: $font-size-sm !default;
 $steps-marker-font-size-sm: $font-size-xs !default;
 $steps-marker-icon-size: $font-size-sm !default;
@@ -996,6 +997,11 @@ $steps-current-ring: $spacing-xs !default;               // halo around the curr
 $steps-current-scale: 1.08 !default;
 $steps-transition-duration: $transition-medium !default;
 $steps-running-duration: 1.4s !default;                  // one pulse of a --running marker
+$steps-wrap-min-width: 9rem !default;                    // --wrap: narrowest column a step gets (sets steps per row)
+$steps-wrap-max-per-row: 8 !default;                     // --wrap: widest row (more steps → still wraps)
+$steps-wrap-row-gap: $spacing-xl !default;               // --wrap: between rows (the return line runs in its middle)
+$steps-wrap-row-gap-clean: $spacing-lg !default;         // --wrap-clean: between rows (no line in the gap)
+$steps-wrap-corner-radius: $spacing-sm !default;         // --wrap: rounded corners of the return line
 
 // ============================================================================
 // SECTIONS (pa-sections) — EXPERIMENTAL
@@ -1007,7 +1013,8 @@ $sections-nav-gap: $spacing-base !default;               // a floating side colu
 $sections-gap: $spacing-lg !default;                     // nav ↔ body
 $sections-nav-width: 22rem !default;                     // side column
 $sections-collapse-below: 64rem !default;                // block width under which side collapses to a bar
-$sections-bar-padding-bottom: $spacing-md !default;
+$sections-bar-padding-bottom: $spacing-sm !default;     // labels ↔ the bar's scrollbar (or its divider)
+$sections-bar-scrollbar-gap: $spacing-sm !default;      // under the scrollbar, above the divider line
 $sections-section-gap: $spacing-xl !default;             // plain: between sections
 $sections-section-gap-cards: $spacing-base !default;     // cards: between boxes
 $sections-box-padding: $spacing-lg !default;             // boxed body / each card
@@ -1016,6 +1023,13 @@ $sections-overlay-inset: $spacing-lg !default;           // overlay distance fro
 $sections-overlay-padding-v: $spacing-md !default;
 $sections-overlay-padding-h: $spacing-sm !default;
 $sections-overlay-row-gap: $spacing-sm !default;
+$sections-overlay-row-gap-touch: $spacing-base !default;  // overlay steps on a touch screen (finger targets)
+$sections-overlay-fade: $spacing-lg !default;            // fade at an edge of a limited overlay list that has more steps
+$sections-footer-margin: $spacing-base !default;         // section content ↔ its footer
+$sections-footer-padding: $spacing-md !default;         // footer divider ↔ footer content
+$sections-footer-gap: $spacing-md !default;             // between footer items
+$sections-toggle-size: 2.4rem !default;                  // overlay handle (matches an --sm marker)
+$sections-toggle-icon-size: 1.2rem !default;            // its chevron
 $sections-overlay-label-max-width: 22rem !default;
 $sections-overlay-collapse-delay: $transition-medium !default;   // grace before the expanded overlay folds
 $sections-nav-z-index: $z-index-content !default;

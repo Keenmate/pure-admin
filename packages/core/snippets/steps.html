@@ -80,6 +80,20 @@
   </li>
 </ol>
 
+<!-- Wrapping (--wrap) — many steps in a narrow space break into rows; a return line runs from the
+     last marker of a row back to the first marker of the next, so every row reads start → end.
+     Steps per row follow the list's own width (container query: at least $steps-wrap-min-width each).
+     --wrap-clean (instead of --wrap) breaks into the same rows with no line between them. -->
+<ol class="pa-steps pa-steps--sm pa-steps--wrap">
+  <li class="pa-steps__item pa-steps__item--done"><span class="pa-steps__marker"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></span><span class="pa-steps__content"><span class="pa-steps__label">Upload</span></span></li>
+  <li class="pa-steps__item pa-steps__item--done"><span class="pa-steps__marker"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></span><span class="pa-steps__content"><span class="pa-steps__label">Validate</span></span></li>
+  <li class="pa-steps__item pa-steps__item--done"><span class="pa-steps__marker"><span class="pa-icon pa-icon--check" aria-hidden="true"></span></span><span class="pa-steps__content"><span class="pa-steps__label">Map columns</span></span></li>
+  <li class="pa-steps__item pa-steps__item--current"><span class="pa-steps__marker">4</span><span class="pa-steps__content"><span class="pa-steps__label">Preview</span></span></li>
+  <li class="pa-steps__item"><span class="pa-steps__marker">5</span><span class="pa-steps__content"><span class="pa-steps__label">Transform</span></span></li>
+  <li class="pa-steps__item"><span class="pa-steps__marker">6</span><span class="pa-steps__content"><span class="pa-steps__label">Approve</span></span></li>
+  <li class="pa-steps__item"><span class="pa-steps__marker">7</span><span class="pa-steps__content"><span class="pa-steps__label">Import</span></span></li>
+</ol>
+
 <!--
 SIZE / GEOMETRY
   --pa-steps-marker     marker diameter (default $steps-marker-size, --sm $steps-marker-size-sm);
@@ -98,12 +112,15 @@ STEPS CLASSES:
 - .pa-steps__content          Label + description wrapper.
 - .pa-steps__label            Step name.
 - .pa-steps__description      Secondary line under the label.
-- .pa-steps__link             Optional <a> around marker + content (display: contents).
+- .pa-steps__link             Optional <a> around marker + content (takes over the item's flex arrangement; focusable).
 - .pa-steps__state            Visually hidden state text for screen readers.
 
 STEPS MODIFIERS:
 - .pa-steps--vertical         Stacked; connectors run down from each marker.
 - .pa-steps--sm               Compact marker + row gap.
+- .pa-steps--wrap             Horizontal strip breaks into rows joined by a return line
+                              (ignored with --vertical). pa-sections uses .pa-sections--wrap.
+- .pa-steps--wrap-clean       Same rows, no line between them (.pa-sections--wrap-clean).
 
 STEP STATES (on .pa-steps__item):
 - --done / --current / --running      progress (upcoming = none)

@@ -9,6 +9,10 @@ code {
   background-color: var(--pc-primary-bg-subtle);
   color: var(--pc-primary-color);
   border-radius: var(--pc-border-radius-sm);
+  // code reads left to right even inside RTL text (else punctuation like `</` or `--x:`
+  // is reordered by the bidi algorithm); isolate keeps it from reordering the sentence
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 // Code block
@@ -25,22 +29,26 @@ code {
   overflow-x: auto;
   white-space: pre;
   margin: 0;
+  // code is always left to right, also on an RTL page — so the gutter and the
+  // language accent below stay on the left, where the code starts
+  direction: ltr;
+  text-align: left;
 
   // With line numbers
   &--numbered {
     counter-reset: line;
-    padding-inline-start: 5.6rem; // RTL: flips to right
+    padding-inline-start: 5.6rem;
     position: relative;
 
     &::before {
       content: '';
       position: absolute;
-      inset-inline-start: 0; // RTL: flips to right
+      inset-inline-start: 0;
       top: 0;
       bottom: 0;
       width: 4.4rem;
       background-color: rgba(0, 0, 0, 0.05);
-      border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to left
+      border-inline-end: $border-width-base solid var(--pc-border-color);
     }
   }
 
@@ -52,31 +60,31 @@ code {
 
   // Language variants with colored accents
   &--json {
-    border-inline-start: $border-width-medium solid $code-language-json; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-json;
   }
 
   &--javascript {
-    border-inline-start: $border-width-medium solid $code-language-javascript; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-javascript;
   }
 
   &--html {
-    border-inline-start: $border-width-medium solid $code-language-html; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-html;
   }
 
   &--css {
-    border-inline-start: $border-width-medium solid $code-language-css; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-css;
   }
 
   &--bash {
-    border-inline-start: $border-width-medium solid $code-language-bash; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-bash;
   }
 
   &--sql {
-    border-inline-start: $border-width-medium solid $code-language-sql; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-sql;
   }
 
   &--python {
-    border-inline-start: $border-width-medium solid $code-language-python; // RTL: flips to right
+    border-inline-start: $border-width-medium solid $code-language-python;
   }
 }
 
