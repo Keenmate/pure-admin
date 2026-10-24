@@ -10,7 +10,7 @@
 
             <div class="pa-card">
                 <div class="pa-card__body">
-                    <form class="pa-form" onsubmit="return false">
+                    <form class="pa-form controls" onsubmit="return false">
                         <div class="pc-row">
                             <div class="pc-col-100 pc-col-md-1-3">
                                 <div class="pa-form-group">
@@ -95,6 +95,7 @@
                         </div>
                     </form>
                     <p class="text-muted text-sm" id="sx-explain"></p>
+                    <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm" id="sx-reset">Reset configuration</button>
                 </div>
             </div>
             <!-- THE block. Its nav + body are swapped from the <template>s below when the example changes. -->
@@ -314,6 +315,7 @@
 </template>
 
 <script src="/src/js/sections.js"></script>
+<script src="/src/js/controls-persistence.js"></script>
 <script>
 /* Demo wiring only — the controller is core's js/sections.js (window.pureAdmin.components.sections). */
 (function () {
@@ -377,8 +379,12 @@
     });
 
     example.addEventListener('change', function () {
-        style.value = example.value === 'form' ? 'cards' : 'boxed';
-        progress.value = example.value === 'form' ? 'fields' : 'seen';
+        // a pick resets the example's defaults — but not while the saved configuration
+        // is being restored (that would overwrite the restored values)
+        if (!window.demoControls.isRestoring()) {
+            style.value = example.value === 'form' ? 'cards' : 'boxed';
+            progress.value = example.value === 'form' ? 'fields' : 'seen';
+        }
         build();
     });
     progress.addEventListener('change', build);
@@ -386,5 +392,9 @@
     style.value = example.value === 'form' ? 'cards' : 'boxed';
     progress.value = example.value === 'form' ? 'fields' : 'seen';
     build();
+
+    // the configurator survives a reload (demo/js/controls-persistence.js)
+    var persisted = window.demoControls.attach('sections');
+    $('sx-reset').addEventListener('click', function () { persisted.clear(); location.reload(); });
 })();
 </script>
